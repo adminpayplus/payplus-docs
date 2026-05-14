@@ -1,6 +1,6 @@
 ---
 title: PayPlus Project Continuation Context
-version: 0.4.0
+version: 0.5.0
 status: Draft
 last_updated: 2026-05-14
 classification: Internal
@@ -17,7 +17,9 @@ It preserves:
 1. The original rationale and intended functionality of PayPlus.
 2. The rationale behind the documentation framework.
 3. The current documentation project status.
-4. The recommended next step.
+4. The current formal document register.
+5. Key decisions already incorporated into `DOC-01`.
+6. The recommended next step.
 
 This file is a memory and alignment aid only.
 
@@ -41,6 +43,7 @@ However, this file must not be treated as:
 - An operational SOP.
 - A security policy.
 - A risk rulebook.
+- A replacement for approved `DOC-XX` documents.
 
 Detailed product, regulatory, technical, security, risk, and operational rules must be defined in the relevant formal `DOC-XX` documents.
 
@@ -82,7 +85,7 @@ PayPlus should be positioned as:
 - A multi-funding-source payment platform.
 - A reconciliation-aware settlement platform.
 - A compliance-conscious financial technology product.
-- A product that can support users, billers, merchants, schools, property managers, insurers, and other eligible payees, subject to approved scope.
+- A product that can support users, billers, merchants, schools, property managers, professional service providers, healthcare providers, telecom providers, and other eligible payees, subject to approved scope.
 
 PayPlus should not be positioned as:
 
@@ -95,6 +98,8 @@ PayPlus should not be positioned as:
 - A crypto product.
 - A lending product, unless later explicitly approved in the business model and regulatory documents.
 - A bank.
+- A payroll product.
+- A general e-commerce checkout product.
 
 A key boundary is:
 
@@ -113,7 +118,9 @@ The following functional rationales should be preserved.
 
 ### 5.1 Eligible Bill and Payment Obligation Handling
 
-PayPlus is expected to support eligible categories such as:
+PayPlus is expected to support eligible categories and payment obligations approved for MVP or future releases.
+
+Earlier examples included:
 
 - Rent or tenancy-related payments.
 - School fees or education invoices.
@@ -123,7 +130,26 @@ PayPlus is expected to support eligible categories such as:
 - Insurance invoices.
 - Other approved bill or invoice categories.
 
-The exact supported categories must be defined in the relevant formal documents.
+`DOC-01` version `0.2.0` has since refined the MVP bill scope for Hong Kong.
+
+The current MVP bill types captured in `DOC-01` are:
+
+| No. | MVP Bill Type | Notes |
+|---:|---|---|
+| 1 | Tuition fees | Education-related payment obligation |
+| 2 | School fees | School or education-provider payment obligation |
+| 3 | Management fees | Property/building management-related fees |
+| 4 | Renovation fees | Requires invoice, quotation, milestone bill, signed work order, or approved payment evidence |
+| 5 | Broadband internet fees | Telecom / internet service bills |
+| 6 | Mobile phone fees | Telecom / mobile service bills |
+| 7 | Domestic helper salary | Included with controls as an approved bill-like obligation; not general P2P, payroll, cashout, or remittance |
+| 8 | Toll fees | Mobility/transport-related fees |
+| 9 | Parking fees | Parking operator, property, or facility-related payment obligation |
+| 10 | Tutorial centre fees | Education / tutorial service provider fees |
+| 11 | Private doctor consultation fees | Healthcare service fee |
+| 12 | Clubhouse / leisure fees | Clubhouse, membership, leisure, or facility-related payment obligation |
+| 13 | Entertainment / subscription fees | Approved subscription or entertainment service bills; not general e-commerce purchases |
+| 14 | Law / legal opinion fees | Legal/professional service fee supported by invoice, fee note, or engagement reference |
 
 Framework rationale:
 
@@ -132,9 +158,21 @@ PayPlus must know what the user is paying, why the payment is legitimate,
 who should receive the payment, and whether the bill category is supported.
 ```
 
-### 5.2 Multi-Funding Source and Split Payment
+The exact verification requirements for each bill type must be defined in `DOC-12` and related risk/operations documents.
 
-PayPlus should support, or be designed to support, payments using multiple funding sources.
+---
+
+### 5.2 Multi-Funding Source, Partial Payment, and Combined Payment
+
+PayPlus should support payments using multiple funding sources.
+
+`DOC-01` version `0.2.0` confirms that the following are MVP capabilities:
+
+- Multiple funding sources.
+- Partial payment.
+- Combined payment.
+- Multiple child payment transactions under one parent payment request.
+- Use of the same or different payment methods/cards for one payment obligation, where supported.
 
 The earlier rationale includes:
 
@@ -142,6 +180,7 @@ The earlier rationale includes:
 - Child payment transactions.
 - Split amount allocation.
 - Partial payment.
+- Combined payment handling.
 - Funding progress.
 - Remaining amount.
 - Retry after failed child transaction.
@@ -156,12 +195,18 @@ Use:
 - `Payment Progress`
 - `Funding Progress`
 - `Remaining Amount`
+- `Amount Paid`
+- `Amount Pending`
+- `Settlement Status`
+- `Payout Status`
 
 Avoid:
 
 - `Wallet Balance`
 - `Stored Balance`
 - `User Balance`
+- `Top-up Balance`
+- `Cash Balance`
 
 Reason:
 
@@ -169,9 +214,13 @@ Reason:
 The product should not look or behave like a stored-value wallet.
 ```
 
+---
+
 ### 5.3 Payment Profiles and Tokenization
 
 PayPlus may allow users to save payment methods through tokenized payment profiles, where supported by PSPs or payment providers.
+
+`DOC-01` version `0.2.0` confirms that credit card tokenization is an MVP requirement, subject to selected PSP/acquirer support.
 
 The original rationale is:
 
@@ -181,16 +230,34 @@ The original rationale is:
 - Token lifecycle and user authorization must be documented.
 - PCI scope strategy must be considered early.
 
+Detailed card data flow, token lifecycle, PCI scope approach, and security controls belong in:
+
+- `DOC-03` Regulatory, PSP & Acquirer Assessment.
+- `DOC-04` Compliance Certification Roadmap.
+- `DOC-09` Payment Request, Multi-Funding Source & Settlement.
+- `DOC-17` API & Third-party Integration.
+- `DOC-19` Security, Tokenization & Access Control.
+
+---
+
 ### 5.4 AI/OCR-Assisted Bill Verification as MVP Capability
 
 A major earlier framework decision is that OCR / AI-assisted bill verification should be treated as an MVP capability, not a later optimization.
 
+`DOC-01` version `0.2.0` confirms that:
+
+- Bill verification workflow is an MVP requirement.
+- AI-assisted bill review is an MVP requirement.
+- The specific AI service/provider has not been selected.
+- The architecture must preserve an integration boundary/API for AI bill review.
+- Human review fallback must exist.
+
 Reason:
 
-If users submit large volumes of rent agreements, invoices, utility bills, school bills, management fee statements, parking bills, insurance invoices, or similar documents, fully manual review creates risks:
+If users submit large volumes of invoices, tuition bills, school bills, management fee statements, telecom bills, renovation invoices, medical bills, legal fee notes, salary-related evidence, or similar documents, fully manual review creates risks:
 
 - Review SLA bottlenecks.
-- Month-end rent payment congestion.
+- Month-end payment congestion.
 - Excessive manual operation cost.
 - Long user waiting time.
 - Inconsistent reviewer decisions.
@@ -219,11 +286,15 @@ The system must support confidence-based routing and configurable review thresho
 Specific thresholds must not be hardcoded in the framework.
 ```
 
-Vendor examples such as Google Document AI, AWS Textract, Azure Form Recognizer, Veryfi, Rossum, or custom models may be useful for future evaluation, but the framework should not commit to a vendor.
+Vendor examples such as Google Document AI, AWS Textract, Azure AI Document Intelligence, Veryfi, Rossum, or custom models may be useful for future evaluation, but the framework should not commit to a vendor.
+
+---
 
 ### 5.5 Payee Verification
 
 PayPlus must verify or validate payee information to reduce wrong-payee, fake-payee, cashout, and fraud risks.
+
+`DOC-01` version `0.2.0` confirms that MVP may support both institutional and personal payees, subject to controls.
 
 Relevant concepts include:
 
@@ -232,21 +303,37 @@ Relevant concepts include:
 - Invoice or account reference capture.
 - Payee whitelist or approved payee handling.
 - Unsupported payee detection.
+- Institutional/person indicator.
+- Payee type labels.
+- Payee category labels.
+- Bill types supported.
+- Geography.
+- Supported payout methods.
+- Verification status.
+- Risk status.
+- Compliance status.
 - Mismatch review.
 - Manual override with audit trail.
 
-Detailed rules belong in later formal documents.
+Personal payees may require stricter verification, fraud controls, payout controls, and compliance review than institutional payees.
 
-### 5.6 Promotion Engine as a Core Architecture Area
+Detailed payee verification rules belong in `DOC-12`, `DOC-14`, and `DOC-21`.
+
+---
+
+### 5.6 Promotion Engine and Partner Advertisement as Core Architecture Areas
 
 The earlier framework emphasized that promotion logic must not be scattered across business model, PRD, UX, refund, and data model documents.
 
-If PayPlus supports coupons, vouchers, referral rewards, membership benefits, bank promotions, fee waivers, cashback, or partner campaigns, promotion logic affects:
+`DOC-01` version `0.2.0` confirms that promotions and partner advertisement placements are MVP capabilities.
+
+If PayPlus supports coupons, vouchers, referral rewards, membership benefits, bank promotions, fee waivers, cashback, partner campaigns, or partner advertisement placements, the logic affects:
 
 - Checkout.
 - Fee calculation.
 - Parent payment request.
 - Partial payment.
+- Combined payment.
 - Refund.
 - Chargeback.
 - Fraud.
@@ -255,6 +342,8 @@ If PayPlus supports coupons, vouchers, referral rewards, membership benefits, ba
 - Customer support.
 - API.
 - Admin portal.
+- Placement governance.
+- Marketing compliance.
 
 Therefore, PayPlus should maintain a distinct Promotion Engine document.
 
@@ -274,11 +363,15 @@ If promotion redemption is attached only to a child transaction, cancellation,
 payment failure, refund, or chargeback can make coupon state difficult to manage.
 ```
 
-Detailed promotion rules, stacking rules, reward timing, and API endpoints should not be defined in this context file.
+Detailed promotion rules, stacking rules, reward timing, advertisement approval workflows, placement inventory, and API endpoints should not be defined in this context file.
+
+They should be defined in `DOC-13`.
+
+---
 
 ### 5.7 Refund, Cancellation, Chargeback, and Promotion Reversal
 
-Because PayPlus may support partial payment and promotions, refund and cancellation logic must account for:
+Because PayPlus may support partial payment, combined payment, multiple child transactions, and promotions, refund and cancellation logic must account for:
 
 - Cancellation before funding.
 - Cancellation during partial payment.
@@ -294,6 +387,10 @@ Because PayPlus may support partial payment and promotions, refund and cancellat
 - User communication.
 
 The documentation must preserve this complexity and not reduce refund handling to a simple single-transaction refund model.
+
+Detailed rules belong in `DOC-11`, with dependencies on `DOC-09`, `DOC-10`, `DOC-13`, and `DOC-14`.
+
+---
 
 ### 5.8 Payout and Reconciliation
 
@@ -314,12 +411,25 @@ Important concepts:
 - Exception handling.
 - Finance reporting.
 
+`DOC-01` version `0.2.0` captures candidate payout methods as:
+
+- FPS.
+- Online banking transfer.
+- EPS, where feasible.
+- Cheques.
+
+These payout methods are provisional and require feasibility validation.
+
 Reason:
 
 ```text
 PayPlus must be able to explain how user funding became biller/payee settlement
 and how every amount, fee, subsidy, refund, and dispute was reconciled.
 ```
+
+Detailed payout and reconciliation rules belong in `DOC-10`.
+
+---
 
 ### 5.9 Risk, AML, Anti-Cashout, Fraud, and Dynamic Authentication
 
@@ -336,6 +446,10 @@ PayPlus must protect against:
 - Cashout behavior.
 - Unsupported quasi-cash flows.
 - Suspicious payment patterns.
+- Misuse of domestic helper salary payment flow.
+- General e-commerce use hidden under entertainment/subscription category.
+- High-value renovation fraud.
+- Personal payee payout abuse.
 
 Relevant control areas include:
 
@@ -354,8 +468,16 @@ Relevant control areas include:
 - Admin 2FA.
 - Admin review queues.
 - Risk decision audit trail.
+- Category-specific risk rules.
+- Domestic helper salary controls.
+- Personal payee controls.
+- High-value renovation payment controls.
 
 Detailed thresholds belong in risk rulebooks or operations policies, not the framework.
+
+Detailed risk rules belong in `DOC-14` and `DOC-21`.
+
+---
 
 ### 5.10 Notification, Receipt, and Communication
 
@@ -389,9 +511,19 @@ PayPlus communication is not just marketing notification.
 It is part of payment clarity, audit trail, user authorization, and support reduction.
 ```
 
+Detailed notification and receipt rules belong in `DOC-08`.
+
+---
+
 ### 5.11 Compliance Certification Planning
 
 The earlier framework emphasized that PCI DSS, ISO 27001, SOC 2, and related evidence planning should be considered early.
+
+`DOC-01` version `0.2.0` states:
+
+- No formal compliance certification is required for early pre-launch activities.
+- ISO and PCI should be considered for production operation.
+- Exact timing and scope require legal, compliance, and security confirmation.
 
 This does not mean all controls must be completed at framework stage.
 
@@ -477,6 +609,8 @@ The framework should not prematurely lock:
 - Complete ISMS policies.
 - Detailed promotion stacking rules.
 - Detailed fraud scoring weights.
+- Exact payout bank operational processes.
+- Exact campaign placement rules.
 
 Those details should be handled in detailed specs, rulebooks, ADRs, appendices, vendor evaluations, SOPs, or configuration-controlled policies.
 
@@ -493,7 +627,11 @@ payplus-docs/
 ├── README.md
 └── docs/
     ├── 00-foundation/
-    │   └── doc-00-documentation-governance.md
+    │   ├── doc-00-documentation-governance.md
+    │   ├── doc-01-project-charter-product-positioning.md
+    │   ├── doc-02-business-model-unit-economics-commercial-model.md
+    │   ├── doc-03-regulatory-psp-acquirer-assessment.md
+    │   └── doc-04-compliance-certification-roadmap.md
     ├── 01-product/
     ├── 02-payment-domain/
     ├── 03-bill-verification/
@@ -524,28 +662,28 @@ The current planned document register is:
 
 | Document ID | Document Name | Folder | Status |
 |---|---|---|---|
-| `DOC-00` | Documentation Governance | `00-foundation/` | `Draft` |
-| `DOC-01` | Project Charter & Product Positioning | `00-foundation/` | `Planned` |
-| `DOC-02` | Business Model, Unit Economics & Commercial Model | `00-foundation/` | `Planned` |
-| `DOC-03` | Regulatory, PSP & Acquirer Assessment | `00-foundation/` | `Planned` |
-| `DOC-04` | Compliance Certification Roadmap | `00-foundation/` | `Planned` |
-| `DOC-05` | Master PRD & Feature Requirements | `01-product/` | `Planned` |
-| `DOC-06` | User Journey, UX Flow & Service Blueprint | `01-product/` | `Planned` |
-| `DOC-07` | Content, Disclosure & User Communication | `01-product/` | `Planned` |
-| `DOC-08` | Notification, Receipt & Communication Rules | `01-product/` | `Planned` |
-| `DOC-09` | Payment Request, Multi-Funding Source & Settlement | `02-payment-domain/` | `Planned` |
-| `DOC-10` | Payout & Reconciliation | `02-payment-domain/` | `Planned` |
-| `DOC-11` | Refund, Cancellation & Chargeback | `02-payment-domain/` | `Planned` |
-| `DOC-12` | Bill Category, Document AI/OCR & Payee Verification | `03-bill-verification/` | `Planned` |
-| `DOC-13` | Promotion Engine & Campaign Rules | `04-growth-ecosystem/` | `Planned` |
-| `DOC-14` | AML, Anti-Cashout, Fraud & Risk Controls | `05-risk-compliance-privacy/` | `Planned` |
-| `DOC-15` | Privacy, Data Protection & Retention | `05-risk-compliance-privacy/` | `Planned` |
-| `DOC-16` | Technical Architecture | `06-engineering/` | `Planned` |
-| `DOC-17` | API & Third-party Integration | `06-engineering/` | `Planned` |
-| `DOC-18` | Data Model, Transaction Ledger & Reporting | `06-engineering/` | `Planned` |
-| `DOC-19` | Security, Tokenization & Access Control | `07-security-access-control/` | `Planned` |
-| `DOC-20` | Testing, UAT, Release & Go-Live Checklist | `08-qa-release-operations/` | `Planned` |
-| `DOC-21` | Monitoring, Incident Response & Operations Runbook | `08-qa-release-operations/` | `Planned` |
+| `DOC-00` | Documentation Governance | `00-foundation/` | Draft |
+| `DOC-01` | Project Charter & Product Positioning | `00-foundation/` | Draft |
+| `DOC-02` | Business Model, Unit Economics & Commercial Model | `00-foundation/` | Planned |
+| `DOC-03` | Regulatory, PSP & Acquirer Assessment | `00-foundation/` | Planned |
+| `DOC-04` | Compliance Certification Roadmap | `00-foundation/` | Planned |
+| `DOC-05` | Master PRD & Feature Requirements | `01-product/` | Planned |
+| `DOC-06` | User Journey, UX Flow & Service Blueprint | `01-product/` | Planned |
+| `DOC-07` | Content, Disclosure & User Communication | `01-product/` | Planned |
+| `DOC-08` | Notification, Receipt & Communication Rules | `01-product/` | Planned |
+| `DOC-09` | Payment Request, Multi-Funding Source & Settlement | `02-payment-domain/` | Planned |
+| `DOC-10` | Payout & Reconciliation | `02-payment-domain/` | Planned |
+| `DOC-11` | Refund, Cancellation & Chargeback | `02-payment-domain/` | Planned |
+| `DOC-12` | Bill Category, Document AI/OCR & Payee Verification | `03-bill-verification/` | Planned |
+| `DOC-13` | Promotion Engine & Campaign Rules | `04-growth-ecosystem/` | Planned |
+| `DOC-14` | AML, Anti-Cashout, Fraud & Risk Controls | `05-risk-compliance-privacy/` | Planned |
+| `DOC-15` | Privacy, Data Protection & Retention | `05-risk-compliance-privacy/` | Planned |
+| `DOC-16` | Technical Architecture | `06-engineering/` | Planned |
+| `DOC-17` | API & Third-party Integration | `06-engineering/` | Planned |
+| `DOC-18` | Data Model, Transaction Ledger & Reporting | `06-engineering/` | Planned |
+| `DOC-19` | Security, Tokenization & Access Control | `07-security-access-control/` | Planned |
+| `DOC-20` | Testing, UAT, Release & Go-Live Checklist | `08-qa-release-operations/` | Planned |
+| `DOC-21` | Monitoring, Incident Response & Operations Runbook | `08-qa-release-operations/` | Planned |
 
 ---
 
@@ -588,7 +726,7 @@ Conceptual mapping:
 
 The formal documentation repository structure has been defined.
 
-The following document has been created:
+The following document has been created and refined:
 
 ```text
 docs/00-foundation/doc-00-documentation-governance.md
@@ -601,8 +739,8 @@ Document details:
 | Document ID | `DOC-00` |
 | Title | Documentation Governance |
 | Version | `0.1.0` |
-| Status | `Draft` |
-| Classification | `Internal` |
+| Status | Draft |
+| Classification | Internal |
 | Last Updated | `2026-05-14` |
 
 `DOC-00` defines:
@@ -630,6 +768,27 @@ Document details:
 - Open questions.
 - Document changelog.
 
+The following document has also been created and updated:
+
+```text
+docs/00-foundation/doc-01-project-charter-product-positioning.md
+```
+
+Document details:
+
+| Field | Value |
+|---|---|
+| Document ID | `DOC-01` |
+| Title | Project Charter & Product Positioning |
+| Version | `0.2.0` |
+| Status | Draft |
+| Classification | Internal |
+| Last Updated | `2026-05-14` |
+
+`DOC-01` now captures the core product charter and product positioning for PayPlus.
+
+---
+
 ### 10.2 DOC-00 Refinements Already Made
 
 `DOC-00` has been reviewed and refined.
@@ -637,24 +796,72 @@ Document details:
 Important refinements made:
 
 - Section 6 now contains both:
-  - `Document IDs must not be reused.`
-  - `If a document is deprecated or retired, its document ID remains reserved.`
+  - Document IDs must not be reused.
+  - If a document is deprecated or retired, its document ID remains reserved.
 - Section 5 includes repository-structure change control guidance.
 - Section 20 is named `Changelog Rules`.
 - Section 23 is named `Document Changelog`.
 - Formatting has been cleaned up.
 - Governance content has been kept separate from PayPlus product behavior.
 
-### 10.3 Current AI Context Update
+---
 
-This file has now been updated to preserve:
+### 10.3 DOC-01 Creation and Refinements Already Made
+
+`DOC-01` has been created and updated to version `0.2.0`.
+
+Important decisions and refinements captured in `DOC-01` include:
+
+- PayPlus is positioned as a **Payment & Bill Settlement Platform**.
+- PayPlus must not be positioned as a wallet, stored value facility, unrestricted P2P transfer product, remittance product, cashout service, crypto product, bank substitute, lending product, payroll product, or general e-commerce checkout product.
+- MVP launch geography is **Hong Kong only**.
+- Future expansion candidates are:
+  - Taiwan.
+  - Japan.
+  - Thailand.
+  - Mainland China.
+  - Malaysia.
+- MVP bill types are explicitly listed.
+- MVP payment methods are intended to include:
+  - Credit card.
+  - AlipayHK.
+  - FPS.
+- Credit card tokenization is an MVP requirement, subject to PSP/acquirer support.
+- Multi-funding-source payment is an MVP capability.
+- Partial payment is an MVP capability.
+- Combined payment is an MVP capability.
+- Bill verification workflow is an MVP requirement.
+- AI-assisted bill review is an MVP requirement.
+- Specific AI provider/service has not been selected.
+- Promotions are an MVP capability.
+- Partner advertisement placement is an MVP capability.
+- Candidate payout methods include:
+  - FPS.
+  - Online banking transfer.
+  - EPS, where feasible.
+  - Cheques.
+- User segmentation capability is required for:
+  - Demographic segmentation.
+  - Behavioral segmentation.
+  - Geographic segmentation.
+- Payee labels/attributes should be supported.
+- Domestic helper salary is included only as an approved bill-like payment obligation with controls, not as unrestricted P2P, payroll, remittance, or cashout.
+- No formal compliance certification is required for early pre-launch activities, but ISO and PCI should be considered for production operation.
+- Several `DOC-01` open questions were closed, answered, or carried forward as formal dependencies.
+
+---
+
+### 10.4 Current AI Context Update
+
+This file has now been updated to version `0.5.0` to preserve:
 
 - The original PayPlus product rationale.
 - The earlier v3.1 framework reasoning.
 - The distinction between framework-level decisions and detailed implementation decisions.
 - The current documentation structure.
 - The current document register.
-- The next recommended step.
+- The current `DOC-01` decisions.
+- The next recommended step after `DOC-01`.
 
 ---
 
@@ -677,32 +884,56 @@ This AI context file is supporting guidance only.
 
 It does not override approved formal documents.
 
+Current practical note:
+
+`DOC-00` and `DOC-01` are currently in `Draft` status.
+
+Until formally approved, they are stronger working references than chat history, but not final approved source-of-truth documents.
+
 ---
 
 ## 12. Important Principles for Future AI Work
 
 Future AI assistance should preserve the following principles:
 
-1. PayPlus is a Payment & Bill Settlement Platform.
-2. PayPlus is not a general wallet.
-3. PayPlus is not a stored value facility unless explicitly approved later.
-4. PayPlus is not an unrestricted P2P transfer product.
-5. PayPlus should not support transactions without real bills, invoices, eligible payees, or approved payment obligations.
-6. Multi-funding-source and partial payment logic are core PayPlus concepts.
-7. Parent payment request and child payment transaction modeling should be preserved.
-8. Use `Payment Progress`, `Funding Progress`, and `Remaining Amount`; avoid wallet-like terms.
-9. AI/OCR-assisted bill verification is an MVP capability.
-10. AI/OCR should support extraction, confidence scoring, configurable routing, human review, reviewer override, and audit trail.
-11. Promotion engine logic should be centralized, not scattered.
-12. Promotion redemption should generally attach to the parent payment request.
-13. Refund, chargeback, and cancellation rules must account for partial payment and promotion reversal.
-14. Payout and reconciliation are core to PayPlus, not back-office afterthoughts.
-15. Risk, AML, anti-cashout, fraud, and dynamic authentication controls are central to product safety.
-16. Notification, receipt, and communication rules deserve a dedicated document.
-17. PCI DSS, ISO 27001, SOC 2, and ISMS readiness should be planned early.
-18. Framework documents should avoid hardcoding thresholds, vendor choices, API endpoints, database schemas, or full policy text.
-19. Detailed rules should live in detailed specs, rulebooks, ADRs, appendices, vendor evaluations, and SOPs.
-20. No secrets, credentials, tokens, or real customer data should be stored in documentation.
+- PayPlus is a Payment & Bill Settlement Platform.
+- PayPlus is not a general wallet.
+- PayPlus is not a stored value facility unless explicitly approved later.
+- PayPlus is not an unrestricted P2P transfer product.
+- PayPlus is not a remittance product unless explicitly approved later.
+- PayPlus is not a cashout tool.
+- PayPlus is not a payroll product.
+- PayPlus is not a general e-commerce checkout product.
+- PayPlus should not support transactions without real bills, invoices, eligible payees, or approved payment obligations.
+- Hong Kong is the MVP launch geography.
+- Taiwan, Japan, Thailand, Mainland China, and Malaysia are future expansion candidates, not MVP scope.
+- MVP bill types are limited to the list captured in `DOC-01`.
+- Domestic helper salary is included only as an approved bill-like payment obligation with controls.
+- Entertainment/subscription fees must remain bill-backed or subscription-obligation-backed, not general e-commerce purchases.
+- Multi-funding-source and partial payment logic are core PayPlus concepts.
+- Combined payment is an MVP concept.
+- Parent payment request and child payment transaction modeling should be preserved.
+- Use `Payment Progress`, `Funding Progress`, and `Remaining Amount`; avoid wallet-like terms.
+- Credit card, AlipayHK, and FPS are intended MVP payment methods, subject to PSP/acquirer and banking feasibility.
+- Credit card tokenization is an MVP requirement, subject to selected PSP/acquirer support.
+- AI/OCR-assisted bill verification is an MVP capability.
+- AI/OCR should support extraction, confidence scoring, configurable routing, human review, reviewer override, and audit trail.
+- The AI bill review provider is not selected and should not be prematurely locked.
+- Payee verification is required for settlement readiness.
+- Personal payees may require stricter controls than institutional payees.
+- Promotion engine logic should be centralized, not scattered.
+- Promotion redemption should generally attach to the parent payment request.
+- Partner advertisement placement is an MVP capability but requires governance and compliance controls.
+- Refund, chargeback, and cancellation rules must account for partial payment, combined payment, multiple child transactions, and promotion reversal.
+- Payout and reconciliation are core to PayPlus, not back-office afterthoughts.
+- Candidate payout methods are FPS, online banking transfer, EPS where feasible, and cheques; final feasibility remains pending.
+- Risk, AML, anti-cashout, fraud, and dynamic authentication controls are central to product safety.
+- Notification, receipt, and communication rules deserve a dedicated document.
+- PCI DSS, ISO 27001, SOC 2, and ISMS readiness should be planned early.
+- No formal compliance certification is required for early pre-launch activities unless later changed.
+- Framework documents should avoid hardcoding thresholds, vendor choices, API endpoints, database schemas, or full policy text.
+- Detailed rules should live in detailed specs, rulebooks, ADRs, appendices, vendor evaluations, and SOPs.
+- No secrets, credentials, tokens, or real customer data should be stored in documentation.
 
 ---
 
@@ -712,44 +943,49 @@ Future AI assistance should preserve the following principles:
 
 | Question ID | Question | Owner | Priority | Status |
 |---|---|---|---|---|
-| `OQ-DOC00-001` | Who is the official Documentation Owner? | Project Owner | `High` | `Open` |
-| `OQ-DOC00-002` | Who are the required approvers for each document category? | Project Owner | `High` | `Open` |
-| `OQ-DOC00-003` | Should approvals be handled through pull requests, signed records, tickets, or another method? | Project Owner | `Medium` | `Open` |
+| `OQ-DOC00-001` | Who is the official Documentation Owner? | Project Owner | High | Open |
+| `OQ-DOC00-002` | Who are the required approvers for each document category? | Project Owner | High | Open |
+| `OQ-DOC00-003` | Should approvals be handled through pull requests, signed records, tickets, or another method? | Project Owner | Medium | Open |
 
-Additional PayPlus product open questions to carry forward into `DOC-01` and related documents:
+`DOC-01` version `0.2.0` closed or answered several earlier product-positioning questions, but the following important questions remain open or require further definition in later documents:
 
 | Question ID | Question | Suggested Target Document | Priority | Status |
 |---|---|---|---|---|
-| `OQ-CTX-001` | What is the initial launch geography? | `DOC-01` / `DOC-03` | `High` | `Open` |
-| `OQ-CTX-002` | What bill categories are included in MVP? | `DOC-01` / `DOC-05` / `DOC-12` | `High` | `Open` |
-| `OQ-CTX-003` | Which funding methods are intended for MVP? | `DOC-01` / `DOC-03` / `DOC-09` | `High` | `Open` |
-| `OQ-CTX-004` | Which payee types are supported at launch? | `DOC-01` / `DOC-03` / `DOC-12` | `High` | `Open` |
-| `OQ-CTX-005` | What PSP, acquirer, or payment partners are being considered? | `DOC-03` / `DOC-17` | `High` | `Open` |
-| `OQ-CTX-006` | What promotions are required for MVP, if any? | `DOC-02` / `DOC-13` | `Medium` | `Open` |
-| `OQ-CTX-007` | What regulatory assumptions are currently available? | `DOC-03` / `DOC-04` | `High` | `Open` |
-| `OQ-CTX-008` | What compliance certification goals are required before launch versus after launch? | `DOC-04` | `Medium` | `Open` |
-| `OQ-CTX-009` | What operational review model is expected for bill verification? | `DOC-12` / `DOC-21` | `High` | `Open` |
+| `OQ-CTX-001` | What PSPs, acquirers, or payment partners are being considered for credit card, AlipayHK, FPS, and tokenization? | `DOC-03` / `DOC-17` | High | Open |
+| `OQ-CTX-002` | What payout methods are actually feasible for supported institutional and personal payees? | `DOC-03` / `DOC-10` / `DOC-17` | High | Open / Provisional |
+| `OQ-CTX-003` | What verification evidence and review rules are required for each MVP bill type? | `DOC-12` / `DOC-14` / `DOC-21` | High | Open |
+| `OQ-CTX-004` | Which AI bill review provider or service will be selected? | `DOC-12` / `DOC-16` / `DOC-17` | Medium | Open |
+| `OQ-CTX-005` | What exact user segmentation model will be used for demographic, behavioral, and geographic segmentation? | `DOC-05` / `DOC-13` / `DOC-14` | Medium | Open |
+| `OQ-CTX-006` | What exact payee label model will be used? | `DOC-05` / `DOC-10` / `DOC-12` / `DOC-14` | Medium | Open |
+| `OQ-CTX-007` | What promotion types, limits, funding responsibilities, and reversal rules are required for MVP? | `DOC-02` / `DOC-13` / `DOC-11` | High | Open |
+| `OQ-CTX-008` | What partner advertisement placement rules, approval flows, and reporting requirements are required? | `DOC-13` / `DOC-07` / `DOC-15` | Medium | Open |
+| `OQ-CTX-009` | What regulatory assumptions are currently available for Hong Kong MVP? | `DOC-03` / `DOC-04` | High | Open |
+| `OQ-CTX-010` | What compliance certification goals are required before production launch versus after launch? | `DOC-04` / `DOC-19` | Medium | Open / Requires Validation |
+| `OQ-CTX-011` | What operational review model is expected for bill verification and payee verification? | `DOC-12` / `DOC-21` | High | Open |
+| `OQ-CTX-012` | What risk controls are required for domestic helper salary, personal payees, high-value renovation, and entertainment/subscription categories? | `DOC-12` / `DOC-14` / `DOC-21` | High | Open |
+| `OQ-CTX-013` | What business model, pricing, fee, and unit economics assumptions are required for MVP? | `DOC-02` | High | Open |
+| `OQ-CTX-014` | Who is the official owner of `DOC-01`, and who are its required approvers? | `DOC-01` / `DOC-00` | High | Provisional |
 
 ---
 
 ## 14. Recommended Next Step
 
-The recommended next document remains:
+The recommended next document is:
 
 ```text
-docs/00-foundation/doc-01-project-charter-product-positioning.md
+docs/00-foundation/doc-02-business-model-unit-economics-commercial-model.md
 ```
 
 Document ID:
 
 ```text
-DOC-01
+DOC-02
 ```
 
 Title:
 
 ```text
-Project Charter & Product Positioning
+Business Model, Unit Economics & Commercial Model
 ```
 
 Recommended status:
@@ -760,61 +996,78 @@ Draft
 
 Reason:
 
-`DOC-01` should establish the business and product foundation before detailed requirements are written.
+`DOC-01` has established the product identity, product boundaries, MVP launch geography, MVP bill types, and high-level capability scope.
 
-It should capture the product identity and boundaries clearly, especially:
+The next logical foundation document is `DOC-02`, which should define the commercial foundation before detailed PRD, PSP assessment, settlement design, promotion mechanics, and risk controls are finalized.
 
-- PayPlus as a Payment & Bill Settlement Platform.
-- The problem being solved.
-- The target users and payee ecosystem.
-- Supported launch geography assumptions.
-- MVP bill categories.
-- MVP funding method assumptions.
-- High-level payment flow.
-- Multi-funding-source and partial payment positioning.
-- Product boundaries.
-- What PayPlus is not.
-- Core success metrics.
-- Core risks and assumptions.
-- Major dependencies.
-- Stakeholder responsibilities.
+`DOC-02` should capture:
 
-`DOC-01` should not define detailed payment state machines, OCR thresholds, PSP API endpoints, promotion stacking logic, fraud thresholds, database schemas, or operational SOPs.
+- Business model assumptions.
+- Revenue model.
+- Fee model.
+- Cost model.
+- Unit economics.
+- Margin considerations.
+- Payment-method cost assumptions.
+- Bill-category economics.
+- Payout and banking cost assumptions.
+- Promotion subsidy ownership.
+- Partner advertisement revenue or partnership-value assumptions.
+- Refund, chargeback, and dispute cost treatment.
+- Commercial constraints.
+- Financial KPIs.
+- Sensitivity areas.
+- Dependencies on PSP/acquirer pricing and settlement terms.
+
+`DOC-02` should not define:
+
+- Detailed promotion campaign rules.
+- Detailed promotion stacking logic.
+- Exact PSP integration design.
+- Detailed payment state machines.
+- Database schemas.
+- API endpoints.
+- Legal conclusions.
+- Final accounting policy.
+- Fraud thresholds.
+- Operational SOPs.
+
+Those items belong in later dedicated documents.
 
 ---
 
-## 15. Suggested DOC-01 Structure
+## 15. Suggested DOC-02 Structure
 
-Suggested structure for `DOC-01`:
+Suggested structure for `DOC-02`:
 
 1. Purpose
-2. Background and Original Rationale
-3. Product Vision
-4. Product Positioning
-5. Problem Statement
-6. Target Users
-7. Target Payees and Bill Categories
-8. Target Market and Launch Geography
-9. Value Proposition
-10. Product Boundaries
-11. What PayPlus Is Not
-12. High-Level Product Capabilities
-13. MVP Scope
-14. Out of Scope
-15. Business Objectives
-16. Success Metrics
-17. Key Assumptions
+2. Document Scope
+3. Business Model Overview
+4. Commercial Positioning
+5. Revenue Streams
+6. Fee Model Principles
+7. Payment Method Cost Model
+8. Bill Category Commercial Model
+9. Payout and Settlement Cost Considerations
+10. Promotion Subsidy and Campaign Economics
+11. Partner Advertisement and Partnership Commercial Model
+12. Refund, Cancellation, Chargeback, and Dispute Cost Treatment
+13. Unit Economics Framework
+14. Margin and Profitability Considerations
+15. Financial KPI Framework
+16. Pricing Governance and Change Control
+17. Commercial Assumptions
 18. Constraints
-19. Stakeholders and RACI
-20. Key Dependencies
-21. Risks and Considerations
+19. Dependencies
+20. Stakeholders and RACI
+21. Key Risks
 22. Acceptance Criteria
 23. Open Questions
 24. Document Changelog
 
-`DOC-01` should be the formal place to preserve PayPlus product positioning.
+`DOC-02` should be the formal place to preserve PayPlus business model and unit economics assumptions.
 
-This context file should support `DOC-01` creation but should not replace it.
+This context file should support `DOC-02` creation but should not replace it.
 
 ---
 
@@ -822,26 +1075,30 @@ This context file should support `DOC-01` creation but should not replace it.
 
 When continuing this project, future AI should:
 
-1. Read this context file first.
-2. Read `DOC-00` before creating or revising formal documents.
-3. Treat approved `DOC-XX` files as source of truth.
-4. Use the current document register unless governance is formally revised.
-5. Preserve the original PayPlus rationale from this context.
-6. Keep explanations outside copy/paste document boxes.
-7. Put actual document content inside a single Markdown copy/paste box.
-8. Avoid mixing rationale with document content unless the document section calls for rationale.
-9. Maintain the document numbering system from `DOC-00`.
-10. Maintain requirement, rule, and test case ID conventions from `DOC-00`.
-11. Ask clarifying questions only when needed.
-12. Prefer structured Markdown.
-13. Keep each document focused on its assigned scope.
-14. Avoid adding product behavior to governance documents.
-15. Avoid adding implementation detail to framework-level or positioning documents.
-16. Flag assumptions clearly.
-17. Do not include secrets, credentials, tokens, or real customer data.
-18. Preserve the Payment & Bill Settlement Platform positioning unless changed by approved documentation.
-19. Avoid wallet/stored-value/P2P language unless discussing boundaries.
-20. Place thresholds, vendor choices, API endpoints, and database schemas in later detailed documents, not in `DOC-01`.
+- Read this context file first.
+- Read `DOC-00` before creating or revising formal documents.
+- Read `DOC-01` before creating `DOC-02` or later formal documents.
+- Treat approved `DOC-XX` files as source of truth.
+- Treat draft `DOC-XX` files as stronger working references than chat history, while recognizing they are not final approved source-of-truth documents.
+- Use the current document register unless governance is formally revised.
+- Preserve the original PayPlus rationale from this context.
+- Keep explanations outside copy/paste document boxes.
+- Put actual document content inside a single Markdown copy/paste box.
+- Avoid mixing rationale with document content unless the document section calls for rationale.
+- Maintain the document numbering system from `DOC-00`.
+- Maintain requirement, rule, and test case ID conventions from `DOC-00`.
+- Ask clarifying questions only when needed.
+- Prefer structured Markdown.
+- Keep each document focused on its assigned scope.
+- Avoid adding product behavior to governance documents.
+- Avoid adding implementation detail to framework-level or positioning documents.
+- Flag assumptions clearly.
+- Do not include secrets, credentials, tokens, or real customer data.
+- Preserve the Payment & Bill Settlement Platform positioning unless changed by approved documentation.
+- Avoid wallet/stored-value/P2P language unless discussing boundaries.
+- Place thresholds, vendor choices, API endpoints, and database schemas in later detailed documents, not in foundation documents.
+- Do not use web research unless explicitly requested or needed for current factual/legal/regulatory/vendor information.
+- When producing a formal document, output the whole Markdown file again.
 
 ---
 
@@ -851,15 +1108,16 @@ Current state:
 
 ```text
 DOC-00 is created and refined as Draft.
-Project continuation context is updated to version 0.4.0.
-The context now preserves original PayPlus product rationale and framework reasoning.
-Next recommended document is DOC-01.
+DOC-01 is created and updated to version 0.2.0 as Draft.
+Project continuation context is updated to version 0.5.0.
+The context now preserves original PayPlus product rationale, framework reasoning,
+DOC-01 decisions, and the next recommended step.
 ```
 
 Recommended next action:
 
 ```text
-Create DOC-01 — Project Charter & Product Positioning.
+Create DOC-02 — Business Model, Unit Economics & Commercial Model.
 ```
 
 ---
@@ -872,13 +1130,4 @@ Create DOC-01 — Project Charter & Product Positioning.
 | `0.2.0` | `2026-05-14` | Initial Author | Updated after `DOC-00` creation and refinement |
 | `0.3.0` | `2026-05-14` | Initial Author | Added PayPlus product rationale, intended characteristics, core functions, and strategic boundaries |
 | `0.4.0` | `2026-05-14` | Initial Author | Incorporated earlier PayPlus v3.1 framework rationale, preserved original functionality reasoning, mapped earlier structure to current document register, and clarified next step |
-
----
-
-## Next Step
-
-Create:
-
-```text
-docs/00-foundation/doc-01-project-charter-product-positioning.md
-```
+| `0.5.0` | `2026-05-14` | Product Documentation Team | Updated after `DOC-01` creation and refinement; captured Hong Kong MVP scope, MVP bill types, payment methods, tokenization, AI bill review, multi-funding, partial/combined payment, promotions, partner ads, payout candidates, open questions, and next recommended step `DOC-02` |
