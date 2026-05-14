@@ -135,6 +135,7 @@ payplus-docs/
     ├── templates/
     └── traceability/
 ```
+The repository structure should not be changed without project owner approval or an approved ADR.
 
 ## 6. Document Numbering
 
@@ -168,7 +169,7 @@ The core document register is:
 | DOC-21 | Monitoring, Incident Response & Operations Runbook | `08-qa-release-operations/` |
 
 Document IDs must not be reused.
-
+If a document is deprecated or retired, its document ID remains reserved.
 
 ## 7. Document Status
 
@@ -219,7 +220,7 @@ The first approved version should normally be:
 ```
 
 
-If a document is deprecated or retired, its document ID remains reserved.
+
 
 
 
