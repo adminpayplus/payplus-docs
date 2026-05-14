@@ -84,6 +84,8 @@ payplus-docs/
     ├── templates/
     └── traceability/
 
+
+
 Important note:
 
 ai-context/, templates/, decision-log/, glossary/, traceability/, and changelog/ are currently under docs/.
