@@ -3,1154 +3,715 @@ document_id: DOC-01
 title: Project Charter & Product Positioning
 version: 0.2.0
 status: Draft
-last_updated: 2026-05-14
-classification: Internal
 owner: Product Owner
 reviewers:
-  - Project Owner
-  - Product Owner
-  - Project Manager
-  - Legal / Compliance
-  - Payments Lead
-  - Finance
+  - Product Lead
   - Engineering Lead
-  - Operations Lead
+  - Compliance Lead
   - Risk Lead
-  - Marketing Lead
+  - Commercial Lead
+approvers:
+  - Product Lead
+  - Project Owner
+last_updated: 2026-05-26
+classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
-  - DOC-02 Business Model, Unit Economics & Commercial Model
+  - DOC-02 Business Model & Unit Economics
   - DOC-03 Regulatory, PSP & Acquirer Assessment
-  - DOC-04 Compliance Certification Roadmap
-  - DOC-05 Master PRD & Feature Requirements
+  - DOC-04 Compliance Certification Roadmap & Control Framework
+  - DOC-05 Master PRD & Feature Requirement Index
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification
-  - DOC-13 Promotion Engine & Campaign Rules
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
-  - DOC-19 Security, Tokenization & Access Control
+  - DOC-15 Privacy, Data Protection & Record Retention
 ---
 
 # DOC-01 — Project Charter & Product Positioning
 
 ## 1. Purpose
 
-This document defines the foundational product charter and positioning for PayPlus.
+This document defines the product charter, intended positioning, product boundaries, candidate MVP scope, assumptions, constraints, risks, dependencies, and open questions for PayPlus.
 
-It establishes:
+`DOC-01` is a foundation document.
 
-- What PayPlus is.
-- What problem PayPlus intends to solve.
-- Who PayPlus is intended to serve.
-- What product boundaries must be preserved.
-- What PayPlus must not become without further approval.
-- What bill types are included in MVP scope.
-- What payment methods are intended for MVP.
-- What capabilities are expected at a high level.
-- What assumptions, dependencies, constraints, and risks must be tracked before detailed product design begins.
+It is intended to guide downstream product, payment, compliance, risk, security, engineering, and operational documentation.
 
-This document should guide all later PayPlus documentation, including product requirements, payment domain design, bill verification, risk controls, regulatory assessment, technical architecture, security, testing, and operational SOPs.
+This document does not define detailed requirements, technical specifications, legal conclusions, compliance determinations, security controls, payment processing rules, or operational procedures.
+
+Those topics must be defined in downstream documents.
 
 ---
 
-## 2. Document Scope
+## 2. Product Summary
 
-This document covers:
+PayPlus is intended to be a card-funded bill payment platform.
 
-- PayPlus product vision.
-- Product rationale.
-- Business and user problem.
-- High-level product model.
-- Target users.
-- Target payees and bill categories.
-- MVP bill types.
-- Market and launch assumptions.
-- High-level capabilities.
-- MVP positioning.
-- Product boundaries.
-- Non-goals.
-- Success metrics.
-- Assumptions.
-- Constraints.
-- Dependencies.
-- Stakeholder responsibilities.
-- Key risks and open questions.
+The product is designed to let eligible users pay eligible real-world bills by card, while PayPlus or its payment partners route payment value to approved payees through supported settlement or payout methods.
 
-This document does not define:
+The intended product model is:
 
-- Detailed functional requirements.
-- Detailed payment state machines.
-- Detailed OCR rules or confidence thresholds.
-- Exact PSP or acquirer selection.
-- Exact API endpoints.
-- Database schema.
-- Pricing tables.
-- Promotion stacking rules.
-- Fraud scoring thresholds.
-- Legal conclusions.
-- Full compliance control mappings.
-- Operational SOPs.
+1. A user submits a bill payment request.
+2. The user provides or selects bill evidence.
+3. PayPlus verifies bill eligibility and payee validity.
+4. The user pays by supported card funding source.
+5. PayPlus or its payment partner collects the card payment.
+6. PayPlus or its payment partner settles, transfers, or pays the approved biller, payee, or receiving account.
+7. PayPlus records the transaction, reconciliation status, audit trail, receipt, and any applicable service fee or promotion.
 
-Those items must be defined in later dedicated documents.
+PayPlus should not be positioned as a general wallet, stored-value account, remittance service, cash withdrawal service, peer-to-peer transfer app, or payroll product unless separately assessed, approved, and documented.
 
 ---
 
-## 3. Background and Original Rationale
+## 3. Product Intent
 
-PayPlus is intended to address a practical payment problem:
+The intended product intent is to help users pay valid bills using card funding sources in a controlled, compliant, and auditable way.
 
-Users often need to settle real bills or payment obligations, but the available payment options may be fragmented, inconvenient, costly, or limited by payment method acceptance.
+The core product goals are:
 
-Examples may include:
-
-- Tuition fees.
-- School fees.
-- Tutorial centre fees.
-- Property management fees.
-- Renovation fees.
-- Broadband internet fees.
-- Mobile phone fees.
-- Domestic helper salary obligations.
-- Toll fees.
-- Parking fees.
-- Private doctor consultation fees.
-- Clubhouse or leisure fees.
-- Entertainment or subscription fees.
-- Law or legal opinion fees.
-- Other eligible payment obligations approved by PayPlus in future.
-
-The original rationale is that PayPlus should help users fund and settle legitimate payment obligations through a controlled platform that supports:
-
-- Bill or invoice submission.
-- Payment purpose verification.
-- Payee validation.
-- Supported funding methods.
-- Multi-funding-source payment.
-- Partial payment tracking.
-- Combined payment handling.
-- Settlement or payout to eligible recipients.
-- Reconciliation.
-- Receipt and communication.
-- Refund, cancellation, and dispute handling.
-- Risk, fraud, anti-cashout, and compliance controls.
-
-PayPlus is therefore not merely a checkout feature.
-
-It is a payment and bill settlement platform with product, financial, operational, regulatory, security, and compliance implications.
+- Enable card-funded bill payments for eligible bill categories.
+- Improve user convenience where billers or payees do not directly accept cards.
+- Support multi-card or multi-funding-source payment behavior where commercially, technically, and compliance-feasible.
+- Provide transparent pricing and disclosures.
+- Maintain strong anti-cashout and fraud controls.
+- Maintain bill verification and payee validation controls.
+- Maintain transaction traceability from card funding through payout or settlement.
+- Maintain auditable evidence for compliance, risk, reconciliation, user support, and partner review.
 
 ---
 
-## 4. Product Vision
+## 4. Product Positioning
 
-The product vision for PayPlus is:
+PayPlus should be positioned as:
 
-```text
-To provide a trusted, compliant, and user-friendly platform for settling eligible
-bills and payment obligations using supported funding methods, while maintaining
-clear verification, settlement, reconciliation, risk control, and communication.
-```
+> A controlled card-funded bill payment service that enables users to pay eligible verified bills through approved payment rails.
 
-PayPlus should make it easier for users to pay legitimate obligations while giving the business sufficient control over:
+PayPlus may use positioning language such as:
 
-- What is being paid.
-- Who receives the settlement.
-- How payment is funded.
-- Whether the transaction is eligible.
-- Whether the transaction creates unacceptable regulatory, fraud, chargeback, or cashout risk.
-- How each payment is tracked, reconciled, and supported.
+- Card-funded bill payment.
+- Bill payment facilitation.
+- Pay eligible bills by card.
+- Split or combine eligible card payments for an approved bill, where supported.
+- Pay approved billers, merchants, or payees through PayPlus-supported payout or settlement methods.
+- Track bill payment status, receipt, and payment evidence.
 
----
+PayPlus should avoid positioning language such as:
 
-## 5. Product Positioning
-
-PayPlus should be positioned as a:
-
-- Payment & Bill Settlement Platform.
-- Bill and invoice payment facilitation platform.
-- Eligible payment obligation settlement platform.
-- Multi-funding-source payment platform.
-- Verification-aware payment platform.
-- Reconciliation-aware settlement platform.
-- Compliance-conscious financial technology product.
-
-PayPlus should help users initiate payment requests for eligible obligations and fund those requests using supported payment methods.
-
-PayPlus should facilitate payment processing, verification, settlement, payout, reconciliation, and related communication according to approved business, regulatory, risk, and operational rules.
-
-For MVP, PayPlus is a **Hong Kong-first bill-backed payment facilitation product** for selected verified bills and approved bill-like payment obligations.
-
----
-
-## 6. Product Positioning Statement
-
-PayPlus is a **Payment & Bill Settlement Platform** that allows users to submit eligible bills or payment obligations, fund those payment requests using supported funding methods, and have PayPlus facilitate settlement to approved payees, billers, merchants, or recipients, subject to verification, risk control, compliance review, and operational rules.
-
-For MVP, PayPlus supports a defined list of Hong Kong bill-backed and approved bill-like payment categories across education, property/building, renovation, telecom, domestic employment, mobility, healthcare, leisure/subscription, and professional service use cases.
-
----
-
-## 7. What PayPlus Is
-
-PayPlus is intended to be:
-
-| Area | Positioning |
-|---|---|
-| Product type | Payment & Bill Settlement Platform |
-| Core purpose | Help users settle eligible bills or payment obligations |
-| Launch geography | Hong Kong for MVP |
-| Payment model | User funds a payment request using supported funding methods |
-| MVP funding methods | Credit card, AlipayHK, and FPS, subject to PSP/acquirer and banking feasibility |
-| Verification model | Bill, document, payee, and payment purpose should be verified according to risk-based rules |
-| Settlement model | PayPlus facilitates settlement or payout to eligible recipients |
-| Funding model | Supports one or more funding sources per parent payment request |
-| Tracking model | Payment progress, funding progress, settlement progress, and reconciliation should be tracked |
-| Risk model | Transactions should be subject to AML, fraud, anti-cashout, document, payee, and payment method controls |
-| Compliance model | Product design should consider PSP, acquirer, payment method, privacy, PCI, ISO 27001, SOC 2, and related expectations where applicable |
-
----
-
-## 8. What PayPlus Is Not
-
-Unless later approved through regulatory, legal, business, and technical review, PayPlus must not be positioned or designed as:
-
-- A general-purpose wallet.
-- A stored value facility.
-- An unrestricted peer-to-peer transfer product.
-- A remittance product.
-- A cashout service.
-- A general money transmission product.
-- An anonymous payment tool.
-- A crypto product.
-- A bank account substitute.
-- A lending product.
-- A deposit-taking product.
-- A marketplace escrow product.
-- A payroll product.
-
-PayPlus must not support transactions that have no legitimate bill, invoice, payee, merchant, biller, or approved payment obligation.
-
-Domestic helper salary is included in MVP only as an approved bill-like payment obligation category. It must not become an unrestricted peer-to-peer transfer, payroll, cash-out, stored-value, or remittance flow.
-
----
-
-## 9. Core Product Boundary
-
-The core product boundary is:
-
-```text
-PayPlus should only support payment requests that are linked to a real bill,
-invoice, eligible payee, merchant, biller, or approved payment obligation.
-```
-
-This boundary is important because PayPlus should avoid becoming:
-
-- A cashout tool.
-- An unrestricted P2P transfer system.
-- A stored-value balance product.
-- A high-risk money movement product.
-- A product that creates unapproved regulatory exposure.
-
-This boundary must be reflected in:
-
-- Product requirements.
-- User journey.
-- Content and disclosures.
-- Bill verification.
-- Payee verification.
-- PSP and acquirer assessment.
-- Risk controls.
-- AML and anti-cashout rules.
-- Refund and chargeback handling.
-- Operations SOPs.
-
-Every payment request must be backed by a valid bill, invoice, fee note, statement, employment/payment record, or other approved bill-like payment obligation. A user should not be able to initiate a payment unless the payment is linked to a valid payment obligation record, payee record, and verification workflow.
-
-Domestic helper salary must be supported only where there is valid evidence of the payment obligation. It must not be treated as an open money transfer to an individual.
-
-Entertainment and subscription fees must be supported only where they are structured as approved bill-backed or subscription payment obligations, not general e-commerce purchases.
-
-Law and legal opinion fees must be supported only where there is a valid invoice, fee note, engagement reference, or approved professional service payment obligation.
-
----
-
-## 10. Problem Statement
-
-Users may face difficulty paying eligible bills or payment obligations because:
-
-- The biller or payee may not accept the user's preferred payment method.
-- The user may wish to use multiple funding sources.
-- The user may wish to combine different funding methods or different cards for one payment obligation.
-- The bill amount may need to be funded in parts.
-- Payment status may be unclear.
-- Proof of payment may be fragmented.
-- Settlement timing may be uncertain.
-- Refund or cancellation handling may be unclear.
-- Available payment options may lack user-friendly tracking.
-- Bill verification and payee validation may be manual or inconsistent.
-
-PayPlus aims to solve these problems by providing a structured payment request, funding, verification, settlement, and tracking experience.
-
----
-
-## 11. Target Users
-
-Potential PayPlus users may include:
-
-| User Segment | Description |
-|---|---|
-| Individual bill payers | Users who need to pay eligible bills or invoices |
-| Parents or students | Users paying school, tuition, tutorial centre, or education-related invoices |
-| Property residents | Users paying management fees, parking fees, clubhouse fees, or property-related bills |
-| Homeowners or tenants arranging renovation | Users paying renovation invoices or milestone payment requests |
-| Telecom customers | Users paying broadband internet or mobile phone bills |
-| Employers of domestic helpers | Users paying domestic helper salary obligations, subject to approved controls |
-| Drivers or commuters | Users paying toll fees or parking fees |
-| Patients or healthcare consumers | Users paying private doctor consultation fees |
-| Leisure or subscription users | Users paying eligible clubhouse, leisure, entertainment, or subscription obligations |
-| Legal or professional service clients | Users paying law firm, legal opinion, or professional service fee notes |
-| Other approved users | Users with other supported payment obligations approved in future |
-
-The exact MVP user segmentation definitions are not finalized.
-
-MVP must support segmentation capability for:
-
-- Demographic segmentation.
-- Behavioral segmentation.
-- Geographic segmentation.
-
-These segmentation capabilities should support future analytics, CRM, promotion targeting, risk review, and partner advertisement placement.
-
----
-
-## 12. Target Payees and Recipients
-
-Potential payees or recipients may include:
-
-- Schools, universities, tutorial centres, and education providers.
-- Property management companies.
-- Owners' corporations.
-- Car park operators.
-- Clubhouse or leisure facility operators.
-- Renovation companies, contractors, or approved home service providers.
-- Broadband internet providers.
-- Mobile network operators.
-- Domestic helpers or approved domestic employment-related recipients, subject to controls.
-- Toll operators.
-- Private doctors, clinics, or medical service providers.
-- Entertainment or subscription service providers.
-- Law firms, lawyers, or legal service providers.
-- Other approved billers or payment recipients.
-
-The MVP supports both institutional and personal payees, subject to bill validation, payee verification, payout feasibility, and risk controls.
-
-Personal payees may require stricter verification, fraud controls, payout controls, and compliance review than institutional payees.
-
-The exact supported payee handling rules must be defined through:
-
-- `DOC-03` Regulatory, PSP & Acquirer Assessment.
-- `DOC-05` Master PRD & Feature Requirements.
-- `DOC-12` Bill Category, Document AI/OCR & Payee Verification.
-- `DOC-14` AML, Anti-Cashout, Fraud & Risk Controls.
-- `DOC-21` Monitoring, Incident Response & Operations Runbook.
-
----
-
-## 13. Target Bill Categories and MVP Bill Types
-
-The MVP supports a defined list of approved bill-backed or approved bill-like payment categories for Hong Kong.
-
-| No. | Bill Type | MVP Status | Notes / Boundary |
-|---:|---|---|---|
-| 1 | Tuition fees | Included | Education-related payment obligation |
-| 2 | School fees | Included | School or education-provider payment obligation |
-| 3 | Management fees | Included | Property/building management-related fees |
-| 4 | Renovation fees | Included | Requires invoice, quotation, milestone bill, signed work order, or approved payment evidence |
-| 5 | Broadband internet fees | Included | Telecom / internet service bills |
-| 6 | Mobile phone fees | Included | Telecom / mobile service bills |
-| 7 | Domestic helper salary | Included with controls | Must be supported by employment/payment record or approved bill-like obligation; not a general transfer, payroll, cashout, or remittance flow |
-| 8 | Toll fees | Included | Mobility/transport-related fees |
-| 9 | Parking fees | Included | Parking operator, property, or facility-related payment obligation |
-| 10 | Tutorial centre fees | Included | Education / tutorial service provider fees |
-| 11 | Private doctor consultation fees | Included | Healthcare service fee; may require invoice, receipt, clinic bill, or payment notice |
-| 12 | Clubhouse / leisure fees | Included | Clubhouse, membership, leisure, or facility-related payment obligation |
-| 13 | Entertainment / subscription fees | Included | Approved subscription or entertainment service bills; not general e-commerce purchases |
-| 14 | Law / legal opinion fees | Included | Legal/professional service fee supported by invoice, fee note, or engagement reference |
-
-Any bill type not listed above is excluded from MVP unless separately approved through change control.
-
-The MVP should support category labels, bill-type configuration, verification rules, and payee rules so that additional bill types can be added in future without major architecture redesign.
-
-### 13.1 MVP Bill Type Groups
-
-For product, reporting, risk, and operations purposes, the MVP bill types may be grouped as follows:
-
-| Group | Included Bill Types |
-|---|---|
-| Education | Tuition fees, school fees, tutorial centre fees |
-| Property / Building | Management fees, parking fees, clubhouse/leisure fees |
-| Renovation / Home Services | Renovation fees |
-| Telecom | Broadband internet fees, mobile phone fees |
-| Domestic Employment | Domestic helper salary |
-| Mobility / Transport | Toll fees, parking fees |
-| Healthcare | Private doctor consultation fees |
-| Leisure / Subscription | Clubhouse/leisure fees, entertainment/subscription fees |
-| Professional Services | Law/legal opinion fees |
-
-These groupings are for product management, analytics, operations, and risk handling. The controlling MVP scope remains the approved bill type list above.
-
-Parking may appear under both Property / Building and Mobility / Transport depending on use case and payee type.
-
----
-
-## 14. Target Market and Launch Geography
-
-The MVP launch geography is:
-
-```text
-Hong Kong only
-```
-
-Future expansion candidates include:
-
-- Taiwan.
-- Japan.
-- Thailand.
-- Mainland China.
-- Malaysia.
-
-These future markets are not included in MVP scope.
-
-The target market must be validated through:
-
-- Product strategy.
-- Legal and regulatory review.
-- PSP and acquirer feasibility.
-- Payment method availability.
-- Supported currency.
-- Supported bill categories.
-- Payee settlement feasibility.
-- Operational support capacity.
-
-For MVP, regulatory, payment method, payout, and compliance assumptions should be assessed for Hong Kong first.
-
----
-
-## 15. High-Level Product Model
-
-At a high level, PayPlus may follow this product model:
-
-```text
-1. User creates a payment request.
-2. User selects or enters the bill category.
-3. User uploads or provides bill, invoice, or payment obligation evidence.
-4. PayPlus performs document, bill, payee, and risk verification.
-5. User selects one or more supported funding methods.
-6. PayPlus calculates principal amount, fees, discounts, and payable amount.
-7. User authorizes payment.
-8. PayPlus processes one or more child payment transactions.
-9. PayPlus tracks funding progress.
-10. Once readiness conditions are satisfied, PayPlus initiates or records payout / settlement.
-11. PayPlus reconciles funding, fees, promotions, payouts, refunds, and exceptions.
-12. PayPlus provides status updates, receipts, and support handling.
-```
-
-This model is high-level only.
-
-Detailed state models must be defined in later payment and data model documents.
-
----
-
-## 16. Parent Payment Request and Child Transaction Concept
-
-PayPlus should preserve the distinction between:
-
-| Concept | Meaning |
-|---|---|
-| Parent Payment Request | The overall bill or payment obligation that the user wants to settle |
-| Child Payment Transaction | One funding transaction used to fund part or all of the parent payment request |
-
-This distinction is important because PayPlus must support:
-
-- Multi-funding-source payment.
-- Combined payment.
-- Partial payment.
-- Payment retry.
-- Child-level payment failure.
-- Child-level fees.
-- Parent-level funding progress.
-- Parent-level promotion redemption.
-- Parent-level settlement readiness.
-- Parent-level refund and dispute handling.
-
-Detailed rules must be defined in `DOC-09`, `DOC-11`, `DOC-13`, and `DOC-18`.
-
----
-
-## 17. Payment Language Principle
-
-PayPlus should use language that accurately describes payment progress without implying stored value.
-
-Preferred terms include:
-
-- `Payment Progress`
-- `Funding Progress`
-- `Remaining Amount`
-- `Amount Paid`
-- `Amount Pending`
-- `Settlement Status`
-- `Payout Status`
-
-Terms to avoid unless formally approved:
-
-- `Wallet Balance`
-- `Stored Balance`
-- `User Balance`
-- `Top-up Balance`
-- `Cash Balance`
-
-Reason:
-
-```text
-PayPlus should not appear to maintain stored value unless that model is later
-formally approved through legal, regulatory, compliance, and technical review.
-```
-
----
-
-## 18. High-Level Capabilities
-
-PayPlus is expected to include or consider the following high-level capabilities.
-
-### 18.1 User and Account Capability
-
-- User registration or onboarding.
-- User profile management.
-- Identity or risk information where required.
-- User authentication.
-- User consent records.
-- User support history.
-- User segmentation labels or attributes, where required for analytics, risk, promotion, or partner advertisement targeting.
-
-### 18.2 Payment Request Capability
-
-- Create payment request.
-- Select bill category.
-- Enter payment amount.
-- Enter or select payee.
-- Upload supporting document.
-- View payment request status.
-- Cancel or amend where permitted.
-
-### 18.3 Bill and Document Verification Capability
-
-Bill verification workflow is an MVP requirement.
-
-The MVP must include a workflow to validate that a payment request is backed by a valid bill, invoice, statement, fee note, receipt, employment/payment record, or approved bill-like payment obligation.
-
-AI-assisted bill review is also an MVP requirement. The specific AI provider or AI service has not yet been selected. The architecture must preserve an integration boundary/API for AI bill review.
-
-The bill verification workflow should support category-specific validation because different bill types may require different evidence.
-
-| Bill Type | Possible Verification Evidence |
-|---|---|
-| Tuition / school / tutorial centre fees | School bill, tuition invoice, payment notice, student account statement |
-| Management / parking / clubhouse fees | Property management notice, car park invoice, membership/facility bill |
-| Renovation fees | Contractor invoice, quotation, milestone payment request, signed work order |
-| Broadband / mobile phone fees | Telecom bill, service statement, account notice |
-| Domestic helper salary | Employment contract reference, salary payment record, approved payroll/payment evidence |
-| Toll fees | Toll statement, account bill, operator notice |
-| Private doctor consultation fees | Clinic invoice, consultation bill, receipt, or payment notice |
-| Entertainment / subscription fees | Subscription invoice, service statement, renewal notice |
-| Law / legal opinion fees | Legal fee note, invoice, engagement letter reference |
-
-The bill verification workflow should support:
-
-- Bill upload or bill data submission.
-- Document upload.
-- Document classification.
-- OCR or document AI extraction.
-- Field extraction.
-- Bill category validation.
-- Bill type classification.
-- Amount validation.
-- Due date validation.
-- Payee matching.
-- Duplicate document detection.
-- Confidence scoring.
-- AI-assisted review.
-- Human review routing.
-- Reviewer override.
-- Audit trail.
-- Rejection or resubmission handling.
-- Verification status tracking.
-
-Exact operational rules, SLA, approval thresholds, fraud signals, acceptable evidence, and manual review policies should be defined in later operations/risk documentation.
-
-### 18.4 Payee Verification Capability
-
-- Payee name capture.
-- Payee account or reference capture.
-- Payee type validation.
-- Payee category labels.
-- Payee supported bill type labels.
-- Payee risk review.
-- Approved payee handling.
-- Institutional/person indicator.
-- Payout method eligibility.
-- Mismatch escalation.
-
-Payees should support labels or attributes similar to user segmentation.
-
-Recommended payee labels include:
-
-- Payee type.
-- Payee category.
-- Bill types supported.
-- Geography.
-- Supported payout methods.
-- Verification status.
-- Risk status.
-- Compliance status.
-- Institution/person indicator.
-- Settlement preference.
-- Operational handling status.
-
-### 18.5 Multi-Funding Source Capability
-
-- One or more funding sources.
-- Multiple cards or payment methods for one parent payment request.
-- Child payment transactions.
-- Split amount allocation.
-- Combined payment.
-- Partial payment tracking.
-- Retry after payment failure.
-- Per-child-transaction fee calculation.
-- Funding completion detection.
-
-### 18.6 Payment Method Capability
-
-MVP intended payment methods are:
-
-- Credit card.
-- AlipayHK.
-- FPS.
-
-Credit card tokenization is an MVP requirement, subject to selected PSP/acquirer support.
-
-Candidate future payment methods may include:
-
-- Additional cards.
-- Additional tokenized payment profiles.
-- Additional alternative payment methods.
-- Additional bank transfer or account-based payment methods.
-- Other PSP-supported funding sources.
-
-Exact payment method implementation must be approved in `DOC-03` and detailed in `DOC-09` and `DOC-17`.
-
-### 18.7 Pricing and Fee Capability
-
-- Principal amount.
-- Fee amount.
-- Payable amount.
-- Payment-method-based fee.
-- Bill-category-based fee.
-- Promotion subsidy.
-- Refund fee treatment.
-- Chargeback cost treatment.
-
-Detailed pricing belongs in `DOC-02`.
-
-### 18.8 Promotion Capability
-
-Promotions and partner advertisement placements are MVP capabilities.
-
-Promotion capability may include:
-
-- Coupon.
-- Voucher.
-- Referral reward.
-- Membership benefit.
-- Partner campaign.
-- Bank promotion.
-- Fee waiver.
-- Cashback or reward, if approved.
-- Partner advertisement placement.
-- Campaign creation.
-- Campaign editing.
-- Campaign removal or disabling.
-- Placement management.
-
-Promotion logic must be centralized in `DOC-13`.
-
-Promotion and advertisement tools must include controls to avoid uncontrolled financial liability, misleading claims, or unapproved targeting.
-
-### 18.9 Settlement and Payout Capability
-
-- Payout readiness rules.
-- Payout approval.
-- Payout execution.
-- One parent request to one or more child transactions.
-- One payout linked to one or more funding records.
-- Payout status tracking.
-- Payout exception handling.
-
-Candidate payout methods include:
-
-- FPS.
-- Online banking transfer.
-- EPS, where feasible.
-- Cheques.
-
-Final payout feasibility depends on banking, PSP, payee type, compliance, and operational process.
-
-### 18.10 Reconciliation Capability
-
-- PSP settlement reconciliation.
-- Fee reconciliation.
-- Promotion subsidy reconciliation.
-- Refund reconciliation.
-- Chargeback reconciliation.
-- Bank statement matching.
-- Finance reporting.
-- Exception handling.
-
-### 18.11 Refund, Cancellation, and Dispute Capability
-
-- Cancellation before payment.
-- Cancellation during partial payment.
-- Cancellation after full funding before payout.
-- Cancellation after payout.
-- Child transaction refund.
-- Parent payment request refund.
-- Promotion reversal.
-- Referral reward reversal.
-- Chargeback evidence.
-- Dispute handling.
-- Loss allocation.
-
-### 18.12 Risk and Fraud Capability
-
-- AML risk indicators.
-- Anti-cashout controls.
-- Fake document detection.
-- Duplicate document detection.
-- Payee risk controls.
-- User risk tiering.
-- Payment method risk.
-- Velocity checks.
-- Promotion abuse controls.
-- Risk review queue.
-- Decision audit trail.
-- Category-specific risk rules.
-- Domestic helper salary controls.
-- Personal payee controls.
-- High-value renovation payment controls.
-
-### 18.13 Authentication and Security Capability
-
-- User authentication.
-- Login 2FA, where required.
-- Transaction step-up authentication.
-- Card 3DS / SCA integration, where applicable.
-- Alternative payment method authentication.
-- Admin authentication.
-- Admin RBAC.
-- Maker-checker controls.
-- Tokenization.
-- Credit card tokenization.
-- Encryption.
-- Secure logging.
-- Audit events.
-
-### 18.14 Notification, Receipt, and Communication Capability
-
-- Payment request confirmation.
-- Document review result.
-- Payment success notice.
-- Child transaction failure notice.
-- Partial payment reminder.
-- Payout processing notice.
-- Payout completed notice.
-- Refund notice.
-- Promotion notice.
-- Chargeback or dispute notice.
-- Receipt.
-- Support messages.
-
-### 18.15 Admin and Operations Capability
-
-- Admin review queue.
-- Document verification review.
-- Risk review.
-- Payout approval.
-- Refund approval.
-- Promotion campaign management.
-- Partner advertisement placement management.
-- Support case handling.
-- Audit log review.
-- Reporting dashboard.
-- Bill-type configuration.
-- Payee-category configuration.
-- Verification evidence configuration.
-- Manual review policy configuration.
-
----
-
-## 19. MVP Scope Principles
-
-The MVP should focus on proving the controlled bill settlement model in Hong Kong.
-
-The MVP should include enough functionality to support real payment requests safely, not merely a front-end prototype.
-
-The MVP scope should prioritize:
-
-- Clear product boundary.
-- Approved MVP bill types.
-- Hong Kong launch support.
-- Credit card, AlipayHK, and FPS payment methods.
-- Credit card tokenization.
-- Payment request creation.
-- Document upload.
-- AI/OCR-assisted bill verification.
-- Bill-type-specific verification rules.
-- Payee verification.
-- Supported funding method processing.
-- Multi-funding-source support.
-- Partial payment tracking.
-- Combined payment handling.
-- Fee calculation.
-- User authorization.
-- Receipt and notification.
-- Payout or settlement process.
-- Reconciliation baseline.
-- Refund and cancellation baseline.
-- Fraud and anti-cashout controls.
-- Admin review.
-- Audit trail.
-- Promotion and partner advertisement placement support.
-- Security and tokenization controls.
-- Go-live monitoring and support SOPs.
-
-The MVP must not depend solely on manual review if expected document volume would make manual review operationally unsustainable.
-
----
-
-## 20. MVP Scope
-
-The following is the MVP scope baseline.
-
-| Capability | MVP Treatment | Status |
-|---|---|---|
-| Launch geography | Hong Kong only | Confirmed |
-| Future expansion geography | Taiwan, Japan, Thailand, Mainland China, and Malaysia are future candidates, not MVP | Confirmed |
-| User account | Basic user account and authentication | Included |
-| User segmentation | Must support demographic, behavioral, and geographic segmentation capability; exact segment definitions TBD | Included / To Define |
-| Payment request | Create eligible bill/payment request | Included |
-| Bill category | Limited to approved MVP bill types listed in this document | Included |
-| Document upload | Required for relevant categories | Included |
-| OCR / AI extraction | MVP capability with human review routing | Included |
-| AI bill review provider | Provider not selected; architecture/API boundary required | Open |
-| Bill-type-specific verification rules | Required, but detailed rules still to be defined | Included / To Define |
-| Payee verification | Required for settlement readiness | Included |
-| Payee types | Institutional and personal payees, subject to controls | Included / To Define |
-| Payee labels | Payee attributes/labels should be supported | Included |
-| Funding method | Credit card, AlipayHK, and FPS, subject to PSP/acquirer feasibility | Included / Provisional |
-| Credit card tokenization | Required, subject to selected PSP/acquirer support | Included |
-| Multi-funding source | Multiple funding sources are MVP | Included |
-| Partial payment | Partial payment is MVP | Included |
-| Combined payment | Combined payment using same or different payment methods/cards is MVP | Included |
-| Fee calculation | Required | Included |
-| Promotion engine | Required for launch promotions | Included |
-| Partner advertisement placement | Required for MVP | Included |
-| Payout / settlement | Required | Included |
-| Candidate payout methods | FPS, online banking transfer, EPS where feasible, and cheques | Provisional |
-| Reconciliation | Baseline required | Included |
-| Refund / cancellation | Baseline required | Included |
-| Chargeback handling | Required if card payments are supported | Included |
-| Risk controls | Required | Included |
-| Notification / receipt | Required | Included |
-| Admin portal | Required for review and operations | Included |
-| Compliance evidence | Minimum evidence collection from launch | Included |
-| Formal compliance certification before pre-launch | Not required for early pre-launch activities | Not Required |
-| ISO / PCI planning | Should be considered for production operation | Required for Planning |
-
----
-
-## 21. Out of Scope for Initial MVP Unless Approved
-
-The following should be out of scope unless explicitly approved:
-
-- General wallet balance.
-- Stored value account.
-- Unrestricted P2P transfer.
-- Cash withdrawal or cashout.
+- Wallet.
+- Stored value.
+- Cash advance.
+- Cash withdrawal.
+- Cashout.
+- Money transfer to anyone.
+- Peer-to-peer transfer.
 - Remittance.
-- Crypto payment.
-- Lending or installment credit.
-- Payroll.
-- Marketplace escrow.
-- Unsupported bill categories.
-- Unsupported high-risk merchants or payees.
-- General e-commerce purchases.
-- General-purpose money transfer.
-- Domestic helper payment without approved bill-like employment/payment evidence.
-- Entertainment or subscription payment without approved bill/subscription evidence.
-- Full automated approval without human review fallback.
-- Multi-level referral schemes.
-- Complex loyalty marketplace.
-- Full ISO 27001 or SOC 2 certification completion before MVP, unless separately required.
-- Non-Hong Kong launch.
+- Payroll advance.
+- Credit limit liquidation.
+- Convert card limit to cash.
+- Instant cash from credit card.
+- Send money freely to any account.
+- Bank account top-up.
+- Prepaid balance or stored balance.
+
+Final public language must be reviewed in `DOC-07 Content, Disclosure & User Communication`.
 
 ---
 
-## 22. Business Objectives
+## 5. Product Problem Statement
 
-Potential business objectives include:
+Many users may want to pay bills using card funding sources for convenience, liquidity management, rewards, recordkeeping, or payment flexibility.
 
-- Validate demand for bill settlement through supported funding methods.
-- Increase successful eligible bill payment volume.
-- Create a trusted payment flow for users and payees.
-- Generate sustainable fee revenue.
-- Manage PSP and payment method costs.
-- Reduce manual review burden through AI/OCR-assisted verification.
-- Reduce payment errors and wrong-payee risk.
-- Reduce fraud, chargeback, and cashout abuse.
-- Support promotion-driven acquisition where financially controlled.
-- Support partner advertisement revenue or partnership value where approved.
-- Build a compliance-ready foundation for future partnerships.
+However, not all billers accept cards directly.
 
-Detailed financial modelling belongs in `DOC-02`.
+Some bill payments may require bank transfer, biller portal payment, account transfer, or other payout methods.
+
+PayPlus aims to bridge this gap by allowing eligible users to fund a verified bill payment by card while ensuring that payment value is routed only toward approved bill obligations and not misused for cashout, unauthorized transfer, or unsupported use cases.
+
+---
+
+## 6. Target Users
+
+Candidate target users may include:
+
+- Individuals who need to pay eligible household bills.
+- Individuals who want to use card funding for bill payments where direct card acceptance is unavailable or inconvenient.
+- Users who want receipts, tracking, and consolidated payment history.
+- Users who want to split a large eligible bill across more than one supported funding source, if supported.
+- Users eligible for promotions, rewards, or partner-funded offers, if available.
+
+The final target user definition must be validated in the Master PRD and market research artifacts.
+
+---
+
+## 7. Candidate Bill Categories
+
+Candidate bill categories may include:
+
+| Category | Example Use Cases | Notes |
+|---|---|---|
+| Utilities | Electricity, water, gas, internet, mobile, telecom | Usually strong bill evidence and payee traceability. |
+| Rent or property-related payments | Rent, property management fees, maintenance charges | Higher risk; may require stronger payee verification and anti-cashout controls. |
+| Education | Tuition, school fees, course fees | May require institution validation. |
+| Insurance | Health, auto, property, life insurance premiums | May require biller and policy validation. |
+| Taxes and government fees | Taxes, fines, permit fees, public authority payments | Must be assessed for legal and partner feasibility. |
+| Healthcare | Clinic, hospital, medical bills | Privacy and sensitive data handling considerations. |
+| Loan or financing payments | Installments, financing obligations | May be restricted by partner, card network, or regulatory rules. |
+| Business invoices | Supplier invoices, service invoices | May require business KYB, invoice validation, and category controls. |
+
+Candidate categories are not automatically approved.
+
+Each category must be assessed through:
+
+- `DOC-03 Regulatory, PSP & Acquirer Assessment`.
+- `DOC-12 Bill Category, Document AI/OCR & Payee Verification`.
+- `DOC-14 AML, Anti-Cashout, Fraud & Risk Controls`.
+- Applicable partner, card network, acquirer, and regulatory requirements.
+
+---
+
+## 8. Product Boundaries
+
+### 8.1 In-Scope Product Capabilities
+
+The following capabilities are candidates for PayPlus scope, subject to downstream approval:
+
+- User registration and authentication.
+- User profile and eligibility checks.
+- Bill upload or bill detail entry.
+- Bill document capture, OCR, or structured data extraction.
+- Bill category classification.
+- Payee validation.
+- Bill eligibility checks.
+- Payment quote and service fee calculation.
+- Card payment authorization and capture.
+- Multi-card or multi-source funding for one approved bill, where supported.
+- Payment status tracking.
+- Payout or settlement to approved payees.
+- Transaction receipt generation.
+- User notifications.
+- Refund, cancellation, reversal, and exception handling.
+- Promotion or campaign eligibility.
+- Audit trail and reconciliation reporting.
+- Risk review and manual review workflows.
+- Compliance evidence retention.
+
+### 8.2 Out-of-Scope Product Capabilities
+
+Unless separately assessed and approved, PayPlus should not support:
+
+- General-purpose stored balance.
+- User wallet balance.
+- Peer-to-peer transfers.
+- Cash withdrawals.
+- Cash advances.
+- Card-to-bank-account cashout.
+- Bank account top-up.
+- Crypto purchases or transfers.
+- Gambling or gaming top-ups.
+- High-risk merchant categories not approved by compliance and partners.
+- Payroll disbursement.
+- Lending or credit underwriting by PayPlus.
+- Consumer credit issuance by PayPlus.
+- Unrestricted transfers to arbitrary recipients.
+- Bill payments without sufficient bill evidence.
+- Payout to unverified recipients.
+- User-directed payout unrelated to a verified bill obligation.
+
+---
+
+## 9. Candidate MVP Scope
+
+The candidate MVP should focus on a narrow, controlled launch.
+
+Recommended MVP principles:
+
+- Start with a limited number of low-risk bill categories.
+- Start with a limited geography.
+- Start with approved PSP, acquirer, bank, and payout partners.
+- Start with a limited set of supported cards and payment methods.
+- Require strong bill evidence before payment completion or payout.
+- Require payee verification before payout.
+- Use transaction limits and velocity controls.
+- Use manual review for higher-risk transactions.
+- Maintain clear user disclosures.
+- Maintain full audit trail and reconciliation evidence.
+- Avoid user wallet, stored value, cashout, and open money transfer behavior.
+
+### 9.1 Candidate MVP Features
+
+Candidate MVP features may include:
+
+| Feature | Candidate MVP Treatment |
+|---|---|
+| User registration | In scope. |
+| User authentication | In scope. |
+| Basic user profile | In scope. |
+| KYC/KYB | To be determined based on jurisdiction, partner model, bill category, and risk assessment. |
+| Bill upload | In scope. |
+| Manual bill data entry | In scope with validation. |
+| OCR/document AI | Optional for MVP; may begin as assisted or back-office workflow. |
+| Bill category eligibility | In scope. |
+| Payee verification | In scope. |
+| Card payment | In scope through approved PSP/acquirer. |
+| Multi-card split payment | Candidate feature; may be deferred if complexity or partner risk is high. |
+| Payment quote and fee disclosure | In scope. |
+| Payout to payee | In scope through approved payout method. |
+| User receipt | In scope. |
+| Notifications | In scope for key lifecycle events. |
+| Refund/cancellation | In scope at minimum viable process level. |
+| Promotion engine | Optional; should not block MVP unless commercially required. |
+| Partner advertisements | Out of initial MVP unless separately approved. |
+| Admin review console | In scope for manual review and operations. |
+| Reconciliation reporting | In scope. |
+| Risk monitoring | In scope. |
+
+### 9.2 Candidate MVP Bill Categories
+
+Candidate MVP categories should be selected based on:
+
+- Clear bill evidence.
+- Verified payee identity.
+- Lower cashout risk.
+- Clear settlement or payout path.
+- PSP/acquirer acceptance.
+- Regulatory feasibility.
+- Operational ability to review exceptions.
+- User demand.
+- Commercial viability.
+
+Preferred MVP candidates may include:
+
+- Utilities.
+- Telecom or internet bills.
+- Education fees.
+- Insurance premiums.
+
+Higher-risk categories such as rent, business invoices, loan repayment, or tax payments may require additional controls and may be deferred until later phases.
+
+---
+
+## 10. Non-MVP / Future Scope
+
+Future scope may include:
+
+- Additional bill categories.
+- More countries or jurisdictions.
+- More payment methods.
+- Bank account funding.
+- Wallet funding, only if legally and operationally approved.
+- Advanced OCR/document AI automation.
+- Advanced risk scoring.
+- Partner-funded campaigns.
+- Merchant or biller portal integrations.
+- Biller directory.
+- Automated payout routing.
+- Enhanced reconciliation automation.
+- Advanced reporting.
+- Business user support.
+- Multi-user or delegated account access.
+- API access for partners.
+- Partner advertisement modules.
+- Loyalty or reward integrations.
+
+Future scope must not be implemented until feasibility, compliance, risk, commercial, technical, and operational requirements are defined and approved.
+
+---
+
+## 11. Key Business Objectives
+
+The key business objectives for PayPlus are:
+
+- Build a compliant and trusted bill payment service.
+- Enable card-funded bill payment in categories where users value payment flexibility.
+- Create a sustainable service-fee or partner-funded revenue model.
+- Maintain positive unit economics after card processing, payout, risk, refunds, operations, and support costs.
+- Avoid unsupported wallet, cashout, remittance, and money-transfer positioning.
+- Build scalable bill verification, risk review, and reconciliation processes.
+- Support future growth into new categories, partners, and jurisdictions.
+
+Detailed commercial assumptions belong in `DOC-02 Business Model & Unit Economics`.
+
+---
+
+## 12. Product Principles
+
+PayPlus should follow these product principles:
+
+| Principle | Meaning |
+|---|---|
+| Verified bill first | Payment should be tied to a valid bill or eligible payment obligation. |
+| Approved payee only | Payout should go only to a verified and approved payee or biller. |
+| No unrestricted cashout | The product should not enable card-funded cash withdrawal or unrestricted transfer. |
+| Transparent pricing | Users should see service fees and total cost before payment confirmation. |
+| Traceable lifecycle | Each transaction should be traceable from request through funding, payout, reconciliation, and receipt. |
+| Risk-based controls | Higher-risk categories or behaviors should trigger stronger review and limits. |
+| Compliance by design | Compliance, privacy, risk, and partner constraints should shape product behavior. |
+| Operationally reviewable | Staff should be able to review exceptions, evidence, and transaction history. |
+| Scalable automation | Manual controls may be used early, but should be designed for future automation. |
+| Clear user communication | Users should receive clear, accurate, non-misleading status and receipt information. |
+
+---
+
+## 13. High-Level Transaction Lifecycle
+
+The intended high-level lifecycle is:
+
+1. User signs in.
+2. User creates a bill payment request.
+3. User provides bill details and/or uploads bill evidence.
+4. PayPlus classifies the bill category.
+5. PayPlus validates required bill fields.
+6. PayPlus verifies or reviews the payee.
+7. PayPlus calculates fees, limits, and eligibility.
+8. User confirms payment quote and disclosures.
+9. User pays by supported card funding source.
+10. PSP/acquirer authorizes and captures the card payment.
+11. PayPlus records funding status.
+12. PayPlus performs final risk, compliance, and payout readiness checks.
+13. PayPlus or partner initiates payout or settlement to approved payee.
+14. PayPlus monitors payout status.
+15. PayPlus reconciles funding, fees, payout, and exceptions.
+16. User receives confirmation, receipt, and status updates.
+17. Records are retained according to approved retention rules.
+
+Detailed state machines and payment lifecycle rules belong in:
+
+- `DOC-09 Payment Request, Multi-Funding Source & Settlement`.
+- `DOC-10 Payout & Reconciliation`.
+- `DOC-11 Refund, Cancellation & Chargeback`.
+
+---
+
+## 14. Commercial Model Summary
+
+The candidate commercial model may include:
+
+- User-paid service fees.
+- Biller-paid or partner-paid fees.
+- Campaign-funded subsidies.
+- Partner-funded promotions.
+- Advertisement or sponsored placement revenue, if later approved.
+- Revenue share with billers, PSPs, or partners, if commercially and legally feasible.
+
+The commercial model must consider:
+
+- Card processing fees.
+- Scheme fees.
+- Acquirer fees.
+- PSP fees.
+- Payout fees.
+- Bank transfer fees.
+- FX costs, where applicable.
+- Refund and chargeback losses.
+- Fraud losses.
+- Promotion costs.
+- Manual review costs.
+- Customer support costs.
+- Reconciliation and operations costs.
+- Compliance and audit costs.
+- Tax treatment.
+
+Detailed unit economics belong in `DOC-02 Business Model & Unit Economics`.
+
+---
+
+## 15. Compliance and Regulatory Positioning Summary
+
+PayPlus must be assessed before launch against applicable legal, regulatory, card network, PSP, acquirer, banking, privacy, AML, consumer protection, and advertising requirements.
+
+Important positioning assumptions include:
+
+- PayPlus is intended as a bill payment facilitation service.
+- PayPlus should avoid stored-value or wallet behavior unless separately approved.
+- PayPlus should avoid unrestricted money transmission behavior unless licensed, exempt, sponsored, or otherwise approved.
+- PayPlus should not enable cashout from card funding sources.
+- PayPlus should maintain evidence that funded payments correspond to valid bills or obligations.
+- PayPlus should maintain evidence that payout recipients are approved payees.
+- PayPlus should use approved payment partners and settlement models.
+- PayPlus should maintain appropriate disclosures and user consent.
+
+Final regulatory and compliance assessment belongs in:
+
+- `DOC-03 Regulatory, PSP & Acquirer Assessment`.
+- `DOC-04 Compliance Certification Roadmap & Control Framework`.
+- `DOC-14 AML, Anti-Cashout, Fraud & Risk Controls`.
+- `DOC-15 Privacy, Data Protection & Record Retention`.
+
+---
+
+## 16. Risk Positioning Summary
+
+Key risk themes include:
+
+- Cashout risk.
+- Fraud risk.
+- Synthetic or fake bill risk.
+- Fake or collusive payee risk.
+- Chargeback risk.
+- Dispute and refund risk.
+- AML or suspicious activity risk.
+- User deception or misleading communication risk.
+- Data privacy risk.
+- Sensitive document handling risk.
+- Partner rule violation risk.
+- Card network rule violation risk.
+- Reconciliation failure risk.
+- Operational processing error risk.
+- Unsupported category expansion risk.
+- Poor unit economics risk.
+
+Detailed controls belong in `DOC-14 AML, Anti-Cashout, Fraud & Risk Controls`.
+
+Privacy controls belong in `DOC-15 Privacy, Data Protection & Record Retention`.
+
+---
+
+## 17. Partner and Payment Model Summary
+
+PayPlus may require one or more partner types:
+
+- PSP.
+- Acquirer.
+- Card processor.
+- Payment facilitator or sponsored merchant model provider.
+- Bank or payout provider.
+- Bill payment aggregator.
+- OCR/document AI provider.
+- KYC/KYB provider.
+- Fraud/risk provider.
+- Notification provider.
+- Cloud infrastructure provider.
+- Reconciliation or ledger provider.
+- Customer support tooling provider.
+
+Partner selection must consider:
+
+- Supported geographies.
+- Supported merchant categories.
+- Card network rules.
+- Bill payment category support.
+- MCC treatment.
+- Settlement flows.
+- Payout methods.
+- Refund and chargeback handling.
+- Compliance obligations.
+- Data sharing and privacy obligations.
+- Security standards.
+- SLAs and operational support.
+- Fees and reserve requirements.
+- Reporting and reconciliation files.
+- Contract restrictions.
+- Exit and migration risk.
+
+Detailed partner assessment belongs in `DOC-03 Regulatory, PSP & Acquirer Assessment`.
+
+---
+
+## 18. Assumptions
+
+| Assumption ID | Assumption | Validation Owner | Status |
+|---|---|---|---|
+| `ASM-DOC01-001` | Users have demand for card-funded bill payment in at least one launch category. | Product / Commercial | Open |
+| `ASM-DOC01-002` | At least one PSP/acquirer model can support the intended card-funded bill payment flow. | Product / Compliance / Payments | Open |
+| `ASM-DOC01-003` | Eligible bill categories can be verified with acceptable evidence and operational effort. | Product / Operations / Risk | Open |
+| `ASM-DOC01-004` | Payee verification can sufficiently reduce cashout and fraud risk. | Risk / Compliance / Operations | Open |
+| `ASM-DOC01-005` | Unit economics can remain positive after card costs, payout costs, support, risk losses, and promotions. | Commercial / Finance | Open |
+| `ASM-DOC01-006` | Manual review can support early MVP operations before full automation. | Operations | Open |
+| `ASM-DOC01-007` | Users will accept service fees in exchange for card-funded bill payment convenience. | Product / Commercial | Open |
+| `ASM-DOC01-008` | Required disclosures can make product behavior clear without increasing regulatory or partner risk. | Legal / Compliance / Product | Open |
+| `ASM-DOC01-009` | Bill payment status can be communicated accurately despite partner processing delays. | Product / Operations / Engineering | Open |
+| `ASM-DOC01-010` | Partner and payment data can support reliable reconciliation and audit requirements. | Finance / Engineering / Operations | Open |
+
+---
+
+## 19. Constraints
+
+| Constraint ID | Constraint | Impact | Owner |
+|---|---|---|---|
+| `CON-DOC01-001` | PayPlus must not operate as a wallet or stored-value product unless separately approved. | Limits product architecture and UX. | Product / Compliance |
+| `CON-DOC01-002` | PayPlus must not enable unrestricted card-funded cashout. | Requires bill and payee verification. | Risk / Compliance |
+| `CON-DOC01-003` | Supported categories must be approved by compliance and payment partners. | Limits category rollout. | Product / Compliance |
+| `CON-DOC01-004` | Payout recipients must be verified or approved before payout. | Requires payee verification workflow. | Risk / Operations |
+| `CON-DOC01-005` | PSP/acquirer capabilities may limit multi-card payments, payout timing, refunds, and chargebacks. | May constrain MVP scope. | Payments / Engineering |
+| `CON-DOC01-006` | Card network, partner, and regulatory requirements may restrict certain categories. | Requires category-by-category assessment. | Compliance |
+| `CON-DOC01-007` | Sensitive documents and personal data must be handled under approved privacy controls. | Requires data handling and retention controls. | Privacy / Security |
+| `CON-DOC01-008` | Transaction records must support audit and reconciliation. | Requires ledger and reporting design. | Finance / Engineering |
+| `CON-DOC01-009` | User-facing claims must not misrepresent product capabilities, timing, guarantees, or legal status. | Requires content review. | Product / Legal / Compliance |
+| `CON-DOC01-010` | MVP scope must remain operationally reviewable with available staffing. | Limits launch volume and category breadth. | Operations |
+
+---
+
+## 20. Dependencies
+
+| Dependency ID | Dependency | Required For | Owner | Status |
+|---|---|---|---|---|
+| `DEP-DOC01-001` | PSP/acquirer feasibility assessment. | Card payment acceptance. | Payments / Compliance | Open |
+| `DEP-DOC01-002` | Payout provider or settlement partner selection. | Payee payment execution. | Payments / Operations | Open |
+| `DEP-DOC01-003` | Regulatory assessment by launch jurisdiction. | Product launch approval. | Legal / Compliance | Open |
+| `DEP-DOC01-004` | Bill category approval framework. | Category rollout. | Product / Risk / Compliance | Open |
+| `DEP-DOC01-005` | Payee verification process. | Anti-cashout control. | Risk / Operations | Open |
+| `DEP-DOC01-006` | Privacy and data retention model. | Bill document handling. | Privacy / Security | Open |
+| `DEP-DOC01-007` | Risk rules and manual review workflow. | MVP launch controls. | Risk / Operations | Open |
+| `DEP-DOC01-008` | Reconciliation and transaction ledger model. | Finance and audit readiness. | Finance / Engineering | Open |
+| `DEP-DOC01-009` | Content and disclosure approval. | User-facing launch. | Product / Legal / Compliance | Open |
+| `DEP-DOC01-010` | Customer support and incident workflow. | Operational readiness. | Operations / Support | Open |
+
+---
+
+## 21. Risks
+
+| Risk ID | Risk | Impact | Initial Mitigation | Owner | Status |
+|---|---|---|---|---|---|
+| `RISK-DOC01-001` | Product is perceived or used as card-to-cash cashout. | Regulatory, partner, fraud, and financial loss risk. | Strong bill verification, payee verification, limits, monitoring, and communication controls. | Risk / Compliance | Open |
+| `RISK-DOC01-002` | Unsupported legal or money transmission classification. | Launch delay, enforcement, partner rejection, or licensing requirement. | Jurisdiction and partner assessment before launch. | Legal / Compliance | Open |
+| `RISK-DOC01-003` | PSP/acquirer rejects business model or category. | Product cannot process payments as designed. | Early partner due diligence and category review. | Payments / Commercial | Open |
+| `RISK-DOC01-004` | Fake bills or collusive payees are used for abuse. | Fraud losses and cashout risk. | Bill evidence validation, payee verification, velocity limits, and manual review. | Risk / Operations | Open |
+| `RISK-DOC01-005` | Chargeback or refund process creates financial loss. | Revenue leakage, disputes, and operational burden. | Define refund, chargeback, and evidence handling rules. | Payments / Risk / Operations | Open |
+| `RISK-DOC01-006` | Multi-card funding increases complexity or partner risk. | Delayed MVP or higher reconciliation risk. | Consider deferring multi-card to post-MVP unless clearly supported. | Product / Engineering / Payments | Open |
+| `RISK-DOC01-007` | User disclosures are unclear or misleading. | User complaints, regulatory risk, and chargebacks. | Content and legal review before launch. | Product / Legal | Open |
+| `RISK-DOC01-008` | Unit economics are negative after full cost allocation. | Unsustainable business model. | Model costs and minimum fee thresholds in `DOC-02`. | Commercial / Finance | Open |
+| `RISK-DOC01-009` | Manual review operations do not scale. | Delays, errors, user dissatisfaction. | Limit MVP volume and automate high-confidence checks over time. | Operations / Product | Open |
+| `RISK-DOC01-010` | Sensitive bill documents are mishandled. | Privacy, security, and reputation risk. | Apply privacy, security, access, retention, and deletion controls. | Privacy / Security | Open |
+
+---
+
+## 22. Launch Readiness Themes
+
+PayPlus should not launch until the following themes are sufficiently addressed:
+
+- Product scope is approved.
+- Launch categories are approved.
+- Product positioning is approved.
+- PSP/acquirer model is approved.
+- Payout or settlement model is approved.
+- Compliance assessment is completed for launch jurisdiction.
+- Risk and anti-cashout controls are defined.
+- Bill and payee verification process is defined.
+- Privacy and data retention controls are defined.
+- Security model is defined.
+- Payment, payout, refund, and reconciliation workflows are defined.
+- User disclosures are approved.
+- Customer support and incident workflows are defined.
+- MVP test cases and UAT results are acceptable.
+- Operational owners are assigned.
+- Evidence retention and audit trail requirements are defined.
+
+Detailed launch gates belong in `DOC-04 Compliance Certification Roadmap & Control Framework` and `DOC-20 Testing, UAT, Release & Go-Live Checklist`.
 
 ---
 
 ## 23. Success Metrics
 
-Candidate success metrics include:
+Candidate success metrics may include:
 
-| Metric Area | Candidate Metric |
+| Metric | Description |
 |---|---|
-| Adoption | Number of registered users |
-| Activation | Number of users creating first payment request |
-| Payment volume | Total approved payment request volume |
-| Category adoption | Payment volume and count by MVP bill type |
-| Completion | Percentage of payment requests successfully settled |
-| Funding | Child transaction success rate |
-| Combined payment | Percentage of payment requests using multiple funding sources or multiple child transactions |
-| Verification | Percentage of documents processed within SLA |
-| Automation | Percentage of documents auto-extracted successfully |
-| Review | Manual review backlog and turnaround time |
-| Risk | Fraud rate, chargeback rate, suspicious transaction rate |
-| Anti-cashout | Number and percentage of transactions blocked or escalated for cashout risk |
-| Finance | Gross margin per payment category |
-| Reconciliation | Percentage of transactions reconciled without exception |
-| Support | Support tickets per payment request |
-| Notification | Delivery success rate for critical notifications |
-| Retention | Repeat payment request rate |
-| Promotion | Promotion redemption and abuse rates |
-| Partner ads | Advertisement placement impressions, clicks, conversion, or partner-defined metrics where applicable |
+| Activated users | Users who complete registration and become eligible to submit bill payments. |
+| Submitted bill payment requests | Number of bill payment requests created. |
+| Approved bill payment requests | Number and percentage of requests approved after verification. |
+| Completed payments | Number and value of successfully funded and paid bills. |
+| Payment success rate | Percentage of card payments successfully authorized and captured. |
+| Payout success rate | Percentage of payouts successfully completed to approved payees. |
+| Average processing time | Time from request submission to payout completion. |
+| Manual review rate | Percentage of transactions requiring manual review. |
+| Rejection rate | Percentage of requests rejected due to invalid bill, unsupported category, payee issue, or risk issue. |
+| Refund and cancellation rate | Percentage of transactions refunded or cancelled. |
+| Chargeback rate | Percentage of funded transactions disputed or charged back. |
+| Fraud loss rate | Fraud losses as a percentage of processed volume. |
+| Contribution margin | Revenue after variable payment, payout, promotion, risk, support, and operations costs. |
+| User complaint rate | Complaints per transaction or user. |
+| Repeat usage rate | Percentage of users who submit more than one approved bill payment. |
 
-Exact KPI definitions and targets must be confirmed later.
+Metric definitions should be finalized in `DOC-18 Data Model, Transaction Ledger & Reporting`.
 
 ---
 
-## 24. Key Assumptions
+## 24. Downstream Document Impact
 
-The following assumptions are currently tracked:
+`DOC-01` should guide downstream documents as follows:
 
-| Assumption ID | Assumption | Status |
-|---|---|---|
-| `ASM-DOC01-001` | PayPlus will be designed as a Payment & Bill Settlement Platform, not a wallet. | Confirmed |
-| `ASM-DOC01-002` | PayPlus will support only eligible bills or approved payment obligations. | Confirmed |
-| `ASM-DOC01-003` | PayPlus will require bill, invoice, payee, or payment purpose evidence for relevant categories. | Confirmed |
-| `ASM-DOC01-004` | PayPlus will avoid storing PAN or CVV. | Confirmed |
-| `ASM-DOC01-005` | PayPlus will rely on PSP tokenization, hosted fields, SDKs, or equivalent mechanisms where cards are supported. | Confirmed |
-| `ASM-DOC01-006` | PayPlus will need AI/OCR-assisted bill verification for MVP scalability. | Confirmed |
-| `ASM-DOC01-007` | PayPlus will need human-in-the-loop review for lower-confidence or higher-risk cases. | Confirmed |
-| `ASM-DOC01-008` | PayPlus will support multi-funding-source payment in MVP. | Confirmed |
-| `ASM-DOC01-009` | PayPlus will support partial payment in MVP. | Confirmed |
-| `ASM-DOC01-010` | PayPlus will support promotions and partner advertisement placements in MVP. | Confirmed |
-| `ASM-DOC01-011` | PayPlus will require payout and reconciliation workflows. | Confirmed |
-| `ASM-DOC01-012` | PayPlus will require baseline fraud, AML, anti-cashout, and chargeback controls. | Confirmed |
-| `ASM-DOC01-013` | PayPlus will require compliance planning for PCI DSS and may require ISO 27001 or SOC 2 planning. | Confirmed for Planning |
-| `ASM-DOC01-014` | Launch geography is Hong Kong only for MVP. | Confirmed |
-| `ASM-DOC01-015` | Supported MVP bill types are limited to the approved MVP bill type list in this document. | Confirmed |
-| `ASM-DOC01-016` | MVP payment methods are intended to include credit card, AlipayHK, and FPS, subject to PSP/acquirer and banking feasibility. | Provisional |
-| `ASM-DOC01-017` | Domestic helper salary must be treated as an approved bill-like obligation, not as unrestricted payroll, P2P, cashout, or remittance. | Confirmed |
-| `ASM-DOC01-018` | No formal compliance certification is required for early pre-launch activities, but ISO and PCI should be considered for production operation. | Provisional / Requires Validation |
-
----
-
-## 25. Constraints
-
-Potential constraints include:
-
-| Constraint ID | Constraint |
+| Downstream Document | Impact |
 |---|---|
-| `CON-DOC01-001` | Product design must avoid creating an unapproved stored-value model. |
-| `CON-DOC01-002` | Product design must avoid unrestricted P2P transfer behavior. |
-| `CON-DOC01-003` | Payment methods depend on PSP, acquirer, card scheme, and local regulatory approval. |
-| `CON-DOC01-004` | Supported bill categories may be limited by acquirer underwriting and risk appetite. |
-| `CON-DOC01-005` | Settlement timing may depend on PSP, banking, and operational processes. |
-| `CON-DOC01-006` | Refund and chargeback behavior may be constrained by PSP and payment method rules. |
-| `CON-DOC01-007` | AI/OCR accuracy may vary by document type, language, format, and scan quality. |
-| `CON-DOC01-008` | Manual review capacity may limit transaction throughput. |
-| `CON-DOC01-009` | Compliance certification maturity may take longer than MVP delivery. |
-| `CON-DOC01-010` | Promotion features must not create uncontrolled financial liability. |
-| `CON-DOC01-011` | Partner advertisement placement must not create misleading, non-compliant, or unapproved marketing exposure. |
-| `CON-DOC01-012` | Domestic helper salary handling must not create remittance, cashout, unrestricted P2P, or payroll product behavior. |
-| `CON-DOC01-013` | Personal payees may require stricter verification and payout controls than institutional payees. |
-| `CON-DOC01-014` | High-value renovation payments may require additional risk review, amount limits, or staged payment controls. |
-| `CON-DOC01-015` | MVP is limited to Hong Kong; future markets require separate regulatory, PSP, payout, and operational review. |
+| `DOC-02` | Validate service fee, partner fee, promotion, and unit economics assumptions. |
+| `DOC-03` | Assess regulatory, PSP, acquirer, category, payment rail, and payee feasibility. |
+| `DOC-04` | Define launch gates, compliance controls, evidence, and approval workflow. |
+| `DOC-05` | Convert candidate capabilities into prioritized PRD requirements. |
+| `DOC-06` | Define end-to-end user, admin, and service blueprint flows. |
+| `DOC-07` | Define allowed and prohibited product language and disclosures. |
+| `DOC-08` | Define lifecycle notifications and receipt language. |
+| `DOC-09` | Define payment request, card funding, multi-source, settlement readiness, and payment state behavior. |
+| `DOC-10` | Define payout execution and reconciliation rules. |
+| `DOC-11` | Define cancellation, refund, dispute, chargeback, and reversal rules. |
+| `DOC-12` | Define bill category eligibility, document AI/OCR, evidence validation, and payee verification. |
+| `DOC-13` | Define promotion eligibility, reward handling, campaign rules, and funded offers. |
+| `DOC-14` | Define AML, anti-cashout, fraud, velocity, manual review, and risk controls. |
+| `DOC-15` | Define privacy, sensitive document handling, retention, deletion, and data rights. |
+| `DOC-16` | Define technical architecture aligned to product boundaries and controls. |
+| `DOC-17` | Define API and third-party integration requirements. |
+| `DOC-18` | Define data model, ledger, reporting, audit trail, and metric definitions. |
+| `DOC-19` | Define security, tokenization, authentication, encryption, and access control requirements. |
+| `DOC-20` | Define test coverage, UAT, launch checklist, and release readiness. |
+| `DOC-21` | Define monitoring, support, incident response, and operational runbook. |
 
 ---
 
-## 26. Key Dependencies
+## 25. Open Questions
 
-| Dependency ID | Dependency | Related Documents | Status / Notes |
-|---|---|---|---|
-| `DEP-DOC01-001` | Legal and regulatory assessment | `DOC-03` | Required; must validate product boundary |
-| `DEP-DOC01-002` | PSP and acquirer feasibility | `DOC-03` / `DOC-17` | Open; critical MVP dependency |
-| `DEP-DOC01-003` | Supported payment method confirmation | `DOC-03` / `DOC-09` / `DOC-17` | Credit card, AlipayHK, and FPS intended; final feasibility pending |
-| `DEP-DOC01-004` | Supported bill category confirmation | `DOC-03` / `DOC-05` / `DOC-12` | Approved MVP bill types listed in this document |
-| `DEP-DOC01-005` | Payee type and payout feasibility | `DOC-03` / `DOC-10` / `DOC-12` | Institutional and personal payees, subject to controls |
-| `DEP-DOC01-006` | Pricing and fee model | `DOC-02` | Required |
-| `DEP-DOC01-007` | OCR / document AI approach | `DOC-12` / `DOC-16` / `DOC-17` | Provider not selected; integration boundary required |
-| `DEP-DOC01-008` | Risk and anti-cashout design | `DOC-14` | Required |
-| `DEP-DOC01-009` | Privacy and retention approach | `DOC-15` | Required |
-| `DEP-DOC01-010` | Security and tokenization design | `DOC-19` | Required; credit card tokenization is MVP |
-| `DEP-DOC01-011` | Operational review process | `DOC-21` | Required |
-| `DEP-DOC01-012` | Compliance certification roadmap | `DOC-04` | No formal certification required for early pre-launch; ISO/PCI planning required for production |
-| `DEP-DOC01-013` | Bill-type verification rules | `DOC-12` / `DOC-14` / `DOC-21` | To be defined for each MVP bill type |
-| `DEP-DOC01-014` | Domestic helper salary compliance handling | `DOC-03` / `DOC-12` / `DOC-14` | Requires validation and controls |
-| `DEP-DOC01-015` | Promotion and partner advertisement governance | `DOC-13` | Required for MVP |
-| `DEP-DOC01-016` | Segmentation model | `DOC-05` / `DOC-13` / `DOC-14` | Exact definitions to be defined |
-
----
-
-## 27. Stakeholders and RACI
-
-The following RACI is preliminary.
-
-| Area | Responsible | Accountable | Consulted | Informed |
+| Question ID | Question | Owner | Priority | Status |
 |---|---|---|---|---|
-| Product positioning | Product Owner | Project Sponsor | Legal, Compliance, Risk, Engineering | All teams |
-| Business model | Finance / Product | Project Sponsor | PSP, Legal, Compliance | Product, Engineering, Ops |
-| Regulatory assessment | Legal / Compliance | Project Sponsor | Product, PSP, Risk | All teams |
-| PSP / acquirer assessment | Payments Lead | Project Sponsor | Engineering, Legal, Finance | Product, Ops |
-| Product requirements | Product Manager | Product Owner | Engineering, Design, Ops, Risk | All teams |
-| Bill verification | Product / Operations | Product Owner | Risk, Engineering, Compliance | Support |
-| Bill-type verification rules | Product / Operations / Risk | Product Owner | Compliance, Engineering, Legal | Support |
-| OCR / AI approach | Engineering / Product | Product Owner | Ops, Risk, Compliance | Support |
-| Payment architecture | Engineering Lead | CTO / Tech Lead | Product, PSP, Security | Ops |
-| Risk controls | Risk Lead | Compliance / Risk Owner | Product, Engineering, Ops | Support |
-| Domestic helper salary controls | Product / Compliance / Risk | Compliance / Risk Owner | Legal, Operations, Engineering | Support |
-| Promotion and partner ads | Marketing / Product | Product Owner | Legal, Compliance, Finance, Risk | Engineering, Ops |
-| Security | Security Lead | CTO / Security Owner | Engineering, Compliance | All teams |
-| Operations SOP | Operations Lead | COO / Operations Owner | Product, Risk, Support, Finance | All teams |
-| Compliance roadmap | Compliance Lead | Project Sponsor | Security, Legal, Engineering | All teams |
-
-Recommended `DOC-01` owner:
-
-```text
-Product Owner
-```
-
-Recommended `DOC-01` approvers:
-
-- Project Owner.
-- Product Owner.
-- Engineering Lead.
-- Compliance Lead.
-- Payments Lead.
-- Finance Lead.
-- Operations / Risk Lead.
-- Marketing Lead.
-
-Final named owners and approvers must be confirmed.
+| `OQ-DOC01-001` | What is the initial launch country or jurisdiction? | Project Owner | Critical | Open |
+| `OQ-DOC01-002` | Which bill categories are approved for MVP? | Product / Compliance / Risk | Critical | Open |
+| `OQ-DOC01-003` | Which PSP/acquirer model will be used? | Payments / Commercial | Critical | Open |
+| `OQ-DOC01-004` | Which payout or settlement partner will be used? | Payments / Operations | Critical | Open |
+| `OQ-DOC01-005` | Will MVP support multi-card split payments, or defer them? | Product / Payments / Engineering | High | Open |
+| `OQ-DOC01-006` | What KYC/KYB level is required for users, payees, and business users? | Legal / Compliance / Risk | High | Open |
+| `OQ-DOC01-007` | What transaction limits should apply at MVP? | Risk / Compliance / Product | High | Open |
+| `OQ-DOC01-008` | What service fee model will be used? | Commercial / Finance | High | Open |
+| `OQ-DOC01-009` | What user disclosures are required before payment confirmation? | Product / Legal / Compliance | High | Open |
+| `OQ-DOC01-010` | What evidence must be retained for each transaction? | Compliance / Privacy / Operations | High | Open |
+| `OQ-DOC01-011` | Which product claims are prohibited in marketing and user communication? | Product / Legal / Compliance | Medium | Open |
+| `OQ-DOC01-012` | What operational SLA should apply to bill review and payout execution? | Operations / Product | Medium | Open |
 
 ---
 
-## 28. Key Risks
+## 26. Acceptance Criteria
 
-| Risk ID | Risk | Potential Impact | Mitigation Direction |
-|---|---|---|---|
-| `RISK-DOC01-001` | Product is perceived as wallet or stored value | Regulatory exposure | Maintain strict product boundary and wording |
-| `RISK-DOC01-002` | Product enables cashout behavior | Fraud, AML, acquirer risk | Bill/payee verification and anti-cashout controls |
-| `RISK-DOC01-003` | Unsupported bill categories are accepted | Compliance and financial risk | Category whitelist and review process |
-| `RISK-DOC01-004` | Fake or altered documents are submitted | Fraud and loss | OCR, fraud signals, human review, audit trail |
-| `RISK-DOC01-005` | Payee mismatch or wrong payout | Financial loss and customer harm | Payee verification and payout controls |
-| `RISK-DOC01-006` | Manual review backlog grows too large | SLA failure and poor UX | AI/OCR-assisted extraction and review routing |
-| `RISK-DOC01-007` | Payment succeeds but internal status fails to update | User trust and reconciliation issues | Idempotency, webhook handling, reconciliation |
-| `RISK-DOC01-008` | Partial payment creates unclear status | User confusion and support load | Parent-child state model and clear communication |
-| `RISK-DOC01-009` | Promotion abuse creates financial loss | Margin loss and fraud | Promotion engine controls and reversal logic |
-| `RISK-DOC01-010` | Refund and chargeback rules are incomplete | Financial and support risk | Dedicated refund and chargeback specification |
-| `RISK-DOC01-011` | PSP or acquirer does not support model | Launch blocker | Early PSP/acquirer assessment |
-| `RISK-DOC01-012` | PCI scope expands unintentionally | Compliance burden | Tokenization and no PAN/CVV policy |
-| `RISK-DOC01-013` | Privacy and document retention are mishandled | Legal and reputational risk | Privacy and retention specification |
-| `RISK-DOC01-014` | Operations lacks evidence for audits | Partnership and compliance risk | Evidence ownership and compliance roadmap |
-| `RISK-DOC01-015` | Notifications are incomplete or misleading | Disputes and support tickets | Dedicated notification and receipt rules |
-| `RISK-DOC01-016` | Domestic helper salary flow is perceived as payroll, P2P, remittance, or cashout | Regulatory, AML, and product boundary risk | Require approved bill-like evidence, payee controls, and compliance validation |
-| `RISK-DOC01-017` | Entertainment/subscription category is used for general e-commerce purchases | Product boundary and acquirer risk | Restrict to approved subscription or entertainment service bills |
-| `RISK-DOC01-018` | Renovation payments involve high-value or risky payees | Fraud, dispute, chargeback, and payout risk | Invoice validation, payee verification, amount limits, staged payments, and risk review |
-| `RISK-DOC01-019` | Personal payee payout creates elevated fraud or compliance risk | Loss, complaints, regulatory exposure | Enhanced personal payee verification and payout controls |
-| `RISK-DOC01-020` | Partner advertisements are misleading or non-compliant | Legal, reputational, or partner risk | Approval workflow, placement governance, and marketing compliance review |
+`DOC-01` is acceptable when it clearly defines:
 
----
+- PayPlus product summary.
+- Product intent.
+- Product positioning.
+- Product problem statement.
+- Target users.
+- Candidate bill categories.
+- Product boundaries.
+- In-scope and out-of-scope capabilities.
+- Candidate MVP scope.
+- Candidate MVP categories.
+- Non-MVP or future scope.
+- Key business objectives.
+- Product principles.
+- High-level transaction lifecycle.
+- Commercial model summary.
+- Compliance and regulatory positioning summary.
+- Risk positioning summary.
+- Partner and payment model summary.
+- Assumptions.
+- Constraints.
+- Dependencies.
+- Risks.
+- Launch readiness themes.
+- Candidate success metrics.
+- Downstream document impact.
+- Open questions.
 
-## 29. Acceptance Criteria
-
-`DOC-01` can be considered acceptable when:
-
-- PayPlus product positioning is clearly defined.
-- PayPlus product boundaries are explicitly stated.
-- PayPlus is clearly distinguished from wallet, stored value, P2P, remittance, cashout, and payroll products.
-- The original bill settlement rationale is preserved.
-- Hong Kong MVP launch geography is stated.
-- Future expansion markets are listed as non-MVP candidates.
-- Target users and candidate payees are described.
-- MVP bill types are listed and marked as included.
-- Unsupported bill types are excluded unless separately approved.
-- Domestic helper salary is described as an approved bill-like payment obligation with controls.
-- High-level capabilities are described without over-defining implementation.
-- Parent payment request and child transaction concepts are introduced.
-- Multi-funding-source, partial payment, and combined payment are included as MVP capabilities.
-- Credit card, AlipayHK, and FPS are identified as intended MVP payment methods, subject to PSP/acquirer feasibility.
-- Credit card tokenization is identified as an MVP requirement, subject to selected PSP/acquirer support.
-- AI/OCR-assisted bill verification is recognized as an MVP requirement.
-- Promotion and partner advertisement placement are acknowledged as MVP capabilities.
-- Refund, payout, reconciliation, and risk implications are acknowledged.
-- Dependencies on regulatory, PSP, compliance, security, and technical work are identified.
-- Assumptions and open questions are clearly listed.
-- Detailed thresholds, vendor choices, API endpoints, schemas, and SOPs are not prematurely fixed.
+This document should remain a foundation charter and should not become a detailed PRD, legal memo, payment specification, risk policy, or technical architecture.
 
 ---
 
-## 30. Open Questions
-
-| Question ID | Question | Owner | Priority | Status | Answer / Decision |
-|---|---|---|---|---|---|
-| `OQ-DOC01-001` | What is the official launch geography? | Project Owner | High | Closed | MVP launch geography is Hong Kong only. Taiwan, Japan, Thailand, Mainland China, and Malaysia are future expansion candidates but are not part of MVP. |
-| `OQ-DOC01-002` | What are the MVP bill categories? | Product Owner | High | Closed | MVP bill types are tuition fees, school fees, management fees, renovation fees, broadband internet fees, mobile phone fees, domestic helper salary, toll fees, parking fees, tutorial centre fees, private doctor consultation fees, clubhouse/leisure fees, entertainment/subscription fees, and law/legal opinion fees. |
-| `OQ-DOC01-003` | What user segments are included in MVP? | Product Owner | High | Answered / To Define | Exact segment definitions are not finalized. MVP must support demographic, behavioral, and geographic segmentation capability. |
-| `OQ-DOC01-004` | What payee types are supported at launch? | Product / Compliance | High | Answered / To Define | MVP supports institutional and personal payees, subject to verification and risk controls. Payee labels/attributes should be supported. |
-| `OQ-DOC01-005` | What payment methods are intended for MVP? | Product / Payments Lead | High | Answered / Provisional | Hong Kong MVP intended payment methods are credit card, AlipayHK, and FPS, subject to PSP/acquirer and banking feasibility. |
-| `OQ-DOC01-006` | Will MVP support multiple funding sources at launch, or only preserve architecture for it? | Product / Engineering | High | Closed | Yes. Multiple funding sources are MVP. Credit card tokenization is also MVP, subject to selected PSP/acquirer support. Architecture must support this. |
-| `OQ-DOC01-007` | Will MVP support partial payment at launch, or only preserve architecture for it? | Product / Engineering | High | Closed | Yes. Partial payment and combined payment are MVP. A bill may be settled through several payments using the same or different payment methods or different cards. |
-| `OQ-DOC01-008` | What PSPs, acquirers, or payment partners are being considered? | Payments Lead | High | Open | No answer yet. This remains a business decision. PSP/acquirer selection is a critical MVP dependency. |
-| `OQ-DOC01-009` | What payout methods are feasible for supported payees? | Payments Lead / Finance | High | Answered / Provisional | Candidate payout methods include FPS, online banking transfer, EPS where feasible, and cheques. Final feasibility depends on banking/PSP/payee type. |
-| `OQ-DOC01-010` | Are launch promotions required for MVP? | Product / Marketing | Medium | Closed | Yes. Promotions and partner ads are MVP. UI must support placements, and backend/admin must support create, edit, remove/disable, and placement management. |
-| `OQ-DOC01-011` | What minimum bill verification workflow is required for MVP? | Product / Operations / Risk | High | Answered / To Define | Bill verification workflow is MVP. AI-assisted bill review is required, but the specific AI service/provider is not selected. Architecture/API boundary must be preserved. Bill-type-specific verification rules still need to be defined. |
-| `OQ-DOC01-012` | What compliance certification goals are required pre-launch versus post-launch? | Compliance Lead | Medium | Answered / Requires Validation | No formal certification is required for early pre-launch activities. ISO and PCI should be considered for production operation; exact timing and scope require legal/compliance/security confirmation. |
-| `OQ-DOC01-013` | Who is the official owner of DOC-01? | Project Owner | High | Provisional | Recommended owner: Product Owner, with Project Owner as accountable sponsor until a named owner is appointed. |
-| `OQ-DOC01-014` | Who are the required approvers for DOC-01? | Project Owner | High | Provisional | Recommended approvers: Project Owner, Product Owner, Engineering Lead, Compliance Lead, Payments Lead, Finance Lead, Operations/Risk Lead, and Marketing Lead. |
-| `OQ-DOC01-015` | What verification evidence and review rules are required for each MVP bill type? | Product / Operations / Risk / Compliance | High | Open | Each approved MVP bill type needs acceptable evidence, validation rules, risk rules, and manual review rules. |
-| `OQ-DOC01-016` | Which AI bill review provider or service will be selected? | Product / Engineering | Medium | Open | Provider has not been selected. Architecture should preserve an integration boundary. |
-| `OQ-DOC01-017` | What exact PSP/acquirer will support credit card, AlipayHK, FPS, and tokenization? | Payments Lead | High | Open | PSP/acquirer selection remains open and is a critical dependency. |
-
----
-
-## 31. Document Changelog
+## 27. Version History
 
 | Version | Date | Author | Change Summary |
 |---|---|---|---|
-| `0.1.0` | `2026-05-14` | Initial Author | Initial draft of DOC-01 Project Charter & Product Positioning |
-| `0.2.0` | `2026-05-14` | Product Documentation Team | Incorporated stakeholder answers and corrected MVP bill type scope to include the full approved multi-category MVP bill type list; confirmed Hong Kong MVP scope, payment methods, partial/combined payment, multiple funding sources, credit card tokenization, promotions, partner ads, bill verification, AI review requirement, payout candidates, and regulatory product boundary |
+| `0.1.0` | `2026-05-14` | Initial Author | Initial draft of `DOC-01` Project Charter & Product Positioning. |
+| `0.2.0` | `2026-05-26` | Product Documentation Team | Reframed as foundation charter, clarified product positioning, added product boundaries, candidate MVP scope, assumptions, constraints, dependencies, risks, launch readiness themes, downstream document impact, and standardized metadata and version history. |
