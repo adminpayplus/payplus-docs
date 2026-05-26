@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Certification Roadmap & Control Framework
-version: 0.2.0
+version: 0.3.0
 status: Draft
 owner: Compliance Lead
 reviewers:
@@ -13,12 +13,15 @@ reviewers:
   - Product Lead
   - Engineering Lead
   - Operations Lead
+  - Finance Lead
 approvers:
   - Project Owner
   - Legal Lead
   - Compliance Lead
   - Security Lead
   - Risk Lead
+  - Payments Lead
+  - Finance Lead
 last_updated: 2026-05-26
 classification: Internal
 related_documents:
@@ -47,661 +50,958 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines PayPlus’s compliance certification roadmap and control framework for launching, operating, and scaling the product.
+This document defines the compliance certification roadmap and control framework for PayPlus.
 
-It translates regulatory, partner, card network, security, privacy, AML, sanctions, fraud, consumer protection, operational, and audit obligations into a structured set of readiness gates, control domains, evidence requirements, ownership expectations, and certification milestones.
+Its purpose is to convert legal, regulatory, PSP/acquirer, payout provider, card network, AML, sanctions, fraud, consumer protection, privacy, security, finance, reconciliation, and operational obligations into a practical launch and operating control framework.
 
-`DOC-04` is not a standalone legal opinion, compliance policy, risk policy, security policy, audit report, or certification attestation.
+`DOC-04` determines:
 
-Instead, it is the coordinating framework used to ensure that compliance obligations identified in `DOC-03` and other foundation documents are implemented, tested, evidenced, approved, and monitored.
+- what must be true before PayPlus can launch;
+- which controls are launch blockers;
+- which risks may or may not be accepted;
+- what evidence is required;
+- who owns each control;
+- where evidence must be stored;
+- what must be tested;
+- what must be monitored after launch;
+- what must be revisited before scaling, adding categories, adding jurisdictions, changing funds flow, or adding payment partners.
+
+This document is intended to be more than a generic compliance checklist. It is a PayPlus-specific control framework for a bill-payment product that may involve card-funded payments, service fees, third-party payees, multi-source funding, payout timing risk, chargebacks after payout, and PSP/acquirer dependency.
 
 ---
 
-## 2. Scope
+## 2. Definition of Compliance Certification
+
+For PayPlus, “compliance certification” does not mean a single external regulatory certificate unless one is specifically required.
+
+Instead, compliance certification means a documented internal and partner-supported readiness decision that confirms applicable controls have been designed, implemented, tested, evidenced, and approved for a defined launch scope.
+
+Certification may include several components.
+
+| Certification Type | Meaning | Required Before |
+|---|---|---|
+| Internal launch certification | Internal approval that required launch controls are ready for the approved MVP scope. | MVP launch |
+| Regulatory readiness certification | Legal and Compliance confirmation that regulatory role, licensing path, exemptions, or partner coverage have been assessed. | MVP launch / jurisdiction expansion |
+| PSP/acquirer readiness certification | Written or contract-based confirmation that the PSP/acquirer supports the PayPlus use case, funds flow, categories, MCC/classification, fees, and risk model. | Production card processing |
+| Payout readiness certification | Confirmation that payout provider, rails, reconciliation, exception handling, and settlement timing are ready. | Production payouts |
+| Security and PCI readiness certification | Confirmation of PCI scope, card data handling model, access controls, vulnerability remediation, and security review. | Production card processing |
+| Privacy readiness certification | Confirmation that data map, privacy notice, consent, retention, deletion, and data processing requirements are ready. | MVP launch |
+| AML/sanctions/fraud readiness certification | Confirmation that required screening, risk rules, monitoring, escalation, and recordkeeping controls are ready. | MVP launch |
+| Consumer protection readiness certification | Confirmation that user fees, timing, role, refund, cancellation, support, and dispute disclosures are implemented and evidenced. | MVP launch |
+| Operational readiness certification | Confirmation that support, complaints, refunds, chargebacks, payout exceptions, incident response, and reconciliation operations are ready. | MVP launch |
+| Expansion certification | Re-certification for new jurisdictions, bill categories, payment methods, PSPs, payout providers, or material funds-flow changes. | Before expansion |
+
+Each certification must be tied to a defined scope. Approval for one jurisdiction, category, partner, or funds flow does not imply approval for another.
+
+---
+
+## 3. Scope
 
 This document covers:
 
-- Compliance certification roadmap.
-- Control framework structure.
+- PayPlus-specific compliance certification approach.
+- MVP compliance posture.
+- Control tiers and launch-blocking controls.
+- Non-waivable launch blockers.
+- Risk acceptance authority.
 - Control domains.
-- Launch readiness control gates.
-- Certification and attestation planning.
-- Evidence collection requirements.
-- Control ownership and accountability.
-- Regulatory, PSP, acquirer, and payout provider readiness.
-- AML, sanctions, fraud, and anti-cashout controls.
-- Consumer protection and disclosure controls.
-- Security, privacy, and PCI-related controls.
-- Data retention, reporting, and recordkeeping controls.
-- Operational controls.
-- Incident, complaint, dispute, and escalation controls.
-- Change management controls.
-- Vendor and partner oversight controls.
-- Monitoring, testing, audit, remediation, and governance.
+- Minimum MVP control baseline.
+- Control matrix.
+- Evidence requirements.
+- Evidence systems of record.
+- Control ownership.
+- Testing requirements.
+- Exception and remediation process.
+- Regulatory and partner change management.
+- Vendor and partner oversight.
+- Monitoring and reporting.
+- Governance forums.
+- Roadmap from MVP to scale.
 - Assumptions, constraints, dependencies, risks, open questions, and acceptance criteria.
 
 ---
 
-## 3. Out of Scope
+## 4. Out of Scope
 
-This document does not define:
+This document does not provide:
 
-- Final legal conclusions.
-- Regulatory licensing strategy.
-- Full AML policy.
-- Full sanctions policy.
-- Full fraud rule logic.
+- Final legal advice.
+- Final regulatory licensing opinion.
+- Final PSP/acquirer approval.
+- Final card network rule interpretation.
+- Final AML policy.
+- Final sanctions policy.
+- Final fraud strategy.
 - Complete PCI DSS implementation plan.
-- Complete SOC 2 readiness plan.
+- Complete SOC 2 audit plan.
 - Complete privacy program.
-- Complete information security policy.
-- Technical implementation specifications.
-- Product feature requirements.
-- Partner contract terms.
-- Detailed customer support SOPs.
-- Detailed incident response procedures.
-- QA test cases.
-- Final launch sign-off checklist.
+- Product PRD.
+- Technical architecture specification.
+- Partner contract.
+- Customer support SOP.
+- QA test suite.
+- Incident response runbook.
 
-Those details must be maintained in downstream legal, compliance, security, risk, product, engineering, operations, and vendor documents.
+Those items must be owned in the appropriate legal, compliance, risk, security, product, engineering, finance, operations, or partner documents.
 
 ---
 
-## 4. Guiding Principles
+## 5. PayPlus-Specific Risk Themes
 
-PayPlus’s compliance control framework should follow these principles:
+The control framework must specifically address the following PayPlus risk themes.
 
-| Principle | Description |
-|---|---|
-| Risk-based | Controls should be proportionate to product, jurisdiction, category, payment method, and transaction risk. |
-| Evidence-first | Compliance readiness should be supported by documented evidence, not verbal confirmation. |
-| Owner-accountable | Every material control should have a named function owner. |
-| Partner-aligned | Controls should satisfy PSP, acquirer, payout provider, card network, and other partner requirements. |
-| User-transparent | Fees, timing, role, risk, refunds, cancellations, disputes, and privacy practices should be clearly disclosed. |
-| Audit-ready | Policies, approvals, records, logs, reports, and decisions should be retained and retrievable. |
-| Change-aware | Material changes should trigger reassessment and control updates. |
-| Defense-in-depth | Preventive, detective, and corrective controls should be layered across product, risk, operations, and engineering. |
-| Scalable | Controls should work for MVP while enabling future jurisdiction, category, and volume expansion. |
-| Testable | Controls should have measurable design and operating effectiveness criteria. |
+| Theme ID | Risk Theme | Why It Matters |
+|---|---|---|
+| `THEME-DOC04-001` | Bill payment may be treated differently from ordinary card commerce. | PSPs, acquirers, card networks, and regulators may view bill payment as payment facilitation, money movement, quasi-cash, account funding, or money transmission depending on flow. |
+| `THEME-DOC04-002` | PayPlus may receive funds before paying a third-party payee. | This can create licensing, safeguarding, settlement, reconciliation, and customer-funds risk. |
+| `THEME-DOC04-003` | PayPlus may pay a biller/payee before final card settlement or before chargeback risk expires. | This creates liquidity, credit, fraud, and loss exposure. |
+| `THEME-DOC04-004` | Chargebacks may occur after payout. | PayPlus may be unable to recover funds from the payee and may absorb losses. |
+| `THEME-DOC04-005` | Multi-card or multi-source funding increases complexity. | Split funding creates refund allocation, chargeback, partial failure, AML, risk, and reconciliation complexity. |
+| `THEME-DOC04-006` | User-paid service fees may trigger legal, card network, and consumer disclosure requirements. | Improper fee treatment may cause regulatory, network, partner, and complaint risk. |
+| `THEME-DOC04-007` | Certain bill categories may resemble cashout, debt repayment, money transfer, or restricted activity. | Rent, tax, loan repayment, credit card repayment, crypto-related, gambling-related, or self-payment use cases may require enhanced review. |
+| `THEME-DOC04-008` | MCC and transaction classification may affect issuer behavior and user experience. | Users may face declines, cash advance treatment, rewards differences, or unexpected issuer fees. |
+| `THEME-DOC04-009` | Payee verification is central to anti-cashout control. | Weak payee verification may allow users to route funds to themselves or collusive entities. |
+| `THEME-DOC04-010` | Partner approvals are operating constraints. | PSP, acquirer, payout provider, and card network requirements can override product assumptions. |
+| `THEME-DOC04-011` | Reconciliation must link user charge, PayPlus fee, payout, refund, chargeback, reserve, and ledger records. | Missing links can create financial loss, reporting gaps, and audit failure. |
+| `THEME-DOC04-012` | Product changes may alter regulatory classification. | Changes to funds flow, categories, fees, payout timing, or custody can invalidate prior approvals. |
 
 ---
 
-## 5. Compliance Roadmap Overview
+## 6. MVP Compliance Posture
 
-The roadmap should be managed across phases.
+For MVP, PayPlus should adopt a conservative compliance posture.
 
-| Phase | Name | Objective | Exit Criteria |
+The MVP posture should be:
+
+- limited in jurisdiction scope;
+- limited in bill category scope;
+- limited in payment methods;
+- limited in payout rails;
+- limited in maximum transaction amounts;
+- limited in transaction velocity;
+- limited in payee types;
+- limited in operational complexity;
+- dependent on written PSP/acquirer and payout provider approval where possible;
+- supported by manual review where automation is immature;
+- supported by daily reconciliation;
+- supported by enhanced monitoring during launch.
+
+MVP should avoid, unless separately approved:
+
+- unsupported or ambiguous funds flows;
+- unapproved jurisdictions;
+- unapproved bill categories;
+- user-to-self payments;
+- user-created unverified payees with immediate high-value payout;
+- crypto, gambling, gift card, stored value, investment, or cash-equivalent payments;
+- cross-border payouts;
+- FX;
+- wallet or stored balance functionality;
+- payout before funding certainty without approved credit and liquidity controls;
+- multi-card funding unless specifically approved by PSP/acquirer, Legal, Compliance, Risk, Payments, and Finance.
+
+---
+
+## 7. Control Tiering
+
+Controls are tiered according to launch criticality and risk.
+
+| Tier | Name | Meaning | Launch Impact |
 |---|---|---|---|
-| `PH-DOC04-001` | Discovery | Identify obligations, risks, partners, jurisdictions, flows, and categories. | Initial obligation inventory and risk assessment completed. |
-| `PH-DOC04-002` | Design | Define control domains, owners, policies, procedures, and evidence requirements. | Control matrix and readiness gates approved. |
-| `PH-DOC04-003` | Build | Implement product, technical, operational, and partner controls. | Controls implemented in product, systems, workflows, and documentation. |
-| `PH-DOC04-004` | Test | Validate control design and operating readiness. | Test results, exceptions, and remediation plans documented. |
-| `PH-DOC04-005` | Certify | Obtain internal approvals and required external/partner attestations. | Launch certification package approved. |
-| `PH-DOC04-006` | Launch | Operate under defined controls and monitoring. | Launch completed with no unresolved critical compliance gaps. |
-| `PH-DOC04-007` | Monitor | Conduct ongoing monitoring, periodic reviews, and control testing. | Ongoing evidence, issues, and remediation tracked. |
-| `PH-DOC04-008` | Scale | Reassess controls for new jurisdictions, categories, partners, and volume. | Expansion certification completed before material change. |
+| `T0` | Non-waivable blocker | Mandatory control required for legal, partner, security, financial, or user-protection reasons. | Cannot launch without completion. |
+| `T1` | Critical launch control | Required for MVP launch unless formally accepted by authorized approvers. | Blocks launch unless remediated or formally accepted. |
+| `T2` | Important operating control | Required for stable operation, but may be completed shortly after launch with approved mitigation. | May launch with approved remediation plan. |
+| `T3` | Scale or maturity control | Required before scaling, certification maturity, audit maturity, or expansion. | Does not block MVP, but blocks scale or expansion. |
+
+Each control in the control matrix must be assigned a tier.
 
 ---
 
-## 6. Control Framework Structure
+## 8. Non-Waivable Launch Blockers
 
-Each control should be documented using a standard structure.
+The following items are non-waivable for MVP launch.
 
-| Field | Description |
-|---|---|
-| Control ID | Unique identifier. |
-| Control Domain | Category of control. |
-| Control Name | Short control title. |
-| Control Objective | What risk or obligation the control addresses. |
-| Control Type | Preventive, detective, corrective, directive, or compensating. |
-| Frequency | Real-time, per transaction, daily, weekly, monthly, quarterly, annual, event-driven. |
-| Owner | Function responsible for operating the control. |
-| Reviewer | Function responsible for review or approval. |
-| System of Record | Tool, database, repository, partner portal, or process record. |
-| Evidence | Evidence required to prove operation. |
-| Related Risk | Risk ID or risk category addressed. |
-| Related Requirement | Regulation, policy, partner rule, contract, or product requirement. |
-| Design Status | Not started, designed, implemented, tested, approved. |
-| Operating Status | Not operating, operating with exceptions, operating effectively. |
-| Exceptions | Known gaps or deviations. |
-| Remediation | Required remediation action and owner. |
+PayPlus must not launch if any `T0` blocker is unresolved.
+
+| Blocker ID | Non-Waivable Requirement | Owner |
+|---|---|---|
+| `BLK-DOC04-001` | Regulatory role and licensing path for MVP jurisdiction and funds flow are assessed and approved. | Legal / Compliance |
+| `BLK-DOC04-002` | PSP/acquirer approval or equivalent written partner confirmation exists for the PayPlus use case, funds flow, categories, and fee model. | Payments |
+| `BLK-DOC04-003` | Payout provider and payout flow are approved, tested, and operationally supported. | Payments / Finance |
+| `BLK-DOC04-004` | MVP bill categories are approved; restricted and prohibited categories are configured or procedurally blocked. | Compliance / Product |
+| `BLK-DOC04-005` | User fee, total charge, payment timing, refund/cancellation, and PayPlus role disclosures are implemented before authorization. | Legal / Product |
+| `BLK-DOC04-006` | PCI scope and card data handling model are approved before production card processing. | Security |
+| `BLK-DOC04-007` | Sanctions screening and escalation requirements applicable to MVP are implemented. | Compliance |
+| `BLK-DOC04-008` | Baseline fraud, velocity, and anti-cashout controls are implemented. | Risk |
+| `BLK-DOC04-009` | Daily settlement, payout, fee, refund, chargeback, and ledger reconciliation process is defined and tested. | Finance / Payments |
+| `BLK-DOC04-010` | Refund, cancellation, payout failure, and chargeback handling procedures are defined. | Operations / Payments |
+| `BLK-DOC04-011` | Incident escalation path and severity classification are defined. | Security / Operations |
+| `BLK-DOC04-012` | Privacy notice, terms acceptance, data collection, and consent controls are implemented. | Privacy / Legal |
+| `BLK-DOC04-013` | Critical evidence is stored in an approved repository and linked to launch certification. | Compliance |
+| `BLK-DOC04-014` | Required approvers sign launch certification for the defined MVP scope. | Project Owner / Compliance |
 
 ---
 
-## 7. Control Domains
+## 9. Risk Acceptance Authority
 
-PayPlus controls should be organized into the following domains.
+Some risks may be accepted. Others may not.
+
+Risk acceptance must be explicit, documented, time-bound, and tied to compensating controls.
+
+| Risk Severity | Who May Accept | Conditions |
+|---|---|---|
+| Critical | Project Owner, Legal Lead, Compliance Lead, and relevant functional lead jointly | Only if not a `T0` blocker and if compensating controls exist. |
+| High | Compliance Lead and relevant functional lead | Remediation date, temporary mitigation, and monitoring required. |
+| Medium | Functional owner and Compliance reviewer | Remediation plan required. |
+| Low | Functional owner | Tracked to closure or accepted as residual risk. |
+
+The following risks may not be accepted for launch:
+
+- no regulatory role assessment;
+- no PSP/acquirer approval for the core payment flow;
+- no PCI scope decision before card processing;
+- no fee and total-charge disclosure before authorization;
+- no sanctions screening where required;
+- no baseline fraud and anti-cashout controls;
+- no payout and reconciliation process;
+- no incident escalation path;
+- no terms/privacy acceptance;
+- no launch approval record.
+
+---
+
+## 10. Control Domains
+
+PayPlus controls are grouped into the following domains.
 
 | Domain ID | Domain | Primary Owner | Related Documents |
 |---|---|---|---|
-| `CD-DOC04-001` | Governance, accountability, and approvals | Compliance | DOC-00, DOC-20 |
-| `CD-DOC04-002` | Regulatory role, licensing, and legal obligations | Legal / Compliance | DOC-03 |
-| `CD-DOC04-003` | PSP, acquirer, card network, and payout provider readiness | Payments | DOC-03, DOC-09, DOC-10 |
-| `CD-DOC04-004` | Product eligibility, categories, and payee controls | Product / Compliance | DOC-05, DOC-06 |
-| `CD-DOC04-005` | User onboarding, identity, and verification | Compliance / Product | DOC-06 |
-| `CD-DOC04-006` | AML, sanctions, anti-cashout, and financial crime | Compliance / Risk | DOC-14 |
-| `CD-DOC04-007` | Fraud, abuse, velocity, and transaction risk | Risk | DOC-14 |
-| `CD-DOC04-008` | Consumer protection, disclosures, and consent | Legal / Product | DOC-07, DOC-08 |
-| `CD-DOC04-009` | Fees, pricing, and commercial controls | Finance / Product | DOC-02, DOC-07 |
-| `CD-DOC04-010` | Payment authorization, capture, settlement, and funding | Payments / Engineering | DOC-09 |
-| `CD-DOC04-011` | Payout, reconciliation, and ledger controls | Finance / Payments | DOC-10, DOC-18 |
-| `CD-DOC04-012` | Refunds, cancellations, chargebacks, and disputes | Operations / Payments | DOC-11, DOC-15 |
-| `CD-DOC04-013` | Customer support, complaints, and escalation | Operations | DOC-15 |
-| `CD-DOC04-014` | Security, PCI, access, and infrastructure controls | Security / Engineering | DOC-16, DOC-17 |
-| `CD-DOC04-015` | Privacy, data protection, and retention | Privacy / Legal | DOC-16 |
-| `CD-DOC04-016` | Reporting, recordkeeping, and audit evidence | Compliance / Finance | DOC-18 |
-| `CD-DOC04-017` | Vendor and partner oversight | Compliance / Legal / Payments | DOC-03 |
-| `CD-DOC04-018` | Incident response, business continuity, and resilience | Security / Operations | DOC-17, DOC-21 |
-| `CD-DOC04-019` | Change management and release governance | Engineering / Compliance | DOC-20 |
-| `CD-DOC04-020` | Training, awareness, and access certification | Compliance / People Ops | DOC-16, DOC-21 |
+| `CD-DOC04-001` | Governance, accountability, certification, and approvals | Compliance | DOC-00, DOC-20 |
+| `CD-DOC04-002` | Regulatory role, licensing, exemptions, and legal obligations | Legal / Compliance | DOC-03 |
+| `CD-DOC04-003` | PSP, acquirer, card network, payout provider, and partner readiness | Payments | DOC-03, DOC-09, DOC-10 |
+| `CD-DOC04-004` | Category eligibility, restricted categories, and payee acceptability | Compliance / Product | DOC-03, DOC-06 |
+| `CD-DOC04-005` | User onboarding, identity, consent, and eligibility | Product / Compliance | DOC-06 |
+| `CD-DOC04-006` | Payee onboarding, verification, and anti-cashout | Compliance / Risk / Operations | DOC-06, DOC-14 |
+| `CD-DOC04-007` | AML, sanctions, and financial crime controls | Compliance | DOC-14 |
+| `CD-DOC04-008` | Fraud, abuse, velocity, and transaction risk | Risk | DOC-14 |
+| `CD-DOC04-009` | Consumer protection, disclosures, consent, and receipts | Legal / Product | DOC-07, DOC-08 |
+| `CD-DOC04-010` | Fees, pricing, tax, economics, and margin controls | Finance / Product | DOC-02, DOC-07 |
+| `CD-DOC04-011` | Authorization, capture, settlement, and funding controls | Payments / Engineering | DOC-09 |
+| `CD-DOC04-012` | Payout, reconciliation, reserves, and ledger controls | Finance / Payments | DOC-10, DOC-18 |
+| `CD-DOC04-013` | Refunds, cancellations, chargebacks, and disputes | Operations / Payments | DOC-11, DOC-15 |
+| `CD-DOC04-014` | Customer support, complaints, and escalation | Operations | DOC-15 |
+| `CD-DOC04-015` | Security, PCI, access, and infrastructure controls | Security / Engineering | DOC-16, DOC-17 |
+| `CD-DOC04-016` | Privacy, data protection, retention, and deletion | Privacy / Legal | DOC-16 |
+| `CD-DOC04-017` | Reporting, recordkeeping, evidence, and auditability | Compliance / Finance | DOC-18 |
+| `CD-DOC04-018` | Vendor and partner oversight | Compliance / Legal / Payments | DOC-03 |
+| `CD-DOC04-019` | Incident response, business continuity, and resilience | Security / Operations | DOC-17, DOC-21 |
+| `CD-DOC04-020` | Change management and release governance | Engineering / Compliance | DOC-20 |
+| `CD-DOC04-021` | Training, awareness, and access certification | Compliance / Security | DOC-16, DOC-21 |
 
 ---
 
-## 8. Control Matrix
+## 11. Minimum MVP Control Baseline
 
-The following starter control matrix should be expanded as product, jurisdiction, partner, and regulatory requirements mature.
+The following minimum controls are required for MVP.
 
-| Control ID | Domain | Control Objective | Type | Frequency | Owner | Evidence |
-|---|---|---|---|---|---|---|
-| `CTRL-DOC04-001` | Governance | Maintain approved document governance and control ownership. | Directive | Quarterly | Compliance | Document register, owner list, approvals. |
-| `CTRL-DOC04-002` | Regulatory | Confirm regulatory role and licensing path before launch. | Preventive | Event-driven | Legal / Compliance | DOC-03 assessment, legal memo, approval record. |
-| `CTRL-DOC04-003` | Partner readiness | Confirm PSP/acquirer support for use case, categories, and funds flow. | Preventive | Event-driven | Payments | Partner written confirmation, contract, onboarding approval. |
-| `CTRL-DOC04-004` | Category eligibility | Maintain approved, restricted, and prohibited category lists. | Preventive | Monthly / Event-driven | Compliance / Product | Category list, approval log, change history. |
-| `CTRL-DOC04-005` | Payee verification | Verify payee eligibility before enabling payout. | Preventive | Per payee | Compliance / Operations | Payee verification record, screening result. |
-| `CTRL-DOC04-006` | User onboarding | Capture required user information and consent. | Preventive | Per user | Product / Compliance | User profile, consent logs, terms acceptance. |
-| `CTRL-DOC04-007` | Sanctions screening | Screen relevant users, payees, and partners against required sanctions lists. | Preventive / Detective | Per onboarding / Ongoing | Compliance | Screening logs, match disposition records. |
-| `CTRL-DOC04-008` | Fraud monitoring | Apply transaction risk rules and velocity limits. | Preventive / Detective | Real-time | Risk | Rule configuration, decision logs, alerts. |
-| `CTRL-DOC04-009` | Anti-cashout controls | Detect self-payments, circular payments, suspicious refunds, and abuse patterns. | Detective | Real-time / Daily | Risk / Compliance | Alerts, investigation notes, case outcomes. |
-| `CTRL-DOC04-010` | Fee disclosure | Display service fee, total amount, and key terms before payment authorization. | Preventive | Per transaction | Product / Legal | UI screenshots, consent logs, test evidence. |
-| `CTRL-DOC04-011` | Payment authorization | Capture user authorization and transaction details. | Preventive | Per transaction | Product / Engineering | Authorization logs, transaction record. |
-| `CTRL-DOC04-012` | Settlement reconciliation | Reconcile PSP settlement, payout, ledger, and bank records. | Detective | Daily | Finance / Payments | Reconciliation reports, exception log. |
-| `CTRL-DOC04-013` | Refund controls | Process refunds according to approved rules and partner capabilities. | Preventive / Corrective | Per refund | Operations / Payments | Refund record, approval log, ledger entry. |
-| `CTRL-DOC04-014` | Chargeback controls | Track, evidence, and respond to chargebacks within required deadlines. | Corrective | Per dispute | Operations / Payments | Dispute case, evidence package, outcome. |
-| `CTRL-DOC04-015` | Complaint handling | Log, classify, investigate, and resolve complaints. | Corrective | Per complaint | Operations | Complaint register, response records. |
-| `CTRL-DOC04-016` | PCI scope control | Keep card data handling within approved PCI scope. | Preventive | Continuous / Annual | Security | PCI scope document, SAQ/AOC, architecture diagram. |
-| `CTRL-DOC04-017` | Access control | Restrict admin and sensitive data access based on role. | Preventive | Continuous / Quarterly | Security / Engineering | Access review, role matrix, audit logs. |
-| `CTRL-DOC04-018` | Privacy notice and consent | Provide privacy notice and capture required consents. | Preventive | Per user / Event-driven | Privacy / Product | Notice version, consent logs. |
-| `CTRL-DOC04-019` | Data retention | Retain and delete records according to approved schedule. | Preventive / Corrective | Continuous / Periodic | Privacy / Engineering | Retention policy, deletion logs. |
-| `CTRL-DOC04-020` | Vendor due diligence | Review material vendors and payment partners before production use. | Preventive | Event-driven / Annual | Compliance / Security / Legal | Due diligence checklist, SOC reports, contracts. |
-| `CTRL-DOC04-021` | Incident response | Detect, escalate, investigate, and document material incidents. | Corrective | Per incident | Security / Operations | Incident ticket, RCA, notification log. |
-| `CTRL-DOC04-022` | Change management | Review product, risk, compliance, and technical changes before release. | Preventive | Per release | Engineering / Compliance | Change tickets, approvals, release notes. |
-| `CTRL-DOC04-023` | Regulatory change monitoring | Monitor applicable regulatory, partner, and network changes. | Detective | Monthly / Event-driven | Legal / Compliance | Monitoring log, impact assessment. |
-| `CTRL-DOC04-024` | Training | Provide role-based compliance and security training. | Directive | On hire / Annual | Compliance / Security | Training completion records. |
-| `CTRL-DOC04-025` | Control testing | Test design and operating effectiveness of key controls. | Detective | Quarterly / Annual | Compliance / Internal Audit | Test plan, samples, results, remediation log. |
+### 11.1 Regulatory and Partner Baseline
 
----
+PayPlus must have:
 
-## 9. Certification and Attestation Roadmap
+- MVP jurisdiction defined.
+- MVP funds flow diagram completed.
+- PayPlus role documented.
+- Licensing path, exemption, or partner coverage assessed.
+- PSP/acquirer approval obtained or documented.
+- Payout provider approval obtained or documented.
+- Approved bill categories documented.
+- Prohibited and restricted categories documented.
+- MCC or transaction classification confirmed where possible.
+- Fee model reviewed.
+- Settlement timing reviewed.
+- Reserve, holdback, and liquidity impact reviewed.
 
-The required certification and attestation path depends on final product design, partner model, jurisdiction, payment methods, data handling, and customer segments.
+### 11.2 Product and Disclosure Baseline
 
-Potential certification and attestation areas include:
+The product must show, before authorization:
 
-| Area | Potential Requirement | Owner | Timing |
-|---|---|---|---|
-| Legal launch approval | Legal memo or legal sign-off for jurisdiction and funds flow. | Legal | Before launch |
-| Compliance launch approval | Compliance readiness certification. | Compliance | Before launch |
-| PSP/acquirer approval | Underwriting approval, merchant approval, category approval. | Payments | Before production processing |
-| Payout provider approval | Payout account approval and rail readiness. | Payments | Before production payouts |
-| PCI DSS | SAQ, AOC, ROC, or partner-managed scope depending on card data handling. | Security | Before card processing / Annual |
-| SOC 2 readiness | Internal readiness or formal audit planning. | Security | Pre-scale / Annual if pursued |
-| Privacy readiness | Privacy notice, data map, DPA, consent and retention controls. | Privacy / Legal | Before launch |
-| AML program readiness | AML, sanctions, monitoring, escalation, recordkeeping controls. | Compliance | Before launch |
-| Fraud/risk readiness | Fraud rules, velocity limits, review workflows, monitoring dashboards. | Risk | Before launch |
-| Consumer disclosure readiness | Terms, checkout disclosures, receipt content, support content. | Legal / Product | Before launch |
-| Operational readiness | Support, complaints, disputes, refunds, chargebacks, payout exceptions. | Operations | Before launch |
-| Business continuity readiness | Incident response and continuity procedures. | Security / Operations | Before launch or pre-scale |
-| Vendor due diligence | Due diligence and contract approval for material vendors. | Compliance / Legal / Security | Before production use |
+- bill amount;
+- PayPlus service fee;
+- taxes, if applicable;
+- total amount charged;
+- payee or biller identity;
+- expected processing or delivery timing;
+- PayPlus role;
+- cancellation and refund rules;
+- user responsibility for late fees or biller consequences where applicable;
+- terms acceptance;
+- privacy notice access.
 
----
+The system must retain:
 
-## 10. Launch Certification Package
+- disclosure version;
+- timestamp of acceptance;
+- user ID;
+- transaction ID;
+- amount and fee shown;
+- payment authorization record.
 
-Before MVP launch, Compliance should assemble a launch certification package.
+### 11.3 User and Payee Baseline
 
-The package should include:
+PayPlus must define:
 
-- Product overview.
-- Jurisdiction scope.
-- Bill category scope.
-- User and payee scope.
-- Payment method scope.
-- Payout method scope.
-- Funds flow diagram.
-- Regulatory role assessment.
-- Licensing or exemption assessment.
-- PSP/acquirer approval evidence.
-- Payout provider approval evidence.
-- Category approval evidence.
-- MCC or classification evidence.
-- Fee model approval.
-- Consumer disclosure evidence.
-- Terms and privacy evidence.
-- AML and sanctions control evidence.
-- Fraud and anti-cashout control evidence.
-- Security and PCI evidence.
-- Privacy and data protection evidence.
-- Partner due diligence evidence.
-- Contract approval evidence.
-- Settlement, reserve, and liquidity evidence.
-- Reconciliation and ledger readiness evidence.
-- Refund and chargeback readiness evidence.
-- Support and complaint handling readiness evidence.
-- Incident response readiness evidence.
-- QA and UAT evidence for compliance-critical flows.
-- Open issues and remediation plan.
-- Formal approvals.
+- minimum user information required;
+- user eligibility rules;
+- blocked user criteria;
+- payee information required;
+- payee verification method;
+- payee ownership or relationship checks where applicable;
+- self-payment controls;
+- high-risk payee escalation process;
+- prohibited payee categories.
 
----
+### 11.4 AML, Sanctions, Fraud, and Anti-Cashout Baseline
 
-## 11. Launch Readiness Gates
+MVP must include:
 
-| Gate ID | Gate | Acceptance Condition | Owner |
-|---|---|---|---|
-| `GATE-DOC04-001` | Obligation inventory complete | Applicable obligations are identified from legal, partner, product, risk, privacy, and security reviews. | Compliance |
-| `GATE-DOC04-002` | Regulatory role approved | Regulatory role and licensing path are approved or documented with accepted risk. | Legal / Compliance |
-| `GATE-DOC04-003` | Partner approvals obtained | PSP, acquirer, payout provider, and material vendor approvals are obtained. | Payments |
-| `GATE-DOC04-004` | Control matrix approved | Required launch controls are documented with owners, evidence, and status. | Compliance |
-| `GATE-DOC04-005` | Category controls approved | Approved, restricted, and prohibited category framework is implemented. | Compliance / Product |
-| `GATE-DOC04-006` | User and payee controls ready | Onboarding, verification, screening, consent, and eligibility controls are implemented. | Product / Compliance |
-| `GATE-DOC04-007` | AML/sanctions controls ready | Required screening, monitoring, escalation, and recordkeeping controls are implemented. | Compliance |
-| `GATE-DOC04-008` | Fraud/risk controls ready | Fraud, velocity, anti-cashout, and manual review controls are implemented and tested. | Risk |
-| `GATE-DOC04-009` | Fee and disclosure controls ready | Checkout, receipt, terms, privacy, and fee disclosures are approved and tested. | Legal / Product |
-| `GATE-DOC04-010` | Payment and settlement controls ready | Authorization, capture, settlement, payout, refund, and reconciliation controls are implemented. | Payments / Finance |
-| `GATE-DOC04-011` | Security and PCI controls ready | Security review, PCI scope, access controls, and vulnerability remediation are complete. | Security |
-| `GATE-DOC04-012` | Privacy controls ready | Data map, privacy notice, consent, DPA, retention, and deletion controls are ready. | Privacy / Legal |
-| `GATE-DOC04-013` | Support and complaints ready | Support, complaint, dispute, and escalation procedures are ready. | Operations |
-| `GATE-DOC04-014` | Incident response ready | Incident runbooks, escalation paths, and notification criteria are documented. | Security / Operations |
-| `GATE-DOC04-015` | Evidence repository complete | Required evidence is stored in approved repository with version control. | Compliance |
-| `GATE-DOC04-016` | Open risks accepted | Critical risks are resolved; remaining risks are formally accepted by authorized approvers. | Compliance / Project Owner |
-| `GATE-DOC04-017` | Launch certification approved | Launch certification package is approved by required approvers. | Compliance |
+- sanctions screening where required;
+- adverse match review process;
+- blocked party escalation;
+- transaction amount limits;
+- daily and rolling user limits;
+- new-user limits;
+- card velocity limits;
+- failed authorization velocity limits;
+- payee velocity limits;
+- payee concentration monitoring;
+- self-payment detection;
+- circular payment detection where feasible;
+- suspicious refund monitoring;
+- manual review queue;
+- risk decision audit logs.
 
----
+### 11.5 Payment, Payout, and Reconciliation Baseline
 
-## 12. Evidence Repository
+MVP must include:
 
-Compliance evidence should be stored in an approved repository with:
+- unique transaction IDs;
+- parent-child linkage for funding events, if multi-source funding exists;
+- authorization and capture logs;
+- settlement status tracking;
+- payout status tracking;
+- fee ledger entries;
+- refund ledger entries;
+- chargeback ledger entries;
+- daily reconciliation process;
+- unresolved exception log;
+- payout failure process;
+- refund failure process;
+- chargeback evidence process.
 
-- Document owner.
-- Version history.
-- Approval history.
-- Access control.
-- Retention period.
-- Evidence type.
-- Related control ID.
-- Related gate ID.
-- Related risk ID.
-- Date collected.
-- Source system.
-- Reviewer.
-- Expiration date, where applicable.
+### 11.6 Security, Privacy, and Access Baseline
 
-Example evidence categories:
+MVP must include:
 
-| Evidence Category | Examples |
-|---|---|
-| Legal | Legal memo, licensing assessment, jurisdiction review, contract review. |
-| Partner | Underwriting approval, category approval, MCC confirmation, settlement terms. |
-| Product | Screenshots, user flows, PRDs, disclosure screens, consent records. |
-| Engineering | Architecture diagrams, release notes, test results, audit logs. |
-| Security | PCI scope, vulnerability scan, penetration test, access review, SOC report. |
-| Privacy | Data map, DPIA, privacy notice, DPA, consent logs, retention schedule. |
-| Compliance | Control matrix, risk assessment, policy approval, monitoring records. |
-| Risk | Fraud rules, risk dashboards, alert logs, case reviews. |
-| Finance | Reconciliation reports, reserve calculations, settlement files. |
-| Operations | SOPs, complaint logs, dispute files, support macros, escalation records. |
-| Audit | Control testing plan, sample results, exception log, remediation evidence. |
+- PCI scope decision;
+- tokenized card handling where applicable;
+- no unnecessary storage of sensitive card data;
+- encryption in transit;
+- encryption at rest for sensitive data;
+- role-based access for admin tools;
+- audit logs for sensitive actions;
+- vulnerability review before launch;
+- privacy notice;
+- data map;
+- data retention approach;
+- incident escalation path.
+
+### 11.7 Operations Baseline
+
+MVP must include:
+
+- refund procedure;
+- cancellation procedure;
+- payout failure procedure;
+- chargeback procedure;
+- complaint intake and escalation;
+- support macros for payment timing, fees, refunds, and failed payments;
+- internal escalation contacts;
+- incident severity levels;
+- daily launch monitoring during initial production period.
 
 ---
 
-## 13. Control Ownership Model
+## 12. Control Matrix
 
-Control ownership should distinguish between accountable owner, operating owner, reviewer, and approver.
+The following matrix defines the initial PayPlus control set.
 
-| Role | Responsibility |
-|---|---|
-| Accountable Owner | Owns control design, operation, remediation, and acceptance of residual risk. |
-| Operating Owner | Performs the control activity. |
-| Reviewer | Reviews evidence and determines whether the control operated effectively. |
-| Approver | Approves control readiness, exceptions, risk acceptance, or launch certification. |
-| System Owner | Maintains systems and data supporting the control. |
-| Evidence Owner | Ensures evidence is complete, accurate, retained, and retrievable. |
-
-No critical control should lack an accountable owner.
+| Control ID | Tier | Domain | Control Objective | Type | Frequency | Owner | Evidence |
+|---|---|---|---|---|---|---|---|
+| `CTRL-DOC04-001` | `T0` | Governance | Maintain launch certification scope, approvers, and evidence package. | Directive | Per launch | Compliance | Launch certification package, approval log. |
+| `CTRL-DOC04-002` | `T0` | Regulatory | Confirm regulatory role and licensing path for MVP jurisdiction and funds flow. | Preventive | Per launch / Material change | Legal / Compliance | DOC-03 assessment, legal memo, approval record. |
+| `CTRL-DOC04-003` | `T0` | Partner readiness | Confirm PSP/acquirer support for PayPlus use case, categories, fees, and funds flow. | Preventive | Per partner / Material change | Payments | Partner approval, contract, underwriting record. |
+| `CTRL-DOC04-004` | `T0` | Payout readiness | Confirm payout provider, payout rails, settlement timing, and exception handling. | Preventive | Per launch / Material change | Payments / Finance | Payout approval, test payout evidence, SOP. |
+| `CTRL-DOC04-005` | `T0` | Category eligibility | Maintain and enforce MVP approved, restricted, and prohibited categories. | Preventive | Per launch / Monthly | Compliance / Product | Category register, configuration, approval log. |
+| `CTRL-DOC04-006` | `T1` | Payee controls | Verify payee eligibility before payout. | Preventive | Per payee | Compliance / Operations | Payee verification record, review notes. |
+| `CTRL-DOC04-007` | `T1` | User controls | Capture required user information and terms/privacy consent. | Preventive | Per user | Product / Compliance | User profile, consent logs. |
+| `CTRL-DOC04-008` | `T0` | Sanctions | Screen required parties and escalate potential matches. | Preventive / Detective | Onboarding / Ongoing | Compliance | Screening logs, match disposition records. |
+| `CTRL-DOC04-009` | `T0` | Fraud / Anti-cashout | Apply baseline transaction limits, velocity rules, and self-payment controls. | Preventive / Detective | Real-time / Daily | Risk | Rule configuration, decision logs, alerts. |
+| `CTRL-DOC04-010` | `T1` | Manual review | Route high-risk transactions, users, or payees to manual review. | Preventive | Per trigger | Risk / Operations | Case queue, disposition logs. |
+| `CTRL-DOC04-011` | `T0` | Disclosures | Display bill amount, service fee, total charge, timing, role, and refund/cancellation terms before authorization. | Preventive | Per transaction | Product / Legal | UI screenshots, disclosure version, consent logs. |
+| `CTRL-DOC04-012` | `T0` | Payment authorization | Capture user authorization and immutable transaction details. | Preventive | Per transaction | Product / Engineering | Authorization logs, transaction record. |
+| `CTRL-DOC04-013` | `T1` | Fee controls | Ensure fee calculation matches approved pricing and margin rules. | Preventive / Detective | Per transaction / Daily | Finance / Product | Pricing configuration, fee reports. |
+| `CTRL-DOC04-014` | `T0` | Settlement reconciliation | Reconcile PSP settlement, fees, payouts, refunds, chargebacks, reserves, ledger, and bank records. | Detective | Daily | Finance / Payments | Reconciliation report, exception log. |
+| `CTRL-DOC04-015` | `T0` | Payout exceptions | Detect and resolve failed, delayed, returned, or misdirected payouts. | Corrective | Daily / Per exception | Payments / Operations | Payout exception log, resolution record. |
+| `CTRL-DOC04-016` | `T0` | Refunds | Process refunds according to approved rules and ledger treatment. | Preventive / Corrective | Per refund | Operations / Payments | Refund record, approval log, ledger entry. |
+| `CTRL-DOC04-017` | `T1` | Chargebacks | Track, evidence, and respond to chargebacks within deadlines. | Corrective | Per dispute | Operations / Payments | Dispute case, evidence package, outcome. |
+| `CTRL-DOC04-018` | `T1` | Complaints | Log, classify, investigate, and resolve complaints. | Corrective | Per complaint | Operations | Complaint register, response record. |
+| `CTRL-DOC04-019` | `T0` | PCI | Approve PCI scope and card data handling model before card processing. | Preventive | Per launch / Annual / Material change | Security | PCI scope document, architecture diagram, SAQ/AOC if applicable. |
+| `CTRL-DOC04-020` | `T1` | Access control | Restrict admin and sensitive data access based on role. | Preventive | Continuous / Quarterly | Security / Engineering | Role matrix, access review, audit logs. |
+| `CTRL-DOC04-021` | `T1` | Audit logging | Log sensitive admin, payment, payout, refund, risk, and support actions. | Detective | Continuous | Engineering / Security | Audit logs, log retention evidence. |
+| `CTRL-DOC04-022` | `T0` | Privacy | Provide privacy notice and capture required consent. | Preventive | Per user / Material change | Privacy / Product | Privacy version, consent logs. |
+| `CTRL-DOC04-023` | `T1` | Data retention | Retain and delete records according to approved schedule. | Preventive / Corrective | Continuous / Periodic | Privacy / Engineering | Retention policy, deletion logs. |
+| `CTRL-DOC04-024` | `T1` | Vendor diligence | Review material vendors and payment partners before production use. | Preventive | Per vendor / Annual | Compliance / Security / Legal | Due diligence checklist, SOC report, contract review. |
+| `CTRL-DOC04-025` | `T0` | Incident escalation | Maintain incident severity levels, escalation contacts, and notification process. | Corrective | Per incident / Per launch | Security / Operations | Incident runbook, escalation matrix. |
+| `CTRL-DOC04-026` | `T1` | Change management | Review product, risk, compliance, and technical changes before release. | Preventive | Per release | Engineering / Compliance | Change tickets, approvals, release notes. |
+| `CTRL-DOC04-027` | `T1` | Regulatory/partner change monitoring | Monitor regulatory, card network, PSP, acquirer, payout provider, and contractual changes. | Detective | Monthly / Event-driven | Legal / Compliance / Payments | Monitoring log, impact assessment. |
+| `CTRL-DOC04-028` | `T2` | Training | Provide role-based compliance, security, fraud, and support training. | Directive | On hire / Annual | Compliance / Security | Training completion records. |
+| `CTRL-DOC04-029` | `T2` | Control testing | Test design and operating effectiveness of key controls. | Detective | Quarterly / Annual | Compliance / QA / Internal Audit | Test plan, samples, results, remediation log. |
+| `CTRL-DOC04-030` | `T3` | SOC 2 readiness | Prepare for formal security/compliance audit maturity if commercially required. | Directive | Pre-scale / Annual | Security | SOC 2 readiness plan, gap assessment. |
 
 ---
 
-## 14. Control Testing
+## 13. Control-to-Evidence-to-System Mapping
 
-Control testing should evaluate both design effectiveness and operating effectiveness.
+Evidence must be mapped to a system of record.
 
-| Test Type | Objective | Example |
+| Evidence Type | System of Record | Owner |
 |---|---|---|
-| Design effectiveness | Determine whether control is suitably designed to address the risk. | Review whether fee disclosure appears before authorization. |
-| Operating effectiveness | Determine whether control operated consistently over time. | Sample transactions to confirm fee consent logs exist. |
-| Technical validation | Confirm system behavior matches requirement. | Test sanctions screening block logic. |
-| Evidence review | Confirm evidence is complete and reliable. | Verify reconciliation reports match source files. |
-| Walkthrough | Confirm process is understood and executable. | Walk through complaint escalation process. |
-| Exception testing | Confirm failures are handled correctly. | Simulate payout failure or chargeback. |
-| Access review | Confirm only authorized users have access. | Review admin console role assignments. |
-
-Critical launch controls should be tested before production launch.
+| Legal assessment | Legal repository / compliance evidence folder | Legal |
+| Regulatory role approval | Compliance evidence repository | Compliance |
+| PSP/acquirer approval | Contract repository / partner folder | Payments / Legal |
+| Payout provider approval | Contract repository / partner folder | Payments / Legal |
+| Category approval | Compliance register / product configuration | Compliance / Product |
+| Fee approval | Finance model / pricing configuration / approval ticket | Finance / Product |
+| UI disclosure evidence | Product QA repository / screenshot archive | Product / Legal |
+| Terms acceptance | Application database / audit log | Product / Engineering |
+| Privacy consent | Application database / consent log | Privacy / Engineering |
+| User onboarding record | Application database | Product |
+| Payee verification record | Compliance case system / operations queue | Compliance / Operations |
+| Sanctions screening result | Screening tool / compliance case system | Compliance |
+| Fraud decision | Risk engine / risk decision logs | Risk / Engineering |
+| Manual review case | Admin console / case management tool | Risk / Operations |
+| Authorization record | Payment platform / application ledger | Payments / Engineering |
+| Settlement report | PSP portal / reconciliation system | Finance / Payments |
+| Payout report | Payout provider portal / reconciliation system | Finance / Payments |
+| Ledger entry | Transaction ledger | Finance / Engineering |
+| Reconciliation exception | Reconciliation tracker / finance system | Finance |
+| Refund record | Application ledger / PSP portal / operations case | Operations / Payments |
+| Chargeback case | PSP portal / dispute case system | Operations / Payments |
+| Complaint record | Support system / complaint register | Operations |
+| PCI scope evidence | Security repository | Security |
+| Access review | IAM / admin console / access review tracker | Security |
+| Audit logs | Logging platform / application audit tables | Engineering / Security |
+| Incident record | Incident management system | Security / Operations |
+| Vendor due diligence | Vendor risk repository | Compliance / Security |
+| Change approval | Ticketing system / release management tool | Engineering |
+| Training completion | LMS / training tracker | Compliance |
 
 ---
 
-## 15. Exception and Remediation Management
+## 14. Certification Roadmap
 
-Control exceptions should be logged and tracked.
+The roadmap separates MVP, early operation, scale, and expansion.
+
+| Phase | Name | Objective | Required Before Exit |
+|---|---|---|---|
+| `PH-DOC04-001` | Discovery | Identify product scope, jurisdiction, funds flow, categories, partners, and obligations. | Draft DOC-03, product scope, initial obligation inventory. |
+| `PH-DOC04-002` | MVP Control Design | Define T0/T1 controls, owners, evidence, and launch blockers. | Approved control matrix and evidence plan. |
+| `PH-DOC04-003` | MVP Control Build | Implement required product, partner, risk, payment, security, privacy, and operational controls. | T0 controls implemented; T1 controls implemented or risk-accepted. |
+| `PH-DOC04-004` | MVP Control Test | Test critical controls and document exceptions. | T0 controls tested; critical exceptions closed. |
+| `PH-DOC04-005` | MVP Certification | Assemble launch package and obtain approvals. | Launch certification signed. |
+| `PH-DOC04-006` | Controlled Launch | Launch with enhanced monitoring and limited scope. | Daily monitoring, issue tracking, reconciliation, and support review active. |
+| `PH-DOC04-007` | Stabilization | Validate operating effectiveness and remediate launch findings. | Initial post-launch control review completed. |
+| `PH-DOC04-008` | Scale Readiness | Add T2/T3 maturity controls required for higher volume or enterprise readiness. | Control testing, vendor reassessment, SOC 2/PCI maturity as needed. |
+| `PH-DOC04-009` | Expansion Certification | Re-certify for new jurisdictions, categories, partners, payment methods, or funds-flow changes. | Expansion certification approved before change. |
+
+---
+
+## 15. Launch Certification Package
+
+The launch certification package must be assembled before MVP launch.
+
+It must include:
+
+- launch scope;
+- jurisdiction scope;
+- bill category scope;
+- user scope;
+- payee scope;
+- payment method scope;
+- payout method scope;
+- funds flow diagram;
+- PayPlus regulatory role assessment;
+- licensing, exemption, or partner coverage analysis;
+- PSP/acquirer approval evidence;
+- payout provider approval evidence;
+- MCC or classification evidence;
+- category approval evidence;
+- restricted and prohibited category list;
+- fee model approval;
+- consumer disclosure evidence;
+- terms and privacy evidence;
+- sanctions control evidence;
+- fraud and anti-cashout control evidence;
+- user and payee onboarding evidence;
+- PCI scope and security evidence;
+- privacy and data protection evidence;
+- partner due diligence evidence;
+- contract approval evidence;
+- settlement, reserve, and liquidity evidence;
+- reconciliation test evidence;
+- refund and chargeback readiness evidence;
+- support and complaint readiness evidence;
+- incident escalation evidence;
+- QA evidence for compliance-critical flows;
+- control matrix with statuses;
+- open exceptions and remediation plan;
+- accepted risks;
+- launch approver signatures.
+
+---
+
+## 16. Launch Readiness Gates
+
+| Gate ID | Tier | Gate | Acceptance Condition | Owner |
+|---|---|---|---|---|
+| `GATE-DOC04-001` | `T0` | Launch scope locked | MVP jurisdiction, categories, payment methods, payout methods, and partners are defined. | Project Owner |
+| `GATE-DOC04-002` | `T0` | Regulatory role approved | Regulatory role and licensing path are approved for the MVP flow. | Legal / Compliance |
+| `GATE-DOC04-003` | `T0` | PSP/acquirer approval obtained | PSP/acquirer confirms support for use case, categories, fee model, and funds flow. | Payments |
+| `GATE-DOC04-004` | `T0` | Payout readiness approved | Payout provider, rails, settlement timing, and exceptions are approved and tested. | Payments / Finance |
+| `GATE-DOC04-005` | `T0` | Category controls implemented | Approved, restricted, and prohibited category controls are implemented. | Compliance / Product |
+| `GATE-DOC04-006` | `T1` | User and payee controls ready | Onboarding, consent, verification, screening, and eligibility controls are implemented. | Product / Compliance |
+| `GATE-DOC04-007` | `T0` | Sanctions controls ready | Required screening, escalation, and recordkeeping controls are implemented. | Compliance |
+| `GATE-DOC04-008` | `T0` | Fraud and anti-cashout controls ready | Baseline limits, velocity, self-payment, payee, and manual review controls are implemented. | Risk |
+| `GATE-DOC04-009` | `T0` | Fee and disclosure controls ready | Fee, total charge, timing, role, refund, and cancellation disclosures are approved and tested. | Legal / Product |
+| `GATE-DOC04-010` | `T0` | Payment authorization controls ready | Authorization, capture, consent, and transaction logging are tested. | Payments / Engineering |
+| `GATE-DOC04-011` | `T0` | Reconciliation controls ready | Settlement, payout, fee, refund, chargeback, reserve, ledger, and bank reconciliation is tested. | Finance / Payments |
+| `GATE-DOC04-012` | `T0` | Security and PCI controls ready | PCI scope, card data model, access controls, and launch security review are complete. | Security |
+| `GATE-DOC04-013` | `T0` | Privacy controls ready | Privacy notice, data map, consent, and retention approach are ready. | Privacy / Legal |
+| `GATE-DOC04-014` | `T1` | Support and complaint controls ready | Support, complaint, dispute, refund, and chargeback procedures are ready. | Operations |
+| `GATE-DOC04-015` | `T0` | Incident escalation ready | Incident severity model and escalation paths are documented. | Security / Operations |
+| `GATE-DOC04-016` | `T0` | Evidence repository complete | Required T0 evidence is stored and linked to launch certification. | Compliance |
+| `GATE-DOC04-017` | `T0` | Critical exceptions closed | T0 exceptions are closed; T1 exceptions are closed or accepted. | Compliance |
+| `GATE-DOC04-018` | `T0` | Launch certification approved | Required approvers sign the certification package. | Project Owner / Compliance |
+
+---
+
+## 17. Control Testing
+
+Critical controls must be tested before launch.
+
+Testing should include:
+
+| Test Area | Required Test |
+|---|---|
+| Fee disclosure | Confirm fee and total amount appear before authorization. |
+| Consent logging | Confirm terms/privacy/disclosure consent is recorded with version and timestamp. |
+| Category blocking | Confirm prohibited categories cannot be submitted or paid. |
+| Payee verification | Confirm unverified or restricted payees cannot receive payout. |
+| Sanctions handling | Confirm potential match creates escalation and blocks payout until disposition. |
+| Fraud rules | Confirm limits, velocity rules, and high-risk triggers operate. |
+| Self-payment detection | Confirm obvious user-to-self patterns are blocked or reviewed. |
+| Authorization logging | Confirm transaction record links user, amount, fee, payee, payment method, and consent. |
+| Payout flow | Confirm successful payout and failed payout paths. |
+| Reconciliation | Confirm PSP settlement, payout, fee, refund, and ledger records can be matched. |
+| Refund flow | Confirm refund allocation, ledger entries, and user communication. |
+| Chargeback flow | Confirm evidence package can be assembled. |
+| Access controls | Confirm admin roles restrict sensitive actions. |
+| Audit logs | Confirm sensitive actions are logged. |
+| Incident escalation | Confirm escalation contacts and severity model are usable. |
+
+---
+
+## 18. Exception and Remediation Management
+
+Control exceptions must be logged.
 
 | Field | Description |
 |---|---|
 | Exception ID | Unique exception identifier. |
 | Control ID | Related control. |
+| Tier | T0, T1, T2, or T3. |
 | Severity | Critical, high, medium, low. |
 | Description | Exception details. |
-| Detection Date | When issue was found. |
+| Detection Date | When the issue was found. |
 | Owner | Responsible remediation owner. |
 | Root Cause | Cause of exception. |
-| Impact | Compliance, financial, operational, user, or partner impact. |
+| Impact | Compliance, financial, operational, user, security, privacy, or partner impact. |
 | Temporary Mitigation | Interim control or workaround. |
 | Remediation Plan | Corrective action. |
 | Target Date | Due date. |
 | Status | Open, in progress, remediated, accepted risk, closed. |
-| Approver | Required approver for closure or risk acceptance. |
+| Approver | Required approver for closure or acceptance. |
 | Evidence | Proof of remediation. |
 
-Critical exceptions should block launch unless formally accepted by authorized approvers.
+T0 exceptions cannot be accepted for MVP launch.
 
 ---
 
-## 16. Regulatory and Partner Change Management
+## 19. Regulatory and Partner Change Management
 
-PayPlus should monitor and assess changes from:
+Material changes require reassessment.
 
-- Laws and regulations.
-- Regulatory guidance.
-- Card network rules.
-- PSP requirements.
-- Acquirer requirements.
-- Payout provider requirements.
-- Bank partner requirements.
-- Privacy requirements.
-- Security standards.
-- Sanctions lists and financial crime guidance.
-- Product feature changes.
-- Jurisdiction expansion.
-- Category expansion.
-- Payment method expansion.
-- Payout rail expansion.
-- Pricing and fee changes.
-- Contract changes.
+Triggers include:
 
-Each material change should trigger impact assessment and, where needed, updated controls, disclosures, testing, and approvals.
+- new jurisdiction;
+- new bill category;
+- new payee type;
+- new payment method;
+- new payout method;
+- new PSP or acquirer;
+- new payout provider;
+- changed funds flow;
+- changed merchant of record structure;
+- changed PayFac, marketplace, or agent model;
+- changed fee model;
+- changed MCC or transaction classification;
+- changed settlement timing;
+- changed reserve or holdback;
+- changed refund or chargeback process;
+- changed data handling;
+- changed sanctions or AML requirement;
+- changed card network, PSP, acquirer, payout provider, bank, or legal requirement;
+- material fraud, chargeback, complaint, payout failure, or reconciliation issue.
 
----
-
-## 17. Vendor and Partner Oversight
-
-Material vendors and partners should be subject to risk-based oversight.
-
-Oversight should include:
-
-- Due diligence before engagement.
-- Contract review and approval.
-- Data protection review.
-- Security review.
-- Regulatory status review.
-- Business continuity review.
-- Financial stability review, where relevant.
-- Sub-processor review.
-- Category and use-case approval.
-- Annual or periodic reassessment.
-- Monitoring of incidents and service degradation.
-- Review of SOC reports or equivalent controls.
-- Review of compliance attestations.
-- Tracking of contractual obligations.
-- Termination and contingency planning.
-
-Payment partners should receive enhanced review due to direct operational, regulatory, settlement, and card network dependency.
+A material change must not be released until Compliance determines whether recertification is required.
 
 ---
 
-## 18. Training and Awareness
+## 20. Vendor and Partner Oversight
 
-Role-based training should be provided to relevant employees and contractors.
+Material vendors and partners must be reviewed before production use.
 
-Training topics may include:
+Payment partners require enhanced review because they may affect:
 
-- Product compliance overview.
-- User fee and disclosure rules.
-- AML and sanctions escalation.
-- Fraud and anti-cashout typologies.
-- Restricted and prohibited categories.
-- Privacy and data handling.
-- Security and access control.
-- PCI awareness.
-- Complaint handling.
-- Dispute and chargeback handling.
-- Incident escalation.
-- Vendor management.
-- Change management.
-- Recordkeeping.
+- regulatory coverage;
+- PSP/acquirer approval;
+- card network compliance;
+- payout capability;
+- settlement timing;
+- reserves and holdbacks;
+- chargebacks and disputes;
+- refunds;
+- reporting;
+- reconciliation;
+- privacy and security;
+- operational continuity.
 
-Training completion should be tracked and retained.
+Vendor and partner oversight should include:
+
+- due diligence;
+- contract review;
+- data protection review;
+- security review;
+- regulatory status review;
+- business continuity review;
+- pricing and reserve review;
+- reporting capability review;
+- incident and SLA review;
+- annual or risk-based reassessment.
 
 ---
 
-## 19. Monitoring and Reporting
+## 21. Training and Awareness
 
-Compliance, Risk, Finance, Payments, Security, and Operations should define monitoring dashboards and reports.
+Before launch, relevant personnel should receive role-based training.
 
-Candidate metrics include:
+Required MVP training topics include:
 
-| Area | Example Metrics |
+- PayPlus product and funds flow;
+- approved, restricted, and prohibited categories;
+- fee and disclosure rules;
+- user and payee eligibility;
+- sanctions escalation;
+- fraud and anti-cashout red flags;
+- manual review procedures;
+- refund and cancellation handling;
+- chargeback evidence handling;
+- complaint escalation;
+- privacy and data handling;
+- security and access obligations;
+- incident escalation.
+
+Training records should be retained.
+
+---
+
+## 22. Monitoring and Reporting
+
+MVP launch should include enhanced monitoring.
+
+Candidate daily launch metrics:
+
+| Area | Metrics |
 |---|---|
-| Compliance | Open control exceptions, overdue remediation, pending approvals, training completion. |
-| AML/sanctions | Screening volume, true matches, false positives, escalations, investigation aging. |
-| Fraud | Decline rate, manual review rate, confirmed fraud rate, loss rate, velocity triggers. |
-| Anti-cashout | Self-payment alerts, circular payment alerts, refund abuse alerts, suspicious payee concentration. |
-| Payments | Authorization rate, capture failures, settlement delays, payout failures, refund failures. |
-| Chargebacks | Chargeback rate, win rate, reason codes, aging, loss amount. |
-| Complaints | Complaint volume, categories, response SLA, escalation rate. |
-| Reconciliation | Unmatched transactions, unresolved settlement exceptions, ledger breaks. |
-| Security | Vulnerabilities, access review exceptions, incidents, mean time to resolve. |
-| Privacy | Data requests, deletion requests, consent exceptions, retention exceptions. |
-| Vendors | Open due diligence items, incidents, SLA breaches, contract renewals. |
+| Payments | Authorization rate, capture failures, payment failures, processor errors. |
+| Payouts | Payout success rate, payout failures, delayed payouts, returned payouts. |
+| Reconciliation | Unmatched transactions, settlement breaks, payout breaks, fee breaks. |
+| Fraud | Rule triggers, manual review queue, blocked transactions, suspicious payees. |
+| Anti-cashout | Self-payment alerts, payee concentration, suspicious refund behavior. |
+| Sanctions | Screening hits, pending reviews, blocked parties. |
+| Refunds | Refund volume, refund failure rate, refund reasons. |
+| Chargebacks | New disputes, reason codes, exposure amount. |
+| Complaints | Complaint volume, categories, response SLA, escalations. |
+| Security | incidents, access anomalies, critical vulnerabilities. |
+| Privacy | consent errors, data request issues, deletion exceptions. |
+| Finance | gross volume, fees, reserves, losses, margin variance. |
 
-Material issues should be escalated through governance forums.
+Monitoring cadence:
+
+| Period | Cadence |
+|---|---|
+| First 2 weeks after launch | Daily review |
+| Weeks 3–8 | At least weekly review |
+| After stabilization | Monthly governance review, unless risk indicators require more frequent review |
 
 ---
 
-## 20. Governance Forums
-
-PayPlus should establish governance forums appropriate to product maturity.
+## 23. Governance Forums
 
 | Forum | Frequency | Purpose | Participants |
 |---|---|---|---|
-| Launch Readiness Review | Weekly during pre-launch | Track readiness gates, blockers, risks, and evidence. | Product, Compliance, Legal, Payments, Risk, Security, Finance, Operations. |
-| Risk and Compliance Review | Monthly | Review compliance metrics, incidents, exceptions, and remediation. | Compliance, Legal, Risk, Operations, Security. |
-| Payments Operations Review | Weekly / Monthly | Review settlement, payout, chargeback, reconciliation, and partner issues. | Payments, Finance, Operations, Engineering. |
-| Security and Privacy Review | Monthly / Quarterly | Review security posture, access, privacy, incidents, vendor risks. | Security, Privacy, Engineering, Legal. |
-| Vendor Review | Quarterly / Annual | Review material vendor performance, attestations, incidents, and renewals. | Compliance, Legal, Security, Payments, Procurement. |
-| Executive Risk Committee | Quarterly / Event-driven | Approve risk appetite, launch risk acceptance, major remediation, and expansion. | Executive sponsors and control owners. |
+| MVP Launch Readiness Review | Weekly pre-launch | Track gates, blockers, evidence, and risk acceptance. | Product, Compliance, Legal, Payments, Risk, Security, Finance, Operations, Engineering. |
+| Daily Launch Monitoring | Daily during initial launch | Review live metrics, incidents, settlement, payout, fraud, complaints, and exceptions. | Compliance, Risk, Payments, Finance, Operations, Engineering. |
+| Risk and Compliance Review | Monthly | Review compliance metrics, control exceptions, remediation, incidents, and regulatory changes. | Compliance, Legal, Risk, Security, Operations. |
+| Payments and Reconciliation Review | Weekly / Monthly | Review settlement, payout, chargebacks, reserves, reconciliation, and partner issues. | Payments, Finance, Operations, Engineering. |
+| Security and Privacy Review | Monthly / Quarterly | Review security posture, access, incidents, privacy issues, and vendor security. | Security, Privacy, Engineering, Legal. |
+| Vendor and Partner Review | Quarterly / Annual | Review material vendor and partner performance, attestations, incidents, and renewals. | Compliance, Legal, Security, Payments, Finance. |
+| Expansion Certification Review | Event-driven | Approve new jurisdictions, categories, partners, payment methods, or funds-flow changes. | Project Owner, Legal, Compliance, Payments, Risk, Security, Finance. |
 
 ---
 
-## 21. Relationship to Launch Readiness
+## 24. Relationship to DOC-03
 
-`DOC-04` provides the compliance control framework.
+`DOC-03` determines what regulatory, PSP/acquirer, partner, category, and funds-flow risks exist.
 
-`DOC-20 Launch Readiness, QA & Go-Live Checklist` should convert the gates and evidence requirements in this document into a tactical launch checklist.
+`DOC-04` determines how PayPlus operationalizes and certifies controls against those risks.
 
-No MVP launch should proceed until:
+`DOC-04` should not override `DOC-03`.
 
-- Required `DOC-04` gates are satisfied.
-- Critical controls are implemented and tested.
-- Evidence package is complete.
-- Critical exceptions are closed or accepted.
-- Required approvals are obtained.
+If `DOC-03` identifies an unresolved critical issue, `DOC-04` must either:
+
+- block launch;
+- require remediation;
+- require formal risk acceptance, if acceptable; or
+- narrow the launch scope.
+
+Examples:
+
+| DOC-03 Output | DOC-04 Response |
+|---|---|
+| PSP does not approve a category. | Category is prohibited or blocked. |
+| Legal role uncertain for a flow. | Flow cannot launch until assessed or redesigned. |
+| Fee model requires disclosure. | Disclosure control becomes T0. |
+| Payout before settlement creates liquidity risk. | Finance reserve and reconciliation controls become T0/T1. |
+| Multi-card support uncertain. | Multi-card is excluded from MVP or requires expansion certification. |
+| Payee verification is required. | Payee verification control becomes T1 or T0 depending on risk. |
 
 ---
 
-## 22. Assumptions
+## 25. Relationship to Launch Readiness
+
+`DOC-20 Launch Readiness, QA & Go-Live Checklist` should convert `DOC-04` controls into an executable checklist.
+
+`DOC-20` should include:
+
+- each applicable `T0` and `T1` control;
+- test case references;
+- evidence links;
+- owners;
+- status;
+- launch decision;
+- open exceptions;
+- accepted risks;
+- approver signatures.
+
+No launch should proceed if `DOC-20` shows unresolved `T0` gaps.
+
+---
+
+## 26. Assumptions
 
 | Assumption ID | Assumption | Validation Owner | Status |
 |---|---|---|---|
-| `ASM-DOC04-001` | PayPlus will operate under a documented control framework before launch. | Compliance | Open |
-| `ASM-DOC04-002` | Legal and regulatory conclusions from `DOC-03` will inform control requirements. | Legal / Compliance | Open |
-| `ASM-DOC04-003` | PSP, acquirer, payout provider, and vendor obligations will be incorporated into controls. | Payments / Compliance | Open |
-| `ASM-DOC04-004` | Key controls will be evidence-based and testable. | Compliance / Audit | Open |
-| `ASM-DOC04-005` | Compliance evidence will be stored in a central repository. | Compliance | Open |
-| `ASM-DOC04-006` | MVP launch can occur before formal external certifications only if required controls and partner approvals are satisfied. | Project Owner / Compliance | Open |
-| `ASM-DOC04-007` | PCI scope will depend on final card data handling architecture. | Security | Open |
-| `ASM-DOC04-008` | AML and sanctions requirements will depend on legal role, jurisdiction, and partner obligations. | Legal / Compliance | Open |
-| `ASM-DOC04-009` | Fraud and anti-cashout controls are required even if formal AML obligations are limited. | Risk / Compliance | Open |
-| `ASM-DOC04-010` | Ongoing monitoring will be required after launch. | Compliance / Risk | Open |
+| `ASM-DOC04-001` | PayPlus will launch with limited MVP scope. | Project Owner | Open |
+| `ASM-DOC04-002` | PayPlus will require documented regulatory and partner approval before production launch. | Legal / Payments | Open |
+| `ASM-DOC04-003` | PSP/acquirer requirements will materially affect allowable flows, categories, fees, and MCC/classification. | Payments | Open |
+| `ASM-DOC04-004` | MVP will not include wallet, stored value, FX, cross-border payout, or unrestricted user-generated payees unless separately approved. | Product / Legal | Open |
+| `ASM-DOC04-005` | Multi-card or multi-source funding requires separate approval and may be excluded from MVP. | Product / Payments | Open |
+| `ASM-DOC04-006` | PCI scope will depend on final card data handling architecture. | Security | Open |
+| `ASM-DOC04-007` | Fraud and anti-cashout controls are required even if formal AML obligations are limited. | Risk / Compliance | Open |
+| `ASM-DOC04-008` | Daily reconciliation is required for MVP. | Finance / Payments | Open |
+| `ASM-DOC04-009` | Evidence will be retained in approved systems of record. | Compliance | Open |
+| `ASM-DOC04-010` | New jurisdictions, categories, partners, or funds-flow changes require recertification. | Compliance | Open |
 
 ---
 
-## 23. Constraints
+## 27. Constraints
 
 | Constraint ID | Constraint | Impact | Owner |
 |---|---|---|---|
-| `CON-DOC04-001` | No launch without documented regulatory and partner readiness. | Blocks unapproved flows. | Legal / Compliance / Payments |
-| `CON-DOC04-002` | No launch without critical control owners assigned. | Blocks unmanaged compliance risk. | Compliance |
-| `CON-DOC04-003` | No launch with unresolved critical control exceptions unless formally accepted. | Requires remediation or risk acceptance. | Project Owner / Compliance |
-| `CON-DOC04-004` | No production card processing without approved PCI scope and required security controls. | Blocks card payments. | Security |
-| `CON-DOC04-005` | No restricted category launch without category approval. | Blocks high-risk unsupported categories. | Compliance / Product |
-| `CON-DOC04-006` | No material vendor production use without due diligence and contract approval. | Blocks vendor dependency. | Legal / Compliance / Security |
-| `CON-DOC04-007` | No user fee launch without disclosure and fee review. | Blocks pricing implementation. | Legal / Product |
-| `CON-DOC04-008` | No production payout flow without reconciliation and exception controls. | Blocks payout launch. | Payments / Finance |
-| `CON-DOC04-009` | Control evidence must be retained and retrievable. | Enables audit and partner review. | Compliance |
-| `CON-DOC04-010` | Material changes require reassessment. | Prevents stale approvals and control gaps. | Compliance / Engineering |
+| `CON-DOC04-001` | T0 blockers cannot be waived for MVP launch. | Prevents launch with unacceptable legal, partner, payment, security, or user-protection gaps. | Project Owner / Compliance |
+| `CON-DOC04-002` | No production card processing without approved PSP/acquirer and PCI scope. | Blocks card launch until partner and security readiness are complete. | Payments / Security |
+| `CON-DOC04-003` | No production payout without payout provider readiness and reconciliation controls. | Blocks payout launch until operational and finance controls are ready. | Payments / Finance |
+| `CON-DOC04-004` | No restricted category launch without explicit approval. | Prevents high-risk or unsupported use cases. | Compliance / Product |
+| `CON-DOC04-005` | Fee model cannot launch without legal/product disclosure approval. | Prevents consumer protection and partner rule violations. | Legal / Product |
+| `CON-DOC04-006` | Material changes require reassessment before release. | Prevents stale approvals and control gaps. | Compliance / Engineering |
+| `CON-DOC04-007` | Control evidence must be retained and retrievable. | Enables certification, audit, and partner review. | Compliance |
+| `CON-DOC04-008` | Launch approval is scope-specific. | Prevents approval reuse for unassessed flows or categories. | Compliance |
+| `CON-DOC04-009` | T1 exceptions require formal risk acceptance and remediation plan. | Prevents unmanaged launch risk. | Compliance |
+| `CON-DOC04-010` | Daily monitoring is required during controlled launch. | Enables early detection of payment, fraud, payout, and support issues. | Operations / Compliance |
 
 ---
 
-## 24. Dependencies
+## 28. Dependencies
 
 | Dependency ID | Dependency | Required For | Owner | Status |
 |---|---|---|---|---|
-| `DEP-DOC04-001` | Completed `DOC-03` regulatory, PSP, and acquirer assessment. | Control requirements and launch gates. | Legal / Compliance / Payments | Open |
-| `DEP-DOC04-002` | Product scope and MVP feature list. | Control scoping and testing. | Product | Open |
-| `DEP-DOC04-003` | Jurisdiction scope. | Legal, privacy, AML, disclosure, and recordkeeping controls. | Legal / Project Owner | Open |
-| `DEP-DOC04-004` | Bill category scope. | Category, risk, partner, and fraud controls. | Product / Compliance | Open |
-| `DEP-DOC04-005` | User and payee onboarding model. | KYC/KYB, verification, consent, and screening controls. | Product / Compliance | Open |
-| `DEP-DOC04-006` | Payment and payout provider selection. | Partner, settlement, payout, and reconciliation controls. | Payments | Open |
-| `DEP-DOC04-007` | Card data architecture. | PCI scope and security controls. | Security / Engineering | Open |
-| `DEP-DOC04-008` | Risk rules and fraud tooling. | Fraud, AML, and anti-cashout readiness. | Risk / Engineering | Open |
-| `DEP-DOC04-009` | Terms, privacy notice, and disclosure drafts. | Consumer protection and consent controls. | Legal / Product | Open |
-| `DEP-DOC04-010` | Ledger and reporting design. | Recordkeeping, reconciliation, and monitoring evidence. | Finance / Engineering | Open |
-| `DEP-DOC04-011` | Operations SOPs. | Complaint, dispute, refund, chargeback, and incident readiness. | Operations | Open |
-| `DEP-DOC04-012` | Evidence repository and access model. | Control evidence retention and review. | Compliance / Security | Open |
-| `DEP-DOC04-013` | QA/UAT test results. | Launch certification package. | Product / Engineering / QA | Open |
-| `DEP-DOC04-014` | Partner contracts and due diligence records. | Vendor and partner oversight controls. | Legal / Payments | Open |
+| `DEP-DOC04-001` | Completed or substantially completed DOC-03 assessment. | Regulatory, partner, category, and funds-flow control design. | Legal / Compliance / Payments | Open |
+| `DEP-DOC04-002` | MVP product scope. | Launch certification scope. | Product | Open |
+| `DEP-DOC04-003` | MVP jurisdiction. | Legal, privacy, AML, disclosure, and recordkeeping controls. | Legal / Project Owner | Open |
+| `DEP-DOC04-004` | MVP bill categories. | Category approval, risk controls, and partner approval. | Product / Compliance | Open |
+| `DEP-DOC04-005` | MVP funds flow diagram. | Regulatory, partner, payout, and reconciliation controls. | Product / Payments | Open |
+| `DEP-DOC04-006` | PSP/acquirer selection and approval. | Card processing readiness. | Payments | Open |
+| `DEP-DOC04-007` | Payout provider selection and approval. | Payout readiness. | Payments | Open |
+| `DEP-DOC04-008` | Fee model. | Fee disclosure, pricing, margin, and partner review. | Product / Finance | Open |
+| `DEP-DOC04-009` | Card data architecture. | PCI scope and security readiness. | Security / Engineering | Open |
+| `DEP-DOC04-010` | User and payee onboarding model. | Verification, consent, screening, and anti-cashout controls. | Product / Compliance | Open |
+| `DEP-DOC04-011` | Risk rules and review tools. | Fraud, velocity, and manual review controls. | Risk / Engineering | Open |
+| `DEP-DOC04-012` | Terms, privacy notice, and disclosure drafts. | Consumer protection and privacy readiness. | Legal / Product | Open |
+| `DEP-DOC04-013` | Ledger and reporting design. | Reconciliation, evidence, and monitoring. | Finance / Engineering | Open |
+| `DEP-DOC04-014` | Operations SOPs. | Refunds, cancellations, chargebacks, complaints, payout exceptions. | Operations | Open |
+| `DEP-DOC04-015` | Evidence repository. | Certification package and auditability. | Compliance / Security | Open |
+| `DEP-DOC04-016` | QA/UAT test evidence. | Launch certification. | Product / Engineering / QA | Open |
+| `DEP-DOC04-017` | Partner contracts and vendor due diligence. | Partner readiness and vendor oversight. | Legal / Payments / Compliance | Open |
 
 ---
 
-## 25. Risks
+## 29. Risks
 
 | Risk ID | Risk | Impact | Initial Mitigation | Owner | Status |
 |---|---|---|---|---|---|
-| `RISK-DOC04-001` | Compliance obligations are incomplete or misunderstood. | Launch with control gaps or regulatory/partner breach. | Maintain obligation inventory and legal/partner review. | Compliance / Legal | Open |
-| `RISK-DOC04-002` | Controls are documented but not implemented. | False readiness and audit failure. | Require evidence and testing before launch approval. | Compliance | Open |
-| `RISK-DOC04-003` | Controls lack clear ownership. | Operational failures and remediation delays. | Assign accountable owners and reviewers for each control. | Compliance | Open |
-| `RISK-DOC04-004` | Evidence is incomplete or not retrievable. | Audit, partner, and incident response failure. | Central evidence repository with retention and access rules. | Compliance | Open |
-| `RISK-DOC04-005` | PSP/acquirer requirements are not reflected in controls. | Partner termination, fines, or processing disruption. | Partner readiness confirmation and contract obligation mapping. | Payments / Compliance | Open |
-| `RISK-DOC04-006` | Security or PCI scope is underestimated. | Data security incident, compliance failure, costly remediation. | PCI scope review, security architecture review, vendor tokenization. | Security | Open |
-| `RISK-DOC04-007` | AML, sanctions, or fraud controls are insufficient. | Financial crime exposure, losses, partner action. | Risk-based AML/fraud control design and monitoring. | Compliance / Risk | Open |
-| `RISK-DOC04-008` | User disclosures are incomplete or misleading. | Complaints, disputes, regulatory risk. | Legal review and UI evidence testing. | Legal / Product | Open |
-| `RISK-DOC04-009` | Reconciliation controls fail to detect settlement or payout breaks. | Financial loss and inaccurate reporting. | Daily reconciliation, exception logs, ledger controls. | Finance / Payments | Open |
-| `RISK-DOC04-010` | Critical exceptions are waived without proper approval. | Unaccepted residual risk. | Formal exception and risk acceptance process. | Compliance / Project Owner | Open |
-| `RISK-DOC04-011` | Regulatory, partner, or network rules change after launch. | Controls become outdated. | Change monitoring and periodic reassessment. | Legal / Compliance / Payments | Open |
-| `RISK-DOC04-012` | Vendor control failures affect PayPlus compliance obligations. | Operational, privacy, security, or settlement failure. | Vendor oversight and contractual obligations tracking. | Compliance / Legal / Security | Open |
+| `RISK-DOC04-001` | PayPlus launches without clear regulatory role or licensing path. | Regulatory breach, forced suspension, partner termination. | T0 regulatory role and licensing gate. | Legal / Compliance | Open |
+| `RISK-DOC04-002` | PSP/acquirer does not support actual PayPlus flow. | Processing disruption, fines, reserves, termination. | Written partner approval and contract review. | Payments / Legal | Open |
+| `RISK-DOC04-003` | Category is misclassified or unsupported. | Partner rejection, chargebacks, compliance risk. | Approved/restricted/prohibited category controls. | Compliance / Product | Open |
+| `RISK-DOC04-004` | Transaction is treated as quasi-cash, money transfer, or cash advance unexpectedly. | Higher costs, user complaints, issuer declines. | MCC/classification review and user disclosures. | Payments / Legal | Open |
+| `RISK-DOC04-005` | Fee disclosure is incomplete or misleading. | Consumer complaints, regulatory risk, refund exposure. | T0 disclosure testing and evidence. | Legal / Product | Open |
+| `RISK-DOC04-006` | User routes funds to self or collusive payee. | Cashout, fraud, financial loss. | Payee verification, self-payment detection, velocity limits. | Risk / Compliance | Open |
+| `RISK-DOC04-007` | Payout occurs before funding certainty and later chargeback creates loss. | Financial loss and liquidity stress. | Settlement timing review, reserves, limits, risk rules. | Finance / Risk | Open |
+| `RISK-DOC04-008` | Multi-source funding causes refund, chargeback, and reconciliation failures. | Operational breaks and user harm. | Exclude from MVP or require separate certification. | Product / Payments | Open |
+| `RISK-DOC04-009` | Reconciliation fails to detect settlement or payout breaks. | Financial loss and inaccurate reporting. | Daily reconciliation and exception management. | Finance / Payments | Open |
+| `RISK-DOC04-010` | PCI scope is underestimated. | Security breach, compliance failure, remediation cost. | PCI scope review and tokenized architecture. | Security | Open |
+| `RISK-DOC04-011` | Evidence is incomplete or not retrievable. | Failed certification, audit, or partner review. | Evidence repository and system-of-record mapping. | Compliance | Open |
+| `RISK-DOC04-012` | Critical launch risk is accepted informally. | Unmanaged legal, partner, user, or financial exposure. | Risk acceptance authority matrix. | Compliance / Project Owner | Open |
+| `RISK-DOC04-013` | Operational teams cannot handle refunds, payout failures, chargebacks, or complaints. | User harm, losses, reputation damage. | SOPs, training, support readiness gates. | Operations | Open |
+| `RISK-DOC04-014` | Material product change invalidates prior approvals. | Regulatory or partner breach. | Change management and recertification triggers. | Compliance / Engineering | Open |
+| `RISK-DOC04-015` | Vendor or partner control failure affects PayPlus operations. | Payment disruption, security, privacy, or settlement failure. | Vendor oversight and partner monitoring. | Compliance / Payments / Security | Open |
 
 ---
 
-## 26. Downstream Document Impact
+## 30. Downstream Document Impact
 
 `DOC-04` should guide downstream documents as follows:
 
 | Downstream Document | Impact |
 |---|---|
-| `DOC-05` | Product requirements should include compliance-critical requirements and acceptance criteria from the control framework. |
-| `DOC-06` | Onboarding requirements should incorporate verification, consent, category, and screening controls. |
-| `DOC-07` | Content and disclosure requirements should map to consumer protection and fee disclosure controls. |
-| `DOC-08` | Notification and receipt rules should support evidence, timing, failure, and dispute disclosure controls. |
-| `DOC-09` | Payment and settlement requirements should support authorization, capture, consent, fee, risk, and recordkeeping controls. |
-| `DOC-10` | Payout and reconciliation requirements should support settlement, exception, reserve, and ledger controls. |
-| `DOC-11` | Refund, cancellation, and chargeback requirements should support dispute evidence, reversals, and liability controls. |
-| `DOC-13` | Admin and risk console requirements should support review queues, audit logs, access controls, and escalation workflows. |
-| `DOC-14` | AML, fraud, sanctions, velocity, and anti-cashout rules should implement control requirements. |
-| `DOC-15` | Support and complaints SOPs should support complaint, dispute, escalation, and evidence controls. |
-| `DOC-16` | Security, privacy, PCI, access, and data retention requirements should implement relevant control domains. |
-| `DOC-17` | Infrastructure and observability requirements should support uptime, monitoring, incident detection, and resilience controls. |
-| `DOC-18` | Data model and reporting should capture fields required for evidence, audit, reconciliation, compliance reporting, and monitoring. |
-| `DOC-20` | Launch readiness checklist should include all applicable compliance gates and evidence items. |
-| `DOC-21` | Runbooks should operationalize incident, exception, escalation, vendor, and monitoring controls. |
+| `DOC-05` | Product requirements must include T0/T1 compliance-critical controls and launch blockers. |
+| `DOC-06` | Onboarding requirements must support user eligibility, payee verification, consent, screening, and anti-cashout controls. |
+| `DOC-07` | Content and disclosure requirements must satisfy fee, timing, role, refund, cancellation, and responsibility disclosures. |
+| `DOC-08` | Notifications and receipts must support authorization evidence, payment status, refund status, failure handling, and user communication controls. |
+| `DOC-09` | Payment and settlement requirements must reflect approved funds flow, authorization, capture, multi-source constraints, consent, and transaction logs. |
+| `DOC-10` | Payout and reconciliation requirements must implement daily reconciliation, payout exceptions, settlement reports, and ledger mapping. |
+| `DOC-11` | Refund, cancellation, chargeback, and dispute requirements must support evidence, allocation, timing, and liability controls. |
+| `DOC-13` | Admin and risk console must support manual review, case management, audit logs, access control, and escalation. |
+| `DOC-14` | AML, sanctions, fraud, velocity, and anti-cashout controls must implement the baseline MVP control requirements. |
+| `DOC-15` | Support and complaints SOPs must support complaint logging, user communication, refund requests, dispute handling, and escalation. |
+| `DOC-16` | Security, privacy, PCI, data retention, access, and audit logging requirements must satisfy T0/T1 controls. |
+| `DOC-17` | Infrastructure and observability must support monitoring, incident detection, audit logs, and reliability controls. |
+| `DOC-18` | Data model and ledger must support evidence, parent-child transaction linkage, fee records, payout records, refunds, chargebacks, reconciliation, and reporting. |
+| `DOC-20` | Launch checklist must convert DOC-04 gates into executable go/no-go criteria. |
+| `DOC-21` | Runbooks must operationalize incidents, payout failures, reconciliation breaks, refunds, chargebacks, complaints, partner outages, and control exceptions. |
 
 ---
 
-## 27. Open Questions
+## 31. Open Questions
 
 | Question ID | Question | Owner | Priority | Status |
 |---|---|---|---|---|
-| `OQ-DOC04-001` | What exact regulatory obligations apply to the MVP jurisdiction and funds flow? | Legal / Compliance | Critical | Open |
-| `OQ-DOC04-002` | What partner obligations must be mapped into controls? | Payments / Legal | Critical | Open |
-| `OQ-DOC04-003` | What external certifications or attestations are required before launch versus post-launch? | Compliance / Security | Critical | Open |
-| `OQ-DOC04-004` | What PCI DSS scope applies based on the final card data architecture? | Security | Critical | Open |
-| `OQ-DOC04-005` | What AML, sanctions, and transaction monitoring controls are required for MVP? | Compliance / Risk | Critical | Open |
-| `OQ-DOC04-006` | What fraud tooling and manual review capabilities are available at launch? | Risk / Engineering | High | Open |
-| `OQ-DOC04-007` | What disclosures are legally required at checkout, receipt, and support surfaces? | Legal / Product | Critical | Open |
-| `OQ-DOC04-008` | What evidence repository will be used and who can access it? | Compliance / Security | High | Open |
-| `OQ-DOC04-009` | What daily reconciliation reports and exception processes are required? | Finance / Payments | High | Open |
-| `OQ-DOC04-010` | What control testing must be completed before launch? | Compliance / QA | High | Open |
-| `OQ-DOC04-011` | Who has authority to accept unresolved risks before launch? | Project Owner / Compliance | Critical | Open |
-| `OQ-DOC04-012` | What launch controls are blockers versus post-launch remediation items? | Compliance / Project Owner | Critical | Open |
-| `OQ-DOC04-013` | What ongoing monitoring metrics must be reviewed after launch? | Compliance / Risk / Payments | Medium | Open |
-| `OQ-DOC04-014` | What vendor and partner reassessment cadence is required? | Compliance / Legal / Security | Medium | Open |
-| `OQ-DOC04-015` | What training must be completed before launch by each function? | Compliance / People Ops | Medium | Open |
+| `OQ-DOC04-001` | What exact MVP jurisdiction is in scope? | Project Owner / Legal | Critical | Open |
+| `OQ-DOC04-002` | What exact bill categories are in MVP? | Product / Compliance | Critical | Open |
+| `OQ-DOC04-003` | What is the final MVP funds flow? | Product / Payments / Legal | Critical | Open |
+| `OQ-DOC04-004` | Is PayPlus merchant of record, agent, PayFac, marketplace, money transmitter, technical provider, or another role? | Legal / Compliance | Critical | Open |
+| `OQ-DOC04-005` | What licensing, exemption, or partner coverage applies? | Legal / Compliance | Critical | Open |
+| `OQ-DOC04-006` | Which PSP/acquirer will support MVP? | Payments | Critical | Open |
+| `OQ-DOC04-007` | What written PSP/acquirer confirmations are available? | Payments / Legal | Critical | Open |
+| `OQ-DOC04-008` | What MCC or transaction classification applies? | Payments | Critical | Open |
+| `OQ-DOC04-009` | Will transactions be treated as purchase, quasi-cash, account funding, money transfer, or cash advance? | Payments / Legal | Critical | Open |
+| `OQ-DOC04-010` | What payout provider and payout rail will be used? | Payments | Critical | Open |
+| `OQ-DOC04-011` | Does payout occur before settlement or before funding certainty? | Payments / Finance | Critical | Open |
+| `OQ-DOC04-012` | What transaction, user, card, and payee limits apply at MVP? | Risk / Product | High | Open |
+| `OQ-DOC04-013` | What payee verification is required? | Compliance / Risk | High | Open |
+| `OQ-DOC04-014` | What sanctions screening is legally or contractually required? | Compliance / Legal | Critical | Open |
+| `OQ-DOC04-015` | What fraud and anti-cashout rules are required at launch? | Risk | Critical | Open |
+| `OQ-DOC04-016` | Is multi-card or multi-source funding included in MVP or deferred? | Product / Payments / Legal | Critical | Open |
+| `OQ-DOC04-017` | What PCI scope applies? | Security | Critical | Open |
+| `OQ-DOC04-018` | What disclosures must be shown before authorization? | Legal / Product | Critical | Open |
+| `OQ-DOC04-019` | What records must be retained for regulatory, partner, dispute, tax, finance, and audit purposes? | Legal / Compliance / Finance | High | Open |
+| `OQ-DOC04-020` | What systems of record will store consent, authorization, risk decisions, payouts, refunds, disputes, and reconciliation evidence? | Engineering / Compliance | High | Open |
+| `OQ-DOC04-021` | Who has final authority to approve MVP launch? | Project Owner / Compliance | Critical | Open |
+| `OQ-DOC04-022` | What post-launch monitoring cadence is acceptable after stabilization? | Compliance / Operations | Medium | Open |
 
 ---
 
-## 28. Acceptance Criteria
+## 32. Acceptance Criteria
 
 `DOC-04` is acceptable when it clearly defines:
 
-- Purpose and scope of the compliance certification roadmap.
-- Compliance control framework structure.
-- Control domains and ownership.
-- Compliance roadmap phases.
-- Starter control matrix.
-- Certification and attestation planning.
-- Launch certification package requirements.
-- Launch readiness gates.
-- Evidence repository requirements.
-- Control ownership model.
-- Control testing approach.
-- Exception and remediation management.
-- Regulatory and partner change management.
-- Vendor and partner oversight.
-- Training and awareness expectations.
-- Monitoring and reporting expectations.
-- Governance forums.
-- Relationship to launch readiness.
-- Assumptions.
-- Constraints.
-- Dependencies.
-- Risks.
-- Downstream document impact.
-- Open questions.
+- what compliance certification means for PayPlus;
+- PayPlus-specific risk themes;
+- MVP compliance posture;
+- control tiering;
+- non-waivable launch blockers;
+- risk acceptance authority;
+- control domains;
+- minimum MVP control baseline;
+- control matrix with tiers;
+- evidence requirements;
+- evidence systems of record;
+- launch certification package;
+- launch readiness gates;
+- control testing expectations;
+- exception and remediation process;
+- regulatory and partner change management triggers;
+- vendor and partner oversight expectations;
+- training and awareness requirements;
+- monitoring and reporting requirements;
+- governance forums;
+- relationship to `DOC-03`;
+- relationship to `DOC-20`;
+- assumptions;
+- constraints;
+- dependencies;
+- risks;
+- downstream document impact;
+- open questions.
 
-This document should remain a roadmap and control framework, not a replacement for legal advice, compliance policies, certification audits, security procedures, or product requirements.
+This document should be treated as the governing compliance readiness framework for PayPlus MVP and future expansion. It should be updated whenever the launch scope, funds flow, partner model, jurisdiction, bill category, payment method, payout method, fee model, risk model, or regulatory interpretation changes.
 
 ---
 
-## 29. Version History
+## 33. Version History
 
 | Version | Date | Author | Change Summary |
 |---|---|---|---|
 | `0.1.0` | `2026-05-14` | Initial Author | Initial draft of `DOC-04` Compliance Certification Roadmap & Control Framework. |
-| `0.2.0` | `2026-05-26` | Product Documentation Team | Expanded into compliance roadmap and control framework with control domains, starter matrix, launch gates, evidence requirements, testing, remediation, governance, assumptions, constraints, dependencies, risks, downstream impact, and acceptance criteria. |
+| `0.2.0` | `2026-05-26` | Product Documentation Team | Expanded into broad compliance roadmap and control framework with control domains, starter matrix, launch gates, evidence requirements, testing, remediation, governance, assumptions, constraints, dependencies, risks, downstream impact, and acceptance criteria. |
+| `0.3.0` | `2026-05-26` | Product Documentation Team | Reframed as PayPlus-specific compliance certification framework with certification definition, MVP compliance posture, control tiering, non-waivable launch blockers, risk acceptance authority, MVP minimum control baseline, evidence system mapping, scope-specific launch gates, and stronger DOC-03/DOC-20 linkage. |
