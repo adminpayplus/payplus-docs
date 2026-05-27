@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.2.0
+version: 0.4.0
 status: Draft
 owner: Product / Documentation Owner
 reviewers:
@@ -12,271 +12,277 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-05-26
+last_updated: 2026-05-27
 classification: Internal
 related_documents: []
 ---
 
 # DOC-00 — Documentation Governance
 
+---
+
 ## 1. Purpose
 
 This document defines how PayPlus documentation is created, reviewed, approved, versioned, maintained, and retired.
 
-The purpose of this document is to make sure PayPlus documentation is:
+DOC-00 governs the PayPlus documentation repository.
 
-- Consistent.
-- Controlled.
-- Traceable.
-- Reviewable.
-- Auditable.
-- Safe to use as implementation guidance once approved.
-
-DOC-00 is the governance document for the PayPlus documentation repository.
-
-It does not define PayPlus product behavior, payment logic, technical architecture, compliance controls, security controls, privacy rules, risk thresholds, or operational procedures.
-
-Those topics must be defined in their dedicated documents.
+It does not define product behavior, payment logic, technical architecture, compliance controls, security controls, privacy rules, risk thresholds, or operational procedures. Those topics belong in their dedicated documents.
 
 ---
 
 ## 2. Scope
 
-This document applies to formal documentation in the PayPlus documentation repository, including:
+This document applies to formal and supporting PayPlus documentation, including:
 
-- Foundation documents.
-- Product requirement documents.
-- Payment domain specifications.
-- Bill verification specifications.
-- Promotion and growth specifications.
-- Risk, compliance, and privacy specifications.
-- Engineering specifications.
-- Security and access control specifications.
-- QA, release, and operations documents.
-- ISMS policy documents.
-- Templates.
-- ADRs.
-- Changelogs.
-- Traceability registers.
-- AI context files.
-
----
-
-## 3. Out of Scope
-
-This document does not define:
-
-- PayPlus product features.
-- User journeys.
-- Payment request logic.
-- Settlement logic.
-- Payout logic.
-- Reconciliation logic.
-- Refund or chargeback rules.
-- Bill verification rules.
-- Promotion rules.
-- AML rules.
-- Fraud rules.
-- Privacy retention rules.
-- Technical architecture.
-- API contracts.
-- Database schema.
-- Security implementation details.
-- Testing procedures.
-- Incident response procedures.
-- Final ISMS policy controls.
-
-Those topics must be defined in their own dedicated documents.
+- foundation documents;
+- product requirement documents;
+- payment domain specifications;
+- bill verification specifications;
+- growth and promotion specifications;
+- risk, compliance, and privacy specifications;
+- engineering specifications;
+- API specifications;
+- security and access control specifications;
+- QA, release, and operations documents;
+- AI build execution documents;
+- AI context files;
+- ISMS policy documents;
+- templates;
+- ADRs and decision records;
+- change requests;
+- changelogs;
+- diagrams;
+- glossary files;
+- traceability registers.
 
 ---
 
-## 4. Source of Truth
+## 3. Source of Truth
 
-Approved formal documentation is the source of truth for PayPlus product, engineering, compliance, security, and operational decisions.
-
-Informal notes, chat history, brainstorming notes, and AI-generated summaries are not source of truth unless they are converted into approved documentation.
+Approved formal documentation is the source of truth for PayPlus decisions and implementation guidance.
 
 Only documents with status `Approved` should be treated as authoritative.
 
-Draft, planned, or in-review documents may be used for discussion and drafting, but they should not be treated as final implementation authority unless explicitly risk-accepted or approved for limited use by the relevant approver.
+Draft, planned, or in-review documents may be used for discussion, but not as final implementation authority unless explicitly approved for limited use.
 
-If there is a conflict between sources, the following order applies:
+If sources conflict, the priority order is:
 
 1. Approved core `DOC-XX` documents.
-2. Approved ADRs.
+2. Approved ADRs or decision records.
 3. Approved rulebooks.
 4. Approved API, data model, and test specifications.
 5. Approved ISMS policies, where relevant.
 6. Approved traceability registers.
-7. AI context summaries.
-8. Informal notes or chat history.
+7. AI build execution documents and AI context summaries.
+8. Changelogs, diagrams, glossary entries, and supporting repository files.
+9. Informal notes or chat history.
 
-AI context files are only supporting guidance.
+AI build execution files and AI context files are supporting guidance only and must not override approved formal documents.
 
-AI context files must not override approved formal documents.
+Backup files are not authoritative.
 
 ---
 
-## 5. Foundation Document Role
+## 4. Foundation Document Role
 
 The `00-foundation/` documents establish the PayPlus documentation baseline.
 
-Foundation documents are intended to define:
-
-- Documentation governance.
-- Product identity and boundaries.
-- Product positioning.
-- Commercial framework.
-- Regulatory, PSP, acquirer, and payment partner assessment framework.
-- Compliance roadmap and launch-readiness framework.
-- High-level assumptions, constraints, risks, dependencies, and open questions.
-
-Foundation documents should guide downstream drafting.
-
-Foundation documents should not replace downstream documents that define detailed product requirements, workflows, rules, technical specifications, data models, APIs, test cases, security controls, risk thresholds, or operational SOPs.
-
-The intended foundation document hierarchy is:
-
-| Document | Foundation Role |
+| Document | Role |
 | --- | --- |
 | `DOC-00` | Defines documentation governance and source-of-truth rules. |
-| `DOC-01` | Defines PayPlus product intent, positioning, boundaries, and candidate MVP scope. |
+| `DOC-01` | Defines PayPlus product intent, positioning, boundaries, and MVP scope. |
 | `DOC-02` | Defines the commercial and unit economics framework. |
-| `DOC-03` | Defines regulatory, PSP, acquirer, payment partner, category, and payee feasibility assessment framework. |
+| `DOC-03` | Defines regulatory, PSP, acquirer, payment partner, category, and payee feasibility assessment. |
 | `DOC-04` | Defines compliance roadmap, control ownership, launch gates, evidence expectations, and change governance. |
 
-Where foundation documents mention future capabilities, categories, controls, or workflows, those statements should be treated as directional guidance unless the relevant downstream document confirms detailed requirements and approval conditions.
+Foundation documents guide downstream drafting but do not replace detailed product, technical, risk, compliance, security, privacy, testing, or operations specifications.
 
 ---
 
-## 6. Documentation Repository Structure
-
-The PayPlus documentation repository uses the following structure:
+## 5. Repository Structure
 
 ```text
 payplus-docs/
-├── README.md
-└── docs/
-    ├── 00-foundation/
-    ├── 01-product/
-    ├── 02-payment-domain/
-    ├── 03-bill-verification/
-    ├── 04-growth-ecosystem/
-    ├── 05-risk-compliance-privacy/
-    ├── 06-engineering/
-    ├── 07-security-access-control/
-    ├── 08-qa-release-operations/
-    ├── 99-isms-policies/
-    ├── ai-context/
-    ├── changelog/
-    ├── decision-log/
-    ├── glossary/
-    ├── templates/
-    └── traceability/
+├── docs/
+│   ├── 00-foundation/
+│   │   ├── doc-00-documentation-governance.md
+│   │   ├── doc-01-project-charter-product-positioning.md
+│   │   ├── doc-02-business-model-unit-economics.md
+│   │   ├── doc-03-regulatory-psp-acquirer-assessment.md
+│   │   └── doc-04-compliance-certification-roadmap-control-framework.md
+│   ├── 01-product/
+│   │   ├── doc-05-master-prd-feature-requirement-index.md
+│   │   ├── doc-06-user-journey-ux-flow-service-blueprint.md
+│   │   ├── doc-07-content-disclosure-user-authorization-spec.md
+│   │   └── doc-08-notification-receipt-communication-spec.md
+│   ├── 02-payment-domain/
+│   │   ├── doc-09-payment-request-multi-funding-source-settlement.md
+│   │   ├── doc-10-payout-reconciliation.md
+│   │   └── doc-11-refund-cancellation-chargeback.md
+│   ├── 03-bill-verification/
+│   │   └── doc-12-bill-category-document-ai-ocr-payee-verification-spec.md
+│   ├── 04-growth-ecosystem/
+│   │   └── doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md
+│   ├── 05-risk-compliance-privacy/
+│   │   ├── doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md
+│   │   └── doc-15-privacy-data-protection-record-retention-spec.md
+│   ├── 06-engineering/
+│   │   ├── api/
+│   │   │   └── openapi.yaml
+│   │   ├── doc-16-technical-architecture-spec.md
+│   │   ├── doc-17-api-third-party-integration-spec.md
+│   │   └── doc-18-data-model-transaction-state-audit-event-spec.md
+│   ├── 07-security-access-control/
+│   │   └── doc-19-security-tokenization-authentication-admin-control-spec.md
+│   ├── 08-qa-release-operations/
+│   │   ├── doc-20-testing-uat-golive-checklist.md
+│   │   └── doc-21-monitoring-incident-response-operational-sops.md
+│   ├── 09-ai-build-execution/
+│   │   ├── 01-structured-prd.md
+│   │   ├── 02-ui-prototype-prd.md
+│   │   ├── 03-technical-architecture-prd.md
+│   │   ├── 04-development-task-list.md
+│   │   ├── 05-agent-coding-rules.md
+│   │   ├── 06-feature-build-sequence.md
+│   │   ├── 07-definition-of-done.md
+│   │   ├── 08-test-generation-instructions.md
+│   │   ├── 09-ai-prompt-pack.md
+│   │   ├── 10-agent-context-index.md
+│   │   ├── context/
+│   │   │   ├── bill-verification-context.md
+│   │   │   ├── payment-core-context.md
+│   │   │   ├── project-continuation-context.md
+│   │   │   ├── promotion-engine-context.md
+│   │   │   ├── refund-chargeback-context.md
+│   │   │   └── security-context.md
+│   │   └── README.md
+│   ├── 99-isms-policies/
+│   │   ├── 99-01-information-security-policy.md
+│   │   ├── 99-02-acceptable-use-policy.md
+│   │   ├── 99-03-access-control-policy.md
+│   │   ├── 99-04-cryptography-policy.md
+│   │   ├── 99-05-data-classification-handling-policy.md
+│   │   ├── 99-06-asset-management-policy.md
+│   │   ├── 99-07-supplier-vendor-security-policy.md
+│   │   ├── 99-08-hr-security-policy.md
+│   │   ├── 99-09-physical-environmental-security-policy.md
+│   │   ├── 99-10-change-management-policy.md
+│   │   ├── 99-11-vulnerability-management-policy.md
+│   │   ├── 99-12-secure-development-policy.md
+│   │   ├── 99-13-incident-management-policy.md
+│   │   ├── 99-14-business-continuity-disaster-recovery-policy.md
+│   │   ├── 99-15-logging-monitoring-policy.md
+│   │   ├── 99-16-backup-restore-policy.md
+│   │   ├── 99-17-risk-assessment-methodology.md
+│   │   ├── 99-18-statement-of-applicability.md
+│   │   ├── 99-19-internal-audit-programme.md
+│   │   ├── 99-20-management-review-procedure.md
+│   │   └── README.md
+│   ├── backup/
+│   │   └── doc-05-master-prd-feature-requirement-index-backup.md
+│   ├── change-requests/
+│   │   └── README.md
+│   ├── changelog/
+│   │   └── changelog.md
+│   ├── decision-log/
+│   │   └── README.md
+│   ├── diagrams/
+│   │   └── README.md
+│   ├── glossary/
+│   │   └── glossary.md
+│   ├── README.md
+│   ├── templates/
+│   │   ├── adr-template.md
+│   │   ├── api-spec-template.md
+│   │   ├── change-request-template.md
+│   │   ├── core-spec-template.md
+│   │   ├── rulebook-template.md
+│   │   └── test-case-template.md
+│   └── traceability/
+│       ├── open-questions-register.md
+│       └── requirements-traceability-matrix.md
+└── README.md
 ```
 
-The repository structure should not be changed without Project Owner approval or an approved ADR.
+Repository structure changes require Project Owner approval or an approved ADR.
 
 ---
 
-## 7. Document Numbering
+## 6. Core Document Register
 
-Formal core documents use the `DOC-XX` numbering format.
+Formal core documents use the DOC-XX numbering format.
 
-The core document register is:
+Document IDs must not be reused. Deprecated or retired document IDs remain reserved.
 
-| Document ID | Document Name | Folder |
-| --- | --- | --- |
-| `DOC-00` | Documentation Governance | `00-foundation/` |
-| `DOC-01` | Project Charter & Product Positioning | `00-foundation/` |
-| `DOC-02` | Business Model & Unit Economics | `00-foundation/` |
-| `DOC-03` | Regulatory, PSP & Acquirer Assessment | `00-foundation/` |
-| `DOC-04` | Compliance Certification Roadmap & Control Framework | `00-foundation/` |
-| `DOC-05` | Master PRD & Feature Requirement Index | `01-product/` |
-| `DOC-06` | User Journey, UX Flow & Service Blueprint | `01-product/` |
-| `DOC-07` | Content, Disclosure & User Communication | `01-product/` |
-| `DOC-08` | Notification, Receipt & Communication Rules | `01-product/` |
-| `DOC-09` | Payment Request, Multi-Funding Source & Settlement | `02-payment-domain/` |
-| `DOC-10` | Payout & Reconciliation | `02-payment-domain/` |
-| `DOC-11` | Refund, Cancellation & Chargeback | `02-payment-domain/` |
-| `DOC-12` | Bill Category, Document AI/OCR & Payee Verification | `03-bill-verification/` |
-| `DOC-13` | Promotion Engine & Campaign Rules | `04-growth-ecosystem/` |
-| `DOC-14` | AML, Anti-Cashout, Fraud & Risk Controls | `05-risk-compliance-privacy/` |
-| `DOC-15` | Privacy, Data Protection & Record Retention | `05-risk-compliance-privacy/` |
-| `DOC-16` | Technical Architecture | `06-engineering/` |
-| `DOC-17` | API & Third-party Integration | `06-engineering/` |
-| `DOC-18` | Data Model, Transaction Ledger & Reporting | `06-engineering/` |
-| `DOC-19` | Security, Tokenization & Authentication | `07-security-access-control/` |
-| `DOC-20` | Testing, UAT, Release & Go-Live Checklist | `08-qa-release-operations/` |
-| `DOC-21` | Monitoring, Incident Response & Operations Runbook | `08-qa-release-operations/` |
-
-Document IDs must not be reused.
-
-If a document is deprecated or retired, its document ID remains reserved.
+| Document ID | Document Name | Folder | Filename |
+| --- | --- | --- | --- |
+| DOC-00 | Documentation Governance | 00-foundation/ | doc-00-documentation-governance.md |
+| DOC-01 | Project Charter & Product Positioning | 00-foundation/ | doc-01-project-charter-product-positioning.md |
+| DOC-02 | Business Model & Unit Economics | 00-foundation/ | doc-02-business-model-unit-economics.md |
+| DOC-03 | Regulatory, PSP & Acquirer Assessment | 00-foundation/ | doc-03-regulatory-psp-acquirer-assessment.md |
+| DOC-04 | Compliance Certification Roadmap & Control Framework | 00-foundation/ | doc-04-compliance-certification-roadmap-control-framework.md |
+| DOC-05 | Master PRD & Feature Requirement Index | 01-product/ | doc-05-master-prd-feature-requirement-index.md |
+| DOC-06 | User Journey, UX Flow & Service Blueprint | 01-product/ | doc-06-user-journey-ux-flow-service-blueprint.md |
+| DOC-07 | Content, Disclosure & User Authorization Specification | 01-product/ | doc-07-content-disclosure-user-authorization-spec.md |
+| DOC-08 | Notification, Receipt & Communication Specification | 01-product/ | doc-08-notification-receipt-communication-spec.md |
+| DOC-09 | Payment Request, Multi-Funding Source & Settlement | 02-payment-domain/ | doc-09-payment-request-multi-funding-source-settlement.md |
+| DOC-10 | Payout & Reconciliation | 02-payment-domain/ | doc-10-payout-reconciliation.md |
+| DOC-11 | Refund, Cancellation & Chargeback | 02-payment-domain/ | doc-11-refund-cancellation-chargeback.md |
+| DOC-12 | Bill Category, Document AI/OCR & Payee Verification Specification | 03-bill-verification/ | doc-12-bill-category-document-ai-ocr-payee-verification-spec.md |
+| DOC-13 | Promotion Engine, Coupon, Voucher, Referral & Membership Specification | 04-growth-ecosystem/ | doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md |
+| DOC-14 | AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification | 05-risk-compliance-privacy/ | doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md |
+| DOC-15 | Privacy, Data Protection & Record Retention Specification | 05-risk-compliance-privacy/ | doc-15-privacy-data-protection-record-retention-spec.md |
+| DOC-16 | Technical Architecture Specification | 06-engineering/ | doc-16-technical-architecture-spec.md |
+| DOC-17 | API & Third-party Integration Specification | 06-engineering/ | doc-17-api-third-party-integration-spec.md |
+| DOC-18 | Data Model, Transaction State & Audit Event Specification | 06-engineering/ | doc-18-data-model-transaction-state-audit-event-spec.md |
+| DOC-19 | Security, Tokenization, Authentication & Admin Control Specification | 07-security-access-control/ | doc-19-security-tokenization-authentication-admin-control-spec.md |
+| DOC-20 | Testing, UAT & Go-Live Checklist | 08-qa-release-operations/ | doc-20-testing-uat-golive-checklist.md |
+| DOC-21 | Monitoring, Incident Response & Operational SOPs | 08-qa-release-operations/ | doc-21-monitoring-incident-response-operational-sops.md |
 
 ---
 
-## 8. Document Status
+## 7. Document Statuses
 
 Each formal document must use one of the following statuses:
 
 | Status | Meaning |
 | --- | --- |
-| Planned | Document is identified but not yet drafted. |
-| Draft | Document is being written and is not approved. |
-| In Review | Document is ready for stakeholder review. |
-| Approved | Document has been reviewed and approved. |
-| Needs Update | Document is approved but requires revision. |
-| Deprecated | Document is no longer recommended for use. |
-| Retired | Document is no longer active. |
+| Planned | Identified but not yet drafted. |
+| Draft | Being written and not approved. |
+| In Review | Ready for stakeholder review. |
+| Approved | Reviewed and approved as source of truth. |
+| Needs Update | Approved but requires revision. |
+| Deprecated | No longer recommended for use. |
+| Retired | No longer active. |
 
-Only documents with status `Approved` should be treated as authoritative.
+Only Approved documents are authoritative.
 
 ---
 
-## 9. Versioning
+## 8. Versioning
 
-Formal documents should use this version format:
+Formal documents use semantic-style versioning:
 
 ```text
 MAJOR.MINOR.PATCH
 ```
 
-Example:
-
-```text
-1.0.0
-```
-
-Versioning rules:
-
-| Change Type | When to Use |
+| Change Type | Use When |
 | --- | --- |
 | Patch | Typo, formatting, grammar, or small clarification. |
 | Minor | New section, new requirement, or non-breaking content update. |
 | Major | Material change to approved scope, controls, architecture, or product behavior. |
 
-Draft documents may use versions such as:
+Draft documents may use 0.x.x.
 
-```text
-0.1.0
-0.2.0
-0.3.0
-```
-
-The first approved version should normally be:
-
-```text
-1.0.0
-```
+The first approved version should normally be 1.0.0.
 
 ---
 
-## 10. Metadata Standard
+## 9. Metadata Standard
 
 Each formal document should include YAML front matter.
-
-The standard metadata format is:
 
 ```yaml
 ---
@@ -284,201 +290,111 @@ document_id: DOC-XX
 title: Document Title
 version: 0.1.0
 status: Draft
-last_updated: YYYY-MM-DD
-classification: Internal
 owner: Owner Role
 reviewers:
   - Reviewer Role
 approvers:
   - Approver Role
+last_updated: YYYY-MM-DD
+classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
 ---
 ```
 
-Metadata fields should be used consistently across formal documents.
-
-### 10.1 Required Metadata Fields
+Required fields:
 
 | Field | Requirement |
 | --- | --- |
-| `document_id` | Stable document ID using `DOC-XX` format. |
+| `document_id` | Stable document ID using DOC-XX format. |
 | `title` | Official document title. |
-| `version` | Current document version. |
-| `status` | Current document status. |
-| `last_updated` | Date of latest document update. |
-| `classification` | Information classification. |
+| `version` | Current version. |
+| `status` | Current status. |
 | `owner` | Document owner role or named owner. |
-| `reviewers` | Roles or named reviewers expected to review the document. |
-| `approvers` | Roles or named approvers expected to approve the document. |
+| `reviewers` | Expected reviewers. |
+| `approvers` | Expected approvers. |
+| `last_updated` | Latest update date. |
+| `classification` | Information classification. |
 | `related_documents` | Related formal documents. |
 
-If a field is not yet confirmed, use `TBD` or a role-level placeholder rather than omitting the field.
+Use `TBD` if a value is not confirmed.
 
 ---
 
-## 11. Ownership and Approval
+## 10. Ownership, Review, and Approval
 
 Each formal document must have:
 
-- One owner.
-- One or more reviewers.
-- One or more approvers.
-- A status.
-- A version.
-- A version history.
+- one owner;
+- one or more reviewers;
+- one or more approvers;
+- a status;
+- a version;
+- a version history.
 
-The Owner is responsible for keeping the document accurate and coordinating reviews.
+Responsibilities:
 
-Reviewers are responsible for checking the document from their domain perspective.
+| Role | Responsibility |
+| --- | --- |
+| Owner | Maintains accuracy and coordinates reviews. |
+| Reviewer | Reviews from domain perspective. |
+| Approver | Confirms document can become source of truth. |
 
-Approvers are responsible for confirming that the document can be treated as an approved source of truth.
+Normal approval flow:
 
-The normal approval flow is:
-
-```mermaid
-flowchart LR
-    Planned --> Draft
-    Draft --> InReview[In Review]
-    InReview --> Approved
+```text
+Planned → Draft → In Review → Approved
 ```
 
-If changes are required during review:
+Revision flow for approved documents:
 
-```mermaid
-flowchart LR
-    InReview[In Review] --> Draft
-```
-
-If an approved document needs revision:
-
-```mermaid
-flowchart LR
-    Approved --> NeedsUpdate[Needs Update]
-    NeedsUpdate --> Draft
-    Draft --> InReview[In Review]
-    InReview --> Approved
+```text
+Approved → Needs Update → Draft → In Review → Approved
 ```
 
 Final named owners and approvers should be confirmed by the Project Owner.
 
 ---
 
-## 12. Change Control
+## 11. Change Control
 
 Material changes to approved documents must be tracked.
 
-A material change includes changes to:
+Material changes include changes to:
 
-- Document scope.
-- Approved requirements.
-- Approved business rules.
-- Approval status.
-- Source-of-truth hierarchy.
-- Document numbering.
-- Versioning rules.
-- Ownership or approver responsibility.
-- Security, compliance, privacy, or operational documentation requirements.
+- document scope;
+- approved requirements;
+- approved business rules;
+- approval status;
+- source-of-truth hierarchy;
+- document numbering;
+- versioning rules;
+- ownership or approver responsibility;
+- repository structure;
+- security, compliance, privacy, or operational documentation requirements.
 
 Material changes should reference one or more of:
 
-- ADR.
-- Change request.
-- Issue or ticket.
-- Pull request.
-- Approval record.
-- Meeting decision.
+- ADR;
+- change request;
+- issue or ticket;
+- pull request;
+- approval record;
+- meeting decision.
 
-Material changes should include an impact assessment where they affect product behavior, payment behavior, legal/compliance position, risk controls, privacy handling, security architecture, operational procedures, or financial reporting.
-
----
-
-## 13. Requirement ID Convention
-
-Requirements must have stable IDs.
-
-Default format:
-
-```text
-REQ-{DOC}-{DOMAIN}-{NUMBER}
-```
-
-Examples:
-
-```text
-REQ-09-PAY-001
-REQ-13-PROMO-001
-REQ-14-RISK-001
-```
-
-Requirement IDs must not be reused.
-
-If a requirement is removed, it should be marked as removed or deprecated rather than silently deleted.
-
-Requirement IDs are normally expected in downstream requirement or specification documents.
-
-Foundation documents may include assumptions, constraints, risks, dependencies, gates, and open questions without converting every statement into a requirement ID.
+Material changes should include impact assessment where they affect product behavior, payment behavior, legal/compliance position, risk controls, privacy handling, security architecture, operations, or financial reporting.
 
 ---
 
-## 14. Business Rule ID Convention
+## 12. Stable ID Conventions
 
-Business rules must have stable IDs.
-
-Default format:
-
-```text
-RULE-{DOC}-{DOMAIN}-{NUMBER}
-```
-
-Examples:
-
-```text
-RULE-09-PAY-001
-RULE-13-PROMO-001
-RULE-14-RISK-001
-```
-
-Business rule IDs must not be reused.
-
-If a business rule is removed, it should be marked as removed or deprecated rather than silently deleted.
-
-Business rule IDs are normally expected in downstream rule-heavy documents such as payment, promotion, risk, refund, reconciliation, privacy, and security documents.
-
----
-
-## 15. Test Case ID Convention
-
-Test cases must have stable IDs.
-
-Default format:
-
-```text
-TC-{DOC}-{DOMAIN}-{NUMBER}
-```
-
-Examples:
-
-```text
-TC-09-PAY-001
-TC-13-PROMO-001
-TC-14-RISK-001
-```
-
-Build-ready requirements should eventually map to one or more test cases.
-
-Test case definitions belong primarily in testing, QA, UAT, domain specification, or traceability documents.
-
----
-
-## 16. Other Stable ID Conventions
-
-Other project artifacts may use stable IDs where useful.
-
-Recommended formats include:
+Stable IDs support traceability across requirements, rules, controls, tests, risks, and decisions.
 
 | Artifact | Format Example |
 | --- | --- |
+| Requirement | `REQ-09-PAY-001` |
+| Business rule | `RULE-09-PAY-001` |
+| Test case | `TC-09-PAY-001` |
 | Assumption | `ASM-DOC01-001` |
 | Constraint | `CON-DOC01-001` |
 | Dependency | `DEP-DOC01-001` |
@@ -490,13 +406,23 @@ Recommended formats include:
 | Exception | `EXC-DOC04-001` |
 | ADR | `ADR-001` |
 
-Stable IDs help maintain traceability between decisions, requirements, controls, tests, risks, and implementation work.
+IDs must not be reused.
+
+If a requirement, rule, control, or test case is removed, it should be marked as removed or deprecated rather than silently deleted.
+
+Foundation documents may use assumptions, constraints, risks, dependencies, gates, and open questions without converting every statement into a requirement ID.
 
 ---
 
-## 17. ADR Governance
+## 13. ADR and Decision Record Governance
 
-Architecture Decision Records, or ADRs, should be used for significant decisions.
+Architecture Decision Records, or ADRs, should be used for significant technical, architectural, security, integration, or build-versus-buy decisions.
+
+Decision records are maintained in:
+
+```text
+docs/decision-log/
+```
 
 ADR filename format:
 
@@ -510,34 +436,32 @@ Example:
 adr-001-payment-provider-selection.md
 ```
 
-ADR statuses should include:
+ADR statuses:
 
-- Proposed.
-- Accepted.
-- Superseded.
-- Deprecated.
-- Rejected.
-
-Approved ADRs are part of the documentation source-of-truth hierarchy.
-
-If an ADR changes a formal document, the formal document must be updated.
+- Proposed
+- Accepted
+- Superseded
+- Deprecated
+- Rejected
 
 Significant decisions that may require ADRs include:
 
-- PSP/acquirer selection.
-- Payment method integration model.
-- Card tokenization approach.
-- OCR/document AI provider selection.
-- Ledger or reconciliation architecture.
-- Security architecture decisions.
-- Cloud or infrastructure design.
-- Major build-versus-buy decisions.
-- API contract design affecting external partners.
-- Material changes to repository or documentation structure.
+- PSP or acquirer selection;
+- payment method integration model;
+- card tokenization approach;
+- OCR/document AI provider selection;
+- ledger or reconciliation architecture;
+- security architecture decisions;
+- cloud or infrastructure design;
+- major build-versus-buy decisions;
+- external API contract decisions;
+- material repository structure changes.
+
+If an ADR changes a formal document, the formal document must be updated.
 
 ---
 
-## 18. Template Governance
+## 14. Templates
 
 Formal documents should use approved templates from:
 
@@ -545,249 +469,297 @@ Formal documents should use approved templates from:
 docs/templates/
 ```
 
-Templates should exist for:
+The current approved template files are:
 
-- Core specifications.
-- ADRs.
-- API specifications.
-- Rulebooks.
-- Test cases.
-- Change requests.
-- Policies.
-- Launch checklists.
-- Evidence registers.
-- Traceability registers.
+| Template | Purpose |
+| --- | --- |
+| core-spec-template.md | Core specification documents. |
+| adr-template.md | Architecture Decision Records. |
+| api-spec-template.md | API and integration specifications. |
+| rulebook-template.md | Rule-heavy policy or business-rule documents. |
+| test-case-template.md | Test case documentation. |
+| change-request-template.md | Change request records. |
 
-Templates exist to make documentation consistent, complete, and easier to review.
-
-If a document deviates materially from the approved template, the reason should be documented or approved by the Documentation Owner.
+Material deviation from an approved template should be documented or approved by the Documentation Owner.
 
 ---
 
-## 19. Traceability
+## 15. Traceability
+
+Traceability records are maintained in:
+
+```text
+docs/traceability/
+```
+
+The current traceability files are:
+
+| File | Purpose |
+| --- | --- |
+| requirements-traceability-matrix.md | Maps requirements, rules, controls, tests, decisions, and implementation references. |
+| open-questions-register.md | Tracks unresolved questions across the documentation set. |
 
 The documentation system should maintain traceability between:
 
-- Foundation assumptions.
-- Requirements.
-- Business rules.
-- Controls.
-- Launch gates.
-- ADRs.
-- API specifications.
-- Data specifications.
-- Test cases.
-- Open questions.
-- Risks.
-- Dependencies.
-- Change requests.
-- Evidence records.
-- Implementation tickets, where applicable.
+- foundation assumptions;
+- requirements;
+- business rules;
+- controls;
+- launch gates;
+- ADRs;
+- API specifications;
+- data specifications;
+- test cases;
+- open questions;
+- risks;
+- dependencies;
+- change requests;
+- evidence records;
+- implementation tickets, where applicable.
 
-Traceability helps ensure that approved requirements can be implemented, tested, reviewed, and changed safely.
-
-Traceability may be maintained through:
-
-- Requirement IDs.
-- Business rule IDs.
-- Control IDs.
-- Test case IDs.
-- Traceability matrices.
-- Linked issues or tickets.
-- Pull requests.
-- Evidence registers.
-- ADR references.
+Traceability may be maintained through stable IDs, traceability matrices, linked tickets, pull requests, evidence registers, and ADR references.
 
 ---
 
-## 20. Foundation-to-Downstream Guidance
+## 16. Downstream Document Guidance
 
-The following table summarizes how foundation documents should guide downstream documents.
+Foundation documents guide downstream documents as follows:
 
-| Downstream Document | Foundation Guidance |
+| Downstream Document | Guidance |
 | --- | --- |
-| `DOC-05` Master PRD & Feature Requirement Index | Convert `DOC-01` capability baseline into prioritized product requirements and acceptance criteria. |
-| `DOC-06` User Journey, UX Flow & Service Blueprint | Derive user, admin, review, and service flows from `DOC-01` product model and product boundaries. |
-| `DOC-07` Content, Disclosure & User Communication | Use `DOC-01` and `DOC-03` product language rules to avoid wallet, stored value, cashout, remittance, and payroll positioning. |
-| `DOC-08` Notification, Receipt & Communication Rules | Use lifecycle concepts from `DOC-01`, then align messages with states defined in `DOC-09`, `DOC-10`, and `DOC-11`. |
-| `DOC-09` Payment Request, Multi-Funding Source & Settlement | Define parent/child payment model, funding logic, payment states, authorization, settlement readiness, and funding status behavior. |
-| `DOC-10` Payout & Reconciliation | Define payout execution, settlement evidence, reconciliation, exceptions, finance controls, and payout operational rules. |
-| `DOC-11` Refund, Cancellation & Chargeback | Define cancellation, refund, dispute, chargeback, evidence, reversal, recovery, and loss allocation rules. |
-| `DOC-12` Bill Category, Document AI/OCR & Payee Verification | Define category evidence, OCR extraction, validation rules, payee verification, manual review, and category-specific controls. |
-| `DOC-13` Promotion Engine & Campaign Rules | Define campaign rules, eligibility, reservation, redemption, reversal, budgets, partner funding, and partner advertisement operation. |
-| `DOC-14` AML, Anti-Cashout, Fraud & Risk Controls | Define AML, anti-cashout, fraud, velocity, monitoring, suspicious activity, and manual review controls. |
-| `DOC-15` Privacy, Data Protection & Record Retention | Define personal data handling, document handling, retention, deletion, consent, data subject request handling, and privacy controls. |
-| `DOC-16` Technical Architecture | Translate approved product, payment, compliance, security, data, and operational needs into system architecture. |
-| `DOC-17` API & Third-party Integration | Define PSP, acquirer, banking, wallet, OCR, webhook, partner API, credential, and environment integration requirements. |
-| `DOC-18` Data Model, Transaction Ledger & Reporting | Define ledger records, transaction records, audit records, reporting model, reconciliation data, and metric definitions. |
-| `DOC-19` Security, Tokenization & Authentication | Define authentication, tokenization, encryption, PCI scope, access control, secrets handling, logging, and security monitoring. |
-| `DOC-20` Testing, UAT, Release & Go-Live Checklist | Convert requirements, controls, gates, and risks into test, UAT, release, and launch readiness criteria. |
-| `DOC-21` Monitoring, Incident Response & Operations Runbook | Define monitoring, support, incident response, escalation, exception handling, and operational SOPs. |
+| DOC-05 Master PRD & Feature Requirement Index | Convert product baseline into prioritized requirements and acceptance criteria. |
+| DOC-06 User Journey, UX Flow & Service Blueprint | Define user, admin, review, and service flows. |
+| DOC-07 Content, Disclosure & User Authorization Specification | Define approved product language, disclosures, user authorization, consent, and confirmation requirements. |
+| DOC-08 Notification, Receipt & Communication Specification | Define lifecycle-based notifications, receipts, and communication rules. |
+| DOC-09 Payment Request, Multi-Funding Source & Settlement | Define payment request, funding, authorization, and settlement behavior. |
+| DOC-10 Payout & Reconciliation | Define payout, settlement evidence, reconciliation, and exception rules. |
+| DOC-11 Refund, Cancellation & Chargeback | Define cancellation, refund, dispute, chargeback, and reversal rules. |
+| DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification | Define bill category, evidence, OCR, validation, and payee verification rules. |
+| DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification | Define campaign, coupon, voucher, referral, membership, eligibility, redemption, budget, and partner funding rules. |
+| DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification | Define AML, anti-cashout, fraud, dynamic authorization, velocity, monitoring, and review controls. |
+| DOC-15 Privacy, Data Protection & Record Retention Specification | Define data handling, consent, retention, deletion, and privacy controls. |
+| DOC-16 Technical Architecture Specification | Translate approved requirements into system architecture. |
+| DOC-17 API & Third-party Integration Specification | Define PSP, acquirer, banking, OCR, webhook, partner API, OpenAPI, credential, and environment integration requirements. |
+| DOC-18 Data Model, Transaction State & Audit Event Specification | Define data model, transaction state, audit event, reporting, and reconciliation data. |
+| DOC-19 Security, Tokenization, Authentication & Admin Control Specification | Define authentication, tokenization, encryption, PCI scope, access control, admin controls, and monitoring. |
+| DOC-20 Testing, UAT & Go-Live Checklist | Convert requirements, controls, gates, and risks into test and launch criteria. |
+| DOC-21 Monitoring, Incident Response & Operational SOPs | Define monitoring, support, incident response, escalation, exception handling, and operational SOPs. |
 
-This table is guidance only.
-
-The detailed scope of each downstream document should be defined in that document.
+Detailed scope belongs in each downstream document.
 
 ---
 
-## 21. AI Context Governance
+## 17. AI Build Execution and Context Rules
 
-AI context files may be used to help future AI conversations continue efficiently.
+AI build execution documents may be used to support AI-assisted planning, development, testing, and implementation.
 
-The primary AI context file is:
+AI build execution files are maintained in:
 
 ```text
-docs/ai-context/project-continuation-context.md
+docs/09-ai-build-execution/
 ```
 
-AI context files may contain:
+The current AI build execution files are:
 
-- Summaries.
-- Current repository structure.
-- Document status overview.
-- Next steps.
-- Unresolved questions.
-- Guidance for future AI conversations.
-- High-level drafting context.
+| File | Purpose |
+| --- | --- |
+| 01-structured-prd.md | Structured PRD for AI-assisted build execution. |
+| 02-ui-prototype-prd.md | UI prototype requirements for AI-assisted implementation. |
+| 03-technical-architecture-prd.md | Technical architecture PRD for implementation planning. |
+| 04-development-task-list.md | Development task breakdown. |
+| 05-agent-coding-rules.md | Coding rules for AI agents or assisted development. |
+| 06-feature-build-sequence.md | Recommended feature implementation sequence. |
+| 07-definition-of-done.md | Completion criteria for implementation tasks. |
+| 08-test-generation-instructions.md | Test generation guidance. |
+| 09-ai-prompt-pack.md | Approved prompt pack for AI-assisted work. |
+| 10-agent-context-index.md | Index of context files for AI agents. |
+| README.md | Overview of the AI build execution folder. |
 
-AI context files must not contain:
+AI context files are maintained in:
 
-- Final unapproved requirements.
-- Secrets.
-- Credentials.
-- API keys.
-- Tokens.
-- Sensitive production data.
-- Real customer data.
-- Real customer documents.
-- Real identity documents.
-- Unmasked card data.
-- Unmasked bank account data.
+```text
+docs/09-ai-build-execution/context/
+```
 
-If AI context conflicts with approved formal documentation, the approved formal documentation wins.
+The current AI context files are:
 
-AI-generated content should be reviewed by the appropriate document owner before being accepted into formal documentation.
+| File | Purpose |
+| --- | --- |
+| project-continuation-context.md | General project continuation context. |
+| payment-core-context.md | Payment domain context. |
+| bill-verification-context.md | Bill verification context. |
+| promotion-engine-context.md | Promotion engine context. |
+| refund-chargeback-context.md | Refund and chargeback context. |
+| security-context.md | Security context. |
+
+AI build execution and context files may contain:
+
+- summaries;
+- repository structure;
+- document status overview;
+- next steps;
+- unresolved questions;
+- implementation planning guidance;
+- drafting guidance;
+- prompt guidance;
+- test generation guidance.
+
+AI build execution and context files must not contain:
+
+- final unapproved requirements presented as approved requirements;
+- secrets;
+- credentials;
+- API keys;
+- tokens;
+- sensitive production data;
+- real customer data;
+- real customer documents;
+- real identity documents;
+- unmasked card data;
+- unmasked bank account data.
+
+AI-generated content must be reviewed by the appropriate document owner before being accepted into formal documentation.
+
+If AI build execution or context files conflict with approved formal documentation, approved formal documentation wins.
 
 ---
 
-## 22. Sensitive Information Rules
+## 18. Supporting Repository Areas
+
+The documentation repository includes supporting areas for change management, decisions, diagrams, backups, and changelog records.
+
+| Folder or File | Purpose |
+| --- | --- |
+| docs/change-requests/ | Stores change request records or instructions. |
+| docs/changelog/changelog.md | Maintains documentation-level change history. |
+| docs/decision-log/ | Stores ADRs or decision records. |
+| docs/diagrams/ | Stores architecture, process, service, data, and operational diagrams. |
+| docs/backup/ | Stores temporary backup files only when needed. |
+| docs/glossary/glossary.md | Defines shared terminology. |
+| docs/README.md | Provides documentation repository navigation. |
+| README.md | Provides root repository overview. |
+
+Backup files should not be treated as authoritative documentation.
+
+Changelog entries, decision records, and change requests should reference affected documents where applicable.
+
+---
+
+## 19. Sensitive Information Rules
 
 The documentation repository must not contain:
 
-- Production secrets.
-- API keys.
-- Private encryption keys.
-- Passwords.
-- Access tokens.
-- Unmasked card data.
-- Unmasked bank account data.
-- Real customer documents.
-- Real identity documents.
-- Sensitive personal data not required for documentation.
-- Real transaction data unless anonymized and approved.
+- production secrets;
+- API keys;
+- private encryption keys;
+- passwords;
+- access tokens;
+- unmasked card data;
+- unmasked bank account data;
+- real customer documents;
+- real identity documents;
+- sensitive personal data not required for documentation;
+- real transaction data unless anonymized and approved.
 
 Use mock data or anonymized examples whenever possible.
 
-Where sensitive examples are required for legal, compliance, privacy, security, risk, or operational review, they must be stored in an approved secure location and referenced in documentation only at a safe summary level.
+Sensitive examples required for review must be stored in an approved secure location and referenced only at a safe summary level.
 
 ---
 
-## 23. Review Cadence
+## 20. Review Cadence
 
 Recommended review cadence:
 
 | Document Type | Review Frequency |
 | --- | --- |
 | Foundation documents | Quarterly or after major change. |
-| Core product documents | Quarterly or after product behavior change. |
-| Payment domain documents | Quarterly or after payment, settlement, payout, refund, or reconciliation behavior change. |
+| Product documents | Quarterly or after product behavior change. |
+| Payment domain documents | Quarterly or after payment, settlement, payout, refund, or reconciliation change. |
 | Bill verification documents | Quarterly or after bill category, OCR, AI, payee, or review process change. |
 | Growth and promotion documents | Quarterly or after campaign, reward, advertisement, or commercial model change. |
-| Risk, compliance, and privacy documents | Quarterly or after relevant control, legal, partner, or data handling change. |
+| Risk, compliance, and privacy documents | Quarterly or after control, legal, partner, or data handling change. |
 | Engineering and API documents | Each major release or contract change. |
 | Security documents | Quarterly or after security architecture, authentication, tokenization, or PCI scope change. |
 | QA, release, and operations documents | Each major release or after incident. |
+| AI build execution documents | After major documentation, architecture, or implementation planning updates. |
+| AI context files | After major documentation or implementation context updates. |
 | ISMS policies | At least annually. |
-| AI context files | After major documentation updates. |
 
-Review cadence may be adjusted by the Project Owner or Documentation Owner based on risk, launch stage, regulatory developments, partner requirements, incidents, or material product changes.
+Cadence may be adjusted by the Project Owner or Documentation Owner based on risk, launch stage, regulatory developments, partner requirements, incidents, or material changes.
 
 ---
 
-## 24. Version History Rules
+## 21. Version History Rules
 
 Each formal document should include a version history section.
 
-The preferred section title is:
+Preferred section title:
 
 ```markdown
 ## Version History
 ```
 
-The version history should record:
+Version history should record:
 
-- Version.
-- Date.
-- Author.
-- Change summary.
+- version;
+- date;
+- author;
+- change summary.
 
 Example:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
-| `0.1.0` | 2026-05-14 | Initial Author | Initial draft. |
-
-Version history should be updated whenever a document version changes.
+| 0.1.0 | 2026-05-14 | Initial Author | Initial draft. |
 
 ---
 
-## 25. Acceptance Criteria
+## 22. Acceptance Criteria
 
 DOC-00 is acceptable when it defines:
 
-- Documentation purpose.
-- Documentation scope.
-- Source-of-truth hierarchy.
-- Foundation document role.
-- Repository structure.
-- Document numbering.
-- Document status rules.
-- Versioning rules.
-- Metadata standard.
-- Ownership and approval rules.
-- Change control expectations.
-- Requirement ID convention.
-- Business rule ID convention.
-- Test case ID convention.
-- Other stable ID conventions.
-- ADR governance.
-- Template governance.
-- Traceability expectations.
-- Foundation-to-downstream guidance.
-- AI context rules.
-- Sensitive information rules.
-- Review cadence.
-- Version history expectations.
+- documentation scope and purpose;
+- source-of-truth hierarchy;
+- foundation document role;
+- repository structure;
+- document register;
+- status and versioning rules;
+- metadata standard;
+- ownership, review, and approval rules;
+- change control expectations;
+- stable ID conventions;
+- ADR and decision record governance;
+- template governance;
+- traceability expectations;
+- downstream document guidance;
+- AI build execution and context rules;
+- supporting repository area rules;
+- sensitive information rules;
+- review cadence;
+- version history expectations.
 
-DOC-00 should remain focused on documentation governance only.
+DOC-00 must remain focused on documentation governance only.
 
 ---
 
-## 26. Open Questions
+## 23. Open Questions
 
 | Question ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
-| `OQ-DOC00-001` | Who is the official Documentation Owner? | Project Owner | High | Open |
-| `OQ-DOC00-002` | Who are the required approvers for each document category? | Project Owner | High | Open |
-| `OQ-DOC00-003` | Should approvals be handled through pull requests, signed records, tickets, or another method? | Project Owner | Medium | Open |
-| `OQ-DOC00-004` | Which documentation templates must be created before drafting the remaining downstream documents? | Documentation Owner | Medium | Open |
-| `OQ-DOC00-005` | What traceability register format should be used for requirements, controls, tests, and launch gates? | Product / Engineering / Compliance | Medium | Open |
+| OQ-DOC00-001 | Who is the official Documentation Owner? | Project Owner | High | Open |
+| OQ-DOC00-002 | Who are the required approvers for each document category? | Project Owner | High | Open |
+| OQ-DOC00-003 | Should approvals be handled through pull requests, signed records, tickets, or another method? | Project Owner | Medium | Open |
+| OQ-DOC00-004 | Which documentation templates must be created before drafting downstream documents? | Documentation Owner | Medium | Open |
+| OQ-DOC00-005 | What traceability register format should be used for requirements, controls, tests, and launch gates? | Product / Engineering / Compliance | Medium | Open |
 
 ---
 
-## 27. Version History
+## 24. Version History
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
-| `0.1.0` | 2026-05-14 | Initial Author | Initial draft of DOC-00 Documentation Governance. |
-| `0.2.0` | 2026-05-26 | Product Documentation Team | Standardized metadata, aligned document register names, added foundation document role, added metadata standard, added stable ID guidance, added foundation-to-downstream guidance, clarified source-of-truth and AI context rules, and standardized version history expectations. |
+| 0.1.0 | 2026-05-14 | Initial Author | Initial draft of DOC-00 Documentation Governance. |
+| 0.2.0 | 2026-05-26 | Product Documentation Team | Standardized metadata, aligned document register names, added foundation document role, metadata standard, stable ID guidance, foundation-to-downstream guidance, source-of-truth rules, AI context rules, and version history expectations. |
+| 0.3.0 | 2026-05-27 | Product Documentation Team | Simplified structure, reduced repetition, consolidated ID conventions, and retained essential governance controls. |
+| 0.4.0 | 2026-05-27 | Product Documentation Team | Updated repository structure, core document register filenames, AI build execution folder governance, template list, traceability files, and supporting repository areas. |
