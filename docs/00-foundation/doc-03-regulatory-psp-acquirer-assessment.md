@@ -95,7 +95,7 @@ The initial launch jurisdiction is Hong Kong.
 
 The current transaction classification assumption is that PayPlus card payments will be treated as bill payment or ordinary online card purchase transactions, subject to PSP/acquirer, card network, legal, and compliance confirmation. The acquirer remains undecided. PayPlus expects to seek an appropriate or special MCC from the selected acquirer and must avoid classification as quasi-cash, cash advance, account funding, unrestricted money transfer, or cash-equivalent activity unless separately assessed and approved.
 
-The current payout baseline is direct payout from the PayPlus operating bank account after upstream settlement. Candidate Hong Kong payout rails are FPS, cheque, and EPS where applicable and confirmed. Payment gateway settlement is expected to be T+1 to T+3, with payout expected on the same day after funds are settled by the upstream counterparty. Final bank setup, rail availability, EPS applicability, liquidity treatment, reserves, exception handling, and reconciliation remain to be confirmed.
+The current payout baseline is direct payout from the PayPlus operating bank account after upstream settlement. Hong Kong payout rails include FPS, cheque, and EPS. Payment gateway settlement is expected to be T+1 to T+3, with payout expected on the same day after funds are settled by the upstream counterparty. Final operating-bank setup, rail configuration, liquidity treatment, reserves, exception handling, and reconciliation remain to be confirmed.
 
 The current KYC/KYB baseline is highly confirmed. Individuals are expected to complete eKYC through a service provider such as Jumio, provide email, verify phone number by SMS, and submit ID copy through the eKYC provider. Businesses are expected to provide Business Registration documentation and owner ID. Final provider selection, check depth, sanctions screening, exception handling, and risk-tier rules remain to be confirmed.
 
@@ -423,7 +423,7 @@ Legal and Compliance must review and document conclusions for the following item
 | Debt collection | Could overdue invoices, rent, fees, or payment reminders create debt collection implications? | High |
 | Privacy boundaries | What payee information may be shown to payer, and what payer information may be shown to payee? | High |
 | Recurring requests | Are recurring payee-created requests permitted, or must each request require separate payer authorization? | High |
-| Multi-card | Are multi-card or multi-source payments supported and legally acceptable? | High |
+| Multi-card | What PSP/acquirer, legal, risk, and reconciliation controls apply to MVP multi-card payments with configurable card-count limits? | High |
 | Settlement/reserves | What settlement timing, reserves, holdbacks, collateral, or prefunding apply? | High |
 | Disclosures | What disclosures are required at request review, checkout, receipt, notification, and payee communications? | High |
 | Partner contracts | What contractual provisions are mandatory for PSP/acquirer/payout agreements? | High |
@@ -593,9 +593,9 @@ Reviewers:
 | `OQ-DOC03-008A` | What legal, PSP/acquirer, payout, and partner gates must payee-created requests and rent payments satisfy before launch enablement? | Legal / Payments / Compliance | Critical | Open |
 | `OQ-DOC03-009` | Which bill categories are approved, restricted, prohibited, or enhanced-review for MVP? | Compliance / Risk / Product | Critical | Open |
 | `OQ-DOC03-010` | What final KYC/KYB provider, check depth, sanctions screening, exception handling, and risk-tier rules are required before request creation and payout? | Risk / Compliance | Critical | Open |
-| `OQ-DOC03-011` | Which operating bank setup and payout rails are approved for FPS, cheque, and EPS where applicable? | Payments / Commercial | High | Open |
+| `OQ-DOC03-011` | Which operating bank setup will be used for FPS, cheque, and EPS payouts? | Payments / Commercial | High | Open |
 | `OQ-DOC03-012` | What reserves, holdbacks, collateral, prefunding, liquidity, and exception rules apply to the T+1 to T+3 upstream settlement and same-day-after-settlement payout baseline? | Finance / Payments | High | Open |
-| `OQ-DOC03-013` | Are multi-card or multi-source payments supported by the PSP/acquirer and legally acceptable? | Product / Payments / Legal | High | Open |
+| `OQ-DOC03-013` | What PSP/acquirer, legal, risk, and reconciliation controls apply to MVP multi-card payments with configurable card-count limits? | Product / Payments / Legal | High | Open |
 | `OQ-DOC03-014` | What AML, sanctions, fraud, anti-cashout, collusion, and request-abuse controls are required before MVP? | Compliance / Risk | Critical | Open |
 | `OQ-DOC03-015` | What PCI, privacy, security, and data protection requirements apply? | Security / Privacy | High | Open |
 | `OQ-DOC03-016` | What partner reporting files or APIs are required for reconciliation and compliance records? | Finance / Engineering | High | Open |

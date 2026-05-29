@@ -92,7 +92,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Payout methods | Enable only when payout provider, rail, timing, exception handling, and reconciliation are ready. |
 | Fees and promotions | Enable only when disclosure, accounting, tax, commercial, and reporting treatment is confirmed. |
 | OCR or document AI | Optional for MVP; manual or assisted review may be used until automation is approved. |
-| Multi-card or multi-source funding | Gated and disableable due to partner, risk, reconciliation, support, and chargeback complexity. |
+| Multi-card funding | MVP scope; support up to a configurable number of credit cards per payment, with the launch cap and related controls to be confirmed. |
 
 Current launch assumptions:
 
@@ -101,13 +101,13 @@ Current launch assumptions:
 - card payments are expected to be treated as bill payment or ordinary online card purchase, subject to acquirer confirmation;
 - PayPlus expects to seek an appropriate or special MCC from the selected acquirer;
 - payouts are expected to be made from the PayPlus operating bank account after upstream settlement;
-- candidate Hong Kong payout rails are FPS, cheque, and EPS where applicable and confirmed;
+- Hong Kong payout rails include FPS, cheque, and EPS, with final operating-bank setup to be confirmed;
 - payment gateway settlement is expected to be T+1 to T+3, with payout on the same day after upstream settlement;
 - individual eKYC is expected through a service provider such as Jumio, with name verification, SMS phone verification, email capture, and ID copy submission;
 - business KYB is expected to require a Business Registration document and owner ID;
 - candidate notification channels are app notifications, push notifications, email, SMS, and WhatsApp;
 - receipt, payment, account, tax, and audit record retention is expected to be 7 years, subject to final privacy and legal review;
-- exact fee rates, fee allocation, promotion, refund, reversal, and multi-card or multi-source launch support remain to be confirmed.
+- exact fee rates, fee allocation, promotion, refund, reversal, and multi-card card-count limit remain to be confirmed and should be admin-configurable where applicable.
 
 ### 3.1.2 Requirement ID Approach
 
@@ -326,7 +326,7 @@ The MVP should support the following request statuses:
 | No unsupported transfer | Payment cannot be unrelated to a bill, invoice, tenancy, or proof of obligation. |
 | No stored balance | PayPlus must not hold user wallet balances. |
 | Failed payment handling | Failed payments must be visible and traceable. |
-| Refunds/reversals | Refunds or reversals require controlled operational process. |
+| Refunds/reversals | Refunds or reversals require admin-dashboard status handling and must follow approved operational policy. |
 
 ---
 
@@ -538,10 +538,11 @@ The MVP is acceptable when:
 | OQ-05-005 | What transaction limits apply by user type and category? | Risk / Product | Open |
 | OQ-05-006 | What admin review rules are mandatory before payment or payout? | Operations / Risk | Open |
 | OQ-05-007 | What exact percentage service fee, payer/payee fee allocation, subsidy, coupon, promotion, discount, refund, and reversal treatment will be used? | Business / Product | Open |
-| OQ-05-008 | Which operating bank setup and payout rails are approved for FPS, cheque, and EPS where applicable? | Payments / Operations | Open |
+| OQ-05-008 | Which operating bank setup will be used for FPS, cheque, and EPS payouts? | Payments / Operations | Open |
 | OQ-05-009 | What privacy, deletion, masking, and legal exception rules apply beyond the 7-year tax and audit retention baseline? | Legal / Compliance | Open |
 | OQ-05-010 | What dispute process applies after payment completion? | Operations / Legal | Open |
 | OQ-05-011 | What appropriate or special MCC and transaction classification will the selected acquirer confirm for PayPlus? | Payments / Legal | Open |
+| OQ-05-012 | What configurable maximum number of credit cards per payment should be allowed at launch? | Product / Payments | Open |
 
 ---
 

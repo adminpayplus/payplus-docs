@@ -102,6 +102,8 @@ Each commercial module, fee model, category, payee type, promotion, and payout m
 
 The current fee model baseline is an online payment processing service fee calculated as a percentage of transaction amount. Payer fees, payee fees, subsidies, coupons, promotion codes, discount codes, refunds, reversals, and exact rate logic remain to be confirmed.
 
+Fee rates, fee allocation, subsidies, coupons, promotion codes, discount codes, refund handling, and reversal treatment should be configurable in the admin dashboard so pricing decisions can change without blocking documentation drafting.
+
 The current payout timing baseline assumes payment gateway settlement of T+1 to T+3 and payout from the PayPlus operating bank account on the same day after upstream settlement, subject to final bank, PSP/acquirer, liquidity, reserve, and reconciliation approval.
 
 ---
@@ -921,7 +923,7 @@ This document provides a framework only and does not establish accounting or tax
 - payee-created request economics;
 - key economic definitions;
 - category and payee-type economics;
-- multi-card or multi-source economics;
+- multi-card economics;
 - promotion and subsidy economics;
 - refund, cancellation, rejection, dispute, and chargeback economics;
 - working capital, settlement, and reserve considerations;

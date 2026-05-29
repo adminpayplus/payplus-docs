@@ -70,7 +70,8 @@ The founding-stage MVP baseline includes:
 | First launch jurisdiction | Hong Kong. |
 | Initial card transaction classification assumption | Expected to be treated as bill payment or ordinary online card purchase, subject to acquirer confirmation. |
 | Acquirer / MCC | Acquirer is undecided; PayPlus expects to seek an appropriate or special MCC from the acquirer. |
-| Payout model | PayPlus expects to pay from its operating bank account after upstream settlement; candidate Hong Kong payout rails are FPS, cheque, and EPS where applicable and confirmed. |
+| Payout model | PayPlus expects to pay from its operating bank account after upstream settlement; Hong Kong payout rails include FPS, cheque, and EPS, with final operating-bank setup to be confirmed. |
+| Multi-card support | Multi-card payment is MVP scope, with support for up to a configurable number of credit cards per payment. The launch cap is to be confirmed and should be editable by configuration. |
 | Settlement timing | Payment gateway settlement is expected to be T+1 to T+3; payout is expected to occur on the same day after funds are settled by the upstream counterparty. |
 | KYC/KYB baseline | Individual eKYC is expected through a service provider such as Jumio, with name verification, SMS phone verification, email capture, and ID copy submission. Business KYB is expected to require a Business Registration document and owner ID. |
 | Notification channels | Candidate channels include app notifications, push notifications, email, SMS, and WhatsApp. |
@@ -164,7 +165,7 @@ PayPlus supports the following core use cases, subject to approval and downstrea
 | Payee-created payment request | Approved payee creates an eligible bill, invoice, fee, rent, or obligation request, payer reviews and authorizes payment, and PayPlus pays the approved payee. |
 | Bill and evidence verification | PayPlus validates bill category, payee, amount, evidence, and eligibility before payout. |
 | Card-funded payment | Payer funds the approved request using a supported card funding source. |
-| Multi-card or multi-source payment | Payer may split or combine funding sources for one approved bill where supported. |
+| Multi-card payment | Payer may split one approved bill across up to a configurable number of credit cards. The exact card count limit remains to be confirmed. |
 | Payout and settlement | PayPlus or its partner routes payment value to the approved payee through a supported method. |
 | Refund, cancellation, rejection, query, and dispute handling | PayPlus supports controlled lifecycle actions before or after payment, depending on request state. |
 | Receipt, status, and audit trail | PayPlus records request, funding, payout, reconciliation, receipt, and audit evidence. |
@@ -225,7 +226,7 @@ MVP should include:
 | Reconciliation reporting | In scope. |
 | Risk monitoring | In scope. |
 | OCR/document AI | Optional; may start as manual or assisted workflow. |
-| Multi-card or multi-source payment | Gated feature; may be disabled if partner, risk, or reconciliation complexity is high. |
+| Multi-card payment | MVP scope; must support up to a configurable number of credit cards per payment, subject to partner, risk, reconciliation, and operational controls. |
 | Promotion engine | Optional; should not block MVP unless commercially required. |
 | Partner advertisements | Out of initial MVP unless separately approved. |
 
@@ -259,12 +260,13 @@ Some MVP capabilities are confirmed as product scope but remain gated for produc
 | --- | --- |
 | Launch jurisdiction | Hong Kong is the initial launch jurisdiction; local legal, regulatory, payment, privacy, tax, audit, and operational requirements must be assessed before production launch. |
 | PSP/acquirer model | Acquirer is undecided; selected PSP/acquirer must support the intended bill payment or ordinary online card purchase treatment, fee, authorization, MCC/classification, and settlement flow. |
-| Payout model | Operating-bank payout is the baseline; final bank setup, FPS, cheque, EPS applicability, timing, exceptions, and reconciliation must be approved. |
+| Payout model | Operating-bank payout is the baseline; FPS, cheque, and EPS are acceptable Hong Kong payout rails, while final bank setup, timing, exceptions, and reconciliation must be approved. |
 | KYC/KYB and payee verification | Baseline checks are highly confirmed; final provider, check depth, exceptions, sanctions, category rules, and risk-tier requirements remain to be confirmed. |
 | Rent and tenancy payments | Must meet rent-specific evidence, relationship, verification, limit, and review controls. |
 | Payee-created requests | Must be independently enableable by payee, category, and risk tier. |
 | Fees and disclosures | Must be approved before payer authorization. |
-| Refund, dispute, and chargeback handling | Must be defined before production processing. |
+| Multi-card payment | MVP scope; final configurable card-count limit, partner rules, risk checks, and reconciliation handling must be confirmed. |
+| Refund, dispute, and chargeback handling | Product must support admin-dashboard status options and case handling; detailed operations should follow approved policies and may be finalized in operations documentation. |
 
 ---
 
@@ -288,7 +290,7 @@ Candidate in-scope capabilities include:
 - payee validation;
 - payment quote and service fee calculation;
 - card payment authorization and capture;
-- multi-card or multi-source payment where supported;
+- multi-card payment with configurable card-count limit;
 - payout or settlement to approved payees;
 - receipts and notifications;
 - refund, cancellation, dispute, chargeback, reversal, and exception handling;
@@ -663,8 +665,8 @@ Metric definitions should be finalized in `DOC-18 Data Model, Transaction State 
 | `OQ-DOC01-001` | What Hong Kong-specific legal, regulatory, payment, privacy, tax, audit, and operational requirements apply before launch? | Project Owner / Legal | Critical | Open |
 | `OQ-DOC01-002` | Which MVP categories are enabled at initial launch versus held behind operational or risk gates? | Product / Compliance / Risk | Critical | Open |
 | `OQ-DOC01-003` | Which PSP/acquirer will support the intended bill payment or ordinary online card purchase treatment and appropriate MCC/classification? | Payments / Commercial | Critical | Open |
-| `OQ-DOC01-004` | Which operating bank setup and payout rails are approved for FPS, cheque, and EPS where applicable? | Payments / Operations | Critical | Open |
-| `OQ-DOC01-005` | Will MVP support multi-card or multi-source payments, or defer them? | Product / Payments / Engineering | High | Open |
+| `OQ-DOC01-004` | Which operating bank setup will be used for FPS, cheque, and EPS payouts? | Payments / Operations | Critical | Open |
+| `OQ-DOC01-005` | What configurable maximum number of credit cards per payment should be allowed at launch? | Product / Payments / Engineering | High | Open |
 | `OQ-DOC01-006` | What final KYC/KYB provider, check depth, sanctions screening, exception process, and risk-tier rules apply to the baseline onboarding model? | Legal / Compliance / Risk | High | Open |
 | `OQ-DOC01-007` | What transaction limits should apply at MVP? | Risk / Compliance / Product | High | Open |
 | `OQ-DOC01-008` | What exact percentage service fee, payer/payee fee allocation, subsidy, coupon, promotion, discount, refund, and reversal treatment will be used? | Commercial / Finance | High | Open |

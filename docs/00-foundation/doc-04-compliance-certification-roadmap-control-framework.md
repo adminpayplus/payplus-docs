@@ -619,13 +619,13 @@ Exception log fields:
 | `OQ-DOC04-007` | What written PSP/acquirer confirmations are available? | Payments / Legal | Critical | Open |
 | `OQ-DOC04-008` | What appropriate or special MCC will the selected acquirer assign? | Payments | Critical | Open |
 | `OQ-DOC04-009` | Can transactions be confirmed as bill payment or ordinary online card purchase rather than quasi-cash, account funding, money transfer, cash advance, or cash-equivalent activity? | Payments / Legal | Critical | Open |
-| `OQ-DOC04-010` | Which operating bank setup and payout rails are approved for FPS, cheque, and EPS where applicable? | Payments | Critical | Open |
+| `OQ-DOC04-010` | Which operating bank setup will be used for FPS, cheque, and EPS payouts? | Payments | Critical | Open |
 | `OQ-DOC04-011` | What controls confirm payout occurs only after upstream settlement and funding certainty under the expected T+1 to T+3 settlement model? | Payments / Finance | Critical | Open |
 | `OQ-DOC04-012` | What transaction, user, card, and payee limits apply at MVP? | Risk / Product | High | Open |
 | `OQ-DOC04-013` | What final payee verification, payout destination verification, and exception checks are required by payee type and risk tier? | Compliance / Risk | High | Open |
 | `OQ-DOC04-014` | What sanctions screening is legally or contractually required? | Compliance / Legal | Critical | Open |
 | `OQ-DOC04-015` | What fraud and anti-cashout rules are required at launch? | Risk | Critical | Open |
-| `OQ-DOC04-016` | Is multi-card or multi-source funding enabled at launch or kept disabled until partner, risk, and reconciliation approval? | Product / Payments / Legal | Critical | Open |
+| `OQ-DOC04-016` | What configurable maximum number of credit cards per payment should be allowed at launch, and what partner, risk, and reconciliation controls apply? | Product / Payments / Legal | Critical | Open |
 | `OQ-DOC04-017` | What PCI scope applies? | Security | Critical | Open |
 | `OQ-DOC04-018` | What disclosures must be shown before authorization? | Legal / Product | Critical | Open |
 | `OQ-DOC04-019` | What privacy, deletion, masking, and legal exception rules apply beyond the 7-year tax and audit retention baseline? | Legal / Compliance / Finance | High | Open |

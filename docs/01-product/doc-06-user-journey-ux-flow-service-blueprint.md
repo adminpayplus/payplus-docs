@@ -1376,7 +1376,7 @@ The DOC-06 user journey scope is satisfied when:
 | OQ-06-005 | Which rent and tenancy journey controls must be ready before initial launch enablement? | Product / Legal / Risk | Open |
 | OQ-06-006 | What final KYC/KYB screens, provider handoff, failure states, exception states, and risk-tier steps are required for the baseline onboarding model? | Compliance / Legal | Open |
 | OQ-06-007 | What payment methods are available to payers at MVP launch? | Payments / Product | Open |
-| OQ-06-008 | Which operating bank setup and payout rails are approved for FPS, cheque, and EPS where applicable? | Payments / Operations | Open |
+| OQ-06-008 | Which operating bank setup will be used for FPS, cheque, and EPS payouts? | Payments / Operations | Open |
 | OQ-06-009 | What fee disclosures must be shown before payment authorization? | Business / Legal | Open |
 | OQ-06-010 | What dispute states and resolution outcomes are required for MVP? | Operations / Legal | Open |
 | OQ-06-011 | What refund or reversal journeys are supported in MVP? | Payments / Operations | Open |
@@ -1425,7 +1425,7 @@ The DOC-06 user journey scope is satisfied when:
 | Linked payer/payee visibility is required subject to permissions. | Confirmed |
 | Admin/risk review support is required. | Confirmed |
 | Wallet, stored balance, cashout, self-cashout, and unsupported P2P journeys are prohibited. | Confirmed |
-| Final payment processor, approved payout rails, detailed KYC/KYB steps, fees, multi-source funding, and dispute rules remain open or to be confirmed. | Open |
+| Final payment processor, operating-bank setup, detailed KYC/KYB steps, fees, multi-card card-count limit, and dispute policy details remain open or to be confirmed. | Open |
 | Major functions and modules must be independently disableable. | Confirmed |
 
 ---
