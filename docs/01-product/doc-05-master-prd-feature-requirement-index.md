@@ -1,19 +1,29 @@
-# DOC-05 — PayPlus Master Product Requirements Document
-
-## Document Control
-
-| Field | Value |
-|---|---|
-| Document ID | DOC-05 |
-| Document Name | PayPlus Master Product Requirements Document |
-| Product | PayPlus |
-| Version | v0.2 |
-| Status | Draft |
-| Owner | Product / Founder |
-| Last Updated | 2026-05-27 |
-| Related Docs | DOC-00, DOC-01, DOC-02, DOC-03, DOC-04 |
-
 ---
+document_id: DOC-05
+title: Master PRD & Feature Requirement Index
+version: 0.2.0
+status: Draft
+owner: Product / Founder
+reviewers:
+  - Product Lead
+  - Engineering Lead
+  - Compliance Lead
+  - Risk Lead
+  - Operations Lead
+approvers:
+  - Project Owner
+  - Product Lead
+last_updated: 2026-05-27
+classification: Internal
+related_documents:
+  - DOC-00 Documentation Governance
+  - DOC-01 Product Overview & Positioning
+  - DOC-02 Business Model & Unit Economics
+  - DOC-03 Regulatory, PSP & Acquirer Assessment
+  - DOC-04 Compliance Certification Roadmap & Control Framework
+---
+
+# DOC-05 - PayPlus Master Product Requirements Document
 
 ## 1. Purpose
 

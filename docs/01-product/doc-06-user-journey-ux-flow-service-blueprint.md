@@ -1,19 +1,31 @@
-# DOC-06 — PayPlus User Journey, Product Flow, and UX Scope
-
-## Document Control
-
-| Field | Value |
-| --- | --- |
-| Document ID | DOC-06 |
-| Document Name | PayPlus User Journey, Product Flow, and UX Scope |
-| Product | PayPlus |
-| Version | v0.1 |
-| Status | Draft |
-| Owner | Product / Founder |
-| Last Updated | 2026-05-27 |
-| Related Docs | DOC-00, DOC-01, DOC-02, DOC-03, DOC-04, DOC-05 |
-
 ---
+document_id: DOC-06
+title: User Journey, UX Flow & Service Blueprint
+version: 0.1.0
+status: Draft
+owner: Product / Founder
+reviewers:
+  - Product Lead
+  - Design Lead
+  - Engineering Lead
+  - Compliance Lead
+  - Risk Lead
+  - Operations Lead
+approvers:
+  - Project Owner
+  - Product Lead
+last_updated: 2026-05-27
+classification: Internal
+related_documents:
+  - DOC-00 Documentation Governance
+  - DOC-01 Product Overview & Positioning
+  - DOC-02 Business Model & Unit Economics
+  - DOC-03 Regulatory, PSP & Acquirer Assessment
+  - DOC-04 Compliance Certification Roadmap & Control Framework
+  - DOC-05 Master PRD & Feature Requirement Index
+---
+
+# DOC-06 - PayPlus User Journey, Product Flow, and UX Scope
 
 ## 1. Purpose
 
