@@ -1,8 +1,8 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 0.5.0
-status: Draft
+version: 0.6.0
+status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
   - Legal Lead
@@ -84,6 +84,20 @@ The intended regulatory distinction is that PayPlus should support payment of ve
 This distinction depends on the actual product design, funds flow, contractual structure, partner model, and jurisdiction-specific legal analysis.
 
 No flow should launch unless Legal, Compliance, Payments, Risk, Finance, and relevant partners approve the applicable assessment.
+
+### 2.1 Current Regulatory Baseline
+
+Payee-created payment requests and tenancy/rent payments are included in the MVP product baseline.
+
+Regulatory, PSP/acquirer, payout, AML, privacy, card network, and partner approval remain gated requirements. If any required approval is unavailable, the affected module, category, payee type, or payment path must be disabled without blocking unrelated approved modules.
+
+The initial launch jurisdiction is Hong Kong.
+
+The current transaction classification assumption is that PayPlus card payments will be treated as bill payment or ordinary online card purchase transactions, subject to PSP/acquirer, card network, legal, and compliance confirmation. The acquirer remains undecided. PayPlus expects to seek an appropriate or special MCC from the selected acquirer and must avoid classification as quasi-cash, cash advance, account funding, unrestricted money transfer, or cash-equivalent activity unless separately assessed and approved.
+
+The current payout baseline is direct payout from the PayPlus operating bank account after upstream settlement. Candidate Hong Kong payout rails are FPS, cheque, and EPS where applicable and confirmed. Payment gateway settlement is expected to be T+1 to T+3, with payout expected on the same day after funds are settled by the upstream counterparty. Final bank setup, rail availability, EPS applicability, liquidity treatment, reserves, exception handling, and reconciliation remain to be confirmed.
+
+The current KYC/KYB baseline is highly confirmed. Individuals are expected to complete eKYC through a service provider such as Jumio, provide email, verify phone number by SMS, and submit ID copy through the eKYC provider. Businesses are expected to provide Business Registration documentation and owner ID. Final provider selection, check depth, sanctions screening, exception handling, and risk-tier rules remain to be confirmed.
 
 ---
 
@@ -251,7 +265,7 @@ Therefore, payee-created requests require:
 
 Landlord-created rent requests require enhanced review because rent can be misused for fake obligation, self-payment, related-party, or collusive cashout schemes.
 
-Landlord-created rent requests should remain restricted or deferred unless Legal, Compliance, Payments, Risk, Product, Finance, Operations, Security, Privacy, and relevant partners approve the model.
+Landlord-created rent requests are MVP scope but should remain restricted or disabled for production use unless Legal, Compliance, Payments, Risk, Product, Finance, Operations, Security, Privacy, and relevant partners approve the controls.
 
 ---
 
@@ -391,21 +405,21 @@ Legal and Compliance must review and document conclusions for the following item
 
 | Review Item | Required Question | Priority |
 | --- | --- | --- |
-| Launch jurisdiction | What jurisdictions will PayPlus launch in first? | Critical |
+| Launch jurisdiction | What Hong Kong-specific regulatory and partner requirements apply before launch? | Critical |
 | Regulatory role | What role does PayPlus take in each MVP funds flow? | Critical |
 | Licensing | Does the MVP require money transmission, payment service, bill payment, e-money, or similar licensing? | Critical |
 | Partner reliance | Can PayPlus rely on a regulated partner, exemption, sponsorship, or agent model? | Critical |
-| PSP/acquirer support | Which PSP/acquirer supports the bill payment use case? | Critical |
-| Transaction classification | What MCC or transaction classification applies? | Critical |
+| PSP/acquirer support | Which PSP/acquirer supports the Hong Kong bill payment use case? | Critical |
+| Transaction classification | What MCC or transaction classification applies, and can it support bill payment or ordinary online card purchase treatment? | Critical |
 | Cash-like treatment | Could transactions be treated as quasi-cash, cash advance, account funding, money transfer, or cash equivalent? | Critical |
 | Fee model | Are payer-paid, payee-paid, service, convenience, surcharge, platform, or payout fees permitted? | Critical |
 | Approved categories | Which bill categories are approved, restricted, prohibited, or enhanced-review for MVP? | Critical |
 | Payee verification | What verification is required before request creation and payout? | Critical |
-| Payee-created requests | Are payee-created requests approved for MVP under the selected legal and partner model? | Critical |
+| Payee-created requests | What legal, partner, category, and control gates must be satisfied before payee-created requests are enabled for launch? | Critical |
 | Payee role | Are payees merchants, sub-merchants, billers, beneficiaries, agents, customers, platform participants, or another role? | Critical |
 | PayFac / marketplace | Does payee-created request functionality require PayFac, marketplace, platform, or sub-merchant treatment? | Critical |
 | Payer authorization | How must payer authorization be captured and retained? | Critical |
-| Landlord-created rent | Are landlord-created rent requests approved, restricted, or deferred? | Critical |
+| Landlord-created rent | What controls and restrictions are required before landlord-created rent requests are enabled for production use? | Critical |
 | Debt collection | Could overdue invoices, rent, fees, or payment reminders create debt collection implications? | High |
 | Privacy boundaries | What payee information may be shown to payer, and what payer information may be shown to payee? | High |
 | Recurring requests | Are recurring payee-created requests permitted, or must each request require separate payer authorization? | High |
@@ -568,30 +582,31 @@ Reviewers:
 
 | Question ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
-| `OQ-DOC03-001` | What jurisdictions will PayPlus launch in first? | Project Owner / Legal | Critical | Open |
+| `OQ-DOC03-001` | What Hong Kong-specific regulatory, payment, privacy, tax, audit, and operational requirements apply before launch? | Project Owner / Legal | Critical | Open |
 | `OQ-DOC03-002` | What legal role will PayPlus take in the MVP funds flow? | Legal / Compliance | Critical | Open |
 | `OQ-DOC03-003` | Does the MVP funds flow require money transmission, payment service, bill payment, e-money, or similar licensing? | Legal / Compliance | Critical | Open |
 | `OQ-DOC03-004` | Can PayPlus rely on a regulated partner, exemption, sponsorship, or agent model? | Legal / Compliance | Critical | Open |
-| `OQ-DOC03-005` | Which PSP/acquirer will support the PayPlus bill payment use case? | Payments / Commercial | Critical | Open |
-| `OQ-DOC03-006` | What MCC or transaction classification will apply? | Payments | Critical | Open |
-| `OQ-DOC03-007` | Could transactions be treated as purchase, quasi-cash, cash advance, account funding, money transfer, or cash equivalent? | Payments / Legal | Critical | Open |
+| `OQ-DOC03-005` | Which PSP/acquirer will support the PayPlus Hong Kong bill payment use case? | Payments / Commercial | Critical | Open |
+| `OQ-DOC03-006` | What appropriate or special MCC will the selected acquirer assign? | Payments | Critical | Open |
+| `OQ-DOC03-007` | Can transactions be confirmed as bill payment or ordinary online card purchase rather than quasi-cash, cash advance, account funding, money transfer, or cash equivalent? | Payments / Legal | Critical | Open |
 | `OQ-DOC03-008` | Are payer-paid, payee-paid, service, convenience, platform, surcharge, or payout fees permitted? | Legal / Payments | Critical | Open |
+| `OQ-DOC03-008A` | What legal, PSP/acquirer, payout, and partner gates must payee-created requests and rent payments satisfy before launch enablement? | Legal / Payments / Compliance | Critical | Open |
 | `OQ-DOC03-009` | Which bill categories are approved, restricted, prohibited, or enhanced-review for MVP? | Compliance / Risk / Product | Critical | Open |
-| `OQ-DOC03-010` | What payee verification is required before request creation and payout? | Risk / Compliance | Critical | Open |
-| `OQ-DOC03-011` | What payout provider and payout rail will be used? | Payments / Commercial | High | Open |
-| `OQ-DOC03-012` | What settlement timing, reserves, holdbacks, collateral, or prefunding will apply? | Finance / Payments | High | Open |
+| `OQ-DOC03-010` | What final KYC/KYB provider, check depth, sanctions screening, exception handling, and risk-tier rules are required before request creation and payout? | Risk / Compliance | Critical | Open |
+| `OQ-DOC03-011` | Which operating bank setup and payout rails are approved for FPS, cheque, and EPS where applicable? | Payments / Commercial | High | Open |
+| `OQ-DOC03-012` | What reserves, holdbacks, collateral, prefunding, liquidity, and exception rules apply to the T+1 to T+3 upstream settlement and same-day-after-settlement payout baseline? | Finance / Payments | High | Open |
 | `OQ-DOC03-013` | Are multi-card or multi-source payments supported by the PSP/acquirer and legally acceptable? | Product / Payments / Legal | High | Open |
 | `OQ-DOC03-014` | What AML, sanctions, fraud, anti-cashout, collusion, and request-abuse controls are required before MVP? | Compliance / Risk | Critical | Open |
 | `OQ-DOC03-015` | What PCI, privacy, security, and data protection requirements apply? | Security / Privacy | High | Open |
 | `OQ-DOC03-016` | What partner reporting files or APIs are required for reconciliation and compliance records? | Finance / Engineering | High | Open |
 | `OQ-DOC03-017` | What disclosures are required at request review, checkout, receipt, notification, and payee communications? | Legal / Product | High | Open |
 | `OQ-DOC03-018` | What contract provisions are mandatory for PSP/acquirer/payout provider agreements? | Legal / Payments | High | Open |
-| `OQ-DOC03-019` | Are payee-created requests approved for MVP under the selected legal and partner model? | Project Owner / Legal / Compliance / Payments | Critical | Open |
+| `OQ-DOC03-019` | What legal, partner, category, and control gates must be satisfied before payee-created requests are enabled for launch? | Project Owner / Legal / Compliance / Payments | Critical | Open |
 | `OQ-DOC03-020` | Which payee types can create payment requests? | Product / Legal / Compliance / Risk | Critical | Open |
 | `OQ-DOC03-021` | Are onboarded payees treated as merchants, sub-merchants, billers, beneficiaries, agents, customers, platform participants, or another role? | Legal / Compliance / Payments | Critical | Open |
 | `OQ-DOC03-022` | Does enabling payee-created requests require PayFac, marketplace, platform, or sub-merchant treatment? | Legal / Compliance / Payments | Critical | Open |
 | `OQ-DOC03-023` | Do PSP/acquirer and payout partners approve payee-created bill, invoice, fee, or rent request flows? | Payments / Commercial | Critical | Open |
-| `OQ-DOC03-024` | Are landlord-created rent requests approved, restricted, or deferred? | Product / Legal / Risk / Payments | Critical | Open |
+| `OQ-DOC03-024` | What controls and restrictions are required before landlord-created rent requests are enabled for production use? | Product / Legal / Risk / Payments | Critical | Open |
 | `OQ-DOC03-025` | What landlord onboarding, identity, property, payout, sanctions, and tenancy evidence checks are required? | Legal / Compliance / Risk | Critical | Open |
 | `OQ-DOC03-026` | Could landlord-created rent requests create landlord/tenant, rent collection, or debt collection implications? | Legal / Compliance | High | Open |
 | `OQ-DOC03-027` | What invoice evidence and KYB/KYC requirements apply to payee-created invoice or fee requests? | Compliance / Risk / Legal | High | Open |
@@ -672,3 +687,4 @@ This document must remain an assessment framework and must not become:
 | `0.3.0` | 2026-05-27 | Product Documentation Team | Updated assessment framework for payee onboarding and payee-created bill, invoice, fee, and rent payment request capability introduced in DOC-05 v0.2.0. |
 | `0.4.0` | 2026-05-27 | Product Documentation Team | Simplified structure and language while preserving essential regulatory, PSP/acquirer, funds flow, partner, category, payee-created request, rent request, disclosure, privacy, security, contractual, settlement, readiness gate, risk, and open-question content. |
 | `0.5.0` | 2026-05-27 | Product Documentation Team | Reorganized into simplified regulatory assessment format focused on regulatory posture, two-sided MVP model, key boundaries, money movement, wallet/stored value, P2P/cashout risk, MSB/payment institution considerations, required controls, legal review items, risks, and open questions. |
+| `0.6.0` | 2026-05-29 | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP product scope while preserving regulatory, partner, payout, and category gating before production enablement. |

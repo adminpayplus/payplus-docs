@@ -1,8 +1,8 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.2.0
-status: Draft
+version: 0.3.0
+status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
   - Product Lead
@@ -49,6 +49,8 @@ The MVP supports both:
 
 Both flows are core MVP features.
 
+Tenancy and rent payments are also MVP scope, subject to rent-specific evidence, payee verification, relationship, risk, limit, and review controls.
+
 PayPlus is not a wallet, stored-value account, cashout product, open-loop money transfer product, or arbitrary peer-to-peer payment service.
 
 ---
@@ -63,7 +65,7 @@ The MVP includes:
 - payee account registration and login;
 - payer-created payment requests;
 - payee-created payment requests;
-- evidence-backed bill, invoice, tenancy, or document upload;
+- evidence-backed bill, invoice, tenancy, rent, or document upload;
 - payer and payee visibility into linked payment records;
 - matching between bill/request/payment records;
 - payer review and authorization before payment;
@@ -75,6 +77,43 @@ The MVP includes:
 - basic notifications;
 - sandbox or production-ready payment integration design;
 - clear prohibition of wallet, stored balance, cashout, and unsupported P2P use cases.
+
+### 3.1.1 MVP Gating and Configuration
+
+Confirmed MVP scope does not mean every function must be enabled for every user, category, payee type, or launch phase.
+
+The MVP must support independent enablement or disablement of major modules, including:
+
+| Module or Capability | Gating Requirement |
+|---|---|
+| Payee-created requests | Enable by payee, category, risk tier, and control readiness. |
+| Rent and tenancy payments | Enable only when rent evidence, landlord/payee verification, limits, monitoring, and manual review rules are ready. |
+| Payment methods | Enable only when approved by PSP/acquirer and compliance review. |
+| Payout methods | Enable only when payout provider, rail, timing, exception handling, and reconciliation are ready. |
+| Fees and promotions | Enable only when disclosure, accounting, tax, commercial, and reporting treatment is confirmed. |
+| OCR or document AI | Optional for MVP; manual or assisted review may be used until automation is approved. |
+| Multi-card or multi-source funding | Gated and disableable due to partner, risk, reconciliation, support, and chargeback complexity. |
+
+Current launch assumptions:
+
+- initial launch jurisdiction is Hong Kong;
+- acquirer is undecided;
+- card payments are expected to be treated as bill payment or ordinary online card purchase, subject to acquirer confirmation;
+- PayPlus expects to seek an appropriate or special MCC from the selected acquirer;
+- payouts are expected to be made from the PayPlus operating bank account after upstream settlement;
+- candidate Hong Kong payout rails are FPS, cheque, and EPS where applicable and confirmed;
+- payment gateway settlement is expected to be T+1 to T+3, with payout on the same day after upstream settlement;
+- individual eKYC is expected through a service provider such as Jumio, with name verification, SMS phone verification, email capture, and ID copy submission;
+- business KYB is expected to require a Business Registration document and owner ID;
+- candidate notification channels are app notifications, push notifications, email, SMS, and WhatsApp;
+- receipt, payment, account, tax, and audit record retention is expected to be 7 years, subject to final privacy and legal review;
+- exact fee rates, fee allocation, promotion, refund, reversal, and multi-card or multi-source launch support remain to be confirmed.
+
+### 3.1.2 Requirement ID Approach
+
+This founder working baseline may describe requirements in concise natural language.
+
+Before AI build-execution conversion or implementation planning, core product requirements, business rules, controls, and testable acceptance criteria should receive stable IDs aligned with DOC-00.
 
 ---
 
@@ -349,13 +388,13 @@ The MVP should support basic notifications for:
 - payment failed;
 - payout completed, if applicable.
 
-Notification channels may include email, in-app notification, or other approved channels.
+Candidate notification channels include app notifications, push notifications, email, SMS, and WhatsApp. Final channel routing, user preferences, templates, retry behavior, consent rules, and audit requirements belong in DOC-08.
 
 ---
 
 ## 14. Data Requirements
 
-The MVP should support data structures for:
+The MVP should support data structures for the following object families. Detailed fields, relationships, indexes, event schemas, and ledger behavior belong in DOC-18.
 
 - users;
 - payer profile;
@@ -376,7 +415,7 @@ Detailed data model requirements should be defined in a later technical/data doc
 
 ## 15. UX Requirements
 
-The MVP should include user interfaces for:
+The MVP should include the following UX surfaces. Detailed screen flows, service blueprint steps, and interaction rules belong in DOC-06.
 
 ### Payer
 
@@ -493,15 +532,16 @@ The MVP is acceptable when:
 | ID | Question | Owner | Status |
 |---|---|---|---|
 | OQ-05-001 | What specific payment processor or PSP will be used? | Product / Payments | Open |
-| OQ-05-002 | What onboarding/KYC/KYB level is required for payers and payees? | Compliance / Legal | Open |
+| OQ-05-002 | What final KYC/KYB provider, check depth, sanctions screening, exception process, and risk-tier rules apply to the baseline onboarding model? | Compliance / Legal | Open |
 | OQ-05-003 | Which evidence categories are accepted at launch? | Product / Compliance | Open |
-| OQ-05-004 | Are rent and tenancy payments fully in MVP or controlled beta? | Product | Open |
+| OQ-05-004 | Which rent and tenancy controls are required before initial launch enablement? | Product / Risk | Open |
 | OQ-05-005 | What transaction limits apply by user type and category? | Risk / Product | Open |
 | OQ-05-006 | What admin review rules are mandatory before payment or payout? | Operations / Risk | Open |
-| OQ-05-007 | What fees are charged and to whom? | Business / Product | Open |
-| OQ-05-008 | What payout methods are supported for payees? | Payments / Operations | Open |
-| OQ-05-009 | What data retention rules apply to evidence documents? | Legal / Compliance | Open |
+| OQ-05-007 | What exact percentage service fee, payer/payee fee allocation, subsidy, coupon, promotion, discount, refund, and reversal treatment will be used? | Business / Product | Open |
+| OQ-05-008 | Which operating bank setup and payout rails are approved for FPS, cheque, and EPS where applicable? | Payments / Operations | Open |
+| OQ-05-009 | What privacy, deletion, masking, and legal exception rules apply beyond the 7-year tax and audit retention baseline? | Legal / Compliance | Open |
 | OQ-05-010 | What dispute process applies after payment completion? | Operations / Legal | Open |
+| OQ-05-011 | What appropriate or special MCC and transaction classification will the selected acquirer confirm for PayPlus? | Payments / Legal | Open |
 
 ---
 
@@ -528,12 +568,14 @@ The MVP is acceptable when:
 |---|---|
 | Payer-created payment requests are MVP scope. | Confirmed |
 | Payee-created payment requests are MVP scope. | Confirmed |
+| Tenancy and rent payments are MVP scope. | Confirmed |
 | Payers can log in. | Confirmed |
 | Payees can log in. | Confirmed |
 | Every payment should be evidence-backed. | Confirmed |
 | Payer must authorize payment before funds movement. | Confirmed |
 | Linked payer/payee views are required. | Confirmed |
 | Wallet, cashout, and unsupported P2P are prohibited. | Confirmed |
+| Major functions and modules must be independently disableable. | Confirmed |
 | Future docs should use concise product-spec structure. | Confirmed |
 
 ---
@@ -544,3 +586,4 @@ The MVP is acceptable when:
 |---|---|---|
 | v0.1 | Initial Draft | Initial master PRD structure. |
 | v0.2 | 2026-05-27 | Updated MVP to include both payer-created and payee-created payment requests; added two-sided user visibility, evidence-backed matching, linked payer/payee records, and simplified structure. |
+| v0.3 | 2026-05-29 | Confirmed payee-created requests and tenancy/rent as MVP scope, added MVP gating and configuration rules, clarified that detailed data and UX design belong in downstream docs, and updated open questions. |

@@ -1,8 +1,8 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.4.0
-status: Draft
+version: 0.5.0
+status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
   - Product Lead
@@ -60,23 +60,24 @@ This document applies to formal and supporting PayPlus documentation, including:
 
 ## 3. Source of Truth
 
-Approved formal documentation is the source of truth for PayPlus decisions and implementation guidance.
+Approved formal documentation is the final source of truth for PayPlus decisions and implementation guidance.
 
-Only documents with status `Approved` should be treated as authoritative.
+During founding-stage drafting, a document with status `Founder Working Baseline` may be used as the current planning baseline when the Project Owner explicitly accepts it for continued drafting, review, and downstream alignment.
 
 Draft, planned, or in-review documents may be used for discussion, but not as final implementation authority unless explicitly approved for limited use.
 
 If sources conflict, the priority order is:
 
 1. Approved core `DOC-XX` documents.
-2. Approved ADRs or decision records.
-3. Approved rulebooks.
-4. Approved API, data model, and test specifications.
-5. Approved ISMS policies, where relevant.
-6. Approved traceability registers.
-7. AI build execution documents and AI context summaries.
-8. Changelogs, diagrams, glossary entries, and supporting repository files.
-9. Informal notes or chat history.
+2. Founder Working Baseline core `DOC-XX` documents, for current-stage planning only.
+3. Approved ADRs or decision records.
+4. Approved rulebooks.
+5. Approved API, data model, and test specifications.
+6. Approved ISMS policies, where relevant.
+7. Approved traceability registers.
+8. AI build execution documents and AI context summaries.
+9. Changelogs, diagrams, glossary entries, and supporting repository files.
+10. Informal notes or chat history.
 
 AI build execution files and AI context files are supporting guidance only and must not override approved formal documents.
 
@@ -249,14 +250,15 @@ Each formal document must use one of the following statuses:
 | Status | Meaning |
 | --- | --- |
 | Planned | Identified but not yet drafted. |
-| Draft | Being written and not approved. |
+| Draft | Being written and not yet accepted as a working baseline. |
+| Founder Working Baseline | Accepted by the Project Owner for current-stage planning and cross-document alignment, but not final approval. |
 | In Review | Ready for stakeholder review. |
 | Approved | Reviewed and approved as source of truth. |
 | Needs Update | Approved but requires revision. |
 | Deprecated | No longer recommended for use. |
 | Retired | No longer active. |
 
-Only Approved documents are authoritative.
+Only Approved documents are final authority. Founder Working Baseline documents may guide drafting and planning until replaced by a later baseline or Approved version.
 
 ---
 
@@ -343,7 +345,7 @@ Responsibilities:
 Normal approval flow:
 
 ```text
-Planned → Draft → In Review → Approved
+Planned → Draft → Founder Working Baseline → In Review → Approved
 ```
 
 Revision flow for approved documents:
@@ -411,6 +413,8 @@ IDs must not be reused.
 If a requirement, rule, control, or test case is removed, it should be marked as removed or deprecated rather than silently deleted.
 
 Foundation documents may use assumptions, constraints, risks, dependencies, gates, and open questions without converting every statement into a requirement ID.
+
+During founding-stage drafting, stable IDs may be introduced progressively. Core product, control, payment, data, API, and test requirements should receive stable IDs before AI build-execution conversion or implementation planning.
 
 ---
 
@@ -763,3 +767,4 @@ DOC-00 must remain focused on documentation governance only.
 | 0.2.0 | 2026-05-26 | Product Documentation Team | Standardized metadata, aligned document register names, added foundation document role, metadata standard, stable ID guidance, foundation-to-downstream guidance, source-of-truth rules, AI context rules, and version history expectations. |
 | 0.3.0 | 2026-05-27 | Product Documentation Team | Simplified structure, reduced repetition, consolidated ID conventions, and retained essential governance controls. |
 | 0.4.0 | 2026-05-27 | Product Documentation Team | Updated repository structure, core document register filenames, AI build execution folder governance, template list, traceability files, and supporting repository areas. |
+| 0.5.0 | 2026-05-29 | Product Documentation Team | Added Founder Working Baseline status for founding-stage documentation workflow and clarified planning authority before final approval. |

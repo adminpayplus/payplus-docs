@@ -1,8 +1,8 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 0.4.0
-status: Draft
+version: 0.5.0
+status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
   - Product Lead
@@ -83,6 +83,26 @@ For payee-created requests, PayPlus must separately assess:
 - payee-side revenue, if any;
 - incremental completed payment volume;
 - incremental operational load.
+
+### 2.1 Current Commercial Baseline
+
+Payee-created requests and tenancy/rent payments are MVP scope from a product perspective.
+
+From a commercial perspective, they remain gated by:
+
+- PSP/acquirer pricing and acceptance;
+- payout cost and settlement timing;
+- payee onboarding and verification cost;
+- payer acceptance and completion rate;
+- support, dispute, refund, chargeback, fraud, and manual review cost;
+- category-level contribution margin;
+- approved fee disclosure and fee recovery model.
+
+Each commercial module, fee model, category, payee type, promotion, and payout method should be independently configurable or disableable.
+
+The current fee model baseline is an online payment processing service fee calculated as a percentage of transaction amount. Payer fees, payee fees, subsidies, coupons, promotion codes, discount codes, refunds, reversals, and exact rate logic remain to be confirmed.
+
+The current payout timing baseline assumes payment gateway settlement of T+1 to T+3 and payout from the PayPlus operating bank account on the same day after upstream settlement, subject to final bank, PSP/acquirer, liquidity, reserve, and reconciliation approval.
 
 ---
 
@@ -858,10 +878,10 @@ This document provides a framework only and does not establish accounting or tax
 
 | Question ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
-| `OQ-DOC02-001` | What service fee model will be used for MVP? | Commercial / Product | Critical | Open |
+| `OQ-DOC02-001` | What exact percentage service fee, payer/payee fee allocation, subsidy, coupon, promotion, discount, refund, and reversal treatment will be used for MVP? | Commercial / Product | Critical | Open |
 | `OQ-DOC02-002` | What is the target minimum contribution margin per transaction and by category? | Finance / Commercial | Critical | Open |
 | `OQ-DOC02-003` | What PSP/acquirer pricing assumptions should be used before contracts are signed? | Payments / Commercial | Critical | Open |
-| `OQ-DOC02-004` | What payout provider pricing assumptions should be used? | Payments / Commercial | High | Open |
+| `OQ-DOC02-004` | What operating-bank, FPS, cheque, and EPS pricing assumptions should be used for payout modeling? | Payments / Commercial | High | Open |
 | `OQ-DOC02-005` | Will PayPlus charge different fees by category, amount, funding source, request creator type, or payee type? | Commercial / Legal / Product | High | Open |
 | `OQ-DOC02-006` | Are card surcharges, convenience fees, or payment-method-based fees permitted in the launch jurisdiction and partner model? | Legal / Compliance / Payments | Critical | Open |
 | `OQ-DOC02-007` | What refund and fee reversal rules will apply? | Finance / Payments / Product | High | Open |
@@ -872,7 +892,7 @@ This document provides a framework only and does not establish accounting or tax
 | `OQ-DOC02-012` | What tax treatment applies to user fees, payer fees, payee fees, partner fees, and promotions? | Legal / Tax / Finance | Critical | Open |
 | `OQ-DOC02-013` | What data fields are required to calculate transaction, request, payee, and request-origin margin accurately? | Finance / Engineering | High | Open |
 | `OQ-DOC02-014` | What commercial approval process is required before category, payee type, request-origin, or pricing changes? | Project Owner / Finance | Medium | Open |
-| `OQ-DOC02-015` | Are payee-created payment requests included in MVP, pilot, or post-MVP scope from a commercial perspective? | Project Owner / Commercial / Product | Critical | Open |
+| `OQ-DOC02-015` | What commercial gates must payee-created payment requests pass before launch enablement and scale-up? | Project Owner / Commercial / Product | Critical | Open |
 | `OQ-DOC02-016` | Which payee types can be commercially supported for request creation? | Commercial / Product / Risk | Critical | Open |
 | `OQ-DOC02-017` | Are payees charged onboarding, subscription, invoice, request, payout, platform, or transaction fees? | Commercial / Finance / Product | Critical | Open |
 | `OQ-DOC02-018` | If payee-side fees are charged, when are they charged: onboarding, request creation, request delivery, payer acceptance, funding, payout, monthly, or another trigger? | Commercial / Finance / Product | High | Open |
@@ -930,3 +950,4 @@ This document should remain a commercial framework and should not become a final
 | `0.2.0` | 2026-05-26 | Product Documentation Team | Reframed as foundation commercial framework, added unit economics model, revenue and cost taxonomy, commercial viability gates, pricing governance, promotion economics, settlement and reserve considerations, reporting expectations, assumptions, constraints, dependencies, risks, downstream impact, and standardized metadata and version history. |
 | `0.3.0` | 2026-05-27 | Product Documentation Team | Updated commercial framework to account for payee onboarding and payee-created bill, invoice, fee, and rent payment request capability introduced in DOC-05 v0.2.0. Added payee-side revenue streams, payee onboarding and verification costs, request-origin economics, payer/payee fee allocation, payee-created request funnel metrics, rent/invoice economics, payee-side pricing governance, commercial viability gates, reporting and ledger expectations, assumptions, constraints, dependencies, risks, and open questions. |
 | `0.4.0` | 2026-05-27 | Product Documentation Team | Simplified structure and language while preserving essential commercial model, revenue streams, fee principles, cost drivers, unit economics formulas, payee-created request economics, commercial viability gates, reporting expectations, assumptions, constraints, dependencies, risks, and open questions. |
+| `0.5.0` | 2026-05-29 | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as product MVP scope while keeping commercial launch enablement gated by pricing, partner, payout, verification, support, risk, and margin assumptions. |

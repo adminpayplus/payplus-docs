@@ -1,8 +1,8 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.6.0
-status: Draft
+version: 0.7.0
+status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
   - Legal Lead
@@ -151,6 +151,8 @@ Examples:
 - `T1 if rent enabled`
 - `T1 if multi-source enabled`
 
+Payee-created requests and tenancy/rent are MVP scope. Conditional wording means the relevant module, category, payee type, or payment path must be independently configurable and may remain disabled until required controls are ready.
+
 ---
 
 ## 5. User Controls
@@ -163,8 +165,8 @@ Examples:
 | `CTRL-DOC04-USER-004` | `T1` | Apply user eligibility rules, blocked-user rules, and restricted-user handling. | Product / Compliance / Risk | Eligibility config, blocked-user logs |
 | `CTRL-DOC04-USER-005` | `T1` | Prevent users from paying themselves or related accounts unless explicitly approved. | Risk / Engineering | Rule config, alert logs |
 | `CTRL-DOC04-USER-006` | `T1` | Provide payer access to request status, payment status, refund status, and support options. | Product / Operations | UI evidence, support logs |
-| `CTRL-DOC04-USER-007` | `T1 if payee-created enabled` | Allow payer to review, accept, reject, query, dispute, or ignore a payee-created request before payment. | Product / Operations | Request lifecycle logs |
-| `CTRL-DOC04-USER-008` | `T0 if payee-created enabled` | Prevent funding, capture, and payout unless payer has explicitly authorized the payee-created request. | Product / Payments / Engineering | Authorization logs, payment state logs |
+| `CTRL-DOC04-USER-007` | `T1` | Allow payer to review, accept, reject, query, dispute, or ignore a payee-created request before payment. | Product / Operations | Request lifecycle logs |
+| `CTRL-DOC04-USER-008` | `T0` | Prevent funding, capture, and payout unless payer has explicitly authorized the payee-created request. | Product / Payments / Engineering | Authorization logs, payment state logs |
 
 ---
 
@@ -178,8 +180,8 @@ Examples:
 | `CTRL-DOC04-EVD-004` | `T1` | Prevent request submission if required evidence fields are missing. | Product / Engineering | Validation logs |
 | `CTRL-DOC04-EVD-005` | `T1` | Detect duplicate evidence, duplicate invoices, duplicate rent requests, or repeated payment requests where feasible. | Risk / Engineering | Duplicate detection alerts |
 | `CTRL-DOC04-EVD-006` | `T1` | Route unclear, incomplete, suspicious, or high-risk evidence to admin review. | Risk / Operations | Review case logs |
-| `CTRL-DOC04-EVD-007` | `T1 if payee-created enabled` | Require payee-created requests to include evidence equal to or stronger than payer-created request evidence for the same category. | Product / Compliance / Risk | Evidence requirements matrix |
-| `CTRL-DOC04-EVD-008` | `T1 if rent enabled` | Require rent evidence, such as lease, rent schedule, property reference, tenancy confirmation, or approved equivalent. | Product / Compliance / Risk | Rent evidence record |
+| `CTRL-DOC04-EVD-007` | `T1` | Require payee-created requests to include evidence equal to or stronger than payer-created request evidence for the same category. | Product / Compliance / Risk | Evidence requirements matrix |
+| `CTRL-DOC04-EVD-008` | `T1` | Require rent evidence, such as lease, rent schedule, property reference, tenancy confirmation, or approved equivalent. | Product / Compliance / Risk | Rent evidence record |
 | `CTRL-DOC04-EVD-009` | `T1 if invoice enabled` | Require invoice evidence, business-payee details, service description, amount, due date, and payee identity information. | Product / Compliance / Risk | Invoice evidence record |
 
 ---
@@ -194,9 +196,9 @@ Examples:
 | `CTRL-DOC04-AUTH-004` | `T1` | Authorization, capture, reversal, cancellation, refund, and chargeback events must be linked to the original request. | Payments / Engineering / Finance | Transaction ledger |
 | `CTRL-DOC04-AUTH-005` | `T1` | Failed or expired authorizations must not result in payout. | Payments / Engineering | Payment state logs |
 | `CTRL-DOC04-AUTH-006` | `T1` | Payer must receive confirmation or receipt after successful authorization or payment. | Product / Operations | Receipt logs |
-| `CTRL-DOC04-AUTH-007` | `T1 if payee-created enabled` | Payee-created requests must remain in pending, viewed, queried, disputed, rejected, expired, cancelled, withdrawn, or accepted state until payer authorization occurs. | Product / Engineering | Request state history |
-| `CTRL-DOC04-AUTH-008` | `T0 if payee-created enabled` | Payee-created request acceptance and payment authorization must be distinct, recorded events unless legally and product-approved as a single combined action. | Product / Legal / Engineering | Event logs |
-| `CTRL-DOC04-AUTH-009` | `T1 if payee-created enabled` | Payee cannot change amount, destination, due date, evidence, or material terms after payer authorization unless payer re-authorizes. | Product / Engineering | Change lock logs |
+| `CTRL-DOC04-AUTH-007` | `T1` | Payee-created requests must remain in pending, viewed, queried, disputed, rejected, expired, cancelled, withdrawn, or accepted state until payer authorization occurs. | Product / Engineering | Request state history |
+| `CTRL-DOC04-AUTH-008` | `T0` | Payee-created request acceptance and payment authorization must be distinct, recorded events unless legally and product-approved as a single combined action. | Product / Legal / Engineering | Event logs |
+| `CTRL-DOC04-AUTH-009` | `T1` | Payee cannot change amount, destination, due date, evidence, or material terms after payer authorization unless payer re-authorizes. | Product / Engineering | Change lock logs |
 
 ---
 
@@ -205,13 +207,13 @@ Examples:
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
 | `CTRL-DOC04-PAYEE-001` | `T1` | Verify payee identity, business identity, payout destination, and eligibility before payout where required. | Compliance / Risk / Operations | Payee verification record |
-| `CTRL-DOC04-PAYEE-002` | `T0 if payee-created enabled` | Verify payee eligibility before granting payee-created request capability. | Compliance / Risk / Product | Capability approval log |
+| `CTRL-DOC04-PAYEE-002` | `T0` | Verify payee eligibility before granting payee-created request capability. | Compliance / Risk / Product | Capability approval log |
 | `CTRL-DOC04-PAYEE-003` | `T1` | Screen payees against applicable sanctions or blocked-party lists where required. | Compliance | Screening logs |
 | `CTRL-DOC04-PAYEE-004` | `T1` | Assign payee status, risk tier, category permissions, payout permissions, and request creation permissions. | Product / Risk / Compliance | Payee capability config |
 | `CTRL-DOC04-PAYEE-005` | `T1` | Block restricted, rejected, suspended, or unverified payees from payout. | Product / Payments / Engineering | Payout block logs |
 | `CTRL-DOC04-PAYEE-006` | `T1 if payee-created enabled` | Block restricted, rejected, suspended, or unverified payees from creating or sending payment requests. | Product / Engineering | Request permission logs |
 | `CTRL-DOC04-PAYEE-007` | `T1` | Review payout destination changes before allowing payout to the new destination where risk requires. | Operations / Risk / Payments | Change review logs |
-| `CTRL-DOC04-PAYEE-008` | `T1 if rent enabled` | Verify landlord or property manager identity, property relationship, payout destination, and rent-request eligibility. | Compliance / Risk / Operations | Landlord verification record |
+| `CTRL-DOC04-PAYEE-008` | `T1` | Verify landlord or property manager identity, property relationship, payout destination, and rent-request eligibility. | Compliance / Risk / Operations | Landlord verification record |
 | `CTRL-DOC04-PAYEE-009` | `T1 if invoice enabled` | Verify business-payee identity, business status, invoice legitimacy indicators, and payout destination where required. | Compliance / Risk / Operations | Business payee verification record |
 | `CTRL-DOC04-PAYEE-010` | `T1` | Offboard or suspend payees with confirmed fraud, sanctions issues, excessive disputes, unsupported categories, or partner violations. | Compliance / Risk / Operations | Offboarding logs |
 
@@ -289,7 +291,7 @@ PayPlus must prevent or restrict activity that could undermine the product’s b
 
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
-| `CTRL-DOC04-POUT-001` | `T0` | Payout provider, payout rail, settlement timing, and payout exception handling must be approved before production payout. | Payments / Finance | Payout approval record |
+| `CTRL-DOC04-POUT-001` | `T0` | Operating-bank payout setup, approved payout rails, settlement timing, liquidity treatment, and payout exception handling must be approved before production payout. | Payments / Finance | Payout approval record |
 | `CTRL-DOC04-POUT-002` | `T0` | Payout must be blocked unless payment status, payee status, risk status, and payout destination status are eligible. | Payments / Risk / Engineering | Payout gating logs |
 | `CTRL-DOC04-POUT-003` | `T1` | Payout readiness must check authorization success, capture status, settlement status where required, refund status, dispute status, risk hold status, and reserve requirements. | Payments / Finance / Risk | Payout readiness record |
 | `CTRL-DOC04-POUT-004` | `T1` | Failed, returned, delayed, rejected, or misdirected payouts must create an exception case. | Payments / Operations | Payout exception log |
@@ -336,10 +338,10 @@ PayPlus must prevent or restrict activity that could undermine the product’s b
 
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
-| `CTRL-DOC04-LAUNCH-001` | `T0` | Launch scope must define jurisdiction, categories, payment methods, payout methods, partners, payee types, and request creator types. | Project Owner / Compliance | Launch scope record |
+| `CTRL-DOC04-LAUNCH-001` | `T0` | Launch scope must define Hong Kong launch requirements, categories, payment methods, payout methods, partners, payee types, and request creator types. | Project Owner / Compliance | Launch scope record |
 | `CTRL-DOC04-LAUNCH-002` | `T0` | Regulatory role and licensing path must be assessed before launch. | Legal / Compliance | DOC-03 assessment |
-| `CTRL-DOC04-LAUNCH-003` | `T0` | PSP/acquirer support must be confirmed for use case, funds flow, categories, fees, and request creator model. | Payments / Legal | Partner confirmation |
-| `CTRL-DOC04-LAUNCH-004` | `T0` | Payout provider support must be confirmed before production payout. | Payments / Legal | Partner confirmation |
+| `CTRL-DOC04-LAUNCH-003` | `T0` | PSP/acquirer support must be confirmed for use case, funds flow, categories, fees, request creator model, and intended MCC/classification. | Payments / Legal | Partner confirmation |
+| `CTRL-DOC04-LAUNCH-004` | `T0` | PayPlus operating bank setup and approved Hong Kong payout rails must be confirmed before production payout. | Payments / Legal | Partner confirmation |
 | `CTRL-DOC04-LAUNCH-005` | `T0` | Fee model, total charge display, and required disclosures must be approved before launch. | Legal / Product / Finance | Approval record |
 | `CTRL-DOC04-LAUNCH-006` | `T0` | Required T0 controls must be implemented, tested, and evidenced before launch. | Compliance / QA | Test evidence |
 | `CTRL-DOC04-LAUNCH-007` | `T1` | T1 exceptions must be remediated or formally risk-accepted with mitigation and target date. | Compliance / Functional Owner | Exception log |
@@ -608,35 +610,35 @@ Exception log fields:
 
 | Question ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
-| `OQ-DOC04-001` | What exact MVP jurisdiction is in scope? | Project Owner / Legal | Critical | Open |
+| `OQ-DOC04-001` | What Hong Kong-specific launch requirements must be satisfied? | Project Owner / Legal | Critical | Open |
 | `OQ-DOC04-002` | What exact bill categories are in MVP? | Product / Compliance | Critical | Open |
 | `OQ-DOC04-003` | What is the final MVP funds flow? | Product / Payments / Legal | Critical | Open |
 | `OQ-DOC04-004` | What is PayPlus’s legal and partner role? | Legal / Compliance | Critical | Open |
 | `OQ-DOC04-005` | What licensing, exemption, or partner coverage applies? | Legal / Compliance | Critical | Open |
-| `OQ-DOC04-006` | Which PSP/acquirer will support MVP? | Payments | Critical | Open |
+| `OQ-DOC04-006` | Which PSP/acquirer will support MVP in Hong Kong? | Payments | Critical | Open |
 | `OQ-DOC04-007` | What written PSP/acquirer confirmations are available? | Payments / Legal | Critical | Open |
-| `OQ-DOC04-008` | What MCC or transaction classification applies? | Payments | Critical | Open |
-| `OQ-DOC04-009` | Will transactions be treated as purchase, quasi-cash, account funding, money transfer, or cash advance? | Payments / Legal | Critical | Open |
-| `OQ-DOC04-010` | What payout provider and payout rail will be used? | Payments | Critical | Open |
-| `OQ-DOC04-011` | Does payout occur before settlement or before funding certainty? | Payments / Finance | Critical | Open |
+| `OQ-DOC04-008` | What appropriate or special MCC will the selected acquirer assign? | Payments | Critical | Open |
+| `OQ-DOC04-009` | Can transactions be confirmed as bill payment or ordinary online card purchase rather than quasi-cash, account funding, money transfer, cash advance, or cash-equivalent activity? | Payments / Legal | Critical | Open |
+| `OQ-DOC04-010` | Which operating bank setup and payout rails are approved for FPS, cheque, and EPS where applicable? | Payments | Critical | Open |
+| `OQ-DOC04-011` | What controls confirm payout occurs only after upstream settlement and funding certainty under the expected T+1 to T+3 settlement model? | Payments / Finance | Critical | Open |
 | `OQ-DOC04-012` | What transaction, user, card, and payee limits apply at MVP? | Risk / Product | High | Open |
-| `OQ-DOC04-013` | What payee verification is required? | Compliance / Risk | High | Open |
+| `OQ-DOC04-013` | What final payee verification, payout destination verification, and exception checks are required by payee type and risk tier? | Compliance / Risk | High | Open |
 | `OQ-DOC04-014` | What sanctions screening is legally or contractually required? | Compliance / Legal | Critical | Open |
 | `OQ-DOC04-015` | What fraud and anti-cashout rules are required at launch? | Risk | Critical | Open |
-| `OQ-DOC04-016` | Is multi-card or multi-source funding included in MVP or deferred? | Product / Payments / Legal | Critical | Open |
+| `OQ-DOC04-016` | Is multi-card or multi-source funding enabled at launch or kept disabled until partner, risk, and reconciliation approval? | Product / Payments / Legal | Critical | Open |
 | `OQ-DOC04-017` | What PCI scope applies? | Security | Critical | Open |
 | `OQ-DOC04-018` | What disclosures must be shown before authorization? | Legal / Product | Critical | Open |
-| `OQ-DOC04-019` | What records must be retained? | Legal / Compliance / Finance | High | Open |
+| `OQ-DOC04-019` | What privacy, deletion, masking, and legal exception rules apply beyond the 7-year tax and audit retention baseline? | Legal / Compliance / Finance | High | Open |
 | `OQ-DOC04-020` | What systems of record will store consent, authorization, risk, payout, refund, dispute, and reconciliation evidence? | Engineering / Compliance | High | Open |
 | `OQ-DOC04-021` | Who has final authority to approve MVP launch? | Project Owner / Compliance | Critical | Open |
 | `OQ-DOC04-022` | What post-launch monitoring cadence is acceptable after stabilization? | Compliance / Operations | Medium | Open |
-| `OQ-DOC04-023` | Are payee-created payment requests included in MVP, pilot, or post-MVP scope? | Project Owner / Product / Compliance | Critical | Open |
+| `OQ-DOC04-023` | Which payee-created request modules, categories, and payee types are enabled at initial launch versus disabled until controls are ready? | Project Owner / Product / Compliance | Critical | Open |
 | `OQ-DOC04-024` | Which payee types can create payment requests? | Product / Risk / Compliance | Critical | Open |
-| `OQ-DOC04-025` | What payee onboarding, verification, sanctions, payout destination, and capability checks are required? | Compliance / Risk / Operations | Critical | Open |
+| `OQ-DOC04-025` | What final KYC/KYB provider, check depth, sanctions screening, payout destination verification, and capability checks apply to the baseline onboarding model? | Compliance / Risk / Operations | Critical | Open |
 | `OQ-DOC04-026` | Does the payee-created request model require additional partner confirmation? | Payments / Legal / Compliance | Critical | Open |
 | `OQ-DOC04-027` | How must payer authorization be captured for payee-created requests? | Product / Legal / Payments | Critical | Open |
 | `OQ-DOC04-028` | What evidence is required for payee-created bill, invoice, fee, or rent requests? | Product / Compliance / Risk | Critical | Open |
-| `OQ-DOC04-029` | Is landlord-created rent request creation included in MVP or deferred? | Product / Legal / Risk | Critical | Open |
+| `OQ-DOC04-029` | What controls and restrictions are required before landlord-created rent request creation is enabled for production use? | Product / Legal / Risk | Critical | Open |
 | `OQ-DOC04-030` | What landlord onboarding, tenancy evidence, property reference, and relationship checks are required? | Product / Legal / Risk / Operations | Critical | Open |
 | `OQ-DOC04-031` | What payer response options are supported for payee-created requests? | Product / Operations / Legal | High | Open |
 | `OQ-DOC04-032` | What payer rejection, query, dispute, or clarification process applies before authorization? | Product / Operations / Legal | High | Open |
@@ -704,5 +706,6 @@ It should not become:
 | `0.4.0` | `2026-05-27` | Product Documentation Team | Updated control framework to align with `DOC-05 v0.2.0` payee onboarding and payee-created bill, invoice, fee, and rent payment request capability. Added payee-created request certification, payee onboarding controls, payer authorization blockers, request evidence controls, landlord/rent controls, payer-payee relationship risk, payee-created request abuse monitoring, payer/payee privacy boundaries, support/dispute controls, expanded gates, dependencies, risks, open questions, and downstream document impacts. |
 | `0.5.0` | `2026-05-27` | Product Documentation Team | Simplified structure and wording while preserving essential compliance certification, launch blocker, control matrix, payee-created request, landlord/rent, evidence, testing, monitoring, governance, risk, and readiness content. |
 | `0.6.0` | `2026-05-27` | Product Documentation Team | Simplified into a testable compliance control framework with clear control categories for users, evidence, authorization, payee verification, monitoring, admin review, audit, prohibited activity, payout, disputes, privacy/security, and launch readiness. Preserved two-sided controls requiring payee-created requests to be evidence-backed, traceable, reviewed, and payer-authorized before payment. |
+| `0.7.0` | `2026-05-29` | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP scope, clarified conditional controls as independent enablement gates, and promoted core payee-created and rent controls into the MVP control baseline. |
 ```
 ```

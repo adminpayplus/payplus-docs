@@ -1,8 +1,8 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.4.0
-status: Draft
+version: 0.5.0
+status: Founder Working Baseline
 owner: Product Owner
 reviewers:
   - Product Lead
@@ -57,6 +57,28 @@ PayPlus supports two controlled request models:
 Payee-created requests are allowed only where the payee is onboarded or approved, the request is evidence-backed, the category is supported, risk controls pass, and the payer explicitly authorizes payment.
 
 PayPlus should not be positioned as a wallet, stored-value account, cashout service, peer-to-peer transfer app, remittance service, payroll product, lending product, or open invoice marketplace unless separately assessed, approved, and documented.
+
+### 2.1 Current MVP Decision Baseline
+
+The founding-stage MVP baseline includes:
+
+| Decision | Baseline |
+| --- | --- |
+| Payer-created requests | MVP scope. |
+| Payee-created requests | MVP scope. |
+| Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
+| First launch jurisdiction | Hong Kong. |
+| Initial card transaction classification assumption | Expected to be treated as bill payment or ordinary online card purchase, subject to acquirer confirmation. |
+| Acquirer / MCC | Acquirer is undecided; PayPlus expects to seek an appropriate or special MCC from the acquirer. |
+| Payout model | PayPlus expects to pay from its operating bank account after upstream settlement; candidate Hong Kong payout rails are FPS, cheque, and EPS where applicable and confirmed. |
+| Settlement timing | Payment gateway settlement is expected to be T+1 to T+3; payout is expected to occur on the same day after funds are settled by the upstream counterparty. |
+| KYC/KYB baseline | Individual eKYC is expected through a service provider such as Jumio, with name verification, SMS phone verification, email capture, and ID copy submission. Business KYB is expected to require a Business Registration document and owner ID. |
+| Notification channels | Candidate channels include app notifications, push notifications, email, SMS, and WhatsApp. |
+| Record retention | Payment receipt, statement, proof of payment, account, tax, and audit records are expected to be retained for 7 years, subject to final privacy and legal review. |
+| Independent feature controls | Each major function and module must be independently configurable or disableable. |
+| Unresolved launch details | Treat as assumptions, dependencies, open questions, or gated requirements until confirmed. |
+
+This baseline does not remove the need for legal, compliance, PSP/acquirer, payout, risk, privacy, security, commercial, or operational approval before production launch.
 
 ---
 
@@ -152,14 +174,14 @@ Detailed requirements belong in downstream documents, especially `DOC-05`, `DOC-
 
 ---
 
-## 7. Candidate Bill Categories
+## 7. MVP and Candidate Bill Categories
 
-Candidate bill or obligation categories include:
+MVP and candidate bill or obligation categories include:
 
 | Category | Notes |
 | --- | --- |
 | Utilities, telecom, and internet | Generally strong bill evidence and payee traceability. |
-| Rent and property-related payments | Higher risk; requires landlord onboarding, tenancy or lease evidence where required, relationship validation, and anti-cashout controls. |
+| Rent and property-related payments | MVP scope; higher risk; requires landlord onboarding where applicable, tenancy or lease evidence where required, relationship validation, limits, manual review rules, and anti-cashout controls. |
 | Education fees | Requires institution validation and fee evidence. |
 | Insurance premiums | Requires biller, policy, and payment obligation validation. |
 | Taxes and government fees | Requires legal, partner, and category feasibility assessment. |
@@ -167,7 +189,7 @@ Candidate bill or obligation categories include:
 | Loan or financing payments | May be restricted by partner, card network, or regulatory requirements. |
 | Business invoices | Requires business validation, invoice evidence, payer acceptance, dispute handling, and anti-collusion controls. |
 
-Candidate categories are not automatically approved.
+Categories remain subject to launch gating even when included in MVP scope.
 
 Each category must be assessed under:
 
@@ -175,7 +197,7 @@ Each category must be assessed under:
 - `DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification`.
 - `DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification`.
 
-Payee-created request support must be approved separately for each category.
+Payee-created request support must be configurable by category, payee type, and risk tier.
 
 ---
 
@@ -190,7 +212,7 @@ MVP should include:
 | User registration and authentication | In scope. |
 | Basic user profile | In scope. |
 | Payer-created bill payment | In scope. |
-| Payee-created payment requests | In scope only if approved onboarding, evidence, payer authorization, risk, privacy, support, and reconciliation controls are ready. |
+| Payee-created payment requests | In scope; production use is gated by approved onboarding, evidence, payer authorization, risk, privacy, support, and reconciliation controls. |
 | Bill upload and manual bill entry | In scope. |
 | Bill category eligibility checks | In scope. |
 | Payee verification | In scope. |
@@ -203,7 +225,7 @@ MVP should include:
 | Reconciliation reporting | In scope. |
 | Risk monitoring | In scope. |
 | OCR/document AI | Optional; may start as manual or assisted workflow. |
-| Multi-card or multi-source payment | Candidate feature; may be deferred if partner, risk, or reconciliation complexity is high. |
+| Multi-card or multi-source payment | Gated feature; may be disabled if partner, risk, or reconciliation complexity is high. |
 | Promotion engine | Optional; should not block MVP unless commercially required. |
 | Partner advertisements | Out of initial MVP unless separately approved. |
 
@@ -218,16 +240,31 @@ Recommended MVP categories should have:
 - operational review capacity;
 - commercial viability.
 
-Preferred MVP category candidates may include:
+Lower-risk launch candidates may include:
 
 - utilities;
 - telecom or internet bills;
 - education fees;
 - insurance premiums.
 
-Higher-risk categories, including rent, business invoices, loan repayment, or tax payments, may require additional controls or later rollout.
+Higher-risk categories, including rent, business invoices, loan repayment, or tax payments, require stronger controls and may be rolled out in phases even when they remain part of MVP scope.
 
-If rent or landlord-created rent requests are included, PayPlus must require landlord onboarding, tenancy or lease evidence where required, payer-landlord relationship validation, duplicate request detection, anti-collusion controls, limits, and manual review for higher-risk cases.
+Because rent is MVP scope, PayPlus must define landlord onboarding where applicable, tenancy or lease evidence requirements, payer-landlord relationship validation, duplicate request detection, anti-collusion controls, limits, and manual review rules for higher-risk cases.
+
+### 8.1 Gated MVP Requirements
+
+Some MVP capabilities are confirmed as product scope but remain gated for production use.
+
+| Area | Gating Requirement |
+| --- | --- |
+| Launch jurisdiction | Hong Kong is the initial launch jurisdiction; local legal, regulatory, payment, privacy, tax, audit, and operational requirements must be assessed before production launch. |
+| PSP/acquirer model | Acquirer is undecided; selected PSP/acquirer must support the intended bill payment or ordinary online card purchase treatment, fee, authorization, MCC/classification, and settlement flow. |
+| Payout model | Operating-bank payout is the baseline; final bank setup, FPS, cheque, EPS applicability, timing, exceptions, and reconciliation must be approved. |
+| KYC/KYB and payee verification | Baseline checks are highly confirmed; final provider, check depth, exceptions, sanctions, category rules, and risk-tier requirements remain to be confirmed. |
+| Rent and tenancy payments | Must meet rent-specific evidence, relationship, verification, limit, and review controls. |
+| Payee-created requests | Must be independently enableable by payee, category, and risk tier. |
+| Fees and disclosures | Must be approved before payer authorization. |
+| Refund, dispute, and chargeback handling | Must be defined before production processing. |
 
 ---
 
@@ -623,19 +660,19 @@ Metric definitions should be finalized in `DOC-18 Data Model, Transaction State 
 
 | Question ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
-| `OQ-DOC01-001` | What is the initial launch country or jurisdiction? | Project Owner | Critical | Open |
-| `OQ-DOC01-002` | Which bill categories are approved for MVP? | Product / Compliance / Risk | Critical | Open |
-| `OQ-DOC01-003` | Which PSP/acquirer model will be used? | Payments / Commercial | Critical | Open |
-| `OQ-DOC01-004` | Which payout or settlement partner will be used? | Payments / Operations | Critical | Open |
+| `OQ-DOC01-001` | What Hong Kong-specific legal, regulatory, payment, privacy, tax, audit, and operational requirements apply before launch? | Project Owner / Legal | Critical | Open |
+| `OQ-DOC01-002` | Which MVP categories are enabled at initial launch versus held behind operational or risk gates? | Product / Compliance / Risk | Critical | Open |
+| `OQ-DOC01-003` | Which PSP/acquirer will support the intended bill payment or ordinary online card purchase treatment and appropriate MCC/classification? | Payments / Commercial | Critical | Open |
+| `OQ-DOC01-004` | Which operating bank setup and payout rails are approved for FPS, cheque, and EPS where applicable? | Payments / Operations | Critical | Open |
 | `OQ-DOC01-005` | Will MVP support multi-card or multi-source payments, or defer them? | Product / Payments / Engineering | High | Open |
-| `OQ-DOC01-006` | What KYC/KYB level is required for users, payees, and business users? | Legal / Compliance / Risk | High | Open |
+| `OQ-DOC01-006` | What final KYC/KYB provider, check depth, sanctions screening, exception process, and risk-tier rules apply to the baseline onboarding model? | Legal / Compliance / Risk | High | Open |
 | `OQ-DOC01-007` | What transaction limits should apply at MVP? | Risk / Compliance / Product | High | Open |
-| `OQ-DOC01-008` | What service fee model will be used? | Commercial / Finance | High | Open |
+| `OQ-DOC01-008` | What exact percentage service fee, payer/payee fee allocation, subsidy, coupon, promotion, discount, refund, and reversal treatment will be used? | Commercial / Finance | High | Open |
 | `OQ-DOC01-009` | What user disclosures are required before payment confirmation? | Product / Legal / Compliance | High | Open |
 | `OQ-DOC01-010` | What evidence must be retained for each transaction? | Compliance / Privacy / Operations | High | Open |
-| `OQ-DOC01-011` | Are payee-created payment requests included in MVP, pilot, or post-MVP scope? | Project Owner / Product / Compliance | Critical | Open |
+| `OQ-DOC01-011` | Which payee-created request modules are enabled at initial launch, and which are disabled by configuration until controls are ready? | Project Owner / Product / Compliance | Critical | Open |
 | `OQ-DOC01-012` | Which payee types can create payment requests? | Product / Risk / Compliance | Critical | Open |
-| `OQ-DOC01-013` | Is landlord-created rent request creation included in MVP or deferred? | Product / Legal / Risk | Critical | Open |
+| `OQ-DOC01-013` | Which rent and landlord-request controls are required before initial launch enablement? | Product / Legal / Risk | Critical | Open |
 | `OQ-DOC01-014` | What evidence is required for landlord-created rent requests? | Product / Legal / Risk / Operations | Critical | Open |
 | `OQ-DOC01-015` | How will a payee identify or invite a payer? | Product / Engineering / Privacy | High | Open |
 | `OQ-DOC01-016` | What payer response options are supported for payee-created requests? | Product / Operations / Legal | High | Open |
@@ -684,3 +721,4 @@ This document should remain a concise foundation product overview and should not
 | `0.2.0` | `2026-05-26` | Product Documentation Team | Reframed as foundation charter, clarified product positioning, added product boundaries, candidate MVP scope, assumptions, constraints, dependencies, risks, launch readiness themes, downstream document impact, and standardized metadata and version history. |
 | `0.3.0` | `2026-05-27` | Product Documentation Team | Updated charter to include controlled payee-created bill, invoice, fee, and rent payment request capability. Added payee onboarding, payer acceptance and authorization, evidence parity, landlord/rent evidence controls, request-origin positioning, additional risks, dependencies, success metrics, launch readiness themes, and downstream document impacts aligned to `DOC-05 v0.2.0`. |
 | `0.4.0` | `2026-05-27` | Product Documentation Team | Simplified structure and language while preserving essential product positioning, MVP scope, payer-created and payee-created request models, boundaries, controls, risks, dependencies, open questions, and downstream impacts. |
+| `0.5.0` | `2026-05-29` | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP scope, added gated MVP requirements, and clarified independent feature/module disablement. |

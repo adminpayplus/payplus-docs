@@ -1,8 +1,8 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.1.0
-status: Draft
+version: 0.2.0
+status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
   - Product Lead
@@ -44,6 +44,8 @@ The MVP must support both:
    - A payer creates a bill-backed payment or obligation record, links or invites a payee, and pushes payment to the payee after required review and authorization.
 
 Both flows are MVP scope.
+
+Tenancy and rent journeys are MVP scope. They must be independently enableable and may remain disabled for specific users, payees, categories, or launch phases until required controls are ready.
 
 ---
 
@@ -99,6 +101,12 @@ The MVP user journey scope includes:
 - audit trail visibility for admin;
 - error, failure, dispute, cancellation, and exception states;
 - controls preventing wallet, cashout, stored balance, and unsupported P2P behavior.
+
+### 3.1.1 UX Scope Boundaries
+
+This document defines journeys, screens, user decisions, service touchpoints, and visibility boundaries.
+
+It should not duplicate detailed payment processing, payout, refund, notification, data model, risk rule, security, or compliance specifications. Where those details are needed, this document should identify the user-facing touchpoint and defer the detailed rule to the owning downstream document.
 
 ---
 
@@ -156,13 +164,12 @@ The MVP must support the following essential journeys:
 | 11 | Evidence upload and review | Yes |
 | 12 | Accept, reject, dispute, and clarification flows | Yes |
 | 13 | Payer payment authorization | Yes |
-| 14 | Payment processing status flow | Yes |
-| 15 | Payout or settlement status flow where applicable | Yes |
-| 16 | Linked payer/payee visibility | Yes |
-| 17 | Admin review and operations flow | Yes |
-| 18 | Notifications | Yes |
-| 19 | Receipt and history | Yes |
-| 20 | Failure, cancellation, dispute, and exception handling | Yes |
+| 14 | Payment and payout status visibility | Yes |
+| 15 | Linked payer/payee visibility | Yes |
+| 16 | Admin review and operations touchpoints | Yes |
+| 17 | Notification touchpoints | Yes |
+| 18 | Receipt and history touchpoints | Yes |
+| 19 | Failure, cancellation, dispute, and exception touchpoints | Yes |
 
 ---
 
@@ -795,74 +802,30 @@ Before authorization, the payer should be shown:
 
 ---
 
-## 15. Payment Processing and Payout Journey
+## 15. Payment and Payout Status Visibility
 
 ### 15.1 Purpose
 
-Tracks the journey from payer authorization to processing, completion, payout or settlement, failure, reversal, or exception handling.
+Defines what users and admins need to see after payer authorization.
 
-### 15.2 Payment Processing Flow
+Detailed payment processing, payout, settlement, reconciliation, refund, reversal, chargeback, and exception rules belong in DOC-09, DOC-10, and DOC-11.
 
-1. Payer authorizes payment.
-2. System submits payment to approved payment partner or sandbox integration.
-3. Request status changes to **Payment Processing**.
-4. Payment partner returns processing update.
-5. System updates status.
-6. If payment succeeds, status changes to **Paid** or equivalent completed state.
-7. If payment fails, status changes to **Failed**.
-8. System notifies payer and payee.
-9. System stores confirmation or failure details.
-10. System logs payment processing events.
+### 15.2 Required Visibility
 
-### 15.3 Payout or Settlement Flow
+| User | Required Visibility |
+| --- | --- |
+| Payer | Authorization result, payment status, failure state, cancellation/refund state where applicable, and receipt/history. |
+| Payee | Request status, payer response, payment completion status, payout/settlement visibility where permitted, and exceptions requiring payee action. |
+| Admin | Full request, payment, payout, failure, refund, dispute, exception, and audit context. |
 
-1. Payment is confirmed or cleared according to approved partner rules.
-2. System initiates or records payee payout/settlement where applicable.
-3. Payout status is updated.
-4. Payee is notified of payout or settlement state where applicable.
-5. Admin can view payout or settlement status.
-6. System stores payout or settlement record.
-7. System logs payout or settlement events.
-
-### 15.4 Payment and Payout Statuses
-
-Payment statuses may include:
-
-```text
-Payment Authorized
-Payment Processing
-Paid
-Failed
-Cancelled
-Reversed
-Refund Pending
-Refunded
-```
-
-Payout or settlement statuses may include:
-
-```text
-Payout Pending
-Payout Processing
-Payout Completed
-Payout Failed
-Settlement Pending
-Settlement Completed
-Settlement Failed
-```
-
-Final status naming should be confirmed in the future payment flow or data model document.
-
-### 15.5 Payment Rules
+### 15.3 UX Rules
 
 | Rule | Requirement |
 | --- | --- |
-| Approved channels | Payment and payout must use approved partners or approved sandbox flows. |
-| No stored balance | System must not create user wallet balances. |
-| No self-cashout | Payer cannot cash out to themselves. |
-| Traceability | Payment must remain linked to request, evidence, payer, payee, and status history. |
-| Failed payment visibility | Failed payments must be visible and traceable. |
-| Refund/reversal control | Refunds and reversals require controlled operational process. |
+| Status clarity | User-facing labels must distinguish request status, payment status, and payout/settlement status. |
+| No false certainty | The UX must not imply payment or payout is complete before the relevant system of record confirms it. |
+| Role-appropriate visibility | Payees must not see sensitive payer payment method, risk, or private account data. |
+| Exception visibility | Failures, holds, cancellations, refunds, and disputes must have clear user-facing states and admin review paths. |
 
 ---
 
@@ -966,11 +929,11 @@ Both payer and payee should be able to view:
 
 ---
 
-## 18. Request Status Model
+## 18. Request Status UX
 
 ### 18.1 Core Request Statuses
 
-The MVP should support the following request statuses:
+The MVP UX should expose clear user-facing request states. Canonical state-machine definitions belong in DOC-09 and DOC-18.
 
 | Status | Meaning |
 | --- | --- |
@@ -1076,11 +1039,11 @@ Admins must be able to:
 
 ---
 
-## 20. Notification Journey
+## 20. Notification Touchpoints
 
 ### 20.1 Purpose
 
-Keeps payer, payee, and admin informed of request, evidence, clarification, dispute, payment, payout, and exception events.
+Identifies where notifications are needed in the user journey. Notification content, templates, channels, preferences, retry behavior, and audit rules belong in DOC-08.
 
 ### 20.2 User Notifications
 
@@ -1125,20 +1088,23 @@ The MVP should support admin queues or notifications for:
 
 Notification channels may include:
 
+- app notifications;
+- push notifications;
 - email;
-- in-app notification;
+- SMS;
+- WhatsApp;
 - dashboard task;
 - other approved channels.
 
-Final notification channel decisions should be defined in implementation planning.
+Final channel routing, user preferences, templates, retry behavior, consent rules, and audit requirements should be defined in DOC-08 and implementation planning.
 
 ---
 
-## 21. Receipt and History Journey
+## 21. Receipt and History Touchpoints
 
 ### 21.1 Purpose
 
-Allows users and admins to view prior actions, statuses, confirmations, and payment outcomes.
+Identifies where users and admins need access to prior actions, statuses, confirmations, and payment outcomes. Receipt content and records policy belong in DOC-08, DOC-15, DOC-18, and payment-domain docs.
 
 ### 21.2 User History
 
@@ -1187,6 +1153,7 @@ A receipt or confirmation should include:
 | Audit separation | User history is not the same as full admin audit logs. |
 | Failed states | Failed, rejected, disputed, cancelled, and expired states must remain visible. |
 | Receipt storage | Completed payments should have receipt or confirmation records. |
+| Retention baseline | Receipt, payment, account, tax, and audit records are expected to be retained for 7 years, subject to final privacy and legal review. |
 
 ---
 
@@ -1406,14 +1373,14 @@ The DOC-06 user journey scope is satisfied when:
 | OQ-06-002 | Which payer-created records require payee adoption before payment can proceed? | Product / Operations | Open |
 | OQ-06-003 | Which payee-created request categories require admin review before payer authorization? | Risk / Operations | Open |
 | OQ-06-004 | Which evidence categories are accepted at MVP launch? | Product / Compliance | Open |
-| OQ-06-005 | Are rent and tenancy journeys fully available at MVP launch or limited to controlled beta? | Product / Legal | Open |
-| OQ-06-006 | What payer and payee onboarding/KYC/KYB steps are required in the user journey? | Compliance / Legal | Open |
+| OQ-06-005 | Which rent and tenancy journey controls must be ready before initial launch enablement? | Product / Legal / Risk | Open |
+| OQ-06-006 | What final KYC/KYB screens, provider handoff, failure states, exception states, and risk-tier steps are required for the baseline onboarding model? | Compliance / Legal | Open |
 | OQ-06-007 | What payment methods are available to payers at MVP launch? | Payments / Product | Open |
-| OQ-06-008 | What payout or settlement methods are available to payees at MVP launch? | Payments / Operations | Open |
+| OQ-06-008 | Which operating bank setup and payout rails are approved for FPS, cheque, and EPS where applicable? | Payments / Operations | Open |
 | OQ-06-009 | What fee disclosures must be shown before payment authorization? | Business / Legal | Open |
 | OQ-06-010 | What dispute states and resolution outcomes are required for MVP? | Operations / Legal | Open |
 | OQ-06-011 | What refund or reversal journeys are supported in MVP? | Payments / Operations | Open |
-| OQ-06-012 | What notification channels are supported at MVP launch? | Product / Engineering | Open |
+| OQ-06-012 | What routing, preferences, templates, consent rules, and fallback behavior apply across app, push, email, SMS, and WhatsApp notifications? | Product / Engineering | Open |
 | OQ-06-013 | What admin roles and permission levels are required? | Operations / Security | Open |
 | OQ-06-014 | What information should be hidden or masked between payer and payee? | Product / Security / Legal | Open |
 | OQ-06-015 | What duplicate detection signals are required for MVP? | Risk / Engineering | Open |
@@ -1449,6 +1416,7 @@ The DOC-06 user journey scope is satisfied when:
 | Payee dashboard is MVP scope. | Confirmed |
 | Payee-created payment requests are MVP scope. | Confirmed |
 | Payer-created payments are MVP scope. | Confirmed |
+| Tenancy and rent journeys are MVP scope. | Confirmed |
 | Payee-created bill, invoice, tenancy, or obligation setup is MVP scope. | Confirmed |
 | Payer-created bill, invoice, tenancy, or obligation setup is MVP scope. | Confirmed |
 | Payee adoption of payer-created records is supported where applicable. | Confirmed |
@@ -1457,7 +1425,8 @@ The DOC-06 user journey scope is satisfied when:
 | Linked payer/payee visibility is required subject to permissions. | Confirmed |
 | Admin/risk review support is required. | Confirmed |
 | Wallet, stored balance, cashout, self-cashout, and unsupported P2P journeys are prohibited. | Confirmed |
-| Final payment processor, payout method, KYC/KYB steps, fees, and dispute rules remain open. | Open |
+| Final payment processor, approved payout rails, detailed KYC/KYB steps, fees, multi-source funding, and dispute rules remain open or to be confirmed. | Open |
+| Major functions and modules must be independently disableable. | Confirmed |
 
 ---
 
@@ -1466,3 +1435,4 @@ The DOC-06 user journey scope is satisfied when:
 | Version | Date | Summary |
 | --- | --- | --- |
 | v0.1 | 2026-05-27 | Initial DOC-06 draft aligned to DOC-05 v0.2; includes payer-created and payee-created MVP journeys, payee onboarding/login, bill/tenancy setup, adoption flow, evidence review, two-sided visibility, admin operations, and prohibited journey controls. |
+| v0.2 | 2026-05-29 | Confirmed tenancy/rent journeys as MVP scope, added UX scope boundaries, clarified independent module disablement, and reduced overlap with payment, notification, receipt, and data specifications. |
