@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 0.1.0
+version: 0.2.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-05-29
+last_updated: 2026-05-30
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -25,8 +25,12 @@ related_documents:
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
+  - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-18 Data Model, Transaction Ledger & Reporting
+  - DOC-19 Security, Tokenization & Authentication
+  - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
 # DOC-08 - Notification, Receipt & Communication Rules
@@ -67,6 +71,7 @@ DOC-08 covers:
 - receipt content rules;
 - proof-of-payment content rules;
 - statement content rules;
+- evidence verification, correction, duplicate warning, and admin review communication triggers;
 - delivery retry and fallback rules;
 - admin-configurable notification settings;
 - audit, logging, and retention requirements.
@@ -78,12 +83,13 @@ DOC-08 does not define:
 - canonical payment state machine;
 - payout state machine;
 - refund, cancellation, dispute, chargeback, or reversal policy;
+- OCR/document AI, evidence verification, duplicate detection, and risk rule logic;
 - final legal terms or privacy notice;
 - data model fields beyond high-level logging requirements;
 - provider-specific integration details;
 - marketing campaign content.
 
-Those topics belong in DOC-07, DOC-09, DOC-10, DOC-11, DOC-15, DOC-17, DOC-18, and DOC-21.
+Those topics belong in DOC-07, DOC-09, DOC-10, DOC-11, DOC-12, DOC-14, DOC-15, DOC-17, DOC-18, DOC-19, DOC-21, and DOC-22.
 
 ---
 
@@ -96,6 +102,7 @@ Those topics belong in DOC-07, DOC-09, DOC-10, DOC-11, DOC-15, DOC-17, DOC-18, a
 | Payment status vs notification | Every important lifecycle event should be recorded as a status or system event, but not every event must notify the user. |
 | Notification IDs | Every user-facing or admin-facing notification event should have a stable notification ID. |
 | Channel configuration | Each notification event should support channel-level enablement or disablement. |
+| Evidence verification | Evidence correction, review, duplicate/reused evidence, and verification outcome events should support user or admin messages where action is required. |
 | Mandatory service messages | Critical account, security, payment, receipt, and compliance messages may be mandatory and not fully user-disableable. |
 | Fee and payout wording | Fee, promotion, multi-card, refund, and payout timing wording should align with DOC-07. |
 | Record retention | Receipt, payment, account, tax, and audit records are expected to be retained for 7 years, subject to final privacy and legal review. |
@@ -111,10 +118,14 @@ Those topics belong in DOC-07, DOC-09, DOC-10, DOC-11, DOC-15, DOC-17, DOC-18, a
 | Payment status and processing rules | DOC-09 |
 | Payout status and reconciliation rules | DOC-10 |
 | Refund, cancellation, dispute, chargeback, and reversal operations | DOC-11 |
+| Evidence verification, OCR/autofill, duplicate/reused evidence | DOC-12 |
+| Risk scoring and anti-cashout rules | DOC-14 |
 | Privacy, consent, retention, and data rights | DOC-15 |
 | Notification data model and delivery logs | DOC-18 |
+| Security, masking, and access control | DOC-19 |
 | Provider integrations | DOC-17 |
 | Operational monitoring and incident handling | DOC-21 |
+| Admin dashboard workflow and configuration | DOC-22 |
 
 DOC-08 should reference these documents instead of duplicating their detailed rules.
 
@@ -188,6 +199,7 @@ Domains:
 | --- | --- |
 | `ACCT` | Account, registration, login, security, and profile. |
 | `KYC` | KYC, KYB, verification, and onboarding. |
+| `EVD` | Evidence upload, OCR/autofill, evidence correction, and verification. |
 | `REQ` | Payment request lifecycle. |
 | `PAY` | Payment authorization, processing, success, and failure. |
 | `POUT` | Payout and settlement visibility. |
@@ -273,7 +285,21 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-REQ-009` | Request cancelled | App, email optional | Important service |
 | `NOTIF-REQ-010` | Request expired | App, email optional | Optional service |
 
-### 11.3 Payment Events
+### 11.3 Evidence Verification Events
+
+| ID | Event | Default Channels | Classification |
+| --- | --- | --- | --- |
+| `NOTIF-EVD-001` | Evidence uploaded or received | App | Optional service |
+| `NOTIF-EVD-002` | Evidence fields ready for review | App, push optional | Important service |
+| `NOTIF-EVD-003` | Evidence requires correction | App, push optional, email optional | Important service |
+| `NOTIF-EVD-004` | Evidence pending admin review | App | Important service |
+| `NOTIF-EVD-005` | Duplicate or reused evidence warning | App | Important service |
+| `NOTIF-EVD-006` | Evidence verification approved | App or disabled external channels | Important service |
+| `NOTIF-EVD-007` | Evidence verification rejected | App, email optional | Important service |
+
+Evidence messages must avoid sensitive extracted data in SMS, WhatsApp, push, and ordinary email. Detailed evidence verification rules belong in DOC-12.
+
+### 11.4 Payment Events
 
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
@@ -286,7 +312,7 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 
 Payment authorization may require a status update without an external notification. Payment completion usually requires a receipt or confirmation message.
 
-### 11.4 Payout Events
+### 11.5 Payout Events
 
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
@@ -298,7 +324,7 @@ Payment authorization may require a status update without an external notificati
 
 Payout messages must not overpromise timing. They should align with the T+1 to T+3 upstream settlement and same-day-after-settlement payout baseline.
 
-### 11.5 Refund, Reversal, Dispute, and Chargeback Events
+### 11.6 Refund, Reversal, Dispute, and Chargeback Events
 
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
@@ -315,7 +341,7 @@ Payout messages must not overpromise timing. They should align with the T+1 to T
 
 Detailed policy and operational handling belong in DOC-11 and DOC-21.
 
-### 11.6 Receipt and Statement Events
+### 11.7 Receipt and Statement Events
 
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
@@ -325,7 +351,7 @@ Detailed policy and operational handling belong in DOC-11 and DOC-21.
 | `NOTIF-RCPT-004` | Payer statement available | App, email optional | Important service |
 | `NOTIF-RCPT-005` | Receipt correction or replacement | App, email | Mandatory service |
 
-### 11.7 Admin Events
+### 11.8 Admin Events
 
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
@@ -338,6 +364,8 @@ Detailed policy and operational handling belong in DOC-11 and DOC-21.
 | `NOTIF-ADM-007` | Refund or reversal review required | Dashboard task | Admin-only |
 | `NOTIF-ADM-008` | Dispute or chargeback review required | Dashboard task | Admin-only |
 | `NOTIF-ADM-009` | Operational exception | Dashboard task | Admin-only |
+| `NOTIF-ADM-010` | Evidence verification review required | Dashboard task | Admin-only |
+| `NOTIF-ADM-011` | Duplicate or reused evidence review required | Dashboard task | Admin-only |
 
 ---
 
@@ -413,6 +441,7 @@ Notifications must avoid unnecessary sensitive data.
 | Card details | Show masked card summary only. |
 | ID documents | Do not send by SMS, WhatsApp, push, or ordinary email. |
 | Evidence documents | Link to authenticated app view where possible. |
+| Extracted evidence fields | Avoid sensitive field values in unauthenticated or external channels. |
 | Risk decisions | Use neutral user-facing wording. |
 | Admin notes | Do not expose to users unless approved. |
 | Payer/payee personal data | Show only role-appropriate information. |
@@ -491,6 +520,7 @@ PayPlus should log:
 - failure reason where available;
 - retry count;
 - related request, payment, payout, receipt, dispute, or account ID.
+- related evidence or verification event ID where applicable.
 
 Receipt, payment, account, tax, and audit records are expected to be retained for 7 years, subject to final privacy and legal review.
 
@@ -510,6 +540,7 @@ Detailed schema belongs in DOC-18.
 | OQ-08-006 | What statement export formats are required at MVP? | Product / Finance | Open |
 | OQ-08-007 | What notification delivery failure threshold should create an admin alert? | Operations / Engineering | Open |
 | OQ-08-008 | What retention exceptions, deletion rules, and masking rules apply beyond the 7-year baseline? | Legal / Privacy | Open |
+| OQ-08-009 | Which evidence verification events should notify users versus remain app status or admin-only dashboard tasks? | Product / Operations / Legal | Open |
 
 ---
 
@@ -524,6 +555,7 @@ DOC-08 is acceptable when:
 - mandatory, optional, disabled, and admin-only messages are distinguished;
 - sensitive data rules are clear;
 - receipt and statement rules are defined;
+- evidence verification, correction, duplicate warning, and admin review message boundaries are defined;
 - delivery logging and retention expectations are defined;
 - detailed payment, payout, refund, dispute, and data-model logic is left to owning documents.
 
@@ -533,4 +565,5 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

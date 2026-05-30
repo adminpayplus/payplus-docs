@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 0.2.0
+version: 0.3.0
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -31,9 +31,12 @@ related_documents:
   - DOC-08 Notification, Receipt & Communication Rules
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
   - DOC-10 Payout & Reconciliation
+  - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
+  - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-17 API & Third-party Integration
   - DOC-18 Data Model, Transaction Ledger & Reporting
+  - DOC-19 Security, Tokenization & Authentication
   - DOC-21 Monitoring, Incident Response & Operations Runbook
   - DOC-22 Admin Management Dashboard Operations Workflow
 ---
@@ -62,6 +65,7 @@ DOC-11 covers:
 - payout hold and recovery triggers;
 - fee, promotion, and revenue reversal treatment;
 - evidence, audit, support, and reporting requirements.
+- DOC-12 evidence verification, duplicate/reused evidence, and extracted-field history used in case decisions.
 
 Detailed specifications belong to:
 
@@ -74,9 +78,12 @@ Detailed specifications belong to:
 | Notifications, receipts, and status messages | DOC-08 |
 | Payment authorization, payment status, settlement readiness, multi-card funding | DOC-09 |
 | Payout execution, payout holds, payout recovery, reconciliation | DOC-10 |
+| Bill category, OCR/autofill, evidence verification, duplicate/reused evidence, payee matching | DOC-12 |
 | Fraud, anti-cashout, fake invoice, fake rent, collusion, abuse monitoring | DOC-14 |
+| Privacy, masking, retention, and sensitive evidence data handling | DOC-15 |
 | PSP/acquirer, bank, webhook, file, and partner integration details | DOC-17 |
 | Ledger, data model, reporting schema, audit event model | DOC-18 |
+| Security, evidence access control, authentication | DOC-19 |
 | Operational runbooks, escalation, incidents, monitoring | DOC-21 |
 | Admin dashboard screens, workflows, permissions, uploads, overrides | DOC-22 |
 
@@ -109,6 +116,7 @@ PayPlus refund, cancellation, dispute, and chargeback handling must follow these
 | Payer authorization remains central | A payee-created request cannot trigger payment, cancellation liability, refund liability, or chargeback exposure until the payer authorizes payment. |
 | No wallet or cashout behavior | Refunds, reversals, recoveries, and payout adjustments must not create stored value, user wallet balance, arbitrary transfer, self-cashout, or cash-equivalent behavior. |
 | Evidence-based decisioning | Decisions must consider obligation evidence, payer authorization, payee verification, payment status, payout status, support record, and risk flags. |
+| Evidence verification traceability | Case review should preserve DOC-12 extraction, correction, duplicate/reuse, verification outcome, and human-review history where applicable. |
 | No false certainty | User-facing status must not state that a refund, payout, reversal, settlement, or chargeback outcome is complete before the relevant system of record confirms it. |
 | Auditability | Admin decisions must have permission, reason, timestamp, evidence, and immutable event history. |
 | Reconciliation first | Refunds, reversals, chargebacks, payouts, fees, recoveries, reserves, and write-offs must be reconcilable. |
@@ -220,6 +228,7 @@ A refund decision should consider:
 - payout recovery ability;
 - request category;
 - original obligation evidence;
+- DOC-12 evidence verification outcome and duplicate/reused evidence indicators where applicable;
 - payer authorization evidence;
 - user and payee account status;
 - dispute or fraud indicators;
@@ -303,7 +312,7 @@ Each chargeback case must track, at minimum:
 - outcome;
 - loss, recovery, or write-off status.
 
-Evidence packages should include enough material to defend the transaction, including obligation evidence, payee verification, payer authorization, user disclosures, payment logs, communication history, payout proof where applicable, support notes, and risk review records.
+Evidence packages should include enough material to defend the transaction, including obligation evidence, OCR/extracted fields where relevant, user corrections, evidence verification outcome, duplicate/reused evidence indicators, payee verification, payer authorization, user disclosures, payment logs, communication history, payout proof where applicable, support notes, and risk review records.
 
 Chargeback outcomes may trigger:
 
@@ -330,6 +339,7 @@ Payout hold is required or recommended where:
 - refund request is open and material;
 - chargeback has been opened or is reasonably expected;
 - obligation evidence is disputed;
+- evidence verification is pending, rejected, duplicate-suspected, or fraud/risk escalated;
 - payee verification is incomplete or suspended;
 - payer/payee relationship appears suspicious;
 - payout destination changed recently;
@@ -355,7 +365,7 @@ Each case must be traceable for accounting, reconciliation, compliance, support,
 
 At minimum, the system must link the case to:
 
-- original request, obligation evidence, payer authorization, payment, funding source, payout where applicable, ledger entries, user/payee records, admin actions, partner references, and support ticket where applicable;
+- original request, obligation evidence, evidence verification outcome, payer authorization, payment, funding source, payout where applicable, ledger entries, user/payee records, admin actions, partner references, and support ticket where applicable;
 - financial impact, including principal, PayPlus fees, payer/payee fees, PSP/acquirer fees, promotions, payout impact, recovery, write-off, and net exposure where applicable;
 - immutable status history, action reason, approver, timestamp, evidence, communication, partner response, and final outcome.
 
@@ -367,7 +377,7 @@ Retention should follow the 7-year tax and audit baseline, subject to final lega
 
 ## 16. Admin, Support, and Communication Requirements
 
-The admin and support workflow must allow PayPlus to classify cases, review evidence, update status, approve or reject actions, apply payout holds, assemble chargeback evidence, track partner references, record recovery/write-off decisions, and maintain role-based audit logs.
+The admin and support workflow must allow PayPlus to classify cases, review evidence, review DOC-12 verification history where relevant, update status, approve or reject actions, apply payout holds, assemble chargeback evidence, track partner references, record recovery/write-off decisions, and maintain role-based audit logs.
 
 Customer support must be able to identify case type, explain current status without overpromising outcome, request missing evidence, record communication, and escalate payment, payout, risk, compliance, legal, or finance issues.
 
@@ -380,6 +390,8 @@ User-facing copy must follow DOC-07. Notification channel routing, notification 
 Refund, cancellation, dispute, and chargeback handling must support risk controls for:
 
 - fake bill, fake invoice, fake rent, or fake obligation evidence;
+- duplicate or reused evidence;
+- material mismatch between extracted evidence and user-corrected fields;
 - collusion between payer and payee;
 - self-cashout or circular payment behavior;
 - repeated refund requests;
@@ -411,6 +423,7 @@ Detailed dashboard, warehouse, ledger, and reporting schema belong in DOC-18 and
 | Refund approval | Refunds require approved policy, permission, reason, and audit trail. |
 | Payout hold | Open refund, dispute, chargeback, fraud, or recovery cases must be able to block payout where required. |
 | Chargeback evidence | Chargeback cases must support retrievable evidence packages. |
+| Evidence verification linkage | Refund, dispute, and chargeback cases must preserve DOC-12 verification history where relevant. |
 | Fee reversal | Fee, promotion, and revenue reversal logic must be traceable. |
 | Multi-card traceability | Refunds must preserve funding-source allocation. |
 | No cashout | Refunds and reversals must not pay unrelated recipients or create wallet balance. |
@@ -450,6 +463,7 @@ Detailed dashboard, warehouse, ledger, and reporting schema belong in DOC-18 and
 | DEP-11-004 | Ledger and data model. | Reconciliation and audit. | Open |
 | DEP-11-005 | Admin dashboard workflow. | Operations handling. | Open |
 | DEP-11-006 | Customer support SLA and scripts. | User support readiness. | Open |
+| DEP-11-007 | Evidence verification records and duplicate/reuse indicators from DOC-12. | Refund, dispute, chargeback, payout hold, and recovery decisions. | Open |
 
 ---
 
@@ -467,6 +481,7 @@ Detailed dashboard, warehouse, ledger, and reporting schema belong in DOC-18 and
 | OQ-11-008 | What customer support SLA applies to refund, cancellation, dispute, and chargeback cases? | Operations / Support | Medium | Open |
 | OQ-11-009 | What status values and reason codes should be implemented in the admin dashboard? | Product / Operations / Engineering | Medium | Open |
 | OQ-11-010 | What legal wording is required before authorization and in receipts for refund, cancellation, dispute, and chargeback limitations? | Legal / Product | High | Open |
+| OQ-11-011 | Which DOC-12 verification outcomes should automatically block refund, payout release, representment, or recovery actions pending review? | Operations / Risk / Payments | High | Open |
 
 ---
 
@@ -481,6 +496,7 @@ DOC-11 is acceptable when it clearly defines:
 - fee, promotion, and revenue reversal ownership;
 - payout hold, recovery, and write-off triggers;
 - chargeback evidence and case tracking requirements;
+- DOC-12 evidence verification history linkage for refund, dispute, chargeback, payout hold, and recovery decisions;
 - admin dashboard capability expectations;
 - customer support expectations;
 - accounting, ledger, data, audit, reporting, and reconciliation requirements;
@@ -508,5 +524,6 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.3.0` | `2026-05-30` | Product Documentation Team | Aligned case handling with DOC-12 by adding evidence verification history, OCR/extracted field and user correction records, duplicate/reused evidence indicators, and verification-outcome linkage for refunds, disputes, chargebacks, payout holds, and recovery decisions. |
 | `0.2.0` | `2026-05-30` | Product Documentation Team | Simplified draft by consolidating detailed ledger, admin, support, communication, and analytics requirements into compact owner sections with references to DOC-08, DOC-18, DOC-21, and DOC-22. |
 | `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for refund, cancellation, reversal, dispute, chargeback, payout hold, recovery, fee reversal, audit, support, and reporting rules. |

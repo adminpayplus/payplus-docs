@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.2.0
+version: 0.3.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -27,8 +27,12 @@ related_documents:
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
+  - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-18 Data Model, Transaction Ledger & Reporting
+  - DOC-19 Security, Tokenization & Authentication
+  - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
 # DOC-07 - Content, Disclosure & User Authorization Specification
@@ -64,6 +68,7 @@ This document covers:
 - request-origin labels;
 - payer review content;
 - payee request creation content;
+- OCR/autofill, evidence correction, duplicate warning, and evidence verification disclosure touchpoints;
 - payment authorization content;
 - fee, promotion, and total charge disclosures;
 - multi-card payment disclosures;
@@ -104,6 +109,7 @@ Those details belong in downstream or adjacent documents.
 | Payout rails | FPS, cheque, and EPS are acceptable Hong Kong payout rails; final operating-bank setup remains to be confirmed. |
 | Settlement timing | Payment gateway settlement expected T+1 to T+3; payout expected same day after upstream settlement. |
 | Fee model | Online payment processing service fee as a percentage of transaction amount; exact rates and allocation remain to be confirmed and admin-configurable. |
+| Bill verification | OCR/document AI may extract and autofill evidence fields; users must be able to review and correct material fields before submission. |
 | KYC/KYB | Individual eKYC and business KYB baseline is highly confirmed; final provider and detailed checks remain to be confirmed. |
 | Notifications | App, push, email, SMS, and WhatsApp are candidate channels. |
 | Retention | Receipt, payment, account, tax, and audit records expected to be retained for 7 years, subject to final privacy and legal review. |
@@ -122,6 +128,7 @@ Unconfirmed items above should not block documentation drafting. They should rem
 | Role clarity | Users must understand whether they are acting as payer, payee, landlord, business payee, or admin. |
 | Request-origin clarity | Content must show whether a request is payer-created, payee-created, admin-created, or system-generated. |
 | Evidence clarity | Content must explain what evidence supports the obligation without overexposing sensitive data. |
+| Evidence data minimization | User-facing screens should show only task-relevant evidence fields; sensitive extracted fields may be stored under controls without broad display. |
 | Fee clarity | Payer-facing fees and total charge must be shown before authorization. |
 | Configurability | Fee text, card-count limits, category text, and policy-driven messages should be configurable where practical. |
 | Auditability | Key content versions and authorization decisions must be logged. |
@@ -205,6 +212,7 @@ Required fields:
 | Payment method | Show selected card or masked funding source summary. |
 | Multi-card split | If applicable, show split amounts and masked card summaries. |
 | Evidence | Show evidence summary or accessible evidence view, subject to privacy rules. |
+| Verification status | Show role-appropriate evidence status where action is needed, such as pending correction, pending review, duplicate warning, or rejected evidence. |
 | Timing | Show expected processing, settlement, and payout timing where relevant. |
 | Refund/cancellation note | Show applicable high-level limitations or policy link. |
 | PayPlus role | Explain that PayPlus facilitates payment of an eligible obligation to an approved payee. |
@@ -266,6 +274,8 @@ Required content areas:
 | Payee identity | Explain that only approved or eligible payees may create requests. |
 | Obligation type | Require selection of bill, invoice, rent, fee, or approved obligation category. |
 | Evidence | Explain what evidence is required for the selected category. |
+| OCR/autofill review | Explain that extracted fields may be auto-filled and must be reviewed before submission where enabled. |
+| Correction responsibility | Explain that user corrections should be accurate and may be reviewed. |
 | Payer information | Explain how payer contact details will be used to deliver the request. |
 | No automatic charge | Make clear that the payer must review and authorize before payment. |
 | Accuracy statement | Payee should confirm that request details and evidence are accurate. |
@@ -282,9 +292,11 @@ Rent and tenancy payments are MVP scope but require enhanced content controls.
 Rent-related screens should explain:
 
 - tenancy or rent evidence may be required;
+- extracted tenancy data may include sensitive fields that are not all displayed in the UI;
 - landlord, property manager, or payee verification may be required;
 - payer-landlord or payer-property relationship checks may apply;
 - limits, manual review, duplicate detection, and risk review may apply;
+- duplicate or reused tenancy evidence may trigger warning, hold, or review;
 - payout may be delayed or blocked if checks fail;
 - recurring rent requests, if supported, still require payer authorization unless a separately approved recurring authorization model exists.
 
@@ -360,7 +372,7 @@ The product must support status options and case handling for:
 - payout exception;
 - operational hold.
 
-Detailed policy and handling steps belong in DOC-11 and operations documentation.
+Detailed policy and handling steps belong in DOC-11, DOC-21, and DOC-22.
 
 DOC-07 owns the user-facing disclosure points:
 
@@ -387,6 +399,8 @@ Product touchpoints should include privacy notices where users:
 - submit eKYC/KYB information;
 - upload identity documents;
 - upload bill, invoice, rent, tenancy, or other evidence;
+- use OCR/autofill or correct extracted evidence fields;
+- receive duplicate/reused evidence warnings;
 - enter payer or payee contact details;
 - authorize payment;
 - open a dispute or support case;
@@ -423,6 +437,8 @@ The admin dashboard or configuration layer should support controlled updates to:
 - promotion, coupon, discount, or subsidy labels;
 - multi-card maximum card count;
 - category-specific evidence guidance;
+- OCR/autofill review guidance;
+- duplicate/reused evidence warning text;
 - rent-specific evidence guidance;
 - payout timing notes;
 - refund/cancellation/dispute policy links;
@@ -444,6 +460,7 @@ Required audit evidence includes:
 | Account registration | Terms/privacy version where applicable. |
 | eKYC/KYB submission | Consent, provider handoff, submission event, and status. |
 | Request creation | Request creator, content version, category, evidence, and confirmation statement. |
+| Evidence verification | OCR/autofill notice, extracted-field review, user correction, duplicate warning, verification outcome, and review status where applicable. |
 | Payer review | Request details and disclosure version shown to payer. |
 | Payment authorization | Final amount, fee, payment method summary, authorization text/version, timestamp, and result. |
 | Multi-card authorization | Card split, total charge, per-card amount, and reauthorization event where applicable. |
@@ -480,6 +497,7 @@ This document does not interpret those sources as final legal advice.
 | OQ-07-006 | What category-specific disclosure is required for rent and tenancy payments? | Legal / Risk / Product | Open |
 | OQ-07-007 | What refund, cancellation, dispute, chargeback, and reversal policy links or short summaries must be shown before authorization? | Operations / Legal / Product | Open |
 | OQ-07-008 | What content approval workflow is required for legal, payment, privacy, commercial, or risk-sensitive copy changes? | Project Owner / Compliance | Open |
+| OQ-07-009 | What wording should explain OCR/autofill, user correction responsibility, duplicate/reused evidence warning, and sensitive extracted-field handling? | Product / Legal / Privacy | Open |
 
 ---
 
@@ -493,6 +511,7 @@ DOC-07 is acceptable when:
 - payer review disclosure fields are defined;
 - payee-created request content requirements are defined;
 - rent and tenancy disclosure requirements are defined;
+- OCR/autofill, evidence correction, duplicate warning, and evidence verification disclosure touchpoints are defined;
 - fee, promotion, total charge, and multi-card disclosure requirements are defined;
 - payment, settlement, and payout timing wording is cautious and accurate;
 - refund, cancellation, dispute, chargeback, and reversal disclosure touchpoints are defined;
@@ -506,5 +525,6 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.3.0 | 2026-05-30 | Aligned disclosure requirements with DOC-12 OCR/autofill, evidence correction, duplicate/reused evidence warning, verification status, and sensitive extracted-field minimization. |
 | 0.2.0 | 2026-05-30 | Aligned disclosure scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, approved obligations, and payer-authorized push payment language. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for content, disclosure, and payer authorization requirements. |
