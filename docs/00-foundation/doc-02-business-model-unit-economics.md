@@ -1,7 +1,7 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
@@ -15,7 +15,7 @@ approvers:
   - Project Owner
   - Finance Lead
   - Commercial Lead
-last_updated: 2026-05-27
+last_updated: 2026-05-30
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -564,7 +564,7 @@ For payee-created request models, partner assessment should also consider whethe
 - payee type;
 - request creator type;
 - merchant, sub-merchant, biller, agent, beneficiary, or payee classification;
-- category such as rent, invoice, education, utilities, or insurance;
+- category such as rent, invoice, education, utilities, medical bills, or domestic service obligations;
 - payout timing;
 - chargeback risk;
 - payee onboarding model;
@@ -953,3 +953,4 @@ This document should remain a commercial framework and should not become a final
 | `0.3.0` | 2026-05-27 | Product Documentation Team | Updated commercial framework to account for payee onboarding and payee-created bill, invoice, fee, and rent payment request capability introduced in DOC-05 v0.2.0. Added payee-side revenue streams, payee onboarding and verification costs, request-origin economics, payer/payee fee allocation, payee-created request funnel metrics, rent/invoice economics, payee-side pricing governance, commercial viability gates, reporting and ledger expectations, assumptions, constraints, dependencies, risks, and open questions. |
 | `0.4.0` | 2026-05-27 | Product Documentation Team | Simplified structure and language while preserving essential commercial model, revenue streams, fee principles, cost drivers, unit economics formulas, payee-created request economics, commercial viability gates, reporting expectations, assumptions, constraints, dependencies, risks, and open questions. |
 | `0.5.0` | 2026-05-29 | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as product MVP scope while keeping commercial launch enablement gated by pricing, partner, payout, verification, support, risk, and margin assumptions. |
+| `0.6.0` | 2026-05-30 | Product Documentation Team | Aligned category examples with updated DOC-01 positioning for rent, invoices, medical bills, and domestic service obligations. |

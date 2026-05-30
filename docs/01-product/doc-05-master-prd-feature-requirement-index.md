@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.3.0
+version: 0.4.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-05-27
+last_updated: 2026-05-30
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -29,7 +29,7 @@ related_documents:
 
 This document defines the master product requirements for PayPlus.
 
-PayPlus is a bill-backed payment platform that allows payers and payees to create, view, match, authorize, and track evidence-backed payment requests.
+PayPlus is an evidence-backed payment platform that allows payers and payees to create, view, match, authorize, and track bill, invoice, fee, rent, domestic service, and other approved obligation payment requests.
 
 This document establishes the MVP product scope, core roles, required flows, controls, exclusions, and acceptance criteria.
 
@@ -37,7 +37,7 @@ This document establishes the MVP product scope, core roles, required flows, con
 
 ## 2. Product Summary
 
-PayPlus enables a user to make or request a payment when the payment is supported by a bill, invoice, tenancy document, agreement, statement, or other acceptable evidence.
+PayPlus enables a user to make or request a payment when the payment is supported by a bill, invoice, fee, rent, tenancy document, agreement, employment/service record, statement, or other acceptable evidence.
 
 The MVP supports both:
 
@@ -45,11 +45,13 @@ The MVP supports both:
    - A payer creates a payment request and pushes a payment to a payee.
 
 2. **Payee-created payment request flow**
-   - A payee creates a bill-backed payment request and sends it to a payer for review and payment.
+   - A payee creates an evidence-backed payment request and sends it to a payer for review and payment.
 
 Both flows are core MVP features.
 
 Tenancy and rent payments are also MVP scope, subject to rent-specific evidence, payee verification, relationship, risk, limit, and review controls.
+
+Domestic helper, driver, and personal service payments are MVP scope where supported by employment, service, invoice, fee, salary, or approved obligation evidence.
 
 PayPlus is not a wallet, stored-value account, cashout product, open-loop money transfer product, or arbitrary peer-to-peer payment service.
 
@@ -65,7 +67,7 @@ The MVP includes:
 - payee account registration and login;
 - payer-created payment requests;
 - payee-created payment requests;
-- evidence-backed bill, invoice, tenancy, rent, or document upload;
+- evidence-backed bill, invoice, fee, tenancy, rent, domestic service, or document upload;
 - payer and payee visibility into linked payment records;
 - matching between bill/request/payment records;
 - payer review and authorization before payment;
@@ -106,6 +108,7 @@ Current launch assumptions:
 - individual eKYC is expected through a service provider such as Jumio, with name verification, SMS phone verification, email capture, and ID copy submission;
 - business KYB is expected to require a Business Registration document and owner ID;
 - candidate notification channels are app notifications, push notifications, email, SMS, and WhatsApp;
+- request delivery may use in-app message, app link, WhatsApp deeplink, QR code, or other approved channel;
 - receipt, payment, account, tax, and audit record retention is expected to be 7 years, subject to final privacy and legal review;
 - exact fee rates, fee allocation, promotion, refund, reversal, and multi-card card-count limit remain to be confirmed and should be admin-configurable where applicable.
 
@@ -140,7 +143,7 @@ The MVP does not include:
 
 | Principle | Requirement |
 |---|---|
-| Evidence-backed payments | Every payment must be linked to a bill, invoice, tenancy, agreement, statement, or acceptable proof of obligation. |
+| Evidence-backed payments | Every payment must be linked to a bill, invoice, fee, rent, tenancy, agreement, employment/service record, statement, or acceptable proof of obligation. |
 | Two-sided visibility | Both payer and payee should be able to view the linked bill/request/payment when both are platform users. |
 | Authorization required | A payer must authorize payment before funds are charged or moved. |
 | No wallet behavior | PayPlus must not create stored balances or user-controlled cash accounts. |
@@ -195,7 +198,7 @@ The payee-created flow allows a payee to request payment from a payer.
 2. Payee creates a payment request.
 3. Payee enters payer information or selects an existing payer.
 4. Payee adds amount, due date, category, and description.
-5. Payee uploads or links evidence, such as invoice, bill, tenancy agreement, or statement.
+5. Payee uploads or links evidence, such as invoice, bill, fee notice, tenancy agreement, employment/service record, or statement.
 6. System creates a payment request record.
 7. Payer is notified or invited to view the request.
 8. Payer logs in or registers.
@@ -268,7 +271,7 @@ Each completed or active payment should be linkable to:
 | Requirement | Description |
 |---|---|
 | Shared request ID | Both payer and payee should reference the same payment request when both are users. |
-| Linked bill/payment | The bill, invoice, tenancy, or evidence record must link to the payment record. |
+| Linked obligation/payment | The bill, invoice, fee, tenancy, rent, domestic service, or evidence record must link to the payment record. |
 | Two-sided visibility | Payer and payee must be able to view the same linked transaction context, subject to permissions. |
 | Duplicate detection | System should help detect duplicate requests or duplicate payments. |
 | Status consistency | Request status shown to payer and payee must be consistent. |
@@ -323,7 +326,7 @@ The MVP should support the following request statuses:
 | Payer consent | Payer must explicitly authorize payment. |
 | Payee payout | Payee may receive payment only through approved payout channels. |
 | No self-cashout | Payer cannot use PayPlus to cash out to themselves. |
-| No unsupported transfer | Payment cannot be unrelated to a bill, invoice, tenancy, or proof of obligation. |
+| No unsupported transfer | Payment cannot be unrelated to a bill, invoice, fee, rent, tenancy, domestic service, or proof of obligation. |
 | No stored balance | PayPlus must not hold user wallet balances. |
 | Failed payment handling | Failed payments must be visible and traceable. |
 | Refunds/reversals | Refunds or reversals require admin-dashboard status handling and must follow approved operational policy. |
@@ -588,3 +591,4 @@ The MVP is acceptable when:
 | v0.1 | Initial Draft | Initial master PRD structure. |
 | v0.2 | 2026-05-27 | Updated MVP to include both payer-created and payee-created payment requests; added two-sided user visibility, evidence-backed matching, linked payer/payee records, and simplified structure. |
 | v0.3 | 2026-05-29 | Confirmed payee-created requests and tenancy/rent as MVP scope, added MVP gating and configuration rules, clarified that detailed data and UX design belong in downstream docs, and updated open questions. |
+| v0.4 | 2026-05-30 | Aligned product requirements with updated DOC-01 scope for invoices, fees, rent, domestic service obligations, request delivery methods, and evidence-backed positioning. |

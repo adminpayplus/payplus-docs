@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-05-27
+last_updated: 2026-05-30
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,7 +43,7 @@ This document does not define detailed product requirements, technical architect
 
 ## 2. Product Summary
 
-PayPlus is a controlled card-funded bill payment platform.
+PayPlus is a controlled card-funded bill, fee, rent, invoice, and approved obligation payment platform.
 
 It enables eligible users to pay eligible real-world bills or approved payment obligations by card, while PayPlus or its payment partners route payment value to approved payees through supported payout or settlement methods.
 
@@ -51,12 +51,12 @@ PayPlus supports two controlled request models:
 
 | Request Model | Summary |
 | --- | --- |
-| Payer-created request | A payer creates a bill payment request, provides bill details or evidence, reviews fees and disclosures, authorizes card payment, and PayPlus pays the approved payee. |
+| Payer-created request | A payer creates a bill, invoice, fee, rent, or approved obligation payment request, provides details or evidence, reviews fees and disclosures, authorizes card payment, and PayPlus routes the approved payout after upstream settlement and reconciliation. |
 | Payee-created request | An approved payee creates a bill, invoice, fee, rent, or approved obligation request. The payer must review and explicitly authorize payment before any card funding or payout occurs. |
 
 Payee-created requests are allowed only where the payee is onboarded or approved, the request is evidence-backed, the category is supported, risk controls pass, and the payer explicitly authorizes payment.
 
-PayPlus should not be positioned as a wallet, stored-value account, cashout service, peer-to-peer transfer app, remittance service, payroll product, lending product, or open invoice marketplace unless separately assessed, approved, and documented.
+PayPlus should not be positioned as a wallet, stored-value account, cashout service, peer-to-peer transfer app, remittance service, lending product, or open invoice marketplace unless separately assessed, approved, and documented.
 
 ### 2.1 Current MVP Decision Baseline
 
@@ -66,7 +66,8 @@ The founding-stage MVP baseline includes:
 | --- | --- |
 | Payer-created requests | MVP scope. |
 | Payee-created requests | MVP scope. |
-| Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
+| Tenancy and rent payments | MVP scope, subject to tenancy or lease evidence and rent-specific controls. |
+| Domestic helper, driver, and personal service payments | MVP scope where tied to evidence-backed salary, fee, invoice, contract, or approved obligation records. |
 | First launch jurisdiction | Hong Kong. |
 | Initial card transaction classification assumption | Expected to be treated as bill payment or ordinary online card purchase, subject to acquirer confirmation. |
 | Acquirer / MCC | Acquirer is undecided; PayPlus expects to seek an appropriate or special MCC from the acquirer. |
@@ -83,13 +84,13 @@ This baseline does not remove the need for legal, compliance, PSP/acquirer, payo
 
 ---
 
-## 3. Product Problem
+## 3. Market Problem
 
-Many users want to pay bills by card for convenience, liquidity management, rewards, recordkeeping, or payment flexibility.
+Many users want to pay bills, rent, invoices, fees, domestic helper, driver, or personal service obligations by card for convenience, liquidity management, rewards, recordkeeping, or payment flexibility.
 
 However, many billers and payees do not directly accept cards.
 
-PayPlus addresses this gap by allowing eligible card-funded payments to be routed to approved billers or payees, while maintaining evidence, authorization, payee validation, risk controls, reconciliation, and auditability.
+PayPlus addresses this gap by allowing eligible card-funded payments to be routed to approved billers or payees, while maintaining evidence, payer authorization, payee validation, settlement controls, risk controls, reconciliation, and auditability.
 
 Some legitimate payees, such as landlords, schools, utilities, billers, property managers, and service providers, may also need a controlled way to request payment from payers.
 
@@ -101,20 +102,24 @@ PayPlus supports this only where the request is evidence-backed, payer-authorize
 
 PayPlus should be positioned as:
 
-> A controlled card-funded bill payment service that enables eligible users to pay eligible verified bills or approved payment obligations through approved payment rails.
+> A controlled payer-authorized card-funded payment service that enables eligible users to pay eligible verified bills, fees, rent, invoices, domestic helper, driver, or personal service obligations through approved payment and payout rails.
 
 Where payee-created requests are enabled, PayPlus may also be positioned as:
 
 > A controlled payment request and bill payment service that allows approved payees to request payment for eligible verified bills or obligations, while the payer remains in control of payment authorization.
+
+PayPlus should also be described as a payer-authorized push payment model. Traditional card acceptance is usually a merchant-initiated pull flow where the merchant requests payment from the cardholder. PayPlus is different: even when a payee sends a bill, invoice, fee, rent, or obligation request, that request is only an invitation to pay. Payment occurs only when the payer gives the payment command and authorizes the transaction.
 
 Allowed positioning language may include:
 
 - Card-funded bill payment.
 - Bill payment facilitation.
 - Pay eligible bills by card.
+- Pay eligible invoices, rent, fees, and approved obligations by card.
 - Receive and pay eligible bill requests from approved payees.
 - Approved payees can request payment for eligible bills, invoices, fees, or rent obligations.
 - Pay rent or approved fees by card where supported and verified.
+- Pay approved domestic helper, driver, or personal service obligations by card where supported and verified.
 - Split or combine eligible card payments for an approved bill, where supported.
 - Track bill payment status, receipts, and payment evidence.
 
@@ -146,7 +151,7 @@ Candidate target users include:
 
 | User Type | Description |
 | --- | --- |
-| Payers | Individuals or approved users who want to pay eligible bills or approved obligations by card. |
+| Payers | Individuals or approved users who want to pay eligible bills, invoices, rent, fees, domestic helper, driver, or personal service obligations by card. |
 | Payees | Approved billers, landlords, schools, utilities, service providers, property managers, or businesses that may receive payouts or create payment requests where enabled. |
 | Admin and operations users | Internal users who review bills, payees, risk alerts, exceptions, payouts, refunds, disputes, and reconciliation. |
 | Partners | PSPs, acquirers, payout providers, banks, bill payment aggregators, OCR providers, KYC/KYB providers, risk providers, or commercial partners. |
@@ -161,12 +166,13 @@ PayPlus supports the following core use cases, subject to approval and downstrea
 
 | Use Case | Description |
 | --- | --- |
-| Payer-created bill payment | Payer uploads or enters bill details, PayPlus verifies eligibility and payee, payer authorizes card payment, and PayPlus pays the approved payee. |
-| Payee-created payment request | Approved payee creates an eligible bill, invoice, fee, rent, or obligation request, payer reviews and authorizes payment, and PayPlus pays the approved payee. |
+| Payer-created payment | Payer uploads or enters bill, invoice, fee, rent, domestic helper, driver, or personal service obligation details, PayPlus verifies eligibility and payee, payer authorizes card payment, and PayPlus routes the approved payout after upstream settlement and reconciliation. |
+| Payee-created payment request | Approved payee creates an eligible bill, invoice, fee, rent, or obligation request, payer reviews and authorizes payment, and PayPlus routes the approved payout after upstream settlement and reconciliation. |
 | Bill and evidence verification | PayPlus validates bill category, payee, amount, evidence, and eligibility before payout. |
 | Card-funded payment | Payer funds the approved request using a supported card funding source. |
 | Multi-card payment | Payer may split one approved bill across up to a configurable number of credit cards. The exact card count limit remains to be confirmed. |
-| Payout and settlement | PayPlus or its partner routes payment value to the approved payee through a supported method. |
+| Payout and settlement | PayPlus receives upstream settlement, applies approved fees or margins where applicable, reconciles the transaction, and pays the approved amount or balance to the approved payee through a supported method. |
+| Request delivery | Requests or invitations may be delivered through in-app message, app link, WhatsApp deeplink, QR code, or other approved channel. |
 | Refund, cancellation, rejection, query, and dispute handling | PayPlus supports controlled lifecycle actions before or after payment, depending on request state. |
 | Receipt, status, and audit trail | PayPlus records request, funding, payout, reconciliation, receipt, and audit evidence. |
 | Manual review and risk monitoring | PayPlus reviews higher-risk requests, payees, documents, categories, or transaction patterns. |
@@ -182,11 +188,10 @@ MVP and candidate bill or obligation categories include:
 | Category | Notes |
 | --- | --- |
 | Utilities, telecom, and internet | Generally strong bill evidence and payee traceability. |
-| Rent and property-related payments | MVP scope; higher risk; requires landlord onboarding where applicable, tenancy or lease evidence where required, relationship validation, limits, manual review rules, and anti-cashout controls. |
+| Rent and property-related payments | MVP scope; stable recurring expense category; requires tenancy or lease evidence, landlord/payee verification where applicable, relationship validation, limits, review rules, and anti-cashout controls. |
 | Education fees | Requires institution validation and fee evidence. |
-| Insurance premiums | Requires biller, policy, and payment obligation validation. |
-| Taxes and government fees | Requires legal, partner, and category feasibility assessment. |
-| Healthcare bills | Requires privacy-sensitive document handling and biller validation. |
+| Domestic helper, driver, and personal service payments | MVP scope where supported by employment, service, invoice, fee, salary, or obligation evidence. |
+| Medical bills | Requires institution validation and fee evidence. |
 | Loan or financing payments | May be restricted by partner, card network, or regulatory requirements. |
 | Business invoices | Requires business validation, invoice evidence, payer acceptance, dispute handling, and anti-collusion controls. |
 
@@ -212,7 +217,7 @@ MVP should include:
 | --- | --- |
 | User registration and authentication | In scope. |
 | Basic user profile | In scope. |
-| Payer-created bill payment | In scope. |
+| Payer-created bill, invoice, fee, rent, and approved obligation payment | In scope. |
 | Payee-created payment requests | In scope; production use is gated by approved onboarding, evidence, payer authorization, risk, privacy, support, and reconciliation controls. |
 | Bill upload and manual bill entry | In scope. |
 | Bill category eligibility checks | In scope. |
@@ -246,11 +251,13 @@ Lower-risk launch candidates may include:
 - utilities;
 - telecom or internet bills;
 - education fees;
-- insurance premiums.
+- rent and property-related payments with tenancy or lease evidence;
+- domestic helper, driver, or personal service obligations with supporting evidence;
+- medical bills.
 
-Higher-risk categories, including rent, business invoices, loan repayment, or tax payments, require stronger controls and may be rolled out in phases even when they remain part of MVP scope.
+Categories requiring stronger assessment, including business invoices or loan repayment, may require stronger controls and may be rolled out in phases even when they remain part of MVP scope.
 
-Because rent is MVP scope, PayPlus must define landlord onboarding where applicable, tenancy or lease evidence requirements, payer-landlord relationship validation, duplicate request detection, anti-collusion controls, limits, and manual review rules for higher-risk cases.
+Because rent is MVP scope, PayPlus must define tenancy or lease evidence requirements, landlord onboarding where applicable, payer-landlord relationship validation, duplicate request detection, limits, and risk/manual review rules.
 
 ### 8.1 Gated MVP Requirements
 
@@ -284,6 +291,7 @@ Candidate in-scope capabilities include:
 - payer-created requests;
 - approved payee-created requests;
 - request delivery or invitation to payer;
+- request delivery by in-app message, app link, WhatsApp deeplink, QR code, or other approved channel;
 - payer review, acceptance, rejection, query, or dispute before authorization;
 - bill and evidence capture;
 - bill category classification;
@@ -313,7 +321,6 @@ PayPlus must not support the following unless separately assessed, approved, and
 - unrestricted transfers to arbitrary recipients;
 - crypto purchases or transfers;
 - gambling or gaming top-ups;
-- payroll disbursement;
 - lending or credit issuance by PayPlus;
 - bill payments without sufficient evidence;
 - payout to unverified recipients;
@@ -332,7 +339,7 @@ PayPlus should follow these principles:
 
 | Principle | Meaning |
 | --- | --- |
-| Verified obligation first | Payment should be tied to a valid bill or approved payment obligation. |
+| Verified obligation first | Payment should be tied to a valid bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved payment obligation. |
 | Approved payee only | Payout should go only to a verified or approved payee. |
 | Payer authorization required | No payee-created request should result in funding or payout without explicit payer authorization. |
 | Evidence parity | Payee-created requests should meet the same evidence standard as payer-created requests. |
@@ -351,14 +358,14 @@ PayPlus should follow these principles:
 ### 11.1 Payer-Created Request
 
 1. Payer signs in.
-2. Payer creates a bill payment request.
-3. Payer enters bill details and/or uploads evidence.
+2. Payer creates a bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved obligation payment request.
+3. Payer enters details and/or uploads evidence.
 4. PayPlus checks category, payee, evidence, limits, risk, and eligibility.
 5. Payer reviews quote, fee, disclosures, timing, and terms.
 6. Payer authorizes card payment.
 7. PSP/acquirer authorizes and captures the payment.
-8. PayPlus performs final payout readiness checks.
-9. PayPlus or partner pays the approved payee.
+8. PayPlus receives or awaits upstream settlement and performs final payout readiness checks.
+9. PayPlus applies approved fees or margins where applicable and pays the approved amount or balance to the approved payee.
 10. PayPlus records funding, payout, reconciliation, receipt, and audit evidence.
 
 ### 11.2 Payee-Created Request
@@ -368,12 +375,12 @@ PayPlus should follow these principles:
 3. Payee creates an eligible bill, invoice, fee, rent, or obligation request.
 4. Payee provides required details and evidence.
 5. PayPlus checks payee permission, category, evidence, amount, payer identification, risk, and eligibility.
-6. Request is delivered to payer, returned for correction, rejected, or routed to manual review.
+6. Request is delivered to payer by approved channel, returned for correction, rejected, or routed to manual review.
 7. Payer reviews request origin, payee identity, amount, evidence summary, service fee, total charge, timing, refund/cancellation terms, and PayPlus role.
 8. Payer accepts and authorizes payment, rejects the request, raises a query, disputes the request, or lets it expire.
 9. If authorized, PSP/acquirer authorizes and captures the card payment.
-10. PayPlus performs final payout readiness checks.
-11. PayPlus or partner pays the approved payee.
+10. PayPlus receives or awaits upstream settlement and performs final payout readiness checks.
+11. PayPlus applies approved fees or margins where applicable and pays the approved amount or balance to the approved payee.
 12. PayPlus records funding, payout, reconciliation, receipt, status updates, and audit evidence.
 
 Detailed lifecycle, state machine, settlement, refund, and chargeback rules belong in `DOC-09`, `DOC-10`, and `DOC-11`.
@@ -689,7 +696,7 @@ Metric definitions should be finalized in `DOC-18 Data Model, Transaction State 
 `DOC-01` is acceptable when it clearly defines:
 
 - PayPlus product summary;
-- product problem;
+- market problem;
 - product positioning;
 - target users;
 - core use cases;
@@ -724,3 +731,4 @@ This document should remain a concise foundation product overview and should not
 | `0.3.0` | `2026-05-27` | Product Documentation Team | Updated charter to include controlled payee-created bill, invoice, fee, and rent payment request capability. Added payee onboarding, payer acceptance and authorization, evidence parity, landlord/rent evidence controls, request-origin positioning, additional risks, dependencies, success metrics, launch readiness themes, and downstream document impacts aligned to `DOC-05 v0.2.0`. |
 | `0.4.0` | `2026-05-27` | Product Documentation Team | Simplified structure and language while preserving essential product positioning, MVP scope, payer-created and payee-created request models, boundaries, controls, risks, dependencies, open questions, and downstream impacts. |
 | `0.5.0` | `2026-05-29` | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP scope, added gated MVP requirements, and clarified independent feature/module disablement. |
+| `0.6.0` | `2026-05-30` | Product Documentation Team | Incorporated professional review feedback by broadening payer-created scope, adding payer-authorized push payment positioning, adding request delivery methods, updating MVP categories, and clarifying settlement, fee, and payout wording. |

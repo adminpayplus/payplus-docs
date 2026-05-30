@@ -1,7 +1,7 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 0.6.0
+version: 0.7.0
 status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Legal Lead
   - Compliance Lead
   - Payments Lead
-last_updated: 2026-05-27
+last_updated: 2026-05-30
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,7 +50,7 @@ This document defines the regulatory assessment framework for PayPlus.
 
 It explains the intended regulatory posture of the PayPlus MVP and identifies the key legal, compliance, PSP/acquirer, payment partner, and risk questions that must be resolved before launch.
 
-PayPlus is intended to operate as a **bill-backed, evidence-backed, payer-authorized payment request platform**.
+PayPlus is intended to operate as an **evidence-backed, payer-authorized bill, invoice, fee, rent, and approved obligation payment request platform**.
 
 PayPlus is **not intended** to operate as:
 
@@ -59,7 +59,7 @@ PayPlus is **not intended** to operate as:
 - an e-money product;
 - a cashout product;
 - an arbitrary peer-to-peer transfer service;
-- a general money transmission product independent of an underlying bill or payment obligation.
+- a general money transmission product independent of an underlying bill, invoice, fee, rent, or approved obligation.
 
 This document is not a final legal opinion. Final legal, regulatory, licensing, card network, PSP/acquirer, tax, accounting, and partner conclusions must be provided by qualified Legal, Compliance, Payments, Finance, Tax, Risk, Security, Privacy, and partner stakeholders.
 
@@ -290,7 +290,7 @@ Legal and Compliance must assess whether PayPlus requires, or can rely on, any o
 - FX authorization;
 - consumer lending or credit analysis, if payout timing creates credit exposure;
 - debt collection analysis, if overdue obligations are supported;
-- category-specific legal review for rent, education, utility, insurance, tax, government, loan, mortgage, or other regulated categories.
+- category-specific legal review for rent, education, utility, medical, domestic service, loan, mortgage, or other regulated categories.
 
 The assessment must be performed by jurisdiction, bill category, payee type, request creator model, payment method, payout model, and funds flow.
 
@@ -650,7 +650,7 @@ Reviewers:
 
 - PayPlus’s intended regulatory posture;
 - the two-sided MVP model;
-- why the product is bill-backed and evidence-backed;
+- why the product is evidence-backed and tied to approved obligations;
 - why payer authorization is mandatory;
 - why PayPlus is not intended to be a wallet or stored-value product;
 - why arbitrary P2P and cashout are prohibited;
@@ -688,3 +688,4 @@ This document must remain an assessment framework and must not become:
 | `0.4.0` | 2026-05-27 | Product Documentation Team | Simplified structure and language while preserving essential regulatory, PSP/acquirer, funds flow, partner, category, payee-created request, rent request, disclosure, privacy, security, contractual, settlement, readiness gate, risk, and open-question content. |
 | `0.5.0` | 2026-05-27 | Product Documentation Team | Reorganized into simplified regulatory assessment format focused on regulatory posture, two-sided MVP model, key boundaries, money movement, wallet/stored value, P2P/cashout risk, MSB/payment institution considerations, required controls, legal review items, risks, and open questions. |
 | `0.6.0` | 2026-05-29 | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP product scope while preserving regulatory, partner, payout, and category gating before production enablement. |
+| `0.7.0` | 2026-05-30 | Product Documentation Team | Aligned regulatory framing with updated DOC-01 scope for invoices, fees, rent, medical bills, domestic service obligations, and payer-authorized push payment positioning. |

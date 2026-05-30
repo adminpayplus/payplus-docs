@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 0.1.0
+version: 0.2.0
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-05-29
+last_updated: 2026-05-30
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -87,6 +87,7 @@ DOC-09 does not define:
 | Payer-created requests | MVP scope. |
 | Payee-created requests | MVP scope. |
 | Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
+| Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
 | Multi-card payment | MVP scope, supporting up to a configurable number of credit cards per payment. Launch cap is to be confirmed. |
 | Payout rails | FPS, cheque, and EPS are acceptable Hong Kong payout rails; payout execution belongs to DOC-10. |
 | Upstream settlement | Payment gateway settlement expected T+1 to T+3. |
@@ -105,7 +106,7 @@ Each payment request must link:
 
 - payer;
 - approved payee or payee record;
-- bill, invoice, rent, fee, or other approved obligation;
+- bill, invoice, fee, rent, domestic service, or other approved obligation;
 - evidence or approved evidence exception;
 - amount;
 - request origin;
@@ -123,7 +124,7 @@ Request origins:
 | Admin-created | Internal user creates or corrects a record under approved process; payment still requires payer authorization. |
 | System-generated | System creates status, reminder, or derived event; cannot authorize payment. |
 
-PayPlus must not support wallet balance, stored value, arbitrary P2P transfer, self-cashout, card-to-bank cashout, or payment unrelated to an approved obligation.
+PayPlus must not support wallet balance, stored value, arbitrary P2P transfer, self-cashout, card-to-bank cashout, or payment unrelated to an approved evidence-backed obligation.
 
 ---
 
@@ -466,3 +467,4 @@ DOC-09 is acceptable when:
 | Version | Date | Summary |
 | --- | --- | --- |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for payment request, card funding, multi-card funding, payment profiles, tokenization boundary, payer authorization, step-up authentication, payment status, failure handling, and settlement readiness. |
+| 0.2.0 | 2026-05-30 | Aligned payment request scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, and evidence-backed payment boundaries. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.7.0
+version: 0.8.0
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -22,7 +22,7 @@ approvers:
   - Risk Lead
   - Payments Lead
   - Finance Lead
-last_updated: 2026-05-27
+last_updated: 2026-05-30
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -270,7 +270,7 @@ Payee-created requests and tenancy/rent are MVP scope. Conditional wording means
 
 ## 12. Prohibited Activity Controls
 
-PayPlus must prevent or restrict activity that could undermine the product’s bill-backed and payer-authorized model.
+PayPlus must prevent or restrict activity that could undermine the product's evidence-backed, payer-authorized approved-obligation model.
 
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
@@ -707,5 +707,6 @@ It should not become:
 | `0.5.0` | `2026-05-27` | Product Documentation Team | Simplified structure and wording while preserving essential compliance certification, launch blocker, control matrix, payee-created request, landlord/rent, evidence, testing, monitoring, governance, risk, and readiness content. |
 | `0.6.0` | `2026-05-27` | Product Documentation Team | Simplified into a testable compliance control framework with clear control categories for users, evidence, authorization, payee verification, monitoring, admin review, audit, prohibited activity, payout, disputes, privacy/security, and launch readiness. Preserved two-sided controls requiring payee-created requests to be evidence-backed, traceable, reviewed, and payer-authorized before payment. |
 | `0.7.0` | `2026-05-29` | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP scope, clarified conditional controls as independent enablement gates, and promoted core payee-created and rent controls into the MVP control baseline. |
+| `0.8.0` | `2026-05-30` | Product Documentation Team | Aligned prohibited activity controls with updated DOC-01 evidence-backed approved-obligation positioning. |
 ```
 ```

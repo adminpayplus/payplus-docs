@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.2.0
+version: 0.4.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-05-27
+last_updated: 2026-05-30
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -31,21 +31,23 @@ related_documents:
 
 This document defines the required MVP user journeys, product flows, and UX scope for PayPlus.
 
-PayPlus is a bill-backed payment platform that allows payers and payees to create, view, match, authorize, and track evidence-backed payment requests.
+PayPlus is an evidence-backed payment platform that allows payers and payees to create, view, match, authorize, and track bill, invoice, fee, rent, domestic service, and other approved obligation payment requests.
 
 This document translates the master product requirements in DOC-05 into user-facing and operational journeys.
 
 The MVP must support both:
 
 1. **Payee-created payment request flow**
-   - A payee creates a bill-backed payment request and pushes it to a payer for review and payment.
+   - A payee creates an evidence-backed payment request and pushes it to a payer for review and payment.
 
 2. **Payer-created payment flow**
-   - A payer creates a bill-backed payment or obligation record, links or invites a payee, and pushes payment to the payee after required review and authorization.
+   - A payer creates an evidence-backed payment or obligation record, links or invites a payee, and pushes payment to the payee after required review and authorization.
 
 Both flows are MVP scope.
 
 Tenancy and rent journeys are MVP scope. They must be independently enableable and may remain disabled for specific users, payees, categories, or launch phases until required controls are ready.
+
+Domestic helper, driver, and personal service payment journeys are MVP scope where supported by acceptable evidence and enabled controls.
 
 ---
 
@@ -55,8 +57,8 @@ PayPlus supports two-sided payment journeys between a payer and a payee.
 
 A payment may originate from either side:
 
-- a **payee** may create a bill, invoice, tenancy, agreement, statement, or other evidence-backed payment request and send it to a payer; or
-- a **payer** may create a bill, tenancy, invoice, or payment obligation record, link or invite a payee, and push payment to that payee.
+- a **payee** may create a bill, invoice, fee, rent, tenancy, agreement, employment/service record, statement, or other evidence-backed payment request and send it to a payer; or
+- a **payer** may create a bill, invoice, fee, rent, tenancy, employment/service, or payment obligation record, link or invite a payee, and push payment to that payee.
 
 In all cases:
 
@@ -82,8 +84,8 @@ The MVP user journey scope includes:
 - payee dashboard;
 - payer-created payment requests;
 - payee-created payment requests;
-- payer-created bill, tenancy, invoice, or obligation setup;
-- payee-created bill, tenancy, invoice, or obligation setup;
+- payer-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup;
+- payee-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup;
 - payee adoption or acceptance of payer-created records;
 - payer review of payee-created requests;
 - evidence upload and review;
@@ -157,8 +159,8 @@ The MVP must support the following essential journeys:
 | 4 | Payee dashboard | Yes |
 | 5 | Payee-created payment request flow | Yes |
 | 6 | Payer-created payment flow | Yes |
-| 7 | Payee-created bill, invoice, tenancy, or obligation setup | Yes |
-| 8 | Payer-created bill, invoice, tenancy, or obligation setup | Yes |
+| 7 | Payee-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup | Yes |
+| 8 | Payer-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup | Yes |
 | 9 | Payee adoption of payer-created record | Yes |
 | 10 | Payer review of payee-created request | Yes |
 | 11 | Evidence upload and review | Yes |
@@ -371,9 +373,10 @@ This is a core MVP journey.
 8. System creates a payment request record.
 9. System links evidence to the request.
 10. System assigns request status.
-11. System sends notification or invitation to payer.
-12. Payer logs in or registers.
-13. Payer reviews:
+11. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
+12. System sends the request notification or invitation to the payer through the selected approved channel.
+13. Payer logs in or registers.
+14. Payer reviews:
     - payee identity/details;
     - amount;
     - due date;
@@ -383,14 +386,14 @@ This is a core MVP journey.
     - fees where applicable;
     - payment terms;
     - PayPlus disclosures where applicable.
-14. Payer selects one of:
+15. Payer selects one of:
     - accept;
     - reject;
     - dispute;
     - request clarification.
-15. If payer accepts, payer proceeds to payment authorization.
-16. Payer explicitly authorizes payment.
-17. System processes payment through approved payment partner or sandbox integration.
+16. If payer accepts, payer proceeds to payment authorization.
+17. Payer explicitly authorizes payment.
+18. System processes payment through approved payment partner or sandbox integration.
 18. Payee receives payment according to approved payout or settlement rules.
 19. Payer and payee can view the linked request/payment context.
 20. System stores receipt, status history, and audit trail.
@@ -555,11 +558,12 @@ An obligation record may represent:
 5. System creates obligation record.
 6. System links evidence to obligation record.
 7. Payee creates or sends payment request.
-8. Payer is notified or invited.
-9. Payer reviews the obligation, evidence, and request.
-10. Payer accepts, rejects, disputes, or requests clarification.
-11. If accepted, payer may authorize payment.
-12. System links payer, payee, request, evidence, and payment records.
+8. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
+9. Payer is notified or invited through the selected approved channel.
+10. Payer reviews the obligation, evidence, and request.
+11. Payer accepts, rejects, disputes, or requests clarification.
+12. If accepted, payer may authorize payment.
+13. System links payer, payee, request, evidence, and payment records.
 
 ### 10.3 Payer-Created Obligation Path
 
@@ -1262,6 +1266,7 @@ The MVP should include payee-facing screens for:
 - create payment request;
 - create or link bill/invoice/tenancy/obligation;
 - enter payer details;
+- select request delivery method;
 - upload evidence;
 - send request;
 - sent request list;
@@ -1436,3 +1441,5 @@ The DOC-06 user journey scope is satisfied when:
 | --- | --- | --- |
 | v0.1 | 2026-05-27 | Initial DOC-06 draft aligned to DOC-05 v0.2; includes payer-created and payee-created MVP journeys, payee onboarding/login, bill/tenancy setup, adoption flow, evidence review, two-sided visibility, admin operations, and prohibited journey controls. |
 | v0.2 | 2026-05-29 | Confirmed tenancy/rent journeys as MVP scope, added UX scope boundaries, clarified independent module disablement, and reduced overlap with payment, notification, receipt, and data specifications. |
+| v0.3 | 2026-05-30 | Aligned user journeys with updated DOC-01 scope for invoices, fees, rent, domestic service obligations, and evidence-backed positioning. |
+| v0.4 | 2026-05-30 | Added explicit payee-created request delivery method selection for in-app message, app link, WhatsApp deeplink, QR code, or other approved channel. |

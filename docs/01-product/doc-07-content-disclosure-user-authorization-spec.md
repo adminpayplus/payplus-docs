@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.1.0
+version: 0.2.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-05-29
+last_updated: 2026-05-30
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -95,10 +95,11 @@ Those details belong in downstream or adjacent documents.
 | Area | Baseline |
 | --- | --- |
 | Launch jurisdiction | Hong Kong. |
-| Product model | Controlled card-funded bill payment and payment request platform. |
+| Product model | Controlled payer-authorized card-funded bill, invoice, fee, rent, domestic service, and approved obligation payment platform. |
 | Payer-created requests | MVP scope. |
 | Payee-created requests | MVP scope. |
 | Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
+| Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
 | Multi-card payment | MVP scope, up to a configurable number of credit cards per payment. The launch cap is to be confirmed. |
 | Payout rails | FPS, cheque, and EPS are acceptable Hong Kong payout rails; final operating-bank setup remains to be confirmed. |
 | Settlement timing | Payment gateway settlement expected T+1 to T+3; payout expected same day after upstream settlement. |
@@ -137,6 +138,8 @@ PayPlus may use language such as:
 - payment request;
 - card-funded payment;
 - pay eligible bills by card;
+- pay eligible invoices, fees, rent, and approved obligations by card;
+- pay approved domestic helper, driver, or personal service obligations by card where supported;
 - pay rent by card where supported;
 - payment to approved payee;
 - evidence-backed payment request;
@@ -503,4 +506,5 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.2.0 | 2026-05-30 | Aligned disclosure scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, approved obligations, and payer-authorized push payment language. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for content, disclosure, and payer authorization requirements. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 0.1.0
+version: 0.2.0
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -95,7 +95,7 @@ Unconfirmed bank setup, file formats, API options, exact cutoff mechanics, and r
 
 ## 4. Payout Model
 
-PayPlus pays approved payees from its operating bank account after upstream payment settlement is confirmed or settlement-ready according to approved evidence.
+PayPlus routes approved payouts from its operating bank account after upstream payment settlement is confirmed or settlement-ready according to approved evidence.
 
 Payout must not operate as:
 
@@ -576,3 +576,4 @@ DOC-10 is acceptable when:
 | Version | Date | Summary |
 | --- | --- | --- |
 | 0.1.0 | 2026-05-30 | Initial founder working baseline for payout readiness, payout rails, settlement calendars, split-payment grouping, payout batching, bank record ingestion, reconciliation matching, exceptions, idempotency, admin controls, and reporting. |
+| 0.2.0 | 2026-05-30 | Aligned payout wording with updated DOC-01 settlement, fee, and approved payout positioning. |
