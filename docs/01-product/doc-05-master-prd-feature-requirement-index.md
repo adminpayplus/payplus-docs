@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.4.0
+version: 0.5.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -21,6 +21,20 @@ related_documents:
   - DOC-02 Business Model & Unit Economics
   - DOC-03 Regulatory, PSP & Acquirer Assessment
   - DOC-04 Compliance Certification Roadmap & Control Framework
+  - DOC-06 User Journey, UX Flow & Service Blueprint
+  - DOC-07 Content, Disclosure & User Authorization Specification
+  - DOC-08 Notification, Receipt & Communication Rules
+  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-10 Payout & Reconciliation
+  - DOC-11 Refund, Cancellation & Chargeback
+  - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
+  - DOC-15 Privacy, Data Protection & Record Retention
+  - DOC-17 API & Third-party Integration
+  - DOC-18 Data Model, Transaction Ledger & Reporting
+  - DOC-19 Security, Tokenization & Authentication
+  - DOC-21 Monitoring, Incident Response & Operations Runbook
+  - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
 # DOC-05 - PayPlus Master Product Requirements Document
@@ -68,6 +82,7 @@ The MVP includes:
 - payer-created payment requests;
 - payee-created payment requests;
 - evidence-backed bill, invoice, fee, tenancy, rent, domestic service, or document upload;
+- AI/OCR-assisted evidence capture, autofill, user correction, verification, and review routing where enabled;
 - payer and payee visibility into linked payment records;
 - matching between bill/request/payment records;
 - payer review and authorization before payment;
@@ -93,7 +108,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Payment methods | Enable only when approved by PSP/acquirer and compliance review. |
 | Payout methods | Enable only when payout provider, rail, timing, exception handling, and reconciliation are ready. |
 | Fees and promotions | Enable only when disclosure, accounting, tax, commercial, and reporting treatment is confirmed. |
-| OCR or document AI | Optional for MVP; manual or assisted review may be used until automation is approved. |
+| OCR or document AI | Enable by category, payee type, risk tier, document type, and provider readiness; manual or assisted review may be used until automation is approved. |
 | Multi-card funding | MVP scope; support up to a configurable number of credit cards per payment, with the launch cap and related controls to be confirmed. |
 
 Current launch assumptions:
@@ -177,14 +192,17 @@ The payer-created flow allows a payer to initiate a payment to a payee.
 3. Payer selects or enters payee details.
 4. Payer adds payment amount, due date, category, and description.
 5. Payer uploads or links evidence.
-6. System creates a payment request record.
-7. Payee may be invited, matched, or linked if already a PayPlus user.
-8. Admin/system reviews request and evidence according to risk controls.
-9. Payer authorizes payment.
-10. Payment is processed through approved payment partners.
-11. Payee receives payment according to approved settlement/payout rules.
-12. Both payer and payee can view the linked payment record when both are users.
-13. System stores receipt, status history, and audit trail.
+6. System processes evidence using OCR/document AI where enabled.
+7. System autofills eligible fields and lets payer review or correct them.
+8. System validates evidence, matches payee, checks duplicates, and routes red flags to review.
+9. System creates a payment request record.
+10. Payee may be invited, matched, or linked if already a PayPlus user.
+11. Admin/system reviews request and evidence according to configured controls.
+12. Payer authorizes payment.
+13. Payment is processed through approved payment partners.
+14. Payee receives payment according to approved settlement/payout rules.
+15. Both payer and payee can view the linked payment record when both are users.
+16. System stores receipt, status history, and audit trail.
 
 ---
 
@@ -199,22 +217,27 @@ The payee-created flow allows a payee to request payment from a payer.
 3. Payee enters payer information or selects an existing payer.
 4. Payee adds amount, due date, category, and description.
 5. Payee uploads or links evidence, such as invoice, bill, fee notice, tenancy agreement, employment/service record, or statement.
-6. System creates a payment request record.
-7. Payer is notified or invited to view the request.
-8. Payer logs in or registers.
-9. Payer reviews the request, evidence, amount, and payee details.
-10. Payer accepts, rejects, disputes, or requests clarification.
-11. If accepted, payer authorizes payment.
-12. Payment is processed through approved payment partners.
-13. Payee receives payment according to approved settlement/payout rules.
-14. Both payer and payee can view the linked bill/request/payment record.
-15. System stores receipt, status history, and audit trail.
+6. System processes evidence using OCR/document AI where enabled.
+7. System autofills eligible fields and lets payee review or correct them.
+8. System validates evidence, matches payee, checks duplicates, and routes red flags to review.
+9. System creates a payment request record.
+10. Payer is notified or invited to view the request.
+11. Payer logs in or registers.
+12. Payer reviews the request, evidence summary, amount, payee details, and required disclosures.
+13. Payer accepts, rejects, disputes, or requests clarification.
+14. If accepted, payer authorizes payment.
+15. Payment is processed through approved payment partners.
+16. Payee receives payment according to approved settlement/payout rules.
+17. Both payer and payee can view the linked bill/request/payment record.
+18. System stores receipt, status history, and audit trail.
 
 ---
 
 ## 7. Evidence Requirements
 
 Every payment request must be supported by acceptable evidence.
+
+Detailed bill category, document AI/OCR, extracted field, autofill, user correction, duplicate detection, verification outcome, and payee matching requirements belong in DOC-12.
 
 ### 7.1 Acceptable Evidence Types
 
@@ -240,9 +263,14 @@ MVP evidence may include:
 |---|---|
 | Evidence required | A payment request cannot proceed to payment without evidence unless explicitly approved by admin policy. |
 | Evidence linked | Evidence must be linked to the payment request. |
+| OCR/autofill support | Where enabled, system should extract evidence fields and autofill request fields for user review. |
+| User correction | Users must be able to review and correct autofilled fields before submission. |
+| Verification outcome | Evidence must have a verification outcome or approved exception before payment eligibility. |
+| Duplicate/reuse detection | System should detect duplicate or reused evidence and route configured red flags to review. |
 | Payer review | Payer must be able to review evidence before authorizing payment. |
 | Payee review | Payee must be able to view evidence attached to their own created requests or linked received payments. |
 | Admin review | Admin must be able to view evidence for review, investigation, and support. |
+| Sensitive display control | Extracted sensitive fields should be masked, hidden, or restricted unless needed for an approved task. |
 | Auditability | Evidence actions must be logged. |
 
 ---
@@ -274,6 +302,7 @@ Each completed or active payment should be linkable to:
 | Linked obligation/payment | The bill, invoice, fee, tenancy, rent, domestic service, or evidence record must link to the payment record. |
 | Two-sided visibility | Payer and payee must be able to view the same linked transaction context, subject to permissions. |
 | Duplicate detection | System should help detect duplicate requests or duplicate payments. |
+| Evidence verification linkage | OCR extraction, user corrections, verification outcomes, duplicate indicators, and review decisions must remain linked to the request. |
 | Status consistency | Request status shown to payer and payee must be consistent. |
 | Dispute tracking | Disputes or clarifications must remain linked to the original request. |
 
@@ -311,6 +340,7 @@ The MVP should support the following request statuses:
 |---|---|
 | Payer authorization | No payment may be processed without payer authorization. |
 | Evidence gate | Request cannot move to Approved for Payment without required evidence or approved exception. |
+| Evidence verification gate | Request cannot move to Approved for Payment when DOC-12 verification outcome requires user clarification, admin review, rejection, or fraud/risk escalation. |
 | Admin/risk gate | Requests may require admin or risk approval before payment. |
 | Rejection finality | Rejected requests cannot be paid unless recreated or reopened under approved rules. |
 | Audit trail | Every status change must be logged. |
@@ -362,6 +392,7 @@ Admin actions must be permissioned and logged.
 |---|---|
 | Identity/account controls | Payer and payee accounts must have appropriate onboarding and access controls. |
 | Evidence requirement | Payments must be supported by evidence. |
+| Evidence verification | OCR/autofill, user correction, duplicate/reuse detection, mismatch checks, verification outcomes, and red-flag routing follow DOC-12. |
 | Payer authorization | Payer approval is required before payment. |
 | Payee verification | Payee details must be verified according to approved operational policy. |
 | Risk review | Requests may be subject to risk review before payment. |
@@ -404,6 +435,7 @@ The MVP should support data structures for the following object families. Detail
 - payee profile;
 - payment request;
 - evidence/document;
+- evidence extraction, normalized fields, user corrections, verification signals, review outcome, and final evidence snapshot;
 - request participant mapping;
 - payment transaction;
 - payout/settlement record;
@@ -427,6 +459,7 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 - create payment;
 - view received requests;
 - review evidence;
+- review and correct autofilled evidence fields where applicable;
 - accept/reject/dispute request;
 - authorize payment;
 - view payment status;
@@ -438,6 +471,7 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 - dashboard;
 - create payment request;
 - upload evidence;
+- review and correct autofilled evidence fields where applicable;
 - send request to payer;
 - view request status;
 - view linked payments;
@@ -450,6 +484,8 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 - operational dashboard;
 - request review queue;
 - evidence review;
+- OCR/verification review;
+- duplicate/reused evidence review;
 - user/payee review;
 - payment status view;
 - dispute/exception handling;
@@ -517,6 +553,9 @@ The MVP is acceptable when:
 - payer-created payment requests can be created;
 - payee-created payment requests can be created;
 - evidence can be attached to requests;
+- OCR/document AI can extract and autofill evidence fields where enabled;
+- users can review and correct autofilled evidence fields before submission;
+- duplicate/reused evidence and material mismatch cases can route to review;
 - payer can review evidence before payment;
 - payer can accept, reject, dispute, or request clarification;
 - payer can authorize payment;
@@ -546,6 +585,8 @@ The MVP is acceptable when:
 | OQ-05-010 | What dispute process applies after payment completion? | Operations / Legal | Open |
 | OQ-05-011 | What appropriate or special MCC and transaction classification will the selected acquirer confirm for PayPlus? | Payments / Legal | Open |
 | OQ-05-012 | What configurable maximum number of credit cards per payment should be allowed at launch? | Product / Payments | Open |
+| OQ-05-013 | Which OCR/document AI provider, confidence thresholds, and launch categories should be enabled first? | Product / Engineering / Risk | Open |
+| OQ-05-014 | Which extracted fields are displayable, masked, or restricted by role and evidence category? | Product / Privacy / Security | Open |
 
 ---
 
@@ -559,10 +600,19 @@ The MVP is acceptable when:
 | DOC-03 | Regulatory assessment |
 | DOC-04 | Compliance control framework |
 | DOC-06 | User journey, product flow, and UX scope |
-| Future Data Model Doc | Defines database objects and relationships |
-| Future Payment Flow Doc | Defines payment authorization, processing, payout, refund, and failure states |
-| Future Admin Ops Doc | Defines admin review, risk, dispute, and exception handling |
-| Future Security Doc | Defines authentication, authorization, data protection, and privacy controls |
+| DOC-07 | User-facing disclosure, authorization, evidence, privacy, and policy wording |
+| DOC-08 | Notifications, receipts, communication triggers, and delivery logging |
+| DOC-09 | Payment request, funding, authorization, and settlement readiness |
+| DOC-10 | Payout, payout readiness, payout destination, batching, and reconciliation |
+| DOC-11 | Refund, cancellation, reversal, dispute, and chargeback handling |
+| DOC-12 | Bill category, document AI/OCR, evidence verification, duplicate detection, and payee matching |
+| DOC-14 | AML, anti-cashout, fake evidence, duplicate evidence, collusion, and risk controls |
+| DOC-15 | Privacy, data protection, masking, retention, and lawful data use |
+| DOC-17 | Third-party APIs including OCR/document AI, PSP, bank, and provider integrations |
+| DOC-18 | Data model, evidence data layers, transaction state, audit events, ledger, and reporting |
+| DOC-19 | Authentication, authorization, evidence access, security, and tokenization |
+| DOC-21 | Monitoring, incidents, support escalation, and operations runbooks |
+| DOC-22 | Admin dashboard workflows, review queues, overrides, permissions, and configuration |
 
 ---
 
@@ -576,6 +626,7 @@ The MVP is acceptable when:
 | Payers can log in. | Confirmed |
 | Payees can log in. | Confirmed |
 | Every payment should be evidence-backed. | Confirmed |
+| OCR/document AI-assisted evidence capture, autofill, user correction, duplicate detection, and verification routing are required capabilities where enabled. | Confirmed |
 | Payer must authorize payment before funds movement. | Confirmed |
 | Linked payer/payee views are required. | Confirmed |
 | Wallet, cashout, and unsupported P2P are prohibited. | Confirmed |
@@ -592,3 +643,4 @@ The MVP is acceptable when:
 | v0.2 | 2026-05-27 | Updated MVP to include both payer-created and payee-created payment requests; added two-sided user visibility, evidence-backed matching, linked payer/payee records, and simplified structure. |
 | v0.3 | 2026-05-29 | Confirmed payee-created requests and tenancy/rent as MVP scope, added MVP gating and configuration rules, clarified that detailed data and UX design belong in downstream docs, and updated open questions. |
 | v0.4 | 2026-05-30 | Aligned product requirements with updated DOC-01 scope for invoices, fees, rent, domestic service obligations, request delivery methods, and evidence-backed positioning. |
+| v0.5 | 2026-05-30 | Aligned master PRD with DOC-12 by adding OCR/autofill, user correction, evidence verification outcomes, duplicate/reused evidence routing, sensitive field display controls, and explicit downstream document references. |

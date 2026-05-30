@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.4.0
+version: 0.5.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -23,6 +23,18 @@ related_documents:
   - DOC-03 Regulatory, PSP & Acquirer Assessment
   - DOC-04 Compliance Certification Roadmap & Control Framework
   - DOC-05 Master PRD & Feature Requirement Index
+  - DOC-07 Content, Disclosure & User Authorization Specification
+  - DOC-08 Notification, Receipt & Communication Rules
+  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-10 Payout & Reconciliation
+  - DOC-11 Refund, Cancellation & Chargeback
+  - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
+  - DOC-15 Privacy, Data Protection & Record Retention
+  - DOC-18 Data Model, Transaction Ledger & Reporting
+  - DOC-19 Security, Tokenization & Authentication
+  - DOC-21 Monitoring, Incident Response & Operations Runbook
+  - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
 # DOC-06 - PayPlus User Journey, Product Flow, and UX Scope
@@ -88,7 +100,7 @@ The MVP user journey scope includes:
 - payee-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup;
 - payee adoption or acceptance of payer-created records;
 - payer review of payee-created requests;
-- evidence upload and review;
+- evidence upload, OCR/autofill review, user correction, and evidence verification;
 - request matching and linked records;
 - recipient review flows;
 - payer acceptance, rejection, dispute, and clarification actions;
@@ -163,7 +175,7 @@ The MVP must support the following essential journeys:
 | 8 | Payer-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup | Yes |
 | 9 | Payee adoption of payer-created record | Yes |
 | 10 | Payer review of payee-created request | Yes |
-| 11 | Evidence upload and review | Yes |
+| 11 | Evidence upload, OCR/autofill review, correction, and verification | Yes |
 | 12 | Accept, reject, dispute, and clarification flows | Yes |
 | 13 | Payer payment authorization | Yes |
 | 14 | Payment and payout status visibility | Yes |
@@ -194,6 +206,7 @@ A payer must be able to:
 - create or link a bill, invoice, tenancy, agreement, statement, or obligation record;
 - enter or select payee details;
 - upload or link evidence;
+- review and correct autofilled evidence fields where applicable;
 - receive payee-created payment requests;
 - review evidence before payment;
 - accept a request;
@@ -236,6 +249,7 @@ A payee must be able to:
 - create or link a bill, invoice, tenancy, agreement, statement, or obligation record;
 - enter or select payer details;
 - upload or link evidence;
+- review and correct autofilled evidence fields where applicable;
 - send a request to a payer;
 - receive payer-created bill/payment records;
 - review payer-created records;
@@ -290,6 +304,7 @@ The payer should be able to:
 - create a new payment;
 - view received requests;
 - review evidence;
+- review or correct autofilled evidence fields;
 - accept a request;
 - reject a request;
 - dispute a request;
@@ -326,6 +341,7 @@ The payee should be able to:
 
 - create a payment request;
 - upload evidence;
+- review or correct autofilled evidence fields;
 - send a request to a payer;
 - view request status;
 - view payer action status;
@@ -369,14 +385,16 @@ This is a core MVP journey.
    - contract;
    - other acceptable proof of obligation.
 6. Payee uploads or links evidence.
-7. System validates required fields.
-8. System creates a payment request record.
-9. System links evidence to the request.
-10. System assigns request status.
-11. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
-12. System sends the request notification or invitation to the payer through the selected approved channel.
-13. Payer logs in or registers.
-14. Payer reviews:
+7. System processes evidence using OCR/document AI where enabled.
+8. System autofills eligible fields and lets payee review or correct them.
+9. System validates required fields, evidence verification outcome, duplicate/reused evidence indicators, and risk routing.
+10. System creates a payment request record.
+11. System links evidence and final evidence snapshot to the request.
+12. System assigns request status.
+13. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
+14. System sends the request notification or invitation to the payer through the selected approved channel.
+15. Payer logs in or registers.
+16. Payer reviews:
     - payee identity/details;
     - amount;
     - due date;
@@ -386,17 +404,17 @@ This is a core MVP journey.
     - fees where applicable;
     - payment terms;
     - PayPlus disclosures where applicable.
-15. Payer selects one of:
+17. Payer selects one of:
     - accept;
     - reject;
     - dispute;
     - request clarification.
-16. If payer accepts, payer proceeds to payment authorization.
-17. Payer explicitly authorizes payment.
-18. System processes payment through approved payment partner or sandbox integration.
-18. Payee receives payment according to approved payout or settlement rules.
-19. Payer and payee can view the linked request/payment context.
-20. System stores receipt, status history, and audit trail.
+18. If payer accepts, payer proceeds to payment authorization.
+19. Payer explicitly authorizes payment.
+20. System processes payment through approved payment partner or sandbox integration.
+21. Payee receives payment according to approved payout or settlement rules.
+22. Payer and payee can view the linked request/payment context.
+23. System stores receipt, status history, and audit trail.
 
 ---
 
@@ -432,6 +450,7 @@ Expired
 | Control | Requirement |
 | --- | --- |
 | Evidence required | Request cannot proceed to payment without required evidence unless an approved exception applies. |
+| Evidence verification | OCR/autofill, user correction, duplicate detection, and verification outcomes follow DOC-12. |
 | Payer review required | Payer must review the request context before payment authorization. |
 | Payer authorization required | Payee-created request must not trigger payment without payer authorization. |
 | Linked records required | Request, evidence, payer, payee, payment, status history, and audit events must be linked. |
@@ -470,25 +489,27 @@ This is a core MVP journey.
    - contract;
    - other acceptable proof of obligation.
 6. Payer uploads or links evidence.
-7. System validates required fields.
-8. System creates a payment request or payment intent record.
-9. System links evidence to the record.
-10. System matches payee if already a PayPlus user or creates an invite/link record.
-11. System sends notification or invitation to payee where applicable.
-12. Payee logs in or registers.
-13. Payee reviews the payer-created record.
-14. Payee selects one of:
+7. System processes evidence using OCR/document AI where enabled.
+8. System autofills eligible fields and lets payer review or correct them.
+9. System validates required fields, evidence verification outcome, duplicate/reused evidence indicators, and risk routing.
+10. System creates a payment request or payment intent record.
+11. System links evidence and final evidence snapshot to the record.
+12. System matches payee if already a PayPlus user or creates an invite/link record.
+13. System sends notification or invitation to payee where applicable.
+14. Payee logs in or registers.
+15. Payee reviews the payer-created record.
+16. Payee selects one of:
     - accept/adopt;
     - reject;
     - dispute;
     - request clarification.
-15. Admin/system reviews request and evidence according to applicable risk controls.
-16. Payer reviews final payment summary.
-17. Payer explicitly authorizes payment.
-18. System processes payment through approved payment partner or sandbox integration.
-19. Payee receives payment according to approved payout or settlement rules.
-20. Payer and payee can view the linked payment context.
-21. System stores receipt, status history, and audit trail.
+17. Admin/system reviews request and evidence according to applicable risk controls.
+18. Payer reviews final payment summary.
+19. Payer explicitly authorizes payment.
+20. System processes payment through approved payment partner or sandbox integration.
+21. Payee receives payment according to approved payout or settlement rules.
+22. Payer and payee can view the linked payment context.
+23. System stores receipt, status history, and audit trail.
 
 ### 9.3 Payer-Created Payment Status Path
 
@@ -522,6 +543,7 @@ Expired
 | Control | Requirement |
 | --- | --- |
 | Evidence required | Payment cannot proceed without required evidence unless an approved exception applies. |
+| Evidence verification | OCR/autofill, user correction, duplicate detection, and verification outcomes follow DOC-12. |
 | Payee link required | Payee must be linked, invited, or represented by a valid payee record. |
 | Payee adoption supported | Payee must be able to accept/adopt payer-created records where applicable. |
 | Payer authorization required | Payment cannot be processed without explicit payer authorization. |
@@ -555,15 +577,17 @@ An obligation record may represent:
 2. Payee creates a bill, invoice, tenancy, agreement, statement, or obligation record.
 3. Payee enters payer information.
 4. Payee uploads supporting evidence.
-5. System creates obligation record.
-6. System links evidence to obligation record.
-7. Payee creates or sends payment request.
-8. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
-9. Payer is notified or invited through the selected approved channel.
-10. Payer reviews the obligation, evidence, and request.
-11. Payer accepts, rejects, disputes, or requests clarification.
-12. If accepted, payer may authorize payment.
-13. System links payer, payee, request, evidence, and payment records.
+5. System processes evidence and autofills eligible obligation fields where enabled.
+6. Payee reviews or corrects autofilled fields.
+7. System validates evidence and creates obligation record.
+8. System links evidence and final evidence snapshot to obligation record.
+9. Payee creates or sends payment request.
+10. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
+11. Payer is notified or invited through the selected approved channel.
+12. Payer reviews the obligation, evidence summary, and request.
+13. Payer accepts, rejects, disputes, or requests clarification.
+14. If accepted, payer may authorize payment.
+15. System links payer, payee, request, evidence, and payment records.
 
 ### 10.3 Payer-Created Obligation Path
 
@@ -571,15 +595,17 @@ An obligation record may represent:
 2. Payer creates a bill, invoice, tenancy, agreement, statement, or obligation record.
 3. Payer enters payee information.
 4. Payer uploads supporting evidence.
-5. System creates obligation record.
-6. System links evidence to obligation record.
-7. Payee is notified or invited.
-8. Payee logs in or registers.
-9. Payee reviews the obligation and evidence.
-10. Payee accepts/adopts, rejects, disputes, or requests clarification.
-11. If adopted, payee becomes linked to the shared obligation context.
-12. Payer may authorize payment.
-13. System links payer, payee, obligation, evidence, and payment records.
+5. System processes evidence and autofills eligible obligation fields where enabled.
+6. Payer reviews or corrects autofilled fields.
+7. System validates evidence and creates obligation record.
+8. System links evidence and final evidence snapshot to obligation record.
+9. Payee is notified or invited.
+10. Payee logs in or registers.
+11. Payee reviews the obligation and evidence summary.
+12. Payee accepts/adopts, rejects, disputes, or requests clarification.
+13. If adopted, payee becomes linked to the shared obligation context.
+14. Payer may authorize payment.
+15. System links payer, payee, obligation, evidence, and payment records.
 
 ### 10.4 Adoption Rules
 
@@ -651,6 +677,8 @@ A payee may accept or adopt a payer-created record, but a payee cannot authorize
 
 Ensures each payment is linked to acceptable evidence before it can proceed to payment.
 
+DOC-12 owns detailed bill category, OCR/document AI, extracted field, autofill, user correction, duplicate detection, verification outcome, and payee matching requirements. DOC-06 describes only the user journey and UX touchpoints.
+
 ### 12.2 Accepted MVP Evidence Types
 
 MVP evidence may include:
@@ -668,15 +696,20 @@ MVP evidence may include:
 - manually entered bill details with supporting document;
 - other admin-approved proof of payment obligation.
 
-### 12.3 Evidence Upload Flow
+### 12.3 Evidence Upload and Verification Flow
 
 1. User creates a request or obligation record.
 2. User uploads or links evidence.
 3. System validates file type and required metadata where applicable.
-4. System stores evidence record.
-5. System links evidence to the request or obligation.
-6. System logs evidence action.
-7. Evidence becomes available for role-based review.
+4. System processes OCR/document AI where enabled.
+5. System extracts and autofills eligible fields.
+6. User reviews and corrects autofilled fields before submission.
+7. System stores raw evidence, extraction result, user correction, and final evidence snapshot where applicable.
+8. System links evidence to the request or obligation.
+9. System applies duplicate/reused evidence, mismatch, completeness, same-party, and risk checks.
+10. System assigns an evidence verification outcome.
+11. Low-risk evidence becomes available for role-based review and payment eligibility checks.
+12. Red-flag evidence routes to user clarification or admin review.
 
 ### 12.4 Evidence Review Access
 
@@ -693,6 +726,11 @@ MVP evidence may include:
 | --- | --- |
 | Evidence required | Payment request cannot proceed to payment without required evidence unless an approved exception applies. |
 | Evidence linked | Evidence must be linked to a payment request, obligation, or payment record. |
+| OCR/autofill | Where enabled, extracted fields should assist request creation but must not remove user review. |
+| User correction | Users must be able to correct autofilled fields before submission. |
+| Extractable vs displayable | Sensitive extracted fields may be stored under controls without being shown broadly in UI. |
+| Duplicate warning | Duplicate or reused evidence may trigger user warning and admin review, subject to DOC-12 and privacy rules. |
+| Verification outcome | Pending user clarification, pending admin review, rejected, duplicate suspected, or fraud/risk escalated outcomes must block payment eligibility until resolved. |
 | Payer review | Payer must be able to review evidence before authorizing payment. |
 | Admin review | Admin must be able to view evidence for review and investigation. |
 | Auditability | Evidence upload, view, replacement, and deletion actions must be logged where applicable. |
@@ -943,6 +981,9 @@ The MVP UX should expose clear user-facing request states. Canonical state-machi
 | --- | --- |
 | Draft | Request created but not submitted. |
 | Submitted | Request submitted for review or routing. |
+| Evidence Processing | Evidence OCR, extraction, autofill, or verification is in progress. |
+| Pending User Correction | User must review or correct extracted evidence fields. |
+| Pending Evidence Review | Evidence requires admin or risk review before payment eligibility. |
 | Sent | Request sent to payer or payee. |
 | Viewed | Recipient viewed the request. |
 | Clarification Requested | Recipient or admin requested more information. |
@@ -963,6 +1004,7 @@ The MVP UX should expose clear user-facing request states. Canonical state-machi
 | --- | --- |
 | Payer authorization | No payment may be processed without payer authorization. |
 | Evidence gate | Request cannot move to Approved for Payment without required evidence or approved exception. |
+| Verification gate | Request cannot move to Approved for Payment while DOC-12 evidence verification requires correction, admin review, rejection handling, duplicate review, or fraud/risk escalation. |
 | Admin/risk gate | Requests may require admin or risk approval before payment. |
 | Rejection handling | Rejected requests cannot be paid unless recreated or reopened under approved rules. |
 | Dispute handling | Disputed requests should not proceed to payment unless resolved under approved rules. |
@@ -1013,6 +1055,8 @@ Admins must be able to:
    - request;
    - amount;
    - evidence;
+   - extracted fields and user corrections where applicable;
+   - evidence verification outcome;
    - status history;
    - duplicate indicators;
    - risk indicators;
@@ -1037,6 +1081,7 @@ Admins must be able to:
 | Permissioned access | Admin access must be role-based and controlled. |
 | Logged actions | Admin actions must be audit logged. |
 | Evidence access | Admin must be able to review evidence. |
+| OCR review support | Admin must be able to review extracted fields, user corrections, verification outcomes, and duplicate indicators where applicable. |
 | Exception handling | Admin must be able to manage operational exceptions. |
 | No silent overrides | Admin overrides must be traceable. |
 | Risk review support | MVP must support manual review where risk rules require it. |
@@ -1079,6 +1124,8 @@ The MVP should support admin queues or notifications for:
 - request requiring review;
 - high-risk request;
 - missing or invalid evidence;
+- evidence verification review required;
+- duplicate or reused evidence warning;
 - new payee review;
 - duplicate suspected;
 - dispute opened;
@@ -1191,11 +1238,12 @@ A receipt or confirmation should include:
 
 ### 22.4 Duplicate Request
 
-1. System or admin detects possible duplicate request or evidence.
-2. Request is flagged for review.
-3. Admin reviews duplicate indicators.
-4. Admin may hold, reject, clarify, or allow request.
-5. System logs duplicate review outcome.
+1. System or admin detects possible duplicate request, duplicate evidence, or reused evidence.
+2. User may be warned that the evidence appears to have been used before, subject to DOC-12 privacy and anti-tipping-off rules.
+3. Request is flagged for review where configured.
+4. Admin reviews duplicate indicators.
+5. Admin may hold, reject, clarify, or allow request.
+6. System logs duplicate review outcome.
 
 ### 22.5 Refund or Reversal
 
@@ -1206,7 +1254,7 @@ A receipt or confirmation should include:
 5. Payer and payee are notified where applicable.
 6. System logs all actions.
 
-Refund and reversal rules should be defined in a future payment flow or operations document.
+Refund and reversal rules belong in DOC-11. Payment, payout, reconciliation, and admin workflow details belong in DOC-09, DOC-10, DOC-18, DOC-21, and DOC-22.
 
 ---
 
@@ -1244,6 +1292,8 @@ The MVP should include payer-facing screens for:
 - create or link bill/invoice/tenancy/obligation;
 - enter payee details;
 - upload evidence;
+- review or correct autofilled evidence fields;
+- view duplicate/reused evidence warning where applicable;
 - received request list;
 - request detail;
 - evidence review;
@@ -1268,6 +1318,8 @@ The MVP should include payee-facing screens for:
 - enter payer details;
 - select request delivery method;
 - upload evidence;
+- review or correct autofilled evidence fields;
+- view duplicate/reused evidence warning where applicable;
 - send request;
 - sent request list;
 - received payer-created record list;
@@ -1289,6 +1341,8 @@ The MVP should include admin-facing screens for:
 - operations dashboard;
 - request review queue;
 - evidence review;
+- OCR/extracted field review;
+- duplicate or reused evidence review;
 - payer account view;
 - payee account view;
 - payee review queue;
@@ -1311,6 +1365,8 @@ The MVP should include system-level handling for:
 - invitation routing;
 - status updates;
 - evidence linking;
+- OCR/autofill processing where enabled;
+- evidence verification outcome routing;
 - duplicate detection support;
 - notification events;
 - payment partner status updates;
@@ -1327,6 +1383,8 @@ The MVP should include system-level handling for:
 | --- | --- |
 | Clarity | Users must understand what they are requesting, paying, accepting, or authorizing. |
 | Evidence visibility | Payer must be able to review evidence before payment authorization. |
+| Evidence correction | Users must be able to review and correct autofilled evidence fields before submission where OCR/autofill is enabled. |
+| Sensitive field minimization | UI must display only fields needed for the user task; broader extractable evidence data belongs behind controlled access. |
 | Status transparency | Users must see clear status for pending, processing, completed, failed, disputed, rejected, cancelled, and expired requests. |
 | Permissioning | Users must only see data appropriate to their role. |
 | Auditability | Key actions must generate audit events. |
@@ -1354,7 +1412,10 @@ The DOC-06 user journey scope is satisfied when:
 - payees can review payer-created records;
 - payees can accept/adopt payer-created records where applicable;
 - users can upload evidence;
+- OCR/document AI can process evidence where enabled;
+- users can review and correct autofilled evidence fields where applicable;
 - evidence is linked to the request or obligation;
+- evidence verification outcomes can route to payment eligibility, user clarification, or admin review;
 - payer can review evidence before payment;
 - payer can accept, reject, dispute, or request clarification;
 - payee can respond to clarification or dispute where applicable;
@@ -1389,6 +1450,8 @@ The DOC-06 user journey scope is satisfied when:
 | OQ-06-013 | What admin roles and permission levels are required? | Operations / Security | Open |
 | OQ-06-014 | What information should be hidden or masked between payer and payee? | Product / Security / Legal | Open |
 | OQ-06-015 | What duplicate detection signals are required for MVP? | Risk / Engineering | Open |
+| OQ-06-016 | What OCR/autofill review UI is required for each evidence category? | Product / Design | Open |
+| OQ-06-017 | What duplicate/reused evidence warning can be shown without over-disclosing sensitive information? | Product / Legal / Privacy | Open |
 
 ---
 
@@ -1402,11 +1465,18 @@ The DOC-06 user journey scope is satisfied when:
 | DOC-03 | Regulatory assessment. |
 | DOC-04 | Compliance control framework. |
 | DOC-05 | Master product requirements and MVP scope. |
-| Future Data Model Doc | Defines request, obligation, evidence, payment, payout, audit, and participant data objects. |
-| Future Payment Flow Doc | Defines payment authorization, processing, payout, settlement, refund, reversal, and failure states. |
-| Future Admin Ops Doc | Defines admin review, risk, dispute, exception, and support workflows. |
-| Future Security Doc | Defines authentication, authorization, evidence access, data protection, and privacy controls. |
-| Future Notification Spec | Defines notification templates, channels, triggers, and user preferences. |
+| DOC-07 | User-facing disclosure, authorization, evidence, privacy, and policy wording. |
+| DOC-08 | Notification templates, channels, triggers, user preferences, and delivery logging. |
+| DOC-09 | Payment request, funding, authorization, and settlement readiness. |
+| DOC-10 | Payout, payout readiness, payout destination, batching, and reconciliation. |
+| DOC-11 | Refund, cancellation, reversal, dispute, and chargeback handling. |
+| DOC-12 | Bill category, document AI/OCR, evidence verification, duplicate detection, and payee matching. |
+| DOC-14 | AML, anti-cashout, fake evidence, duplicate evidence, collusion, and risk controls. |
+| DOC-15 | Privacy, data protection, masking, retention, and lawful data use. |
+| DOC-18 | Request, obligation, evidence, payment, payout, audit, ledger, reporting, and participant data objects. |
+| DOC-19 | Authentication, authorization, evidence access, data protection, and privacy controls. |
+| DOC-21 | Monitoring, support escalation, incident handling, and operations runbooks. |
+| DOC-22 | Admin review, risk, dispute, exception, support, configuration, and override workflows. |
 | Future UX Wireframes | Defines screen-level UX and interaction design. |
 
 ---
@@ -1427,6 +1497,7 @@ The DOC-06 user journey scope is satisfied when:
 | Payee adoption of payer-created records is supported where applicable. | Confirmed |
 | Payer review and authorization are required before payment. | Confirmed |
 | Evidence-backed payments are required unless approved exception applies. | Confirmed |
+| OCR/document AI-assisted evidence capture, autofill, user correction, duplicate warning, and evidence verification routing are required UX touchpoints where enabled. | Confirmed |
 | Linked payer/payee visibility is required subject to permissions. | Confirmed |
 | Admin/risk review support is required. | Confirmed |
 | Wallet, stored balance, cashout, self-cashout, and unsupported P2P journeys are prohibited. | Confirmed |
@@ -1443,3 +1514,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.2 | 2026-05-29 | Confirmed tenancy/rent journeys as MVP scope, added UX scope boundaries, clarified independent module disablement, and reduced overlap with payment, notification, receipt, and data specifications. |
 | v0.3 | 2026-05-30 | Aligned user journeys with updated DOC-01 scope for invoices, fees, rent, domestic service obligations, and evidence-backed positioning. |
 | v0.4 | 2026-05-30 | Added explicit payee-created request delivery method selection for in-app message, app link, WhatsApp deeplink, QR code, or other approved channel. |
+| v0.5 | 2026-05-30 | Aligned UX flows with DOC-12 by adding OCR/autofill review, user correction, evidence verification outcomes, duplicate/reused evidence warning, sensitive field display boundaries, and explicit downstream document references. |
