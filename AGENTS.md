@@ -4,10 +4,12 @@
 
 This file gives AI assistants working in this repository a shared operating guide.
 
-PayPlus documentation must be developed in two stages:
+PayPlus documentation must be developed in layers:
 
 1. Human-readable source-of-truth documentation.
-2. AI-coding-friendly execution documentation derived from the human docs.
+2. Technical and operational specifications derived from the human docs.
+3. AI-coding-friendly execution documentation derived from the human and technical specs.
+4. Implementation code, tests, migrations, configuration, and release evidence.
 
 Do not reverse this order unless the founder explicitly approves it.
 
@@ -49,7 +51,7 @@ In general:
 The intended documentation flow is:
 
 ```text
-Human source docs -> AI execution docs -> implementation tasks -> tests/evidence -> traceability updates
+Human source docs -> technical specs -> AI execution docs -> implementation tasks -> code/tests/evidence -> traceability updates
 ```
 
 Use these repository areas as follows:
@@ -66,6 +68,19 @@ Use these repository areas as follows:
 - `docs/09-ai-build-execution/`: AI build-execution materials derived from human docs.
 - `docs/99-isms-policies/`: ISMS and security policy library.
 - `docs/traceability/`: requirements, controls, tests, decisions, and open-question linkage.
+
+## Documentation Layering
+
+Human source documents should remain readable, decisive, and reviewable by the founder and professional advisers. Do not overload foundation, product, payment-domain, risk, compliance, or growth documents with full database schemas, API contracts, implementation tickets, or code-level tasks unless the founder explicitly asks.
+
+Use the layers as follows:
+
+1. `DOC-00` to `DOC-15` and related domain documents define business intent, product rules, payment behavior, compliance boundaries, user journeys, risk boundaries, and human-readable source requirements.
+2. `DOC-16` to `DOC-22` define technical architecture, API and partner integration, data model, transaction states, audit events, security, testing, monitoring, and admin operations.
+3. `docs/09-ai-build-execution/` contains AI-agent execution materials generated from the human and technical specifications.
+4. Code, migrations, tests, and implementation artifacts must trace back to the source documents and technical specs.
+
+When drafting early human docs, include enough structure for later specification work, but leave detailed schema, endpoint, test-case, and implementation-ticket detail to the technical and AI execution layers.
 
 ## Agent Workflow Rules
 
