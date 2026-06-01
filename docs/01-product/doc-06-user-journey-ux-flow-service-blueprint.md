@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-05-30
+last_updated: 2026-06-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -29,6 +29,7 @@ related_documents:
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-18 Data Model, Transaction Ledger & Reporting
@@ -806,6 +807,7 @@ Before authorization, the payer should be shown:
 - payee;
 - amount;
 - service fee where applicable;
+- eligible promotion quote, discount, coupon, voucher, or reward impact where applicable;
 - total charge;
 - due date;
 - category;
@@ -823,7 +825,7 @@ Before authorization, the payer should be shown:
 1. Payer reviews request or payer-created payment.
 2. Payer confirms that evidence and payment details are acceptable.
 3. System displays final payment summary.
-4. System displays fee and total charge where applicable.
+4. System displays fee, promotion quote, discount, coupon/voucher impact, reward impact, and total charge where applicable.
 5. Payer selects or confirms payment method.
 6. Payer accepts required terms or disclosures where applicable.
 7. Payer confirms authorization.
@@ -839,6 +841,7 @@ Before authorization, the payer should be shown:
 | No automatic payment | Payee-created request cannot automatically trigger payment. |
 | Evidence visibility | Payer must be able to review evidence before payment. |
 | Fee visibility | Fees charged to payer must be displayed before authorization. |
+| Promotion visibility | Eligible discounts, service-fee benefits, coupons, vouchers, and reward impact must be displayed before authorization where applicable. |
 | Audit logging | Authorization must be logged. |
 | No hidden material terms | Material payment information must not be hidden from payer. |
 
@@ -1299,6 +1302,10 @@ The MVP should include payer-facing screens for:
 - evidence review;
 - accept/reject/dispute/request clarification;
 - payment authorization;
+- promotion/coupon/voucher selection where enabled;
+- coupon/voucher wallet where enabled;
+- referral or reward status where enabled;
+- membership/tier status where enabled;
 - payment processing status;
 - payment completed status;
 - failed payment status;
@@ -1328,6 +1335,8 @@ The MVP should include payee-facing screens for:
 - clarification response;
 - dispute response;
 - payment status;
+- coupon/voucher or partner reward status where enabled;
+- referral or membership status where enabled;
 - payout or settlement status where applicable;
 - receipt/history;
 - notifications;
@@ -1354,6 +1363,7 @@ The MVP should include admin-facing screens for:
 - payout or settlement status view where applicable;
 - failed payment exception view;
 - refund/reversal review where applicable;
+- campaign, offer, coupon/voucher, reward entitlement, and promotion exception view where promotions are enabled;
 - audit log view.
 
 ### 24.4 System UX and Service Touchpoints
@@ -1368,6 +1378,8 @@ The MVP should include system-level handling for:
 - OCR/autofill processing where enabled;
 - evidence verification outcome routing;
 - duplicate detection support;
+- promotion quote and reward entitlement support where enabled;
+- coupon/voucher wallet and external reward fulfilment support where enabled;
 - notification events;
 - payment partner status updates;
 - payout or settlement updates where applicable;
@@ -1503,6 +1515,7 @@ The DOC-06 user journey scope is satisfied when:
 | Wallet, stored balance, cashout, self-cashout, and unsupported P2P journeys are prohibited. | Confirmed |
 | Final payment processor, operating-bank setup, detailed KYC/KYB steps, fees, multi-card card-count limit, and dispute policy details remain open or to be confirmed. | Open |
 | Major functions and modules must be independently disableable. | Confirmed |
+| Promotion, coupon/voucher, reward, MGM, and membership UX surfaces are framework scope but launch-gated by DOC-13. | Confirmed |
 
 ---
 
@@ -1515,3 +1528,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.3 | 2026-05-30 | Aligned user journeys with updated DOC-01 scope for invoices, fees, rent, domestic service obligations, and evidence-backed positioning. |
 | v0.4 | 2026-05-30 | Added explicit payee-created request delivery method selection for in-app message, app link, WhatsApp deeplink, QR code, or other approved channel. |
 | v0.5 | 2026-05-30 | Aligned UX flows with DOC-12 by adding OCR/autofill review, user correction, evidence verification outcomes, duplicate/reused evidence warning, sensitive field display boundaries, and explicit downstream document references. |
+| v0.6 | 2026-06-01 | Aligned UX scope with DOC-13 by adding promotion quote, coupon/voucher wallet, reward entitlement, referral/MGM, membership, and promotion admin touchpoints where enabled. |

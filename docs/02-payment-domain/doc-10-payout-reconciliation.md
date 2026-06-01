@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 0.2.0
+version: 0.3.0
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-05-30
+last_updated: 2026-06-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -28,6 +28,7 @@ related_documents:
   - DOC-08 Notification, Receipt & Communication Rules
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
   - DOC-11 Refund, Cancellation & Chargeback
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-17 API & Third-party Integration
   - DOC-18 Data Model, Transaction Ledger & Reporting
@@ -478,6 +479,7 @@ Finance and accounting review must determine:
 - reserves and holdbacks;
 - suspense or clearing account treatment;
 - tax reporting implications.
+- promotion, reward, voucher, miles, partner reimbursement, or campaign-funded benefit accounting where applicable.
 
 DOC-18 should define ledger and reporting fields. Finance policy should define accounting conclusions.
 
@@ -499,6 +501,7 @@ DOC-10 should support reporting for:
 - reconciliation break count;
 - partial batch success count;
 - manual override count.
+- promotion-funded payout adjustment or partner reimbursement exception count where applicable.
 
 Useful dimensions include:
 
@@ -512,6 +515,7 @@ Useful dimensions include:
 - risk status;
 - payout status;
 - reconciliation status.
+- campaign, offer, or reward identifier where promotion settlement or partner reimbursement is involved.
 
 Detailed reporting schema belongs in DOC-18.
 
@@ -549,6 +553,7 @@ Examples:
 | OQ-10-008 | What cutoff rules apply to same-business-day grouping for split payments across foreign/offshore payment methods? | Payments / Engineering | Open |
 | OQ-10-009 | What manual override permissions are required for mark-as-paid, mark-as-failed, retry, and reconciliation match? | Operations / Security | Open |
 | OQ-10-010 | What finance/accounting policy applies to payout payable, settlement clearing, reserves, and reconciliation breaks? | Finance | Open |
+| OQ-10-011 | Which partner-funded promotions, external vouchers, miles rewards, or campaign reimbursements require reconciliation against payout, settlement, or partner records? | Finance / Growth / Payments | Open |
 
 ---
 
@@ -568,6 +573,7 @@ DOC-10 is acceptable when:
 - idempotency and duplicate prevention are required;
 - admin controls are defined at business/backend level;
 - detailed integration, data model, and admin workflow ownership is clearly assigned to DOC-17, DOC-18, and DOC-22.
+- promotion-related reimbursement or reward settlement exceptions are routed to DOC-13, DOC-18, and DOC-22 where applicable.
 
 ---
 
@@ -577,3 +583,4 @@ DOC-10 is acceptable when:
 | --- | --- | --- |
 | 0.1.0 | 2026-05-30 | Initial founder working baseline for payout readiness, payout rails, settlement calendars, split-payment grouping, payout batching, bank record ingestion, reconciliation matching, exceptions, idempotency, admin controls, and reporting. |
 | 0.2.0 | 2026-05-30 | Aligned payout wording with updated DOC-01 settlement, fee, and approved payout positioning. |
+| 0.3.0 | 2026-06-01 | Aligned payout and reconciliation boundaries with DOC-13 by adding promotion-funded adjustment, partner reimbursement, external voucher, and miles reward reconciliation references where applicable. |

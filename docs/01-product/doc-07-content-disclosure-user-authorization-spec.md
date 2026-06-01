@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.3.0
+version: 0.4.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-05-30
+last_updated: 2026-06-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -28,6 +28,7 @@ related_documents:
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-18 Data Model, Transaction Ledger & Reporting
@@ -311,11 +312,12 @@ Before payer authorization, PayPlus must show:
 - payment amount;
 - service fee;
 - discount, coupon, promotion code, or subsidy where applicable;
+- reward, voucher, miles, or membership benefit impact where applicable;
 - total charge;
 - who pays the fee where relevant;
 - whether a fee is refundable, non-refundable, reversed, or adjusted under applicable policy.
 
-Exact fee rates, fee allocation, coupons, promotion codes, discount codes, refunds, and reversals remain to be confirmed and should be admin-configurable.
+Exact fee rates, fee allocation, coupons, vouchers, promotion codes, discount codes, rewards, miles, membership benefits, refunds, and reversals remain to be confirmed and should be admin-configurable. Promotion calculation and entitlement rules belong in DOC-13.
 
 PayPlus must not hide payer-facing fees inside vague or misleading wording.
 
@@ -435,6 +437,7 @@ The admin dashboard or configuration layer should support controlled updates to:
 - service fee rates;
 - payer/payee fee allocation text;
 - promotion, coupon, discount, or subsidy labels;
+- reward, voucher, miles, membership, eligibility, expiry, and benefit-entitlement wording;
 - multi-card maximum card count;
 - category-specific evidence guidance;
 - OCR/autofill review guidance;
@@ -463,6 +466,7 @@ Required audit evidence includes:
 | Evidence verification | OCR/autofill notice, extracted-field review, user correction, duplicate warning, verification outcome, and review status where applicable. |
 | Payer review | Request details and disclosure version shown to payer. |
 | Payment authorization | Final amount, fee, payment method summary, authorization text/version, timestamp, and result. |
+| Promotion authorization | Promotion quote, applied discount, service-fee benefit, coupon/voucher selection, reward entitlement, and related wording shown before authorization where applicable. |
 | Multi-card authorization | Card split, total charge, per-card amount, and reauthorization event where applicable. |
 | Refund/dispute/chargeback case | User-facing status, case messages, evidence submitted, and admin actions. |
 
@@ -498,6 +502,7 @@ This document does not interpret those sources as final legal advice.
 | OQ-07-007 | What refund, cancellation, dispute, chargeback, and reversal policy links or short summaries must be shown before authorization? | Operations / Legal / Product | Open |
 | OQ-07-008 | What content approval workflow is required for legal, payment, privacy, commercial, or risk-sensitive copy changes? | Project Owner / Compliance | Open |
 | OQ-07-009 | What wording should explain OCR/autofill, user correction responsibility, duplicate/reused evidence warning, and sensitive extracted-field handling? | Product / Legal / Privacy | Open |
+| OQ-07-010 | What wording should explain promotion quotes, coupon/voucher eligibility, miles rewards, membership benefits, expiry, and entitlement limits before authorization? | Product / Commercial / Legal | Open |
 
 ---
 
@@ -513,6 +518,7 @@ DOC-07 is acceptable when:
 - rent and tenancy disclosure requirements are defined;
 - OCR/autofill, evidence correction, duplicate warning, and evidence verification disclosure touchpoints are defined;
 - fee, promotion, total charge, and multi-card disclosure requirements are defined;
+- coupon, voucher, reward, miles, membership, entitlement, and expiry disclosure boundaries are defined where applicable;
 - payment, settlement, and payout timing wording is cautious and accurate;
 - refund, cancellation, dispute, chargeback, and reversal disclosure touchpoints are defined;
 - privacy and data collection notice touchpoints are identified;
@@ -525,6 +531,7 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.4.0 | 2026-06-01 | Aligned disclosure requirements with DOC-13 by adding promotion quote, coupon/voucher, reward, miles, membership, entitlement, expiry, and authorization-audit wording boundaries. |
 | 0.3.0 | 2026-05-30 | Aligned disclosure requirements with DOC-12 OCR/autofill, evidence correction, duplicate/reused evidence warning, verification status, and sensitive extracted-field minimization. |
 | 0.2.0 | 2026-05-30 | Aligned disclosure scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, approved obligations, and payer-authorized push payment language. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for content, disclosure, and payer authorization requirements. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 0.6.0
+version: 0.7.0
 status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
@@ -15,7 +15,7 @@ approvers:
   - Project Owner
   - Finance Lead
   - Commercial Lead
-last_updated: 2026-05-30
+last_updated: 2026-06-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -26,7 +26,7 @@ related_documents:
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
-  - DOC-13 Promotion Engine & Campaign Rules
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-18 Data Model, Transaction Ledger & Reporting
 ---
@@ -426,9 +426,11 @@ Promotion cost may include:
 - credits;
 - fee waivers;
 - rewards;
+- miles or points rewards;
 - referral bonuses;
 - partner-funded offers;
-- payee-funded payer discounts;
+- external voucher or partner fulfilment costs;
+- exceptional payee-funded payer discounts, if separately approved;
 - payee onboarding incentives;
 - payee request fee waivers;
 - advertising credits;
@@ -442,7 +444,11 @@ Each promotion must define:
 - whether eligibility differs for payer-created and payee-created requests;
 - budget;
 - eligibility;
+- qualification and entitlement rules;
+- usage limits and quotas;
 - maximum benefit;
+- benefit target and benefit method;
+- promotion quote impact;
 - redemption rules;
 - expiration;
 - reversal rules;
@@ -453,9 +459,9 @@ Each promotion must define:
 - reporting requirements;
 - approval owner.
 
-Promotions must not create uncontrolled negative margin.
+Promotions must not create uncontrolled negative margin. Spending-threshold rewards should track qualification progress and benefit entitlement, not merely raw card or transaction usage.
 
-Detailed promotion rules belong in `DOC-13 Promotion Engine & Campaign Rules`.
+Detailed promotion engine, coupon, voucher, referral, membership, Asia Miles, card-linked eligibility, and external partner offer rules belong in `DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification`.
 
 ---
 
@@ -868,7 +874,7 @@ This document provides a framework only and does not establish accounting or tax
 | `DOC-09` | Define funding, fee calculation, payer authorization, payee-created request fee treatment, multi-card fee allocation, and failed authorization behavior. |
 | `DOC-10` | Define payout cost, payee-side fee deduction if applicable, settlement timing, reconciliation, and financial exception handling. |
 | `DOC-11` | Define refund, cancellation, payer rejection, payee withdrawal, chargeback, loss allocation, payee fee reversal, and fee reversal rules. |
-| `DOC-13` | Define campaign budgets, promotion cost, partner/payee funding, eligibility, reversal, abuse controls, payer/payee cost allocation, and reporting. |
+| `DOC-13` | Define campaign budgets, promotion cost, funding source, eligibility, qualification, entitlement, usage, promotion quote, reversal, abuse controls, reward fulfilment, and reporting. |
 | `DOC-14` | Include fraud, fake invoice, fake rent, request abuse, chargeback, and payee-created request losses in risk appetite and controls. |
 | `DOC-18` | Define ledger fields, request creator type, payee type, payer response status, payee-side fees, metric definitions, revenue, cost, margin, campaign, request-origin, and partner reporting. |
 | `DOC-20` | Include commercial readiness, pricing, payee-side fee, request-origin, and payee-created request economics test cases in launch checklist. |
@@ -954,3 +960,4 @@ This document should remain a commercial framework and should not become a final
 | `0.4.0` | 2026-05-27 | Product Documentation Team | Simplified structure and language while preserving essential commercial model, revenue streams, fee principles, cost drivers, unit economics formulas, payee-created request economics, commercial viability gates, reporting expectations, assumptions, constraints, dependencies, risks, and open questions. |
 | `0.5.0` | 2026-05-29 | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as product MVP scope while keeping commercial launch enablement gated by pricing, partner, payout, verification, support, risk, and margin assumptions. |
 | `0.6.0` | 2026-05-30 | Product Documentation Team | Aligned category examples with updated DOC-01 positioning for rent, invoices, medical bills, and domestic service obligations. |
+| `0.7.0` | 2026-06-01 | Product Documentation Team | Aligned promotion economics with DOC-13 by adding qualification, entitlement, promotion quote, miles, external voucher, and partner fulfilment cost concepts while de-emphasizing payee-funded discounts as exceptional. |

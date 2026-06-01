@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 0.3.0
+version: 0.4.0
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-05-30
+last_updated: 2026-06-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -30,6 +30,7 @@ related_documents:
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-17 API & Third-party Integration
   - DOC-18 Data Model, Transaction Ledger & Reporting
@@ -55,6 +56,7 @@ DOC-09 covers:
 - payer-created and payee-created payment requests;
 - eligibility gates before payment;
 - evidence verification outcome consumption;
+- promotion quote consumption;
 - payment quotes;
 - payment method and payment profile selection;
 - tokenization product rules;
@@ -74,6 +76,7 @@ DOC-09 does not define:
 | Payout execution and reconciliation | DOC-10 |
 | Refund, cancellation, dispute, chargeback, and reversal operations | DOC-11 |
 | Bill category, document AI/OCR, evidence verification, and duplicate evidence rules | DOC-12 |
+| Promotion engine, campaign, offer, coupon, voucher, reward, entitlement, and promotion quote rules | DOC-13 |
 | Risk scoring and anti-cashout rules | DOC-14 |
 | PSP/acquirer and tokenization APIs | DOC-17 |
 | Data model, ledger, and audit event schema | DOC-18 |
@@ -97,6 +100,7 @@ DOC-09 does not define:
 | Fee model | Percentage-based online payment processing service fee; exact rates and allocations remain admin-configurable and to be confirmed. |
 | Step-up authentication | Extra authentication may be skipped below a configurable amount where partner, risk, compliance, and security rules allow. |
 | Evidence verification | DOC-12 verification outcome must be resolved before payment quote and authorization where the category requires verification. |
+| Promotion quote | DOC-13 promotion impact must be calculated before payer authorization where promotions, coupons, vouchers, rewards, membership benefits, or card-linked offers are enabled. |
 
 Unconfirmed items should remain editable assumptions or gated requirements and should not block continued documentation drafting.
 
@@ -113,6 +117,7 @@ Each payment request must link:
 - bill, invoice, fee, rent, domestic service, or other approved obligation;
 - evidence or approved evidence exception;
 - evidence verification outcome and final evidence snapshot where applicable;
+- promotion quote and reward entitlement references where applicable;
 - amount;
 - request origin;
 - payment quote;
@@ -146,6 +151,7 @@ A request must pass required gates before payment processing.
 | Request origin | Request origin must be allowed for category and payee type. |
 | Risk | Risk, velocity, duplicate/reused evidence, same-party, and anti-cashout checks must pass or route to review. |
 | Fee | Fee, promotion, discount, and total charge must be calculated before authorization. |
+| Promotion | Promotion quote, entitlement, coupon/voucher selection, and card-linked eligibility must be resolved before authorization where applicable. |
 | Disclosure | Required disclosures must be available before authorization. |
 | Authorization | Payer must explicitly authorize before payment processing. |
 
@@ -164,14 +170,16 @@ DOC-09 owns the payment-domain lifecycle after a request exists or is ready for 
 1. Request is created through an approved payer-created, payee-created, admin-created, or system-generated path.
 2. Evidence is uploaded, processed, corrected, and verified where required by DOC-12.
 3. System applies eligibility gates.
-4. System creates payment quote.
-5. Payer selects eligible payment profile(s).
-6. Payer authorizes payment.
-7. System applies required step-up authentication rules.
-8. System submits payment through approved PSP/acquirer flow.
-9. System records payment outcome.
-10. System records settlement readiness.
-11. Payout readiness passes to DOC-10.
+4. System obtains promotion quote where promotions or rewards are enabled.
+5. System creates payment quote.
+6. Payer selects eligible payment profile(s).
+7. System recalculates promotion and payment quote if selected payment profile affects eligibility.
+8. Payer authorizes payment.
+9. System applies required step-up authentication rules.
+10. System submits payment through approved PSP/acquirer flow.
+11. System records payment outcome.
+12. System records settlement readiness.
+13. Payout readiness passes to DOC-10.
 
 ### 6.2 Origin-Specific Rules
 
@@ -197,16 +205,18 @@ Before authorization, PayPlus must generate a payment quote containing:
 - evidence verification summary and final evidence snapshot reference where applicable;
 - payment amount;
 - service fee;
-- discount, coupon, promotion, or subsidy where applicable;
+- promotion quote ID, campaign/offer reference, discount, coupon, voucher, reward, entitlement, or subsidy where applicable;
 - total charge;
 - selected payment method summary;
 - multi-card split summary where applicable;
 - expected processing and settlement timing where relevant;
 - disclosure version.
 
-If amount, fee, discount, payment method, card split, payee, evidence, or other material terms change after review, payer reauthorization may be required.
+If amount, fee, discount, promotion quote, reward entitlement, payment method, card split, payee, evidence, or other material terms change after review, payer reauthorization may be required.
 
 If evidence is corrected, replaced, rejected, marked duplicate, or routed to review after quote creation, the quote must be recalculated or blocked until the required verification outcome is resolved.
+
+If a selected payment profile changes card-linked promotion eligibility, or a promotion campaign, budget, entitlement, coupon/voucher, membership benefit, or reward status changes after quote creation, the quote must be recalculated or blocked until DOC-13 rules are resolved.
 
 ---
 
@@ -295,7 +305,7 @@ Authorization must record:
 
 Material changes after authorization require invalidation or reauthorization.
 
-Material changes include amount, fee, total charge, selected card, card split, payee, evidence, evidence verification outcome, material timing, or disclosure terms.
+Material changes include amount, fee, promotion quote, reward entitlement, total charge, selected card, card split, payee, evidence, evidence verification outcome, material timing, or disclosure terms.
 
 ---
 
@@ -428,6 +438,7 @@ DOC-09 requires traceability for:
 - obligation and evidence;
 - evidence verification outcome and final evidence snapshot where applicable;
 - quote;
+- promotion quote, benefit application, reward entitlement, and instrument reference where applicable;
 - payment profile and token reference;
 - authorization and step-up decision;
 - payment attempt and status;
@@ -453,6 +464,7 @@ DOC-09 requires traceability for:
 | OQ-09-009 | What settlement file, report, webhook, or reconciliation signal confirms settlement readiness? | Payments / Finance / Engineering | Open |
 | OQ-09-010 | What partial multi-card failure status naming should be exposed to payer and admin? | Product / Design / Operations | Open |
 | OQ-09-011 | Which DOC-12 evidence verification outcomes block payment quote, authorization, retry, or settlement readiness? | Product / Payments / Risk | Open |
+| OQ-09-012 | Which DOC-13 promotion quote, reward entitlement, card-linked eligibility, and coupon/voucher states block or require recalculation before payer authorization? | Product / Payments / Growth | Open |
 
 ---
 
@@ -464,6 +476,7 @@ DOC-09 is acceptable when:
 - payment eligibility gates are clear;
 - DOC-12 evidence verification outcomes are consumed before payment quote and authorization where required;
 - payment quote requirements are defined;
+- DOC-13 promotion quote requirements are consumed before authorization where applicable;
 - payment profiles and tokenization boundaries are included without duplicating DOC-17, DOC-18, or DOC-19;
 - multi-card funding is defined as MVP scope with configurable card-count limit;
 - payer authorization is mandatory and auditable;
@@ -482,3 +495,4 @@ DOC-09 is acceptable when:
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for payment request, card funding, multi-card funding, payment profiles, tokenization boundary, payer authorization, step-up authentication, payment status, failure handling, and settlement readiness. |
 | 0.3.0 | 2026-05-30 | Aligned payment eligibility and quote rules with DOC-12 evidence verification outcomes, final evidence snapshots, duplicate/reused evidence routing, and evidence-related payment blocks. |
 | 0.2.0 | 2026-05-30 | Aligned payment request scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, and evidence-backed payment boundaries. |
+| 0.4.0 | 2026-06-01 | Aligned payment quote and authorization rules with DOC-13 promotion quote, reward entitlement, coupon/voucher, card-linked eligibility, and recalculation requirements. |

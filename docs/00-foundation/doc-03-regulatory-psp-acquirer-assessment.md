@@ -1,7 +1,7 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 0.7.0
+version: 0.8.0
 status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Legal Lead
   - Compliance Lead
   - Payments Lead
-last_updated: 2026-05-30
+last_updated: 2026-06-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -31,7 +31,7 @@ related_documents:
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification
-  - DOC-13 Promotion Engine & Campaign Rules
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-16 Technical Architecture
@@ -689,3 +689,4 @@ This document must remain an assessment framework and must not become:
 | `0.5.0` | 2026-05-27 | Product Documentation Team | Reorganized into simplified regulatory assessment format focused on regulatory posture, two-sided MVP model, key boundaries, money movement, wallet/stored value, P2P/cashout risk, MSB/payment institution considerations, required controls, legal review items, risks, and open questions. |
 | `0.6.0` | 2026-05-29 | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP product scope while preserving regulatory, partner, payout, and category gating before production enablement. |
 | `0.7.0` | 2026-05-30 | Product Documentation Team | Aligned regulatory framing with updated DOC-01 scope for invoices, fees, rent, medical bills, domestic service obligations, and payer-authorized push payment positioning. |
+| `0.8.0` | 2026-06-01 | Product Documentation Team | Updated DOC-13 related-document title for promotion engine, coupon, voucher, referral, membership, and reward alignment. |

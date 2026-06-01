@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 0.3.0
+version: 0.4.0
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Payments Lead
   - Operations Lead
   - Finance Lead
-last_updated: 2026-05-30
+last_updated: 2026-06-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -32,6 +32,7 @@ related_documents:
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
   - DOC-10 Payout & Reconciliation
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-17 API & Third-party Integration
@@ -79,6 +80,7 @@ Detailed specifications belong to:
 | Payment authorization, payment status, settlement readiness, multi-card funding | DOC-09 |
 | Payout execution, payout holds, payout recovery, reconciliation | DOC-10 |
 | Bill category, OCR/autofill, evidence verification, duplicate/reused evidence, payee matching | DOC-12 |
+| Promotion engine, coupon/voucher, reward entitlement, miles, referral, membership, and clawback rules | DOC-13 |
 | Fraud, anti-cashout, fake invoice, fake rent, collusion, abuse monitoring | DOC-14 |
 | Privacy, masking, retention, and sensitive evidence data handling | DOC-15 |
 | PSP/acquirer, bank, webhook, file, and partner integration details | DOC-17 |
@@ -284,12 +286,16 @@ Refund, cancellation, reversal, dispute, and chargeback cases may affect:
 - promotion codes;
 - discount codes;
 - subsidies;
+- vouchers;
+- reward entitlements;
+- miles rewards;
+- membership benefits;
 - revenue share;
 - tax and accounting treatment.
 
-Exact fee refundability, fee reversal, promotion clawback, and allocation logic remain to be confirmed and should be configurable where appropriate.
+Exact fee refundability, fee reversal, coupon restoration, voucher reversal, reward entitlement clawback, miles reversal, promotion clawback, and allocation logic remain to be confirmed and should be configurable where appropriate.
 
-DOC-02 owns business model and unit economics. DOC-18 owns ledger and reporting treatment. DOC-07 and DOC-08 own user-facing disclosure and receipt wording.
+DOC-02 owns business model and unit economics. DOC-13 owns promotion, entitlement, instrument, and fulfilment rules. DOC-18 owns ledger and reporting treatment. DOC-07 and DOC-08 own user-facing disclosure and receipt wording.
 
 ---
 
@@ -459,6 +465,7 @@ Detailed dashboard, warehouse, ledger, and reporting schema belong in DOC-18 and
 | --- | --- | --- | --- |
 | DEP-11-001 | PSP/acquirer refund and chargeback rules. | Final refund/chargeback workflow. | Open |
 | DEP-11-002 | Final fee and promotion policy. | Fee reversal and revenue treatment. | Open |
+| DEP-11-002A | DOC-13 promotion entitlement, reward instrument, miles, voucher, and clawback rules. | Promotion reversal, coupon restoration, miles reversal, and reward clawback. | Open |
 | DEP-11-003 | Final payout hold and recovery rules. | Payout risk control. | Open |
 | DEP-11-004 | Ledger and data model. | Reconciliation and audit. | Open |
 | DEP-11-005 | Admin dashboard workflow. | Operations handling. | Open |
@@ -474,6 +481,7 @@ Detailed dashboard, warehouse, ledger, and reporting schema belong in DOC-18 and
 | OQ-11-001 | What final refund window applies by payment status, category, and payout status? | Payments / Legal / Operations | High | Open |
 | OQ-11-002 | Which fees are refundable, non-refundable, partially refundable, or reversible? | Finance / Product / Legal | High | Open |
 | OQ-11-003 | How should promotions, coupons, discount codes, and subsidies be reversed or clawed back? | Commercial / Finance | Medium | Open |
+| OQ-11-003A | How should DOC-13 reward entitlement, coupon/voucher restoration, external voucher reversal, membership benefit reversal, and miles clawback work after refund or chargeback? | Commercial / Finance / Growth | Medium | Open |
 | OQ-11-004 | How will chargeback liability be allocated between PayPlus, payer, payee, PSP/acquirer, and partners? | Legal / Finance / Risk | High | Open |
 | OQ-11-005 | What reserve, holdback, or recovery model is required for paid-out transactions? | Finance / Payments / Risk | High | Open |
 | OQ-11-006 | What partial refund allocation method is supported for multi-card payments? | Payments / Engineering | High | Open |
@@ -494,6 +502,7 @@ DOC-11 is acceptable when it clearly defines:
 - pre-payout versus post-payout handling;
 - multi-card refund allocation requirements;
 - fee, promotion, and revenue reversal ownership;
+- DOC-13 reward entitlement, coupon/voucher, miles, membership, and external voucher reversal boundaries;
 - payout hold, recovery, and write-off triggers;
 - chargeback evidence and case tracking requirements;
 - DOC-12 evidence verification history linkage for refund, dispute, chargeback, payout hold, and recovery decisions;
@@ -525,5 +534,6 @@ It should not become:
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
 | `0.3.0` | `2026-05-30` | Product Documentation Team | Aligned case handling with DOC-12 by adding evidence verification history, OCR/extracted field and user correction records, duplicate/reused evidence indicators, and verification-outcome linkage for refunds, disputes, chargebacks, payout holds, and recovery decisions. |
+| `0.4.0` | `2026-06-01` | Product Documentation Team | Aligned refund and chargeback treatment with DOC-13 by adding reward entitlement, coupon/voucher restoration, miles, membership benefit, external voucher, and promotion clawback references. |
 | `0.2.0` | `2026-05-30` | Product Documentation Team | Simplified draft by consolidating detailed ledger, admin, support, communication, and analytics requirements into compact owner sections with references to DOC-08, DOC-18, DOC-21, and DOC-22. |
 | `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for refund, cancellation, reversal, dispute, chargeback, payout hold, recovery, fee reversal, audit, support, and reporting rules. |

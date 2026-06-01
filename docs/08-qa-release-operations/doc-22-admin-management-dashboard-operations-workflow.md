@@ -26,6 +26,8 @@
 ### 7.10 Payout Exception Queue
 ### 7.11 Refund/Reversal Queue
 ### 7.12 Compliance Escalation Queue
+### 7.13 Campaign and Promotion Review Queue
+### 7.14 Reward Entitlement and Voucher Exception Queue
 
 ## 8. Admin Review Workflows
 
@@ -47,22 +49,26 @@
 
 ## 17. Admin Actions and Status Changes
 
-## 18. Audit Logging Requirements
+## 18. Campaign, Promotion, Coupon, Voucher, and Reward Operations
 
-## 19. Notifications and Escalations
+Detailed promotion-engine rules belong in DOC-13. Admin workflows should support campaign setup, offer setup, eligibility rule configuration, qualification and entitlement review, coupon/voucher issuance, miles fulfilment status, external voucher exception handling, reward reversal, and approval/audit workflow where promotions are enabled.
 
-## 20. Dashboard Screen Inventory
+## 19. Audit Logging Requirements
 
-## 21. Reporting and Export Requirements
+## 20. Notifications and Escalations
 
-## 22. Security and Access Control Requirements
+## 21. Dashboard Screen Inventory
 
-## 23. Privacy and Data Handling Requirements
+## 22. Reporting and Export Requirements
 
-## 24. Monitoring and Incident Response Linkage
+## 23. Security and Access Control Requirements
 
-## 25. MVP Acceptance Criteria
+## 24. Privacy and Data Handling Requirements
 
-## 26. Open Questions
+## 25. Monitoring and Incident Response Linkage
 
-## 27. Revision History
+## 26. MVP Acceptance Criteria
+
+## 27. Open Questions
+
+## 28. Revision History

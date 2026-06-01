@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-05-30
+last_updated: 2026-06-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -28,6 +28,7 @@ related_documents:
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-17 API & Third-party Integration
@@ -107,7 +108,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Rent and tenancy payments | Enable only when rent evidence, landlord/payee verification, limits, monitoring, and manual review rules are ready. |
 | Payment methods | Enable only when approved by PSP/acquirer and compliance review. |
 | Payout methods | Enable only when payout provider, rail, timing, exception handling, and reconciliation are ready. |
-| Fees and promotions | Enable only when disclosure, accounting, tax, commercial, and reporting treatment is confirmed. |
+| Fees and promotions | Enable only when DOC-13 promotion quote, entitlement, discount, coupon, voucher, reward, disclosure, accounting, tax, commercial, and reporting treatment is confirmed. |
 | OCR or document AI | Enable by category, payee type, risk tier, document type, and provider readiness; manual or assisted review may be used until automation is approved. |
 | Multi-card funding | MVP scope; support up to a configurable number of credit cards per payment, with the launch cap and related controls to be confirmed. |
 
@@ -125,7 +126,7 @@ Current launch assumptions:
 - candidate notification channels are app notifications, push notifications, email, SMS, and WhatsApp;
 - request delivery may use in-app message, app link, WhatsApp deeplink, QR code, or other approved channel;
 - receipt, payment, account, tax, and audit record retention is expected to be 7 years, subject to final privacy and legal review;
-- exact fee rates, fee allocation, promotion, refund, reversal, and multi-card card-count limit remain to be confirmed and should be admin-configurable where applicable.
+- exact fee rates, fee allocation, promotion, coupon, voucher, reward, entitlement, refund, reversal, and multi-card card-count limit remain to be confirmed and should be admin-configurable where applicable.
 
 ### 3.1.2 Requirement ID Approach
 
@@ -439,6 +440,7 @@ The MVP should support data structures for the following object families. Detail
 - request participant mapping;
 - payment transaction;
 - payout/settlement record;
+- campaign, offer, promotion quote, benefit entitlement, reward instrument, and redemption/fulfilment records where promotions are enabled;
 - dispute or clarification thread;
 - notification;
 - audit event;
@@ -462,7 +464,9 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 - review and correct autofilled evidence fields where applicable;
 - accept/reject/dispute request;
 - authorize payment;
+- review eligible discounts, coupon/voucher selection, reward status, or promotion quote where promotions are enabled;
 - view payment status;
+- view coupon/voucher wallet where enabled;
 - view receipts/history.
 
 ### Payee
@@ -490,6 +494,7 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 - payment status view;
 - dispute/exception handling;
 - audit log access.
+- campaign, offer, coupon/voucher, reward entitlement, and promotion exception view where promotions are enabled.
 
 ---
 
@@ -498,7 +503,9 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 The MVP should support:
 
 - configurable service fee model;
+- configurable promotion engine rules where enabled;
 - fee display before payer authorization;
+- promotion quote, discount, coupon, voucher, reward, and final total display before payer authorization where applicable;
 - transaction-level revenue tracking;
 - payment status reporting;
 - user-level activity history;
@@ -632,6 +639,7 @@ The MVP is acceptable when:
 | Wallet, cashout, and unsupported P2P are prohibited. | Confirmed |
 | Major functions and modules must be independently disableable. | Confirmed |
 | Future docs should use concise product-spec structure. | Confirmed |
+| Promotion engine capabilities are framework scope but launch-gated by DOC-13 rules and admin configuration. | Confirmed |
 
 ---
 
@@ -644,3 +652,4 @@ The MVP is acceptable when:
 | v0.3 | 2026-05-29 | Confirmed payee-created requests and tenancy/rent as MVP scope, added MVP gating and configuration rules, clarified that detailed data and UX design belong in downstream docs, and updated open questions. |
 | v0.4 | 2026-05-30 | Aligned product requirements with updated DOC-01 scope for invoices, fees, rent, domestic service obligations, request delivery methods, and evidence-backed positioning. |
 | v0.5 | 2026-05-30 | Aligned master PRD with DOC-12 by adding OCR/autofill, user correction, evidence verification outcomes, duplicate/reused evidence routing, sensitive field display controls, and explicit downstream document references. |
+| v0.6 | 2026-06-01 | Aligned master PRD with DOC-13 by adding promotion quote, entitlement, coupon/voucher wallet, reward instrument, campaign data, and admin promotion-control references. |

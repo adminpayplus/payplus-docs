@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.8.0
+version: 0.9.0
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -22,7 +22,7 @@ approvers:
   - Risk Lead
   - Payments Lead
   - Finance Lead
-last_updated: 2026-05-30
+last_updated: 2026-06-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -37,7 +37,7 @@ related_documents:
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification
-  - DOC-13 Promotion Engine & Campaign Rules
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-16 Technical Architecture
@@ -708,5 +708,6 @@ It should not become:
 | `0.6.0` | `2026-05-27` | Product Documentation Team | Simplified into a testable compliance control framework with clear control categories for users, evidence, authorization, payee verification, monitoring, admin review, audit, prohibited activity, payout, disputes, privacy/security, and launch readiness. Preserved two-sided controls requiring payee-created requests to be evidence-backed, traceable, reviewed, and payer-authorized before payment. |
 | `0.7.0` | `2026-05-29` | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP scope, clarified conditional controls as independent enablement gates, and promoted core payee-created and rent controls into the MVP control baseline. |
 | `0.8.0` | `2026-05-30` | Product Documentation Team | Aligned prohibited activity controls with updated DOC-01 evidence-backed approved-obligation positioning. |
+| `0.9.0` | `2026-06-01` | Product Documentation Team | Updated DOC-13 related-document title for promotion engine, coupon, voucher, referral, membership, and reward alignment. |
 ```
 ```
