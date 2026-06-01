@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 0.4.0
+version: 0.5.0
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -92,6 +92,7 @@ DOC-09 does not define:
 | Transaction classification | Expected bill payment or ordinary online card purchase; final PSP/acquirer, MCC, and classification remain to be confirmed. |
 | Payer-created requests | MVP scope. |
 | Payee-created requests | MVP scope. |
+| Bill and fee payments | MVP scope, subject to payment eligibility, evidence, payee, payout, and risk controls. |
 | Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
 | Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
 | Multi-card payment | MVP scope, supporting up to a configurable number of credit cards per payment. Launch cap is to be confirmed. |
@@ -420,6 +421,8 @@ Payment processing must support controls against self-payment, unsupported P2P t
 
 Evidence-derived mismatch, duplicate/reused evidence, same-party, and verification signals come from DOC-12 and feed payment eligibility and risk routing. Detailed risk scoring, rules, thresholds, monitoring, and investigation procedures belong in DOC-14 and DOC-21.
 
+Risk routing should be proportionate. Not every red flag blocks payment; DOC-14 defines whether a signal should allow, warn, require clarification, require step-up, route to manual review, hold payment or payout, block, suspend, or escalate.
+
 ---
 
 ## 18. Events, Notifications, and Audit
@@ -496,3 +499,4 @@ DOC-09 is acceptable when:
 | 0.3.0 | 2026-05-30 | Aligned payment eligibility and quote rules with DOC-12 evidence verification outcomes, final evidence snapshots, duplicate/reused evidence routing, and evidence-related payment blocks. |
 | 0.2.0 | 2026-05-30 | Aligned payment request scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, and evidence-backed payment boundaries. |
 | 0.4.0 | 2026-06-01 | Aligned payment quote and authorization rules with DOC-13 promotion quote, reward entitlement, coupon/voucher, card-linked eligibility, and recalculation requirements. |
+| 0.5.0 | 2026-06-02 | Clarified bill and fee MVP baseline and added DOC-14 proportionate risk-routing boundary. |

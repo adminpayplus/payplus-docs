@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.4.0
+version: 0.5.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -104,6 +104,7 @@ Those details belong in downstream or adjacent documents.
 | Product model | Controlled payer-authorized card-funded bill, invoice, fee, rent, domestic service, and approved obligation payment platform. |
 | Payer-created requests | MVP scope. |
 | Payee-created requests | MVP scope. |
+| Bill and fee payments | MVP scope, subject to evidence, payee, payment, payout, and risk controls. |
 | Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
 | Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
 | Multi-card payment | MVP scope, up to a configurable number of credit cards per payment. The launch cap is to be confirmed. |
@@ -531,6 +532,7 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.5.0 | 2026-06-02 | Clarified bill and fee MVP disclosure baseline and aligned risk/disclosure assumptions with DOC-14. |
 | 0.4.0 | 2026-06-01 | Aligned disclosure requirements with DOC-13 by adding promotion quote, coupon/voucher, reward, miles, membership, entitlement, expiry, and authorization-audit wording boundaries. |
 | 0.3.0 | 2026-05-30 | Aligned disclosure requirements with DOC-12 OCR/autofill, evidence correction, duplicate/reused evidence warning, verification status, and sensitive extracted-field minimization. |
 | 0.2.0 | 2026-05-30 | Aligned disclosure scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, approved obligations, and payer-authorized push payment language. |

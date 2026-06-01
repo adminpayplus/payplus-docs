@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.9.0
+version: 0.10.0
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -22,7 +22,7 @@ approvers:
   - Risk Lead
   - Payments Lead
   - Finance Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -148,10 +148,11 @@ Controls marked `if enabled` apply only when the related feature is enabled.
 Examples:
 
 - `T0 if payee-created enabled`
+- `T1 if bill or fee category enabled`
 - `T1 if rent enabled`
 - `T1 if multi-source enabled`
 
-Payee-created requests and tenancy/rent are MVP scope. Conditional wording means the relevant module, category, payee type, or payment path must be independently configurable and may remain disabled until required controls are ready.
+Payee-created requests and bill, fee, and rent/tenancy payments are MVP scope. Invoice and other approved-obligation categories are MVP where evidence, payee, payment, payout, and risk controls are enabled. Conditional wording means the relevant module, category, payee type, or payment path must be independently configurable and may remain disabled until required controls are ready.
 
 ---
 
@@ -709,5 +710,6 @@ It should not become:
 | `0.7.0` | `2026-05-29` | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP scope, clarified conditional controls as independent enablement gates, and promoted core payee-created and rent controls into the MVP control baseline. |
 | `0.8.0` | `2026-05-30` | Product Documentation Team | Aligned prohibited activity controls with updated DOC-01 evidence-backed approved-obligation positioning. |
 | `0.9.0` | `2026-06-01` | Product Documentation Team | Updated DOC-13 related-document title for promotion engine, coupon, voucher, referral, membership, and reward alignment. |
+| `0.10.0` | `2026-06-02` | Product Documentation Team | Clarified that bill, fee, and rent/tenancy payments are MVP scope and that category-specific controls remain independently gated, aligned with DOC-14. |
 ```
 ```

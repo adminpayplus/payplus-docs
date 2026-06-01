@@ -1,7 +1,7 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 0.7.0
+version: 0.8.0
 status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
@@ -15,7 +15,7 @@ approvers:
   - Project Owner
   - Finance Lead
   - Commercial Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -86,7 +86,7 @@ For payee-created requests, PayPlus must separately assess:
 
 ### 2.1 Current Commercial Baseline
 
-Payee-created requests and tenancy/rent payments are MVP scope from a product perspective.
+Payee-created requests and bill, fee, and rent/tenancy payments are MVP scope from a product perspective. Invoice and other approved-obligation categories are MVP where evidence, payee, payment, payout, and risk controls are enabled.
 
 From a commercial perspective, they remain gated by:
 
@@ -961,3 +961,4 @@ This document should remain a commercial framework and should not become a final
 | `0.5.0` | 2026-05-29 | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as product MVP scope while keeping commercial launch enablement gated by pricing, partner, payout, verification, support, risk, and margin assumptions. |
 | `0.6.0` | 2026-05-30 | Product Documentation Team | Aligned category examples with updated DOC-01 positioning for rent, invoices, medical bills, and domestic service obligations. |
 | `0.7.0` | 2026-06-01 | Product Documentation Team | Aligned promotion economics with DOC-13 by adding qualification, entitlement, promotion quote, miles, external voucher, and partner fulfilment cost concepts while de-emphasizing payee-funded discounts as exceptional. |
+| `0.8.0` | 2026-06-02 | Product Documentation Team | Clarified MVP commercial baseline for bill, fee, rent/tenancy, invoice, and approved-obligation categories in line with DOC-14 risk-control scope. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 0.2.0
+version: 0.3.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -78,7 +78,7 @@ DOC-13 does not own:
 | Payment quote and payer authorization boundary | DOC-09 |
 | Payout and reconciliation | DOC-10 |
 | Refund, chargeback, reversal, and clawback operations | DOC-11 |
-| Fraud, AML, anti-cashout, and abuse rulebook | DOC-14 |
+| Fraud, AML, anti-cashout, and abuse risk-control framework | DOC-14 |
 | Privacy, consent, retention, and marketing permissions | DOC-15 |
 | Partner APIs, files, webhooks, and integration details | DOC-17 |
 | Database schema, ledger, events, and warehouse model | DOC-18 |
@@ -824,7 +824,7 @@ Controls should address:
 - partner data leakage;
 - miles account personal data.
 
-DOC-14 owns detailed risk rules. DOC-15 owns privacy and consent. DOC-19 owns tokenization, access control, and card data security.
+DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries. Final thresholds, monitoring, admin workflow, privacy, consent, tokenization, and access controls belong to DOC-15, DOC-18, DOC-19, DOC-21, and DOC-22.
 
 ---
 
@@ -841,7 +841,7 @@ DOC-14 owns detailed risk rules. DOC-15 owns privacy and consent. DOC-19 owns to
 | DOC-10 | Partner reimbursement and promotion settlement/reconciliation where applicable. |
 | DOC-11 | Refund, reversal, chargeback, coupon restoration, miles reversal, and clawback. |
 | DOC-12 | Keep promotion, referral, membership, and payment behavior data separate from evidence-derived data. |
-| DOC-14 | Promotion abuse, referral abuse, fake accounts, coupon farming, and card offer gaming. |
+| DOC-14 | Promotion abuse, referral abuse, fake accounts, coupon farming, card offer gaming, and proportionate reward-hold versus payment-blocking decisions. |
 | DOC-15 | Marketing consent, retention, partner sharing, and miles account data. |
 | DOC-17 | Partner APIs, voucher redemption, miles API, card metadata, and webhooks. |
 | DOC-18 | Campaign, offer, rule, quote, accumulator, entitlement, redemption, ledger, event, and reporting schema. |
@@ -895,5 +895,6 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.3.0 | 2026-06-02 | Aligned promotion abuse wording with DOC-14 by treating DOC-14 as the risk-control framework and clarifying reward-hold versus payment-blocking boundaries. |
 | 0.2.0 | 2026-06-01 | Rewritten to separate promotion-engine structure from data-layer requirements, add rule families, clarify entitlement versus usage logic for accumulated spend rewards, and preserve tokenized card, service-fee, coupon wallet, Asia Miles, MGM, membership, and cross-document alignment decisions. |
 | 0.1.0 | 2026-06-01 | Initial founder working baseline for promotion engine, coupon, voucher, discount code, card-linked offer, Asia Miles reward, referral, membership, external partner voucher, checkout calculation, stacking, usage, data, reversal, and cross-document alignment requirements. |

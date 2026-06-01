@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.6.0
+version: 0.7.0
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-05-30
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -66,6 +66,7 @@ The founding-stage MVP baseline includes:
 | --- | --- |
 | Payer-created requests | MVP scope. |
 | Payee-created requests | MVP scope. |
+| Bill and fee payments | MVP scope, subject to evidence, payee, payment, payout, and risk controls. |
 | Tenancy and rent payments | MVP scope, subject to tenancy or lease evidence and rent-specific controls. |
 | Domestic helper, driver, and personal service payments | MVP scope where tied to evidence-backed salary, fee, invoice, contract, or approved obligation records. |
 | First launch jurisdiction | Hong Kong. |
@@ -732,3 +733,4 @@ This document should remain a concise foundation product overview and should not
 | `0.4.0` | `2026-05-27` | Product Documentation Team | Simplified structure and language while preserving essential product positioning, MVP scope, payer-created and payee-created request models, boundaries, controls, risks, dependencies, open questions, and downstream impacts. |
 | `0.5.0` | `2026-05-29` | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP scope, added gated MVP requirements, and clarified independent feature/module disablement. |
 | `0.6.0` | `2026-05-30` | Product Documentation Team | Incorporated professional review feedback by broadening payer-created scope, adding payer-authorized push payment positioning, adding request delivery methods, updating MVP categories, and clarifying settlement, fee, and payout wording. |
+| `0.7.0` | `2026-06-02` | Product Documentation Team | Clarified that bill and fee payments are MVP scope alongside rent/tenancy, aligned with DOC-14 risk-control baseline. |

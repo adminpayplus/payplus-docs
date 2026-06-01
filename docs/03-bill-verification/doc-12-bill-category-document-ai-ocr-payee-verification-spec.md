@@ -1,7 +1,7 @@
 ---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.1.0
+version: 0.2.0
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-05-30
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -80,7 +80,7 @@ Detailed specifications belong to:
 | Payment eligibility gates and authorization | DOC-09 |
 | Payout destination and payee payout readiness | DOC-10 |
 | Refund, dispute, chargeback evidence packages | DOC-11 |
-| Fraud, anti-cashout, duplicate evidence, collusion, and risk thresholds | DOC-14 |
+| Fraud, anti-cashout, duplicate evidence, collusion, and risk-routing framework | DOC-14 |
 | Privacy, masking, retention, and lawful data use | DOC-15 |
 | OCR/document AI provider API and integration design | DOC-17 |
 | Evidence data model, document store, audit events, reporting schema | DOC-18 |
@@ -315,7 +315,7 @@ The system should compare extracted, user-entered, selected, and historical data
 | Same-party risk | Detect payer/payee, tenant/landlord, or related-party indicators. |
 | Completeness | Check mandatory fields for the category. |
 
-Final thresholds, matching algorithms, and risk scores belong in DOC-14 and DOC-18.
+Risk meaning, routing, and threshold framework belong in DOC-14. Final matching algorithms, score data, and event schema belong in DOC-18, with production thresholds controlled through approved configuration.
 
 ---
 
@@ -333,7 +333,7 @@ Rules:
 - lower-risk business bills or business-entity fee payments may use softer handling where compliance and risk approve;
 - admin should be able to disable, soften, or strengthen duplicate rules by category or configuration, with audit trail.
 
-Duplicate detection must not disclose another user's sensitive details. Detailed risk thresholds belong in DOC-14. Admin configuration and review workflow belong in DOC-22.
+Duplicate detection must not disclose another user's sensitive details. Risk-routing framework belongs in DOC-14. Final threshold configuration and admin review workflow belong in DOC-22, with supporting data model in DOC-18.
 
 ---
 
@@ -538,4 +538,5 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.2.0` | `2026-06-02` | Product Documentation Team | Clarified that DOC-14 owns risk meaning and routing framework while final thresholds, algorithms, configuration, and schemas remain with DOC-18 and DOC-22. |
 | `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for bill category verification, document AI/OCR extraction, autofill, evidence data layers, duplicate detection, payee verification linkage, red-flag routing, and DOC-06 alignment impact. |
