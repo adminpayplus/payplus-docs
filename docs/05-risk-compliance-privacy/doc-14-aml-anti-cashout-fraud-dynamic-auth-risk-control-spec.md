@@ -1,7 +1,7 @@
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 0.2.0
+version: 0.4.0
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -212,10 +212,10 @@ Risk decisioning may consume signals from:
 - user account status and verification status;
 - payee, landlord, business payee, and payout destination records;
 - DOC-12 evidence verification outcome, duplicate indicator, mismatch indicator, confidence, user correction, and final evidence snapshot;
-- DOC-09 payment profile, token reference, card metadata, multi-card allocation, authorization, step-up result, failure, and retry history;
+- DOC-09 payment instruction, funding leg, payment profile, token reference, card metadata, multi-card allocation, authorization, step-up result, failure, retry, partial funding, quote revalidation, and expiry history;
 - DOC-10 payout readiness, destination change, payout hold, bank result, and reconciliation records;
 - DOC-11 refund, dispute, chargeback, reversal, recovery, and write-off cases;
-- DOC-13 campaign, offer, entitlement, reward, referral, coupon, voucher, membership, and reversal records;
+- DOC-13 campaign, offer, entitlement, reward, referral, coupon, voucher, membership, promotion quote reservation, and reversal records;
 - device, session, login, authentication, and security events from DOC-19;
 - support, complaint, escalation, and admin review history from DOC-21 and DOC-22.
 
@@ -307,9 +307,11 @@ Step-up may be required when:
 - payment amount exceeds configured threshold;
 - risk score or rule result is elevated;
 - payment profile is new, changed, risky, or recently failed;
+- deferred payment instruction is pending, expired, repeatedly incomplete, or materially changed;
 - card attempt pattern suggests testing or stolen-card use;
 - selected card is linked to card-fraud or PSP/acquirer warning;
 - multi-card pattern is unusual or repeatedly failing;
+- split-card funding is repeatedly incomplete or produces unusual partial payout patterns;
 - device, login, session, or account behavior is suspicious;
 - payee, category, or payout destination is high-risk;
 - user attempts retry after repeated failure;
@@ -318,6 +320,8 @@ Step-up may be required when:
 Extra authentication may be skipped below a configurable amount only when partner, security, compliance, and risk rules allow.
 
 Payer authorization itself must never be skipped.
+
+Deferred payment instruction and partial funded-portion payout should be risk-monitored. Risk rules may warn, remind, hold payout, require step-up, route to review, or block where patterns suggest cashout, collusion, card testing, promotion quota holding, card-linked benefit testing, fraud, chargeback risk, or unsupported obligation use. Ordinary incomplete user action should not be treated as fraud by default.
 
 ---
 
@@ -453,6 +457,8 @@ Risk-rule changes must be permissioned, logged, and reviewable. Critical rule ch
 | OQ-14-006 | What risk-review SLA and escalation path applies for critical cases? | Operations / Risk | Medium | Open |
 | OQ-14-007 | What suspicious activity escalation or reporting process is required under the final legal/regulatory assessment? | Compliance / Legal | High | Open |
 | OQ-14-008 | What four-eye approval rules apply to payout release, risk hold release, block override, and account reinstatement? | Risk / Operations / Security | Medium | Open |
+| OQ-14-009 | What risk thresholds should apply to repeated incomplete payment instructions, unusual split-card partial payout patterns, and selected transfer date changes? | Risk / Payments / Product | Medium | Open |
+| OQ-14-010 | What thresholds should identify abusive deferred payment instruction patterns involving promotion reservation, quote revalidation, or card-linked benefit testing? | Risk / Growth / Payments | Medium | Open |
 
 ---
 
@@ -466,6 +472,7 @@ DOC-14 is acceptable when it clearly defines:
 - risk signal sources and decision actions;
 - bill, fee, rent, invoice, and approved-obligation risk treatment;
 - dynamic authentication risk triggers;
+- deferred payment instruction, incomplete split-card funding, and partial payout risk boundaries;
 - payout hold and release controls;
 - refund, chargeback, promotion, referral, and reward abuse boundaries;
 - admin review, override, audit, monitoring, and configuration expectations;
@@ -491,4 +498,6 @@ It should not become:
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
 | `0.2.0` | `2026-06-02` | Product Documentation Team | Aligned risk signals, scores, flags, review outcomes, escalation notes, and source lineage with DOC-15 data classification and DOC-18 metadata requirements. |
+| `0.3.0` | `2026-06-02` | Product Documentation Team | Aligned risk controls with DOC-09 user payment instruction by adding deferred instruction, incomplete split-card funding, partial payout, selected transfer date, and repeated incomplete pattern risk boundaries. |
+| `0.4.0` | `2026-06-02` | Product Documentation Team | Added quote revalidation, promotion reservation, quota-holding, and card-linked benefit testing as deferred payment instruction risk signals. |
 | `0.1.0` | `2026-06-02` | Product Documentation Team | Initial founder working baseline for AML, anti-cashout, fraud, credit card fraud, chargeback risk, dynamic authentication, payout hold, configurable review controls, and risk-governance boundaries. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.6.0
+version: 0.8.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -233,6 +233,10 @@ The authorization action should not be preselected, hidden, implied by viewing a
 
 Payment passcode entry is a separate payer confirmation step before payment authorization proceeds. Additional 2FA, 3DS, OTP, biometric, PSP/acquirer, or PayPlus risk challenge may apply under DOC-09, DOC-14, DOC-15, and DOC-19.
 
+If the payer creates a deferred payment instruction, content must make clear that the payment has not yet been submitted to the PSP/acquirer and that the payer must return to the payment screen to complete the pending action.
+
+If payment quote, promotion quote, card eligibility, fee, timing, or other material terms are revalidated when the payer returns, the updated terms must be shown before submission.
+
 ### 8.2 Authorization Statement
 
 The final authorization screen should communicate:
@@ -241,6 +245,8 @@ The final authorization screen should communicate:
 By confirming, you authorize PayPlus to charge the selected payment method(s)
 for the total amount shown and to process payment for this approved request.
 ```
+
+For a deferred payment instruction, the confirmation wording must not imply the card is charged immediately. It should state that the user is saving a payment instruction and must return to confirm submission when action is due.
 
 Final wording must be reviewed by Legal, Compliance, Payments, and Product before launch.
 
@@ -257,7 +263,11 @@ The system must record:
 - service fee;
 - total charge;
 - selected payment method summary;
+- payment instruction ID where applicable;
 - multi-card split details where applicable;
+- pay-now or deferred instruction choice where applicable;
+- selected payee transfer date where applicable;
+- payment quote or promotion quote version where applicable;
 - disclosure version;
 - terms or policy version where applicable;
 - authorization result;
@@ -338,9 +348,34 @@ The payer must be shown:
 - total charge across all cards;
 - fee treatment for split payments;
 - what happens if one card authorization fails;
+- what happens if only part of the split-card payment is funded;
+- that partial funding is not payment completion;
+- that settlement-ready funded portions may be paid out while remaining amounts stay unpaid or pending under DOC-09 and DOC-10;
 - whether the payer must re-authorize after changing card split amounts.
 
 The exact card-count limit is to be confirmed and should be configurable.
+
+---
+
+### 12.1 Payment Instruction and Reminder Disclosure
+
+PayPlus must distinguish three user-facing concepts:
+
+| Concept | User-Facing Meaning | Action Destination |
+| --- | --- | --- |
+| Normal due-date reminder | Reminder based on bill, rent, or obligation due date; payment flow has not started. | Bill/rent/obligation detail. |
+| User manual reminder | Reminder date or offset set by user for a bill, rent, or obligation. | Bill/rent/obligation detail. |
+| Deferred payment instruction reminder | Payment flow has started and payment context exists, but gateway submission is pending. | Payment/checkout screen. |
+
+Deferred payment instruction wording must explain:
+
+- selected funding date or action date;
+- selected payee transfer date where applicable;
+- card split and remaining pending amount where applicable;
+- expiry or required action deadline;
+- that payment quote, promotion quote, card eligibility, fee, or timing may need to be revalidated before submission;
+- that PayPlus cannot force the user to complete pending funding legs;
+- that partial funding may lead to partial payout of settlement-ready funded portions without making the overall payment completed.
 
 ---
 
@@ -511,6 +546,8 @@ This document does not interpret those sources as final legal advice.
 | OQ-07-009 | What wording should explain OCR/autofill, user correction responsibility, duplicate/reused evidence warning, and sensitive extracted-field handling? | Product / Legal / Privacy | Open |
 | OQ-07-010 | What wording should explain promotion quotes, coupon/voucher eligibility, miles rewards, membership benefits, expiry, and entitlement limits before authorization? | Product / Commercial / Legal | Open |
 | OQ-07-011 | What wording should explain SMS OTP, new-device 2FA, dormant-login reauthentication, payment passcode, material-change confirmation, and security notifications? | Product / Security / Legal | Open |
+| OQ-07-012 | What exact wording should explain deferred payment instruction, pending funding legs, partial funding, partial payout, remaining unpaid amount, and payment completion boundary? | Product / Legal / Payments | Open |
+| OQ-07-013 | What wording should explain quote expiry, promotion reservation, recalculation, and changed checkout terms when a payer returns to a deferred payment instruction? | Product / Legal / Growth | Open |
 
 ---
 
@@ -526,6 +563,8 @@ DOC-07 is acceptable when:
 - rent and tenancy disclosure requirements are defined;
 - OCR/autofill, evidence correction, duplicate warning, and evidence verification disclosure touchpoints are defined;
 - fee, promotion, total charge, and multi-card disclosure requirements are defined;
+- deferred payment instruction, reminder destination, partial funding, partial payout, and remaining unpaid amount disclosure boundaries are defined;
+- deferred instruction quote revalidation and changed-term disclosure boundaries are defined;
 - coupon, voucher, reward, miles, membership, entitlement, and expiry disclosure boundaries are defined where applicable;
 - payment, settlement, and payout timing wording is cautious and accurate;
 - refund, cancellation, dispute, chargeback, and reversal disclosure touchpoints are defined;
@@ -541,6 +580,8 @@ DOC-07 is acceptable when:
 | --- | --- | --- |
 | 0.5.0 | 2026-06-02 | Clarified bill and fee MVP disclosure baseline and aligned risk/disclosure assumptions with DOC-14. |
 | 0.6.0 | 2026-06-02 | Aligned disclosure requirements with DOC-15 by adding payment passcode, account/authentication content, material-change confirmation wording, and stored-but-not-displayed data notice boundaries. |
+| 0.7.0 | 2026-06-02 | Aligned disclosure requirements with DOC-09 user payment instruction by adding deferred payment, reminder destination, partial funding, partial payout, and remaining unpaid amount wording boundaries. |
+| 0.8.0 | 2026-06-02 | Added deferred payment instruction quote revalidation disclosure for payment quote, promotion quote, card eligibility, fee, timing, and changed checkout terms. |
 | 0.4.0 | 2026-06-01 | Aligned disclosure requirements with DOC-13 by adding promotion quote, coupon/voucher, reward, miles, membership, entitlement, expiry, and authorization-audit wording boundaries. |
 | 0.3.0 | 2026-05-30 | Aligned disclosure requirements with DOC-12 OCR/autofill, evidence correction, duplicate/reused evidence warning, verification status, and sensitive extracted-field display controls. |
 | 0.2.0 | 2026-05-30 | Aligned disclosure scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, approved obligations, and payer-authorized push payment language. |

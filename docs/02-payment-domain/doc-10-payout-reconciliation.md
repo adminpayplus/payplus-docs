@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 0.4.0
+version: 0.5.0
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -90,6 +90,8 @@ Detailed specifications belong to:
 | Gateway cutoff | Default cutoff assumption is 23:00 Hong Kong time. Payments from 23:00 to 23:59 are treated as next business day for settlement timing. |
 | Business days | Hong Kong holidays and non-business days postpone settlement and payout. Foreign/offshore payment methods may follow platform, issuer, acquirer, or foreign-market calendars. |
 | Split payment grouping | Same payer, payee, and obligation payments before cutoff on the same business day should normally group into one payout where permitted. |
+| Partial funded portion payout | Settlement-ready funded portions from a DOC-09 payment instruction may proceed to payout evaluation even if the overall payment instruction remains partially funded. |
+| Selected payee transfer date | User-selected payee transfer date may delay payout but must not be earlier than applicable T+3 / settlement-ready timing and payout readiness checks. |
 | Batch processing | Normal non-red-flag payouts should support batch generation for bank processing. Direct bank API payout should remain a supported future option. |
 
 Unconfirmed bank setup, file formats, API options, exact cutoff mechanics, and reconciliation feeds should remain editable assumptions until confirmed.
@@ -119,14 +121,15 @@ A payout may proceed only when all required checks pass.
 
 | Check | Requirement |
 | --- | --- |
-| Payment status | Payment must be completed according to DOC-09. |
-| Settlement | Upstream settlement must be confirmed or settlement-ready under approved rules. |
+| Payment status | Full payment or funded portion must be completed according to DOC-09. Overall partially funded instruction must not be treated as fully completed. |
+| Settlement | Upstream settlement must be confirmed or settlement-ready for the specific funded portion under approved rules. |
 | Payee status | Payee must be approved and eligible to receive payout. |
 | Payout destination | Destination must be approved, active, and not under review hold. |
 | Request status | Request must not be rejected, cancelled, expired, unresolved, or otherwise blocked. |
 | Risk status | Risk checks must pass or be manually approved. |
 | Refund/dispute/chargeback hold | Payout must be blocked where policy requires hold. |
-| Amount | Payout amount must match approved obligation, fee, adjustment, and ledger rules. |
+| Amount | Payout amount must match approved obligation, funded portion, fee, adjustment, partial payout, and ledger rules. |
+| Selected transfer date | Payout must respect selected payee transfer date where set and valid. |
 | Duplicate prevention | Payout item must not have been paid already. |
 
 Failed checks should route to pending, held, or exception status with an audit trail.
@@ -243,6 +246,19 @@ The system must preserve links between:
 - reconciliation match.
 
 Detailed data model belongs in DOC-18.
+
+### 9.3 Partial Funded Portion Payout
+
+If a DOC-09 split-card payment instruction is only partially funded, settlement-ready funded portions may be evaluated for payout without marking the overall payment as completed.
+
+Rules:
+
+- partial payout applies only to actually funded and settlement-ready portions;
+- remaining unfunded legs must remain pending, failed, expired, or cancelled in DOC-09;
+- payout item and payout batch must show that the payout is partial where applicable;
+- payee-facing wording must not imply the full obligation was paid if only a funded portion is paid out;
+- payer-facing receipt/history must show funded amount, paid-out amount, and remaining unpaid amount;
+- reconciliation must link each partial payout to its funding leg, settlement record, payment instruction, request, payer, and payee.
 
 ---
 
@@ -558,6 +574,7 @@ Examples:
 | OQ-10-009 | What manual override permissions are required for mark-as-paid, mark-as-failed, retry, and reconciliation match? | Operations / Security | Open |
 | OQ-10-010 | What finance/accounting policy applies to payout payable, settlement clearing, reserves, and reconciliation breaks? | Finance | Open |
 | OQ-10-011 | Which partner-funded promotions, external vouchers, miles rewards, or campaign reimbursements require reconciliation against payout, settlement, or partner records? | Finance / Growth / Payments | Open |
+| OQ-10-012 | What payout, accounting, and payee-facing wording should apply when a DOC-09 payment instruction is partially funded and only settlement-ready funded portions are paid out? | Payments / Finance / Product | Open |
 
 ---
 
@@ -570,6 +587,7 @@ DOC-10 is acceptable when:
 - FPS, cheque, EPS, batch upload, and future bank API paths are acknowledged;
 - cutoff, business day, Hong Kong holiday, and foreign/offshore calendar rules are defined at business-rule level;
 - same-business-day split-payment grouping is defined without losing item-level traceability;
+- partial funded portion payout is defined without treating the overall payment instruction as completed;
 - payout batching and partial batch success rules are defined;
 - bank record ingestion and manual upload requirements are defined;
 - successful individual payout matching rules are defined;
@@ -589,3 +607,4 @@ DOC-10 is acceptable when:
 | 0.2.0 | 2026-05-30 | Aligned payout wording with updated DOC-01 settlement, fee, and approved payout positioning. |
 | 0.3.0 | 2026-06-01 | Aligned payout and reconciliation boundaries with DOC-13 by adding promotion-funded adjustment, partner reimbursement, external voucher, and miles reward reconciliation references where applicable. |
 | 0.4.0 | 2026-06-02 | Aligned payout, bank-record, reconciliation, export, and admin access handling with DOC-15 privacy classification and masking requirements. |
+| 0.5.0 | 2026-06-02 | Aligned payout and reconciliation with DOC-09 user payment instruction by adding selected transfer date, partial funded portion payout, partial payout traceability, and remaining unpaid amount boundaries. |

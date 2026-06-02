@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 0.4.0
+version: 0.5.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -95,6 +95,7 @@ DOC-13 does not own:
 | --- | --- |
 | Promotion engine | Required as a unified rule engine; individual campaign launch remains gated. |
 | Checkout impact | Promotion impact must be calculated before payer authorization and included in the payment quote. |
+| Deferred payment instruction | Promotion quote may be stored with a DOC-09 payment instruction, but eligibility, quota, budget, and instrument status must be revalidated before actual funding submission unless explicit reservation rules apply. |
 | Card-linked offers | Tokenized payment profile or gateway-returned card metadata is preferred; BIN check is supplementary. |
 | Service-fee benefits | Service-fee rate changes, reductions, or waivers are calculated before absolute checkout amount discounts. |
 | Spending rewards | Accumulated spend rewards track entitlement, not raw card usage. |
@@ -460,9 +461,19 @@ Checkout calculation sequence:
 10. Apply stacking, priority, budget, quota, and usage limits.
 11. Produce promotion quote.
 12. Pass promotion quote to payment quote.
-13. Lock applied promotion terms at payer authorization.
+13. Store applied promotion terms for authorization and audit.
+14. Revalidate or recalculate before actual funding submission where DOC-09 deferred payment instruction is used.
 
 Material changes require recalculation. Material changes include payment amount, category, payee, evidence status, selected card, card split, service fee, discount, campaign status, usage entitlement, or budget availability.
+
+For DOC-09 deferred payment instructions, the original promotion quote should be retained for audit. PayPlus should not assume campaign quota, budget, coupon/voucher availability, card-linked eligibility, membership status, or reward entitlement remains valid when the user returns to submit payment unless the campaign explicitly reserves that benefit.
+
+Reservation behavior must be configurable:
+
+- no reservation: revalidate and recalculate at submission;
+- soft reservation: show expected benefit but revalidate before submission;
+- hard reservation: reserve budget, quota, or instrument for a configured expiry window;
+- expiry release: release reserved benefit if instruction expires or is cancelled.
 
 Promotion quote should include:
 
@@ -485,6 +496,7 @@ Promotion quote should include:
 - final service fee;
 - total promotion impact;
 - funding source and cost bearer;
+- reservation status and expiry where applicable;
 - rejection reason if not eligible.
 
 ---
@@ -587,6 +599,7 @@ Recommended core objects:
 - qualification accumulator;
 - benefit entitlement;
 - promotion quote;
+- promotion quote reservation where applicable;
 - benefit application;
 - campaign usage;
 - reward instrument;
@@ -703,9 +716,11 @@ Fields:
 
 Promotion quote is the pre-authorization calculation result.
 
+Promotion quote reservation records whether a quote benefit is not reserved, softly reserved, or hard reserved for a DOC-09 deferred payment instruction, including expiry and release status.
+
 Benefit application is the actual confirmed use of a benefit after authorization, payment completion, or other configured trigger.
 
-Both must link to campaign, offer, user, request, payment, funding source, applied amount, and reversal status.
+Promotion quote, reservation, and benefit application records must link to campaign, offer, user, request, payment instruction where applicable, funding leg where applicable, payment, funding source, applied amount, and reversal status.
 
 ### 8.7 Reward Instrument and Redemption / Fulfilment
 
@@ -839,7 +854,7 @@ DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries.
 | DOC-06 | Checkout reward selection, coupon wallet, voucher claim, MGM, membership, and reward status UX. |
 | DOC-07 | Promotion, fee, discount, miles, voucher, eligibility, expiry, and T&C disclosure. |
 | DOC-08 | Reward, referral, coupon, voucher, miles, campaign, entitlement, and fulfilment notification events. |
-| DOC-09 | Promotion quote, final payment quote, card-linked eligibility, recalculation, and reauthorization. |
+| DOC-09 | Promotion quote, final payment quote, deferred payment instruction revalidation, card-linked eligibility, recalculation, and reauthorization. |
 | DOC-10 | Partner reimbursement and promotion settlement/reconciliation where applicable. |
 | DOC-11 | Refund, reversal, chargeback, coupon restoration, miles reversal, and clawback. |
 | DOC-12 | Keep promotion, referral, membership, and payment behavior data separate from evidence-derived data. |
@@ -870,6 +885,7 @@ DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries.
 | OQ-13-010 | What refund, chargeback, and risk window applies before referral or miles rewards become final? | Risk / Finance / Operations | Open |
 | OQ-13-011 | What membership tier formula, conversion ratio, downgrade rule, and grace period apply? | Product / Growth / Commercial | Open |
 | OQ-13-012 | What partner reimbursement, tax, and accounting treatment applies to partner-funded offers? | Finance / Legal / Commercial | Open |
+| OQ-13-013 | Which promotion types may be hard-reserved for DOC-09 deferred payment instructions, and what expiry, budget-release, and user-notice rules apply? | Product / Growth / Finance | Open |
 
 ---
 
@@ -883,6 +899,7 @@ DOC-13 is acceptable when:
 - direct checkout benefit and instrument issuance paths are defined;
 - accumulated spend rewards track entitlement, not raw card usage;
 - checkout calculation sequence is clear;
+- deferred payment instruction quote revalidation and reservation boundaries are defined;
 - card-linked eligibility prefers tokenized payment profile and treats BIN check as supplementary;
 - coupon wallet can hold rewards from different sources while preserving source metadata;
 - MGM/referral and membership/tier are separate qualification modules;
@@ -899,5 +916,6 @@ This document should remain a compact promotion engine specification. It should 
 | --- | --- | --- |
 | 0.3.0 | 2026-06-02 | Aligned promotion abuse wording with DOC-14 by treating DOC-14 as the risk-control framework and clarifying reward-hold versus payment-blocking boundaries. |
 | 0.4.0 | 2026-06-02 | Aligned promotion data requirements with DOC-15 by adding data classification, sensitivity, displayability, retention, approved-purpose, and partner-sharing metadata requirements for DOC-18. |
+| 0.5.0 | 2026-06-02 | Aligned promotion quote handling with DOC-09 user payment instruction by adding deferred quote revalidation, configurable reservation, expiry release, and payment-instruction linkage. |
 | 0.2.0 | 2026-06-01 | Rewritten to separate promotion-engine structure from data-layer requirements, add rule families, clarify entitlement versus usage logic for accumulated spend rewards, and preserve tokenized card, service-fee, coupon wallet, Asia Miles, MGM, membership, and cross-document alignment decisions. |
 | 0.1.0 | 2026-06-01 | Initial founder working baseline for promotion engine, coupon, voucher, discount code, card-linked offer, Asia Miles reward, referral, membership, external partner voucher, checkout calculation, stacking, usage, data, reversal, and cross-document alignment requirements. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.7.0
+version: 0.9.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -141,6 +141,7 @@ The MVP user journey scope does not include:
 - marketplace escrow journeys;
 - unsupported open-loop money transfer journeys;
 - automatic recurring payments unless separately approved;
+- deferred user payment instruction for single-card and split-card payment is in scope under DOC-09 and is not an automatic recurring payment;
 - fully automated compliance approval without admin or risk controls;
 - advanced analytics dashboards;
 - multi-entity enterprise treasury workflows;
@@ -179,12 +180,13 @@ The MVP must support the following essential journeys:
 | 11 | Evidence upload, OCR/autofill review, correction, and verification | Yes |
 | 12 | Accept, reject, dispute, and clarification flows | Yes |
 | 13 | Payer payment authorization | Yes |
-| 14 | Payment and payout status visibility | Yes |
-| 15 | Linked payer/payee visibility | Yes |
-| 16 | Admin review and operations touchpoints | Yes |
-| 17 | Notification touchpoints | Yes |
-| 18 | Receipt and history touchpoints | Yes |
-| 19 | Failure, cancellation, dispute, and exception touchpoints | Yes |
+| 14 | User payment instruction and deferred payment action | Yes |
+| 15 | Payment and payout status visibility | Yes |
+| 16 | Linked payer/payee visibility | Yes |
+| 17 | Admin review and operations touchpoints | Yes |
+| 18 | Notification touchpoints | Yes |
+| 19 | Receipt and history touchpoints | Yes |
+| 20 | Failure, cancellation, dispute, and exception touchpoints | Yes |
 
 ---
 
@@ -821,6 +823,10 @@ Before authorization, the payer should be shown:
 - description;
 - evidence;
 - payment method;
+- pay-now or deferred payment instruction choice where enabled;
+- funding leg and split-card summary where applicable;
+- quote validity, expiry, or recalculation notice where applicable;
+- selected payee transfer date where applicable;
 - expected processing timing;
 - expected payout or settlement timing where applicable;
 - refund/reversal limitations where applicable;
@@ -834,13 +840,16 @@ Before authorization, the payer should be shown:
 3. System displays final payment summary.
 4. System displays fee, promotion quote, discount, coupon/voucher impact, reward impact, and total charge where applicable.
 5. Payer selects or confirms payment method.
-6. Payer accepts required terms or disclosures where applicable.
-7. Payer enters payment passcode.
-8. System applies any required step-up authentication, such as new-device, risk, amount, or partner challenge.
-9. Payer confirms authorization.
-10. System records authorization timestamp and authorization event.
-11. Request status changes to **Payment Authorized**.
-12. Payment processing begins through approved payment partner or sandbox integration.
+6. Payer chooses pay now or creates a deferred payment instruction where enabled.
+7. Payer accepts required terms or disclosures for the selected action.
+8. Payer enters payment passcode or completes confirmation required for the selected action.
+9. System applies any required step-up authentication, such as new-device, risk, amount, or partner challenge.
+10. If paying now, payer confirms authorization and payment processing begins through approved payment partner or sandbox integration.
+11. If creating a deferred payment instruction, system stores the payment context and returns the payer through payment-instruction reminder/action flow when payment submission is due.
+12. On return, system revalidates payment quote, promotion quote, card eligibility, timing, and material terms before gateway submission.
+13. If material terms changed, payer reviews the updated checkout summary and confirms before submission.
+14. Payer completes required payment passcode, step-up, or partner challenge before actual funding submission where required.
+15. System records authorization, payment instruction, payment attempt, and status events as applicable.
 
 ### 14.4 Authorization Rules
 
@@ -853,6 +862,9 @@ Before authorization, the payer should be shown:
 | Promotion visibility | Eligible discounts, service-fee benefits, coupons, vouchers, and reward impact must be displayed before authorization where applicable. |
 | Payment passcode | Payment passcode is required before payment authorization proceeds. |
 | Step-up authentication | Additional authentication may be required by DOC-09, DOC-14, DOC-15, or DOC-19 risk/security rules. |
+| Deferred instruction | Deferred payment instruction must return the payer to payment/checkout screen, not only to bill detail. |
+| Quote revalidation | Deferred instruction return flow must show updated payment, promotion, card, fee, or timing changes before submission. |
+| Partial funding | Split-card partial funding must not be shown as payment completed; remaining amount and funded portion should remain clear. |
 | Audit logging | Authorization must be logged. |
 | No hidden material terms | Material payment information must not be hidden from payer. |
 
@@ -871,8 +883,8 @@ Detailed payment processing, payout, settlement, reconciliation, refund, reversa
 | User | Required Visibility |
 | --- | --- |
 | Payer | Authorization result, payment status, failure state, cancellation/refund state where applicable, and receipt/history. |
-| Payee | Request status, payer response, payment completion status, payout/settlement visibility where permitted, and exceptions requiring payee action. |
-| Admin | Full request, payment, payout, failure, refund, dispute, exception, and audit context. |
+| Payee | Request status, payer response, payment completion status, funded portion, payout/settlement visibility where permitted, and exceptions requiring payee action. |
+| Admin | Full request, payment instruction, funding leg, payout, failure, refund, dispute, exception, and audit context. |
 
 ### 15.3 UX Rules
 
@@ -1126,10 +1138,14 @@ The MVP should support basic notifications for:
 - payer-created record awaiting payee adoption;
 - payee adopted payer-created record;
 - payment authorized;
+- payment instruction pending user action;
+- payment instruction partially funded;
+- remaining split-card payment action due;
 - payment processing;
 - payment completed;
 - payment failed;
 - payout completed where applicable;
+- partial payout completed where applicable;
 - request cancelled;
 - request expired.
 
@@ -1317,6 +1333,9 @@ The MVP should include payer-facing screens for:
 - evidence review;
 - accept/reject/dispute/request clarification;
 - payment authorization;
+- pay-now or deferred payment instruction selection;
+- payment instruction action/reminder screen;
+- split-card funding leg progress;
 - payment passcode confirmation;
 - promotion/coupon/voucher selection where enabled;
 - coupon/voucher wallet where enabled;
@@ -1324,6 +1343,8 @@ The MVP should include payer-facing screens for:
 - membership/tier status where enabled;
 - payment processing status;
 - payment completed status;
+- partially funded status and remaining amount;
+- partial payout status where applicable;
 - failed payment status;
 - receipt/history;
 - notifications;
@@ -1487,6 +1508,7 @@ The DOC-06 user journey scope is satisfied when:
 | OQ-06-017 | What duplicate/reused evidence warning can be shown without over-disclosing sensitive information? | Product / Legal / Privacy | Open |
 | OQ-06-018 | What dormant-login inactivity threshold and user-facing reauthentication path should be used? | Product / Security | Open |
 | OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
+| OQ-06-020 | What exact payment-instruction screen labels, call-to-action wording, and partial-funded visual treatment should be used? | Product / Design / Legal | Open |
 
 ---
 
@@ -1553,3 +1575,5 @@ The DOC-06 user journey scope is satisfied when:
 | v0.5 | 2026-05-30 | Aligned UX flows with DOC-12 by adding OCR/autofill review, user correction, evidence verification outcomes, duplicate/reused evidence warning, sensitive field display boundaries, and explicit downstream document references. |
 | v0.6 | 2026-06-01 | Aligned UX scope with DOC-13 by adding promotion quote, coupon/voucher wallet, reward entitlement, referral/MGM, membership, and promotion admin touchpoints where enabled. |
 | v0.7 | 2026-06-02 | Aligned UX scope with DOC-15 by adding SMS OTP registration, new-device 2FA, dormant-login reauthentication, payment passcode, material-change confirmation, and sensitive-field display controls. |
+| v0.8 | 2026-06-02 | Aligned UX scope with DOC-09 user payment instruction by adding deferred payment action, reminder destinations, split-card funding-leg progress, partial funding, and partial payout visibility. |
+| v0.9 | 2026-06-02 | Added return-to-checkout quote revalidation for deferred payment instructions, including payment quote, promotion quote, card eligibility, fee, and timing changes before submission. |

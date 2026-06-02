@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -60,6 +60,7 @@ DOC-11 covers:
 
 - pre-authorization rejection, query, dispute, and payee withdrawal;
 - cancellation before and after payment authorization;
+- payment instruction cancellation, expiry, and incomplete split-card handling;
 - refund eligibility and approval rules;
 - technical reversals and operational adjustments;
 - chargeback case handling;
@@ -102,6 +103,7 @@ Detailed specifications belong to:
 | Admin support | Admin dashboard must support status handling, review, evidence capture, payout hold, recovery, and audit logging. |
 | Payout impact | Refund, dispute, chargeback, and reversal cases may block payout, reverse payout readiness, or trigger recovery. |
 | Multi-card impact | Refunds and reversals must support payment split across up to a configurable number of credit cards. |
+| Payment instruction impact | A DOC-09 deferred payment instruction may be cancelled or expire before gateway submission. Refund rules apply only to funding legs actually submitted and completed. |
 | Fee model | Fee refundability, fee reversals, promotions, coupons, and discounts remain configurable and to be confirmed. |
 
 Unconfirmed items should remain editable assumptions or gated requirements and should not block continued documentation drafting.
@@ -133,6 +135,7 @@ PayPlus refund, cancellation, dispute, and chargeback handling must follow these
 | Query or clarification | Payer or payee requests more information before or after authorization. |
 | Dispute | A user, payee, or admin-raised case about request validity, payment, payout, service issue, or evidence. A dispute is not automatically a card chargeback. |
 | Payee withdrawal | Payee withdraws a request before payer authorization, or requests withdrawal under approved rules after authorization. |
+| Payment instruction cancellation | User or admin cancellation of a saved DOC-09 payment instruction or remaining pending funding leg before gateway submission. |
 | Cancellation | Stopping a request or payment flow before it becomes final under payment, settlement, or payout rules. |
 | Refund | Returning all or part of a completed payment to the payer through the permitted payment rail or PSP/acquirer process. |
 | Reversal | Technical, partner, or operational reversal of a payment, fee, promotion, ledger, or payout-related event. |
@@ -152,6 +155,7 @@ DOC-11 uses the following case types:
 | Payer query or clarification | Before or after authorization | Support / Operations |
 | Payee withdrawal | Before authorization or approved post-authorization window | Operations |
 | Cancellation before authorization | Before payer authorizes payment | Product / Operations |
+| Payment instruction cancellation or expiry | After payment context is saved but before one or more funding legs are submitted | Product / Payments / Operations |
 | Cancellation after authorization | After authorization but before final completion, settlement, or payout | Payments / Operations |
 | Refund request | After payment completion | Operations / Payments |
 | Partial refund | After payment completion where allowed | Operations / Payments / Finance |
@@ -200,6 +204,13 @@ Pre-authorization rejection, query, dispute, expiry, and withdrawal are product 
 
 The request lifecycle belongs in DOC-05 and DOC-06. User-facing messages belong in DOC-07 and DOC-08.
 
+For DOC-09 deferred payment instructions:
+
+- cancellation or expiry before gateway submission should not create a refund because no funds moved for that pending leg;
+- cancellation or expiry of remaining split-card legs must not reverse already completed funding legs automatically;
+- funded legs should follow refund, settlement, payout hold, and recovery rules based on their actual payment and payout status;
+- user-facing status must distinguish cancelled or expired pending legs from refunded or reversed funded legs.
+
 ---
 
 ## 9. Cancellation Rules
@@ -209,12 +220,15 @@ Cancellation treatment depends on payment and payout status.
 | Stage | Rule |
 | --- | --- |
 | Before payer authorization | Request may be rejected, withdrawn, expired, disputed, or cancelled without funds movement. |
+| Deferred instruction before gateway submission | Pending instruction or pending funding leg may be cancelled or expire without refund, subject to audit and user notification. |
 | After authorization but before capture/completion | Cancellation may attempt void, reversal, or cancellation through PSP/acquirer where supported. |
 | After payment completion but before upstream settlement | Cancellation normally becomes refund or reversal handling, subject to PSP/acquirer capability. |
 | After settlement but before payout | Cancellation may require refund approval and payout hold. |
 | After payout | Cancellation normally becomes refund, recovery, dispute, chargeback, or write-off handling; payout reversal is not assumed. |
 
 Cancellation must not bypass risk review, partner rules, fee rules, disclosure requirements, or reconciliation.
+
+For partially funded DOC-09 payment instructions, cancellation may apply to the remaining unpaid instruction balance while completed funding legs remain subject to refund, reversal, payout hold, or recovery rules.
 
 ---
 
@@ -225,6 +239,7 @@ Refunds may be full or partial where supported by PSP/acquirer, card network, op
 A refund decision should consider:
 
 - payment status;
+- payment instruction and funding-leg status where applicable;
 - settlement status;
 - payout status;
 - payout recovery ability;
@@ -241,6 +256,7 @@ A refund decision should consider:
 Refunds must:
 
 - link to the original payment and request;
+- link to payment instruction and funding leg where applicable;
 - preserve payment method and funding source traceability;
 - use permitted PSP/acquirer or approved operational process;
 - update ledger, revenue, fee, promotion, payout, and reconciliation records;
@@ -263,6 +279,7 @@ Default allocation should be proportional to the amount funded by each card unle
 
 The system must track:
 
+- payment instruction ID and funding leg ID where applicable;
 - original funding split;
 - amount refunded per funding source;
 - refund status per funding source;
@@ -344,6 +361,7 @@ Refund, dispute, chargeback, fraud, risk, or operational cases may require payou
 Payout hold is required or recommended where:
 
 - payment is not settled or settlement-ready;
+- payment instruction is partially funded and payout, refund, dispute, or risk treatment is unresolved;
 - refund request is open and material;
 - chargeback has been opened or is reasonably expected;
 - obligation evidence is disputed;
@@ -492,6 +510,7 @@ Detailed dashboard, warehouse, ledger, and reporting schema belong in DOC-18 and
 | OQ-11-009 | What status values and reason codes should be implemented in the admin dashboard? | Product / Operations / Engineering | Medium | Open |
 | OQ-11-010 | What legal wording is required before authorization and in receipts for refund, cancellation, dispute, and chargeback limitations? | Legal / Product | High | Open |
 | OQ-11-011 | Which DOC-12 verification outcomes should automatically block refund, payout release, representment, or recovery actions pending review? | Operations / Risk / Payments | High | Open |
+| OQ-11-012 | What cancellation, expiry, refund, and user-facing wording should apply to pending or partially funded DOC-09 payment instructions? | Product / Payments / Operations | Medium | Open |
 
 ---
 
@@ -501,6 +520,7 @@ DOC-11 is acceptable when it clearly defines:
 
 - refund, cancellation, reversal, dispute, chargeback, and payee withdrawal boundaries;
 - pre-authorization versus post-authorization handling;
+- payment instruction cancellation, expiry, and partially funded exception handling;
 - pre-payout versus post-payout handling;
 - multi-card refund allocation requirements;
 - fee, promotion, and revenue reversal ownership;
@@ -538,5 +558,6 @@ It should not become:
 | `0.3.0` | `2026-05-30` | Product Documentation Team | Aligned case handling with DOC-12 by adding evidence verification history, OCR/extracted field and user correction records, duplicate/reused evidence indicators, and verification-outcome linkage for refunds, disputes, chargebacks, payout holds, and recovery decisions. |
 | `0.4.0` | `2026-06-01` | Product Documentation Team | Aligned refund and chargeback treatment with DOC-13 by adding reward entitlement, coupon/voucher restoration, miles, membership benefit, external voucher, and promotion clawback references. |
 | `0.5.0` | `2026-06-02` | Product Documentation Team | Aligned case records, evidence packages, funding-source allocation, recovery, and support data with DOC-15 classification metadata and DOC-18 lineage requirements. |
+| `0.6.0` | `2026-06-02` | Product Documentation Team | Aligned exception handling with DOC-09 user payment instruction by adding pending instruction cancellation, expiry, partially funded split-card, funding-leg refund linkage, and partial payout hold boundaries. |
 | `0.2.0` | `2026-05-30` | Product Documentation Team | Simplified draft by consolidating detailed ledger, admin, support, communication, and analytics requirements into compact owner sections with references to DOC-08, DOC-18, DOC-21, and DOC-22. |
 | `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for refund, cancellation, reversal, dispute, chargeback, payout hold, recovery, fee reversal, audit, support, and reporting rules. |

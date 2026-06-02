@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 0.4.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -208,6 +208,7 @@ Domains:
 | `PROM` | Promotion, coupon, voucher, reward, referral, membership, miles, and entitlement. |
 | `REQ` | Payment request lifecycle. |
 | `PAY` | Payment authorization, processing, success, and failure. |
+| `PINS` | User payment instruction and deferred funding action. |
 | `POUT` | Payout and settlement visibility. |
 | `REF` | Refund, reversal, cancellation, and chargeback. |
 | `DISP` | Query, clarification, dispute, and case handling. |
@@ -335,8 +336,17 @@ Marketing campaign messages must be consent-based. Service messages that affect 
 | `NOTIF-PAY-004` | Payment failed | App, push optional, email optional, SMS optional | Mandatory service |
 | `NOTIF-PAY-005` | Multi-card partial failure | App, push optional, email optional | Mandatory service |
 | `NOTIF-PAY-006` | Payment held for review | App, email optional | Important service |
+| `NOTIF-PINS-001` | Payment instruction created | App | Important service |
+| `NOTIF-PINS-002` | Deferred payment action due | App, push optional, email optional | Important service |
+| `NOTIF-PINS-003` | Split-card remaining payment action due | App, push optional, email optional | Important service |
+| `NOTIF-PINS-004` | Payment instruction partially funded | App, push optional | Important service |
+| `NOTIF-PINS-005` | Payment instruction expired or cancelled | App, email optional | Important service |
+| `NOTIF-PINS-006` | Partial payout sent for funded portion | App, email optional | Important service |
+| `NOTIF-PINS-007` | Deferred payment quote or promotion changed before submission | App, push optional | Important service |
 
 Payment authorization may require a status update without an external notification. Payment completion usually requires a receipt or confirmation message.
+
+Payment instruction reminders must route the user to the payment/checkout screen for the same instruction. Normal due-date reminders and user manual bill/rent reminders route to the bill/rent/obligation detail screen. If quote, promotion, card eligibility, fee, or timing terms changed, the message should route to the updated checkout review before submission.
 
 ### 11.6 Payout Events
 
@@ -572,6 +582,8 @@ Detailed schema belongs in DOC-18.
 | OQ-08-008 | What retention exceptions, deletion rules, and masking rules apply beyond the 7-year baseline? | Legal / Privacy | Open |
 | OQ-08-009 | Which evidence verification events should notify users versus remain app status or admin-only dashboard tasks? | Product / Operations / Legal | Open |
 | OQ-08-010 | Which DOC-13 promotion, coupon, voucher, referral, membership, miles, entitlement, fulfilment, and clawback events should notify users versus remain app status or admin-only tasks? | Product / Growth / Operations | Open |
+| OQ-08-011 | Which payment instruction reminder schedule, channel mix, and final-action wording should apply for single-card, split-card, partial funding, and expiry cases? | Product / Payments / Operations | Open |
+| OQ-08-012 | What notification wording and channel rules should apply when deferred payment quote, promotion, card eligibility, fee, or timing terms changed before submission? | Product / Growth / Payments | Open |
 
 ---
 
@@ -588,6 +600,8 @@ DOC-08 is acceptable when:
 - receipt and statement rules are defined;
 - evidence verification, correction, duplicate warning, and admin review message boundaries are defined;
 - promotion, reward, coupon, voucher, referral, membership, miles, entitlement, and fulfilment message boundaries are defined;
+- payment instruction, deferred action, split-card remaining action, partial funding, expiry/cancellation, and partial payout message boundaries are defined;
+- deferred payment quote or promotion change notification boundaries are defined without renumbering existing notification IDs;
 - delivery logging and retention expectations are defined;
 - detailed payment, payout, refund, dispute, and data-model logic is left to owning documents.
 
@@ -599,5 +613,7 @@ DOC-08 is acceptable when:
 | --- | --- | --- |
 | 0.3.0 | 2026-06-01 | Aligned notification rules with DOC-13 by adding promotion and reward event domain, coupon/voucher, referral, membership, miles, entitlement, external voucher, reversal, and admin exception notifications. |
 | 0.4.0 | 2026-06-02 | Aligned notification rules with DOC-15 by adding new-device, dormant-login, material-change, sensitive account/security messaging, and DOC-15 data-classification channel controls. |
+| 0.5.0 | 2026-06-02 | Aligned notification rules with DOC-09 user payment instruction by adding deferred payment action, split-card remaining action, partial funding, expiry/cancellation, and partial payout notification events. |
+| 0.6.0 | 2026-06-02 | Added stable PINS notification event for deferred payment quote, promotion, card eligibility, fee, or timing changes before submission. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

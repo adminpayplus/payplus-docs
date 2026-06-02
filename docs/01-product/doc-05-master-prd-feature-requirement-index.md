@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.7.0
+version: 0.9.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -111,6 +111,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Fees and promotions | Enable only when DOC-13 promotion quote, entitlement, discount, coupon, voucher, reward, disclosure, accounting, tax, commercial, and reporting treatment is confirmed. |
 | OCR or document AI | Enable by category, payee type, risk tier, document type, and provider readiness; manual or assisted review may be used until automation is approved. |
 | Multi-card funding | MVP scope; support up to a configurable number of credit cards per payment, with the launch cap and related controls to be confirmed. |
+| User payment instruction | MVP scope; enable for single-card and split-card payments where DOC-09 deferred funding, reminder, partial funding, and payout controls are ready. |
 
 Current launch assumptions:
 
@@ -148,6 +149,7 @@ The MVP does not include:
 - crypto payments;
 - lending or credit issuance;
 - automatic recurring payments unless separately approved;
+- deferred user payment instruction for single-card and split-card payment is in scope under DOC-09 and is not an automatic recurring payment;
 - marketplace escrow;
 - investment, savings, or deposit accounts;
 - open-loop funds transfer unrelated to a bill or evidence-backed obligation;
@@ -360,6 +362,7 @@ The MVP should support the following request statuses:
 | No unsupported transfer | Payment cannot be unrelated to a bill, invoice, fee, rent, tenancy, domestic service, or proof of obligation. |
 | No stored balance | PayPlus must not hold user wallet balances. |
 | Failed payment handling | Failed payments must be visible and traceable. |
+| Deferred instruction quote validity | A deferred payment instruction must revalidate payment quote, promotion quote, card eligibility, and material terms before funding submission where required by DOC-09 and DOC-13. |
 | Refunds/reversals | Refunds or reversals require admin-dashboard status handling and must follow approved operational policy. |
 
 ---
@@ -442,10 +445,13 @@ The MVP should support data structures for the following object families. Detail
 - evidence extraction, normalized fields, user corrections, verification signals, review outcome, and final evidence snapshot;
 - request participant mapping;
 - payment transaction;
+- payment instruction;
+- payment instruction funding leg;
 - payout/settlement record;
-- campaign, offer, promotion quote, benefit entitlement, reward instrument, and redemption/fulfilment records where promotions are enabled;
+- campaign, offer, promotion quote, promotion quote reservation, benefit entitlement, reward instrument, and redemption/fulfilment records where promotions are enabled;
 - dispute or clarification thread;
 - notification;
+- reminder or user action task;
 - audit event;
 - admin review action.
 
@@ -471,6 +477,10 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 - accept/reject/dispute request;
 - authorize payment;
 - enter payment passcode before proceeding with payment authorization;
+- choose pay now or create a deferred payment instruction where enabled;
+- view and act on payment instruction reminders;
+- review updated quote, promotion, fee, card eligibility, or timing changes when returning to a deferred payment instruction;
+- view partial funding, remaining amount, and partial payout status where applicable;
 - review eligible discounts, coupon/voucher selection, reward status, or promotion quote where promotions are enabled;
 - view payment status;
 - view coupon/voucher wallet where enabled;
@@ -518,6 +528,8 @@ The MVP should support:
 - promotion quote, discount, coupon, voucher, reward, and final total display before payer authorization where applicable;
 - transaction-level revenue tracking;
 - payment status reporting;
+- payment instruction status reporting, including deferred, pending, partial funding, fully funded, expired, and cancelled states;
+- partial payout status reporting for settlement-ready funded portions;
 - user-level activity history;
 - operational review workflows;
 - support and dispute handling;
@@ -664,3 +676,5 @@ The MVP is acceptable when:
 | v0.5 | 2026-05-30 | Aligned master PRD with DOC-12 by adding OCR/autofill, user correction, evidence verification outcomes, duplicate/reused evidence routing, sensitive field display controls, and explicit downstream document references. |
 | v0.6 | 2026-06-01 | Aligned master PRD with DOC-13 by adding promotion quote, entitlement, coupon/voucher wallet, reward instrument, campaign data, and admin promotion-control references. |
 | v0.7 | 2026-06-02 | Aligned master PRD with DOC-15 by adding privacy data classes, field-level classification metadata, authentication UX requirements, material-change confirmation, payment passcode, and admin sensitive-data access controls. |
+| v0.8 | 2026-06-02 | Added DOC-09 user payment instruction as MVP scope for deferred single-card and split-card payment, payment-instruction reminders, partial funding, and partial payout visibility. |
+| v0.9 | 2026-06-02 | Aligned PRD with DOC-09 and DOC-13 deferred payment instruction quote revalidation, promotion reservation, and return-to-checkout update review. |
