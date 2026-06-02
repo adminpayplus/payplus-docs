@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,7 +12,7 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-05-27
+last_updated: 2026-06-02
 classification: Internal
 related_documents: []
 ---
@@ -105,6 +105,7 @@ Foundation documents guide downstream drafting but do not replace detailed produ
 
 ```text
 payplus-docs/
+├── AGENTS.md
 ├── docs/
 │   ├── 00-foundation/
 │   │   ├── doc-00-documentation-governance.md
@@ -138,25 +139,12 @@ payplus-docs/
 │   │   └── doc-19-security-tokenization-authentication-admin-control-spec.md
 │   ├── 08-qa-release-operations/
 │   │   ├── doc-20-testing-uat-golive-checklist.md
-│   │   └── doc-21-monitoring-incident-response-operational-sops.md
+│   │   ├── doc-21-monitoring-incident-response-operational-sops.md
+│   │   └── doc-22-admin-management-dashboard-operations-workflow.md
 │   ├── 09-ai-build-execution/
-│   │   ├── 01-structured-prd.md
-│   │   ├── 02-ui-prototype-prd.md
-│   │   ├── 03-technical-architecture-prd.md
-│   │   ├── 04-development-task-list.md
-│   │   ├── 05-agent-coding-rules.md
-│   │   ├── 06-feature-build-sequence.md
-│   │   ├── 07-definition-of-done.md
-│   │   ├── 08-test-generation-instructions.md
-│   │   ├── 09-ai-prompt-pack.md
 │   │   ├── 10-agent-context-index.md
 │   │   ├── context/
-│   │   │   ├── bill-verification-context.md
-│   │   │   ├── payment-core-context.md
-│   │   │   ├── project-continuation-context.md
-│   │   │   ├── promotion-engine-context.md
-│   │   │   ├── refund-chargeback-context.md
-│   │   │   └── security-context.md
+│   │   │   └── project-continuation-context.md
 │   │   └── README.md
 │   ├── 99-isms-policies/
 │   │   ├── 99-01-information-security-policy.md
@@ -240,6 +228,7 @@ Document IDs must not be reused. Deprecated or retired document IDs remain reser
 | DOC-19 | Security, Tokenization, Authentication & Admin Control Specification | 07-security-access-control/ | doc-19-security-tokenization-authentication-admin-control-spec.md |
 | DOC-20 | Testing, UAT & Go-Live Checklist | 08-qa-release-operations/ | doc-20-testing-uat-golive-checklist.md |
 | DOC-21 | Monitoring, Incident Response & Operational SOPs | 08-qa-release-operations/ | doc-21-monitoring-incident-response-operational-sops.md |
+| DOC-22 | Admin Management Dashboard & Operations Workflow | 08-qa-release-operations/ | doc-22-admin-management-dashboard-operations-workflow.md |
 
 ---
 
@@ -548,6 +537,7 @@ Foundation documents guide downstream documents as follows:
 | DOC-19 Security, Tokenization, Authentication & Admin Control Specification | Define authentication, tokenization, encryption, PCI scope, access control, admin controls, and monitoring. |
 | DOC-20 Testing, UAT & Go-Live Checklist | Convert requirements, controls, gates, and risks into test and launch criteria. |
 | DOC-21 Monitoring, Incident Response & Operational SOPs | Define monitoring, support, incident response, escalation, exception handling, and operational SOPs. |
+| DOC-22 Admin Management Dashboard & Operations Workflow | Define admin permissions, review queues, overrides, configuration, uploads, operational action flows, and dashboard evidence. |
 
 Detailed scope belongs in each downstream document.
 
@@ -555,7 +545,7 @@ Detailed scope belongs in each downstream document.
 
 ## 17. AI Build Execution and Context Rules
 
-AI build execution documents may be used to support AI-assisted planning, development, testing, and implementation.
+AI build execution documents may be used to support AI-assisted planning, development, testing, and implementation only after the human source documents and required technical or operational specifications are mature enough for conversion.
 
 AI build execution files are maintained in:
 
@@ -563,21 +553,12 @@ AI build execution files are maintained in:
 docs/09-ai-build-execution/
 ```
 
-The current AI build execution files are:
+The AI build execution folder is currently reserved and must not be treated as an active implementation pack unless regenerated from the current formal documents.
 
 | File | Purpose |
 | --- | --- |
-| 01-structured-prd.md | Structured PRD for AI-assisted build execution. |
-| 02-ui-prototype-prd.md | UI prototype requirements for AI-assisted implementation. |
-| 03-technical-architecture-prd.md | Technical architecture PRD for implementation planning. |
-| 04-development-task-list.md | Development task breakdown. |
-| 05-agent-coding-rules.md | Coding rules for AI agents or assisted development. |
-| 06-feature-build-sequence.md | Recommended feature implementation sequence. |
-| 07-definition-of-done.md | Completion criteria for implementation tasks. |
-| 08-test-generation-instructions.md | Test generation guidance. |
-| 09-ai-prompt-pack.md | Approved prompt pack for AI-assisted work. |
-| 10-agent-context-index.md | Index of context files for AI agents. |
-| README.md | Overview of the AI build execution folder. |
+| README.md | Defines reserved status and conversion rules for the AI build execution folder. |
+| 10-agent-context-index.md | Index of active or legacy AI context files. |
 
 AI context files are maintained in:
 
@@ -585,16 +566,11 @@ AI context files are maintained in:
 docs/09-ai-build-execution/context/
 ```
 
-The current AI context files are:
+AI context files may exist as legacy notes or generated support files. They are non-authoritative unless explicitly refreshed from current formal documents.
 
 | File | Purpose |
 | --- | --- |
-| project-continuation-context.md | General project continuation context. |
-| payment-core-context.md | Payment domain context. |
-| bill-verification-context.md | Bill verification context. |
-| promotion-engine-context.md | Promotion engine context. |
-| refund-chargeback-context.md | Refund and chargeback context. |
-| security-context.md | Security context. |
+| project-continuation-context.md | Legacy project continuation context; do not use as source of truth unless refreshed and approved. |
 
 AI build execution and context files may contain:
 
@@ -768,3 +744,4 @@ DOC-00 must remain focused on documentation governance only.
 | 0.3.0 | 2026-05-27 | Product Documentation Team | Simplified structure, reduced repetition, consolidated ID conventions, and retained essential governance controls. |
 | 0.4.0 | 2026-05-27 | Product Documentation Team | Updated repository structure, core document register filenames, AI build execution folder governance, template list, traceability files, and supporting repository areas. |
 | 0.5.0 | 2026-05-29 | Product Documentation Team | Added Founder Working Baseline status for founding-stage documentation workflow and clarified planning authority before final approval. |
+| 0.6.0 | 2026-06-02 | Product Documentation Team | Cleaned repository tree, added DOC-22 to governance references, clarified reserved AI build-execution status, and marked legacy context files as non-authoritative. |

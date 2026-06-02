@@ -1,7 +1,7 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 0.9.0
+version: 0.10.0
 status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
@@ -87,7 +87,7 @@ No flow should launch unless Legal, Compliance, Payments, Risk, Finance, and rel
 
 ### 2.1 Current Regulatory Baseline
 
-Payee-created payment requests and tenancy/rent payments are included in the MVP product baseline.
+Payee-created payment requests, bill payments, fee payments, tenancy/rent payments, domestic helper payments, driver payments, personal service payments, multi-card payments, and user payment instructions are included in the MVP product baseline where supported by acceptable evidence and enabled controls.
 
 Regulatory, PSP/acquirer, payout, AML, privacy, card network, and partner approval remain gated requirements. If any required approval is unavailable, the affected module, category, payee type, or payment path must be disabled without blocking unrelated approved modules.
 
@@ -98,6 +98,8 @@ The current transaction classification assumption is that PayPlus card payments 
 The current payout baseline is direct payout from the PayPlus operating bank account after upstream settlement. Hong Kong payout rails include FPS, cheque, and EPS. Payment gateway settlement is expected to be T+1 to T+3, with payout expected on the same day after funds are settled by the upstream counterparty. Final operating-bank setup, rail configuration, liquidity treatment, reserves, exception handling, and reconciliation remain to be confirmed.
 
 The current KYC/KYB baseline is highly confirmed. Individuals are expected to complete eKYC through a service provider such as Jumio, provide email, verify phone number by SMS, and submit ID copy through the eKYC provider. Businesses are expected to provide Business Registration documentation and owner ID. Final provider selection, check depth, sanctions screening, exception handling, and risk-tier rules remain to be confirmed.
+
+User payment instruction is a deferred user action model, not a recurring payment mandate. A saved instruction must not be treated as card authorization, capture, settlement, payout readiness, stored value, or completed payment until the user returns to submit and confirm the relevant funding leg through the approved payment flow.
 
 ---
 
@@ -265,7 +267,7 @@ Therefore, payee-created requests require:
 
 Landlord-created rent requests require enhanced review because rent can be misused for fake obligation, self-payment, related-party, or collusive cashout schemes.
 
-Landlord-created rent requests are MVP scope but should remain restricted or disabled for production use unless Legal, Compliance, Payments, Risk, Product, Finance, Operations, Security, Privacy, and relevant partners approve the controls.
+Landlord-created rent requests are MVP scope where required evidence, verification, risk, payment, payout, privacy, and operational controls are enabled. Category controls, limits, review routing, and partner confirmations remain launch gates.
 
 ---
 
@@ -641,6 +643,7 @@ Reviewers:
 | `DOC-19` | Authentication, tokenization, PCI, RBAC, payer/payee data boundaries, admin access, encryption, and audit controls. |
 | `DOC-20` | Launch checklist including DOC-03 gates and approvals. |
 | `DOC-21` | Monitoring for partner restrictions, onboarding issues, request abuse, settlement issues, chargebacks, category violations, payout failures, and compliance incidents. |
+| `DOC-22` | Admin configuration, review queues, overrides, payment-instruction handling, evidence review, payout exception handling, and operational audit evidence. |
 
 ---
 
@@ -691,3 +694,4 @@ This document must remain an assessment framework and must not become:
 | `0.7.0` | 2026-05-30 | Product Documentation Team | Aligned regulatory framing with updated DOC-01 scope for invoices, fees, rent, medical bills, domestic service obligations, and payer-authorized push payment positioning. |
 | `0.8.0` | 2026-06-01 | Product Documentation Team | Updated DOC-13 related-document title for promotion engine, coupon, voucher, referral, membership, and reward alignment. |
 | `0.9.0` | 2026-06-02 | Product Documentation Team | Aligned regulatory privacy references with DOC-15 data classification, role-based visibility, masking, and approved-purpose access wording. |
+| `0.10.0` | 2026-06-02 | Product Documentation Team | Aligned regulatory baseline with confirmed evidence-backed MVP categories, clarified user payment instruction is not recurring payment or stored value, softened rent enablement wording to category-gated launch controls, and added DOC-22 downstream reference. |

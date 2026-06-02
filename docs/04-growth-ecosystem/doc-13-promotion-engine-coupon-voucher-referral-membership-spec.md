@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -99,7 +99,7 @@ DOC-13 does not own:
 | Card-linked offers | Tokenized payment profile or gateway-returned card metadata is preferred; BIN check is supplementary. |
 | Service-fee benefits | Service-fee rate changes, reductions, or waivers are calculated before absolute checkout amount discounts. |
 | Spending rewards | Accumulated spend rewards track entitlement, not raw card usage. |
-| Coupon wallet | Reward instruments from different sources may appear in one wallet, with source metadata preserved. |
+| Coupon/voucher library | Reward instruments from different sources may appear in one user-facing library, with source metadata preserved. This must not create a wallet, stored balance, transferable value, or cashout right. |
 | MGM and membership | Referral/MGM and membership/tier are separate qualification modules. |
 | Asia Miles | Miles reward is supported; API auto-credit is optional and to be confirmed. |
 | External vouchers | Framework included; QR, deeplink, code, API, file, webhook, or manual fulfilment may be supported. |
@@ -430,7 +430,7 @@ Reversal / clawback options:
 Fulfilment options:
 
 - immediate checkout application;
-- coupon wallet issuance;
+- coupon/voucher library issuance;
 - QR code generation;
 - static partner code;
 - unique partner code;
@@ -776,7 +776,7 @@ For multi-card payments, the card-linked benefit should apply only to the eligib
 
 ## 10. Coupon, Voucher, Miles, Referral, and Membership Rules
 
-Coupon wallet may show instruments from different earning sources, including referral reward, spending reward, membership reward, or partner campaign. Source metadata must remain preserved.
+The coupon/voucher library may show instruments from different earning sources, including referral reward, spending reward, membership reward, or partner campaign. Source metadata must remain preserved.
 
 The UI does not need to show every structured field separately. It may show a human-readable summary, key conditions, expiry, status, and expandable terms. DOC-06 owns screens. DOC-07 owns wording.
 
@@ -796,7 +796,7 @@ Referral/MGM is separate from membership/tier:
 - referral tracks referrer, referee, invitation code/link, attribution, qualifying event, and reward;
 - membership tracks usage-oriented tier, payment volume, transaction count, consecutive usage, tier status, and benefits.
 
-Both modules may issue normal reward instruments into the coupon wallet.
+Both modules may issue normal reward instruments into the coupon/voucher library.
 
 Membership conversion ratios and tier formulas remain to be confirmed.
 
@@ -823,7 +823,7 @@ Operational handling belongs in DOC-11 and DOC-22.
 
 ## 12. Risk, Compliance, Privacy, and Security Boundaries
 
-Promotion features must not create wallet, stored-value, cashout, arbitrary transfer, or unrestricted reward balance behavior unless separately assessed and approved.
+Promotion features must not create wallet, stored-value, cashout, arbitrary transfer, or unrestricted reward balance behavior unless separately assessed and approved. The coupon/voucher library is only a display and management surface for eligible reward instruments.
 
 Controls should address:
 
@@ -851,7 +851,7 @@ DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries.
 | --- | --- |
 | DOC-02 | Promotion cost, funding source, commercial gates, margin, tax, and accounting treatment. |
 | DOC-05 | Feature index, MVP gating, admin configuration, and promotion requirements. |
-| DOC-06 | Checkout reward selection, coupon wallet, voucher claim, MGM, membership, and reward status UX. |
+| DOC-06 | Checkout reward selection, coupon/voucher library, voucher claim, MGM, membership, and reward status UX. |
 | DOC-07 | Promotion, fee, discount, miles, voucher, eligibility, expiry, and T&C disclosure. |
 | DOC-08 | Reward, referral, coupon, voucher, miles, campaign, entitlement, and fulfilment notification events. |
 | DOC-09 | Promotion quote, final payment quote, deferred payment instruction revalidation, card-linked eligibility, recalculation, and reauthorization. |
@@ -901,7 +901,7 @@ DOC-13 is acceptable when:
 - checkout calculation sequence is clear;
 - deferred payment instruction quote revalidation and reservation boundaries are defined;
 - card-linked eligibility prefers tokenized payment profile and treats BIN check as supplementary;
-- coupon wallet can hold rewards from different sources while preserving source metadata;
+- coupon/voucher library can show rewards from different sources while preserving source metadata;
 - MGM/referral and membership/tier are separate qualification modules;
 - Asia Miles reward and external partner fulfilment are covered;
 - affected documents are clearly marked for follow-up alignment.
@@ -914,8 +914,9 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.0 | 2026-06-01 | Initial founder working baseline for promotion engine, coupon, voucher, discount code, card-linked offer, Asia Miles reward, referral, membership, external partner voucher, checkout calculation, stacking, usage, data, reversal, and cross-document alignment requirements. |
+| 0.2.0 | 2026-06-01 | Rewritten to separate promotion-engine structure from data-layer requirements, add rule families, clarify entitlement versus usage logic for accumulated spend rewards, and preserve tokenized card, service-fee, coupon library, Asia Miles, MGM, membership, and cross-document alignment decisions. |
 | 0.3.0 | 2026-06-02 | Aligned promotion abuse wording with DOC-14 by treating DOC-14 as the risk-control framework and clarifying reward-hold versus payment-blocking boundaries. |
 | 0.4.0 | 2026-06-02 | Aligned promotion data requirements with DOC-15 by adding data classification, sensitivity, displayability, retention, approved-purpose, and partner-sharing metadata requirements for DOC-18. |
 | 0.5.0 | 2026-06-02 | Aligned promotion quote handling with DOC-09 user payment instruction by adding deferred quote revalidation, configurable reservation, expiry release, and payment-instruction linkage. |
-| 0.2.0 | 2026-06-01 | Rewritten to separate promotion-engine structure from data-layer requirements, add rule families, clarify entitlement versus usage logic for accumulated spend rewards, and preserve tokenized card, service-fee, coupon wallet, Asia Miles, MGM, membership, and cross-document alignment decisions. |
-| 0.1.0 | 2026-06-01 | Initial founder working baseline for promotion engine, coupon, voucher, discount code, card-linked offer, Asia Miles reward, referral, membership, external partner voucher, checkout calculation, stacking, usage, data, reversal, and cross-document alignment requirements. |
+| 0.6.0 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion while preserving reward instrument source metadata. |

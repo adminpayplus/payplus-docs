@@ -2,7 +2,7 @@
 
 PayPlus development documentation repository.
 
-PayPlus is a controlled bill, fee, rent, invoice, and approved-obligation payment application. This repository stores the human-readable source documents, technical specifications, AI build-execution materials, and traceability records used to guide development.
+PayPlus is a controlled bill, fee, rent, invoice, domestic helper, driver, personal service, and approved-obligation payment application. This repository stores the human-readable source documents, technical specifications, AI build-execution materials, and traceability records used to guide development.
 
 ## Documentation Layers
 
@@ -25,7 +25,7 @@ Human source docs
 - `docs/06-engineering/`: architecture, APIs, data model, field metadata, lineage, transaction states, and audit events.
 - `docs/07-security-access-control/`: security, tokenization, authentication, access control, and admin controls.
 - `docs/08-qa-release-operations/`: testing, UAT, go-live, monitoring, incidents, and admin operations.
-- `docs/09-ai-build-execution/`: AI-agent implementation context and prompt materials derived from approved docs.
+- `docs/09-ai-build-execution/`: reserved AI-agent implementation context and prompt materials derived from approved docs. Do not treat legacy context files as current source of truth unless regenerated.
 - `docs/traceability/`: requirements, controls, tests, decisions, and open-question linkage.
 
-See `AGENTS.md` for AI assistant workflow rules.
+Start with `docs/README.md` for document navigation and `AGENTS.md` for AI assistant workflow rules.

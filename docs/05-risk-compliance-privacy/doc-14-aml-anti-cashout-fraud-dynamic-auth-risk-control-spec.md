@@ -1,7 +1,7 @@
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 0.4.0
+version: 0.5.0
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -292,7 +292,7 @@ Bill, fee, and rent/tenancy payments are MVP scope. Risk strictness should vary 
 | Bill payments | Evidence and payee matching required. Lower-risk recurring bills may use lighter review if issuer/payee is trusted. |
 | Fee payments | Evidence, payee, amount, and category validation required. Business or institution fees may use risk-based review. |
 | Invoice payments | Business/payee validation, invoice duplicate detection, and payout destination checks required. |
-| Domestic service or personal service obligations | Must be gated by category controls, evidence rules, privacy review, and risk review before enablement. |
+| Domestic helper, driver, and personal service obligations | MVP scope where supported by acceptable evidence and enabled controls. Apply category controls, evidence rules, privacy visibility, limits, monitoring, and risk-based review. |
 
 DOC-05 owns MVP scope. DOC-12 owns evidence fields and verification. DOC-22 owns review queues.
 
@@ -497,7 +497,8 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.1.0` | `2026-06-02` | Product Documentation Team | Initial founder working baseline for AML, anti-cashout, fraud, credit card fraud, chargeback risk, dynamic authentication, payout hold, configurable review controls, and risk-governance boundaries. |
 | `0.2.0` | `2026-06-02` | Product Documentation Team | Aligned risk signals, scores, flags, review outcomes, escalation notes, and source lineage with DOC-15 data classification and DOC-18 metadata requirements. |
 | `0.3.0` | `2026-06-02` | Product Documentation Team | Aligned risk controls with DOC-09 user payment instruction by adding deferred instruction, incomplete split-card funding, partial payout, selected transfer date, and repeated incomplete pattern risk boundaries. |
 | `0.4.0` | `2026-06-02` | Product Documentation Team | Added quote revalidation, promotion reservation, quota-holding, and card-linked benefit testing as deferred payment instruction risk signals. |
-| `0.1.0` | `2026-06-02` | Product Documentation Team | Initial founder working baseline for AML, anti-cashout, fraud, credit card fraud, chargeback risk, dynamic authentication, payout hold, configurable review controls, and risk-governance boundaries. |
+| `0.5.0` | `2026-06-02` | Product Documentation Team | Aligned domestic helper, driver, and personal service risk treatment with confirmed evidence-backed MVP scope and configurable risk-based controls. |

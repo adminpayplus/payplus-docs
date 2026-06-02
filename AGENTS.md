@@ -82,7 +82,11 @@ Use the layers as follows:
 
 When drafting early human docs, include enough structure for later specification work, but leave detailed schema, endpoint, test-case, and implementation-ticket detail to the technical and AI execution layers.
 
+At the current founding-stage baseline, `DOC-00` to `DOC-15` are the active human source baseline and `DOC-16` to `DOC-22` may be planned, placeholder, or partial until drafted. Do not infer missing technical detail from placeholders.
+
 DOC-15 owns the cross-document privacy, data classification, masking, retention, role-based visibility, and approved-purpose access baseline. When DOC-15 affects a product, payment, risk, evidence, promotion, engineering, security, or operations requirement, update the owning document directly instead of only adding a note in DOC-15.
+
+Legacy files under `docs/09-ai-build-execution/context/`, including `project-continuation-context.md`, are non-authoritative unless explicitly refreshed from current formal documents.
 
 ## Agent Workflow Rules
 
@@ -95,6 +99,7 @@ Before making broad documentation changes:
 5. Preserve existing useful content.
 6. Flag contradictions, missing decisions, and open questions.
 7. Ask for founder confirmation before committing changes.
+8. Update affected index, README, traceability, and reference files when broad documentation changes alter navigation, ownership, or source-of-truth assumptions.
 
 Do not commit, push, create pull requests, or mark documents as approved unless the founder explicitly asks for that action.
 

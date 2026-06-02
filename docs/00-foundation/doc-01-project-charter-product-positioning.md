@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.8.0
+version: 0.9.0
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -74,6 +74,7 @@ The founding-stage MVP baseline includes:
 | Acquirer / MCC | Acquirer is undecided; PayPlus expects to seek an appropriate or special MCC from the acquirer. |
 | Payout model | PayPlus expects to pay from its operating bank account after upstream settlement; Hong Kong payout rails include FPS, cheque, and EPS, with final operating-bank setup to be confirmed. |
 | Multi-card support | Multi-card payment is MVP scope, with support for up to a configurable number of credit cards per payment. The launch cap is to be confirmed and should be editable by configuration. |
+| User payment instruction | MVP scope. A user may pay immediately or save a deferred payment instruction for single-card or split-card payment, subject to DOC-09 validity, reminder, quote revalidation, funding-leg, and payout rules. This is not recurring payment. |
 | Settlement timing | Payment gateway settlement is expected to be T+1 to T+3; payout is expected to occur on the same day after funds are settled by the upstream counterparty. |
 | KYC/KYB baseline | Individual eKYC is expected through a service provider such as Jumio, with name verification, SMS phone verification, email capture, and ID copy submission. Business KYB is expected to require a Business Registration document and owner ID. |
 | Notification channels | Candidate channels include app notifications, push notifications, email, SMS, and WhatsApp. |
@@ -172,6 +173,7 @@ PayPlus supports the following core use cases, subject to approval and downstrea
 | Bill and evidence verification | PayPlus validates bill category, payee, amount, evidence, and eligibility before payout. |
 | Card-funded payment | Payer funds the approved request using a supported card funding source. |
 | Multi-card payment | Payer may split one approved bill across up to a configurable number of credit cards. The exact card count limit remains to be confirmed. |
+| User payment instruction | Payer may choose immediate payment or save a deferred payment instruction within DOC-09 limits. Deferred instructions must return the user to checkout for funding submission and revalidation where required. |
 | Payout and settlement | PayPlus receives upstream settlement, applies approved fees or margins where applicable, reconciles the transaction, and pays the approved amount or balance to the approved payee through a supported method. |
 | Request delivery | Requests or invitations may be delivered through in-app message, app link, WhatsApp deeplink, QR code, or other approved channel. |
 | Refund, cancellation, rejection, query, and dispute handling | PayPlus supports controlled lifecycle actions before or after payment, depending on request state. |
@@ -663,6 +665,7 @@ Metric definitions should be finalized in `DOC-18 Data Model, Transaction State 
 | `DOC-19` | Define security, tokenization, authentication, encryption, access control, and payer/payee RBAC requirements. |
 | `DOC-20` | Define test coverage, UAT, launch checklist, and release readiness. |
 | `DOC-21` | Define monitoring, support, payee onboarding operations, incident response, and operational runbook. |
+| `DOC-22` | Define admin dashboard permissions, review queues, configuration, overrides, uploads, and operations workflows. |
 
 ---
 
@@ -735,3 +738,4 @@ This document should remain a concise foundation product overview and should not
 | `0.6.0` | `2026-05-30` | Product Documentation Team | Incorporated professional review feedback by broadening payer-created scope, adding payer-authorized push payment positioning, adding request delivery methods, updating MVP categories, and clarifying settlement, fee, and payout wording. |
 | `0.7.0` | `2026-06-02` | Product Documentation Team | Clarified that bill and fee payments are MVP scope alongside rent/tenancy, aligned with DOC-14 risk-control baseline. |
 | `0.8.0` | `2026-06-02` | Product Documentation Team | Aligned privacy wording with DOC-15 approved-purpose visibility, masking, and role-based access controls. |
+| `0.9.0` | `2026-06-02` | Product Documentation Team | Added DOC-09 user payment instruction as MVP scope and added DOC-22 admin dashboard downstream ownership. |

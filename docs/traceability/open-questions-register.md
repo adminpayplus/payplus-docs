@@ -1,1 +1,28 @@
 
+# Open Questions Register
+
+This register summarizes cross-document open-question groups. Document-specific open questions remain in the owning `DOC-XX` files and should be linked here when they become launch blockers, architecture blockers, legal blockers, or implementation blockers.
+
+Status values: `Open`, `In Review`, `Decided`, `Deferred`, `Superseded`.
+
+## Cross-Document Open Questions
+
+| ID | Topic | Summary | Primary Owner | Source Docs | Status |
+| --- | --- | --- | --- | --- | --- |
+| OQ-XDOC-001 | Hong Kong launch requirements | Confirm final legal, regulatory, privacy, tax, accounting, partner, and operational requirements for the first market. | Legal / Compliance / Finance | DOC-01, DOC-03, DOC-04, DOC-15 | Open |
+| OQ-XDOC-002 | PSP/acquirer and transaction classification | Confirm PSP/acquirer, MCC or special classification, card network treatment, and whether PayPlus transactions are accepted as bill payment or ordinary online card purchase. | Payments / Legal / Compliance | DOC-01, DOC-03, DOC-04, DOC-09 | Open |
+| OQ-XDOC-003 | Payout rails and settlement operations | Confirm operating bank setup, FPS, cheque, EPS applicability, payout files/API, settlement timing, cutoff rules, holiday handling, and exception process. | Payments / Finance / Operations | DOC-01, DOC-03, DOC-04, DOC-10, DOC-17, DOC-22 | Open |
+| OQ-XDOC-004 | MVP category launch gates | Confirm which MVP categories are enabled at initial launch and the evidence, limit, review, payout, and privacy gates for each category. | Product / Compliance / Risk | DOC-01, DOC-04, DOC-05, DOC-12, DOC-14 | Open |
+| OQ-XDOC-005 | KYC/KYB and screening depth | Confirm final provider, check depth, sanctions screening, risk-tier exceptions, payee capability rules, and change-review rules. | Compliance / Risk / Operations | DOC-03, DOC-04, DOC-12, DOC-14, DOC-15, DOC-19 | Open |
+| OQ-XDOC-006 | Fee and promotion treatment | Confirm fee rates, payer/payee allocation, subsidies, coupons, vouchers, promo codes, campaign budgets, reversals, and refund fee treatment. | Commercial / Finance / Product | DOC-02, DOC-05, DOC-09, DOC-11, DOC-13 | Open |
+| OQ-XDOC-007 | User payment instruction details | Confirm validity windows, reminder schedule, expiry, quote reservation, quote revalidation, changed-term confirmation, partial funding, and partial payout operations. | Product / Payments / Operations | DOC-05, DOC-06, DOC-07, DOC-08, DOC-09, DOC-10, DOC-11, DOC-13, DOC-14, DOC-18, DOC-22 | Open |
+| OQ-XDOC-008 | Refund, dispute, cancellation, reversal, chargeback policy | Define operating policy details, reason-code handling, evidence packages, liability, payout hold/recovery, and user-facing wording. | Operations / Payments / Legal | DOC-07, DOC-08, DOC-10, DOC-11, DOC-14, DOC-21, DOC-22 | Open |
+| OQ-XDOC-009 | Privacy and data classification implementation | Confirm field-level data classification, masking, approved-purpose access, retention/deletion exceptions, analytics use, partner sharing, and admin visibility. | Privacy / Security / Engineering | DOC-06, DOC-12, DOC-13, DOC-14, DOC-15, DOC-18, DOC-19, DOC-22 | Open |
+| OQ-XDOC-010 | Technical specification readiness | Draft DOC-16 to DOC-22 and align architecture, integrations, data model, security, testing, monitoring, and admin operations with human source docs. | Engineering / Product / Operations | DOC-16, DOC-17, DOC-18, DOC-19, DOC-20, DOC-21, DOC-22 | Open |
+
+## Maintenance Rules
+
+- Keep detailed questions in the owning document.
+- Add a cross-document entry here when a question affects more than one document or blocks launch/architecture.
+- Close or supersede entries only when the owning source documents have been updated.
+- Do not use old chat history or AI context files as final decision evidence unless the decision is reflected in formal docs.

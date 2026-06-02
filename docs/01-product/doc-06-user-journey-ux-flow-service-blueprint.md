@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.9.0
+version: 0.10.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -1338,7 +1338,7 @@ The MVP should include payer-facing screens for:
 - split-card funding leg progress;
 - payment passcode confirmation;
 - promotion/coupon/voucher selection where enabled;
-- coupon/voucher wallet where enabled;
+- coupon/voucher library where enabled;
 - referral or reward status where enabled;
 - membership/tier status where enabled;
 - payment processing status;
@@ -1419,7 +1419,7 @@ The MVP should include system-level handling for:
 - evidence verification outcome routing;
 - duplicate detection support;
 - promotion quote and reward entitlement support where enabled;
-- coupon/voucher wallet and external reward fulfilment support where enabled;
+- coupon/voucher library and external reward fulfilment support where enabled;
 - notification events;
 - payment partner status updates;
 - payout or settlement updates where applicable;
@@ -1573,7 +1573,8 @@ The DOC-06 user journey scope is satisfied when:
 | v0.3 | 2026-05-30 | Aligned user journeys with updated DOC-01 scope for invoices, fees, rent, domestic service obligations, and evidence-backed positioning. |
 | v0.4 | 2026-05-30 | Added explicit payee-created request delivery method selection for in-app message, app link, WhatsApp deeplink, QR code, or other approved channel. |
 | v0.5 | 2026-05-30 | Aligned UX flows with DOC-12 by adding OCR/autofill review, user correction, evidence verification outcomes, duplicate/reused evidence warning, sensitive field display boundaries, and explicit downstream document references. |
-| v0.6 | 2026-06-01 | Aligned UX scope with DOC-13 by adding promotion quote, coupon/voucher wallet, reward entitlement, referral/MGM, membership, and promotion admin touchpoints where enabled. |
+| v0.6 | 2026-06-01 | Aligned UX scope with DOC-13 by adding promotion quote, coupon/voucher library, reward entitlement, referral/MGM, membership, and promotion admin touchpoints where enabled. |
 | v0.7 | 2026-06-02 | Aligned UX scope with DOC-15 by adding SMS OTP registration, new-device 2FA, dormant-login reauthentication, payment passcode, material-change confirmation, and sensitive-field display controls. |
 | v0.8 | 2026-06-02 | Aligned UX scope with DOC-09 user payment instruction by adding deferred payment action, reminder destinations, split-card funding-leg progress, partial funding, and partial payout visibility. |
 | v0.9 | 2026-06-02 | Added return-to-checkout quote revalidation for deferred payment instructions, including payment quote, promotion quote, card eligibility, fee, and timing changes before submission. |
+| v0.10 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion. |

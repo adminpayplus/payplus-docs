@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.9.0
+version: 0.10.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -483,7 +483,7 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 - view partial funding, remaining amount, and partial payout status where applicable;
 - review eligible discounts, coupon/voucher selection, reward status, or promotion quote where promotions are enabled;
 - view payment status;
-- view coupon/voucher wallet where enabled;
+- view coupon/voucher library where enabled;
 - view receipts/history.
 
 ### Payee
@@ -674,7 +674,8 @@ The MVP is acceptable when:
 | v0.3 | 2026-05-29 | Confirmed payee-created requests and tenancy/rent as MVP scope, added MVP gating and configuration rules, clarified that detailed data and UX design belong in downstream docs, and updated open questions. |
 | v0.4 | 2026-05-30 | Aligned product requirements with updated DOC-01 scope for invoices, fees, rent, domestic service obligations, request delivery methods, and evidence-backed positioning. |
 | v0.5 | 2026-05-30 | Aligned master PRD with DOC-12 by adding OCR/autofill, user correction, evidence verification outcomes, duplicate/reused evidence routing, sensitive field display controls, and explicit downstream document references. |
-| v0.6 | 2026-06-01 | Aligned master PRD with DOC-13 by adding promotion quote, entitlement, coupon/voucher wallet, reward instrument, campaign data, and admin promotion-control references. |
+| v0.6 | 2026-06-01 | Aligned master PRD with DOC-13 by adding promotion quote, entitlement, coupon/voucher library, reward instrument, campaign data, and admin promotion-control references. |
 | v0.7 | 2026-06-02 | Aligned master PRD with DOC-15 by adding privacy data classes, field-level classification metadata, authentication UX requirements, material-change confirmation, payment passcode, and admin sensitive-data access controls. |
 | v0.8 | 2026-06-02 | Added DOC-09 user payment instruction as MVP scope for deferred single-card and split-card payment, payment-instruction reminders, partial funding, and partial payout visibility. |
 | v0.9 | 2026-06-02 | Aligned PRD with DOC-09 and DOC-13 deferred payment instruction quote revalidation, promotion reservation, and return-to-checkout update review. |
+| v0.10 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion. |

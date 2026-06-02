@@ -1,7 +1,7 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 0.8.0
+version: 0.9.0
 status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
@@ -805,6 +805,7 @@ This document provides a framework only and does not establish accounting or tax
 | `CON-DOC02-012` | Payee-side fees must be disclosed, contractually supported, and reportable before implementation. | Requires pricing, billing, ledger, tax, and communication readiness. | Commercial / Legal / Finance |
 | `CON-DOC02-013` | Payer must not be charged for a payee-created request before explicit payer authorization. | Prevents revenue capture before authorization. | Product / Payments / Legal |
 | `CON-DOC02-014` | Payee-created rent or invoice requests may require higher fees, limits, or deferral if review, fraud, or support costs are too high. | May constrain category rollout or payee-side pricing. | Commercial / Risk / Product |
+| `CON-DOC02-015` | Deferred user payment instructions may change funding timing, promotion quote validity, partial funding, support workload, and payout timing. | Requires quote revalidation, reminder tracking, partial funding reporting, and exception monitoring. | Commercial / Product / Finance |
 
 ---
 
@@ -830,6 +831,7 @@ This document provides a framework only and does not establish accounting or tax
 | `DEP-DOC02-016` | Landlord/rent verification standard. | Rent request economics and landlord onboarding cost model. | Product / Risk / Operations | Open |
 | `DEP-DOC02-017` | Invoice verification standard. | Invoice request economics and business payee cost model. | Product / Risk / Operations | Open |
 | `DEP-DOC02-018` | Payee support operating model. | Payee support cost allocation and payee profitability reporting. | Operations / Commercial | Open |
+| `DEP-DOC02-019` | Payment instruction reporting model. | Deferred funding, reminder, quote revalidation, partial funding, and partial payout economics. | Finance / Product / Engineering | Open |
 
 ---
 
@@ -857,6 +859,7 @@ This document provides a framework only and does not establish accounting or tax
 | `RISK-DOC02-018` | Payer-facing and payee-facing fee allocation is confusing. | Complaints, disputes, regulatory risk, and lower conversion. | Require clear disclosures and pricing QA before launch. | Product / Legal | Open |
 | `RISK-DOC02-019` | Payee payout timing expectations create commercial or liquidity pressure. | Support burden, trust loss, or unsafe early payout. | Align payout communications with settlement and risk model. | Finance / Operations | Open |
 | `RISK-DOC02-020` | Payee-created request spam creates notification, support, and review costs without revenue. | Negative request-level economics and user dissatisfaction. | Apply request limits, payee controls, abuse monitoring, and commercial gating. | Commercial / Risk | Open |
+| `RISK-DOC02-021` | Deferred payment instructions or incomplete split-card funding create quote expiry, promotion budget, support, and partial payout complexity. | Revenue leakage, user confusion, reconciliation breaks, or negative margin. | Revalidate quotes, track funding legs, monitor partial funding, and define exception handling in DOC-09, DOC-10, DOC-13, DOC-18, DOC-21, and DOC-22. | Finance / Product / Operations | Open |
 
 ---
 
@@ -879,6 +882,7 @@ This document provides a framework only and does not establish accounting or tax
 | `DOC-18` | Define ledger fields, request creator type, payee type, payer response status, payee-side fees, metric definitions, revenue, cost, margin, campaign, request-origin, and partner reporting. |
 | `DOC-20` | Include commercial readiness, pricing, payee-side fee, request-origin, and payee-created request economics test cases in launch checklist. |
 | `DOC-21` | Include monitoring for margin-impacting exceptions, onboarding costs, request spam, payout failures, refunds, chargebacks, payer disputes, and payee support burden. |
+| `DOC-22` | Include admin reporting, configuration, review queues, overrides, and operational evidence for pricing, payout, refunds, promotions, payment instructions, and financial exceptions. |
 
 ---
 
@@ -913,6 +917,7 @@ This document provides a framework only and does not establish accounting or tax
 | `OQ-DOC02-025` | What request, notification, or review limits are required to prevent payee-created request spam from creating negative economics? | Commercial / Risk / Operations | High | Open |
 | `OQ-DOC02-026` | What margin threshold must payee-created request flows meet before scale-up? | Finance / Commercial | High | Open |
 | `OQ-DOC02-027` | What payee-level reporting is required for payout, fees, request volume, disputes, refunds, and tax/accounting purposes? | Finance / Product / Engineering | Medium | Open |
+| `OQ-DOC02-028` | What reporting and margin treatment should apply to deferred payment instructions, expired instructions, partial funding, and partial payout events? | Finance / Product / Engineering | Medium | Open |
 
 ---
 
@@ -962,3 +967,4 @@ This document should remain a commercial framework and should not become a final
 | `0.6.0` | 2026-05-30 | Product Documentation Team | Aligned category examples with updated DOC-01 positioning for rent, invoices, medical bills, and domestic service obligations. |
 | `0.7.0` | 2026-06-01 | Product Documentation Team | Aligned promotion economics with DOC-13 by adding qualification, entitlement, promotion quote, miles, external voucher, and partner fulfilment cost concepts while de-emphasizing payee-funded discounts as exceptional. |
 | `0.8.0` | 2026-06-02 | Product Documentation Team | Clarified MVP commercial baseline for bill, fee, rent/tenancy, invoice, and approved-obligation categories in line with DOC-14 risk-control scope. |
+| `0.9.0` | 2026-06-02 | Product Documentation Team | Added commercial impact references for DOC-09 deferred payment instruction, partial funding, quote revalidation, partial payout, and DOC-22 admin operations reporting. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.11.0
+version: 0.12.0
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -46,6 +46,7 @@ related_documents:
   - DOC-19 Security, Tokenization & Authentication
   - DOC-20 Testing, UAT, Release & Go-Live Checklist
   - DOC-21 Monitoring, Incident Response & Operations Runbook
+  - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
 # DOC-04 — Compliance Control Framework
@@ -71,6 +72,8 @@ This document applies to:
 - payee-created payment requests;
 - payee onboarding;
 - bill, invoice, fee, and rent payment flows;
+- domestic helper, driver, and personal service payment flows where evidence-backed and enabled;
+- user payment instructions and deferred funding actions;
 - payment authorization;
 - payout controls;
 - refund, dispute, chargeback, and reconciliation processes.
@@ -95,7 +98,7 @@ PayPlus controls must support the following objectives.
 
 | Objective ID | Objective |
 | --- | --- |
-| `OBJ-DOC04-001` | Payments must be tied to an approved bill, invoice, fee, rent, or other approved obligation. |
+| `OBJ-DOC04-001` | Payments must be tied to an approved bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved obligation. |
 | `OBJ-DOC04-002` | Payment requests must be supported by uploaded, linked, or captured evidence. |
 | `OBJ-DOC04-003` | Payers must review and authorize payment before funding, capture, or payout. |
 | `OBJ-DOC04-004` | Payee-created requests must not automatically trigger payment. |
@@ -122,7 +125,7 @@ PayPlus controls are grouped into the following categories.
 | `CAT-DOC04-003` | Payment authorization controls | Product / Payments / Engineering | DOC-07, DOC-09 |
 | `CAT-DOC04-004` | Payee verification controls | Compliance / Risk / Operations | DOC-12, DOC-14 |
 | `CAT-DOC04-005` | Transaction monitoring controls | Risk / Compliance | DOC-14, DOC-21 |
-| `CAT-DOC04-006` | Admin review controls | Operations / Risk / Compliance | DOC-14, DOC-21 |
+| `CAT-DOC04-006` | Admin review controls | Operations / Risk / Compliance | DOC-14, DOC-21, DOC-22 |
 | `CAT-DOC04-007` | Audit and recordkeeping controls | Compliance / Finance / Engineering | DOC-15, DOC-18 |
 | `CAT-DOC04-008` | Prohibited activity controls | Compliance / Risk / Product | DOC-03, DOC-14 |
 | `CAT-DOC04-009` | Payout controls | Payments / Finance / Risk | DOC-10, DOC-18 |
@@ -152,7 +155,7 @@ Examples:
 - `T1 if rent enabled`
 - `T1 if multi-source enabled`
 
-Payee-created requests and bill, fee, and rent/tenancy payments are MVP scope. Invoice and other approved-obligation categories are MVP where evidence, payee, payment, payout, and risk controls are enabled. Conditional wording means the relevant module, category, payee type, or payment path must be independently configurable and may remain disabled until required controls are ready.
+Payee-created requests, bill payments, fee payments, rent/tenancy payments, domestic helper payments, driver payments, and personal service payments are MVP scope where supported by acceptable evidence and enabled controls. Invoice and other approved-obligation categories are MVP where evidence, payee, payment, payout, and risk controls are enabled. Conditional wording means the relevant module, category, payee type, or payment path must be independently configurable and may remain disabled until required controls are ready.
 
 ---
 
@@ -175,7 +178,7 @@ Payee-created requests and bill, fee, and rent/tenancy payments are MVP scope. I
 
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
-| `CTRL-DOC04-EVD-001` | `T0` | Require each payment request to reference an approved obligation type, such as bill, invoice, fee, rent, or other approved category. | Product / Compliance | Request record |
+| `CTRL-DOC04-EVD-001` | `T0` | Require each payment request to reference an approved obligation type, such as bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved category. | Product / Compliance | Request record |
 | `CTRL-DOC04-EVD-002` | `T0` | Require uploaded, linked, captured, or system-generated evidence for each payment request unless the category has an approved exception. | Product / Compliance | Evidence record |
 | `CTRL-DOC04-EVD-003` | `T1` | Store evidence with request ID, payer ID, payee ID where applicable, category, timestamp, source, and review status. | Engineering / Compliance | Evidence metadata |
 | `CTRL-DOC04-EVD-004` | `T1` | Prevent request submission if required evidence fields are missing. | Product / Engineering | Validation logs |
@@ -184,6 +187,7 @@ Payee-created requests and bill, fee, and rent/tenancy payments are MVP scope. I
 | `CTRL-DOC04-EVD-007` | `T1` | Require payee-created requests to include evidence equal to or stronger than payer-created request evidence for the same category. | Product / Compliance / Risk | Evidence requirements matrix |
 | `CTRL-DOC04-EVD-008` | `T1` | Require rent evidence, such as lease, rent schedule, property reference, tenancy confirmation, or approved equivalent. | Product / Compliance / Risk | Rent evidence record |
 | `CTRL-DOC04-EVD-009` | `T1 if invoice enabled` | Require invoice evidence, business-payee details, service description, amount, due date, and payee identity information. | Product / Compliance / Risk | Invoice evidence record |
+| `CTRL-DOC04-EVD-010` | `T1 if domestic helper, driver, or personal service enabled` | Require acceptable employment, service, invoice, salary, contract, or obligation evidence before payment and payout. | Product / Compliance / Risk | Service-obligation evidence record |
 
 ---
 
@@ -200,6 +204,8 @@ Payee-created requests and bill, fee, and rent/tenancy payments are MVP scope. I
 | `CTRL-DOC04-AUTH-007` | `T1` | Payee-created requests must remain in pending, viewed, queried, disputed, rejected, expired, cancelled, withdrawn, or accepted state until payer authorization occurs. | Product / Engineering | Request state history |
 | `CTRL-DOC04-AUTH-008` | `T0` | Payee-created request acceptance and payment authorization must be distinct, recorded events unless legally and product-approved as a single combined action. | Product / Legal / Engineering | Event logs |
 | `CTRL-DOC04-AUTH-009` | `T1` | Payee cannot change amount, destination, due date, evidence, or material terms after payer authorization unless payer re-authorizes. | Product / Engineering | Change lock logs |
+| `CTRL-DOC04-AUTH-010` | `T1 if payment instruction enabled` | A deferred user payment instruction must not be treated as card authorization, capture, settlement, payout readiness, or completed payment until the relevant funding leg is submitted and confirmed. | Product / Payments / Engineering | Payment instruction and funding-leg logs |
+| `CTRL-DOC04-AUTH-011` | `T1 if payment instruction enabled` | Returning to a deferred payment instruction must revalidate material payment terms, including amount, fee, promotion quote, card eligibility, timing, and required disclosures before funding submission. | Product / Payments / Growth / Engineering | Quote revalidation and user confirmation logs |
 
 ---
 
@@ -405,6 +411,8 @@ Required launch tests include:
 - missing evidence blocking;
 - duplicate bill, invoice, or rent detection where applicable;
 - payer authorization before funding, capture, or payout;
+- deferred user payment instruction is not treated as authorization, capture, settlement, payout readiness, or completed payment before funding submission;
+- returning to a deferred payment instruction revalidates payment quote, promotion quote, card eligibility, fee, timing, and required disclosures;
 - material term lock after authorization;
 - payee verification before payout;
 - payee capability gating before payee-created requests;
@@ -496,6 +504,7 @@ After launch, PayPlus must monitor the following.
 | Area | Required Monitoring |
 | --- | --- |
 | Payments | Authorization rate, capture failures, payment failures, processor errors. |
+| Payment instructions | Pending instructions, expired instructions, incomplete split-card funding, reminder effectiveness, quote revalidation changes, and partial funding/payout exceptions. |
 | Payouts | Payout success rate, payout failures, delayed payouts, returned payouts. |
 | Payee onboarding | Applications, approvals, rejections, pending reviews, verification failures, payout destination failures. |
 | Payee-created requests | Sent, viewed, accepted, rejected, queried, disputed, expired, withdrawn, and paid requests. |
@@ -613,7 +622,7 @@ Exception log fields:
 | Question ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
 | `OQ-DOC04-001` | What Hong Kong-specific launch requirements must be satisfied? | Project Owner / Legal | Critical | Open |
-| `OQ-DOC04-002` | What exact bill categories are in MVP? | Product / Compliance | Critical | Open |
+| `OQ-DOC04-002` | Which confirmed MVP categories are enabled at initial launch, and what gates, limits, evidence standards, and review controls apply by category? | Product / Compliance / Risk | Critical | Open |
 | `OQ-DOC04-003` | What is the final MVP funds flow? | Product / Payments / Legal | Critical | Open |
 | `OQ-DOC04-004` | What is PayPlus’s legal and partner role? | Legal / Compliance | Critical | Open |
 | `OQ-DOC04-005` | What licensing, exemption, or partner coverage applies? | Legal / Compliance | Critical | Open |
@@ -713,5 +722,6 @@ It should not become:
 | `0.9.0` | `2026-06-01` | Product Documentation Team | Updated DOC-13 related-document title for promotion engine, coupon, voucher, referral, membership, and reward alignment. |
 | `0.10.0` | `2026-06-02` | Product Documentation Team | Clarified that bill, fee, and rent/tenancy payments are MVP scope and that category-specific controls remain independently gated, aligned with DOC-14. |
 | `0.11.0` | `2026-06-02` | Product Documentation Team | Added DOC-15 data classification register control covering approved-purpose use, masking, retention, and access-control mapping for material data objects and fields. |
+| `0.12.0` | `2026-06-02` | Product Documentation Team | Aligned control framework with confirmed evidence-backed domestic helper, driver, and personal service MVP categories, DOC-09 user payment instruction controls, DOC-22 admin operations references, and updated category-gating open question wording. |
 ```
 ```

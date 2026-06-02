@@ -1,7 +1,7 @@
 ---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.3.0
+version: 0.4.0
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -279,7 +279,7 @@ For contracts, service agreements, domestic helper/driver evidence, personal ser
 | Payment destination details | Payee verification and payout support where applicable. |
 | Supporting identity/contact fields where shown | Review-only validation where required. |
 
-Domestic helper, driver, and personal service payment categories require legal, compliance, privacy, and risk review before production enablement.
+Domestic helper, driver, and personal service payment categories are MVP scope where supported by acceptable evidence and enabled controls. Exact evidence standards, review thresholds, privacy visibility, and category configuration remain subject to legal, compliance, risk, product, and operations confirmation.
 
 ---
 
@@ -497,7 +497,7 @@ DOC-06 should remain a user journey and UX scope document. It should not copy al
 | OQ-12-006 | What sensitive tenancy fields may be extracted, stored, masked, displayed, or deleted? | Privacy / Legal / Compliance | High | Open |
 | OQ-12-007 | What user warning wording is allowed for duplicate/reused evidence without disclosing another user's information? | Legal / Product / Risk | Medium | Open |
 | OQ-12-008 | Can evidence-derived data be used for model improvement, analytics, and risk training? | Privacy / Legal / Data | High | Open |
-| OQ-12-009 | What evidence is sufficient for domestic helper, driver, and personal service obligations? | Legal / Compliance / Risk | Medium | Open |
+| OQ-12-009 | What exact evidence standards, field requirements, and review thresholds apply to domestic helper, driver, and personal service obligations? | Legal / Compliance / Risk / Product | Medium | Open |
 | OQ-12-010 | What admin override permissions and reason codes are required for evidence approval? | Operations / Risk / Product | Medium | Open |
 
 ---
@@ -542,4 +542,5 @@ It should not become:
 | --- | --- | --- | --- |
 | `0.2.0` | `2026-06-02` | Product Documentation Team | Clarified that DOC-14 owns risk meaning and routing framework while final thresholds, algorithms, configuration, and schemas remain with DOC-18 and DOC-22. |
 | `0.3.0` | `2026-06-02` | Product Documentation Team | Aligned evidence data layers with DOC-15 by adding field-level classification metadata, displayability, masking, retention, approved-purpose, and lineage requirements for DOC-18. |
+| `0.4.0` | `2026-06-02` | Product Documentation Team | Aligned domestic helper, driver, and personal service categories with confirmed evidence-backed MVP scope while keeping exact evidence standards and review thresholds open. |
 | `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for bill category verification, document AI/OCR extraction, autofill, evidence data layers, duplicate detection, payee verification linkage, red-flag routing, and DOC-06 alignment impact. |
