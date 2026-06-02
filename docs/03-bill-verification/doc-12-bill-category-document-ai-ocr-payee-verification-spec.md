@@ -1,7 +1,7 @@
 ---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.2.0
+version: 0.3.0
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -185,6 +185,8 @@ DOC-12 owns the document-derived evidence data layers:
 | Analytics Layer | Aggregated or permitted data used for product quality, OCR performance, risk analytics, and category insights. |
 
 Other PayPlus data layers, such as payment behavior, spending patterns, user relationships, referral/member-get-member activity, refunds, chargebacks, support behavior, and payout history, belong in DOC-18 and later analytics specifications.
+
+Each evidence layer and material field should carry DOC-15 classification metadata in DOC-18, including data class, sensitivity, displayability, masking rule, retention policy, owner, approved purpose, access role, audit requirement, source, and lineage. Evidence-derived data is normally Evidence and Obligation Data, but some extracted fields may also support KYC/KYB, payout/payee, risk/compliance, payment, analytics, or derived-data classifications depending on use.
 
 ---
 
@@ -539,4 +541,5 @@ It should not become:
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
 | `0.2.0` | `2026-06-02` | Product Documentation Team | Clarified that DOC-14 owns risk meaning and routing framework while final thresholds, algorithms, configuration, and schemas remain with DOC-18 and DOC-22. |
+| `0.3.0` | `2026-06-02` | Product Documentation Team | Aligned evidence data layers with DOC-15 by adding field-level classification metadata, displayability, masking, retention, approved-purpose, and lineage requirements for DOC-18. |
 | `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for bill category verification, document AI/OCR extraction, autofill, evidence data layers, duplicate detection, payee verification linkage, red-flag routing, and DOC-06 alignment impact. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.10.0
+version: 0.11.0
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -332,6 +332,7 @@ PayPlus must prevent or restrict activity that could undermine the product's evi
 | `CTRL-DOC04-SEC-008` | `T1 if payee-created enabled` | Enforce payer/payee visibility boundaries so payees cannot see sensitive payer funding, card, risk, or private profile information. | Privacy / Security / Engineering | Visibility test evidence |
 | `CTRL-DOC04-SEC-009` | `T1 if payee-created enabled` | Limit payer access to payee evidence based on approved disclosure and privacy rules. | Privacy / Product / Legal | Visibility rules |
 | `CTRL-DOC04-SEC-010` | `T1` | Maintain incident severity levels, escalation contacts, and incident response procedure. | Security / Operations | Incident runbook |
+| `CTRL-DOC04-SEC-011` | `T1` | Maintain DOC-15 data classification, approved-purpose, masking, retention, and access-control mapping for material objects and fields. | Privacy / Security / Engineering / Data | Data classification register |
 
 ---
 
@@ -711,5 +712,6 @@ It should not become:
 | `0.8.0` | `2026-05-30` | Product Documentation Team | Aligned prohibited activity controls with updated DOC-01 evidence-backed approved-obligation positioning. |
 | `0.9.0` | `2026-06-01` | Product Documentation Team | Updated DOC-13 related-document title for promotion engine, coupon, voucher, referral, membership, and reward alignment. |
 | `0.10.0` | `2026-06-02` | Product Documentation Team | Clarified that bill, fee, and rent/tenancy payments are MVP scope and that category-specific controls remain independently gated, aligned with DOC-14. |
+| `0.11.0` | `2026-06-02` | Product Documentation Team | Added DOC-15 data classification register control covering approved-purpose use, masking, retention, and access-control mapping for material data objects and fields. |
 ```
 ```

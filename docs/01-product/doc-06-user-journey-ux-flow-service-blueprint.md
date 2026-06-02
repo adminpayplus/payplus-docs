@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.6.0
+version: 0.7.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -201,7 +201,10 @@ Allows a payer to access PayPlus, create payments, review requests, authorize pa
 A payer must be able to:
 
 - register;
+- verify phone by SMS OTP during registration;
 - log in;
+- complete new-device 2FA and dormant-login reauthentication where required;
+- confirm material account, credential, payment profile, or contact changes using password, payment passcode, 2FA, or approved confirmation;
 - access a payer dashboard;
 - create a payer-initiated payment;
 - create or link a bill, invoice, tenancy, agreement, statement, or obligation record;
@@ -215,6 +218,7 @@ A payer must be able to:
 - dispute a request;
 - request clarification;
 - authorize payment;
+- enter payment passcode before proceeding with payment authorization;
 - view payment processing status;
 - view failed payment status;
 - view completed payment status;
@@ -244,7 +248,10 @@ Allows a payee to access PayPlus, create requests, upload evidence, send request
 A payee must be able to:
 
 - register;
+- verify phone by SMS OTP during registration;
 - log in;
+- complete new-device 2FA and dormant-login reauthentication where required;
+- confirm material account, credential, payout destination, or contact changes using password, payment passcode, 2FA, or approved confirmation;
 - access a payee dashboard;
 - create a payment request;
 - create or link a bill, invoice, tenancy, agreement, statement, or obligation record;
@@ -828,10 +835,12 @@ Before authorization, the payer should be shown:
 4. System displays fee, promotion quote, discount, coupon/voucher impact, reward impact, and total charge where applicable.
 5. Payer selects or confirms payment method.
 6. Payer accepts required terms or disclosures where applicable.
-7. Payer confirms authorization.
-8. System records authorization timestamp and authorization event.
-9. Request status changes to **Payment Authorized**.
-10. Payment processing begins through approved payment partner or sandbox integration.
+7. Payer enters payment passcode.
+8. System applies any required step-up authentication, such as new-device, risk, amount, or partner challenge.
+9. Payer confirms authorization.
+10. System records authorization timestamp and authorization event.
+11. Request status changes to **Payment Authorized**.
+12. Payment processing begins through approved payment partner or sandbox integration.
 
 ### 14.4 Authorization Rules
 
@@ -842,6 +851,8 @@ Before authorization, the payer should be shown:
 | Evidence visibility | Payer must be able to review evidence before payment. |
 | Fee visibility | Fees charged to payer must be displayed before authorization. |
 | Promotion visibility | Eligible discounts, service-fee benefits, coupons, vouchers, and reward impact must be displayed before authorization where applicable. |
+| Payment passcode | Payment passcode is required before payment authorization proceeds. |
+| Step-up authentication | Additional authentication may be required by DOC-09, DOC-14, DOC-15, or DOC-19 risk/security rules. |
 | Audit logging | Authorization must be logged. |
 | No hidden material terms | Material payment information must not be hidden from payer. |
 
@@ -1028,6 +1039,7 @@ Admins must be able to:
 
 - log in;
 - access an operational dashboard;
+- access sensitive data only through role-based permission, masking, reason capture, and audit logging;
 - view payer accounts;
 - view payee accounts;
 - view payment requests;
@@ -1082,6 +1094,7 @@ Admins must be able to:
 | Rule | Requirement |
 | --- | --- |
 | Permissioned access | Admin access must be role-based and controlled. |
+| Sensitive data access | Sensitive identity, evidence, payment, payout, risk, and promotion data must follow DOC-15 classification, masking, reason capture, and audit rules. |
 | Logged actions | Admin actions must be audit logged. |
 | Evidence access | Admin must be able to review evidence. |
 | OCR review support | Admin must be able to review extracted fields, user corrections, verification outcomes, and duplicate indicators where applicable. |
@@ -1290,6 +1303,8 @@ The MVP should include payer-facing screens for:
 
 - registration;
 - login;
+- SMS OTP phone verification;
+- new-device 2FA and dormant-login reauthentication;
 - payer dashboard;
 - create payment;
 - create or link bill/invoice/tenancy/obligation;
@@ -1302,6 +1317,7 @@ The MVP should include payer-facing screens for:
 - evidence review;
 - accept/reject/dispute/request clarification;
 - payment authorization;
+- payment passcode confirmation;
 - promotion/coupon/voucher selection where enabled;
 - coupon/voucher wallet where enabled;
 - referral or reward status where enabled;
@@ -1312,6 +1328,7 @@ The MVP should include payer-facing screens for:
 - receipt/history;
 - notifications;
 - account/profile basics.
+- material account-change confirmation and security notifications.
 
 ### 24.2 Payee UX Screens
 
@@ -1319,6 +1336,8 @@ The MVP should include payee-facing screens for:
 
 - registration;
 - login;
+- SMS OTP phone verification;
+- new-device 2FA and dormant-login reauthentication;
 - payee dashboard;
 - create payment request;
 - create or link bill/invoice/tenancy/obligation;
@@ -1396,7 +1415,7 @@ The MVP should include system-level handling for:
 | Clarity | Users must understand what they are requesting, paying, accepting, or authorizing. |
 | Evidence visibility | Payer must be able to review evidence before payment authorization. |
 | Evidence correction | Users must be able to review and correct autofilled evidence fields before submission where OCR/autofill is enabled. |
-| Sensitive field minimization | UI must display only fields needed for the user task; broader extractable evidence data belongs behind controlled access. |
+| Sensitive field display control | UI must apply DOC-15 role-based display, masking, approved-purpose access, and controlled detail views; broader extractable data may be stored without broad display. |
 | Status transparency | Users must see clear status for pending, processing, completed, failed, disputed, rejected, cancelled, and expired requests. |
 | Permissioning | Users must only see data appropriate to their role. |
 | Auditability | Key actions must generate audit events. |
@@ -1414,6 +1433,7 @@ The DOC-06 user journey scope is satisfied when:
 
 - payers can register and log in;
 - payees can register and log in;
+- phone verification, new-device 2FA, dormant-login reauthentication, and material-change confirmation touchpoints are represented;
 - payers have a dashboard;
 - payees have a dashboard;
 - payees can create evidence-backed payment requests;
@@ -1432,6 +1452,7 @@ The DOC-06 user journey scope is satisfied when:
 - payer can accept, reject, dispute, or request clarification;
 - payee can respond to clarification or dispute where applicable;
 - payer can explicitly authorize payment;
+- payer must enter payment passcode before payment authorization proceeds;
 - payment status can be tracked;
 - payout or settlement status can be tracked where applicable;
 - payer and payee can view the same linked request/payment context subject to permissions;
@@ -1464,6 +1485,8 @@ The DOC-06 user journey scope is satisfied when:
 | OQ-06-015 | What duplicate detection signals are required for MVP? | Risk / Engineering | Open |
 | OQ-06-016 | What OCR/autofill review UI is required for each evidence category? | Product / Design | Open |
 | OQ-06-017 | What duplicate/reused evidence warning can be shown without over-disclosing sensitive information? | Product / Legal / Privacy | Open |
+| OQ-06-018 | What dormant-login inactivity threshold and user-facing reauthentication path should be used? | Product / Security | Open |
+| OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
 
 ---
 
@@ -1529,3 +1552,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.4 | 2026-05-30 | Added explicit payee-created request delivery method selection for in-app message, app link, WhatsApp deeplink, QR code, or other approved channel. |
 | v0.5 | 2026-05-30 | Aligned UX flows with DOC-12 by adding OCR/autofill review, user correction, evidence verification outcomes, duplicate/reused evidence warning, sensitive field display boundaries, and explicit downstream document references. |
 | v0.6 | 2026-06-01 | Aligned UX scope with DOC-13 by adding promotion quote, coupon/voucher wallet, reward entitlement, referral/MGM, membership, and promotion admin touchpoints where enabled. |
+| v0.7 | 2026-06-02 | Aligned UX scope with DOC-15 by adding SMS OTP registration, new-device 2FA, dormant-login reauthentication, payment passcode, material-change confirmation, and sensitive-field display controls. |

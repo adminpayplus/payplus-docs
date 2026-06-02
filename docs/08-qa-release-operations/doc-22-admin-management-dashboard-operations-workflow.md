@@ -63,7 +63,24 @@ Detailed promotion-engine rules belong in DOC-13. Admin workflows should support
 
 ## 23. Security and Access Control Requirements
 
+Admin access must be role-based and aligned with DOC-15 and DOC-19. Sensitive identity, evidence, payment, payout, risk, promotion, support, and authentication/security data should use masking, controlled reveal, reason capture, and audit logging.
+
+Admin users should not access raw card data, CVV, sensitive authentication data, full token secrets, or unrestricted identity/evidence files unless explicitly approved under the final security and privacy model.
+
 ## 24. Privacy and Data Handling Requirements
+
+Admin screens must respect DOC-15 data classification and DOC-18 field metadata.
+
+Required admin data-handling controls should include:
+
+- field-level visibility by role, queue, and approved purpose;
+- masking and reveal rules for sensitive fields;
+- access reason capture for sensitive data views, exports, downloads, overrides, and corrections;
+- audit logging for access, change, export, review, hold, release, override, and deletion actions;
+- privacy-safe duplicate/reused evidence warnings that do not reveal another user's private data;
+- export controls for reports, bank files, payout batches, evidence packages, dispute files, and promotion/partner reports.
+
+Detailed workflow, screen design, and permission matrix will be drafted in full DOC-22.
 
 ## 25. Monitoring and Incident Response Linkage
 

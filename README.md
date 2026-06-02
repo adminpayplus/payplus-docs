@@ -21,8 +21,8 @@ Human source docs
 - `docs/02-payment-domain/`: payment, payout, reconciliation, refund, cancellation, and chargeback behavior.
 - `docs/03-bill-verification/`: bill category, document AI/OCR, evidence, and payee verification.
 - `docs/04-growth-ecosystem/`: promotion engine, coupons, vouchers, referrals, membership, and partner offers.
-- `docs/05-risk-compliance-privacy/`: AML, anti-cashout, fraud, privacy, and retention.
-- `docs/06-engineering/`: architecture, APIs, data model, transaction states, and audit events.
+- `docs/05-risk-compliance-privacy/`: AML, anti-cashout, fraud, privacy, data classification, masking, approved-purpose access, and retention.
+- `docs/06-engineering/`: architecture, APIs, data model, field metadata, lineage, transaction states, and audit events.
 - `docs/07-security-access-control/`: security, tokenization, authentication, access control, and admin controls.
 - `docs/08-qa-release-operations/`: testing, UAT, go-live, monitoring, incidents, and admin operations.
 - `docs/09-ai-build-execution/`: AI-agent implementation context and prompt materials derived from approved docs.

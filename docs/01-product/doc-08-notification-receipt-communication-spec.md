@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 0.3.0
+version: 0.4.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -270,6 +270,9 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-ACCT-001` | Account registration started | App, email | Important service |
 | `NOTIF-ACCT-002` | Account registration completed | App, email | Important service |
 | `NOTIF-ACCT-003` | Security or account change | App, email, SMS optional | Mandatory service |
+| `NOTIF-ACCT-004` | New-device login or 2FA challenge | App, email, SMS optional | Mandatory service |
+| `NOTIF-ACCT-005` | Dormant-login reauthentication required or completed | App, email optional, SMS optional | Mandatory service |
+| `NOTIF-ACCT-006` | Material account, contact, credential, payment profile, or payout destination change | App, email, SMS optional | Mandatory service |
 | `NOTIF-KYC-001` | KYC/KYB submission started | App | Important service |
 | `NOTIF-KYC-002` | KYC/KYB submission received | App, email optional | Important service |
 | `NOTIF-KYC-003` | KYC/KYB approved | App, email optional | Important service |
@@ -303,7 +306,7 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-EVD-006` | Evidence verification approved | App or disabled external channels | Important service |
 | `NOTIF-EVD-007` | Evidence verification rejected | App, email optional | Important service |
 
-Evidence messages must avoid sensitive extracted data in SMS, WhatsApp, push, and ordinary email. Detailed evidence verification rules belong in DOC-12.
+Evidence messages must avoid sensitive extracted data in SMS, WhatsApp, push, and ordinary email. Duplicate/reused evidence warnings must not disclose another user's private data. Detailed evidence verification rules belong in DOC-12 and privacy handling belongs in DOC-15.
 
 ### 11.4 Promotion and Reward Events
 
@@ -462,6 +465,7 @@ Notifications must avoid unnecessary sensitive data.
 
 | Data Type | Rule |
 | --- | --- |
+| Account/security events | Explain required action or completed change; avoid exposing OTP, device fingerprint, risk score, or internal security details. |
 | Card details | Show masked card summary only. |
 | ID documents | Do not send by SMS, WhatsApp, push, or ordinary email. |
 | Evidence documents | Link to authenticated app view where possible. |
@@ -469,6 +473,7 @@ Notifications must avoid unnecessary sensitive data.
 | Risk decisions | Use neutral user-facing wording. |
 | Admin notes | Do not expose to users unless approved. |
 | Payer/payee personal data | Show only role-appropriate information. |
+| DOC-15 classified data | Channel content must respect data class, sensitivity, consent, masking, and approved-purpose rules. |
 
 ---
 
@@ -593,5 +598,6 @@ DOC-08 is acceptable when:
 | Version | Date | Summary |
 | --- | --- | --- |
 | 0.3.0 | 2026-06-01 | Aligned notification rules with DOC-13 by adding promotion and reward event domain, coupon/voucher, referral, membership, miles, entitlement, external voucher, reversal, and admin exception notifications. |
+| 0.4.0 | 2026-06-02 | Aligned notification rules with DOC-15 by adding new-device, dormant-login, material-change, sensitive account/security messaging, and DOC-15 data-classification channel controls. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

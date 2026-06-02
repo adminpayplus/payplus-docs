@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.7.0
+version: 0.8.0
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -575,7 +575,7 @@ Detailed partner assessment belongs in `DOC-03 Regulatory, PSP & Acquirer Assess
 | `RISK-DOC01-009` | Manual review operations do not scale. | Delays, errors, and user dissatisfaction. | Limit MVP volume and automate high-confidence checks over time. | Operations / Product | Open |
 | `RISK-DOC01-010` | Sensitive bill documents are mishandled. | Privacy, security, and reputation risk. | Apply privacy, security, access, retention, and deletion controls. | Privacy / Security | Open |
 | `RISK-DOC01-011` | Payer misunderstands payee-created request as mandatory, already paid, or automatically charged. | Complaints, disputes, trust loss, and consumer protection risk. | Clear request-origin messaging, explicit payer acceptance, and no auto-charge behavior. | Product / Legal | Open |
-| `RISK-DOC01-012` | Payee sees sensitive payer payment, card, or risk information. | Privacy, security, and trust risk. | Role-based access, data minimization, and payee-safe status messaging. | Privacy / Security | Open |
+| `RISK-DOC01-012` | Payee sees sensitive payer payment, card, or risk information. | Privacy, security, and trust risk. | Role-based access, masking, approved-purpose visibility, and payee-safe status messaging. | Privacy / Security | Open |
 
 ---
 
@@ -734,3 +734,4 @@ This document should remain a concise foundation product overview and should not
 | `0.5.0` | `2026-05-29` | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP scope, added gated MVP requirements, and clarified independent feature/module disablement. |
 | `0.6.0` | `2026-05-30` | Product Documentation Team | Incorporated professional review feedback by broadening payer-created scope, adding payer-authorized push payment positioning, adding request delivery methods, updating MVP categories, and clarifying settlement, fee, and payout wording. |
 | `0.7.0` | `2026-06-02` | Product Documentation Team | Clarified that bill and fee payments are MVP scope alongside rent/tenancy, aligned with DOC-14 risk-control baseline. |
+| `0.8.0` | `2026-06-02` | Product Documentation Team | Aligned privacy wording with DOC-15 approved-purpose visibility, masking, and role-based access controls. |

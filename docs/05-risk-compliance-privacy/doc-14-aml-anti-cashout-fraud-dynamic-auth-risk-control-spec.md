@@ -1,8 +1,7 @@
-
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 0.1.0
+version: 0.2.0
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -221,6 +220,8 @@ Risk decisioning may consume signals from:
 - support, complaint, escalation, and admin review history from DOC-21 and DOC-22.
 
 Detailed event schema and data model belong in DOC-18.
+
+Risk signals, scores, bands, rule triggers, same-party indicators, fraud flags, sanctions/AML results, review outcomes, and escalation notes are Risk and Compliance Data under DOC-15. DOC-18 should preserve classification metadata, sensitivity, displayability, masking, retention, approved purpose, access roles, audit requirements, and lineage to source data.
 
 ---
 
@@ -468,7 +469,7 @@ DOC-14 is acceptable when it clearly defines:
 - payout hold and release controls;
 - refund, chargeback, promotion, referral, and reward abuse boundaries;
 - admin review, override, audit, monitoring, and configuration expectations;
-- clear ownership boundaries with DOC-09, DOC-10, DOC-11, DOC-12, DOC-13, DOC-18, DOC-19, DOC-21, and DOC-22.
+- clear ownership boundaries with DOC-09, DOC-10, DOC-11, DOC-12, DOC-13, DOC-15, DOC-18, DOC-19, DOC-21, and DOC-22.
 
 This document should remain a compact risk-control specification.
 
@@ -489,4 +490,5 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.2.0` | `2026-06-02` | Product Documentation Team | Aligned risk signals, scores, flags, review outcomes, escalation notes, and source lineage with DOC-15 data classification and DOC-18 metadata requirements. |
 | `0.1.0` | `2026-06-02` | Product Documentation Team | Initial founder working baseline for AML, anti-cashout, fraud, credit card fraud, chargeback risk, dynamic authentication, payout hold, configurable review controls, and risk-governance boundaries. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -130,7 +130,7 @@ Unconfirmed items above should not block documentation drafting. They should rem
 | Role clarity | Users must understand whether they are acting as payer, payee, landlord, business payee, or admin. |
 | Request-origin clarity | Content must show whether a request is payer-created, payee-created, admin-created, or system-generated. |
 | Evidence clarity | Content must explain what evidence supports the obligation without overexposing sensitive data. |
-| Evidence data minimization | User-facing screens should show only task-relevant evidence fields; sensitive extracted fields may be stored under controls without broad display. |
+| Evidence display control | User-facing screens should show task-relevant evidence fields; sensitive extracted fields may be stored for approved purposes without broad display. |
 | Fee clarity | Payer-facing fees and total charge must be shown before authorization. |
 | Configurability | Fee text, card-count limits, category text, and policy-driven messages should be configurable where practical. |
 | Auditability | Key content versions and authorization decisions must be logged. |
@@ -230,6 +230,8 @@ The payer must be able to cancel or go back before authorization.
 Payment authorization must require an explicit payer action, such as selecting a final confirmation button after reviewing the payment summary.
 
 The authorization action should not be preselected, hidden, implied by viewing a request, or bundled with unrelated consent.
+
+Payment passcode entry is a separate payer confirmation step before payment authorization proceeds. Additional 2FA, 3DS, OTP, biometric, PSP/acquirer, or PayPlus risk challenge may apply under DOC-09, DOC-14, DOC-15, and DOC-19.
 
 ### 8.2 Authorization Statement
 
@@ -411,6 +413,10 @@ Product touchpoints should include privacy notices where users:
 
 Privacy notice content must be reviewed against Hong Kong privacy requirements, including collection purpose, use, transfer, retention, access, correction, direct marketing where applicable, and consent requirements.
 
+Account, authentication, and material-change screens should explain the required action without exposing sensitive security detail. This includes phone SMS OTP verification, new-device 2FA, dormant-login reauthentication, password reset by email deeplink, payment passcode setup/change, and confirmation for material account, credential, payment profile, payout destination, or contact changes.
+
+Where evidence, tenancy, KYC/KYB, payment profile, payout, or risk data is stored but not displayed, user-facing content should describe the purpose at a practical level and avoid implying that hidden fields are unused.
+
 ---
 
 ## 16. Notification and Communication Content Boundary
@@ -504,6 +510,7 @@ This document does not interpret those sources as final legal advice.
 | OQ-07-008 | What content approval workflow is required for legal, payment, privacy, commercial, or risk-sensitive copy changes? | Project Owner / Compliance | Open |
 | OQ-07-009 | What wording should explain OCR/autofill, user correction responsibility, duplicate/reused evidence warning, and sensitive extracted-field handling? | Product / Legal / Privacy | Open |
 | OQ-07-010 | What wording should explain promotion quotes, coupon/voucher eligibility, miles rewards, membership benefits, expiry, and entitlement limits before authorization? | Product / Commercial / Legal | Open |
+| OQ-07-011 | What wording should explain SMS OTP, new-device 2FA, dormant-login reauthentication, payment passcode, material-change confirmation, and security notifications? | Product / Security / Legal | Open |
 
 ---
 
@@ -533,7 +540,8 @@ DOC-07 is acceptable when:
 | Version | Date | Summary |
 | --- | --- | --- |
 | 0.5.0 | 2026-06-02 | Clarified bill and fee MVP disclosure baseline and aligned risk/disclosure assumptions with DOC-14. |
+| 0.6.0 | 2026-06-02 | Aligned disclosure requirements with DOC-15 by adding payment passcode, account/authentication content, material-change confirmation wording, and stored-but-not-displayed data notice boundaries. |
 | 0.4.0 | 2026-06-01 | Aligned disclosure requirements with DOC-13 by adding promotion quote, coupon/voucher, reward, miles, membership, entitlement, expiry, and authorization-audit wording boundaries. |
-| 0.3.0 | 2026-05-30 | Aligned disclosure requirements with DOC-12 OCR/autofill, evidence correction, duplicate/reused evidence warning, verification status, and sensitive extracted-field minimization. |
+| 0.3.0 | 2026-05-30 | Aligned disclosure requirements with DOC-12 OCR/autofill, evidence correction, duplicate/reused evidence warning, verification status, and sensitive extracted-field display controls. |
 | 0.2.0 | 2026-05-30 | Aligned disclosure scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, approved obligations, and payer-authorized push payment language. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for content, disclosure, and payer authorization requirements. |

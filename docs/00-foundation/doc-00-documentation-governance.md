@@ -541,10 +541,10 @@ Foundation documents guide downstream documents as follows:
 | DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification | Define bill category, evidence, OCR, validation, and payee verification rules. |
 | DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification | Define campaign, coupon, voucher, referral, membership, eligibility, redemption, budget, and partner funding rules. |
 | DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification | Define AML, anti-cashout, fraud, dynamic authorization, velocity, monitoring, and review controls. |
-| DOC-15 Privacy, Data Protection & Record Retention Specification | Define data handling, consent, retention, deletion, and privacy controls. |
+| DOC-15 Privacy, Data Protection & Record Retention Specification | Define data handling, classification, consent, masking, approved-purpose access, retention, deletion, visibility, and privacy controls. |
 | DOC-16 Technical Architecture Specification | Translate approved requirements into system architecture. |
 | DOC-17 API & Third-party Integration Specification | Define PSP, acquirer, banking, OCR, webhook, partner API, OpenAPI, credential, and environment integration requirements. |
-| DOC-18 Data Model, Transaction State & Audit Event Specification | Define data model, transaction state, audit event, reporting, and reconciliation data. |
+| DOC-18 Data Model, Transaction State & Audit Event Specification | Define data model, field metadata, classification lineage, transaction state, audit event, reporting, and reconciliation data. |
 | DOC-19 Security, Tokenization, Authentication & Admin Control Specification | Define authentication, tokenization, encryption, PCI scope, access control, admin controls, and monitoring. |
 | DOC-20 Testing, UAT & Go-Live Checklist | Convert requirements, controls, gates, and risks into test and launch criteria. |
 | DOC-21 Monitoring, Incident Response & Operational SOPs | Define monitoring, support, incident response, escalation, exception handling, and operational SOPs. |

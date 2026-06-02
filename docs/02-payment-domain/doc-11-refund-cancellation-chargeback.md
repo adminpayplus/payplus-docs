@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 0.4.0
+version: 0.5.0
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Payments Lead
   - Operations Lead
   - Finance Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -271,6 +271,8 @@ The system must track:
 - fee and promotion allocation impact.
 
 Detailed data model belongs in DOC-18. PSP/acquirer API behavior belongs in DOC-17.
+
+Refund, reversal, dispute, chargeback, support, evidence package, funding-source allocation, and recovery records must carry DOC-15 classification metadata in DOC-18, including sensitivity, displayability, masking, retention, approved purpose, access roles, audit requirements, and lineage to source payment, evidence, payout, and promotion records.
 
 ---
 
@@ -535,5 +537,6 @@ It should not become:
 | --- | --- | --- | --- |
 | `0.3.0` | `2026-05-30` | Product Documentation Team | Aligned case handling with DOC-12 by adding evidence verification history, OCR/extracted field and user correction records, duplicate/reused evidence indicators, and verification-outcome linkage for refunds, disputes, chargebacks, payout holds, and recovery decisions. |
 | `0.4.0` | `2026-06-01` | Product Documentation Team | Aligned refund and chargeback treatment with DOC-13 by adding reward entitlement, coupon/voucher restoration, miles, membership benefit, external voucher, and promotion clawback references. |
+| `0.5.0` | `2026-06-02` | Product Documentation Team | Aligned case records, evidence packages, funding-source allocation, recovery, and support data with DOC-15 classification metadata and DOC-18 lineage requirements. |
 | `0.2.0` | `2026-05-30` | Product Documentation Team | Simplified draft by consolidating detailed ledger, admin, support, communication, and analytics requirements into compact owner sections with references to DOC-08, DOC-18, DOC-21, and DOC-22. |
 | `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for refund, cancellation, reversal, dispute, chargeback, payout hold, recovery, fee reversal, audit, support, and reporting rules. |

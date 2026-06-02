@@ -61,8 +61,8 @@ Use these repository areas as follows:
 - `docs/02-payment-domain/`: payment, funding, payout, reconciliation, refund, cancellation, and chargeback behavior.
 - `docs/03-bill-verification/`: bill categories, evidence, document AI/OCR, and payee verification.
 - `docs/04-growth-ecosystem/`: promotions, coupons, referrals, memberships, and growth features.
-- `docs/05-risk-compliance-privacy/`: AML, anti-cashout, fraud, privacy, and retention.
-- `docs/06-engineering/`: architecture, APIs, data model, transaction states, and audit events.
+- `docs/05-risk-compliance-privacy/`: AML, anti-cashout, fraud, privacy, data classification, masking, approved-purpose access, and retention.
+- `docs/06-engineering/`: architecture, APIs, data model, field metadata, lineage, transaction states, and audit events.
 - `docs/07-security-access-control/`: security, tokenization, authentication, access control, and admin controls.
 - `docs/08-qa-release-operations/`: testing, UAT, go-live, monitoring, incidents, and operations.
 - `docs/09-ai-build-execution/`: AI build-execution materials derived from human docs.
@@ -81,6 +81,8 @@ Use the layers as follows:
 4. Code, migrations, tests, and implementation artifacts must trace back to the source documents and technical specs.
 
 When drafting early human docs, include enough structure for later specification work, but leave detailed schema, endpoint, test-case, and implementation-ticket detail to the technical and AI execution layers.
+
+DOC-15 owns the cross-document privacy, data classification, masking, retention, role-based visibility, and approved-purpose access baseline. When DOC-15 affects a product, payment, risk, evidence, promotion, engineering, security, or operations requirement, update the owning document directly instead of only adding a note in DOC-15.
 
 ## Agent Workflow Rules
 

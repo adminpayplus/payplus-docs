@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -32,6 +32,7 @@ related_documents:
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
+  - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-17 API & Third-party Integration
   - DOC-18 Data Model, Transaction Ledger & Reporting
   - DOC-19 Security, Tokenization & Authentication
@@ -244,10 +245,11 @@ Core rules:
 | Payer ownership | Payment profile must be linked to the payer account or approved user context. |
 | Authorization link | Each token/profile use must be linked to payer authorization. |
 | Reuse | Saved profile reuse requires payer authorization for each payment unless a separately approved recurring authorization model exists. |
+| Privacy classification | Payment profile, token reference, masked card, card metadata, authorization, step-up, and payment behavior data must be classified as Payment and Funding Data or Authentication and Security Data under DOC-15 as applicable. |
 
 Payment profile statuses should include `Active`, `Verification Required`, `Expired`, `Suspended`, and `Deleted`.
 
-Detailed token vault, encryption, PCI, authentication, API, and schema requirements belong in DOC-17, DOC-18, and DOC-19.
+Detailed token vault, encryption, PCI, authentication, privacy classification, API, and schema requirements belong in DOC-15, DOC-17, DOC-18, and DOC-19.
 
 ---
 
@@ -288,7 +290,7 @@ If multi-card funding fails partially, the user may be asked to replace a card, 
 
 ## 11. Payer Authorization
 
-Payer authorization is always required before payment processing.
+Payer authorization is always required before payment processing. Payment passcode is the baseline PayPlus confirmation before payment authorization proceeds.
 
 Authorization must record:
 
@@ -300,6 +302,8 @@ Authorization must record:
 - selected payment profile summary;
 - multi-card split where applicable;
 - disclosure and terms version where applicable;
+- payment passcode confirmation result;
+- step-up authentication decision and result where applicable;
 - timestamp;
 - authorization result;
 - channel or device context where available.
@@ -312,11 +316,12 @@ Material changes include amount, fee, promotion quote, reward entitlement, total
 
 ## 12. Step-Up Authentication
 
-Step-up authentication means an additional challenge beyond normal payer confirmation, such as 2FA, OTP, 3DS, biometric challenge, PSP/acquirer challenge, or PayPlus risk challenge.
+Step-up authentication means an additional challenge beyond normal payer confirmation and payment passcode, such as 2FA, OTP, 3DS, biometric challenge, PSP/acquirer challenge, or PayPlus risk challenge.
 
 | Rule | Requirement |
 | --- | --- |
 | Payer authorization always required | User confirmation is never skipped. |
+| Payment passcode always required | Payment passcode is required before payment authorization proceeds, subject to final DOC-19 security design. |
 | Step-up conditional | Extra authentication may be skipped below a configurable amount if allowed by partner, risk, compliance, and security rules. |
 | Configurable threshold | Threshold must be configurable. |
 | Risk override | Step-up may still be required below threshold when risk is elevated. |
@@ -483,11 +488,12 @@ DOC-09 is acceptable when:
 - payment profiles and tokenization boundaries are included without duplicating DOC-17, DOC-18, or DOC-19;
 - multi-card funding is defined as MVP scope with configurable card-count limit;
 - payer authorization is mandatory and auditable;
+- payment passcode is recorded as a baseline confirmation before authorization proceeds;
 - step-up authentication can be conditionally skipped below configurable threshold where allowed;
 - payment status and failure handling are defined at product-rule level;
 - settlement readiness is distinguished from payout execution;
 - admin controls are defined without exposing raw card data;
-- DOC-10, DOC-11, DOC-14, DOC-17, DOC-18, and DOC-19 ownership boundaries remain clear.
+- DOC-10, DOC-11, DOC-14, DOC-15, DOC-17, DOC-18, and DOC-19 ownership boundaries remain clear.
 
 ---
 
@@ -500,3 +506,4 @@ DOC-09 is acceptable when:
 | 0.2.0 | 2026-05-30 | Aligned payment request scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, and evidence-backed payment boundaries. |
 | 0.4.0 | 2026-06-01 | Aligned payment quote and authorization rules with DOC-13 promotion quote, reward entitlement, coupon/voucher, card-linked eligibility, and recalculation requirements. |
 | 0.5.0 | 2026-06-02 | Clarified bill and fee MVP baseline and added DOC-14 proportionate risk-routing boundary. |
+| 0.6.0 | 2026-06-02 | Aligned payment authorization and payment-profile handling with DOC-15 by adding payment passcode, authentication/security data references, and DOC-15 privacy classification boundaries. |

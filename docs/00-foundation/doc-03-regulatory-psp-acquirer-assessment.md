@@ -1,7 +1,7 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 0.8.0
+version: 0.9.0
 status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Legal Lead
   - Compliance Lead
   - Payments Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -636,7 +636,7 @@ Reviewers:
 | `DOC-11` | Refund, cancellation, chargeback, dispute, payer rejection, payee withdrawal, and loss allocation. |
 | `DOC-12` | Bill category, OCR, payee verification, invoice evidence, rent evidence, and landlord verification. |
 | `DOC-14` | AML, sanctions, fraud, cashout, collusion, fake invoice, fake rent, request abuse, and payee risk controls. |
-| `DOC-15` | Privacy, retention, data visibility, minimization, and sensitive document handling. |
+| `DOC-15` | Privacy, retention, data classification, role-based visibility, masking, approved-purpose access, and sensitive document handling. |
 | `DOC-18` | Ledger and reporting fields for regulatory records, request creator type, payee type, payer authorization, disputes, reconciliation, and margin analysis. |
 | `DOC-19` | Authentication, tokenization, PCI, RBAC, payer/payee data boundaries, admin access, encryption, and audit controls. |
 | `DOC-20` | Launch checklist including DOC-03 gates and approvals. |
@@ -690,3 +690,4 @@ This document must remain an assessment framework and must not become:
 | `0.6.0` | 2026-05-29 | Product Documentation Team | Confirmed payee-created requests and tenancy/rent as MVP product scope while preserving regulatory, partner, payout, and category gating before production enablement. |
 | `0.7.0` | 2026-05-30 | Product Documentation Team | Aligned regulatory framing with updated DOC-01 scope for invoices, fees, rent, medical bills, domestic service obligations, and payer-authorized push payment positioning. |
 | `0.8.0` | 2026-06-01 | Product Documentation Team | Updated DOC-13 related-document title for promotion engine, coupon, voucher, referral, membership, and reward alignment. |
+| `0.9.0` | 2026-06-02 | Product Documentation Team | Aligned regulatory privacy references with DOC-15 data classification, role-based visibility, masking, and approved-purpose access wording. |

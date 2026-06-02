@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 0.3.0
+version: 0.4.0
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -30,6 +30,7 @@ related_documents:
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
+  - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-17 API & Third-party Integration
   - DOC-18 Data Model, Transaction Ledger & Reporting
   - DOC-21 Monitoring, Incident Response & Operations Runbook
@@ -70,6 +71,7 @@ Detailed specifications belong to:
 | Card authorization, payment completion, and settlement readiness | DOC-09 |
 | Refund, cancellation, chargeback, dispute, and reversal operations | DOC-11 |
 | Risk scoring, anti-cashout, fake invoice, fake rent, and monitoring rules | DOC-14 |
+| Privacy, masking, retention, and approved-purpose access for payout and bank records | DOC-15 |
 | Bank API, bank file, SFTP, webhook, and integration details | DOC-17 |
 | Payout, batch, bank-feed, ledger, and reconciliation data model | DOC-18 |
 | Operational monitoring, incident handling, and escalation | DOC-21 |
@@ -462,6 +464,8 @@ Admin or operations users should be able to:
 
 Manual mark-as-paid, mark-as-failed, manual match, and override actions must require permission, reason, evidence, and audit log.
 
+Admin access to payout destination, bank account, FPS, cheque, EPS, payout batch, bank-feed, reconciliation, and payee-sensitive records must follow DOC-15 classification, masking, approved-purpose access, retention, export-control, and audit requirements.
+
 Detailed admin screens and workflows belong in DOC-22.
 
 ---
@@ -572,7 +576,7 @@ DOC-10 is acceptable when:
 - reconciliation process and exceptions are clear;
 - idempotency and duplicate prevention are required;
 - admin controls are defined at business/backend level;
-- detailed integration, data model, and admin workflow ownership is clearly assigned to DOC-17, DOC-18, and DOC-22.
+- detailed integration, privacy, data model, and admin workflow ownership is clearly assigned to DOC-15, DOC-17, DOC-18, and DOC-22.
 - promotion-related reimbursement or reward settlement exceptions are routed to DOC-13, DOC-18, and DOC-22 where applicable.
 
 ---
@@ -584,3 +588,4 @@ DOC-10 is acceptable when:
 | 0.1.0 | 2026-05-30 | Initial founder working baseline for payout readiness, payout rails, settlement calendars, split-payment grouping, payout batching, bank record ingestion, reconciliation matching, exceptions, idempotency, admin controls, and reporting. |
 | 0.2.0 | 2026-05-30 | Aligned payout wording with updated DOC-01 settlement, fee, and approved payout positioning. |
 | 0.3.0 | 2026-06-01 | Aligned payout and reconciliation boundaries with DOC-13 by adding promotion-funded adjustment, partner reimbursement, external voucher, and miles reward reconciliation references where applicable. |
+| 0.4.0 | 2026-06-02 | Aligned payout, bank-record, reconciliation, export, and admin access handling with DOC-15 privacy classification and masking requirements. |

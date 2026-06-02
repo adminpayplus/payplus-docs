@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.6.0
+version: 0.7.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-01
+last_updated: 2026-06-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -431,9 +431,12 @@ Candidate notification channels include app notifications, push notifications, e
 
 The MVP should support data structures for the following object families. Detailed fields, relationships, indexes, event schemas, and ledger behavior belong in DOC-18.
 
+- account identity, authentication, security, KYC/KYB, evidence, payment, payout, risk, support, promotion, communication, analytics, and derived data must be classifiable under DOC-15;
+- each material data object should support classification metadata, including data class, sensitivity, displayability, masking rule, retention policy, owner, approved purpose, access role, audit requirement, and source lineage where applicable;
 - users;
 - payer profile;
 - payee profile;
+- authentication, device, OTP, payment passcode, and material account-change events;
 - payment request;
 - evidence/document;
 - evidence extraction, normalized fields, user corrections, verification signals, review outcome, and final evidence snapshot;
@@ -457,6 +460,9 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 ### Payer
 
 - register/login;
+- verify phone by SMS OTP during registration;
+- complete new-device 2FA and dormant-login reauthentication where required;
+- confirm core account, payment profile, or credential changes using password, payment passcode, 2FA, or approved confirmation method;
 - dashboard;
 - create payment;
 - view received requests;
@@ -464,6 +470,7 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 - review and correct autofilled evidence fields where applicable;
 - accept/reject/dispute request;
 - authorize payment;
+- enter payment passcode before proceeding with payment authorization;
 - review eligible discounts, coupon/voucher selection, reward status, or promotion quote where promotions are enabled;
 - view payment status;
 - view coupon/voucher wallet where enabled;
@@ -472,6 +479,8 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 ### Payee
 
 - register/login;
+- verify phone by SMS OTP during registration;
+- complete new-device 2FA and dormant-login reauthentication where required;
 - dashboard;
 - create payment request;
 - upload evidence;
@@ -486,6 +495,7 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 
 - login;
 - operational dashboard;
+- role-based sensitive data access with masking, reason capture, and audit logging;
 - request review queue;
 - evidence review;
 - OCR/verification review;
@@ -522,7 +532,7 @@ Final pricing, fee model, and partner economics should be governed by DOC-02 and
 | Area | Requirement |
 |---|---|
 | Security | Protect user, payment, and evidence data. |
-| Privacy | Restrict payer/payee visibility according to permissions. |
+| Privacy | Apply DOC-15 data classification, role-based display controls, masking, retention, and approved-purpose access. |
 | Reliability | Payment status and request status must remain consistent. |
 | Auditability | Key user, admin, payment, and evidence actions must be logged. |
 | Scalability | Architecture should support future automation and additional payment categories. |
@@ -653,3 +663,4 @@ The MVP is acceptable when:
 | v0.4 | 2026-05-30 | Aligned product requirements with updated DOC-01 scope for invoices, fees, rent, domestic service obligations, request delivery methods, and evidence-backed positioning. |
 | v0.5 | 2026-05-30 | Aligned master PRD with DOC-12 by adding OCR/autofill, user correction, evidence verification outcomes, duplicate/reused evidence routing, sensitive field display controls, and explicit downstream document references. |
 | v0.6 | 2026-06-01 | Aligned master PRD with DOC-13 by adding promotion quote, entitlement, coupon/voucher wallet, reward instrument, campaign data, and admin promotion-control references. |
+| v0.7 | 2026-06-02 | Aligned master PRD with DOC-15 by adding privacy data classes, field-level classification metadata, authentication UX requirements, material-change confirmation, payment passcode, and admin sensitive-data access controls. |
