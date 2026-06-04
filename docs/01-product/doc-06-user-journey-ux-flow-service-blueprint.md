@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.10.0
+version: 0.11.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-02
+last_updated: 2026-06-04
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -288,78 +288,174 @@ The payee journey may begin when:
 
 ---
 
-## 7. Dashboard Journeys
+## 7. Logged-in Home Dashboard and Navigation IA
 
-### 7.1 Payer Dashboard
+### 7.1 Design Intent
 
-The payer dashboard should show:
+The logged-in Home Dashboard is the default landing screen after login.
 
-- requests awaiting payer review;
-- requests requiring payer clarification;
-- draft payer-created payments;
-- submitted payer-created payments;
-- active payment requests;
-- payment processing status;
-- completed payments;
-- failed payments;
-- rejected, disputed, cancelled, or expired requests;
-- receipts or confirmations;
-- notifications;
-- support or dispute entry points.
+It must be task-first. It should prioritize urgent user actions, payment-related obligations, request status, payment instructions, and recent payment records before promotional discovery.
 
-#### Payer Dashboard Actions
+The dashboard is not a marketing page. Promotions, partner offers, hot offers, PayPlus events, and feature announcements may appear only through controlled placements and must not obscure payment tasks or status visibility.
 
-The payer should be able to:
-
-- create a new payment;
-- view received requests;
-- review evidence;
-- review or correct autofilled evidence fields;
-- accept a request;
-- reject a request;
-- dispute a request;
-- request clarification;
-- authorize payment;
-- view status;
-- view receipt/history.
+This section defines the current discussion baseline for dashboard navigation and placement. Route-level UI design for each destination remains subject to later DOC-06 refinement.
 
 ---
 
-### 7.2 Payee Dashboard
+### 7.2 Bottom Navigation
 
-The payee dashboard should show:
+MVP bottom navigation should use five primary destinations.
 
-- draft payee-created requests;
-- sent requests;
-- payer-viewed requests;
-- requests awaiting payer action;
-- requests requiring payee clarification;
-- payer-created records awaiting payee adoption;
-- active linked payments;
-- payment processing status;
-- payout or settlement status where applicable;
-- completed payments;
-- failed payments;
-- rejected, disputed, cancelled, or expired requests;
-- receipts or confirmations;
-- notifications;
-- support or dispute entry points.
+| Nav Item | Definition | Route Relationship | Current Status |
+| --- | --- | --- | --- |
+| Home | Default task-first dashboard. | Opens Home Dashboard. | Discussion baseline |
+| Bills | Obligation and record management area. | Opens Bills area covering bills, rent/tenancies, requests, instructions, reminders, receipts, and related records. Exact sub-navigation remains to be finalized. | Discussion baseline |
+| Pay+ | Central payment and request action. | Opens a slide-up action sheet for payment and receiving/request actions. Exact action list remains to be finalized. | Confirmed label / action list open |
+| Offers | Full promotion discovery area. | Opens Offers Hub covering hot offers, card partner offers, PayPlus campaigns, coupon/voucher library, referral, and What’s New. Exact route IA remains to be finalized. | Discussion baseline |
+| Me | Account and user control area. | Opens profile, settings, security, notifications, privacy, support, cards/payment methods, and account controls. Exact route IA remains to be finalized. | Discussion baseline |
 
-#### Payee Dashboard Actions
+`Pay+` should be visually treated as the primary center action in the bottom navigation.
 
-The payee should be able to:
+---
 
-- create a payment request;
-- upload evidence;
-- review or correct autofilled evidence fields;
-- send a request to a payer;
-- view request status;
-- view payer action status;
-- respond to clarification;
-- respond to dispute;
-- adopt or reject payer-created records where applicable;
-- view linked payment status;
-- view receipt/history.
+### 7.3 Pay+ Action Sheet
+
+Tapping `Pay+` should open a slide-up action sheet instead of routing directly to one screen.
+
+The Pay+ action sheet should contain direct payment-start, receive/request, or payment-continuation actions. The exact action list is not finalized and must be discussed before implementation.
+
+Candidate Pay+ actions include:
+
+- Pay Bill / Fee;
+- Pay Rent;
+- Upload / Verify Bill;
+- Scan QR / Open Link;
+- Pay From Request;
+- Create / Send Request;
+- Continue Payment Instruction.
+
+The Pay+ action sheet must avoid creating wallet, stored-value, cashout, unsupported P2P, or automatic recurring-payment behavior.
+
+Detailed wording, ordering, eligibility, disabled states, and action limits remain open.
+
+---
+
+### 7.4 Home Dashboard Section Order
+
+The Home Dashboard should use the following MVP section order.
+
+| Order | Section | Definition | Display Rule | Route Relationship |
+| ---: | --- | --- | --- | --- |
+| 1 | Header | Greets the user and provides quick access to high-priority utilities. | Always shown. | Inbox and coupon/voucher library icons route to their respective screens. |
+| 2 | Important Notice / Action Required | Combined swipeable section for urgent actions, account messages, system messages, announcements, late handling from payer/payee, expiring tenancies, and other important updates. | Disappears if empty. User may collapse with a close button. Eligible item types are initially defined here and may be expanded later. | Each card routes to the relevant task, detail, or message route. |
+| 3 | Shortcut Grid | Operational shortcuts for common management tasks. Must not duplicate Pay+ direct payment-start actions. | MVP displays 8 shortcuts. Shortcut set, default order, visibility, and enablement must be configurable. | Each shortcut routes to its related management area. |
+| 4 | Upcoming Bills / Rent | Summary of upcoming bills, fees, rent, tenancy obligations, due reminders, and related next actions. | Show when active or saved obligations exist. Detailed card fields may be refined later. | Routes to Bills area or the specific bill/tenancy detail. |
+| 5 | Featured / What’s New / Hot Offer | One combined carousel for approved PayPlus announcements, partner campaigns, feature updates, hot offers, and service events. | Must be admin-controllable. Use one combined carousel at this stage. | Routes to Offers Hub, offer detail, announcement detail, or feature route. |
+| 6 | Recent Activity | Limited list of recent transactions and status records. | Show recent items only, capped by dashboard display rules. | Arrow or View More routes to Recent Activity detail page. |
+
+Dashboard section order may be refined later, but urgent actions and obligations should remain above promotional discovery.
+
+---
+
+### 7.5 Header Utilities
+
+| Element | Definition | Route Relationship |
+| --- | --- | --- |
+| Greeting | User recognition area. | No route required, or profile route if tapped. |
+| Inbox icon | Notifications, messages, payment alerts, request updates, support replies, system notices, and announcements. | Notification / Inbox route. |
+| Coupon icon | Shortcut to user’s available coupon/voucher library. | Coupon / Voucher Library route. |
+
+---
+
+### 7.6 Shortcut Grid
+
+The shortcut grid provides quick access to common non-payment-start tasks.
+
+MVP shortcut grid:
+
+| Shortcut | Definition | Route Relationship |
+| --- | --- | --- |
+| Requests | Payee-created or payer-linked requests requiring review, response, acceptance, rejection, query, dispute, or payment action. | Payment Requests route. |
+| Instructions | Deferred payment instructions, split-card progress, pending funding legs, expired instructions, and action-required instructions. | Payment Instructions route. |
+| Bills & Tenancies | Saved bills, fee records, rent records, tenancy records, evidence status, due dates, and obligation details. | Bills & Tenancies route. |
+| Receipts | Payment receipts, proof of payment, statements, completed records, refund/reversal records, and related transaction evidence. | Receipts / Activity route. |
+| Reminders | User-set due reminders for bills, rent, tenancy obligations, and manual reminders. | Reminder Management route. |
+| Cards | Tokenized payment profiles, cards, payment methods, card status, and payment-method settings. | Cards / Payment Methods route. |
+| Referral | Referral / MGM entry point and referral reward status where enabled. | Referral route and Offers Hub referral section. |
+| More | Opens remaining or secondary shortcuts and services. | More Shortcuts / Services route or sheet. |
+
+Support should not be part of the initial eight dashboard shortcuts. Support remains accessible through `Me`, issue-specific status screens, and/or `More` if enabled.
+
+Shortcut display must support:
+
+- admin-managed default shortcut set;
+- admin-managed default order;
+- adding shortcuts;
+- disabling shortcuts;
+- hiding shortcuts by feature, module, category, user type, eligibility, or launch phase;
+- user-managed shortcut display order;
+- user-managed shortcut visibility where allowed;
+- user setting overriding the system default;
+- restore-to-default behavior.
+
+Detailed admin configuration workflow belongs in DOC-22. User preference, visibility, and privacy/data handling belong in DOC-15 and DOC-18.
+
+---
+
+### 7.7 Upcoming Bills / Rent
+
+The Upcoming Bills / Rent section should summarize the user’s next relevant obligations.
+
+Initial dashboard card information may include:
+
+- biller, payee, landlord, or obligation name;
+- category;
+- amount;
+- due date or rent period;
+- payment status;
+- evidence status where relevant;
+- next action.
+
+Exact card layout, maximum visible items, empty state, and filtering rules remain open and should be refined in later DOC-06 route-level work.
+
+---
+
+### 7.8 Featured / What’s New / Hot Offer Carousel
+
+The dashboard should use one combined promotional and announcement carousel.
+
+The carousel may include:
+
+- PayPlus feature updates;
+- partner announcements;
+- card partner offers;
+- hot offers;
+- service events;
+- category launch announcements;
+- approved campaigns;
+- important non-urgent announcements.
+
+The carousel must be admin-controllable, including placement, priority, start/end date, targeting, enable/disable, approval status, and audit log.
+
+Detailed promotion eligibility, coupon/voucher logic, reward entitlement, campaign budget, and reversal logic belong in DOC-13. Detailed admin placement control belongs in DOC-22. Personalization and marketing data handling belong in DOC-15.
+
+---
+
+### 7.9 Recent Activity
+
+The Recent Activity section should display a capped list of recent transactions and status records.
+
+Dashboard recent activity items should show:
+
+- date;
+- item;
+- action;
+- amount;
+- status.
+
+The section should include a button or arrow to the Recent Activity detail page.
+
+Detailed receipt content, retention, and notification linkage belong in DOC-08, DOC-11, DOC-15, and DOC-18.
 
 ---
 
@@ -1322,6 +1418,8 @@ The MVP should include payer-facing screens for:
 - SMS OTP phone verification;
 - new-device 2FA and dormant-login reauthentication;
 - payer dashboard;
+- logged-in Home Dashboard with bottom navigation, Pay+ action sheet entry, shortcut grid, notices/actions, upcoming obligations, featured carousel, and recent activity;
+- user shortcut ordering, visibility, and restore-default settings;
 - create payment;
 - create or link bill/invoice/tenancy/obligation;
 - enter payee details;
@@ -1341,6 +1439,7 @@ The MVP should include payer-facing screens for:
 - coupon/voucher library where enabled;
 - referral or reward status where enabled;
 - membership/tier status where enabled;
+- Offers Hub entry and coupon/voucher library entry where enabled;
 - payment processing status;
 - payment completed status;
 - partially funded status and remaining amount;
@@ -1360,6 +1459,7 @@ The MVP should include payee-facing screens for:
 - SMS OTP phone verification;
 - new-device 2FA and dormant-login reauthentication;
 - payee dashboard;
+- logged-in Home Dashboard surfaces relevant payee request, response, payout, instruction, notice, activity, shortcut, and offer entry points subject to permissions;
 - create payment request;
 - create or link bill/invoice/tenancy/obligation;
 - enter payer details;
@@ -1404,6 +1504,7 @@ The MVP should include admin-facing screens for:
 - failed payment exception view;
 - refund/reversal review where applicable;
 - campaign, offer, coupon/voucher, reward entitlement, and promotion exception view where promotions are enabled;
+- shortcut configuration, dashboard placement, announcement, carousel, and feature enablement controls where enabled;
 - audit log view.
 
 ### 24.4 System UX and Service Touchpoints
@@ -1420,6 +1521,8 @@ The MVP should include system-level handling for:
 - duplicate detection support;
 - promotion quote and reward entitlement support where enabled;
 - coupon/voucher library and external reward fulfilment support where enabled;
+- shortcut configuration and user preference handling;
+- dashboard placement configuration for notices, carousel content, and shortcut visibility;
 - notification events;
 - payment partner status updates;
 - payout or settlement updates where applicable;
@@ -1509,6 +1612,11 @@ The DOC-06 user journey scope is satisfied when:
 | OQ-06-018 | What dormant-login inactivity threshold and user-facing reauthentication path should be used? | Product / Security | Open |
 | OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
 | OQ-06-020 | What exact payment-instruction screen labels, call-to-action wording, and partial-funded visual treatment should be used? | Product / Design / Legal | Open |
+| OQ-06-021 | What exact Pay+ action sheet actions, labels, ordering, disabled states, and eligibility rules should be used? | Product / Design / Payments | Open |
+| OQ-06-022 | What exact route-level IA should apply to Bills, Offers, Me, More, Requests, Instructions, Receipts, Reminders, Cards, Referral, and Support entry points? | Product / Design | Open |
+| OQ-06-023 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
+| OQ-06-024 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
+| OQ-06-025 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What’s New / Hot Offer placements? | Product / Growth / Operations | Open |
 
 ---
 
@@ -1561,6 +1669,13 @@ The DOC-06 user journey scope is satisfied when:
 | Final payment processor, operating-bank setup, detailed KYC/KYB steps, fees, multi-card card-count limit, and dispute policy details remain open or to be confirmed. | Open |
 | Major functions and modules must be independently disableable. | Confirmed |
 | Promotion, coupon/voucher, reward, MGM, and membership UX surfaces are framework scope but launch-gated by DOC-13. | Confirmed |
+| Home Dashboard is task-first and uses bottom navigation `Home`, `Bills`, `Pay+`, `Offers`, and `Me`. | Discussion Baseline |
+| `Pay+` is the preferred center bottom-nav action label, with exact action sheet content still open. | Label Confirmed / Actions Open |
+| MVP dashboard shortcuts are Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More. | Discussion Baseline |
+| Dashboard shortcuts must be admin-configurable and user-reorderable, with user settings overriding system default and restore-default support. | Confirmed |
+| Important Notice / Action Required is a combined swipeable section, collapsible by user, hidden when empty. | Confirmed |
+| Featured / What’s New / Hot Offer is one combined admin-controllable carousel at this stage. | Confirmed |
+| Recent Activity dashboard section displays limited recent transactions with date, item, action, amount, and status. | Confirmed |
 
 ---
 
@@ -1578,3 +1693,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.8 | 2026-06-02 | Aligned UX scope with DOC-09 user payment instruction by adding deferred payment action, reminder destinations, split-card funding-leg progress, partial funding, and partial payout visibility. |
 | v0.9 | 2026-06-02 | Added return-to-checkout quote revalidation for deferred payment instructions, including payment quote, promotion quote, card eligibility, fee, and timing changes before submission. |
 | v0.10 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion. |
+| v0.11 | 2026-06-04 | Added Home Dashboard and navigation IA discussion baseline covering bottom navigation, Pay+ center action, shortcut grid, notice/action section, upcoming obligations, featured carousel, recent activity, shortcut configurability, user shortcut preferences, and open route-level UI decisions. |
