@@ -1,7 +1,7 @@
 ---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.4.0
+version: 0.5.0
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-06-02
+last_updated: 2026-06-04
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -144,7 +144,8 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Refund, Dispute, Chargeback, and Support Data | Support tickets, user messages, dispute reason, refund case, chargeback reason code, evidence package, resolution, recovery/write-off status. | Support, dispute resolution, chargeback defense, operational learning, reporting. |
 | Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument, reward entitlement, referral link/code, MGM relationship, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, abuse detection. |
 | Communication and Notification Data | Notification preferences, delivery channel, message ID, template ID, delivery/read status, payment instruction reminder status, WhatsApp/SMS/email/push logs. | Service communication, audit, support, communication performance. |
-| Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, category usage, correction behavior, conversion, drop-off, retry behavior, spend behavior, payer/payee relationship patterns. | Product improvement, risk intelligence, commercial analytics, segmentation. |
+| UI Preference and Personalization Data | Dashboard shortcut order, shortcut visibility, restore-default action, dashboard placement exposure, carousel impression/action, inbox interaction, and user-selected display preferences. | User experience personalization, product operation, consented marketing/promotion display, analytics, audit where required. |
+| Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, category usage, correction behavior, conversion, drop-off, retry behavior, spend behavior, payer/payee relationship patterns, dashboard shortcut usage, and placement performance. | Product improvement, risk intelligence, commercial analytics, segmentation. |
 | Derived and Aggregated Data | Risk indicators, user segments, category economics, OCR quality metrics, fraud trends, campaign performance, anonymized or aggregated insights. | Analytics, model improvement, business intelligence, strategic decisions. |
 
 Detailed fields, schemas, lineage, event names, and reporting tables belong in DOC-18.
@@ -269,10 +270,13 @@ PayPlus may use collected and derived data to support:
 - payer/payee relationship insights;
 - support and operational performance;
 - promotion, referral, membership, and campaign performance;
+- dashboard shortcut usage, user preference patterns, placement exposure, and carousel performance;
 - commercial reporting;
 - data marts, dashboards, and future model improvement.
 
 Derived or aggregated data should retain lineage to source data class, permitted purpose, and access controls. Sensitive personal data should not be exposed in dashboards unless required for approved review or operations.
+
+Dashboard personalization, shortcut ordering, placement targeting, and Featured / What's New / Hot Offer exposure must follow consent, preference, approved-purpose, and role-appropriate visibility rules. User-selected shortcut settings may override system defaults as defined in DOC-06, but must remain subject to feature eligibility, risk restrictions, and disabled-module controls.
 
 Detailed warehouse, analytics, lineage, and reporting design belongs in DOC-18.
 
@@ -411,6 +415,7 @@ Detailed ISO/ISMS policies belong in DOC-99 policy library. PCI and authenticati
 | OQ-15-009 | What inactivity period triggers dormant-login reauthentication, and which factor should be required? | Security / Product / Risk | Medium | Open |
 | OQ-15-010 | What exact PCI DSS scope, SAQ/ROC path, QSA/acquirer expectations, and responsibility matrix apply before production launch? | Security / Payments / Compliance | High | Open |
 | OQ-15-011 | What ISO/IEC 27001 control evidence should DOC-15 privacy and data handling controls produce for the ISMS? | Security / Compliance / Privacy | Medium | Open |
+| OQ-15-012 | What consent, preference, retention, and analytics rules apply to dashboard shortcut preferences, placement exposure, carousel impressions, and personalized offer targeting? | Product / Privacy / Growth | Medium | Open |
 
 ---
 
@@ -425,6 +430,7 @@ DOC-15 is acceptable when it clearly defines:
 - evidence and obligation data handling;
 - payer, payee, admin, system, vendor, and partner visibility rules;
 - consent, notice, and communication privacy boundaries;
+- dashboard shortcut preference, placement exposure, personalization, and user preference boundaries;
 - analytics and data product expectations;
 - retention, deletion, and legal-hold expectations;
 - vendor, partner, and cross-border data handling requirements;
@@ -454,3 +460,4 @@ It should not become:
 | `0.2.0` | `2026-06-02` | Product Documentation Team | Aligned data classification with DOC-09 user payment instruction by adding payment instruction, funding leg, deferred funding date, selected transfer date, partial funding, and payment-instruction reminder data. |
 | `0.3.0` | `2026-06-02` | Product Documentation Team | Added deferred instruction quote revalidation result and DOC-13 promotion quote reservation data to the classification baseline. |
 | `0.4.0` | `2026-06-02` | Product Documentation Team | Standardized coupon/voucher library and reward instrument wording to avoid stored-value confusion. |
+| `0.5.0` | `2026-06-04` | Product Documentation Team | Aligned privacy/data classification with DOC-06 dashboard baseline by adding shortcut preferences, dashboard placement exposure, carousel interaction, personalization, and targeting boundaries. |

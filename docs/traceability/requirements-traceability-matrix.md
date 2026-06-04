@@ -11,6 +11,7 @@ Detailed requirement IDs should be expanded when DOC-16 to DOC-22 are drafted an
 | --- | --- | --- | --- |
 | Documentation governance and source of truth | DOC-00 | AGENTS.md, docs/README.md | Document register, version history, review notes, approved changes. |
 | Product positioning and prohibited models | DOC-01, DOC-03, DOC-04 | DOC-05, DOC-06, DOC-07, DOC-14, DOC-19 | UX review, disclosure review, blocked-flow tests, risk-control tests. |
+| Home dashboard, navigation, shortcuts, and placements | DOC-05, DOC-06, DOC-08, DOC-13, DOC-15 | DOC-18, DOC-20, DOC-22 | UX review, wireframe review, shortcut configuration tests, user preference tests, placement approval tests, dashboard task tests. |
 | MVP category support and gating | DOC-01, DOC-04, DOC-05, DOC-12, DOC-14 | DOC-18, DOC-20, DOC-22 | Category config, evidence matrix, review queue tests, launch gate evidence. |
 | Payee-created requests | DOC-01, DOC-03, DOC-04, DOC-05, DOC-06, DOC-07 | DOC-09, DOC-10, DOC-11, DOC-18, DOC-20, DOC-22 | Request lifecycle tests, authorization logs, visibility tests, admin review evidence. |
 | User payment instruction and deferred funding | DOC-05, DOC-06, DOC-07, DOC-08, DOC-09 | DOC-10, DOC-11, DOC-13, DOC-14, DOC-18, DOC-20, DOC-22 | Payment-instruction state tests, reminder tests, quote revalidation tests, partial funding and payout evidence. |

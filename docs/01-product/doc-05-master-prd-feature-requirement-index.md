@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.10.0
+version: 0.11.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-02
+last_updated: 2026-06-04
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -449,6 +449,7 @@ The MVP should support data structures for the following object families. Detail
 - payment instruction funding leg;
 - payout/settlement record;
 - campaign, offer, promotion quote, promotion quote reservation, benefit entitlement, reward instrument, and redemption/fulfilment records where promotions are enabled;
+- dashboard shortcut configuration, user shortcut preference, restore-default action, dashboard placement exposure, and carousel impression/action records where applicable;
 - dispute or clarification thread;
 - notification;
 - reminder or user action task;
@@ -470,6 +471,11 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 - complete new-device 2FA and dormant-login reauthentication where required;
 - confirm core account, payment profile, or credential changes using password, payment passcode, 2FA, or approved confirmation method;
 - dashboard;
+- logged-in Home Dashboard baseline with `Home`, `Bills`, `Pay+`, `Offers`, and `Me` navigation where enabled by DOC-06;
+- Pay+ center action entry point and slide-up action sheet where enabled by DOC-06;
+- dashboard shortcut grid for Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More where enabled by DOC-06;
+- user shortcut display order, visibility preference, and restore-default behavior;
+- Important Notice / Action Required, Featured / What's New / Hot Offer carousel, Upcoming Bills / Rent, and Recent Activity dashboard sections where enabled by DOC-06;
 - create payment;
 - view received requests;
 - review evidence;
@@ -505,6 +511,7 @@ The MVP should include the following UX surfaces. Detailed screen flows, service
 
 - login;
 - operational dashboard;
+- dashboard shortcut, notice/action, carousel placement, and feature enablement configuration where enabled;
 - role-based sensitive data access with masking, reason capture, and audit logging;
 - request review queue;
 - evidence review;
@@ -526,6 +533,8 @@ The MVP should support:
 - configurable promotion engine rules where enabled;
 - fee display before payer authorization;
 - promotion quote, discount, coupon, voucher, reward, and final total display before payer authorization where applicable;
+- admin-configurable dashboard shortcut defaults, dashboard placements, and carousel display rules where enabled;
+- user-managed shortcut ordering and restore-default behavior where enabled;
 - transaction-level revenue tracking;
 - payment status reporting;
 - payment instruction status reporting, including deferred, pending, partial funding, fully funded, expired, and cancelled states;
@@ -616,6 +625,9 @@ The MVP is acceptable when:
 | OQ-05-012 | What configurable maximum number of credit cards per payment should be allowed at launch? | Product / Payments | Open |
 | OQ-05-013 | Which OCR/document AI provider, confidence thresholds, and launch categories should be enabled first? | Product / Engineering / Risk | Open |
 | OQ-05-014 | Which extracted fields are displayable, masked, or restricted by role and evidence category? | Product / Privacy / Security | Open |
+| OQ-05-015 | What exact dashboard shortcut cap, default ordering, user reorder UI, restore-default behavior, and More shortcut behavior should apply? | Product / Design / Operations | Open |
+| OQ-05-016 | What exact Pay+ action sheet actions, labels, ordering, and eligibility rules should apply? | Product / Design / Payments | Open |
+| OQ-05-017 | What admin controls are required for Important Notice / Action Required, Featured / What's New / Hot Offer carousel, and dashboard placement targeting? | Product / Growth / Operations | Open |
 
 ---
 
@@ -662,6 +674,8 @@ The MVP is acceptable when:
 | Major functions and modules must be independently disableable. | Confirmed |
 | Future docs should use concise product-spec structure. | Confirmed |
 | Promotion engine capabilities are framework scope but launch-gated by DOC-13 rules and admin configuration. | Confirmed |
+| DOC-06 designated Home Dashboard flow and layout baseline is accepted for MVP discussion, but final UI design and exact component specification remain open. | Confirmed |
+| Dashboard shortcut grid, user shortcut preferences, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
 
 ---
 
@@ -679,3 +693,4 @@ The MVP is acceptable when:
 | v0.8 | 2026-06-02 | Added DOC-09 user payment instruction as MVP scope for deferred single-card and split-card payment, payment-instruction reminders, partial funding, and partial payout visibility. |
 | v0.9 | 2026-06-02 | Aligned PRD with DOC-09 and DOC-13 deferred payment instruction quote revalidation, promotion reservation, and return-to-checkout update review. |
 | v0.10 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion. |
+| v0.11 | 2026-06-04 | Aligned PRD with DOC-06 Home Dashboard baseline by adding Pay+ navigation, shortcut grid, user shortcut preferences, dashboard placements, Featured carousel, and related admin configuration expectations. |

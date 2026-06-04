@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 0.6.0
+version: 0.7.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-06-02
+last_updated: 2026-06-04
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -104,6 +104,7 @@ DOC-13 does not own:
 | Asia Miles | Miles reward is supported; API auto-credit is optional and to be confirmed. |
 | External vouchers | Framework included; QR, deeplink, code, API, file, webhook, or manual fulfilment may be supported. |
 | Stacking | Configurable by offer and campaign, with conservative defaults. |
+| Dashboard placement | Featured / What's New / Hot Offer is a DOC-06 dashboard carousel placement. DOC-13 owns campaign, offer, eligibility, entitlement, budget, and reversal logic; DOC-22 owns admin placement controls. |
 
 ---
 
@@ -845,13 +846,29 @@ DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries.
 
 ---
 
+## 12.1 Dashboard and Placement Boundaries
+
+DOC-06 defines the designated Home Dashboard flow and places the Featured / What's New / Hot Offer carousel directly under the shortcut grid.
+
+For promotion-related dashboard placement:
+
+- DOC-13 defines campaign, offer, rule, eligibility, entitlement, budget, quota, fulfilment, reversal, and partner-funding behavior;
+- DOC-06 defines user-facing dashboard placement and route relationship;
+- DOC-08 defines communication, notification, inbox, and message-channel boundaries;
+- DOC-15 defines consent, personalization, targeting, data classification, and partner-sharing boundaries;
+- DOC-22 defines admin setup, approval, targeting, priority, scheduling, enable/disable, and audit workflow.
+
+A placement slot must not bypass promotion eligibility, budget, quota, consent, privacy, or approval controls.
+
+---
+
 ## 13. Affected and Related Documents
 
 | Document | Required Cross-Check |
 | --- | --- |
 | DOC-02 | Promotion cost, funding source, commercial gates, margin, tax, and accounting treatment. |
 | DOC-05 | Feature index, MVP gating, admin configuration, and promotion requirements. |
-| DOC-06 | Checkout reward selection, coupon/voucher library, voucher claim, MGM, membership, and reward status UX. |
+| DOC-06 | Checkout reward selection, coupon/voucher library, voucher claim, MGM, membership, reward status UX, and Featured / What's New / Hot Offer dashboard carousel placement. |
 | DOC-07 | Promotion, fee, discount, miles, voucher, eligibility, expiry, and T&C disclosure. |
 | DOC-08 | Reward, referral, coupon, voucher, miles, campaign, entitlement, and fulfilment notification events. |
 | DOC-09 | Promotion quote, final payment quote, deferred payment instruction revalidation, card-linked eligibility, recalculation, and reauthorization. |
@@ -886,6 +903,7 @@ DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries.
 | OQ-13-011 | What membership tier formula, conversion ratio, downgrade rule, and grace period apply? | Product / Growth / Commercial | Open |
 | OQ-13-012 | What partner reimbursement, tax, and accounting treatment applies to partner-funded offers? | Finance / Legal / Commercial | Open |
 | OQ-13-013 | Which promotion types may be hard-reserved for DOC-09 deferred payment instructions, and what expiry, budget-release, and user-notice rules apply? | Product / Growth / Finance | Open |
+| OQ-13-014 | Which promotion, partner, announcement, referral, or feature items may appear in the DOC-06 Featured / What's New / Hot Offer carousel, and what approval, targeting, and consent rules apply? | Product / Growth / Privacy | Open |
 
 ---
 
@@ -905,6 +923,7 @@ DOC-13 is acceptable when:
 - MGM/referral and membership/tier are separate qualification modules;
 - Asia Miles reward and external partner fulfilment are covered;
 - affected documents are clearly marked for follow-up alignment.
+- dashboard placement boundaries are clear for the DOC-06 Featured / What's New / Hot Offer carousel without turning DOC-13 into a UI specification.
 
 This document should remain a compact promotion engine specification. It should not become a final campaign plan, pricing sheet, tax memo, partner contract, UI copy deck, API specification, or database schema.
 
@@ -920,3 +939,4 @@ This document should remain a compact promotion engine specification. It should 
 | 0.4.0 | 2026-06-02 | Aligned promotion data requirements with DOC-15 by adding data classification, sensitivity, displayability, retention, approved-purpose, and partner-sharing metadata requirements for DOC-18. |
 | 0.5.0 | 2026-06-02 | Aligned promotion quote handling with DOC-09 user payment instruction by adding deferred quote revalidation, configurable reservation, expiry release, and payment-instruction linkage. |
 | 0.6.0 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion while preserving reward instrument source metadata. |
+| 0.7.0 | 2026-06-04 | Aligned promotion placement boundaries with DOC-06 by defining Featured / What's New / Hot Offer carousel ownership split across DOC-06, DOC-08, DOC-13, DOC-15, and DOC-22. |

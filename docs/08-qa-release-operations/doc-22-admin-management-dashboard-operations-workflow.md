@@ -64,6 +64,24 @@ Required capabilities should include:
 
 Detailed promotion-engine rules belong in DOC-13. Admin workflows should support campaign setup, offer setup, eligibility rule configuration, qualification and entitlement review, coupon/voucher issuance, miles fulfilment status, external voucher exception handling, reward reversal, and approval/audit workflow where promotions are enabled.
 
+### 18.1 Dashboard Shortcut and Placement Configuration
+
+Admin dashboard must support configuration hooks for the DOC-06 designated Home Dashboard flow where enabled.
+
+Required capabilities should include:
+
+- configure default dashboard shortcut set;
+- configure default dashboard shortcut order;
+- add, disable, hide, or restore shortcuts by feature, module, category, user type, eligibility, or launch phase;
+- preserve user-managed shortcut order and visibility preferences where allowed;
+- allow user restore-to-default behavior;
+- configure Important Notice / Action Required items, including priority, expiry, collapse behavior, route target, audience, approval status, and audit log;
+- configure Featured / What's New / Hot Offer carousel placements, including priority, start/end date, targeting, offer or announcement linkage, route target, approval status, enable/disable, and audit log;
+- distinguish dashboard placement from notification delivery, inbox entry, campaign eligibility, and promotion entitlement;
+- record admin changes to shortcut defaults, dashboard placements, carousel configuration, and notice/action items.
+
+Detailed final admin screens, permission matrix, approval workflow, and implementation fields will be drafted in full DOC-22 and DOC-18.
+
 ## 19. Audit Logging Requirements
 
 ## 20. Notifications and Escalations
@@ -88,6 +106,7 @@ Required admin data-handling controls should include:
 - masking and reveal rules for sensitive fields;
 - access reason capture for sensitive data views, exports, downloads, overrides, and corrections;
 - audit logging for access, change, export, review, hold, release, override, and deletion actions;
+- audit logging for dashboard shortcut configuration, dashboard placement configuration, notice/action configuration, carousel configuration, and restore-default configuration;
 - privacy-safe duplicate/reused evidence warnings that do not reveal another user's private data;
 - export controls for reports, bank files, payout batches, evidence packages, dispute files, and promotion/partner reports.
 

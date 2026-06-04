@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 0.6.0
+version: 0.7.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-02
+last_updated: 2026-06-04
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -149,6 +149,8 @@ DOC-08 should reference these documents instead of duplicating their detailed ru
 | Receipt | User-facing confirmation record for a payment outcome. |
 | Statement | Periodic or on-demand account/payment summary. |
 | Dashboard task | Admin or user task shown inside the PayPlus app or admin dashboard. |
+| Important Notice / Action Required | DOC-06 logged-in dashboard section for urgent actions, account messages, system messages, announcements, late payer/payee handling, expiring tenancies, and similar items. It may contain notification-backed and dashboard-only items. |
+| Featured / What's New / Hot Offer | DOC-06 dashboard carousel placement for approved announcements, partner campaigns, feature updates, hot offers, and service events. It is a placement surface, not a notification event by itself. |
 
 ---
 
@@ -164,6 +166,7 @@ DOC-08 should reference these documents instead of duplicating their detailed ru
 | Clear action | If user action is required, the message should say what action is needed. |
 | Auditability | Sent messages, failed messages, template versions, and delivery outcomes must be logged. |
 | Legal control | Legally sensitive templates require approval before publication. |
+| Placement separation | Dashboard placement, notification delivery, inbox entry, and promotion display are related but separate decisions. A dashboard item does not automatically require push, SMS, email, or WhatsApp delivery. |
 
 ---
 
@@ -187,6 +190,14 @@ Example:
 | Payment authorized | Status required; notification may be app-only or disabled externally. |
 | Payment completed | Status required; app, email, SMS, or WhatsApp may be enabled. |
 | Payout completed | Status required; notify payee through approved channels. |
+
+For DOC-06 dashboard placements:
+
+| Dashboard Surface | Communication Rule |
+| --- | --- |
+| Important Notice / Action Required | May be backed by notification events, system announcements, dashboard-only tasks, or operational action items. User-facing priority, collapse, expiry, and routing rules belong in DOC-06 and DOC-22. |
+| Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
+| Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
 ---
 
@@ -538,6 +549,7 @@ The admin dashboard or configuration layer should support:
 - message preview;
 - approval workflow for sensitive templates;
 - audit log for configuration changes.
+- dashboard placement linkage for Important Notice / Action Required and Featured / What's New / Hot Offer where the item is also a notification, announcement, or campaign communication;
 
 Admin changes to legal, payment, privacy, fee, refund, chargeback, or payout timing wording should require approval.
 
@@ -584,6 +596,8 @@ Detailed schema belongs in DOC-18.
 | OQ-08-010 | Which DOC-13 promotion, coupon, voucher, referral, membership, miles, entitlement, fulfilment, and clawback events should notify users versus remain app status or admin-only tasks? | Product / Growth / Operations | Open |
 | OQ-08-011 | Which payment instruction reminder schedule, channel mix, and final-action wording should apply for single-card, split-card, partial funding, and expiry cases? | Product / Payments / Operations | Open |
 | OQ-08-012 | What notification wording and channel rules should apply when deferred payment quote, promotion, card eligibility, fee, or timing terms changed before submission? | Product / Growth / Payments | Open |
+| OQ-08-013 | Which Important Notice / Action Required dashboard items should also create notification events, inbox entries, push alerts, email, SMS, or WhatsApp messages? | Product / Operations / Legal | Open |
+| OQ-08-014 | Which Featured / What's New / Hot Offer carousel items require notification consent, marketing consent, inbox entries, or dashboard-only display? | Product / Growth / Privacy | Open |
 
 ---
 
@@ -602,6 +616,7 @@ DOC-08 is acceptable when:
 - promotion, reward, coupon, voucher, referral, membership, miles, entitlement, and fulfilment message boundaries are defined;
 - payment instruction, deferred action, split-card remaining action, partial funding, expiry/cancellation, and partial payout message boundaries are defined;
 - deferred payment quote or promotion change notification boundaries are defined without renumbering existing notification IDs;
+- dashboard placement boundaries are defined so Important Notice / Action Required, Inbox, Featured carousel, and notification events remain separate but linkable surfaces;
 - delivery logging and retention expectations are defined;
 - detailed payment, payout, refund, dispute, and data-model logic is left to owning documents.
 
@@ -615,5 +630,6 @@ DOC-08 is acceptable when:
 | 0.4.0 | 2026-06-02 | Aligned notification rules with DOC-15 by adding new-device, dormant-login, material-change, sensitive account/security messaging, and DOC-15 data-classification channel controls. |
 | 0.5.0 | 2026-06-02 | Aligned notification rules with DOC-09 user payment instruction by adding deferred payment action, split-card remaining action, partial funding, expiry/cancellation, and partial payout notification events. |
 | 0.6.0 | 2026-06-02 | Added stable PINS notification event for deferred payment quote, promotion, card eligibility, fee, or timing changes before submission. |
+| 0.7.0 | 2026-06-04 | Aligned communication boundaries with DOC-06 dashboard baseline by defining Important Notice / Action Required, Featured / What's New / Hot Offer placement, Inbox linkage, and dashboard-versus-notification separation. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |
