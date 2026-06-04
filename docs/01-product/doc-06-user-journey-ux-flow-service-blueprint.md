@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.11.0
+version: 0.12.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -298,7 +298,9 @@ It must be task-first. It should prioritize urgent user actions, payment-related
 
 The dashboard is not a marketing page. Promotions, partner offers, hot offers, PayPlus events, and feature announcements may appear only through controlled placements and must not obscure payment tasks or status visibility.
 
-This section defines the current discussion baseline for dashboard navigation and placement. Route-level UI design for each destination remains subject to later DOC-06 refinement.
+This section defines the designated dashboard flow and layout baseline for MVP discussion. It is not the finalized UI design, visual design, component specification, or exact route-level screen specification. Exact UI details remain subject to later DOC-06 refinement and future design/specification work.
+
+Visual reference: `docs/diagrams/payplus-home-dashboard-mvp-wireframe.svg` is a companion wireframe for this section. It supports human and AI understanding of layout hierarchy but does not override this document.
 
 ---
 
@@ -349,11 +351,11 @@ The Home Dashboard should use the following MVP section order.
 | 1 | Header | Greets the user and provides quick access to high-priority utilities. | Always shown. | Inbox and coupon/voucher library icons route to their respective screens. |
 | 2 | Important Notice / Action Required | Combined swipeable section for urgent actions, account messages, system messages, announcements, late handling from payer/payee, expiring tenancies, and other important updates. | Disappears if empty. User may collapse with a close button. Eligible item types are initially defined here and may be expanded later. | Each card routes to the relevant task, detail, or message route. |
 | 3 | Shortcut Grid | Operational shortcuts for common management tasks. Must not duplicate Pay+ direct payment-start actions. | MVP displays 8 shortcuts. Shortcut set, default order, visibility, and enablement must be configurable. | Each shortcut routes to its related management area. |
-| 4 | Upcoming Bills / Rent | Summary of upcoming bills, fees, rent, tenancy obligations, due reminders, and related next actions. | Show when active or saved obligations exist. Detailed card fields may be refined later. | Routes to Bills area or the specific bill/tenancy detail. |
-| 5 | Featured / What’s New / Hot Offer | One combined carousel for approved PayPlus announcements, partner campaigns, feature updates, hot offers, and service events. | Must be admin-controllable. Use one combined carousel at this stage. | Routes to Offers Hub, offer detail, announcement detail, or feature route. |
+| 4 | Featured / What’s New / Hot Offer | One combined carousel for approved PayPlus announcements, partner campaigns, feature updates, hot offers, and service events. | Must be admin-controllable. Use one combined carousel at this stage. | Routes to Offers Hub, offer detail, announcement detail, or feature route. |
+| 5 | Upcoming Bills / Rent | Summary of upcoming bills, fees, rent, tenancy obligations, due reminders, and related next actions. | Show when active or saved obligations exist. Detailed card fields may be refined later. | Routes to Bills area or the specific bill/tenancy detail. |
 | 6 | Recent Activity | Limited list of recent transactions and status records. | Show recent items only, capped by dashboard display rules. | Arrow or View More routes to Recent Activity detail page. |
 
-Dashboard section order may be refined later, but urgent actions and obligations should remain above promotional discovery.
+Dashboard section order may be refined later only through explicit design review. This baseline intentionally places the Featured / What’s New / Hot Offer carousel below shortcuts and above Upcoming Bills / Rent.
 
 ---
 
@@ -402,25 +404,7 @@ Detailed admin configuration workflow belongs in DOC-22. User preference, visibi
 
 ---
 
-### 7.7 Upcoming Bills / Rent
-
-The Upcoming Bills / Rent section should summarize the user’s next relevant obligations.
-
-Initial dashboard card information may include:
-
-- biller, payee, landlord, or obligation name;
-- category;
-- amount;
-- due date or rent period;
-- payment status;
-- evidence status where relevant;
-- next action.
-
-Exact card layout, maximum visible items, empty state, and filtering rules remain open and should be refined in later DOC-06 route-level work.
-
----
-
-### 7.8 Featured / What’s New / Hot Offer Carousel
+### 7.7 Featured / What’s New / Hot Offer Carousel
 
 The dashboard should use one combined promotional and announcement carousel.
 
@@ -438,6 +422,24 @@ The carousel may include:
 The carousel must be admin-controllable, including placement, priority, start/end date, targeting, enable/disable, approval status, and audit log.
 
 Detailed promotion eligibility, coupon/voucher logic, reward entitlement, campaign budget, and reversal logic belong in DOC-13. Detailed admin placement control belongs in DOC-22. Personalization and marketing data handling belong in DOC-15.
+
+---
+
+### 7.8 Upcoming Bills / Rent
+
+The Upcoming Bills / Rent section should summarize the user’s next relevant obligations.
+
+Initial dashboard card information may include:
+
+- biller, payee, landlord, or obligation name;
+- category;
+- amount;
+- due date or rent period;
+- payment status;
+- evidence status where relevant;
+- next action.
+
+Exact card layout, maximum visible items, empty state, and filtering rules remain open and should be refined in later DOC-06 route-level work.
 
 ---
 
@@ -1669,13 +1671,14 @@ The DOC-06 user journey scope is satisfied when:
 | Final payment processor, operating-bank setup, detailed KYC/KYB steps, fees, multi-card card-count limit, and dispute policy details remain open or to be confirmed. | Open |
 | Major functions and modules must be independently disableable. | Confirmed |
 | Promotion, coupon/voucher, reward, MGM, and membership UX surfaces are framework scope but launch-gated by DOC-13. | Confirmed |
-| Home Dashboard is task-first and uses bottom navigation `Home`, `Bills`, `Pay+`, `Offers`, and `Me`. | Discussion Baseline |
+| Home Dashboard is task-first and uses bottom navigation `Home`, `Bills`, `Pay+`, `Offers`, and `Me`. | Designated Layout Baseline |
 | `Pay+` is the preferred center bottom-nav action label, with exact action sheet content still open. | Label Confirmed / Actions Open |
-| MVP dashboard shortcuts are Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More. | Discussion Baseline |
+| MVP dashboard shortcuts are Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More. | Designated Layout Baseline |
 | Dashboard shortcuts must be admin-configurable and user-reorderable, with user settings overriding system default and restore-default support. | Confirmed |
 | Important Notice / Action Required is a combined swipeable section, collapsible by user, hidden when empty. | Confirmed |
 | Featured / What’s New / Hot Offer is one combined admin-controllable carousel at this stage. | Confirmed |
 | Recent Activity dashboard section displays limited recent transactions with date, item, action, amount, and status. | Confirmed |
+| The dashboard flow and layout are designated for MVP discussion, but final UI design, exact component specification, and exact route-level screen specification are not finalized. | Confirmed |
 
 ---
 
@@ -1694,3 +1697,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.9 | 2026-06-02 | Added return-to-checkout quote revalidation for deferred payment instructions, including payment quote, promotion quote, card eligibility, fee, and timing changes before submission. |
 | v0.10 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion. |
 | v0.11 | 2026-06-04 | Added Home Dashboard and navigation IA discussion baseline covering bottom navigation, Pay+ center action, shortcut grid, notice/action section, upcoming obligations, featured carousel, recent activity, shortcut configurability, user shortcut preferences, and open route-level UI decisions. |
+| v0.12 | 2026-06-04 | Updated designated dashboard flow to place Featured / What’s New / Hot Offer directly under shortcuts, clarified the dashboard as a designated layout baseline rather than finalized UI design or exact component specification. |
