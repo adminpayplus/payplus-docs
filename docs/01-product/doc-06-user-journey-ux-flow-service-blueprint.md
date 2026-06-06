@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.12.0
+version: 0.13.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-04
+last_updated: 2026-06-07
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -312,7 +312,7 @@ MVP bottom navigation should use five primary destinations.
 | --- | --- | --- | --- |
 | Home | Default task-first dashboard. | Opens Home Dashboard. | Discussion baseline |
 | Bills | Obligation and record management area. | Opens Bills area covering bills, rent/tenancies, requests, instructions, reminders, receipts, and related records. Exact sub-navigation remains to be finalized. | Discussion baseline |
-| Pay+ | Central payment and request action. | Opens a slide-up action sheet for payment and receiving/request actions. Exact action list remains to be finalized. | Confirmed label / action list open |
+| Pay+ | Central payment and request action. | Opens a slide-up action sheet for payment, setup, continuation, and request-payment actions. Exact visual UI and final ordering remain to be finalized. | Working baseline |
 | Offers | Full promotion discovery area. | Opens Offers Hub covering hot offers, card partner offers, PayPlus campaigns, coupon/voucher library, referral, and What’s New. Exact route IA remains to be finalized. | Discussion baseline |
 | Me | Account and user control area. | Opens profile, settings, security, notifications, privacy, support, cards/payment methods, and account controls. Exact route IA remains to be finalized. | Discussion baseline |
 
@@ -324,21 +324,27 @@ MVP bottom navigation should use five primary destinations.
 
 Tapping `Pay+` should open a slide-up action sheet instead of routing directly to one screen.
 
-The Pay+ action sheet should contain direct payment-start, receive/request, or payment-continuation actions. The exact action list is not finalized and must be discussed before implementation.
+The Pay+ action sheet should contain user-friendly actions for starting or continuing the core PayPlus journey. It should not expose internal terms such as payment instruction, capture layer, or verification layer to users.
 
-Candidate Pay+ actions include:
+Working baseline Pay+ actions:
 
-- Pay Bill / Fee;
+- Pay a Bill / Fee;
 - Pay Rent;
-- Upload / Verify Bill;
-- Scan QR / Open Link;
-- Pay From Request;
-- Create / Send Request;
-- Continue Payment Instruction.
+- Add Bill / Rent;
+- Continue Payment;
+- Request Payment.
+
+`Request Payment` should appear by default for all users, unless the request feature/module is disabled or the account is restricted. A user may be both payer and payee, such as a landlord who is also a renter elsewhere.
+
+`Add Bill / Rent` should include scan QR, upload bill/invoice/tenancy/evidence, and manual entry as input methods inside the setup flow. QR or upload should not be a standalone Pay+ payment action because PayPlus must remain evidence-backed and must not behave as generic QR instant payment.
+
+`Continue Payment` should cover deferred payment instructions, unfinished split-card payments, failed or retry payment legs, interrupted checkout, and other payment actions that require the user to resume.
 
 The Pay+ action sheet must avoid creating wallet, stored-value, cashout, unsupported P2P, or automatic recurring-payment behavior.
 
-Detailed wording, ordering, eligibility, disabled states, and action limits remain open.
+Pay+ actions may start or continue a user journey, but must not bypass evidence capture, bill/rent setup, payee validation, risk checks, authorization, fee calculation, or payment instruction rules.
+
+Exact visual layout, button order, empty states, disabled states, eligibility copy, and final action limits remain open.
 
 ---
 
@@ -458,6 +464,31 @@ Dashboard recent activity items should show:
 The section should include a button or arrow to the Recent Activity detail page.
 
 Detailed receipt content, retention, and notification linkage belong in DOC-08, DOC-11, DOC-15, and DOC-18.
+
+---
+
+### 7.10 Route IA Workplan and Placeholder Titles
+
+DOC-06 must next define what users see, what buttons exist, what each button does, and how route areas interact. The following titles are intentionally preserved as the working map so the route-level UI discussion does not lose scope.
+
+| Area | Purpose of Future DOC-06 Detail | Current Status |
+| --- | --- | --- |
+| Bottom Navigation Route Map | Define how `Home`, `Bills`, `Pay+`, `Offers`, and `Me` relate to top-level routes and deep links. | Title preserved / not finalized |
+| Pay+ Action Sheet Detail | Define final label order, empty states, disabled states, permission rules, and route destinations for the working baseline actions. | Working baseline / not finalized |
+| Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Title preserved / not finalized |
+| Offers Hub IA | Define offer discovery, hot offers, card partner offers, coupon/voucher library, referral, What's New, and campaign detail routes. | Title preserved / not finalized |
+| Me Area IA | Define account, security, privacy, notification preferences, support, cards/payment methods, and user control routes. | Title preserved / not finalized |
+| More Shortcuts IA | Define secondary shortcuts and services not shown in the first eight dashboard shortcuts. | Title preserved / not finalized |
+| Requests Route | Define received requests, sent requests, request creation, response actions, status tracking, and request delivery records. | Title preserved / not finalized |
+| Instructions Route | Define deferred payment instructions, split-card progress, retry/failed legs, pending actions, cancellation, expiry, and continuation paths. | Title preserved / not finalized |
+| Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
+| Receipts / Activity Route | Define receipts, proof of payment, statements, refund/reversal records, and transaction details. | Title preserved / not finalized |
+| Reminders Route | Define due reminders, user-set reminders, notification settings, and reminder destinations. | Title preserved / not finalized |
+| Cards / Payment Methods Route | Define tokenized card/payment profile management, card status, default card, and payment method issue handling. | Title preserved / not finalized |
+| Referral Route | Define referral entry, invitation link, progress, reward status, and relationship with Offers Hub. | Title preserved / not finalized |
+| Admin-Configurable UI Marker List | Mark app UI elements that require admin configuration later without drafting admin UI in DOC-06. | Title preserved / DOC-22 owns admin UI |
+
+App UI elements that currently require admin configuration markers include Pay+ action visibility, shortcut visibility/order/defaults, Featured / What's New / Hot Offer carousel placement, Important Notice / Action Required item types, feature/module enablement, request-payment availability, and route-level gating by user type, category, launch phase, risk state, or compliance restriction.
 
 ---
 
@@ -1614,8 +1645,8 @@ The DOC-06 user journey scope is satisfied when:
 | OQ-06-018 | What dormant-login inactivity threshold and user-facing reauthentication path should be used? | Product / Security | Open |
 | OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
 | OQ-06-020 | What exact payment-instruction screen labels, call-to-action wording, and partial-funded visual treatment should be used? | Product / Design / Legal | Open |
-| OQ-06-021 | What exact Pay+ action sheet actions, labels, ordering, disabled states, and eligibility rules should be used? | Product / Design / Payments | Open |
-| OQ-06-022 | What exact route-level IA should apply to Bills, Offers, Me, More, Requests, Instructions, Receipts, Reminders, Cards, Referral, and Support entry points? | Product / Design | Open |
+| OQ-06-021 | What exact Pay+ action sheet visual layout, button order, empty states, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Partially answered |
+| OQ-06-022 | What exact route-level IA should apply to Bills, Offers, Me, More, Requests, Instructions, Receipts, Reminders, Cards, Referral, and Support entry points? | Product / Design | Open / placeholders added |
 | OQ-06-023 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06-024 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06-025 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What’s New / Hot Offer placements? | Product / Growth / Operations | Open |
@@ -1672,7 +1703,9 @@ The DOC-06 user journey scope is satisfied when:
 | Major functions and modules must be independently disableable. | Confirmed |
 | Promotion, coupon/voucher, reward, MGM, and membership UX surfaces are framework scope but launch-gated by DOC-13. | Confirmed |
 | Home Dashboard is task-first and uses bottom navigation `Home`, `Bills`, `Pay+`, `Offers`, and `Me`. | Designated Layout Baseline |
-| `Pay+` is the preferred center bottom-nav action label, with exact action sheet content still open. | Label Confirmed / Actions Open |
+| `Pay+` is the preferred center bottom-nav action label. Working baseline actions are Pay a Bill / Fee, Pay Rent, Add Bill / Rent, Continue Payment, and Request Payment. | Working Baseline / Not Final |
+| `Add Bill / Rent` includes scan QR, upload evidence, and manual entry inside the setup flow; QR/upload is not a standalone instant-payment action. | Working Baseline |
+| `Request Payment` should appear by default for all users unless the feature/module is disabled or the account is restricted. | Working Baseline |
 | MVP dashboard shortcuts are Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More. | Designated Layout Baseline |
 | Dashboard shortcuts must be admin-configurable and user-reorderable, with user settings overriding system default and restore-default support. | Confirmed |
 | Important Notice / Action Required is a combined swipeable section, collapsible by user, hidden when empty. | Confirmed |
@@ -1697,4 +1730,5 @@ The DOC-06 user journey scope is satisfied when:
 | v0.9 | 2026-06-02 | Added return-to-checkout quote revalidation for deferred payment instructions, including payment quote, promotion quote, card eligibility, fee, and timing changes before submission. |
 | v0.10 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion. |
 | v0.11 | 2026-06-04 | Added Home Dashboard and navigation IA discussion baseline covering bottom navigation, Pay+ center action, shortcut grid, notice/action section, upcoming obligations, featured carousel, recent activity, shortcut configurability, user shortcut preferences, and open route-level UI decisions. |
-| v0.12 | 2026-06-04 | Updated designated dashboard flow to place Featured / What’s New / Hot Offer directly under shortcuts, clarified the dashboard as a designated layout baseline rather than finalized UI design or exact component specification. |
+| v0.12 | 2026-06-04 | Updated designated dashboard flow to place Featured / What's New / Hot Offer directly under shortcuts, clarified the dashboard as a designated layout baseline rather than finalized UI design or exact component specification. |
+| v0.13 | 2026-06-07 | Added Pay+ action sheet working baseline, clarified QR/upload as part of Add Bill / Rent, confirmed Request Payment default visibility subject to gating, and added route IA placeholder titles for continued app UI specification work. |
