@@ -1,7 +1,7 @@
 ---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.4.0
+version: 0.5.0
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-06-02
+last_updated: 2026-06-08
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -100,7 +100,7 @@ Detailed specifications belong to:
 | AI/OCR role | System should read evidence, capture fields, classify documents, and autofill request fields where confidence is acceptable. |
 | User correction | Users must be able to review and correct autofilled fields before submission. |
 | Human review | Most evidence should be system-processed; unclear, inconsistent, duplicate, reused, sensitive, or risky cases route to human review. |
-| Data asset | Extracted evidence data is an important PayPlus data asset, but it is only one component of the broader PayPlus data profile. |
+| Data asset | Extracted evidence data is an important PayPlus data asset, but it is only one component of the broader PayPlus data profile and must remain classified, purpose-linked, and governed under DOC-15 and DOC-18. |
 | Configuration | Category fields, confidence thresholds, duplicate strictness, red flags, and review routing should be configurable in admin. |
 
 Unconfirmed items should remain editable assumptions or gated requirements and should not block continued documentation drafting.
@@ -445,7 +445,9 @@ DOC-12 analytics signals may include:
 
 Evidence-derived data must be labeled separately from broader PayPlus user lifecycle data such as payment behavior, user spending behavior, payer/payee relationships, referral/member-get-member data, support history, refund behavior, and payout history.
 
-Detailed reporting, warehouse, data marts, lineage, and privacy controls belong in DOC-18 and DOC-15.
+Evidence-derived model features, analytics signals, or AI training inputs must preserve lineage to raw, extracted, corrected, verified, and final evidence layers. Raw evidence text, tenancy/property details, medical details, identity document data, domestic helper employment details, and other sensitive fields should not be used for marketing models, partner reporting, external activation, credit scoring, or insurance underwriting unless separately assessed, approved, and documented under DOC-15 and the relevant source documents.
+
+Detailed reporting, warehouse, data marts, lineage, feature/model metadata, and privacy controls belong in DOC-18 and DOC-15.
 
 ---
 
@@ -499,6 +501,7 @@ DOC-06 should remain a user journey and UX scope document. It should not copy al
 | OQ-12-008 | Can evidence-derived data be used for model improvement, analytics, and risk training? | Privacy / Legal / Data | High | Open |
 | OQ-12-009 | What exact evidence standards, field requirements, and review thresholds apply to domestic helper, driver, and personal service obligations? | Legal / Compliance / Risk / Product | Medium | Open |
 | OQ-12-010 | What admin override permissions and reason codes are required for evidence approval? | Operations / Risk / Product | Medium | Open |
+| OQ-12-011 | Which evidence-derived fields and model features are prohibited from marketing, partner reporting, external activation, credit scoring, or insurance-related targeting? | Privacy / Legal / Risk | High | Open |
 
 ---
 
@@ -519,6 +522,7 @@ DOC-12 is acceptable when it clearly defines:
 - payee verification linkage;
 - admin configuration requirements;
 - analytics and data asset rules;
+- evidence-derived model-use and prohibited-use boundaries;
 - privacy, security, and access-control expectations;
 - related documents for detailed UX, API, data model, risk, privacy, admin, and operations specifications.
 
@@ -540,7 +544,8 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for bill category verification, document AI/OCR extraction, autofill, evidence data layers, duplicate detection, payee verification linkage, red-flag routing, and DOC-06 alignment impact. |
 | `0.2.0` | `2026-06-02` | Product Documentation Team | Clarified that DOC-14 owns risk meaning and routing framework while final thresholds, algorithms, configuration, and schemas remain with DOC-18 and DOC-22. |
 | `0.3.0` | `2026-06-02` | Product Documentation Team | Aligned evidence data layers with DOC-15 by adding field-level classification metadata, displayability, masking, retention, approved-purpose, and lineage requirements for DOC-18. |
 | `0.4.0` | `2026-06-02` | Product Documentation Team | Aligned domestic helper, driver, and personal service categories with confirmed evidence-backed MVP scope while keeping exact evidence standards and review thresholds open. |
-| `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for bill category verification, document AI/OCR extraction, autofill, evidence data layers, duplicate detection, payee verification linkage, red-flag routing, and DOC-06 alignment impact. |
+| `0.5.0` | `2026-06-08` | Product Documentation Team | Added evidence-derived model-use, sensitive-field, prohibited marketing/partner-reporting, and DOC-15/DOC-18 lineage boundaries for AI/data-engine readiness. |

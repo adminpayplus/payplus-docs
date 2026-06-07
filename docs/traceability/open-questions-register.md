@@ -20,6 +20,7 @@ Status values: `Open`, `In Review`, `Decided`, `Deferred`, `Superseded`.
 | OQ-XDOC-009 | Privacy and data classification implementation | Confirm field-level data classification, masking, approved-purpose access, retention/deletion exceptions, analytics use, partner sharing, and admin visibility. | Privacy / Security / Engineering | DOC-06, DOC-12, DOC-13, DOC-14, DOC-15, DOC-18, DOC-19, DOC-22 | Open |
 | OQ-XDOC-010 | Technical specification readiness | Draft DOC-16 to DOC-22 and align architecture, integrations, data model, security, testing, monitoring, and admin operations with human source docs. | Engineering / Product / Operations | DOC-16, DOC-17, DOC-18, DOC-19, DOC-20, DOC-21, DOC-22 | Open |
 | OQ-XDOC-011 | Home dashboard, navigation, shortcuts, and placements | Confirm Pay+ action sheet actions, route-level IA, shortcut cap/reorder/default behavior, Important Notice rules, Featured carousel rules, placement targeting, and privacy/consent treatment. | Product / Design / Growth / Privacy / Operations | DOC-05, DOC-06, DOC-08, DOC-13, DOC-15, DOC-22 | Open |
+| OQ-XDOC-012 | AI-ready data engine and model governance | Confirm event taxonomy, data lineage, feature/model metadata, approved model purposes, prohibited inputs, consent/preference dependencies, partner-reporting boundaries, aggregation thresholds, and external activation gates. | Product / Data / Privacy / Risk / Engineering | DOC-01, DOC-05, DOC-12, DOC-13, DOC-14, DOC-15, DOC-18, DOC-19 | Open |
 
 ## Maintenance Rules
 

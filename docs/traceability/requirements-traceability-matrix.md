@@ -22,6 +22,7 @@ Detailed requirement IDs should be expanded when DOC-16 to DOC-22 are drafted an
 | Promotion engine, coupon/voucher library, referral, membership | DOC-02, DOC-05, DOC-06, DOC-09, DOC-13, DOC-15 | DOC-18, DOC-20, DOC-22 | Promotion quote tests, eligibility tests, quota/budget tests, reward instrument records, reversal tests. |
 | Risk, AML, anti-cashout, fraud, and dynamic auth | DOC-03, DOC-04, DOC-09, DOC-12, DOC-13, DOC-14 | DOC-18, DOC-19, DOC-20, DOC-21, DOC-22 | Risk-rule tests, step-up tests, payout hold evidence, alert/review case logs. |
 | Privacy, data classification, masking, retention | DOC-06, DOC-12, DOC-13, DOC-14, DOC-15 | DOC-18, DOC-19, DOC-20, DOC-21, DOC-22 | Data inventory, RBAC tests, masking tests, retention schedule, access logs. |
+| AI-ready data engine, analytics, model governance, and partner intelligence | DOC-01, DOC-05, DOC-12, DOC-13, DOC-14, DOC-15 | DOC-16, DOC-17, DOC-18, DOC-19, DOC-20, DOC-21, DOC-22 | Event taxonomy, field metadata tests, lineage tests, consent/preference tests, model-input registry, prohibited-input tests, aggregation/output-control evidence, partner-reporting approvals. |
 | Authentication, tokenization, PCI, and admin access | DOC-09, DOC-15 | DOC-18, DOC-19, DOC-20, DOC-22 | Auth tests, tokenization evidence, PCI scope review, admin access review, audit logs. |
 | Testing, release, monitoring, and operations | DOC-04, DOC-05, DOC-10, DOC-11, DOC-14, DOC-15 | DOC-20, DOC-21, DOC-22 | UAT pack, go-live checklist, monitoring dashboard, incident runbook, operational SOP evidence. |
 

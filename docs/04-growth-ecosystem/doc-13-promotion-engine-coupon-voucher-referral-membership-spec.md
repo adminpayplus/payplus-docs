@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 0.7.0
+version: 0.8.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-06-04
+last_updated: 2026-06-08
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -105,6 +105,7 @@ DOC-13 does not own:
 | External vouchers | Framework included; QR, deeplink, code, API, file, webhook, or manual fulfilment may be supported. |
 | Stacking | Configurable by offer and campaign, with conservative defaults. |
 | Dashboard placement | Featured / What's New / Hot Offer is a DOC-06 dashboard carousel placement. DOC-13 owns campaign, offer, eligibility, entitlement, budget, and reversal logic; DOC-22 owns admin placement controls. |
+| Promotion intelligence | Promotion analytics, offer ranking, campaign measurement, and partner reporting must follow DOC-15 data-use tiers and DOC-18 event, lineage, and model-readiness rules. |
 
 ---
 
@@ -590,7 +591,7 @@ Correct: user has not already become entitled to this benefit this month.
 
 DOC-13 defines business data requirements. DOC-18 owns final schema.
 
-Promotion, referral, membership, miles, external voucher, partner, card-linked eligibility, and campaign-behavior data must be classified under DOC-15. DOC-18 should store field-level metadata for data class, sensitivity, displayability, masking, retention, owner, approved purpose, access role, audit requirement, source, and partner-sharing status where applicable.
+Promotion, referral, membership, miles, external voucher, partner, card-linked eligibility, and campaign-behavior data must be classified under DOC-15. DOC-18 should store field-level metadata for data class, sensitivity, displayability, masking, retention, owner, approved purpose, access role, audit requirement, source, partner-sharing status, consent/preference dependency, lineage, and model-use eligibility where applicable.
 
 Recommended core objects:
 
@@ -609,7 +610,9 @@ Recommended core objects:
 - membership account;
 - partner fulfilment record;
 - budget ledger;
-- reversal / clawback record.
+- reversal / clawback record;
+- placement exposure and impression/action event;
+- campaign measurement or aggregate partner report where approved.
 
 ### 8.1 Campaign
 
@@ -844,6 +847,8 @@ Controls should address:
 
 DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries. Final thresholds, monitoring, admin workflow, privacy, consent, partner sharing, tokenization, and access controls belong to DOC-15, DOC-18, DOC-19, DOC-21, and DOC-22.
 
+Promotion data must not be used as a back door for unrestricted profiling, raw user-level partner data sharing, offsite advertising activation, credit scoring, insurance underwriting, or sensitive evidence-based targeting. Offer ranking, placement targeting, campaign lift measurement, and partner reporting should use the minimum necessary data, respect consent and preference rules, preserve lineage, and prefer aggregated or de-identified outputs where partner visibility is needed.
+
 ---
 
 ## 12.1 Dashboard and Placement Boundaries
@@ -859,6 +864,8 @@ For promotion-related dashboard placement:
 - DOC-22 defines admin setup, approval, targeting, priority, scheduling, enable/disable, and audit workflow.
 
 A placement slot must not bypass promotion eligibility, budget, quota, consent, privacy, or approval controls.
+
+If future AI or model-assisted ranking is used for offers or placements, DOC-13 should define business eligibility and benefit rules, while DOC-15 defines permitted data use and DOC-18 defines event, feature, model, lineage, and reporting metadata. Human review or approval should remain available for sensitive campaign categories, partner-funded targeting, and exception handling.
 
 ---
 
@@ -876,9 +883,9 @@ A placement slot must not bypass promotion eligibility, budget, quota, consent, 
 | DOC-11 | Refund, reversal, chargeback, coupon restoration, miles reversal, and clawback. |
 | DOC-12 | Keep promotion, referral, membership, and payment behavior data separate from evidence-derived data. |
 | DOC-14 | Promotion abuse, referral abuse, fake accounts, coupon farming, card offer gaming, and proportionate reward-hold versus payment-blocking decisions. |
-| DOC-15 | Promotion/referral/membership data classification, marketing consent, retention, partner sharing, and miles account data. |
+| DOC-15 | Promotion/referral/membership data classification, marketing consent, retention, partner sharing, model-use boundaries, and miles account data. |
 | DOC-17 | Partner APIs, voucher redemption, miles API, card metadata, and webhooks. |
-| DOC-18 | Campaign, offer, rule, quote, accumulator, entitlement, redemption, ledger, event, and reporting schema. |
+| DOC-18 | Campaign, offer, rule, quote, accumulator, entitlement, redemption, ledger, event, lineage, analytics, model-feature metadata, and reporting schema. |
 | DOC-19 | Tokenization, payment profile metadata, access control, encryption, and PCI boundaries. |
 | DOC-20 | Promotion calculation, entitlement, redemption, and reversal test cases. |
 | DOC-21 | Campaign monitoring, abuse alerts, partner failures, and incidents. |
@@ -904,6 +911,8 @@ A placement slot must not bypass promotion eligibility, budget, quota, consent, 
 | OQ-13-012 | What partner reimbursement, tax, and accounting treatment applies to partner-funded offers? | Finance / Legal / Commercial | Open |
 | OQ-13-013 | Which promotion types may be hard-reserved for DOC-09 deferred payment instructions, and what expiry, budget-release, and user-notice rules apply? | Product / Growth / Finance | Open |
 | OQ-13-014 | Which promotion, partner, announcement, referral, or feature items may appear in the DOC-06 Featured / What's New / Hot Offer carousel, and what approval, targeting, and consent rules apply? | Product / Growth / Privacy | Open |
+| OQ-13-015 | What data may be used for offer ranking, placement personalization, campaign lift measurement, and partner-funded offer reporting? | Product / Growth / Privacy | Open |
+| OQ-13-016 | What aggregation, de-identification, report approval, and partner-contract controls are required before campaign performance data is shared externally? | Growth / Privacy / Legal | Open |
 
 ---
 
@@ -922,6 +931,7 @@ DOC-13 is acceptable when:
 - coupon/voucher library can show rewards from different sources while preserving source metadata;
 - MGM/referral and membership/tier are separate qualification modules;
 - Asia Miles reward and external partner fulfilment are covered;
+- campaign measurement, partner reporting, consent-aware offer ranking, and model-assisted placement boundaries are traceable to DOC-15 and DOC-18;
 - affected documents are clearly marked for follow-up alignment.
 - dashboard placement boundaries are clear for the DOC-06 Featured / What's New / Hot Offer carousel without turning DOC-13 into a UI specification.
 
@@ -940,3 +950,4 @@ This document should remain a compact promotion engine specification. It should 
 | 0.5.0 | 2026-06-02 | Aligned promotion quote handling with DOC-09 user payment instruction by adding deferred quote revalidation, configurable reservation, expiry release, and payment-instruction linkage. |
 | 0.6.0 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion while preserving reward instrument source metadata. |
 | 0.7.0 | 2026-06-04 | Aligned promotion placement boundaries with DOC-06 by defining Featured / What's New / Hot Offer carousel ownership split across DOC-06, DOC-08, DOC-13, DOC-15, and DOC-22. |
+| 0.8.0 | 2026-06-08 | Added promotion intelligence boundaries for consent-aware offer ranking, campaign measurement, partner reporting, model-use metadata, and privacy-safe aggregation alignment with DOC-15 and DOC-18. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-06-04
+last_updated: 2026-06-08
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -96,7 +96,7 @@ Detailed specifications belong to:
 | Area | Baseline |
 | --- | --- |
 | Launch market | Hong Kong. |
-| Data strategy | PayPlus should support broad, lawful, purpose-linked data collection and analytics. |
+| Data strategy | PayPlus should support broad, lawful, purpose-linked data collection and analytics while preserving trust, consent, data minimization, access controls, and product-boundary restrictions. |
 | Account registration | Email and phone are required. Phone requires SMS OTP verification. |
 | Identity verification | Individual identity verification is expected through Jumio or equivalent provider. PayPlus may receive or store required identity attributes, provider references, verification outcomes, and approved evidence artifacts. |
 | KYC attributes | Name, ID number, sex, ID document data, and other provider-returned attributes may be used where connected to KYC, risk, compliance, payee verification, audit, support, or legal purpose. |
@@ -120,6 +120,7 @@ Unconfirmed provider, retention exception, deletion, cross-border, sanctions, bi
 | Lawful data utility | PayPlus may collect and use data where there is a defined product, payment, compliance, risk, operational, analytical, commercial, support, audit, tax, legal, or partner purpose. |
 | Purpose-linked use | Each data class should have documented purposes and permitted use cases. |
 | Data engine readiness | Data structures should support analytics, segmentation, risk intelligence, evidence quality, commercial reporting, and future model improvement where allowed. |
+| Model-use governance | AI/model improvement, segmentation, personalization, partner reporting, and decision-support use should be governed by approved purpose, field classification, consent/preference state, prohibited-input rules, lineage, monitoring, and human-review requirements where applicable. |
 | Transparency | Users should receive appropriate notices for account, identity, evidence, payment, communication, and marketing data handling. |
 | Role-based visibility | Users, payees, admins, systems, vendors, and partners should see only the data needed for their approved role or task. |
 | Mask by default for sensitive fields | Sensitive identity, evidence, payment, payout, and risk fields should be masked or restricted unless full access is needed for an approved purpose. |
@@ -146,9 +147,9 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Communication and Notification Data | Notification preferences, delivery channel, message ID, template ID, delivery/read status, payment instruction reminder status, WhatsApp/SMS/email/push logs. | Service communication, audit, support, communication performance. |
 | UI Preference and Personalization Data | Dashboard shortcut order, shortcut visibility, restore-default action, dashboard placement exposure, carousel impression/action, inbox interaction, and user-selected display preferences. | User experience personalization, product operation, consented marketing/promotion display, analytics, audit where required. |
 | Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, category usage, correction behavior, conversion, drop-off, retry behavior, spend behavior, payer/payee relationship patterns, dashboard shortcut usage, and placement performance. | Product improvement, risk intelligence, commercial analytics, segmentation. |
-| Derived and Aggregated Data | Risk indicators, user segments, category economics, OCR quality metrics, fraud trends, campaign performance, anonymized or aggregated insights. | Analytics, model improvement, business intelligence, strategic decisions. |
+| Derived and Aggregated Data | Risk indicators, user segments, category economics, OCR quality metrics, fraud trends, campaign performance, anonymized or aggregated insights, model features where approved. | Analytics, approved model improvement, business intelligence, strategic decisions. |
 
-Detailed fields, schemas, lineage, event names, and reporting tables belong in DOC-18.
+Detailed fields, schemas, lineage, event names, feature/model metadata, and reporting tables belong in DOC-18.
 
 ---
 
@@ -256,6 +257,22 @@ PayPlus should separate service communication from optional marketing or promoti
 
 Detailed notification IDs, templates, channel routing, preference controls, and delivery logging belong in DOC-08.
 
+### 10.1 Data-Use Tiers
+
+PayPlus should classify material data use by purpose and approval level.
+
+| Tier | Use | Baseline Boundary |
+| --- | --- | --- |
+| Tier 0 | Service operation, payment processing, risk, reconciliation, audit, support, legal, tax, compliance, and security. | Required service use with appropriate notices, access controls, and audit logs. |
+| Tier 1 | Internal product, risk, evidence, payment, support, operations, and commercial analytics. | Purpose-linked internal use with masking, role-based access, retention controls, and lineage. |
+| Tier 2 | Internal derived or aggregated reporting and model-improvement preparation. | Use only approved fields and preserve lineage, sensitivity, and prohibited-input controls. |
+| Tier 3 | Owned-channel personalization, promotion ranking, dashboard placement targeting, and partner-offer display inside PayPlus. | Follow consent, preference, campaign approval, role visibility, and sensitive-field exclusions. |
+| Tier 4 | Partner-funded offers and campaign measurement inside PayPlus. | Use minimum necessary data, campaign approval, consent/preference controls, and aggregated or de-identified reporting where possible. |
+| Tier 5 | External partner reporting, clean-room collaboration, or pseudonymized matching. | Future-gated; requires legal, privacy, security, compliance, contract, and output-control review before use. |
+| Tier 6 | Offsite advertising activation or user-level external marketing data sharing. | Not approved by this document; requires separate founder approval, legal/privacy review, consent model, contracts, and formal source-document updates. |
+
+Prohibited or highly restricted uses include raw personal data sale, raw evidence export for marketing, risk-flag sale, unrestricted profiling, credit scoring, insurance underwriting, or offsite audience activation unless separately assessed, approved, and documented.
+
 ---
 
 ## 11. Analytics, Data Product, and Derived Data
@@ -272,13 +289,24 @@ PayPlus may use collected and derived data to support:
 - promotion, referral, membership, and campaign performance;
 - dashboard shortcut usage, user preference patterns, placement exposure, and carousel performance;
 - commercial reporting;
-- data marts, dashboards, and future model improvement.
+- data marts, dashboards, and future model improvement where approved.
 
 Derived or aggregated data should retain lineage to source data class, permitted purpose, and access controls. Sensitive personal data should not be exposed in dashboards unless required for approved review or operations.
 
 Dashboard personalization, shortcut ordering, placement targeting, and Featured / What's New / Hot Offer exposure must follow consent, preference, approved-purpose, and role-appropriate visibility rules. User-selected shortcut settings may override system defaults as defined in DOC-06, but must remain subject to feature eligibility, risk restrictions, and disabled-module controls.
 
-Detailed warehouse, analytics, lineage, and reporting design belongs in DOC-18.
+Model features, segments, scores, and AI-generated outputs should retain lineage to source data, approved purpose, sensitivity level, permitted use, retention expectation, access roles, and monitoring requirements. Sensitive identity, raw evidence, medical details, child/family-sensitive education details, precise tenancy/property details, domestic helper employment details, raw support narratives, sanctions/AML results, internal risk notes, and vulnerability or hardship indicators should not be used for marketing models or partner reporting unless separately assessed and approved by legal, privacy, compliance, risk, and the Project Owner.
+
+Marketing, personalization, and partner-offer models should distinguish:
+
+- service and risk use;
+- product analytics use;
+- consented personalization use;
+- aggregated commercial reporting;
+- partner campaign measurement;
+- external activation, which remains future-gated and not approved by this document.
+
+Detailed warehouse, analytics, lineage, event taxonomy, feature/model registry, aggregation thresholds, and reporting design belongs in DOC-18.
 
 ---
 
@@ -335,6 +363,8 @@ Requirements:
 - vendor purpose, data scope, retention, security, location, subprocessor, incident, and deletion terms should be reviewed;
 - cross-border processing should be documented where vendor systems or support teams process data outside Hong Kong;
 - partner sharing should be limited to approved purpose and documented in user notices or agreements where required;
+- partner reporting should prefer aggregated, de-identified, or campaign-level outputs over user-level data;
+- clean-room, pseudonymized matching, external activation, or user-level partner marketing use requires separate approval, contractual controls, output controls, and consent/preference review;
 - vendor access and transfer records should be available for audit where practical.
 
 Detailed provider integration belongs in DOC-17. Vendor risk and security policy alignment belong in DOC-04 and ISMS policies.
@@ -416,6 +446,9 @@ Detailed ISO/ISMS policies belong in DOC-99 policy library. PCI and authenticati
 | OQ-15-010 | What exact PCI DSS scope, SAQ/ROC path, QSA/acquirer expectations, and responsibility matrix apply before production launch? | Security / Payments / Compliance | High | Open |
 | OQ-15-011 | What ISO/IEC 27001 control evidence should DOC-15 privacy and data handling controls produce for the ISMS? | Security / Compliance / Privacy | Medium | Open |
 | OQ-15-012 | What consent, preference, retention, and analytics rules apply to dashboard shortcut preferences, placement exposure, carousel impressions, and personalized offer targeting? | Product / Privacy / Growth | Medium | Open |
+| OQ-15-013 | Which data classes, fields, derived features, segments, scores, and AI outputs may be used for model improvement, personalization, partner reporting, and campaign measurement? | Privacy / Data / Product | High | Open |
+| OQ-15-014 | Which data classes, fields, and derived signals are prohibited from marketing models, partner reporting, clean-room collaboration, or offsite activation? | Privacy / Legal / Risk | High | Open |
+| OQ-15-015 | What consent, opt-out, notice, partner-contract, and output-control rules are required before clean-room collaboration, pseudonymized matching, or external activation? | Legal / Privacy / Security | High | Open |
 
 ---
 
@@ -430,6 +463,7 @@ DOC-15 is acceptable when it clearly defines:
 - evidence and obligation data handling;
 - payer, payee, admin, system, vendor, and partner visibility rules;
 - consent, notice, and communication privacy boundaries;
+- data-use tiers, partner-sharing boundaries, model-use governance, and sensitive-data red lines;
 - dashboard shortcut preference, placement exposure, personalization, and user preference boundaries;
 - analytics and data product expectations;
 - retention, deletion, and legal-hold expectations;
@@ -461,3 +495,4 @@ It should not become:
 | `0.3.0` | `2026-06-02` | Product Documentation Team | Added deferred instruction quote revalidation result and DOC-13 promotion quote reservation data to the classification baseline. |
 | `0.4.0` | `2026-06-02` | Product Documentation Team | Standardized coupon/voucher library and reward instrument wording to avoid stored-value confusion. |
 | `0.5.0` | `2026-06-04` | Product Documentation Team | Aligned privacy/data classification with DOC-06 dashboard baseline by adding shortcut preferences, dashboard placement exposure, carousel interaction, personalization, and targeting boundaries. |
+| `0.6.0` | `2026-06-08` | Product Documentation Team | Added data-use tiers, model-use governance, partner-sharing boundaries, sensitive-data red lines, clean-room/external activation gates, and related open questions for AI/data-engine readiness. |

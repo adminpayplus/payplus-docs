@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.9.0
+version: 0.10.0
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-06-02
+last_updated: 2026-06-08
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -23,8 +23,10 @@ related_documents:
   - DOC-05 Master PRD & Feature Requirement Index
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification
   - DOC-15 Privacy, Data Protection & Record Retention Specification
+  - DOC-18 Data Model, Transaction State & Audit Event Specification
 ---
 
 # DOC-01 — Product Overview & Positioning
@@ -58,6 +60,10 @@ Payee-created requests are allowed only where the payee is onboarded or approved
 
 PayPlus should not be positioned as a wallet, stored-value account, cashout service, peer-to-peer transfer app, remittance service, lending product, or open invoice marketplace unless separately assessed, approved, and documented.
 
+PayPlus should also be designed as a data-disciplined payment platform. Each material account, evidence, request, payment, payout, risk, promotion, support, communication, and admin action should create structured, classified, auditable, and purpose-linked data where appropriate. This data foundation may support product improvement, risk control, operational analytics, commercial reporting, consented personalization, and future approved AI or model improvement.
+
+This data strategy does not approve PayPlus to operate as an advertising network, data broker, offsite audience-activation platform, credit scoring product, insurance underwriting product, or unrestricted financial profiling product. Any partner marketing, external data collaboration, clean-room use, model training, or user-level data sharing must be separately assessed under privacy, legal, compliance, risk, security, and partner-contract requirements.
+
 ### 2.1 Current MVP Decision Baseline
 
 The founding-stage MVP baseline includes:
@@ -80,6 +86,7 @@ The founding-stage MVP baseline includes:
 | Notification channels | Candidate channels include app notifications, push notifications, email, SMS, and WhatsApp. |
 | Record retention | Payment receipt, statement, proof of payment, account, tax, and audit records are expected to be retained for 7 years, subject to final privacy and legal review. |
 | Independent feature controls | Each major function and module must be independently configurable or disableable. |
+| Data and AI readiness | MVP design should preserve structured events, field classification, source lineage, auditability, consent/preference state, and approved-purpose metadata so downstream analytics and future AI use can be governed under DOC-15 and DOC-18. |
 | Unresolved launch details | Treat as assumptions, dependencies, open questions, or gated requirements until confirmed. |
 
 This baseline does not remove the need for legal, compliance, PSP/acquirer, payout, risk, privacy, security, commercial, or operational approval before production launch.
@@ -124,6 +131,8 @@ Allowed positioning language may include:
 - Pay approved domestic helper, driver, or personal service obligations by card where supported and verified.
 - Split or combine eligible card payments for an approved bill, where supported.
 - Track bill payment status, receipts, and payment evidence.
+- Privacy-safe payment intelligence for PayPlus product, risk, operations, and approved partner-offer use cases.
+- Evidence-backed payment insights, where aggregated, consented, or otherwise approved.
 
 Prohibited positioning language includes:
 
@@ -142,6 +151,10 @@ Prohibited positioning language includes:
 - Open invoice marketplace.
 - Request money from anyone for any reason.
 - Auto-charge tenants or payers without authorization.
+- Sell user financial data.
+- Financial surveillance platform.
+- Credit scoring or insurance underwriting engine unless separately assessed and approved.
+- Offsite advertising audience network unless separately assessed and approved.
 
 Final public language must be reviewed in `DOC-07 Content, Disclosure & User Authorization Specification`.
 
@@ -353,6 +366,8 @@ PayPlus should follow these principles:
 | Traceable lifecycle | Each request should be traceable from creation through funding, payout, reconciliation, and receipt. |
 | Risk-based controls | Higher-risk categories or behavior should trigger stronger review and limits. |
 | Privacy-bound visibility | Payers and payees should only see information appropriate to their role and authorization level. |
+| Data-engine readiness by design | Material product actions should create structured, classified, auditable, and purpose-linked data so PayPlus can support service operation, risk controls, analytics, reporting, and future approved AI use. |
+| Trust-preserving intelligence | Data and AI use should improve user value, risk control, operations, and approved partner offers without turning PayPlus into a data broker, surveillance platform, or unrestricted marketing network. |
 
 ---
 
@@ -523,6 +538,7 @@ Detailed partner assessment belongs in `DOC-03 Regulatory, PSP & Acquirer Assess
 | `ASM-DOC01-008` | Approved payees can provide sufficient evidence for created requests, including tenancy or lease evidence for rent where required. | Product / Risk / Operations | Open |
 | `ASM-DOC01-009` | Payers will understand and accept payee-created requests only after clear review, disclosure, and authorization flow. | Product / Design / Legal | Open |
 | `ASM-DOC01-010` | Partner and payment data can support reliable reconciliation and audit requirements. | Finance / Engineering / Operations | Open |
+| `ASM-DOC01-011` | Structured product, evidence, payment, payout, risk, promotion, and support data can support analytics and future approved AI/model improvement without undermining privacy, trust, or product boundaries. | Product / Data / Privacy | Open |
 
 ---
 
@@ -540,6 +556,7 @@ Detailed partner assessment belongs in `DOC-03 Regulatory, PSP & Acquirer Assess
 | `CON-DOC01-008` | Payee-created request capability must be disabled unless approved payee onboarding, evidence, risk, payout, privacy, support, and reconciliation controls are in place. | Requires feature gating and launch control. | Product / Compliance / Risk |
 | `CON-DOC01-009` | Payee-created requests must not charge or bind the payer without explicit payer authorization. | Requires payer acceptance and authorization controls. | Product / Legal / Payments |
 | `CON-DOC01-010` | Landlord-created rent requests require approved landlord onboarding and tenancy or lease evidence where required. | Requires rent-specific onboarding, evidence, and risk controls. | Product / Risk / Operations |
+| `CON-DOC01-011` | AI, analytics, personalization, partner reporting, and commercial data use must remain purpose-linked, privacy-governed, permissioned, and traceable. | Requires data classification, consent/preference controls, lineage, model governance, and partner-sharing approval. | Product / Privacy / Data |
 
 ---
 
@@ -559,6 +576,7 @@ Detailed partner assessment belongs in `DOC-03 Regulatory, PSP & Acquirer Assess
 | `DEP-DOC01-010` | Payee onboarding and capability model. | Payee-created requests and payee payout. | Product / Compliance / Risk | Open |
 | `DEP-DOC01-011` | Payer identification and invitation mechanism. | Payee-created request delivery to payer. | Product / Engineering / Privacy | Open |
 | `DEP-DOC01-012` | Payer response and pre-authorization dispute workflow. | Payee-created request acceptance, rejection, query, and dispute. | Product / Operations / Legal | Open |
+| `DEP-DOC01-013` | Data and AI governance model covering event taxonomy, classification, lineage, consent, model inputs, analytics use, partner reporting, and AI decision-support boundaries. | Data-engine readiness, future AI use, analytics, and partner intelligence. | Data / Privacy / Engineering | Open |
 
 ---
 
@@ -578,6 +596,8 @@ Detailed partner assessment belongs in `DOC-03 Regulatory, PSP & Acquirer Assess
 | `RISK-DOC01-010` | Sensitive bill documents are mishandled. | Privacy, security, and reputation risk. | Apply privacy, security, access, retention, and deletion controls. | Privacy / Security | Open |
 | `RISK-DOC01-011` | Payer misunderstands payee-created request as mandatory, already paid, or automatically charged. | Complaints, disputes, trust loss, and consumer protection risk. | Clear request-origin messaging, explicit payer acceptance, and no auto-charge behavior. | Product / Legal | Open |
 | `RISK-DOC01-012` | Payee sees sensitive payer payment, card, or risk information. | Privacy, security, and trust risk. | Role-based access, masking, approved-purpose visibility, and payee-safe status messaging. | Privacy / Security | Open |
+| `RISK-DOC01-013` | PayPlus data or AI strategy is perceived as selling or exploiting sensitive financial, evidence, payer-payee, or risk data. | User trust, privacy, regulatory, partner, and reputation risk. | Keep data use purpose-linked, consent-aware, masked, aggregated where possible, and subject to DOC-15, DOC-18, legal, privacy, compliance, risk, and security controls. | Product / Privacy / Data |
+| `RISK-DOC01-014` | Partner marketing, insurance, banking, or offsite advertising use expands beyond approved PayPlus scope. | Product-boundary, privacy, compliance, and partner-contract risk. | Treat external activation, user-level sharing, insurance-related targeting, and clean-room collaboration as future gated capabilities requiring separate approval. | Commercial / Legal / Privacy |
 
 ---
 
@@ -597,6 +617,7 @@ PayPlus should not launch until the following are sufficiently addressed:
 - payer acceptance and authorization flow is defined if payee-created requests are enabled;
 - rent evidence and landlord verification controls are defined if rent is enabled;
 - privacy and data retention controls are defined;
+- data classification, approved-purpose, consent/preference, lineage, analytics, and AI/model-improvement boundaries are defined where relevant;
 - payer/payee data visibility boundaries are defined;
 - security model is defined;
 - payment, payout, refund, and reconciliation workflows are defined;
@@ -634,6 +655,8 @@ Candidate success criteria include:
 | Contribution margin | Revenue after variable payment, payout, promotion, risk, support, onboarding, verification, and operations costs. |
 | Complaint rate | Complaints per transaction, user, or payee. |
 | Repeat usage rate | Percentage of users who submit or pay more than one approved bill payment. |
+| Data quality readiness | Percentage of material events and fields with required classification, source lineage, owner, approved purpose, masking, retention, and audit metadata. |
+| Analytics readiness | Availability of governed product, risk, payment, evidence, promotion, and operational reporting without exposing unnecessary sensitive data. |
 
 Metric definitions should be finalized in `DOC-18 Data Model, Transaction State & Audit Event Specification`.
 
@@ -648,7 +671,7 @@ Metric definitions should be finalized in `DOC-18 Data Model, Transaction State 
 | `DOC-02` | Validate service fee, payee fee, partner fee, promotion, onboarding, verification, support, and unit economics assumptions. |
 | `DOC-03` | Assess regulatory, PSP, acquirer, category, payment rail, payee feasibility, payee-created request model, and request creator implications. |
 | `DOC-04` | Define launch gates, compliance controls, payee onboarding controls, payer authorization controls, evidence, and approval workflow. |
-| `DOC-05` | Convert candidate capabilities into prioritized PRD requirements. |
+| `DOC-05` | Convert candidate capabilities into prioritized PRD requirements, including data-engine readiness expectations for material product events and objects. |
 | `DOC-06` | Define payer, payee, admin, and service blueprint flows. |
 | `DOC-07` | Define product language, request-origin language, disclosures, and payer authorization content. |
 | `DOC-08` | Define lifecycle notifications, request invitation messages, status messaging, and receipt language. |
@@ -656,13 +679,13 @@ Metric definitions should be finalized in `DOC-18 Data Model, Transaction State 
 | `DOC-10` | Define payout execution, payee payout status, and reconciliation rules. |
 | `DOC-11` | Define cancellation, request withdrawal, payer rejection, query, refund, dispute, chargeback, and reversal rules. |
 | `DOC-12` | Define category eligibility, document AI/OCR, evidence validation, rent evidence, invoice evidence, payee onboarding, and payee verification. |
-| `DOC-13` | Define promotion eligibility, reward handling, campaign rules, and funded offers. |
-| `DOC-14` | Define AML, anti-cashout, fraud, velocity, payee-created request abuse, relationship risk, manual review, and risk controls. |
-| `DOC-15` | Define privacy, payer/payee data visibility, sensitive document handling, retention, deletion, and data rights. |
-| `DOC-16` | Define technical architecture aligned to product boundaries and controls. |
-| `DOC-17` | Define API and third-party integration requirements. |
-| `DOC-18` | Define data model, request creator type, payee-created request object, ledger, reporting, audit trail, and metric definitions. |
-| `DOC-19` | Define security, tokenization, authentication, encryption, access control, and payer/payee RBAC requirements. |
+| `DOC-13` | Define promotion eligibility, reward handling, campaign rules, funded offers, partner campaign reporting, and consent-aware placement boundaries. |
+| `DOC-14` | Define AML, anti-cashout, fraud, velocity, payee-created request abuse, relationship risk, manual review, risk controls, and future AI/model-assisted risk governance. |
+| `DOC-15` | Define privacy, payer/payee data visibility, sensitive document handling, retention, deletion, data rights, consent, marketing/personalization boundaries, and approved-purpose data use. |
+| `DOC-16` | Define technical architecture aligned to product boundaries, controls, event capture, analytics, model-service boundaries, and data governance. |
+| `DOC-17` | Define API and third-party integration requirements, including OCR/document AI, analytics, partner reporting, clean-room, and campaign integrations where approved. |
+| `DOC-18` | Define data model, request creator type, payee-created request object, ledger, reporting, audit trail, event taxonomy, warehouse/data marts, lineage, feature/model metadata, and metric definitions. |
+| `DOC-19` | Define security, tokenization, authentication, encryption, access control, payer/payee RBAC, analytics access controls, pseudonymization, and partner-sharing controls. |
 | `DOC-20` | Define test coverage, UAT, launch checklist, and release readiness. |
 | `DOC-21` | Define monitoring, support, payee onboarding operations, incident response, and operational runbook. |
 | `DOC-22` | Define admin dashboard permissions, review queues, configuration, overrides, uploads, and operations workflows. |
@@ -692,6 +715,9 @@ Metric definitions should be finalized in `DOC-18 Data Model, Transaction State 
 | `OQ-DOC01-017` | What information from a payee-created request can be shown to the payer and payee? | Product / Privacy / Security | High | Open |
 | `OQ-DOC01-018` | What monitoring is required to detect fake invoices, fake rent requests, related-party abuse, and payee-created request spam? | Risk / Compliance / Operations | Critical | Open |
 | `OQ-DOC01-019` | Are recurring payee-created rent or invoice requests allowed, or must each request be individually created and authorized? | Product / Legal / Payments | High | Open |
+| `OQ-DOC01-020` | What PayPlus data classes may be used for analytics, model improvement, segmentation, personalization, partner reporting, or AI decision support? | Product / Privacy / Data | High | Open |
+| `OQ-DOC01-021` | Which data classes and fields are prohibited from marketing, partner reporting, model training, or external activation? | Privacy / Legal / Risk | High | Open |
+| `OQ-DOC01-022` | What governance is required before PayPlus supports clean-room collaboration, offsite advertising activation, insurance-related offers, or user-level partner data sharing? | Founder / Legal / Privacy / Compliance | High | Open |
 
 ---
 
@@ -708,6 +734,7 @@ Metric definitions should be finalized in `DOC-18 Data Model, Transaction State 
 - MVP definition;
 - product boundaries;
 - product principles;
+- data and AI positioning boundaries;
 - high-level payer-created request lifecycle;
 - high-level payee-created request lifecycle;
 - commercial model summary;
@@ -739,3 +766,4 @@ This document should remain a concise foundation product overview and should not
 | `0.7.0` | `2026-06-02` | Product Documentation Team | Clarified that bill and fee payments are MVP scope alongside rent/tenancy, aligned with DOC-14 risk-control baseline. |
 | `0.8.0` | `2026-06-02` | Product Documentation Team | Aligned privacy wording with DOC-15 approved-purpose visibility, masking, and role-based access controls. |
 | `0.9.0` | `2026-06-02` | Product Documentation Team | Added DOC-09 user payment instruction as MVP scope and added DOC-22 admin dashboard downstream ownership. |
+| `0.10.0` | `2026-06-08` | Product Documentation Team | Added data-engine and AI-readiness positioning, trust-preserving intelligence boundaries, related assumptions, constraints, dependencies, risks, success metrics, downstream impacts, and open questions. |

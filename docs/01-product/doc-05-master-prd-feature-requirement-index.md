@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.11.0
+version: 0.12.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-04
+last_updated: 2026-06-08
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -70,6 +70,8 @@ Domestic helper, driver, and personal service payments are MVP scope where suppo
 
 PayPlus is not a wallet, stored-value account, cashout product, open-loop money transfer product, or arbitrary peer-to-peer payment service.
 
+PayPlus is also intended to be data-engine ready by design. MVP features should create structured, classified, auditable, and purpose-linked data that can support service operation, risk control, product analytics, commercial reporting, consented personalization, and future approved AI/model improvement. This does not make AI marketing automation, offsite advertising activation, user-level partner data sharing, credit scoring, or insurance underwriting part of MVP scope.
+
 ---
 
 ## 3. MVP Scope
@@ -112,6 +114,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | OCR or document AI | Enable by category, payee type, risk tier, document type, and provider readiness; manual or assisted review may be used until automation is approved. |
 | Multi-card funding | MVP scope; support up to a configurable number of credit cards per payment, with the launch cap and related controls to be confirmed. |
 | User payment instruction | MVP scope; enable for single-card and split-card payments where DOC-09 deferred funding, reminder, partial funding, and payout controls are ready. |
+| Data and AI readiness | Require structured events, field classification, lineage, auditability, consent/preference state, approved-purpose metadata, and model-use eligibility metadata where relevant; advanced model automation and external activation remain future-gated. |
 
 Current launch assumptions:
 
@@ -168,6 +171,8 @@ The MVP does not include:
 | No arbitrary P2P | PayPlus must not support unsupported person-to-person transfers without evidence. |
 | Traceability | Each payment must be traceable to its request, evidence, payer, payee, and status history. |
 | Compliance first | Product behavior must remain within approved regulatory and partner constraints. |
+| Data-engine readiness | Material product actions should create structured events and classified data suitable for governed analytics, reporting, and future approved AI/model improvement. |
+| Trust-preserving intelligence | Analytics, personalization, partner reporting, and AI use must preserve PayPlus product boundaries, privacy controls, consent rules, role-based visibility, and auditability. |
 
 ---
 
@@ -435,7 +440,11 @@ Candidate notification channels include app notifications, push notifications, e
 The MVP should support data structures for the following object families. Detailed fields, relationships, indexes, event schemas, and ledger behavior belong in DOC-18.
 
 - account identity, authentication, security, KYC/KYB, evidence, payment, payout, risk, support, promotion, communication, analytics, and derived data must be classifiable under DOC-15;
-- each material data object should support classification metadata, including data class, sensitivity, displayability, masking rule, retention policy, owner, approved purpose, access role, audit requirement, and source lineage where applicable;
+- each material data object should support classification metadata, including data class, sensitivity, displayability, masking rule, retention policy, owner, approved purpose, access role, audit requirement, source lineage, partner-sharing status, and model-use eligibility where applicable;
+- material user, system, admin, payment, evidence, promotion, risk, communication, and support actions should create traceable events with event type, actor, timestamp, source object, status transition, reason code where applicable, and audit linkage;
+- consent and preference state should be represented in data structures where promotion, personalization, partner offers, marketing communication, analytics, or model-improvement use may depend on user choice or legal/privacy approval;
+- analytics and derived data should preserve lineage to source data classes, permitted purposes, sensitivity, aggregation/de-identification status, and access controls;
+- future AI/model use should be supported by metadata that identifies approved model purpose, permitted feature inputs, prohibited inputs, human-review requirement, and monitoring/audit expectation where applicable;
 - users;
 - payer profile;
 - payee profile;
@@ -456,7 +465,7 @@ The MVP should support data structures for the following object families. Detail
 - audit event;
 - admin review action.
 
-Detailed data model requirements should be defined in a later technical/data document.
+Detailed data model, event taxonomy, warehouse, analytics marts, feature/model metadata, aggregation thresholds, lineage, and reporting requirements should be defined in DOC-18.
 
 ---
 
@@ -537,6 +546,7 @@ The MVP should support:
 - user-managed shortcut ordering and restore-default behavior where enabled;
 - transaction-level revenue tracking;
 - payment status reporting;
+- governed product, risk, evidence, payment, promotion, support, and operations analytics where enabled;
 - payment instruction status reporting, including deferred, pending, partial funding, fully funded, expired, and cancelled states;
 - partial payout status reporting for settlement-ready funded portions;
 - user-level activity history;
@@ -554,9 +564,11 @@ Final pricing, fee model, and partner economics should be governed by DOC-02 and
 |---|---|
 | Security | Protect user, payment, and evidence data. |
 | Privacy | Apply DOC-15 data classification, role-based display controls, masking, retention, and approved-purpose access. |
+| Data governance | Material data should support classification, lineage, auditability, consent/preference state, approved purpose, partner-sharing status, and future model-use eligibility metadata where applicable. |
 | Reliability | Payment status and request status must remain consistent. |
 | Auditability | Key user, admin, payment, and evidence actions must be logged. |
 | Scalability | Architecture should support future automation and additional payment categories. |
+| AI readiness | Architecture should support future approved AI/model improvement through governed data capture, model input controls, explainability, monitoring, and human-review boundaries. |
 | Availability | MVP should be available enough for controlled beta operations. |
 | Maintainability | Product should use clear object models and status transitions. |
 | Compliance readiness | System should support review, evidence, audit, and reporting needs. |
@@ -628,6 +640,9 @@ The MVP is acceptable when:
 | OQ-05-015 | What exact dashboard shortcut cap, default ordering, user reorder UI, restore-default behavior, and More shortcut behavior should apply? | Product / Design / Operations | Open |
 | OQ-05-016 | What exact Pay+ action sheet actions, labels, ordering, and eligibility rules should apply? | Product / Design / Payments | Open |
 | OQ-05-017 | What admin controls are required for Important Notice / Action Required, Featured / What's New / Hot Offer carousel, and dashboard placement targeting? | Product / Growth / Operations | Open |
+| OQ-05-018 | Which MVP events and data objects must be captured for product analytics, risk analytics, commercial reporting, and future approved AI/model improvement? | Product / Data / Engineering | Open |
+| OQ-05-019 | What user consent and preference categories are required for personalization, partner offers, marketing communication, and model improvement? | Product / Privacy / Legal | Open |
+| OQ-05-020 | Which data classes, fields, and derived features are prohibited from marketing models, partner reports, or external activation? | Product / Privacy / Risk | Open |
 
 ---
 
@@ -648,10 +663,10 @@ The MVP is acceptable when:
 | DOC-11 | Refund, cancellation, reversal, dispute, and chargeback handling |
 | DOC-12 | Bill category, document AI/OCR, evidence verification, duplicate detection, and payee matching |
 | DOC-14 | AML, anti-cashout, fake evidence, duplicate evidence, collusion, and risk controls |
-| DOC-15 | Privacy, data protection, masking, retention, and lawful data use |
-| DOC-17 | Third-party APIs including OCR/document AI, PSP, bank, and provider integrations |
-| DOC-18 | Data model, evidence data layers, transaction state, audit events, ledger, and reporting |
-| DOC-19 | Authentication, authorization, evidence access, security, and tokenization |
+| DOC-15 | Privacy, data protection, masking, retention, lawful data use, consent, personalization, model-improvement, and partner-sharing boundaries |
+| DOC-17 | Third-party APIs including OCR/document AI, PSP, bank, provider, analytics, campaign, and partner-reporting integrations where approved |
+| DOC-18 | Data model, evidence data layers, transaction state, audit events, ledger, event taxonomy, lineage, analytics marts, feature/model metadata, and reporting |
+| DOC-19 | Authentication, authorization, evidence access, security, tokenization, analytics access controls, pseudonymization, and partner-sharing controls |
 | DOC-21 | Monitoring, incidents, support escalation, and operations runbooks |
 | DOC-22 | Admin dashboard workflows, review queues, overrides, permissions, and configuration |
 
@@ -676,6 +691,8 @@ The MVP is acceptable when:
 | Promotion engine capabilities are framework scope but launch-gated by DOC-13 rules and admin configuration. | Confirmed |
 | DOC-06 designated Home Dashboard flow and layout baseline is accepted for MVP discussion, but final UI design and exact component specification remain open. | Confirmed |
 | Dashboard shortcut grid, user shortcut preferences, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
+| PayPlus MVP should be data-engine ready by design, with structured events, field classification, source lineage, auditability, consent/preference state, approved-purpose metadata, and future model-use eligibility metadata where relevant. | Confirmed |
+| Advanced AI decisioning, external partner activation, offsite advertising, user-level data sharing, credit scoring, and insurance underwriting are not MVP scope unless separately assessed, approved, and documented. | Confirmed |
 
 ---
 
@@ -694,3 +711,4 @@ The MVP is acceptable when:
 | v0.9 | 2026-06-02 | Aligned PRD with DOC-09 and DOC-13 deferred payment instruction quote revalidation, promotion reservation, and return-to-checkout update review. |
 | v0.10 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion. |
 | v0.11 | 2026-06-04 | Aligned PRD with DOC-06 Home Dashboard baseline by adding Pay+ navigation, shortcut grid, user shortcut preferences, dashboard placements, Featured carousel, and related admin configuration expectations. |
+| v0.12 | 2026-06-08 | Added data-engine and AI-readiness requirements for structured events, field metadata, consent/preference state, approved-purpose data use, future model eligibility, analytics readiness, and prohibited MVP AI/partner activation boundaries. |

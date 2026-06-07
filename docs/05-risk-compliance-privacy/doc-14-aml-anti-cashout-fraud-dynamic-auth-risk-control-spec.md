@@ -1,7 +1,7 @@
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -17,7 +17,7 @@ approvers:
   - Project Owner
   - Compliance Lead
   - Risk Lead
-last_updated: 2026-06-02
+last_updated: 2026-06-08
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -104,6 +104,7 @@ Detailed specifications belong to:
 | Risk priority | AML/legal risk, obvious fraud, chargeback risk, credit card fraud, payout loss, and cashout risk are first-priority controls. |
 | Risk strictness | Not every red flag should block a transaction. Risk signals must map to proportionate actions. |
 | Risk engine | MVP should use explainable rules, reason codes, configurable thresholds, risk bands, manual review, and audit trails. Black-box ML is not MVP. |
+| Future AI risk support | AI or model-assisted risk scoring, relationship graph analysis, suspicious-pattern detection, and narrative support may be future enhancements only after sufficient data, privacy review, model governance, monitoring, and human-review controls are defined. |
 | Dynamic authentication | Extra authentication may be skipped below a configurable amount only where risk, security, partner, and compliance rules allow. Risk flags override the amount threshold. |
 
 Unconfirmed thresholds, providers, sanctions scope, monitoring rules, and admin workflows should remain editable assumptions until confirmed.
@@ -123,6 +124,7 @@ Unconfirmed thresholds, providers, sanctions scope, monitoring rules, and admin 
 | Human review for sensitive cases | High-risk or ambiguous cases should route to admin/risk review instead of relying only on automation. |
 | Auditability | Risk decisions, overrides, review outcomes, holds, releases, and escalations must be logged. |
 | Privacy by design | Risk review should use necessary data only and must respect masking, access, and retention rules. |
+| Model governance before automation | Future AI/model-assisted risk use should have approved purpose, permitted inputs, prohibited inputs, explainability, monitoring, human-review, and audit requirements before production use. |
 
 ---
 
@@ -193,11 +195,11 @@ The following controls are useful but should not be required for MVP launch unle
 
 | Future Control | Notes |
 | --- | --- |
-| ML-based fraud scoring | Future enhancement after sufficient labeled data. |
-| Advanced collusion graph analysis | Future network-risk capability. |
+| ML-based fraud scoring | Future enhancement after sufficient labeled data, approved feature inputs, explainability, monitoring, and review controls. |
+| Advanced collusion graph analysis | Future network-risk capability; payer-payee, device, evidence, payout, and referral graph signals require privacy and legal review. |
 | Behavioral biometrics | Provider-dependent and privacy-sensitive. |
 | Advanced device fingerprint scoring | Optional provider-based enhancement. |
-| Automated relationship inference | Should require privacy and legal review. |
+| Automated relationship inference | Should require privacy and legal review; marketing use of relationship inference is not approved by DOC-14. |
 | Advanced merchant/category segmentation | Useful after category volume grows. |
 | Promotion abuse analytics at scale | Future enhancement after DOC-13 usage data matures. |
 | Automated suspicious-activity narrative generation | Future compliance operations support, not final legal reporting. |
@@ -222,6 +224,8 @@ Risk decisioning may consume signals from:
 Detailed event schema and data model belong in DOC-18.
 
 Risk signals, scores, bands, rule triggers, same-party indicators, fraud flags, sanctions/AML results, review outcomes, and escalation notes are Risk and Compliance Data under DOC-15. DOC-18 should preserve classification metadata, sensitivity, displayability, masking, retention, approved purpose, access roles, audit requirements, and lineage to source data.
+
+Future model features, graph signals, and AI-assisted risk outputs should also preserve model purpose, permitted inputs, prohibited inputs, reason codes, confidence where applicable, human-review requirement, monitoring owner, and audit linkage under DOC-18. Risk and compliance signals should not be reused for marketing, partner reporting, credit scoring, insurance underwriting, or external activation unless separately assessed and approved under DOC-15 and the relevant source documents.
 
 ---
 
@@ -459,6 +463,8 @@ Risk-rule changes must be permissioned, logged, and reviewable. Critical rule ch
 | OQ-14-008 | What four-eye approval rules apply to payout release, risk hold release, block override, and account reinstatement? | Risk / Operations / Security | Medium | Open |
 | OQ-14-009 | What risk thresholds should apply to repeated incomplete payment instructions, unusual split-card partial payout patterns, and selected transfer date changes? | Risk / Payments / Product | Medium | Open |
 | OQ-14-010 | What thresholds should identify abusive deferred payment instruction patterns involving promotion reservation, quote revalidation, or card-linked benefit testing? | Risk / Growth / Payments | Medium | Open |
+| OQ-14-011 | What model governance, feature registry, monitoring, explainability, and human-review requirements must exist before AI/model-assisted risk scoring is enabled? | Risk / Data / Privacy | High | Open |
+| OQ-14-012 | Which payer-payee, evidence, payout, device, card, support, and promotion graph signals may be used for risk review, and which are prohibited from marketing or partner reporting? | Risk / Privacy / Legal | High | Open |
 
 ---
 
@@ -469,6 +475,7 @@ DOC-14 is acceptable when it clearly defines:
 - MVP critical controls for AML, fraud, credit card fraud, chargeback risk, payout loss, and anti-cashout;
 - configurable review controls that avoid over-strict operation;
 - optional/future enhanced controls;
+- future AI/model-assisted risk governance boundaries;
 - risk signal sources and decision actions;
 - bill, fee, rent, invoice, and approved-obligation risk treatment;
 - dynamic authentication risk triggers;
@@ -502,3 +509,4 @@ It should not become:
 | `0.3.0` | `2026-06-02` | Product Documentation Team | Aligned risk controls with DOC-09 user payment instruction by adding deferred instruction, incomplete split-card funding, partial payout, selected transfer date, and repeated incomplete pattern risk boundaries. |
 | `0.4.0` | `2026-06-02` | Product Documentation Team | Added quote revalidation, promotion reservation, quota-holding, and card-linked benefit testing as deferred payment instruction risk signals. |
 | `0.5.0` | `2026-06-02` | Product Documentation Team | Aligned domestic helper, driver, and personal service risk treatment with confirmed evidence-backed MVP scope and configurable risk-based controls. |
+| `0.6.0` | `2026-06-08` | Product Documentation Team | Added future AI/model-assisted risk governance boundaries, graph-signal controls, prohibited reuse of risk signals, and related open questions aligned with DOC-15 and DOC-18. |
