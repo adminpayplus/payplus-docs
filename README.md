@@ -4,6 +4,8 @@ PayPlus development documentation repository.
 
 PayPlus is a controlled bill, fee, rent, invoice, domestic helper, driver, personal service, and approved-obligation payment application. This repository stores the human-readable source documents, technical specifications, AI build-execution materials, and traceability records used to guide development.
 
+The current product baseline also requires PayPlus to be built as an AI-ready data engine by design: structured events, field metadata, lineage, consent/preference state, model-use eligibility, and controlled partner intelligence must be captured during product development. This does not approve PayPlus as an ad network, data broker, credit scoring product, insurance underwriting product, or offsite audience activation platform.
+
 ## Documentation Layers
 
 ```text
@@ -29,3 +31,5 @@ Human source docs
 - `docs/traceability/`: requirements, controls, tests, decisions, and open-question linkage.
 
 Start with `docs/README.md` for document navigation and `AGENTS.md` for AI assistant workflow rules.
+
+For the recent AI/data-engine strategy alignment, use `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md` as the technical baseline and `docs/04-growth-ecosystem/payplus-data-strategy-ai-marketing-research.md` as supporting research context only.

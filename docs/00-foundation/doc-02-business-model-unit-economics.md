@@ -28,7 +28,7 @@ related_documents:
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
-  - DOC-18 Data Model, Transaction Ledger & Reporting
+  - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
 ---
 
 # DOC-02 — Business Model & Unit Economics
@@ -304,7 +304,7 @@ Completed Payee-Created Request Contribution Margin
 = Net Payee-Created Request Program Margin
 ```
 
-Final reporting definitions belong in `DOC-18 Data Model, Transaction Ledger & Reporting`.
+Final reporting definitions belong in `DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification`.
 
 ---
 

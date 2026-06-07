@@ -26,7 +26,7 @@ related_documents:
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification
   - DOC-15 Privacy, Data Protection & Record Retention Specification
-  - DOC-18 Data Model, Transaction State & Audit Event Specification
+  - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
 ---
 
 # DOC-01 — Product Overview & Positioning
@@ -658,7 +658,7 @@ Candidate success criteria include:
 | Data quality readiness | Percentage of material events and fields with required classification, source lineage, owner, approved purpose, masking, retention, and audit metadata. |
 | Analytics readiness | Availability of governed product, risk, payment, evidence, promotion, and operational reporting without exposing unnecessary sensitive data. |
 
-Metric definitions should be finalized in `DOC-18 Data Model, Transaction State & Audit Event Specification`.
+Metric definitions should be finalized in `DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification`.
 
 ---
 

@@ -224,7 +224,7 @@ Document IDs must not be reused. Deprecated or retired document IDs remain reser
 | DOC-15 | Privacy, Data Protection & Record Retention Specification | 05-risk-compliance-privacy/ | doc-15-privacy-data-protection-record-retention-spec.md |
 | DOC-16 | Technical Architecture Specification | 06-engineering/ | doc-16-technical-architecture-spec.md |
 | DOC-17 | API & Third-party Integration Specification | 06-engineering/ | doc-17-api-third-party-integration-spec.md |
-| DOC-18 | Data Model, Transaction State & Audit Event Specification | 06-engineering/ | doc-18-data-model-transaction-state-audit-event-spec.md |
+| DOC-18 | Data Model, Transaction State, Audit Event & Reporting Specification | 06-engineering/ | doc-18-data-model-transaction-state-audit-event-spec.md |
 | DOC-19 | Security, Tokenization, Authentication & Admin Control Specification | 07-security-access-control/ | doc-19-security-tokenization-authentication-admin-control-spec.md |
 | DOC-20 | Testing, UAT & Go-Live Checklist | 08-qa-release-operations/ | doc-20-testing-uat-golive-checklist.md |
 | DOC-21 | Monitoring, Incident Response & Operational SOPs | 08-qa-release-operations/ | doc-21-monitoring-incident-response-operational-sops.md |
@@ -533,7 +533,7 @@ Foundation documents guide downstream documents as follows:
 | DOC-15 Privacy, Data Protection & Record Retention Specification | Define data handling, classification, consent, masking, approved-purpose access, retention, deletion, visibility, and privacy controls. |
 | DOC-16 Technical Architecture Specification | Translate approved requirements into system architecture. |
 | DOC-17 API & Third-party Integration Specification | Define PSP, acquirer, banking, OCR, webhook, partner API, OpenAPI, credential, and environment integration requirements. |
-| DOC-18 Data Model, Transaction State & Audit Event Specification | Define data model, field metadata, classification lineage, transaction state, audit event, reporting, and reconciliation data. |
+| DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification | Define data model, field metadata, classification lineage, transaction state, audit event, reporting, and reconciliation data. |
 | DOC-19 Security, Tokenization, Authentication & Admin Control Specification | Define authentication, tokenization, encryption, PCI scope, access control, admin controls, and monitoring. |
 | DOC-20 Testing, UAT & Go-Live Checklist | Convert requirements, controls, gates, and risks into test and launch criteria. |
 | DOC-21 Monitoring, Incident Response & Operational SOPs | Define monitoring, support, incident response, escalation, exception handling, and operational SOPs. |

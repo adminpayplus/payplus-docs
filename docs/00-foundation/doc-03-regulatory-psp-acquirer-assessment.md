@@ -36,7 +36,7 @@ related_documents:
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-16 Technical Architecture
   - DOC-17 API & Third-party Integration
-  - DOC-18 Data Model, Transaction Ledger & Reporting
+  - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization & Authentication
   - DOC-20 Testing, UAT, Release & Go-Live Checklist
   - DOC-21 Monitoring, Incident Response & Operations Runbook
@@ -369,7 +369,7 @@ Detailed control implementation belongs in:
 - `DOC-11 Refund, Cancellation & Chargeback`;
 - `DOC-14 AML, Anti-Cashout, Fraud & Risk Controls`;
 - `DOC-15 Privacy, Data Protection & Record Retention`;
-- `DOC-18 Data Model, Transaction Ledger & Reporting`;
+- `DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification`;
 - `DOC-19 Security, Tokenization & Authentication`.
 
 ---

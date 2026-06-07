@@ -271,6 +271,8 @@ Clean-room collaboration, pseudonymized matching, or offsite activation is futur
 
 ## 11. Open Questions
 
+Sections 4 through 10 define the current baseline for PayPlus data objects, lifecycle states, metadata, lineage, AI/model-use eligibility, reporting events, and audit records. The open questions below are remaining implementation and approval decisions, not a signal that the baseline requirement is absent.
+
 | ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
 | OQ-18-001 | What final logical and physical schema should be used for core request, evidence, payment, payout, promotion, risk, audit, and analytics objects? | Engineering / Data | High | Open |

@@ -10,7 +10,7 @@ Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation
 | Layer | Status | Notes |
 | --- | --- | --- |
 | Human source documents | Active for DOC-00 to DOC-15 | Founder Working Baseline unless a document says otherwise. |
-| Technical and operational specifications | Planned or partial for DOC-16 to DOC-22 | Draft in sequence after human docs are sufficiently stable. |
+| Technical and operational specifications | Planned or partial for DOC-16 to DOC-22 | DOC-18 now contains the current Founder Working Baseline for data model, transaction state, audit event, reporting, and AI-ready data-engine requirements. Other partial placeholders are acceptable until drafted. |
 | AI build-execution materials | Reserved | Regenerate from current human and technical specs before use. |
 | Traceability | Starter registers | Expand when stable requirement/control/test IDs are finalized. |
 
@@ -39,6 +39,14 @@ Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation
 4. `DOC-09` to `DOC-11` for payment, payout, reconciliation, refund, cancellation, dispute, and chargeback behavior.
 5. `DOC-12` to `DOC-15` for evidence verification, promotion engine, risk controls, privacy, data classification, and retention.
 6. `DOC-16` to `DOC-22` when drafted for technical architecture, integrations, data model, security, testing, monitoring, and admin operations.
+
+## AI/Data-Engine Alignment
+
+The recent AI/data-engine strategy update is traceable through:
+
+- `06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md` as the technical baseline for structured events, metadata, lineage, model-use eligibility, audit events, and reporting.
+- `04-growth-ecosystem/payplus-data-strategy-ai-marketing-research.md` as supporting research context, not a source-of-truth requirements document.
+- `traceability/open-questions-register.md` item `OQ-XDOC-012` for remaining data-engine, model governance, partner reporting, and external activation decisions.
 
 ## Current Product Baseline
 
