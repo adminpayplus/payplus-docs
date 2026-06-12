@@ -134,7 +134,7 @@ Request origins:
 
 | Origin | Rule |
 | --- | --- |
-| Payer-created | Payer creates the request and may proceed after gates and authorization. |
+| Payer-created | Payer creates the request and may proceed after evidence, payee/payout, risk, payment, and authorization gates pass. Payee acceptance is not required by default. |
 | Payee-created | Approved payee creates the request; payer must review and authorize before funding. |
 | Admin-created | Internal user creates or corrects a record under approved process; payment still requires payer authorization. |
 | System-generated | System creates status, reminder, or derived event; cannot authorize payment. |
@@ -190,12 +190,12 @@ DOC-09 owns the payment-domain lifecycle after a request exists or is ready for 
 
 | Origin | Payment-Domain Rule |
 | --- | --- |
-| Payer-created | Payer may proceed to quote and authorization after eligibility gates pass. |
+| Payer-created | Payer may proceed to quote and authorization after eligibility gates pass. Optional payee linking/adoption is not a payment-domain gate unless a category, risk, payout, or compliance rule explicitly requires it. |
 | Payee-created | Payer must accept or otherwise choose to proceed before payment method selection and authorization. |
 | Admin-created | Admin-created records must remain auditable and cannot bypass payer authorization for payment. |
 | System-generated | System-generated events cannot authorize or process payment by themselves. |
 
-A payee-created request must not trigger funding, capture, payout, or settlement action before payer authorization.
+A payee-created request must not trigger funding, capture, payout, or settlement action before payer authorization. A payer-created request may pay a valid non-user payee record or payout destination where allowed by evidence, risk, payout, and compliance gates.
 
 ---
 
@@ -663,3 +663,4 @@ DOC-09 is acceptable when:
 | 0.6.0 | 2026-06-02 | Aligned payment authorization and payment-profile handling with DOC-15 by adding payment passcode, authentication/security data references, and DOC-15 privacy classification boundaries. |
 | 0.7.0 | 2026-06-02 | Added MVP user payment instruction model covering deferred single-card and split-card funding, reminder boundaries, partial funding, funding-leg status, selected transfer date, and partial payout routing to DOC-10. |
 | 0.8.0 | 2026-06-02 | Added deferred payment instruction quote revalidation, promotion quote expiry/reservation open question, and changed-term confirmation before funding submission. |
+| 0.9.0 | 2026-06-12 | Aligned payment-domain origin rules with DOC-06 Bills tab baseline by clarifying payer-created payment does not require default payee acceptance and optional payee linking is not a payment gate unless explicitly required. |

@@ -141,6 +141,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Evidence and Obligation Data | Bills, invoices, tenancy agreements, contracts, OCR text, extracted fields, corrected fields, final evidence snapshot, landlord/payee details, property address, due date, amount, reference number. | Payment validation, autofill, payer review, payee verification, duplicate detection, audit, analytics. |
 | Payment and Funding Data | Request ID, amount, fees, quote, quote revalidation result, payment instruction, funding leg, deferred funding date, selected payee transfer date, authorization record, payment token reference, masked card summary, card brand, issuer/BIN metadata where available, multi-card split, partial funding status, step-up result, PSP reference. | Payment processing, risk, reconciliation, chargeback defense, product analytics. |
 | Payout and Payee Data | Payee profile, landlord/business payee data, payout destination, bank/FPS/cheque/EPS details, payout status, payout batch, bank reference, reconciliation result. | Payout execution, payee validation, reconciliation, fraud prevention, support. |
+| Participant Linking and Invitation Data | User-initiated search/input, invitation channel, deeplink/QR/app-link reference, pending participant record, linking acceptance/decline, linked participant role, and linkage audit trail. | Two-sided visibility, request delivery, support, fraud prevention, privacy-controlled communication. |
 | Risk and Compliance Data | Risk score/band, rule triggers, AML/sanctions status, duplicate evidence signals, same-party indicators, fraud flags, payout holds, admin review outcome, escalation records. | Anti-cashout, fraud prevention, compliance control, monitoring, audit. |
 | Refund, Dispute, Chargeback, and Support Data | Support tickets, user messages, dispute reason, refund case, chargeback reason code, evidence package, resolution, recovery/write-off status. | Support, dispute resolution, chargeback defense, operational learning, reporting. |
 | Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument, reward entitlement, referral link/code, MGM relationship, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, abuse detection. |
@@ -240,6 +241,19 @@ Visibility must reflect role, task, permission, and approved purpose.
 | Vendor / Partner | May receive only approved data needed for contracted service, integration, fulfilment, risk, payment, payout, or legal purpose. |
 
 Detailed RBAC, access approval, admin workflows, and audit events belong in DOC-19, DOC-22, and DOC-18.
+
+### 9.1 Participant Linking and Invitation Privacy
+
+User-to-user linking must be controlled because payer/payee relationships can reveal sensitive financial, tenancy, household, employment, or business information.
+
+Rules:
+
+- PayPlus must not assume automatic user-to-user matching in the user experience;
+- payer-created payment may use a valid non-user payee record or payout destination where allowed by DOC-06, DOC-09, DOC-10, DOC-12, and DOC-14;
+- shared payer/payee visibility should require user-initiated search/input, invitation, acceptance, or approved operational action;
+- phone number, user ID, QR code, app link, WhatsApp deeplink, or other invitation methods must avoid exposing unnecessary profile, KYC, evidence, payment, or relationship data before acceptance;
+- declined, expired, or ignored invitations must not reveal private information beyond the minimum status needed for the sender;
+- participant search, invitation, acceptance, decline, and linking events should be logged and classified in DOC-18.
 
 ---
 
@@ -496,3 +510,4 @@ It should not become:
 | `0.4.0` | `2026-06-02` | Product Documentation Team | Standardized coupon/voucher library and reward instrument wording to avoid stored-value confusion. |
 | `0.5.0` | `2026-06-04` | Product Documentation Team | Aligned privacy/data classification with DOC-06 dashboard baseline by adding shortcut preferences, dashboard placement exposure, carousel interaction, personalization, and targeting boundaries. |
 | `0.6.0` | `2026-06-08` | Product Documentation Team | Added data-use tiers, model-use governance, partner-sharing boundaries, sensitive-data red lines, clean-room/external activation gates, and related open questions for AI/data-engine readiness. |
+| `0.7.0` | `2026-06-12` | Product Documentation Team | Aligned privacy boundaries with DOC-06 Bills tab baseline by adding participant linking and invitation data, no automatic user-to-user matching, and minimum-disclosure invitation rules. |

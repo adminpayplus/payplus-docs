@@ -44,7 +44,7 @@ related_documents:
 
 This document defines the master product requirements for PayPlus.
 
-PayPlus is an evidence-backed payment platform that allows payers and payees to create, view, match, authorize, and track bill, invoice, fee, rent, domestic service, and other approved obligation payment requests.
+PayPlus is an evidence-backed payment platform that allows payers and payees to create, view, link, authorize, and track bill, invoice, fee, rent, domestic service, and other approved obligation payment requests.
 
 This document establishes the MVP product scope, core roles, required flows, controls, exclusions, and acceptance criteria.
 
@@ -86,8 +86,8 @@ The MVP includes:
 - payee-created payment requests;
 - evidence-backed bill, invoice, fee, tenancy, rent, domestic service, or document upload;
 - AI/OCR-assisted evidence capture, autofill, user correction, verification, and review routing where enabled;
-- payer and payee visibility into linked payment records;
-- matching between bill/request/payment records;
+- payer and payee visibility into linked payment records where both sides are platform users and linking is approved;
+- linking between bill/request/payment records, with duplicate detection and payee/payout validation;
 - payer review and authorization before payment;
 - admin review and operational controls;
 - payment status tracking;
@@ -183,7 +183,7 @@ The MVP does not include:
 | Payer | User who reviews, authorizes, and makes payment. | Yes |
 | Payee | User who receives payment or creates payment requests. | Yes |
 | Admin / Operations | Internal user who reviews requests, evidence, risk, payee details, and exceptions. | Yes |
-| System | Automated services handling status updates, notifications, matching, and audit events. | No |
+| System | Automated services handling status updates, notifications, duplicate detection, payee/payout validation, record linking, and audit events. | No |
 
 ---
 
@@ -202,15 +202,16 @@ The payer-created flow allows a payer to initiate a payment to a payee.
 5. Payer uploads or links evidence.
 6. System processes evidence using OCR/document AI where enabled.
 7. System autofills eligible fields and lets payer review or correct them.
-8. System validates evidence, matches payee, checks duplicates, and routes red flags to review.
+8. System validates evidence, validates payee/payout details where required, checks duplicates, and routes red flags to review.
 9. System creates a payment request record.
-10. Payee may be invited, matched, or linked if already a PayPlus user.
-11. Admin/system reviews request and evidence according to configured controls.
-12. Payer authorizes payment.
-13. Payment is processed through approved payment partners.
-14. Payee receives payment according to approved settlement/payout rules.
-15. Both payer and payee can view the linked payment record when both are users.
-16. System stores receipt, status history, and audit trail.
+10. Payer may proceed to payment after eligibility gates and authorization; payee acceptance is not required by default for payer-created payment.
+11. Payee may be represented by a valid non-user payee record or invited/linked through an approved user-initiated or user-accepted flow.
+12. Admin/system reviews request and evidence according to configured controls.
+13. Payer authorizes payment.
+14. Payment is processed through approved payment partners.
+15. Payee receives payment according to approved settlement/payout rules.
+16. Both payer and payee can view the linked payment record when both are users and linking is approved.
+17. System stores receipt, status history, and audit trail.
 
 ---
 
@@ -227,7 +228,7 @@ The payee-created flow allows a payee to request payment from a payer.
 5. Payee uploads or links evidence, such as invoice, bill, fee notice, tenancy agreement, employment/service record, or statement.
 6. System processes evidence using OCR/document AI where enabled.
 7. System autofills eligible fields and lets payee review or correct them.
-8. System validates evidence, matches payee, checks duplicates, and routes red flags to review.
+8. System validates evidence, validates payee/payout details where required, checks duplicates, and routes red flags to review.
 9. System creates a payment request record.
 10. Payer is notified or invited to view the request.
 11. Payer logs in or registers.
@@ -245,7 +246,7 @@ The payee-created flow allows a payee to request payment from a payer.
 
 Every payment request must be supported by acceptable evidence.
 
-Detailed bill category, document AI/OCR, extracted field, autofill, user correction, duplicate detection, verification outcome, and payee matching requirements belong in DOC-12.
+Detailed bill category, document AI/OCR, extracted field, autofill, user correction, duplicate detection, verification outcome, and payee/payout validation requirements belong in DOC-12.
 
 ### 7.1 Acceptable Evidence Types
 
@@ -283,9 +284,11 @@ MVP evidence may include:
 
 ---
 
-## 8. Matching and Linked Records
+## 8. Linked Records, Participant Linking, and Duplicate Detection
 
-Because both payer and payee are MVP users, PayPlus must support linked records between both sides.
+PayPlus must support linked records between payer, payee or payee record, obligation, evidence, request, payment, payout, status, and audit objects.
+
+When both payer and payee are platform users, two-sided visibility must require an approved link, invitation, acceptance, or other permitted user/operational action. The product must not assume automatic user-to-user matching.
 
 ### 8.1 Required Linked Objects
 
@@ -302,13 +305,16 @@ Each completed or active payment should be linkable to:
 
 ---
 
-### 8.2 Matching Requirements
+### 8.2 Linking and Duplicate Detection Requirements
 
 | Requirement | Description |
 |---|---|
 | Shared request ID | Both payer and payee should reference the same payment request when both are users. |
 | Linked obligation/payment | The bill, invoice, fee, tenancy, rent, domestic service, or evidence record must link to the payment record. |
 | Two-sided visibility | Payer and payee must be able to view the same linked transaction context, subject to permissions. |
+| User-accepted linking | User-to-user linking must be initiated, invited, accepted, or otherwise approved; automatic UX matching is not allowed. |
+| Payer-created payment | Payer-created payments do not require payee acceptance by default if evidence, payee/payout, risk, and authorization gates pass. |
+| Payee-created request | Payee-created requests require payer acceptance before payment authorization. |
 | Duplicate detection | System should help detect duplicate requests or duplicate payments. |
 | Evidence verification linkage | OCR extraction, user corrections, verification outcomes, duplicate indicators, and review decisions must remain linked to the request. |
 | Status consistency | Request status shown to payer and payee must be consistent. |
@@ -661,7 +667,7 @@ The MVP is acceptable when:
 | DOC-09 | Payment request, funding, authorization, and settlement readiness |
 | DOC-10 | Payout, payout readiness, payout destination, batching, and reconciliation |
 | DOC-11 | Refund, cancellation, reversal, dispute, and chargeback handling |
-| DOC-12 | Bill category, document AI/OCR, evidence verification, duplicate detection, and payee matching |
+| DOC-12 | Bill category, document AI/OCR, evidence verification, duplicate detection, and payee/payout validation |
 | DOC-14 | AML, anti-cashout, fake evidence, duplicate evidence, collusion, and risk controls |
 | DOC-15 | Privacy, data protection, masking, retention, lawful data use, consent, personalization, model-improvement, and partner-sharing boundaries |
 | DOC-17 | Third-party APIs including OCR/document AI, PSP, bank, provider, analytics, campaign, and partner-reporting integrations where approved |
@@ -701,7 +707,7 @@ The MVP is acceptable when:
 | Version | Date | Summary |
 |---|---|---|
 | v0.1 | Initial Draft | Initial master PRD structure. |
-| v0.2 | 2026-05-27 | Updated MVP to include both payer-created and payee-created payment requests; added two-sided user visibility, evidence-backed matching, linked payer/payee records, and simplified structure. |
+| v0.2 | 2026-05-27 | Updated MVP to include both payer-created and payee-created payment requests; added two-sided user visibility, evidence-backed linking, linked payer/payee records, and simplified structure. |
 | v0.3 | 2026-05-29 | Confirmed payee-created requests and tenancy/rent as MVP scope, added MVP gating and configuration rules, clarified that detailed data and UX design belong in downstream docs, and updated open questions. |
 | v0.4 | 2026-05-30 | Aligned product requirements with updated DOC-01 scope for invoices, fees, rent, domestic service obligations, request delivery methods, and evidence-backed positioning. |
 | v0.5 | 2026-05-30 | Aligned master PRD with DOC-12 by adding OCR/autofill, user correction, evidence verification outcomes, duplicate/reused evidence routing, sensitive field display controls, and explicit downstream document references. |
@@ -712,3 +718,4 @@ The MVP is acceptable when:
 | v0.10 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion. |
 | v0.11 | 2026-06-04 | Aligned PRD with DOC-06 Home Dashboard baseline by adding Pay+ navigation, shortcut grid, user shortcut preferences, dashboard placements, Featured carousel, and related admin configuration expectations. |
 | v0.12 | 2026-06-08 | Added data-engine and AI-readiness requirements for structured events, field metadata, consent/preference state, approved-purpose data use, future model eligibility, analytics readiness, and prohibited MVP AI/partner activation boundaries. |
+| v0.13 | 2026-06-12 | Aligned PRD with DOC-06 Bills tab baseline by clarifying payer-created payment without default payee acceptance, user-accepted participant linking, payee/payout validation, and no automatic user-to-user matching. |

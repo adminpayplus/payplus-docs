@@ -99,10 +99,10 @@ The MVP user journey scope includes:
 - payee-created payment requests;
 - payer-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup;
 - payee-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup;
-- payee adoption or acceptance of payer-created records;
+- optional payee adoption or linking of payer-created records;
 - payer review of payee-created requests;
 - evidence upload, OCR/autofill review, user correction, and evidence verification;
-- request matching and linked records;
+- request linking, duplicate detection, and linked records;
 - recipient review flows;
 - payer acceptance, rejection, dispute, and clarification actions;
 - payee acceptance, adoption, rejection, dispute, and clarification actions where applicable;
@@ -175,7 +175,7 @@ The MVP must support the following essential journeys:
 | 6 | Payer-created payment flow | Yes |
 | 7 | Payee-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup | Yes |
 | 8 | Payer-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup | Yes |
-| 9 | Payee adoption of payer-created record | Yes |
+| 9 | Optional payee adoption or linking of payer-created record | Yes |
 | 10 | Payer review of payee-created request | Yes |
 | 11 | Evidence upload, OCR/autofill review, correction, and verification | Yes |
 | 12 | Accept, reject, dispute, and clarification flows | Yes |
@@ -475,7 +475,7 @@ DOC-06 must next define what users see, what buttons exist, what each button doe
 | --- | --- | --- |
 | Bottom Navigation Route Map | Define how `Home`, `Bills`, `Pay+`, `Offers`, and `Me` relate to top-level routes and deep links. | Title preserved / not finalized |
 | Pay+ Action Sheet Detail | Define final label order, empty states, disabled states, permission rules, and route destinations for the working baseline actions. | Working baseline / not finalized |
-| Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Title preserved / not finalized |
+| Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
 | Offers Hub IA | Define offer discovery, hot offers, card partner offers, coupon/voucher library, referral, What's New, and campaign detail routes. | Title preserved / not finalized |
 | Me Area IA | Define account, security, privacy, notification preferences, support, cards/payment methods, and user control routes. | Title preserved / not finalized |
 | More Shortcuts IA | Define secondary shortcuts and services not shown in the first eight dashboard shortcuts. | Title preserved / not finalized |
@@ -489,6 +489,242 @@ DOC-06 must next define what users see, what buttons exist, what each button doe
 | Admin-Configurable UI Marker List | Mark app UI elements that require admin configuration later without drafting admin UI in DOC-06. | Title preserved / DOC-22 owns admin UI |
 
 App UI elements that currently require admin configuration markers include Pay+ action visibility, shortcut visibility/order/defaults, Featured / What's New / Hot Offer carousel placement, Important Notice / Action Required item types, feature/module enablement, request-payment availability, and route-level gating by user type, category, launch phase, risk state, or compliance restriction.
+
+---
+
+### 7.11 Bills Tab IA Working Baseline
+
+This section defines the working baseline for the `Bills` bottom-navigation route. It is a route-level UX and behavior specification, not a final visual UI design.
+
+Route-level UI drafting rule: each route should define user-facing behavior and identify material events/data signals required for AI-ready data-engine support. Detailed schema, event taxonomy, lineage, model registry, and warehouse design remain owned by DOC-18.
+
+#### 7.11.1 Route and Subsection IDs
+
+| ID | Route / Section | Definition |
+| --- | --- | --- |
+| `BILLS-ROOT` | Bills route | Top-level Bills tab opened from bottom navigation. |
+| `BILLS-PAY` | To Pay view | Payer-oriented view for bills, fees, rent, and requests the user needs or expects to pay. |
+| `BILLS-RECEIVE` | To Receive view | Payee-oriented view for bills, fees, rent, and requests the user expects to receive. |
+| `BILLS-CARD-BILL` | Bill / fee card | Summary card for a bill, invoice, fee, or approved non-rent obligation. |
+| `BILLS-CARD-RENT` | Rent / tenancy card | Summary card for rent or tenancy-linked obligation. |
+| `BILLS-DETAIL-BILL` | Bill / fee detail | Detail page for bill, invoice, fee, or approved obligation record. |
+| `BILLS-DETAIL-RENT` | Rent / tenancy detail | Detail page for rent record and linked tenancy context. |
+| `BILLS-ACTIVITY` | Activity panel | Edit history, payment history, receipt access, and evidence access where permitted. |
+| `BILLS-ADD` | Add Bill / Rent flow | Setup flow for new bill, fee, rent, tenancy, or evidence-backed obligation. |
+| `BILLS-EVIDENCE` | Evidence section | Evidence source, verification status, renewal, replacement, and update actions. |
+
+#### 7.11.2 Top-Level Views
+
+`To Pay` and `To Receive` must always appear. If the user currently has no payee-side records, `To Receive` should show an empty state instead of disappearing.
+
+| View | User Meaning | Includes | Does Not Include |
+| --- | --- | --- | --- |
+| `To Pay` | Things the user needs, expects, or has been requested to pay. | Payer-created bills/rent, payee-created requests awaiting payer action, due obligations, payment readiness, payment history, receipts. | Payee-side payout management. |
+| `To Receive` | Things the user expects to receive as payee, landlord, biller, or service provider. | Payee-created bill/rent/request records, request status, payer response, payout-received status, payee evidence management. | Payer-side received requests that require the user to pay. |
+
+A payer receiving a request from a payee belongs in `To Pay`, because the user is receiving a request to pay. It should not be shown under `To Receive`.
+
+#### 7.11.3 Filters
+
+| View | MVP Filters | Rule |
+| --- | --- | --- |
+| `To Pay` | All, Action Required, Due Soon, Paid, Archived | `All` excludes archived records. `Archived` shows only archived records. |
+| `To Receive` | All, Action Required, Due Soon, Received, Archived | `All` excludes archived records. `Archived` shows only archived records. |
+
+Action-required items should be visible through a filter and through status badges on the relevant card.
+
+#### 7.11.4 Bill / Fee Card
+
+`BILLS-CARD-BILL` should show the minimum information needed for quick recognition and action:
+
+- category: Bill, Fee, Invoice, or approved obligation;
+- bill name, required;
+- latest amount;
+- next due date;
+- last payment date;
+- payment readiness or status badge.
+
+Card actions:
+
+| Action | Route / Behavior |
+| --- | --- |
+| Pay | Opens payment/checkout flow for the selected obligation, subject to DOC-09 eligibility and authorization rules. |
+| View Details | Opens `BILLS-DETAIL-BILL`. |
+| Set Reminder | Opens reminder setup or edit flow for this obligation. |
+| Update Detail | Replaces normal edit/detail prompt when the card is action-required due to rejected, missing, expired, or inconsistent information. |
+
+#### 7.11.5 Bill / Fee Detail Page
+
+`BILLS-DETAIL-BILL` should show:
+
+- category;
+- bill name, required;
+- payee information and payout/account information, masked where required;
+- latest amount;
+- next due date;
+- last payment date;
+- evidence source and verification status for the latest invoice/evidence cycle;
+- payment readiness or status badge.
+
+Detail actions:
+
+| Action | Route / Behavior |
+| --- | --- |
+| Pay | Opens payment/checkout flow. |
+| Edit Details | Opens editable bill/payee/detail fields subject to verification and audit rules. |
+| View Activities | Opens `BILLS-ACTIVITY` with edit history and payment history. |
+| Set Reminder / Edit Reminder | Opens reminder setup or edit flow. |
+| Archive | Archives the record; user-facing delete should not be the default MVP action. |
+
+`BILLS-ACTIVITY` should show edit history and payment history. Each payment record should provide receipt access and evidence access where permitted by DOC-15, DOC-18, and DOC-19.
+
+#### 7.11.6 Rent / Tenancy Card
+
+`BILLS-CARD-RENT` should show:
+
+- category: Rent;
+- bill/rent name, required;
+- rent amount;
+- rent period;
+- next due date;
+- last payment date;
+- payment readiness or status badge.
+
+Card actions:
+
+| Action | Route / Behavior |
+| --- | --- |
+| Pay | Opens payment/checkout flow for the rent obligation, subject to DOC-09 eligibility and authorization rules. |
+| View Details | Opens `BILLS-DETAIL-RENT`. |
+| Set Reminder | Opens reminder setup or edit flow for this rent record. |
+| Update Detail | Replaces normal edit/detail prompt when the card is action-required. |
+
+#### 7.11.7 Rent / Tenancy Detail Page
+
+`BILLS-DETAIL-RENT` should show:
+
+- category: Rent;
+- bill/rent name, required;
+- property address, masked or limited where required;
+- rent amount;
+- rent period;
+- last payment amount;
+- last payment date;
+- next due date;
+- landlord/payee information and payout/account information, masked where required;
+- evidence source and verification status;
+- payment readiness or status badge.
+
+Detail actions:
+
+| Action | Route / Behavior |
+| --- | --- |
+| Pay | Opens payment/checkout flow. |
+| Edit Details | Opens editable rent/landlord/payment detail fields subject to verification and audit rules. |
+| View Activities | Opens `BILLS-ACTIVITY` with edit history and payment history. |
+| Set Reminder / Edit Reminder | Opens reminder setup or edit flow. |
+| View Tenancy | Opens tenancy evidence/context view where permitted. |
+| Archive | Archives the record; user-facing delete should not be the default MVP action. |
+
+Rent normally should not require a new invoice for each payment cycle unless tenancy evidence expires, changes, is replaced, is rejected, or is flagged by risk/review rules.
+
+#### 7.11.8 Add Bill / Rent Flow
+
+`BILLS-ADD` should support:
+
+1. Select category: Bill / Fee or Rent.
+2. Choose input method: upload file, take photo, scan QR code, or enter manually.
+3. Show extracted or entered bill/rent details.
+4. Let user edit and confirm fields before submission.
+5. Submit for system verification, user clarification, or admin review according to DOC-12 and DOC-14.
+
+Minimum setup fields:
+
+| Field Area | Bill / Fee | Rent |
+| --- | --- | --- |
+| Name | Bill name, required. | Rent/tenancy name, required. |
+| Amount | Bill amount / invoice amount. | Rent amount. |
+| Date / Period | Invoice date and due date. | Rent period and rent due date. |
+| Payee / Landlord | Name required where available; ID and phone optional unless category rules require them. | Landlord/payee name required where available; ID and phone optional unless category rules require them. |
+| Account / Payout Details | Account name, bank name, and bank account required where bank transfer applies. | Account name, bank name, and bank account required where bank transfer applies. |
+
+QR scanning belongs inside `BILLS-ADD` as a setup and evidence-capture aid. It must not allow unsupported instant payment without evidence, verification, and payer authorization.
+
+#### 7.11.9 Evidence Structure and UX
+
+Evidence handling must distinguish the obligation, the relationship/contract, and the source evidence.
+
+Working conceptual structure:
+
+```text
+Customer profile
+-> Obligation record
+-> Contract / relationship record where applicable
+-> Evidence source record
+-> Extracted, corrected, verified, and final evidence fields
+-> Payment activity
+-> Receipt / proof
+```
+
+For bills, invoices, and fees, the evidence usually supports a specific obligation or payment cycle.
+
+For rent, tenancy evidence usually supports a contract or relationship. Rent obligations may then be generated from that tenancy context. Tenancy-related evidence may include tenancy agreement, stamp duty document, CR109, rent demand, property management notice, HKHA tenancy card, carpark invoice, or other approved rent-supporting evidence. Exact evidence categories, fields, review thresholds, and schemas belong in DOC-12 and DOC-18.
+
+The Bills route should therefore support an evidence source selection step when the category or document type is not obvious, instead of assuming every rent flow equals tenancy agreement and every bill flow equals invoice.
+
+#### 7.11.10 Payer-Created and Payee-Created Logic
+
+| Scenario | UX Rule | Linking Rule |
+| --- | --- | --- |
+| Payer creates bill/rent for own payment | Payee acceptance is not required before the payer may proceed, provided required evidence, verification, risk, payout, and authorization gates pass. | If the payee is also a PayPlus user, optional linking may be initiated or accepted through an approved user action. |
+| Payee creates bill/rent/request for payer | Payer acceptance is required after verification and before payment authorization. | The payer is linked only after in-app acceptance or approved invitation/deeplink flow. |
+| Both parties are PayPlus users | Both sides may view the same linked bill, tenancy, request, or payment context after accepted linking, subject to role-based permissions. | Linking must be user-initiated or user-accepted; automatic user-to-user matching is not allowed as a UX assumption. |
+| Payee is not a PayPlus user | Payer may still pay an approved evidence-backed obligation to a valid payee record or payout destination. | The payee may remain a non-user payee record unless invited and onboarded later. |
+
+Phone number, user ID, app link, WhatsApp deeplink, QR code, or other approved invitation mechanisms remain to be defined. Search, invitation, and acceptance design must follow DOC-15 privacy and DOC-19 security controls.
+
+#### 7.11.11 Action-Required UX
+
+Action-required states must be visible before the user attempts payment where possible.
+
+Examples:
+
+- evidence pending verification;
+- evidence rejected;
+- evidence expired;
+- missing required field;
+- material mismatch between user-entered and extracted evidence data;
+- duplicate or reused evidence warning;
+- payee/payout detail requires review;
+- payment instruction requires user action;
+- reminder/action deadline is approaching.
+
+The card should show the status badge and a clear next action. The detail page should show the affected section, the rejected or missing field where appropriate, an `Update Evidence` or `Update Detail` action, and cautious helper text below the affected field. Exact user-facing wording belongs in DOC-07 and DOC-08.
+
+#### 7.11.12 Data and Intelligence Signals
+
+Bills route interactions should produce structured events or signals for later DOC-18 specification, including:
+
+- route opened and view selected;
+- filter selected;
+- obligation card viewed;
+- detail opened;
+- evidence source selected;
+- input method selected: upload, photo, QR scan, or manual entry;
+- extracted field confirmed or corrected;
+- evidence verification outcome displayed;
+- action-required state displayed;
+- action-required state resolved;
+- payer-created record created;
+- payee-created request received and accepted/rejected/disputed;
+- user-initiated participant invitation sent;
+- participant invitation accepted or declined;
+- payment started from card or detail page;
+- reminder created, edited, or disabled;
+- record archived;
+- activity, receipt, or evidence viewed/downloaded.
+
+These events should support product analytics, operational monitoring, risk review, support investigation, and future approved AI/payment-intelligence use under DOC-15 and DOC-18. They must not create automatic user-to-user matching or overexpose sensitive evidence data.
 
 ---
 
@@ -683,8 +919,8 @@ Expired
 | --- | --- |
 | Evidence required | Payment cannot proceed without required evidence unless an approved exception applies. |
 | Evidence verification | OCR/autofill, user correction, duplicate detection, and verification outcomes follow DOC-12. |
-| Payee link required | Payee must be linked, invited, or represented by a valid payee record. |
-| Payee adoption supported | Payee must be able to accept/adopt payer-created records where applicable. |
+| Payee record required | Payee must be linked, invited, or represented by a valid payee record and payout destination where required. |
+| Optional payee adoption supported | Payee must be able to accept/adopt payer-created records for linking where applicable, but payer-created payment must not require payee acceptance by default. |
 | Payer authorization required | Payment cannot be processed without explicit payer authorization. |
 | Self-cashout blocked | Payer cannot use PayPlus to cash out to themselves. |
 | Unsupported transfer blocked | Payment must be tied to a valid evidence-backed obligation. |
@@ -696,7 +932,9 @@ Expired
 
 ### 10.1 Purpose
 
-Allows either a payer or payee to create a shared obligation record that can support a payment request or payment.
+Allows either a payer or payee to create an obligation record that can support a payment request or payment.
+
+An obligation record may become shared only through an approved user action, such as payer acceptance of a payee-created request or optional payee linking/adoption of a payer-created record. PayPlus should not assume automatic user-to-user matching.
 
 An obligation record may represent:
 
@@ -738,19 +976,19 @@ An obligation record may represent:
 6. Payer reviews or corrects autofilled fields.
 7. System validates evidence and creates obligation record.
 8. System links evidence and final evidence snapshot to obligation record.
-9. Payee is notified or invited.
-10. Payee logs in or registers.
-11. Payee reviews the obligation and evidence summary.
-12. Payee accepts/adopts, rejects, disputes, or requests clarification.
+9. Payer may proceed to payment once required evidence, verification, risk, payout, and authorization gates pass.
+10. Payee may be invited or linked where useful, but payee acceptance is not required before payer-created payment unless a category, risk rule, payout rule, or compliance gate explicitly requires it.
+11. If the payee is a PayPlus user and linking is initiated, payee logs in or registers and reviews the obligation context.
+12. Payee may accept/adopt, reject, dispute, or request clarification for linkage purposes.
 13. If adopted, payee becomes linked to the shared obligation context.
-14. Payer may authorize payment.
-15. System links payer, payee, obligation, evidence, and payment records.
+14. System links payer, payee, obligation, evidence, and payment records according to permissions.
 
 ### 10.4 Adoption Rules
 
 | Rule | Requirement |
 | --- | --- |
-| Payee adoption | Payee may accept/adopt payer-created obligation records. |
+| Payer-created payment | Payer-created obligations may proceed without payee acceptance where evidence, verification, risk, payout, and authorization gates pass. |
+| Optional payee adoption | Payee may accept/adopt payer-created obligation records for two-sided visibility, communication, and linked recordkeeping where applicable. |
 | Payer acceptance | Payer may accept payee-created requests before authorizing payment. |
 | No forced adoption | A recipient should not be forced to accept an inaccurate record. |
 | Dispute support | Recipient may dispute or request clarification. |
@@ -770,7 +1008,7 @@ Allows the recipient of a request or obligation record to review the details and
 | Creator | Recipient | Recipient Review Actions |
 | --- | --- | --- |
 | Payee creates payment request | Payer | Accept, reject, dispute, request clarification, authorize payment after acceptance. |
-| Payer creates payment/obligation record | Payee | Accept/adopt, reject, dispute, request clarification. |
+| Payer creates payment/obligation record | Payee | Optional accept/adopt, reject, dispute, or request clarification for linkage only; payer payment does not require payee acceptance unless a specific gate requires it. |
 
 ### 11.3 Required Review Information
 
@@ -806,7 +1044,7 @@ The recipient should be able to view:
 
 Only the payer can authorize payment.
 
-A payee may accept or adopt a payer-created record, but a payee cannot authorize payment from the payer.
+A payee may accept or adopt a payer-created record for linked visibility and communication, but a payee cannot authorize payment from the payer and payee adoption must not be treated as the payer's payment authorization.
 
 ---
 
@@ -1049,17 +1287,19 @@ Each active or completed payment should be linkable to:
 - audit events;
 - admin review actions where applicable.
 
-### 16.3 Matching Flow
+### 16.3 Linking Flow
 
 1. Request or payment record is created.
-2. System checks payer and payee identifiers.
-3. System attempts to match existing users or records.
-4. If no user exists, system creates an invitation or pending participant record.
-5. Recipient registers or logs in.
-6. System links recipient to request or obligation.
+2. System checks payee records, payout destination, and evidence consistency required for the payment flow.
+3. System may support user-initiated or user-accepted linking using approved identifiers, app links, deeplinks, QR codes, or invitation records.
+4. If no platform user exists, system may create a non-user payee record, invitation record, or pending participant record.
+5. Recipient registers, logs in, or accepts an invitation where linking is requested.
+6. System links recipient to request or obligation only after the required user action or approved operational action.
 7. System displays shared context to both sides subject to permissions.
-8. System checks for duplicate or suspicious records where applicable.
-9. System logs matching and linking events.
+8. System checks for duplicate, suspicious, or conflicting records where applicable.
+9. System logs search, invitation, acceptance, rejection, and linking events.
+
+Automatic user-to-user matching must not be assumed for the user experience. Duplicate detection, payee verification, payout validation, and risk checks may run in the background, but shared user visibility requires an approved linking or acceptance event.
 
 ### 16.4 Matching Requirements
 
@@ -1068,6 +1308,7 @@ Each active or completed payment should be linkable to:
 | Shared request ID | Both payer and payee should reference the same payment request when both are users. |
 | Linked evidence | Evidence record must link to request and payment context. |
 | Two-sided visibility | Payer and payee must see the same underlying transaction context, subject to permissions. |
+| User-accepted linking | User-to-user linking must be initiated, invited, accepted, or otherwise approved; automatic UX linking is not allowed. |
 | Duplicate detection | System should help detect duplicate bills, requests, or payments. |
 | Status consistency | Payer and payee views must reflect the same underlying status. |
 | Dispute linkage | Disputes and clarifications must remain linked to the original request. |
@@ -1264,7 +1505,7 @@ The MVP should support basic notifications for:
 - request accepted;
 - request rejected;
 - request disputed;
-- payer-created record awaiting payee adoption;
+- payer-created record available for optional payee adoption/linking;
 - payee adopted payer-created record;
 - payment authorized;
 - payment instruction pending user action;
@@ -1545,7 +1786,7 @@ The MVP should include admin-facing screens for:
 The MVP should include system-level handling for:
 
 - record creation;
-- participant matching;
+- participant linking;
 - invitation routing;
 - status updates;
 - evidence linking;
@@ -1599,7 +1840,7 @@ The DOC-06 user journey scope is satisfied when:
 - payers can create evidence-backed payments or obligation records;
 - payers can link or invite payees;
 - payees can review payer-created records;
-- payees can accept/adopt payer-created records where applicable;
+- payees can optionally accept/adopt payer-created records for linking where applicable;
 - users can upload evidence;
 - OCR/document AI can process evidence where enabled;
 - users can review and correct autofilled evidence fields where applicable;
@@ -1626,7 +1867,7 @@ The DOC-06 user journey scope is satisfied when:
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-06-001 | What exact UX distinction should exist between a payment request, obligation record, bill record, and payment transaction? | Product / Design | Open |
-| OQ-06-002 | Which payer-created records require payee adoption before payment can proceed? | Product / Operations | Open |
+| OQ-06-002 | Which exceptional payer-created categories, if any, require payee adoption before payment can proceed despite the default rule that payer-created payments do not require payee acceptance? | Product / Operations / Risk | Open |
 | OQ-06-003 | Which payee-created request categories require admin review before payer authorization? | Risk / Operations | Open |
 | OQ-06-004 | Which evidence categories are accepted at MVP launch? | Product / Compliance | Open |
 | OQ-06-005 | Which rent and tenancy journey controls must be ready before initial launch enablement? | Product / Legal / Risk | Open |
@@ -1650,6 +1891,9 @@ The DOC-06 user journey scope is satisfied when:
 | OQ-06-023 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06-024 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06-025 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What’s New / Hot Offer placements? | Product / Growth / Operations | Open |
+| OQ-06-026 | What final user-initiated payee linking or invitation mechanism should be used: user ID, phone search, app link, WhatsApp deeplink, QR code, or another approved flow? | Product / Privacy / Engineering | Open |
+| OQ-06-027 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
+| OQ-06-028 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
 
 ---
 
@@ -1692,7 +1936,8 @@ The DOC-06 user journey scope is satisfied when:
 | Tenancy and rent journeys are MVP scope. | Confirmed |
 | Payee-created bill, invoice, tenancy, or obligation setup is MVP scope. | Confirmed |
 | Payer-created bill, invoice, tenancy, or obligation setup is MVP scope. | Confirmed |
-| Payee adoption of payer-created records is supported where applicable. | Confirmed |
+| Payer-created payments do not require payee acceptance by default, provided evidence, verification, risk, payout, and authorization gates pass. | Confirmed |
+| Payee adoption of payer-created records is optional where applicable for two-sided visibility, communication, and linked recordkeeping. | Confirmed |
 | Payer review and authorization are required before payment. | Confirmed |
 | Evidence-backed payments are required unless approved exception applies. | Confirmed |
 | OCR/document AI-assisted evidence capture, autofill, user correction, duplicate warning, and evidence verification routing are required UX touchpoints where enabled. | Confirmed |
@@ -1712,6 +1957,9 @@ The DOC-06 user journey scope is satisfied when:
 | Featured / What’s New / Hot Offer is one combined admin-controllable carousel at this stage. | Confirmed |
 | Recent Activity dashboard section displays limited recent transactions with date, item, action, amount, and status. | Confirmed |
 | The dashboard flow and layout are designated for MVP discussion, but final UI design, exact component specification, and exact route-level screen specification are not finalized. | Confirmed |
+| Bills tab working baseline uses `To Pay` and `To Receive` views, route/subsection IDs, bill/rent cards, detail pages, activity panels, evidence status, archive behavior, and Add Bill / Rent setup flow. | Working Baseline / Not Final |
+| User-to-user payee linking must be initiated or accepted through an approved flow; automatic user-to-user matching is not allowed as a UX assumption. | Working Baseline |
+| Tenancy evidence is treated as contract/relationship evidence, while invoices/bills usually support obligation/payment-cycle evidence; detailed data structure remains owned by DOC-12 and DOC-18. | Working Baseline |
 
 ---
 
@@ -1732,3 +1980,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.11 | 2026-06-04 | Added Home Dashboard and navigation IA discussion baseline covering bottom navigation, Pay+ center action, shortcut grid, notice/action section, upcoming obligations, featured carousel, recent activity, shortcut configurability, user shortcut preferences, and open route-level UI decisions. |
 | v0.12 | 2026-06-04 | Updated designated dashboard flow to place Featured / What's New / Hot Offer directly under shortcuts, clarified the dashboard as a designated layout baseline rather than finalized UI design or exact component specification. |
 | v0.13 | 2026-06-07 | Added Pay+ action sheet working baseline, clarified QR/upload as part of Add Bill / Rent, confirmed Request Payment default visibility subject to gating, and added route IA placeholder titles for continued app UI specification work. |
+| v0.14 | 2026-06-12 | Added Bills tab IA working baseline with To Pay/To Receive views, route/subsection IDs, bill/rent cards, detail pages, activity panels, Add Bill / Rent flow, evidence source structure, payer-created/payee-created acceptance rules, user-accepted linking, action-required UX, and AI-ready event signals. |

@@ -45,7 +45,7 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines PayPlus MVP rules for bill category verification, document AI/OCR extraction, autofill, evidence validation, duplicate detection, payee matching, and human-review routing.
+This document defines PayPlus MVP rules for bill category verification, document AI/OCR extraction, autofill, evidence validation, duplicate detection, payee/payout validation, and human-review routing.
 
 Bill verification is a core PayPlus capability. It improves the user experience by reading bills, invoices, tenancy agreements, contracts, and other evidence, then auto-filling request fields while preserving evidence, traceability, compliance controls, and risk review.
 
@@ -130,10 +130,12 @@ MVP and candidate evidence categories include:
 | --- | --- | --- |
 | Bill | Utility, telecom, internet, school, medical, service, or other approved bill. | Usually strong reference, amount, due date, and payee data. |
 | Invoice | Business or service invoice. | Requires payee/business validation where applicable. |
-| Tenancy agreement | Rent and property-related payment. | Sensitive category; requires enhanced extraction, duplicate checks, and review rules. |
-| Rent demand or rent statement | Rent payment evidence. | May supplement or replace full tenancy agreement where approved. |
+| Tenancy agreement | Rent and property-related payment. | Contract/relationship evidence; sensitive category requiring enhanced extraction, duplicate checks, and review rules. |
+| Stamp duty document or CR109 | Rent and tenancy support evidence. | May support tenancy relationship, property details, parties, or rent period where approved. |
+| Rent demand or rent statement | Rent payment evidence. | May support a rent obligation or supplement full tenancy evidence where approved. |
+| HKHA tenancy card, carpark invoice, or property management notice | Rent or property-related support evidence. | May support a rent, property, carpark, or management-fee obligation where category rules allow. |
 | Contract or service agreement | Domestic helper, driver, personal service, or other contractual obligation. | Field requirements depend on category. |
-| Payment statement | Statement showing amount due or payment schedule. | Must be linked to approved obligation and payee. |
+| Payment statement | Statement showing amount due or payment schedule. | Must be linked to approved obligation and payee/payout destination where applicable. |
 | Official notice | Formal fee, levy, or demand notice where category is approved. | May require institution or issuer validation. |
 | Other approved obligation evidence | Admin-approved document or record. | Requires documented exception and review rule. |
 
@@ -188,6 +190,26 @@ Other PayPlus data layers, such as payment behavior, spending patterns, user rel
 
 Each evidence layer and material field should carry DOC-15 classification metadata in DOC-18, including data class, sensitivity, displayability, masking rule, retention policy, owner, approved purpose, access role, audit requirement, source, and lineage. Evidence-derived data is normally Evidence and Obligation Data, but some extracted fields may also support KYC/KYB, payout/payee, risk/compliance, payment, analytics, or derived-data classifications depending on use.
 
+### 7.1 Evidence Source and Obligation Relationship Model
+
+Evidence handling must distinguish obligation records, contract/relationship records, and evidence source records.
+
+Working model:
+
+```text
+Customer profile
+-> Obligation record
+-> Contract / relationship record where applicable
+-> Evidence source record
+-> Extracted, corrected, verified, and final evidence fields
+-> Payment activity
+-> Receipt / proof
+```
+
+Bills, invoices, fee notices, and rent demands usually support a specific obligation or payment cycle. Tenancy agreements and similar documents usually support a contract or relationship from which rent obligations may be created. Supporting rent evidence may supplement, renew, or validate the tenancy context without replacing the underlying relationship record.
+
+Detailed logical and physical schema belongs in DOC-18. DOC-06 owns the user-facing evidence source selection and Bills tab route behavior.
+
 ---
 
 ## 8. General Extracted Field Set
@@ -215,7 +237,7 @@ For bills and invoices, PayPlus should extract and validate:
 
 | Field | Use |
 | --- | --- |
-| Biller or supplier name | Payee matching and payer review. |
+| Biller or supplier name | Payee/payout validation and payer review. |
 | Customer or payer name | Relationship and evidence validation where applicable. |
 | Bill, invoice, or reference number | Duplicate detection and reconciliation. |
 | Issue date | Freshness and audit. |
@@ -269,7 +291,7 @@ For contracts, service agreements, domestic helper/driver evidence, personal ser
 
 | Field | Use |
 | --- | --- |
-| Service provider or payee name | Payee matching and request validation. |
+| Service provider or payee name | Payee/payout validation and request validation. |
 | Customer, employer, or payer name | Relationship validation where applicable. |
 | Contract or service description | Category and obligation support. |
 | Contract/reference number where shown | Duplicate detection and audit. |
@@ -307,7 +329,7 @@ The system should compare extracted, user-entered, selected, and historical data
 | Validation Area | Rule |
 | --- | --- |
 | Amount match | Compare extracted amount with user-entered/request amount. |
-| Payee match | Compare extracted payee/biller/landlord/supplier name with selected payee or payout destination. |
+| Evidence-to-payee validation | Compare extracted payee/biller/landlord/supplier name with selected payee or payout destination. |
 | Payer match | Compare extracted payer/customer/tenant name with payer where applicable. |
 | Category match | Compare extracted document type with selected category. |
 | Date validity | Check due date, issue date, service period, lease period, or contract period where applicable. |
@@ -385,7 +407,7 @@ Payment eligibility gates in DOC-09 must consume the final verification outcome.
 
 ## 17. Payee Verification Linkage
 
-Document extraction should support payee verification but does not replace KYC/KYB, sanctions, payout destination, or risk controls.
+Document extraction should support payee and payout validation but does not replace KYC/KYB, sanctions, payout destination, or risk controls.
 
 Rules:
 
@@ -393,7 +415,8 @@ Rules:
 - extracted payment destination data should support payout destination review where shown;
 - landlord, property manager, business payee, institution, and higher-risk payees may require enhanced review;
 - mismatch between extracted payee and selected payee should route to review unless approved category rules allow it;
-- payee-created requests should require evidence equal to or stronger than payer-created requests for the same category.
+- payee-created requests should require evidence equal to or stronger than payer-created requests for the same category;
+- evidence-to-payee validation, duplicate detection, and risk checks must not be treated as automatic user-to-user matching; participant linking belongs to DOC-06 and DOC-18 and requires approved user or operational action.
 
 KYC/KYB, sanctions, and fraud rules belong in DOC-14 and DOC-19. Payout destination controls belong in DOC-10. Data schema belongs in DOC-18.
 
@@ -549,3 +572,4 @@ It should not become:
 | `0.3.0` | `2026-06-02` | Product Documentation Team | Aligned evidence data layers with DOC-15 by adding field-level classification metadata, displayability, masking, retention, approved-purpose, and lineage requirements for DOC-18. |
 | `0.4.0` | `2026-06-02` | Product Documentation Team | Aligned domestic helper, driver, and personal service categories with confirmed evidence-backed MVP scope while keeping exact evidence standards and review thresholds open. |
 | `0.5.0` | `2026-06-08` | Product Documentation Team | Added evidence-derived model-use, sensitive-field, prohibited marketing/partner-reporting, and DOC-15/DOC-18 lineage boundaries for AI/data-engine readiness. |
+| `0.6.0` | `2026-06-12` | Product Documentation Team | Aligned evidence structure with DOC-06 Bills tab baseline by separating obligation, contract/relationship, and evidence source records; added rent-supporting evidence examples; clarified payee/payout validation versus participant linking. |

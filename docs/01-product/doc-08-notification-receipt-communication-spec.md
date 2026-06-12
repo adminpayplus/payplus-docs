@@ -305,6 +305,11 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-REQ-008` | Request rejected | App, email optional | Important service |
 | `NOTIF-REQ-009` | Request cancelled | App, email optional | Important service |
 | `NOTIF-REQ-010` | Request expired | App, email optional | Optional service |
+| `NOTIF-REQ-011` | Payee invitation or linking request sent | App, push optional, WhatsApp optional, email optional | Important service |
+| `NOTIF-REQ-012` | Payee linking accepted or declined | App | Important service |
+| `NOTIF-REQ-013` | Payer-created record available for optional payee linking | App or disabled external channels | Optional service |
+
+Payer-created payment may proceed without payee acceptance where DOC-06 and DOC-09 gates allow it. Optional payee linking notifications must not imply the payer is blocked from payment unless a specific category, risk, payout, or compliance gate requires payee action.
 
 ### 11.3 Evidence Verification Events
 
@@ -315,7 +320,7 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-EVD-003` | Evidence requires correction | App, push optional, email optional | Important service |
 | `NOTIF-EVD-004` | Evidence pending admin review | App | Important service |
 | `NOTIF-EVD-005` | Duplicate or reused evidence warning | App | Important service |
-| `NOTIF-EVD-006` | Evidence verification approved | App or disabled external channels | Important service |
+| `NOTIF-EVD-006` | Evidence verification approved after setup or review | App or disabled external channels | Important service |
 | `NOTIF-EVD-007` | Evidence verification rejected | App, email optional | Important service |
 
 Evidence messages must avoid sensitive extracted data in SMS, WhatsApp, push, and ordinary email. Duplicate/reused evidence warnings must not disclose another user's private data. Detailed evidence verification rules belong in DOC-12 and privacy handling belongs in DOC-15.
@@ -631,5 +636,6 @@ DOC-08 is acceptable when:
 | 0.5.0 | 2026-06-02 | Aligned notification rules with DOC-09 user payment instruction by adding deferred payment action, split-card remaining action, partial funding, expiry/cancellation, and partial payout notification events. |
 | 0.6.0 | 2026-06-02 | Added stable PINS notification event for deferred payment quote, promotion, card eligibility, fee, or timing changes before submission. |
 | 0.7.0 | 2026-06-04 | Aligned communication boundaries with DOC-06 dashboard baseline by defining Important Notice / Action Required, Featured / What's New / Hot Offer placement, Inbox linkage, and dashboard-versus-notification separation. |
+| 0.8.0 | 2026-06-12 | Aligned request and evidence notification events with DOC-06 Bills tab rules for optional payee linking, no default payee-acceptance gate for payer-created payment, and post-setup evidence verification status. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

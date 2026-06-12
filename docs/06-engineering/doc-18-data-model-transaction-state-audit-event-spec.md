@@ -91,6 +91,10 @@ DOC-18 should define logical structures for at least the following object famili
 - authentication, device, OTP, passcode, and material account-change event;
 - payment request;
 - request participant mapping;
+- participant invitation or linking request;
+- obligation record;
+- contract or relationship record;
+- evidence source record;
 - evidence/document;
 - evidence extraction layer;
 - normalized evidence field;
@@ -165,6 +169,7 @@ PayPlus should define event families before implementation.
 | Account events | registration, login, logout, new-device login, dormant reauthentication, contact change, credential change. |
 | Evidence events | upload, OCR processed, field extracted, user corrected, verification passed, mismatch found, duplicate detected, evidence snapshot finalized. |
 | Request events | draft created, submitted, sent, viewed, accepted, rejected, disputed, clarification requested, expired, cancelled. |
+| Participant-linking events | invitation created, app link generated, QR link generated, WhatsApp deeplink generated, invitation sent, viewed, accepted, declined, expired, linking completed, linking revoked. |
 | Payment events | quote created, quote revalidated, instruction created, funding leg created, authorization attempted, authorized, failed, captured, payment completed. |
 | Payout events | settlement received, payout ready, payout held, payout released, payout submitted, payout completed, reconciliation matched, exception opened. |
 | Risk events | rule triggered, risk score assigned, step-up required, manual review opened, hold applied, block applied, override approved, escalation recorded. |
@@ -180,9 +185,13 @@ Each event should capture event ID, event type, actor, role, timestamp, source o
 DOC-18 should maintain linkages between:
 
 - request;
+- obligation;
+- contract or relationship record where applicable;
 - evidence;
+- evidence source;
 - payer;
 - payee;
+- participant invitation or linking record where applicable;
 - payment quote;
 - promotion quote;
 - payment instruction;
@@ -197,6 +206,15 @@ DOC-18 should maintain linkages between:
 - audit event.
 
 DOC-18 must include data structures for DOC-09 user payment instruction, payment instruction funding leg, deferred funding date, selected payee transfer date, reminder/action task, partial funding status, partial payout linkage, remaining unpaid amount, payment quote revalidation, promotion quote reservation, and changed-term acknowledgement.
+
+DOC-18 must also distinguish:
+
+- obligation records, such as bill, invoice, fee, rent, domestic service, or approved payment obligation;
+- contract or relationship records, such as tenancy, employment, service agreement, or other ongoing relationship evidence;
+- evidence source records, such as invoice, bill, tenancy agreement, stamp duty document, CR109, rent demand, HKHA tenancy card, carpark invoice, property management notice, upload, QR-derived record, or manual entry;
+- participant linking records, which connect platform users to an obligation only after approved user or operational action.
+
+Automatic user-to-user matching must not be modeled as a default UX state. Evidence-to-payee validation, duplicate detection, payout validation, and risk analysis may run as system checks, but shared payer/payee visibility requires an approved participant-linking state.
 
 ## 8. Analytics, Warehouse, and Data Marts
 
@@ -313,3 +331,4 @@ This document should not become:
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-06-08 | Product Documentation Team | Replaced interim note with founder working baseline for data model ownership, field metadata, event taxonomy, lineage, analytics marts, AI/model-readiness metadata, partner reporting controls, and open questions. |
+| 0.2.0 | 2026-06-12 | Product Documentation Team | Aligned data-model baseline with DOC-06 Bills tab requirements by adding obligation, contract/relationship, evidence source, participant linking, invitation, action, and no-auto-matching state/event expectations. |
