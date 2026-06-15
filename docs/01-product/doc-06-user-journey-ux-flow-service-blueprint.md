@@ -500,18 +500,39 @@ Route-level UI drafting rule: each route should define user-facing behavior and 
 
 #### 7.11.1 Route and Subsection IDs
 
-| ID | Route / Section | Definition |
+For DOC-06, a route ID may represent a full screen, tab/view, modal/sheet, section, or reusable card component. The type should be stated so later AI build documents do not duplicate screens or confuse components with navigation destinations.
+
+| ID | Type | Route / Section | Opened By | Definition |
+| --- | --- | --- | --- | --- |
+| `BILLS-ROOT` | Screen | Bills route | Bottom nav `Bills` | Top-level Bills tab screen. |
+| `BILLS-PAY` | Tab / view | To Pay view | `To Pay` tab inside `BILLS-ROOT` | Payer-oriented view for bills, fees, rent, and requests the user needs or expects to pay. |
+| `BILLS-RECEIVE` | Tab / view | To Receive view | `To Receive` tab inside `BILLS-ROOT` | Payee-oriented view for bills, fees, rent, and requests the user expects to receive. |
+| `BILLS-CARD-BILL` | Card component | Bill / fee card | Rendered inside `BILLS-PAY` or `BILLS-RECEIVE` | Summary card for a bill, invoice, fee, or approved non-rent obligation. |
+| `BILLS-CARD-RENT` | Card component | Rent / tenancy card | Rendered inside `BILLS-PAY` or `BILLS-RECEIVE` | Summary card for rent or tenancy-linked obligation. |
+| `BILLS-DETAIL-BILL` | Screen | Bill / fee detail | `Details` on `BILLS-CARD-BILL` | Detail page for bill, invoice, fee, or approved obligation record. |
+| `BILLS-DETAIL-RENT` | Screen | Rent / tenancy detail | `Details` on `BILLS-CARD-RENT` | Detail page for rent record and linked tenancy context. |
+| `BILLS-ACTIVITY` | Section or screen | Activity history | `View Activities` from detail pages | Edit history, payment history, receipt access, and evidence access where permitted. Final UI may be a section, sheet, or separate screen. |
+| `BILLS-ADD` | Flow / screen group | Add Bill / Rent flow | `Add Bill / Rent` button or Pay+ action sheet | Setup flow for new bill, fee, rent, tenancy, or evidence-backed obligation. |
+| `BILLS-EVIDENCE` | Section / flow | Evidence section | Detail-page evidence area or `Update Evidence` | Evidence source, verification status, renewal, replacement, and update actions. |
+| `BILLS-REMINDER` | Sheet or screen | Reminder setup/edit | `Set Reminder` or `Edit Reminder` | Due reminder setup/edit for a specific bill, fee, rent, tenancy, or obligation. |
+| `BILLS-LINKING` | Flow / sheet | Participant linking/invitation | Optional link/invite action where enabled | User-initiated or user-accepted payer/payee linking. Must not perform automatic user-to-user matching. |
+| `BILLS-ARCHIVED` | Filtered view | Archived records | `Archived` filter | Archived bill/rent records only; archive is the normal user-facing removal action, not delete. |
+
+Initial route ownership:
+
+| User Action | Source | Destination / Behavior |
 | --- | --- | --- |
-| `BILLS-ROOT` | Bills route | Top-level Bills tab opened from bottom navigation. |
-| `BILLS-PAY` | To Pay view | Payer-oriented view for bills, fees, rent, and requests the user needs or expects to pay. |
-| `BILLS-RECEIVE` | To Receive view | Payee-oriented view for bills, fees, rent, and requests the user expects to receive. |
-| `BILLS-CARD-BILL` | Bill / fee card | Summary card for a bill, invoice, fee, or approved non-rent obligation. |
-| `BILLS-CARD-RENT` | Rent / tenancy card | Summary card for rent or tenancy-linked obligation. |
-| `BILLS-DETAIL-BILL` | Bill / fee detail | Detail page for bill, invoice, fee, or approved obligation record. |
-| `BILLS-DETAIL-RENT` | Rent / tenancy detail | Detail page for rent record and linked tenancy context. |
-| `BILLS-ACTIVITY` | Activity panel | Edit history, payment history, receipt access, and evidence access where permitted. |
-| `BILLS-ADD` | Add Bill / Rent flow | Setup flow for new bill, fee, rent, tenancy, or evidence-backed obligation. |
-| `BILLS-EVIDENCE` | Evidence section | Evidence source, verification status, renewal, replacement, and update actions. |
+| Tap `Bills` bottom nav | App bottom navigation | Opens `BILLS-ROOT`, defaulting to the last used or system-default `To Pay` / `To Receive` view. |
+| Tap `To Pay` | `BILLS-ROOT` | Opens `BILLS-PAY`. |
+| Tap `To Receive` | `BILLS-ROOT` | Opens `BILLS-RECEIVE`. |
+| Tap `Add Bill / Rent` | `BILLS-ROOT` or Pay+ action sheet | Opens `BILLS-ADD`. |
+| Tap `Pay` on a card/detail | `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. |
+| Tap `Details` | Bill/rent card | Opens the relevant detail screen. |
+| Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Opens `BILLS-REMINDER`. |
+| Tap `View Activities` | Detail page | Opens `BILLS-ACTIVITY`. |
+| Tap `Update Evidence` | Action-required card or detail evidence area | Opens `BILLS-EVIDENCE`. |
+| Tap `Archive` | Detail page | Archives the record and returns to the relevant Bills list/filter. |
+| Tap optional `Invite / Link Payee` or `Invite / Link Payer` | Detail page or request context where enabled | Opens `BILLS-LINKING`; linking requires approved user or operational action. |
 
 #### 7.11.2 Top-Level Views
 
@@ -1981,3 +2002,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.12 | 2026-06-04 | Updated designated dashboard flow to place Featured / What's New / Hot Offer directly under shortcuts, clarified the dashboard as a designated layout baseline rather than finalized UI design or exact component specification. |
 | v0.13 | 2026-06-07 | Added Pay+ action sheet working baseline, clarified QR/upload as part of Add Bill / Rent, confirmed Request Payment default visibility subject to gating, and added route IA placeholder titles for continued app UI specification work. |
 | v0.14 | 2026-06-12 | Added Bills tab IA working baseline with To Pay/To Receive views, route/subsection IDs, bill/rent cards, detail pages, activity panels, Add Bill / Rent flow, evidence source structure, payer-created/payee-created acceptance rules, user-accepted linking, action-required UX, and AI-ready event signals. |
+| v0.15 | 2026-06-15 | Clarified Bills tab route IDs as screens, tabs/views, sheets, sections, flows, or card components, and added initial button-to-route ownership for Bills tab UI drafting. |

@@ -479,6 +479,8 @@ Detailed data model, event taxonomy, warehouse, analytics marts, feature/model m
 
 The MVP should include the following UX surfaces. Detailed screen flows, service blueprint steps, and interaction rules belong in DOC-06.
 
+DOC-06 owns route IDs, route types, and button-to-route ownership for user-facing app surfaces. Product requirements in DOC-05 should reference DOC-06 route IDs where useful, but should not duplicate screen-level routing rules.
+
 ### Payer
 
 - register/login;
@@ -719,3 +721,4 @@ The MVP is acceptable when:
 | v0.11 | 2026-06-04 | Aligned PRD with DOC-06 Home Dashboard baseline by adding Pay+ navigation, shortcut grid, user shortcut preferences, dashboard placements, Featured carousel, and related admin configuration expectations. |
 | v0.12 | 2026-06-08 | Added data-engine and AI-readiness requirements for structured events, field metadata, consent/preference state, approved-purpose data use, future model eligibility, analytics readiness, and prohibited MVP AI/partner activation boundaries. |
 | v0.13 | 2026-06-12 | Aligned PRD with DOC-06 Bills tab baseline by clarifying payer-created payment without default payee acceptance, user-accepted participant linking, payee/payout validation, and no automatic user-to-user matching. |
+| v0.14 | 2026-06-15 | Clarified that DOC-06 owns user-facing route IDs, route types, and button-to-route ownership for Bills tab and related UI surfaces. |
