@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.13.0
+version: 0.16.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-07
+last_updated: 2026-06-17
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -387,7 +387,7 @@ MVP shortcut grid:
 | Instructions | Deferred payment instructions, split-card progress, pending funding legs, expired instructions, and action-required instructions. | Payment Instructions route. |
 | Bills & Tenancies | Saved bills, fee records, rent records, tenancy records, evidence status, due dates, and obligation details. | Bills & Tenancies route. |
 | Receipts | Payment receipts, proof of payment, statements, completed records, refund/reversal records, and related transaction evidence. | Receipts / Activity route. |
-| Reminders | User-set due reminders for bills, rent, tenancy obligations, and manual reminders. | Reminder Management route. |
+| Reminders | User-set due reminders for bills, rent, tenancy obligations, and manual reminders. | Opens `BILLS-REMINDER-LIST`. |
 | Cards | Tokenized payment profiles, cards, payment methods, card status, and payment-method settings. | Cards / Payment Methods route. |
 | Referral | Referral / MGM entry point and referral reward status where enabled. | Referral route and Offers Hub referral section. |
 | More | Opens remaining or secondary shortcuts and services. | More Shortcuts / Services route or sheet. |
@@ -514,7 +514,8 @@ For DOC-06, a route ID may represent a full screen, tab/view, modal/sheet, secti
 | `BILLS-ACTIVITY` | Section or screen | Activity history | `View Activities` from detail pages | Edit history, payment history, receipt access, and evidence access where permitted. Final UI may be a section, sheet, or separate screen. |
 | `BILLS-ADD` | Flow / screen group | Add Bill / Rent flow | `Add Bill / Rent` button or Pay+ action sheet | Setup flow for new bill, fee, rent, tenancy, or evidence-backed obligation. |
 | `BILLS-EVIDENCE` | Section / flow | Evidence section | Detail-page evidence area or `Update Evidence` | Evidence source, verification status, renewal, replacement, and update actions. |
-| `BILLS-REMINDER` | Sheet or screen | Reminder setup/edit | `Set Reminder` or `Edit Reminder` | Due reminder setup/edit for a specific bill, fee, rent, tenancy, or obligation. |
+| `BILLS-REMINDER-LIST` | Screen | Reminder management | Dashboard shortcut `Reminders` | Alarm-style reminder management screen for reminders linked to bill, fee, rent, tenancy, or obligation records. |
+| `BILLS-REMINDER-DETAIL` | Sheet or screen | Reminder setup/edit | `Set Reminder`, `Edit Reminder`, or `+ Add Reminder` | Create or edit one reminder linked to a specific bill, fee, rent, tenancy, or obligation. |
 | `BILLS-LINKING` | Flow / sheet | Participant linking/invitation | Optional link/invite action where enabled | User-initiated or user-accepted payer/payee linking. Must not perform automatic user-to-user matching. |
 | `BILLS-ARCHIVED` | Filtered view | Archived records | `Archived` filter | Archived bill/rent records only; archive is the normal user-facing removal action, not delete. |
 
@@ -528,7 +529,9 @@ Initial route ownership:
 | Tap `Add Bill / Rent` | `BILLS-ROOT` or Pay+ action sheet | Opens `BILLS-ADD`. |
 | Tap `Pay` on a card/detail | `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. |
 | Tap `Details` | Bill/rent card | Opens the relevant detail screen. |
-| Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Opens `BILLS-REMINDER`. |
+| Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Opens `BILLS-REMINDER-DETAIL` for the selected linked record. |
+| Tap `Reminders` shortcut | Dashboard shortcut grid | Opens `BILLS-REMINDER-LIST`. |
+| Tap `+ Add Reminder` | `BILLS-REMINDER-LIST` | User selects an existing bill, fee, rent, tenancy, or obligation, then opens `BILLS-REMINDER-DETAIL`. |
 | Tap `View Activities` | Detail page | Opens `BILLS-ACTIVITY`. |
 | Tap `Update Evidence` | Action-required card or detail evidence area | Opens `BILLS-EVIDENCE`. |
 | Tap `Archive` | Detail page | Archives the record and returns to the relevant Bills list/filter. |
@@ -571,7 +574,7 @@ Card actions:
 | --- | --- |
 | Pay | Opens payment/checkout flow for the selected obligation, subject to DOC-09 eligibility and authorization rules. |
 | View Details | Opens `BILLS-DETAIL-BILL`. |
-| Set Reminder | Opens reminder setup or edit flow for this obligation. |
+| Set Reminder | Opens `BILLS-REMINDER-DETAIL` for this obligation. |
 | Update Detail | Replaces normal edit/detail prompt when the card is action-required due to rejected, missing, expired, or inconsistent information. |
 
 #### 7.11.5 Bill / Fee Detail Page
@@ -594,7 +597,7 @@ Detail actions:
 | Pay | Opens payment/checkout flow. |
 | Edit Details | Opens editable bill/payee/detail fields subject to verification and audit rules. |
 | View Activities | Opens `BILLS-ACTIVITY` with edit history and payment history. |
-| Set Reminder / Edit Reminder | Opens reminder setup or edit flow. |
+| Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this obligation. |
 | Archive | Archives the record; user-facing delete should not be the default MVP action. |
 
 `BILLS-ACTIVITY` should show edit history and payment history. Each payment record should provide receipt access and evidence access where permitted by DOC-15, DOC-18, and DOC-19.
@@ -617,7 +620,7 @@ Card actions:
 | --- | --- |
 | Pay | Opens payment/checkout flow for the rent obligation, subject to DOC-09 eligibility and authorization rules. |
 | View Details | Opens `BILLS-DETAIL-RENT`. |
-| Set Reminder | Opens reminder setup or edit flow for this rent record. |
+| Set Reminder | Opens `BILLS-REMINDER-DETAIL` for this rent record. |
 | Update Detail | Replaces normal edit/detail prompt when the card is action-required. |
 
 #### 7.11.7 Rent / Tenancy Detail Page
@@ -643,7 +646,7 @@ Detail actions:
 | Pay | Opens payment/checkout flow. |
 | Edit Details | Opens editable rent/landlord/payment detail fields subject to verification and audit rules. |
 | View Activities | Opens `BILLS-ACTIVITY` with edit history and payment history. |
-| Set Reminder / Edit Reminder | Opens reminder setup or edit flow. |
+| Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this rent record. |
 | View Tenancy | Opens tenancy evidence/context view where permitted. |
 | Archive | Archives the record; user-facing delete should not be the default MVP action. |
 
@@ -666,12 +669,96 @@ Minimum setup fields:
 | Name | Bill name, required. | Rent/tenancy name, required. |
 | Amount | Bill amount / invoice amount. | Rent amount. |
 | Date / Period | Invoice date and due date. | Rent period and rent due date. |
+| Frequency | One-off, monthly, bi-monthly, quarterly, yearly, or custom if enabled. | Usually monthly for rent; custom frequency if enabled. |
 | Payee / Landlord | Name required where available; ID and phone optional unless category rules require them. | Landlord/payee name required where available; ID and phone optional unless category rules require them. |
 | Account / Payout Details | Account name, bank name, and bank account required where bank transfer applies. | Account name, bank name, and bank account required where bank transfer applies. |
 
 QR scanning belongs inside `BILLS-ADD` as a setup and evidence-capture aid. It must not allow unsupported instant payment without evidence, verification, and payer authorization.
 
-#### 7.11.9 Evidence Structure and UX
+Frequency supports due-date display, reminder defaults, bill/rent management, analytics, and payment-readiness UX. It must not be represented as automatic recurring payment, recurring card authorization, or recurring gateway submission unless a separate approved recurring payment model is later defined.
+
+#### 7.11.9 Reminder Route
+
+Reminder routes must use specific route IDs:
+
+- `BILLS-REMINDER-LIST` for the reminder management screen.
+- `BILLS-REMINDER-DETAIL` for creating or editing one reminder.
+
+`BILLS-REMINDER` may be used only as a shorthand discussion label. AI build documents should use the specific list/detail route ID so screens, sheets, and actions are not confused.
+
+Reminder source type should be stored internally without overexposing technical labels to users. MVP source types should include system due-date reminder, user manual reminder, and user custom override reminder. Deferred payment instruction reminders are governed by DOC-09 and remain an open placement question for the Bills reminder management UI.
+
+Every Bills reminder must have a `reminderID` and link to exactly one existing bill, fee, rent, tenancy, or obligation record ID. A reminder created from a bill/rent card or detail page should automatically inherit the linked record ID. A reminder created from `BILLS-REMINDER-LIST` through `+ Add Reminder` must first require the user to select an existing bill, fee, rent, tenancy, or obligation record. Free-floating reminders are not MVP scope.
+
+`BILLS-REMINDER-LIST` should use the following rough screen order:
+
+1. Page title: `Reminders`.
+2. Top action: `+ Add Reminder`.
+3. Filter row: All, Bill, Rent, Due Soon, Inactive.
+4. Optional sort control: Due Date or Amount.
+5. Reminder card list, ranked by due date by default.
+6. Empty state when no reminders exist.
+7. Selection-mode bottom action bar only when long-press selection is active.
+
+Reminder cards should show, in compact order:
+
+- reminder summary;
+- linked bill/rent name, category, and current readiness/status badge;
+- amount and due date;
+- reminder timing and next reminder date;
+- on/off toggle on the right side.
+
+Tapping the non-toggle area of a reminder card opens `BILLS-REMINDER-DETAIL`.
+
+`BILLS-REMINDER-DETAIL` should use the following rough screen order:
+
+1. Linked bill/rent/fee summary.
+2. Active/inactive toggle.
+3. Reminder type: due-date based or custom date/time.
+4. Cycle: one-off, monthly, bi-monthly, quarterly, yearly, or custom if enabled.
+5. Reminder offset or custom date/time.
+6. Notification note: app notification and push notification are MVP where permission is granted; email, SMS, and WhatsApp routing are governed by DOC-08.
+7. Save and cancel actions.
+8. Delete or disable action where applicable.
+
+Smart default values should be configurable in the admin dashboard under DOC-22:
+
+| Record Type | Default Reminder |
+| --- | --- |
+| Rent | Monthly, 3 days before due date. |
+| Monthly bill | Monthly, 3 days before due date. |
+| One-off invoice | Once, 3 days before due date. |
+
+If a user custom reminder exists for the same bill/rent reminder period, it overrides the system/default reminder for that instance.
+
+Reminder status and lifecycle:
+
+| Condition | Reminder Behavior |
+| --- | --- |
+| Linked bill/rent is archived | Reminder becomes inactive. |
+| One-off invoice is fully paid | Reminder becomes inactive. |
+| Reminder date has passed and reminder is not recurring | Reminder becomes expired or inactive. |
+| Evidence is expired, invalid, rejected, or requires review | Reminder remains valid; the linked bill/rent readiness changes to action-required. |
+
+Reminder deletion should be supported from `BILLS-REMINDER-LIST`:
+
+1. User long-presses a reminder card.
+2. Screen enters selection mode and automatically selects the tapped card.
+3. Checkboxes appear on reminder cards.
+4. A bottom action bar slides up and stays fixed at the bottom area.
+5. User may select multiple reminders.
+6. Delete requires confirmation.
+7. User-facing delete should be implemented as soft delete for audit, support, analytics, and abuse investigation.
+
+User-created or custom reminder records may be deleted. System/default due-date reminders should normally be disabled rather than hard-deleted. Deferred payment instruction reminders are excluded from this deletion flow unless a later decision explicitly brings them into reminder management.
+
+Due soon, overdue, evidence rejected, and payment-not-ready states belong primarily to the linked bill/rent card and detail page. Reminder cards should focus on reminder state such as next reminder date, reminder off, reminder expired, or custom reminder set.
+
+DOC-08 owns notification IDs, channel matrix, templates, user preferences, retry behavior, and delivery logging. DOC-09 owns deferred payment instruction reminders and return-to-checkout behavior. DOC-15 owns sensitive-data display and masking. DOC-18 owns final schema, event taxonomy, lineage, and analytics definitions.
+
+Open question: Should deferred payment instruction reminders also appear in `BILLS-REMINDER-LIST`, or remain only under Instructions, dashboard action-required surfaces, and the DOC-09 checkout/payment instruction flow?
+
+#### 7.11.10 Evidence Structure and UX
 
 Evidence handling must distinguish the obligation, the relationship/contract, and the source evidence.
 
@@ -693,7 +780,7 @@ For rent, tenancy evidence usually supports a contract or relationship. Rent obl
 
 The Bills route should therefore support an evidence source selection step when the category or document type is not obvious, instead of assuming every rent flow equals tenancy agreement and every bill flow equals invoice.
 
-#### 7.11.10 Payer-Created and Payee-Created Logic
+#### 7.11.11 Payer-Created and Payee-Created Logic
 
 | Scenario | UX Rule | Linking Rule |
 | --- | --- | --- |
@@ -704,7 +791,7 @@ The Bills route should therefore support an evidence source selection step when 
 
 Phone number, user ID, app link, WhatsApp deeplink, QR code, or other approved invitation mechanisms remain to be defined. Search, invitation, and acceptance design must follow DOC-15 privacy and DOC-19 security controls.
 
-#### 7.11.11 Action-Required UX
+#### 7.11.12 Action-Required UX
 
 Action-required states must be visible before the user attempts payment where possible.
 
@@ -722,7 +809,7 @@ Examples:
 
 The card should show the status badge and a clear next action. The detail page should show the affected section, the rejected or missing field where appropriate, an `Update Evidence` or `Update Detail` action, and cautious helper text below the affected field. Exact user-facing wording belongs in DOC-07 and DOC-08.
 
-#### 7.11.12 Data and Intelligence Signals
+#### 7.11.13 Data and Intelligence Signals
 
 Bills route interactions should produce structured events or signals for later DOC-18 specification, including:
 
@@ -741,7 +828,7 @@ Bills route interactions should produce structured events or signals for later D
 - user-initiated participant invitation sent;
 - participant invitation accepted or declined;
 - payment started from card or detail page;
-- reminder created, edited, or disabled;
+- reminder created, edited, disabled, deleted, fired, opened, ignored/dismissed, or followed by payment start;
 - record archived;
 - activity, receipt, or evidence viewed/downloaded.
 
@@ -1979,6 +2066,7 @@ The DOC-06 user journey scope is satisfied when:
 | Recent Activity dashboard section displays limited recent transactions with date, item, action, amount, and status. | Confirmed |
 | The dashboard flow and layout are designated for MVP discussion, but final UI design, exact component specification, and exact route-level screen specification are not finalized. | Confirmed |
 | Bills tab working baseline uses `To Pay` and `To Receive` views, route/subsection IDs, bill/rent cards, detail pages, activity panels, evidence status, archive behavior, and Add Bill / Rent setup flow. | Working Baseline / Not Final |
+| Bills reminder route uses `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, linked reminder IDs, bill/rent setup frequency, reminder defaults, custom override, soft-delete behavior, and DOC-08/DOC-09/DOC-18 ownership boundaries. | Working Baseline / Not Final |
 | User-to-user payee linking must be initiated or accepted through an approved flow; automatic user-to-user matching is not allowed as a UX assumption. | Working Baseline |
 | Tenancy evidence is treated as contract/relationship evidence, while invoices/bills usually support obligation/payment-cycle evidence; detailed data structure remains owned by DOC-12 and DOC-18. | Working Baseline |
 
@@ -2003,3 +2091,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.13 | 2026-06-07 | Added Pay+ action sheet working baseline, clarified QR/upload as part of Add Bill / Rent, confirmed Request Payment default visibility subject to gating, and added route IA placeholder titles for continued app UI specification work. |
 | v0.14 | 2026-06-12 | Added Bills tab IA working baseline with To Pay/To Receive views, route/subsection IDs, bill/rent cards, detail pages, activity panels, Add Bill / Rent flow, evidence source structure, payer-created/payee-created acceptance rules, user-accepted linking, action-required UX, and AI-ready event signals. |
 | v0.15 | 2026-06-15 | Clarified Bills tab route IDs as screens, tabs/views, sheets, sections, flows, or card components, and added initial button-to-route ownership for Bills tab UI drafting. |
+| v0.16 | 2026-06-16 | Added Bills reminder list/detail route specification, linked reminder behavior, reminder setup frequency, smart defaults, custom override, soft-delete interaction, notification ownership boundaries, and reminder AI/data signals. |

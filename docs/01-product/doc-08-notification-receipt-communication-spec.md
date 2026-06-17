@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 0.7.0
+version: 1.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-04
+last_updated: 2026-06-17
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -199,7 +199,7 @@ For DOC-06 dashboard placements:
 | Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
 | Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
-Where DOC-06 defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Examples include evidence correction to `BILLS-EVIDENCE`, bill/rent reminders to `BILLS-REMINDER` or the relevant detail route, optional participant linking to `BILLS-LINKING`, and Bills tab list actions to `BILLS-PAY` or `BILLS-RECEIVE` as appropriate.
+Where DOC-06 defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Examples include evidence correction to `BILLS-EVIDENCE`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, and Bills tab list actions to `BILLS-PAY` or `BILLS-RECEIVE` as appropriate.
 
 ---
 
@@ -222,6 +222,7 @@ Domains:
 | `REQ` | Payment request lifecycle. |
 | `PAY` | Payment authorization, processing, success, and failure. |
 | `PINS` | User payment instruction and deferred funding action. |
+| `REM` | Ordinary bill, fee, rent, tenancy, or obligation reminders. |
 | `POUT` | Payout and settlement visibility. |
 | `REF` | Refund, reversal, cancellation, and chargeback. |
 | `DISP` | Query, clarification, dispute, and case handling. |
@@ -365,6 +366,16 @@ Marketing campaign messages must be consent-based. Service messages that affect 
 Payment authorization may require a status update without an external notification. Payment completion usually requires a receipt or confirmation message.
 
 Payment instruction reminders must route the user to the payment/checkout screen for the same instruction. Normal due-date reminders and user manual bill/rent reminders route to the bill/rent/obligation detail screen. If quote, promotion, card eligibility, fee, or timing terms changed, the message should route to the updated checkout review before submission.
+
+### 11.5A Bill/Rent Reminder Events
+
+| ID | Event | Default Channels | Classification |
+| --- | --- | --- | --- |
+| `NOTIF-REM-001` | Bill/rent reminder created or updated | App | Optional service |
+| `NOTIF-REM-002` | Bill/rent reminder due | App, push where permission granted | Optional service |
+| `NOTIF-REM-003` | Bill/rent reminder disabled, deleted, expired, or inactive | App or disabled external channels | Optional service |
+
+Ordinary reminder events are governed by DOC-06 `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. App notification and push notification are MVP where permission is granted. Email, SMS, and WhatsApp may be enabled through the channel matrix, but should avoid sensitive bill, rent, evidence, account, and payee details outside the authenticated app. Deferred payment instruction reminders remain under `NOTIF-PINS-*` and must route to the payment/checkout screen.
 
 ### 11.6 Payout Events
 
@@ -640,5 +651,6 @@ DOC-08 is acceptable when:
 | 0.7.0 | 2026-06-04 | Aligned communication boundaries with DOC-06 dashboard baseline by defining Important Notice / Action Required, Featured / What's New / Hot Offer placement, Inbox linkage, and dashboard-versus-notification separation. |
 | 0.8.0 | 2026-06-12 | Aligned request and evidence notification events with DOC-06 Bills tab rules for optional payee linking, no default payee-acceptance gate for payer-created payment, and post-setup evidence verification status. |
 | 0.9.0 | 2026-06-15 | Added DOC-06 route-ID destination guidance for Bills tab action notifications, including evidence, reminder, linking, and Bills list routes. |
+| 1.0.0 | 2026-06-17 | Aligned reminder notification routing with DOC-06 `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, and added ordinary bill/rent reminder notification events separate from payment instruction reminders. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 0.8.0
+version: 1.0.0
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-06-02
+last_updated: 2026-06-17
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -345,7 +345,7 @@ Payment instruction reminders are different from ordinary bill/rent reminders.
 | User manual reminder | User sets reminder date or offset for a bill/rent/obligation. | Bill/rent/obligation detail screen. |
 | Deferred payment instruction reminder | User has entered payment flow and saved deferred payment context. | Payment/checkout screen for the same instruction. |
 
-DOC-06 owns screen flow. DOC-08 owns notification IDs, channel rules, and message delivery.
+DOC-06 owns ordinary bill/rent reminder management through `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. DOC-08 owns notification IDs, channel rules, and message delivery. Deferred payment instruction reminders remain payment-domain reminders and must not be treated as ordinary bill/rent reminder records unless a later DOC-06/DOC-09 decision explicitly allows that placement.
 
 ---
 
@@ -664,3 +664,4 @@ DOC-09 is acceptable when:
 | 0.7.0 | 2026-06-02 | Added MVP user payment instruction model covering deferred single-card and split-card funding, reminder boundaries, partial funding, funding-leg status, selected transfer date, and partial payout routing to DOC-10. |
 | 0.8.0 | 2026-06-02 | Added deferred payment instruction quote revalidation, promotion quote expiry/reservation open question, and changed-term confirmation before funding submission. |
 | 0.9.0 | 2026-06-12 | Aligned payment-domain origin rules with DOC-06 Bills tab baseline by clarifying payer-created payment does not require default payee acceptance and optional payee linking is not a payment gate unless explicitly required. |
+| 1.0.0 | 2026-06-17 | Aligned reminder boundary with DOC-06 reminder list/detail routes while keeping deferred payment instruction reminders under the checkout/payment instruction flow. |

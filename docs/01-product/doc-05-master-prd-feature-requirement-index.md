@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.12.0
+version: 0.15.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-08
+last_updated: 2026-06-17
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -462,6 +462,7 @@ The MVP should support data structures for the following object families. Detail
 - payment transaction;
 - payment instruction;
 - payment instruction funding leg;
+- bill/rent reminder record, including linked obligation ID, timing, status, custom override, and deletion/disable state where enabled;
 - payout/settlement record;
 - campaign, offer, promotion quote, promotion quote reservation, benefit entitlement, reward instrument, and redemption/fulfilment records where promotions are enabled;
 - dashboard shortcut configuration, user shortcut preference, restore-default action, dashboard placement exposure, and carousel impression/action records where applicable;
@@ -493,6 +494,7 @@ DOC-06 owns route IDs, route types, and button-to-route ownership for user-facin
 - dashboard shortcut grid for Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More where enabled by DOC-06;
 - user shortcut display order, visibility preference, and restore-default behavior;
 - Important Notice / Action Required, Featured / What's New / Hot Offer carousel, Upcoming Bills / Rent, and Recent Activity dashboard sections where enabled by DOC-06;
+- bill/rent reminder management through DOC-06 `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, including linked reminders, reminder defaults, custom overrides, disable/delete behavior, and notification ownership boundaries;
 - create payment;
 - view received requests;
 - review evidence;
@@ -551,6 +553,7 @@ The MVP should support:
 - fee display before payer authorization;
 - promotion quote, discount, coupon, voucher, reward, and final total display before payer authorization where applicable;
 - admin-configurable dashboard shortcut defaults, dashboard placements, and carousel display rules where enabled;
+- admin-configurable bill/rent reminder defaults, reminder eligibility, and reminder feature gating where enabled;
 - user-managed shortcut ordering and restore-default behavior where enabled;
 - transaction-level revenue tracking;
 - payment status reporting;
@@ -722,3 +725,4 @@ The MVP is acceptable when:
 | v0.12 | 2026-06-08 | Added data-engine and AI-readiness requirements for structured events, field metadata, consent/preference state, approved-purpose data use, future model eligibility, analytics readiness, and prohibited MVP AI/partner activation boundaries. |
 | v0.13 | 2026-06-12 | Aligned PRD with DOC-06 Bills tab baseline by clarifying payer-created payment without default payee acceptance, user-accepted participant linking, payee/payout validation, and no automatic user-to-user matching. |
 | v0.14 | 2026-06-15 | Clarified that DOC-06 owns user-facing route IDs, route types, and button-to-route ownership for Bills tab and related UI surfaces. |
+| v0.15 | 2026-06-17 | Aligned PRD with DOC-06 Bills reminder route split, linked reminder records, reminder defaults, custom override, and admin reminder configuration boundaries. |

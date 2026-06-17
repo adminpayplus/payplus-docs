@@ -1,7 +1,7 @@
 ---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.1.0
+version: 0.3.0
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-06-08
+last_updated: 2026-06-17
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -201,11 +201,14 @@ DOC-18 should maintain linkages between:
 - payout item;
 - payout batch;
 - notification;
+- bill/rent reminder;
 - support/dispute case;
 - admin review case;
 - audit event.
 
 DOC-18 must include data structures for DOC-09 user payment instruction, payment instruction funding leg, deferred funding date, selected payee transfer date, reminder/action task, partial funding status, partial payout linkage, remaining unpaid amount, payment quote revalidation, promotion quote reservation, and changed-term acknowledgement.
+
+DOC-18 must also include data structures for DOC-06 ordinary bill/rent reminders, including reminder ID, linked obligation ID, reminder source type, cycle, offset or custom date/time, active/inactive/expired/deleted status, custom override marker, soft-delete/audit metadata, notification linkage, and events for reminder creation, edit, disable, deletion, firing, opening, dismissal, and payment-start attribution.
 
 DOC-18 must also distinguish:
 
@@ -229,6 +232,7 @@ Candidate data marts include:
 - risk and manual-review mart;
 - promotion and campaign performance mart;
 - dashboard placement and personalization mart;
+- reminder effectiveness and due-date behavior mart;
 - support, dispute, refund, and chargeback mart;
 - category economics mart;
 - aggregate partner reporting mart where approved.
@@ -332,3 +336,4 @@ This document should not become:
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-06-08 | Product Documentation Team | Replaced interim note with founder working baseline for data model ownership, field metadata, event taxonomy, lineage, analytics marts, AI/model-readiness metadata, partner reporting controls, and open questions. |
 | 0.2.0 | 2026-06-12 | Product Documentation Team | Aligned data-model baseline with DOC-06 Bills tab requirements by adding obligation, contract/relationship, evidence source, participant linking, invitation, action, and no-auto-matching state/event expectations. |
+| 0.3.0 | 2026-06-17 | Product Documentation Team | Aligned data-model baseline with DOC-06 Bills reminder list/detail routes by adding linked reminder objects, lifecycle states, soft-delete metadata, notification linkage, and reminder effectiveness events. |

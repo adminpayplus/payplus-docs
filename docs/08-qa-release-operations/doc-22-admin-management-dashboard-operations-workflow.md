@@ -82,6 +82,21 @@ Required capabilities should include:
 
 Detailed final admin screens, permission matrix, approval workflow, and implementation fields will be drafted in full DOC-22 and DOC-18.
 
+### 18.2 Reminder Default Configuration
+
+Admin dashboard must support configuration hooks for DOC-06 bill/rent reminder defaults where enabled.
+
+Required capabilities should include:
+
+- configure default reminder timing for rent, monthly bills, and one-off invoices;
+- configure allowed reminder cycles, offsets, and custom-date availability by category or module;
+- enable, disable, or gate reminder features by feature, category, user type, eligibility, risk state, launch phase, or compliance restriction;
+- configure whether system/default reminders may be disabled, reset, or replaced by user custom override;
+- configure reminder notification channel availability in coordination with DOC-08;
+- audit changes to reminder defaults, eligibility, channel linkage, and feature gating.
+
+Detailed reminder data structures belong in DOC-18. User-facing reminder route behavior belongs in DOC-06.
+
 ## 19. Audit Logging Requirements
 
 ## 20. Notifications and Escalations
@@ -106,7 +121,7 @@ Required admin data-handling controls should include:
 - masking and reveal rules for sensitive fields;
 - access reason capture for sensitive data views, exports, downloads, overrides, and corrections;
 - audit logging for access, change, export, review, hold, release, override, and deletion actions;
-- audit logging for dashboard shortcut configuration, dashboard placement configuration, notice/action configuration, carousel configuration, and restore-default configuration;
+- audit logging for dashboard shortcut configuration, dashboard placement configuration, notice/action configuration, carousel configuration, restore-default configuration, and reminder default configuration;
 - privacy-safe duplicate/reused evidence warnings that do not reveal another user's private data;
 - export controls for reports, bank files, payout batches, evidence packages, dispute files, and promotion/partner reports.
 
@@ -119,3 +134,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 ## 27. Open Questions
 
 ## 28. Revision History
+
+| Version | Date | Summary |
+| --- | --- | --- |
+| 0.1.0 | 2026-06-17 | Added DOC-06 reminder default configuration hooks for bill/rent reminder timing, category gating, channel linkage, and audit logging. |
