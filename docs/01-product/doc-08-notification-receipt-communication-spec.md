@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -199,7 +199,7 @@ For DOC-06 dashboard placements:
 | Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
 | Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
-Where DOC-06 defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Examples include evidence correction to `BILLS-EVIDENCE`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, and Bills tab list actions to `BILLS-PAY` or `BILLS-RECEIVE` as appropriate.
+Where DOC-06 defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06 defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction to `BILLS-EVIDENCE` or its future specific evidence sub-route, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, and Bills tab list actions to `BILLS-PAY` or `BILLS-RECEIVE` as appropriate.
 
 ---
 
@@ -652,5 +652,6 @@ DOC-08 is acceptable when:
 | 0.8.0 | 2026-06-12 | Aligned request and evidence notification events with DOC-06 Bills tab rules for optional payee linking, no default payee-acceptance gate for payer-created payment, and post-setup evidence verification status. |
 | 0.9.0 | 2026-06-15 | Added DOC-06 route-ID destination guidance for Bills tab action notifications, including evidence, reminder, linking, and Bills list routes. |
 | 1.0.0 | 2026-06-17 | Aligned reminder notification routing with DOC-06 `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, and added ordinary bill/rent reminder notification events separate from payment instruction reminders. |
+| 1.0.1 | 2026-06-17 | Added notification routing guidance to use DOC-06 specific sub-route IDs where available instead of broad shorthand route labels. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.15.0
+version: 0.16.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -480,7 +480,7 @@ Detailed data model, event taxonomy, warehouse, analytics marts, feature/model m
 
 The MVP should include the following UX surfaces. Detailed screen flows, service blueprint steps, and interaction rules belong in DOC-06.
 
-DOC-06 owns route IDs, route types, and button-to-route ownership for user-facing app surfaces. Product requirements in DOC-05 should reference DOC-06 route IDs where useful, but should not duplicate screen-level routing rules.
+DOC-06 owns route IDs, route types, route ID naming standards, and button-to-route ownership for user-facing app surfaces. Product requirements in DOC-05 should reference DOC-06 route IDs where useful, use specific sub-route IDs where DOC-06 defines them, and avoid duplicating screen-level routing rules.
 
 ### Payer
 
@@ -726,3 +726,4 @@ The MVP is acceptable when:
 | v0.13 | 2026-06-12 | Aligned PRD with DOC-06 Bills tab baseline by clarifying payer-created payment without default payee acceptance, user-accepted participant linking, payee/payout validation, and no automatic user-to-user matching. |
 | v0.14 | 2026-06-15 | Clarified that DOC-06 owns user-facing route IDs, route types, and button-to-route ownership for Bills tab and related UI surfaces. |
 | v0.15 | 2026-06-17 | Aligned PRD with DOC-06 Bills reminder route split, linked reminder records, reminder defaults, custom override, and admin reminder configuration boundaries. |
+| v0.16 | 2026-06-17 | Added PRD alignment note that DOC-06 owns route ID naming standards and specific sub-route IDs where available. |

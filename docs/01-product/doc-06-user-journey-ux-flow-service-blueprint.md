@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.16.0
+version: 0.17.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -501,6 +501,17 @@ Route-level UI drafting rule: each route should define user-facing behavior and 
 #### 7.11.1 Route and Subsection IDs
 
 For DOC-06, a route ID may represent a full screen, tab/view, modal/sheet, section, or reusable card component. The type should be stated so later AI build documents do not duplicate screens or confuse components with navigation destinations.
+
+Route ID naming standard:
+
+- use uppercase, hyphen-separated IDs;
+- use the pattern `[AREA]-[PRIMARY-ROUTE]-[SUBROUTE-OR-COMPONENT]` where a sub-route or component is needed;
+- use a primary route ID for a broad product area or flow group, such as `BILLS-EVIDENCE`;
+- add a sub-route ID only when the user task, screen/sheet, permission model, route destination, or implementation ownership is materially different;
+- use the specific sub-route ID in AI build documents, notification destinations, analytics events, and implementation tasks where one exists;
+- keep broad route IDs as shorthand discussion labels only when a more specific sub-route ID has been defined.
+
+Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER-LIST`, and `BILLS-EVIDENCE-REVIEW`.
 
 | ID | Type | Route / Section | Opened By | Definition |
 | --- | --- | --- | --- | --- |
@@ -2092,3 +2103,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.14 | 2026-06-12 | Added Bills tab IA working baseline with To Pay/To Receive views, route/subsection IDs, bill/rent cards, detail pages, activity panels, Add Bill / Rent flow, evidence source structure, payer-created/payee-created acceptance rules, user-accepted linking, action-required UX, and AI-ready event signals. |
 | v0.15 | 2026-06-15 | Clarified Bills tab route IDs as screens, tabs/views, sheets, sections, flows, or card components, and added initial button-to-route ownership for Bills tab UI drafting. |
 | v0.16 | 2026-06-16 | Added Bills reminder list/detail route specification, linked reminder behavior, reminder setup frequency, smart defaults, custom override, soft-delete interaction, notification ownership boundaries, and reminder AI/data signals. |
+| v0.17 | 2026-06-17 | Added DOC-06 route ID naming standard for primary route IDs, sub-route IDs, shorthand labels, and downstream AI build, notification, analytics, and implementation references. |
