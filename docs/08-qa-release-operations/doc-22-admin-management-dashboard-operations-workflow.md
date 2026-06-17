@@ -17,6 +17,21 @@
 ### 7.1 Account Review Queue
 ### 7.2 Payee Review Queue
 ### 7.3 Evidence Review Queue
+
+Future full DOC-22 drafting must define admin queue behavior for DOC-06 Bills evidence routes.
+
+Required items to be updated include:
+
+- review evidence submitted from `BILLS-EVIDENCE-UPLOAD`;
+- view the current active evidence set from `BILLS-EVIDENCE-DETAIL`;
+- assign or override evidence status, including `Pending Review`, `Accepted`, `Correction Needed`, `Update Needed`, `Rejected`, `Duplicate Suspected`, and `Archived`;
+- capture reason codes, reviewer identity, timestamp, and affected bill/rent readiness status;
+- manage archive-not-delete behavior and controlled access to prior evidence versions;
+- route status changes to DOC-08 notifications or dashboard-only action items where applicable;
+- audit all evidence view, status-change, archive, override, and sensitive-field reveal actions.
+
+Detailed schema and event taxonomy belong in DOC-18. User-facing evidence routes belong in DOC-06. Evidence verification rules belong in DOC-12. Risk escalation rules belong in DOC-14.
+
 ### 7.4 Payment Request Review Queue
 ### 7.5 Risk Review Queue
 ### 7.6 Duplicate Detection Queue
@@ -138,3 +153,4 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 | Version | Date | Summary |
 | --- | --- | --- |
 | 0.1.0 | 2026-06-17 | Added DOC-06 reminder default configuration hooks for bill/rent reminder timing, category gating, channel linkage, and audit logging. |
+| 0.2.0 | 2026-06-18 | Added future DOC-22 update markers for admin handling of DOC-06 Bills evidence detail/upload routes, evidence statuses, readiness impact, archive-not-delete behavior, prior evidence access, notifications, and audit logging. |

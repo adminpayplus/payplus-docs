@@ -1,7 +1,7 @@
 ---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.5.0
+version: 0.7.0
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-06-08
+last_updated: 2026-06-18
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -403,6 +403,29 @@ Evidence verification should produce one of the following outcomes:
 
 Payment eligibility gates in DOC-09 must consume the final verification outcome.
 
+### 16.1 DOC-06 Evidence Status and Payment Readiness Mapping
+
+DOC-12 verification outcomes must map cleanly to the DOC-06 user-facing evidence status and bill/rent payment-readiness model. DOC-12 outcomes describe verification decisions; DOC-06 statuses describe what the user sees and how the bill/rent record becomes payable.
+
+| DOC-12 Outcome | DOC-06 Evidence Status / Handling |
+| --- | --- |
+| Auto-Verified | `Accepted`. |
+| Auto-Verified with Warning | `Accepted` if warning is low severity; otherwise `Pending Review` or `Correction Needed` according to risk/category rule. |
+| Pending User Clarification | `Correction Needed` or `Update Needed`. |
+| Pending Admin Review | `Pending Review`. |
+| Approved by Admin | `Accepted`. |
+| Rejected by Admin | `Rejected`. |
+| Duplicate Suspected | `Duplicate Suspected`. |
+| Fraud/Risk Escalated | `Pending Review` or risk hold according to DOC-14. |
+| Evidence Replaced | New version enters the applicable status; prior version is retained and hidden from normal bill/rent UI. |
+| Evidence Expired | `Update Needed`. |
+
+DOC-06 owns the user-facing payment-readiness mapping, including `Ready to Pay`, `Action Required`, `Under Review`, `Paid` / `Received`, and `Archived`. DOC-09 consumes the mapped readiness result before quote creation, authorization, retry, settlement readiness, or payout handoff.
+
+Evidence should normally have one active evidence set per bill/rent record. Evidence updates create versions; the newest accepted version becomes active. Archived or previous evidence must not be hard-deleted and should remain available through controlled records access under DOC-15 and DOC-18.
+
+Extracted fields approved for display should populate the bill/rent detail record in DOC-06. Evidence detail screens should avoid duplicating those fields except where needed for evidence review, correction, or status explanation.
+
 ---
 
 ## 17. Payee Verification Linkage
@@ -493,9 +516,7 @@ Detailed privacy and retention rules belong in DOC-15. Security and access contr
 
 ## 21. UX and Document Alignment Impact
 
-DOC-12 introduces more specific evidence verification flow than DOC-06 currently describes.
-
-After DOC-12 is approved, DOC-06 should be reviewed and updated for:
+DOC-06 now defines the user-facing Bills evidence sub-route model. Future DOC-12 refinements should remain aligned with DOC-06 for:
 
 - AI/OCR evidence capture;
 - autofill from extracted fields;
@@ -504,7 +525,8 @@ After DOC-12 is approved, DOC-06 should be reviewed and updated for:
 - duplicate/reused evidence warning;
 - pending user clarification;
 - pending admin review;
-- payer review of final evidence summary before authorization.
+- payer review of final evidence summary before authorization;
+- one active evidence set, evidence versioning, archive-not-delete behavior, and controlled access to previous evidence.
 
 DOC-06 should remain a user journey and UX scope document. It should not copy all DOC-12 field tables or data-layer rules.
 
@@ -525,6 +547,7 @@ DOC-06 should remain a user journey and UX scope document. It should not copy al
 | OQ-12-009 | What exact evidence standards, field requirements, and review thresholds apply to domestic helper, driver, and personal service obligations? | Legal / Compliance / Risk / Product | Medium | Open |
 | OQ-12-010 | What admin override permissions and reason codes are required for evidence approval? | Operations / Risk / Product | Medium | Open |
 | OQ-12-011 | Which evidence-derived fields and model features are prohibited from marketing, partner reporting, external activation, credit scoring, or insurance-related targeting? | Privacy / Legal / Risk | High | Open |
+| OQ-12-012 | What final mapping, reason codes, and exception rules should connect DOC-12 verification outcomes to DOC-06 evidence status and bill/rent payment readiness? | Product / Risk / Operations / Engineering | High | Open |
 
 ---
 
@@ -573,3 +596,4 @@ It should not become:
 | `0.4.0` | `2026-06-02` | Product Documentation Team | Aligned domestic helper, driver, and personal service categories with confirmed evidence-backed MVP scope while keeping exact evidence standards and review thresholds open. |
 | `0.5.0` | `2026-06-08` | Product Documentation Team | Added evidence-derived model-use, sensitive-field, prohibited marketing/partner-reporting, and DOC-15/DOC-18 lineage boundaries for AI/data-engine readiness. |
 | `0.6.0` | `2026-06-12` | Product Documentation Team | Aligned evidence structure with DOC-06 Bills tab baseline by separating obligation, contract/relationship, and evidence source records; added rent-supporting evidence examples; clarified payee/payout validation versus participant linking. |
+| `0.7.0` | `2026-06-18` | Product Documentation Team | Aligned DOC-12 verification outcomes with DOC-06 evidence status, bill/rent payment readiness, active evidence versioning, archive-not-delete behavior, and extracted-field display ownership. |

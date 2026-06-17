@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-06-17
+last_updated: 2026-06-18
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -468,10 +468,12 @@ Detailed security and authentication mechanics belong in DOC-19.
 
 DOC-09 owns payment-domain status meaning at product-rule level. Canonical event schema belongs in DOC-18.
 
+Evidence status naming must not diverge from DOC-06 and DOC-12. DOC-12 owns evidence verification outcomes. DOC-06 owns the user-facing evidence status and bill/rent payment-readiness mapping. DOC-09 consumes the mapped readiness result to decide whether payment quote creation, authorization, retry, settlement readiness, or payout handoff may proceed.
+
 | Status Group | Example Statuses | Purpose |
 | --- | --- | --- |
 | Request setup | Draft, Submitted, Sent | Request exists but is not ready for payment. |
-| Evidence verification | Evidence Processing, Pending User Correction, Pending Evidence Review, Evidence Rejected, Duplicate Suspected | Tracks DOC-12 evidence processing before payment readiness. |
+| Evidence verification | Evidence Processing, Pending User Correction, Pending Evidence Review, Evidence Rejected, Duplicate Suspected, Evidence Archived where relevant | Tracks DOC-12 evidence processing and maps to DOC-06 user-facing evidence status and bill/rent payment readiness before payment eligibility. |
 | Review and response | Viewed, Accepted, Rejected, Disputed, Expired, Cancelled | Recipient action or lifecycle state before payment. |
 | Payment readiness | Approved for Payment, Payment Quote Created | Request passed required gates and quote is available. |
 | Payment instruction | Instruction Created, Pending User Action, Partially Funded, Fully Funded, Expired, Cancelled | Tracks saved payment context before and during deferred or split funding. |
@@ -616,7 +618,7 @@ DOC-09 requires traceability for:
 | OQ-09-008 | What payment profile metadata may be stored under final PSP/acquirer, PCI, privacy, and security design? | Security / Payments / Engineering | Open |
 | OQ-09-009 | What settlement file, report, webhook, or reconciliation signal confirms settlement readiness? | Payments / Finance / Engineering | Open |
 | OQ-09-010 | What partial multi-card failure status naming should be exposed to payer and admin? | Product / Design / Operations | Open |
-| OQ-09-011 | Which DOC-12 evidence verification outcomes block payment quote, authorization, retry, or settlement readiness? | Product / Payments / Risk | Open |
+| OQ-09-011 | Which DOC-12 evidence verification outcomes and DOC-06 evidence-status/payment-readiness mappings block payment quote, authorization, retry, or settlement readiness? | Product / Payments / Risk | Open |
 | OQ-09-012 | Which DOC-13 promotion quote, reward entitlement, card-linked eligibility, and coupon/voucher states block or require recalculation before payer authorization? | Product / Payments / Growth | Open |
 | OQ-09-013 | What exact deferred payment instruction validity window should apply if PSP/acquirer, 3DS, or security rules differ from the 7-day product baseline? | Payments / Security / Product | Open |
 | OQ-09-014 | What selected payee transfer date rules apply when split-card funding legs complete on different dates? | Payments / Finance / Product | Open |
@@ -665,3 +667,4 @@ DOC-09 is acceptable when:
 | 0.8.0 | 2026-06-02 | Added deferred payment instruction quote revalidation, promotion quote expiry/reservation open question, and changed-term confirmation before funding submission. |
 | 0.9.0 | 2026-06-12 | Aligned payment-domain origin rules with DOC-06 Bills tab baseline by clarifying payer-created payment does not require default payee acceptance and optional payee linking is not a payment gate unless explicitly required. |
 | 1.0.0 | 2026-06-17 | Aligned reminder boundary with DOC-06 reminder list/detail routes while keeping deferred payment instruction reminders under the checkout/payment instruction flow. |
+| 1.0.1 | 2026-06-18 | Aligned evidence status consumption with DOC-06 evidence status/payment-readiness mapping and DOC-12 verification outcomes. |
