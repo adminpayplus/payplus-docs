@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.17.0
+version: 0.18.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-17
+last_updated: 2026-06-18
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -511,7 +511,7 @@ Route ID naming standard:
 - use the specific sub-route ID in AI build documents, notification destinations, analytics events, and implementation tasks where one exists;
 - keep broad route IDs as shorthand discussion labels only when a more specific sub-route ID has been defined.
 
-Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER-LIST`, and `BILLS-EVIDENCE-REVIEW`.
+Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER-LIST`, and `BILLS-EVIDENCE-UPLOAD`.
 
 | ID | Type | Route / Section | Opened By | Definition |
 | --- | --- | --- | --- | --- |
@@ -524,7 +524,9 @@ Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER
 | `BILLS-DETAIL-RENT` | Screen | Rent / tenancy detail | `Details` on `BILLS-CARD-RENT` | Detail page for rent record and linked tenancy context. |
 | `BILLS-ACTIVITY` | Section or screen | Activity history | `View Activities` from detail pages | Edit history, payment history, receipt access, and evidence access where permitted. Final UI may be a section, sheet, or separate screen. |
 | `BILLS-ADD` | Flow / screen group | Add Bill / Rent flow | `Add Bill / Rent` button or Pay+ action sheet | Setup flow for new bill, fee, rent, tenancy, or evidence-backed obligation. |
-| `BILLS-EVIDENCE` | Section / flow | Evidence section | Detail-page evidence area or `Update Evidence` | Evidence source, verification status, renewal, replacement, and update actions. |
+| `BILLS-EVIDENCE` | Sub-flow group / shorthand | Evidence sub-flow | Detail-page evidence area, `BILLS-ADD`, or evidence action-required state | Shorthand for bill/rent evidence actions. Evidence is a supporting attachment/status layer of a bill/rent record, not a standalone user object. |
+| `BILLS-EVIDENCE-DETAIL` | Screen or sheet | Evidence detail | Evidence section inside `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` | View and manage the current active evidence set for one bill/rent record. |
+| `BILLS-EVIDENCE-UPLOAD` | Flow / screen group | Evidence upload/update | `Upload` or `Update` from evidence detail, or evidence step inside `BILLS-ADD` | Upload file, take photo, scan QR, or enter evidence manually; supports OCR/autofill and user correction through the bill/rent setup/detail flow. |
 | `BILLS-REMINDER-LIST` | Screen | Reminder management | Dashboard shortcut `Reminders` | Alarm-style reminder management screen for reminders linked to bill, fee, rent, tenancy, or obligation records. |
 | `BILLS-REMINDER-DETAIL` | Sheet or screen | Reminder setup/edit | `Set Reminder`, `Edit Reminder`, or `+ Add Reminder` | Create or edit one reminder linked to a specific bill, fee, rent, tenancy, or obligation. |
 | `BILLS-LINKING` | Flow / sheet | Participant linking/invitation | Optional link/invite action where enabled | User-initiated or user-accepted payer/payee linking. Must not perform automatic user-to-user matching. |
@@ -544,7 +546,9 @@ Initial route ownership:
 | Tap `Reminders` shortcut | Dashboard shortcut grid | Opens `BILLS-REMINDER-LIST`. |
 | Tap `+ Add Reminder` | `BILLS-REMINDER-LIST` | User selects an existing bill, fee, rent, tenancy, or obligation, then opens `BILLS-REMINDER-DETAIL`. |
 | Tap `View Activities` | Detail page | Opens `BILLS-ACTIVITY`. |
-| Tap `Update Evidence` | Action-required card or detail evidence area | Opens `BILLS-EVIDENCE`. |
+| Tap `Bill / Invoice` or `Rental Doc` evidence section | Bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` for the selected bill/rent record. |
+| Tap `Upload` / `Update` evidence | `BILLS-EVIDENCE-DETAIL` or evidence step in `BILLS-ADD` | Opens `BILLS-EVIDENCE-UPLOAD`. |
+| Tap evidence action-required prompt | Bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD` depending on whether evidence exists. |
 | Tap `Archive` | Detail page | Archives the record and returns to the relevant Bills list/filter. |
 | Tap optional `Invite / Link Payee` or `Invite / Link Payer` | Detail page or request context where enabled | Opens `BILLS-LINKING`; linking requires approved user or operational action. |
 
@@ -598,7 +602,8 @@ Card actions:
 - latest amount;
 - next due date;
 - last payment date;
-- evidence source and verification status for the latest invoice/evidence cycle;
+- bill/invoice extracted fields that are approved for display, where applicable;
+- evidence section for the latest bill/invoice support;
 - payment readiness or status badge.
 
 Detail actions:
@@ -610,6 +615,8 @@ Detail actions:
 | View Activities | Opens `BILLS-ACTIVITY` with edit history and payment history. |
 | Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this obligation. |
 | Archive | Archives the record; user-facing delete should not be the default MVP action. |
+
+The bill detail page should include a `Bill / Invoice` evidence section. If active evidence exists, the section may show `View`, `Update`, and `Archive`. If no active evidence exists, it should show `Upload`. Extracted fields that belong to the bill/invoice record should be displayed in the bill detail area, not duplicated inside evidence detail.
 
 `BILLS-ACTIVITY` should show edit history and payment history. Each payment record should provide receipt access and evidence access where permitted by DOC-15, DOC-18, and DOC-19.
 
@@ -647,7 +654,8 @@ Card actions:
 - last payment date;
 - next due date;
 - landlord/payee information and payout/account information, masked where required;
-- evidence source and verification status;
+- rental document extracted fields that are approved for display, where applicable;
+- evidence section for rental documents;
 - payment readiness or status badge.
 
 Detail actions:
@@ -658,8 +666,9 @@ Detail actions:
 | Edit Details | Opens editable rent/landlord/payment detail fields subject to verification and audit rules. |
 | View Activities | Opens `BILLS-ACTIVITY` with edit history and payment history. |
 | Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this rent record. |
-| View Tenancy | Opens tenancy evidence/context view where permitted. |
 | Archive | Archives the record; user-facing delete should not be the default MVP action. |
+
+The rent detail page should include a `Rental Doc` evidence section. `Rental Doc` covers tenancy agreements and other approved rent-supporting evidence, such as rent demand, stamp duty document, CR109, HKHA tenancy card, carpark invoice, or property management notice. If active evidence exists, the section may show `View`, `Update`, and `Archive`. If no active evidence exists, it should show `Upload`. Extracted fields that belong to the rent/tenancy record should be displayed in the rent detail area, not duplicated inside evidence detail.
 
 Rent normally should not require a new invoice for each payment cycle unless tenancy evidence expires, changes, is replaced, is rejected, or is flagged by risk/review rules.
 
@@ -668,10 +677,13 @@ Rent normally should not require a new invoice for each payment cycle unless ten
 `BILLS-ADD` should support:
 
 1. Select category: Bill / Fee or Rent.
-2. Choose input method: upload file, take photo, scan QR code, or enter manually.
-3. Show extracted or entered bill/rent details.
-4. Let user edit and confirm fields before submission.
-5. Submit for system verification, user clarification, or admin review according to DOC-12 and DOC-14.
+2. Capture evidence where category rules require it, or enter details manually where permitted.
+3. Use `BILLS-EVIDENCE-UPLOAD` for upload file, take photo, scan QR code, or manual evidence input.
+4. Process AI/OCR classification and extraction where enabled.
+5. Autofill extracted fields into the bill/rent setup fields.
+6. Let user review and correct bill/rent details before submission.
+7. Submit the bill/rent setup and linked evidence for system verification, user clarification, or admin review according to DOC-12 and DOC-14.
+8. Create the initial evidence status and bill/rent payment readiness status.
 
 Minimum setup fields:
 
@@ -684,11 +696,115 @@ Minimum setup fields:
 | Payee / Landlord | Name required where available; ID and phone optional unless category rules require them. | Landlord/payee name required where available; ID and phone optional unless category rules require them. |
 | Account / Payout Details | Account name, bank name, and bank account required where bank transfer applies. | Account name, bank name, and bank account required where bank transfer applies. |
 
-QR scanning belongs inside `BILLS-ADD` as a setup and evidence-capture aid. It must not allow unsupported instant payment without evidence, verification, and payer authorization.
+QR scanning belongs inside `BILLS-ADD` and `BILLS-EVIDENCE-UPLOAD` as a setup and evidence-capture aid. It must not allow unsupported instant payment without evidence, verification, and payer authorization.
 
 Frequency supports due-date display, reminder defaults, bill/rent management, analytics, and payment-readiness UX. It must not be represented as automatic recurring payment, recurring card authorization, or recurring gateway submission unless a separate approved recurring payment model is later defined.
 
-#### 7.11.9 Reminder Route
+#### 7.11.9 Evidence Sub-Route
+
+Evidence is a supporting attachment/status layer linked to a bill/rent record. It is not a standalone user-facing card or independent management object.
+
+Core model:
+
+| Item | Rule |
+| --- | --- |
+| Main object | Bill/rent record. |
+| Supporting object | One active evidence set for the bill/rent record under normal operation. |
+| Versioning | Evidence updates create new versions; the newest accepted version becomes active. |
+| Previous evidence | Previous or archived evidence is hidden from normal bill/rent UI and retained under controlled records access. |
+| Extracted data | Extracted fields should populate bill/rent detail fields where displayable; evidence detail should not duplicate those fields. |
+
+User-facing evidence labels:
+
+| Record Type | Evidence Label |
+| --- | --- |
+| Bill / fee / invoice | `Bill / Invoice` |
+| Rent / tenancy / rent support document | `Rental Doc` |
+
+Evidence actions must be available inside bill/rent detail, not on the bill/rent card. The bill/rent card should show payment readiness and normal card actions such as `Pay`, `View Details`, and `Set Reminder`.
+
+`BILLS-EVIDENCE-DETAIL` should show:
+
+1. Linked bill/rent summary.
+2. Evidence label: `Bill / Invoice` or `Rental Doc`.
+3. Evidence status.
+4. Current active evidence preview or document metadata.
+5. Upload or review timestamp.
+6. Verified/review timestamp where applicable.
+7. Issue note where action is required.
+8. Buttons based on evidence existence.
+
+Evidence buttons:
+
+| Evidence State | Buttons |
+| --- | --- |
+| Evidence exists | `View`, `Update`, `Archive`. |
+| Evidence does not exist | `Upload`. |
+
+`BILLS-EVIDENCE-UPLOAD` should support:
+
+- upload file;
+- take photo;
+- scan QR;
+- enter manually where permitted.
+
+Upload/update flow:
+
+1. User starts upload or update from `BILLS-EVIDENCE-DETAIL` or evidence step inside `BILLS-ADD`.
+2. System captures evidence.
+3. AI/OCR reads and classifies evidence where enabled.
+4. System autofills extracted fields into the bill/rent record.
+5. User reviews and corrects bill/rent details.
+6. User submits.
+7. System sets evidence status.
+8. Bill/rent payment readiness updates based on evidence status and other gates.
+
+Evidence archive behavior:
+
+- archive hides evidence from normal bill/rent UI;
+- archive must not hard-delete evidence from the database;
+- archived evidence remains retained under DOC-15 and DOC-18;
+- archived/previous evidence should be retrievable through a controlled account records/archive area, likely under `Me`; exact route remains open.
+
+Evidence statuses:
+
+| Evidence Status | Meaning |
+| --- | --- |
+| `Not Provided` | No active evidence exists. |
+| `Pending Review` | Evidence uploaded, review not complete. |
+| `Accepted` | Evidence accepted for current bill/rent purpose. |
+| `Correction Needed` | User must correct extracted or entered fields. |
+| `Update Needed` | Evidence expired, outdated, replaced, or insufficient. |
+| `Rejected` | Evidence cannot support the bill/rent. |
+| `Duplicate Suspected` | Evidence may be reused/duplicate and needs review. |
+| `Archived` | Hidden from normal UI, retained in records/history. |
+
+Bill/rent payment readiness statuses:
+
+| Payment Readiness | Meaning |
+| --- | --- |
+| `Ready to Pay` | Evidence and required gates pass. |
+| `Action Required` | User must fix evidence, details, payment setup, or another required item. |
+| `Under Review` | System, admin, or risk review is pending. |
+| `Paid` / `Received` | Completed payment state, depending payer/payee view. |
+| `Archived` | Bill/rent hidden from normal list. |
+
+Evidence-to-readiness mapping:
+
+| Evidence Status | Bill/Rent Payment Readiness |
+| --- | --- |
+| `Not Provided` | `Action Required`. |
+| `Pending Review` | `Under Review`. |
+| `Accepted` | `Ready to Pay`, if other gates pass. |
+| `Correction Needed` | `Action Required`. |
+| `Update Needed` | `Action Required`. |
+| `Rejected` | `Action Required`. |
+| `Duplicate Suspected` | `Under Review` or `Action Required`, depending review rule. |
+| `Archived` | `Action Required`, unless another active accepted evidence version exists. |
+
+Evidence status and bill/rent readiness must be managed through system automation, AI/OCR classification, rules engine checks, admin/manual review, user correction, and lifecycle events. DOC-12 owns extraction, verification, duplicate/reused evidence, and evidence review logic. DOC-14 owns risk triggers. DOC-15 owns privacy, masking, retention, and access boundaries. DOC-18 owns final data objects, status taxonomy, audit events, and analytics. DOC-22 owns admin review and configuration workflow.
+
+#### 7.11.10 Reminder Route
 
 Reminder routes must use specific route IDs:
 
@@ -763,13 +879,13 @@ Reminder deletion should be supported from `BILLS-REMINDER-LIST`:
 
 User-created or custom reminder records may be deleted. System/default due-date reminders should normally be disabled rather than hard-deleted. Deferred payment instruction reminders are excluded from this deletion flow unless a later decision explicitly brings them into reminder management.
 
-Due soon, overdue, evidence rejected, and payment-not-ready states belong primarily to the linked bill/rent card and detail page. Reminder cards should focus on reminder state such as next reminder date, reminder off, reminder expired, or custom reminder set.
+Due soon, overdue, evidence rejected, and payment-readiness action states belong primarily to the linked bill/rent card and detail page. Reminder cards should focus on reminder state such as next reminder date, reminder off, reminder expired, or custom reminder set.
 
 DOC-08 owns notification IDs, channel matrix, templates, user preferences, retry behavior, and delivery logging. DOC-09 owns deferred payment instruction reminders and return-to-checkout behavior. DOC-15 owns sensitive-data display and masking. DOC-18 owns final schema, event taxonomy, lineage, and analytics definitions.
 
 Open question: Should deferred payment instruction reminders also appear in `BILLS-REMINDER-LIST`, or remain only under Instructions, dashboard action-required surfaces, and the DOC-09 checkout/payment instruction flow?
 
-#### 7.11.10 Evidence Structure and UX
+#### 7.11.11 Evidence Structure and UX
 
 Evidence handling must distinguish the obligation, the relationship/contract, and the source evidence.
 
@@ -789,9 +905,9 @@ For bills, invoices, and fees, the evidence usually supports a specific obligati
 
 For rent, tenancy evidence usually supports a contract or relationship. Rent obligations may then be generated from that tenancy context. Tenancy-related evidence may include tenancy agreement, stamp duty document, CR109, rent demand, property management notice, HKHA tenancy card, carpark invoice, or other approved rent-supporting evidence. Exact evidence categories, fields, review thresholds, and schemas belong in DOC-12 and DOC-18.
 
-The Bills route should therefore support an evidence source selection step when the category or document type is not obvious, instead of assuming every rent flow equals tenancy agreement and every bill flow equals invoice.
+The Bills route should therefore support evidence source detection or selection inside `BILLS-EVIDENCE-UPLOAD` when the category or document type is not obvious, instead of assuming every rent flow equals tenancy agreement and every bill flow equals invoice.
 
-#### 7.11.11 Payer-Created and Payee-Created Logic
+#### 7.11.12 Payer-Created and Payee-Created Logic
 
 | Scenario | UX Rule | Linking Rule |
 | --- | --- | --- |
@@ -802,13 +918,14 @@ The Bills route should therefore support an evidence source selection step when 
 
 Phone number, user ID, app link, WhatsApp deeplink, QR code, or other approved invitation mechanisms remain to be defined. Search, invitation, and acceptance design must follow DOC-15 privacy and DOC-19 security controls.
 
-#### 7.11.12 Action-Required UX
+#### 7.11.13 Action-Required UX
 
 Action-required states must be visible before the user attempts payment where possible.
 
 Examples:
 
 - evidence pending verification;
+- evidence not provided;
 - evidence rejected;
 - evidence expired;
 - missing required field;
@@ -818,9 +935,9 @@ Examples:
 - payment instruction requires user action;
 - reminder/action deadline is approaching.
 
-The card should show the status badge and a clear next action. The detail page should show the affected section, the rejected or missing field where appropriate, an `Update Evidence` or `Update Detail` action, and cautious helper text below the affected field. Exact user-facing wording belongs in DOC-07 and DOC-08.
+The card should show the payment readiness badge and a clear next action. Evidence-specific actions should appear inside the bill/rent detail evidence section, not as multiple evidence buttons on the card. The detail page should show the affected section, the rejected or missing field where appropriate, an `Upload`, `Update`, or `Fix` evidence action, and cautious helper text below the affected field. Exact user-facing wording belongs in DOC-07 and DOC-08.
 
-#### 7.11.13 Data and Intelligence Signals
+#### 7.11.14 Data and Intelligence Signals
 
 Bills route interactions should produce structured events or signals for later DOC-18 specification, including:
 
@@ -831,7 +948,12 @@ Bills route interactions should produce structured events or signals for later D
 - evidence source selected;
 - input method selected: upload, photo, QR scan, or manual entry;
 - extracted field confirmed or corrected;
+- evidence upload or update started;
+- evidence submitted;
+- evidence status changed;
+- evidence archived;
 - evidence verification outcome displayed;
+- bill/rent readiness changed due to evidence;
 - action-required state displayed;
 - action-required state resolved;
 - payer-created record created;
@@ -1194,18 +1316,19 @@ MVP evidence may include:
 
 ### 12.3 Evidence Upload and Verification Flow
 
-1. User creates a request or obligation record.
-2. User uploads or links evidence.
+1. User creates or updates a request, bill, rent, or obligation record.
+2. User provides evidence through `BILLS-ADD` or `BILLS-EVIDENCE-UPLOAD` where evidence is required.
 3. System validates file type and required metadata where applicable.
 4. System processes OCR/document AI where enabled.
-5. System extracts and autofills eligible fields.
-6. User reviews and corrects autofilled fields before submission.
+5. System extracts eligible fields and autofills the bill/rent/request setup fields.
+6. User reviews and corrects the bill/rent/request details before submission.
 7. System stores raw evidence, extraction result, user correction, and final evidence snapshot where applicable.
 8. System links evidence to the request or obligation.
 9. System applies duplicate/reused evidence, mismatch, completeness, same-party, and risk checks.
-10. System assigns an evidence verification outcome.
-11. Low-risk evidence becomes available for role-based review and payment eligibility checks.
-12. Red-flag evidence routes to user clarification or admin review.
+10. System assigns an evidence status.
+11. Evidence status updates the bill/rent payment readiness status according to the Bills route mapping.
+12. Low-risk accepted evidence becomes available for role-based review and payment eligibility checks.
+13. Red-flag evidence routes to user clarification or admin review.
 
 ### 12.4 Evidence Review Access
 
@@ -1229,7 +1352,7 @@ MVP evidence may include:
 | Verification outcome | Pending user clarification, pending admin review, rejected, duplicate suspected, or fraud/risk escalated outcomes must block payment eligibility until resolved. |
 | Payer review | Payer must be able to review evidence before authorizing payment. |
 | Admin review | Admin must be able to view evidence for review and investigation. |
-| Auditability | Evidence upload, view, replacement, and deletion actions must be logged where applicable. |
+| Auditability | Evidence upload, view, update/replacement, archive, and status-change actions must be logged where applicable. |
 | Access control | Evidence visibility must be restricted by role and permissions. |
 
 ---
@@ -2078,6 +2201,7 @@ The DOC-06 user journey scope is satisfied when:
 | The dashboard flow and layout are designated for MVP discussion, but final UI design, exact component specification, and exact route-level screen specification are not finalized. | Confirmed |
 | Bills tab working baseline uses `To Pay` and `To Receive` views, route/subsection IDs, bill/rent cards, detail pages, activity panels, evidence status, archive behavior, and Add Bill / Rent setup flow. | Working Baseline / Not Final |
 | Bills reminder route uses `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, linked reminder IDs, bill/rent setup frequency, reminder defaults, custom override, soft-delete behavior, and DOC-08/DOC-09/DOC-18 ownership boundaries. | Working Baseline / Not Final |
+| Bills evidence route treats evidence as a bill/rent detail sub-flow, using `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`; evidence actions live inside bill/rent detail, extracted fields populate bill/rent details, and evidence status drives payment readiness. | Working Baseline / Not Final |
 | User-to-user payee linking must be initiated or accepted through an approved flow; automatic user-to-user matching is not allowed as a UX assumption. | Working Baseline |
 | Tenancy evidence is treated as contract/relationship evidence, while invoices/bills usually support obligation/payment-cycle evidence; detailed data structure remains owned by DOC-12 and DOC-18. | Working Baseline |
 
@@ -2104,3 +2228,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.15 | 2026-06-15 | Clarified Bills tab route IDs as screens, tabs/views, sheets, sections, flows, or card components, and added initial button-to-route ownership for Bills tab UI drafting. |
 | v0.16 | 2026-06-16 | Added Bills reminder list/detail route specification, linked reminder behavior, reminder setup frequency, smart defaults, custom override, soft-delete interaction, notification ownership boundaries, and reminder AI/data signals. |
 | v0.17 | 2026-06-17 | Added DOC-06 route ID naming standard for primary route IDs, sub-route IDs, shorthand labels, and downstream AI build, notification, analytics, and implementation references. |
+| v0.18 | 2026-06-18 | Updated Bills evidence sub-route model, Add Bill / Rent evidence flow, bill/rent detail evidence sections, evidence status mapping, archive/version behavior, and evidence-related data signals. |
