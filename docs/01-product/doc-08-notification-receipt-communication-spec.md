@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.2
+version: 1.0.3
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-18
+last_updated: 2026-06-24
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -199,7 +199,7 @@ For DOC-06 dashboard placements:
 | Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
 | Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
-Where DOC-06 defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06 defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, and Bills tab list actions to `BILLS-PAY` or `BILLS-RECEIVE` as appropriate.
+Where DOC-06 defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06 defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, and payee-side request or receive-management actions to `BILLS-RECEIVE`.
 
 ---
 
@@ -313,6 +313,8 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-REQ-013` | Payer-created record available for optional payee linking | App or disabled external channels | Optional service |
 
 Payer-created payment may proceed without payee acceptance where DOC-06 and DOC-09 gates allow it. Optional payee linking notifications must not imply the payer is blocked from payment unless a specific category, risk, payout, or compliance gate requires payee action.
+
+Payee-side `Request` and `Remind Payer` actions in DOC-06 `BILLS-RECEIVE` should use the `REQ` notification domain unless a later document defines a more specific request-reminder event. These actions should route recipients to the relevant payer-side request or bill/rent context, normally `BILLS-PAY` or the relevant authenticated detail screen. Resend limits, cooldowns, escalation wording, and channel eligibility remain open for DOC-06, DOC-08, and DOC-22 alignment.
 
 ### 11.3 Evidence Verification Events
 
@@ -654,5 +656,6 @@ DOC-08 is acceptable when:
 | 1.0.0 | 2026-06-17 | Aligned reminder notification routing with DOC-06 `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, and added ordinary bill/rent reminder notification events separate from payment instruction reminders. |
 | 1.0.1 | 2026-06-17 | Added notification routing guidance to use DOC-06 specific sub-route IDs where available instead of broad shorthand route labels. |
 | 1.0.2 | 2026-06-18 | Aligned evidence notification route examples with DOC-06 `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`. |
+| 1.0.3 | 2026-06-24 | Aligned payee-side `Request` and `Remind Payer` routing with DOC-06 `BILLS-RECEIVE` and payer-side `BILLS-PAY` destinations. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

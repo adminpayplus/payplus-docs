@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.1
+version: 1.0.2
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-06-18
+last_updated: 2026-06-24
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -59,6 +59,7 @@ DOC-09 covers:
 - evidence verification outcome consumption;
 - promotion quote consumption;
 - payment quotes;
+- payment/checkout screen content and payment-domain UI behavior;
 - user payment instructions and deferred funding;
 - payment method and payment profile selection;
 - tokenization product rules;
@@ -73,6 +74,7 @@ DOC-09 does not define:
 
 | Topic | Owning Document |
 | --- | --- |
+| App route entry points, Bills-tab card actions, and non-payment navigation | DOC-06 |
 | User disclosure and authorization wording | DOC-07 |
 | Notification and receipt delivery | DOC-08 |
 | Payout execution and reconciliation | DOC-10 |
@@ -668,3 +670,4 @@ DOC-09 is acceptable when:
 | 0.9.0 | 2026-06-12 | Aligned payment-domain origin rules with DOC-06 Bills tab baseline by clarifying payer-created payment does not require default payee acceptance and optional payee linking is not a payment gate unless explicitly required. |
 | 1.0.0 | 2026-06-17 | Aligned reminder boundary with DOC-06 reminder list/detail routes while keeping deferred payment instruction reminders under the checkout/payment instruction flow. |
 | 1.0.1 | 2026-06-18 | Aligned evidence status consumption with DOC-06 evidence status/payment-readiness mapping and DOC-12 verification outcomes. |
+| 1.0.2 | 2026-06-24 | Clarified that DOC-09 owns payment/checkout screen content and payment-domain UI behavior while DOC-06 owns route entry and handoff. |

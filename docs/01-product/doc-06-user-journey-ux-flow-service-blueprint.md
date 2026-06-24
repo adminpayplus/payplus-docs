@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.19.0
+version: 0.20.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-23
+last_updated: 2026-06-24
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -516,13 +516,13 @@ Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER
 | ID | Type | Route / Section | Opened By | Definition |
 | --- | --- | --- | --- | --- |
 | `BILLS-ROOT` | Screen | Bills route | Bottom nav `Bills` | Top-level Bills tab screen. |
-| `BILLS-PAY` | Tab / view | To Pay view | `To Pay` tab inside `BILLS-ROOT` | Payer-oriented view for bills, fees, rent, and requests the user needs or expects to pay. |
-| `BILLS-RECEIVE` | Tab / view | To Receive view | `To Receive` tab inside `BILLS-ROOT` | Payee-oriented view for bills, fees, rent, and requests the user expects to receive. |
+| `BILLS-PAY` | Tab / view | To Pay view | `To Pay` tab inside `BILLS-ROOT`, Pay+ `Pay a Bill / Fee`, Pay+ `Pay Rent`, dashboard items, reminders, or action-required notifications | Payer-oriented selection and management route for bills, fees, rent, and requests the user needs or expects to pay. This replaces the earlier informal "To Pay view" description. It is not the checkout/payment route. |
+| `BILLS-RECEIVE` | Tab / view | To Receive view | `To Receive` tab inside `BILLS-ROOT`, payee-side request status, dashboard items, or action-required notifications | Payee-oriented request and receive-management route for bills, fees, rent, and requests the user expects to receive. It must not show payer-side `Pay` actions. |
 | `BILLS-CARD-BILL` | Card component | Bill / fee card | Rendered inside `BILLS-PAY` or `BILLS-RECEIVE` | Summary card for a bill, invoice, fee, or approved non-rent obligation. |
 | `BILLS-CARD-RENT` | Card component | Rent / tenancy card | Rendered inside `BILLS-PAY` or `BILLS-RECEIVE` | Summary card for rent or tenancy-linked obligation. |
 | `BILLS-DETAIL-BILL` | Screen | Bill / fee detail | `Details` on `BILLS-CARD-BILL` | Detail page for bill, invoice, fee, or approved obligation record. |
 | `BILLS-DETAIL-RENT` | Screen | Rent / tenancy detail | `Details` on `BILLS-CARD-RENT` | Detail page for rent record and linked tenancy context. |
-| `BILLS-ACTIVITY` | Sub-route / screen or sheet | Bill/rent activity timeline | `View Activities` from bill/rent detail pages | User-facing payment activity and limited evidence outcome milestones for one selected bill/rent record. This is not global history, evidence management, or an internal audit log. |
+| `BILLS-ACTIVITY` | Sub-route / screen or sheet | Bill/rent activity timeline | `View Activities` from bill/rent detail pages | User-facing payment activity plus limited request and evidence outcome milestones for one selected bill/rent record. This is not global history, evidence management, or an internal audit log. |
 | `BILLS-ACTIVITY-DETAIL` | Sub-route / screen or sheet | Activity entry detail | Tapping one entry in `BILLS-ACTIVITY` | Detail view for one selected payment/activity entry, with reference number, receipt/proof access, and optional link to the payment detail route where needed. |
 | `BILLS-ADD` | Flow / screen group | Add Bill / Rent flow | `Add Bill / Rent` button or Pay+ action sheet | Setup flow for new bill, fee, rent, tenancy, or evidence-backed obligation. |
 | `BILLS-EVIDENCE` | Sub-flow group / shorthand | Evidence sub-flow | Detail-page evidence area, `BILLS-ADD`, or evidence action-required state | Shorthand for bill/rent evidence actions. Evidence is a supporting attachment/status layer of a bill/rent record, not a standalone user object. |
@@ -541,18 +541,26 @@ Initial route ownership:
 | Tap `To Pay` | `BILLS-ROOT` | Opens `BILLS-PAY`. |
 | Tap `To Receive` | `BILLS-ROOT` | Opens `BILLS-RECEIVE`. |
 | Tap `Add Bill / Rent` | `BILLS-ROOT` or Pay+ action sheet | Opens `BILLS-ADD`. |
-| Tap `Pay` on a card/detail | `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. |
+| Tap `Pay` on a payer-side card/detail | `BILLS-PAY`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. DOC-06 owns the entry point and route handoff only. |
+| Tap `Request` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Sends, resends, or opens request-delivery action for a verified payee-created request before payer acceptance. Exact request delivery method and notification behavior must follow DOC-08 and later DOC-22 controls. |
+| Tap `Remind Payer` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens or triggers an approved payer reminder action for the selected request. This is a payee-to-payer request reminder, not the user's own `BILLS-REMINDER-LIST` reminder record unless later explicitly linked. |
 | Tap `Details` | Bill/rent card | Opens the relevant detail screen. |
 | Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Opens `BILLS-REMINDER-DETAIL` for the selected linked record. |
 | Tap `Reminders` shortcut | Dashboard shortcut grid | Opens `BILLS-REMINDER-LIST`. |
 | Tap `+ Add Reminder` | `BILLS-REMINDER-LIST` | User selects an existing bill, fee, rent, tenancy, or obligation, then opens `BILLS-REMINDER-DETAIL`. |
 | Tap `View Activities` | Detail page | Opens `BILLS-ACTIVITY`. |
 | Tap one activity entry | `BILLS-ACTIVITY` | Opens `BILLS-ACTIVITY-DETAIL` or a later payment detail route if separately defined. |
-| Tap `Bill / Invoice` or `Rental Doc` evidence section | Bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` for the selected bill/rent record. |
+| Tap contextual `View` evidence action | Evidence status area inside bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` for the selected bill/rent record. |
 | Tap `Upload` / `Update` evidence | `BILLS-EVIDENCE-DETAIL` or evidence step in `BILLS-ADD` | Opens `BILLS-EVIDENCE-UPLOAD`. |
 | Tap evidence action-required prompt | Bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD` depending on whether evidence exists. |
 | Tap `Archive` | Detail page | Archives the record and returns to the relevant Bills list/filter. |
 | Tap optional `Invite / Link Payee` or `Invite / Link Payer` | Detail page or request context where enabled | Opens `BILLS-LINKING`; linking requires approved user or operational action. |
+
+Payment/checkout ownership rule:
+
+- DOC-06 owns the user-facing entry point, route handoff, back/return behavior expectation, and the fact that payer-side `Pay` opens checkout.
+- DOC-09 owns the payment/checkout screen content and behavior, including payment quote, fee display, promotion quote, card or payment profile selection, split-card allocation, authorization, 2FA/passcode gates, deferred payment instruction, revalidation, error handling, and payment-state outcomes.
+- DOC-07 owns required user-facing wording and disclosures; DOC-08 owns checkout-related notifications and receipts; DOC-13 owns promotion/coupon/voucher checkout treatment; DOC-15 owns masking and data visibility; DOC-19 owns authentication/security controls; DOC-18 owns route events and data signals.
 
 #### 7.11.2 Top-Level Views
 
@@ -564,6 +572,15 @@ Initial route ownership:
 | `To Receive` | Things the user expects to receive as payee, landlord, biller, or service provider. | Payee-created bill/rent/request records, request status, payer response, payout-received status, payee evidence management. | Payer-side received requests that require the user to pay. |
 
 A payer receiving a request from a payee belongs in `To Pay`, because the user is receiving a request to pay. It should not be shown under `To Receive`.
+
+`BILLS-PAY` and `BILLS-RECEIVE` may render the same bill/rent card component types, but the action set must be role-aware:
+
+| Context | Governed User Intent | Primary Actions |
+| --- | --- | --- |
+| `BILLS-PAY` | User is acting as payer. | Pay, review request where payer acceptance is required, view details, set reminder, update detail when action-required. |
+| `BILLS-RECEIVE` | User is acting as payee, landlord, biller, or recipient. | Request before payer acceptance, view details, remind payer, edit detail where allowed, archive. |
+
+The detail route may remain `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT`, but its visible actions must follow the context from which it was opened. A detail page opened from `BILLS-RECEIVE` must not show the payer-side `Pay` action.
 
 #### 7.11.3 Filters
 
@@ -585,7 +602,7 @@ Action-required items should be visible through a filter and through status badg
 - last payment date;
 - payment readiness or status badge.
 
-Card actions:
+Payer-side card actions when rendered in `BILLS-PAY`:
 
 | Action | Route / Behavior |
 | --- | --- |
@@ -593,6 +610,14 @@ Card actions:
 | View Details | Opens `BILLS-DETAIL-BILL`. |
 | Set Reminder | Opens `BILLS-REMINDER-DETAIL` for this obligation. |
 | Update Detail | Replaces normal edit/detail prompt when the card is action-required due to rejected, missing, expired, or inconsistent information. |
+
+Payee-side card actions when rendered in `BILLS-RECEIVE`:
+
+| Action | Route / Behavior |
+| --- | --- |
+| Request | Available before payer acceptance; sends, resends, or opens request-delivery action for the selected verified request. Disappears after payer acceptance. |
+| View Details | Opens `BILLS-DETAIL-BILL` in payee-side context. |
+| Remind Payer | Opens or triggers approved payer reminder action for the selected request, subject to DOC-08 and DOC-22 controls. |
 
 #### 7.11.5 Bill / Fee Detail Page
 
@@ -605,20 +630,30 @@ Card actions:
 - next due date;
 - last payment date;
 - bill/invoice extracted fields that are approved for display, where applicable;
-- evidence section for the latest bill/invoice support;
+- evidence status area for the latest bill/invoice support;
 - payment readiness or status badge.
 
-Detail actions:
+Payer-side detail actions when opened from `BILLS-PAY`:
 
 | Action | Route / Behavior |
 | --- | --- |
 | Pay | Opens payment/checkout flow. |
-| Edit Details | Opens editable bill/payee/detail fields subject to verification and audit rules. |
 | View Activities | Opens `BILLS-ACTIVITY` for payment activity and limited evidence milestones for this obligation. |
 | Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this obligation. |
+| Edit Details | Opens editable bill/payee/detail fields subject to verification and audit rules. |
 | Archive | Archives the record; user-facing delete should not be the default MVP action. |
 
-The bill detail page should include a `Bill / Invoice` evidence section. If active evidence exists, the section may show `View`, `Update`, and `Archive`. If no active evidence exists, it should show `Upload`. Extracted fields that belong to the bill/invoice record should be displayed in the bill detail area, not duplicated inside evidence detail.
+Payee-side detail actions when opened from `BILLS-RECEIVE`:
+
+| Action | Route / Behavior |
+| --- | --- |
+| Request | Available before payer acceptance; sends, resends, or opens request-delivery action. Disappears after payer acceptance. |
+| View Activities | Opens `BILLS-ACTIVITY` for payment activity, request milestones, and limited evidence milestones for this obligation. |
+| Set Reminder / Edit Reminder | Opens reminder behavior for the selected record where the reminder belongs to the current user; payer-facing request reminders are governed by DOC-08 and DOC-22. |
+| Edit Details | Opens editable bill/payee/detail fields subject to verification and audit rules. |
+| Archive | Archives the record; user-facing delete should not be the default MVP action. |
+
+The bill detail page should include a `Bill / Invoice` evidence status area. It should show current evidence status and extracted bill/invoice fields approved for display. Evidence management is not a default primary detail action. If evidence is missing, rejected, expired, or otherwise action-required, the status area should show a contextual action that opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD`. Extracted fields that belong to the bill/invoice record should be displayed in the bill detail area, not duplicated inside evidence detail.
 
 #### 7.11.6 Rent / Tenancy Card
 
@@ -632,7 +667,7 @@ The bill detail page should include a `Bill / Invoice` evidence section. If acti
 - last payment date;
 - payment readiness or status badge.
 
-Card actions:
+Payer-side card actions when rendered in `BILLS-PAY`:
 
 | Action | Route / Behavior |
 | --- | --- |
@@ -640,6 +675,14 @@ Card actions:
 | View Details | Opens `BILLS-DETAIL-RENT`. |
 | Set Reminder | Opens `BILLS-REMINDER-DETAIL` for this rent record. |
 | Update Detail | Replaces normal edit/detail prompt when the card is action-required. |
+
+Payee-side card actions when rendered in `BILLS-RECEIVE`:
+
+| Action | Route / Behavior |
+| --- | --- |
+| Request | Available before payer acceptance; sends, resends, or opens request-delivery action for the selected verified rent request. Disappears after payer acceptance. |
+| View Details | Opens `BILLS-DETAIL-RENT` in payee-side context. |
+| Remind Payer | Opens or triggers approved payer reminder action for the selected rent request, subject to DOC-08 and DOC-22 controls. |
 
 #### 7.11.7 Rent / Tenancy Detail Page
 
@@ -655,20 +698,30 @@ Card actions:
 - next due date;
 - landlord/payee information and payout/account information, masked where required;
 - rental document extracted fields that are approved for display, where applicable;
-- evidence section for rental documents;
+- evidence status area for rental documents;
 - payment readiness or status badge.
 
-Detail actions:
+Payer-side detail actions when opened from `BILLS-PAY`:
 
 | Action | Route / Behavior |
 | --- | --- |
 | Pay | Opens payment/checkout flow. |
-| Edit Details | Opens editable rent/landlord/payment detail fields subject to verification and audit rules. |
 | View Activities | Opens `BILLS-ACTIVITY` for payment activity and limited evidence milestones for this rent record. |
 | Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this rent record. |
+| Edit Details | Opens editable rent/landlord/payment detail fields subject to verification and audit rules. |
 | Archive | Archives the record; user-facing delete should not be the default MVP action. |
 
-The rent detail page should include a `Rental Doc` evidence section. `Rental Doc` covers tenancy agreements and other approved rent-supporting evidence, such as rent demand, stamp duty document, CR109, HKHA tenancy card, carpark invoice, or property management notice. If active evidence exists, the section may show `View`, `Update`, and `Archive`. If no active evidence exists, it should show `Upload`. Extracted fields that belong to the rent/tenancy record should be displayed in the rent detail area, not duplicated inside evidence detail.
+Payee-side detail actions when opened from `BILLS-RECEIVE`:
+
+| Action | Route / Behavior |
+| --- | --- |
+| Request | Available before payer acceptance; sends, resends, or opens request-delivery action. Disappears after payer acceptance. |
+| View Activities | Opens `BILLS-ACTIVITY` for payment activity, request milestones, and limited evidence milestones for this rent record. |
+| Set Reminder / Edit Reminder | Opens reminder behavior for the selected record where the reminder belongs to the current user; payer-facing request reminders are governed by DOC-08 and DOC-22. |
+| Edit Details | Opens editable rent/landlord/payment detail fields subject to verification and audit rules. |
+| Archive | Archives the record; user-facing delete should not be the default MVP action. |
+
+The rent detail page should include a `Rental Doc` evidence status area. `Rental Doc` covers tenancy agreements and other approved rent-supporting evidence, such as rent demand, stamp duty document, CR109, HKHA tenancy card, carpark invoice, or property management notice. It should show current evidence status and extracted rental fields approved for display. Evidence management is not a default primary detail action. If evidence is missing, rejected, expired, or otherwise action-required, the status area should show a contextual action that opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD`. Extracted fields that belong to the rent/tenancy record should be displayed in the rent detail area, not duplicated inside evidence detail.
 
 Rent normally should not require a new invoice for each payment cycle unless tenancy evidence expires, changes, is replaced, is rejected, or is flagged by risk/review rules.
 
@@ -694,6 +747,7 @@ Related ownership:
 `BILLS-ACTIVITY` should include:
 
 - payment activity entries;
+- limited request lifecycle milestones where relevant to the selected bill/rent, such as request sent, accepted, rejected, expired, or cancelled;
 - transfer or payout outcome where user-relevant;
 - returned, rejected, failed, or under-review payment outcomes;
 - receipt or payment proof access;
@@ -704,6 +758,7 @@ Related ownership:
 - ordinary bill/rent detail edit history;
 - OCR/upload processing logs;
 - every evidence status change;
+- full request workflow logs;
 - internal approval workflow history;
 - admin audit trail;
 - global transaction history;
@@ -747,7 +802,7 @@ Tapping one activity entry should open `BILLS-ACTIVITY-DETAIL` or a later paymen
 - receipt/proof download where available;
 - link to payment detail where needed and separately governed.
 
-Evidence milestones in `BILLS-ACTIVITY` should remain minimal. MVP user-facing milestones should be limited to:
+Request and evidence milestones in `BILLS-ACTIVITY` should remain minimal. MVP user-facing evidence milestones should be limited to:
 
 - evidence approved;
 - evidence rejected;
@@ -2181,6 +2236,8 @@ The DOC-06 user journey scope is satisfied when:
 - payer must enter payment passcode before payment authorization proceeds;
 - payment status can be tracked;
 - payout or settlement status can be tracked where applicable;
+- payer-side Bills routes do not show payee-side request actions as payment actions;
+- payee-side Bills routes do not show payer-side `Pay` actions;
 - payer and payee can view the same linked request/payment context subject to permissions;
 - admin can review users, requests, evidence, disputes, and exceptions;
 - key status changes are audit logged;
@@ -2222,6 +2279,8 @@ The DOC-06 user journey scope is satisfied when:
 | OQ-06-026 | What final user-initiated payee linking or invitation mechanism should be used: user ID, phone search, app link, WhatsApp deeplink, QR code, or another approved flow? | Product / Privacy / Engineering | Open |
 | OQ-06-027 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
 | OQ-06-028 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
+| OQ-06-029 | What exact request-delivery and `Remind Payer` UX should apply inside `BILLS-RECEIVE`, including resend limits, payer acceptance states, wording, and notification-channel rules? | Product / Design / Operations | Open |
+| OQ-06-030 | Should detailed payment/checkout UI be documented inside DOC-09 only, or should DOC-06 keep a lightweight route shell for checkout entry, return, and navigation behavior? | Product / Design / Payments | Proposed: DOC-09 owns checkout UI; DOC-06 owns handoff. |
 
 ---
 
@@ -2286,7 +2345,9 @@ The DOC-06 user journey scope is satisfied when:
 | Recent Activity dashboard section displays limited recent transactions with date, item, action, amount, and status. | Confirmed |
 | The dashboard flow and layout are designated for MVP discussion, but final UI design, exact component specification, and exact route-level screen specification are not finalized. | Confirmed |
 | Bills tab working baseline uses `To Pay` and `To Receive` views, route/subsection IDs, bill/rent cards, detail pages, bill/rent-specific activity sub-routes, evidence status, archive behavior, and Add Bill / Rent setup flow. | Working Baseline / Not Final |
-| Bills activity route uses `BILLS-ACTIVITY` and `BILLS-ACTIVITY-DETAIL` for bill/rent-specific payment activity, limited evidence milestones, receipt/proof access, and status visibility; ordinary record edit history and internal audit logs are excluded. | Working Baseline / Not Final |
+| `BILLS-PAY` is the formal payer-side route replacing the earlier informal `To Pay` view description; `BILLS-RECEIVE` is the formal payee-side request/receive route and must not show payer-side `Pay` actions. | Working Baseline / Not Final |
+| Payment/checkout UI behavior is primarily governed by DOC-09; DOC-06 governs Bills-route entry points, route handoff, and high-level navigation behavior. | Working Baseline / Not Final |
+| Bills activity route uses `BILLS-ACTIVITY` and `BILLS-ACTIVITY-DETAIL` for bill/rent-specific payment activity, limited request/evidence milestones, receipt/proof access, and status visibility; ordinary record edit history, full request workflow logs, and internal audit logs are excluded. | Working Baseline / Not Final |
 | Bills reminder route uses `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, linked reminder IDs, bill/rent setup frequency, reminder defaults, custom override, soft-delete behavior, and DOC-08/DOC-09/DOC-18 ownership boundaries. | Working Baseline / Not Final |
 | Bills evidence route treats evidence as a bill/rent detail sub-flow, using `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`; evidence actions live inside bill/rent detail, extracted fields populate bill/rent details, and evidence status drives payment readiness. | Working Baseline / Not Final |
 | User-to-user payee linking must be initiated or accepted through an approved flow; automatic user-to-user matching is not allowed as a UX assumption. | Working Baseline |
@@ -2317,3 +2378,4 @@ The DOC-06 user journey scope is satisfied when:
 | v0.17 | 2026-06-17 | Added DOC-06 route ID naming standard for primary route IDs, sub-route IDs, shorthand labels, and downstream AI build, notification, analytics, and implementation references. |
 | v0.18 | 2026-06-18 | Updated Bills evidence sub-route model, Add Bill / Rent evidence flow, bill/rent detail evidence sections, evidence status mapping, archive/version behavior, and evidence-related data signals. |
 | v0.19 | 2026-06-23 | Defined `BILLS-ACTIVITY` and `BILLS-ACTIVITY-DETAIL` as bill/rent-specific payment activity sub-routes, limited evidence milestones, receipt/proof access, and ownership boundaries with DOC-08 through DOC-12, DOC-15, DOC-18, and DOC-22. |
+| v0.20 | 2026-06-24 | Clarified `BILLS-PAY` and `BILLS-RECEIVE` as role-aware Bills routes, separated payer-side and payee-side card/detail actions, bounded `BILLS-ACTIVITY` request milestones, removed evidence management from default primary detail actions, and added checkout UI ownership boundary with DOC-09. |
