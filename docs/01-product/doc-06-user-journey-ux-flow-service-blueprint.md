@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.1
+version: 0.21.2
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -91,7 +91,7 @@ The DOC-06 family keeps the following MVP user-journey scope as the official bas
 
 The DOC-06 family covers payer, payee, admin, and system UX/service surfaces at the human-readable product level:
 
-| Surface | Covered Examples | Primary Owning Child Doc |
+| Surface | Covered Examples | Main DOC-06 Family References |
 | --- | --- | --- |
 | Payer UX | registration, login, dashboard, Bills/To Pay, request review, evidence review, payment handoff, deferred instruction handoff, split-payment status, receipts, notifications, account basics. | DOC-06A / DOC-06B / DOC-06C |
 | Payee UX | registration, login, dashboard, Bills/To Receive, request creation, request delivery, payer response visibility, evidence management, payout/settlement visibility, receipts, notifications, account basics. | DOC-06A / DOC-06B / DOC-06C |
@@ -112,28 +112,43 @@ The DOC-06 family covers payer, payee, admin, and system UX/service surfaces at 
 
 Formal child documents use DOC-06A to DOC-06D. They inherit DOC-06 source-of-truth tier unless a child document explicitly states otherwise.
 
+### 3.1 Single-Owner Rule for Future Drafting
+
+Each route, function, status, screen, or flow should have one primary owning document. Other DOC-06 family documents may reference it, define entry or handoff behavior, or list dependencies, but must not duplicate the same detailed requirements.
+
+Use this rule before adding new content:
+
+| If the change is mainly about... | Primary owner | Other docs may only... |
+| --- | --- | --- |
+| User journey, service step, lifecycle, status meaning, exception path, or role responsibility | DOC-06A | Link to the journey or status and define navigation handoff only. |
+| Navigation, route ID, dashboard placement, shortcut, bottom navigation, route shell, or IA | DOC-06B | Reference the route and defer detailed behavior to the owning module. |
+| Bills, rent, tenancy, evidence UI, reminder UI, activity UI, role-aware Bills actions, or Bills-route handoff | DOC-06C | Reference global navigation or lifecycle rules without restating them. |
+| UX requirement ID, acceptance criterion, route/action/state/event/test mapping, or test readiness | DOC-06D | Reference source requirements and avoid adding new product behavior. |
+
+If a topic appears to belong to more than one child document, update the parent route matrix first to identify the primary owner and reference-only documents before drafting detailed content.
+
 ---
 
 ## 4. Route Completion Status Matrix
 
 This matrix prevents the split from creating a false impression that all routes are complete.
 
-| Route / Area | Owning Doc | Status | Notes |
-| --- | --- | --- | --- |
-| Home Dashboard | DOC-06B | Partially Defined | Section order, shortcut baseline, Featured carousel, Important Notice, and Recent Activity summary are defined; exact UI and card rules remain open. |
-| Bottom Navigation | DOC-06B | Partially Defined | Home, Bills, Pay+, Offers, Me baseline is defined; sub-route detail remains open. |
-| Pay+ Action Sheet | DOC-06B | Partially Defined | Working action set is defined but final visual order, disabled states, and eligibility copy remain open. |
-| Bills / Rent / Tenancy | DOC-06C | Partially Defined | BILLS-PAY, BILLS-RECEIVE, BILLS-ACTIVITY, BILLS-EVIDENCE, and BILLS-REMINDER have working baseline rules. |
-| Payment / Checkout | DOC-06A / DOC-06C handoff; DOC-09 owns detail | Partially Defined | DOC-06A and DOC-06C own entry and return/handoff only; DOC-09 owns checkout behavior. |
-| Requests | DOC-06A / DOC-06B / DOC-06C | Partially Defined | Core payee-created request journey exists; standalone Requests route IA remains incomplete. |
-| Instructions | DOC-06B handoff; DOC-09 owns detail | Partially Defined | Dashboard/shortcut route is identified; detailed route UX remains incomplete. |
-| Receipts / Activity | DOC-06A / DOC-06B / DOC-06C | Partially Defined | Bill/rent-specific activity is defined; global receipt/activity hub remains incomplete. |
-| Reminders | DOC-06C | Partially Defined | Bill/rent reminder list/detail route is defined; relationship to payment-instruction reminders remains open. |
-| Offers | DOC-06B handoff; DOC-13 owns business logic | Not Fully Defined | Placement framework exists; full Offers route IA remains pending. |
-| Me / Account | DOC-06B handoff; DOC-15/DOC-19 own privacy/security detail | Not Fully Defined | Account/settings route IA remains pending. |
-| Cards / Payment Methods | DOC-06B handoff; DOC-09/DOC-19 own detail | Not Fully Defined | Shortcut exists; route UX remains pending. |
-| Referral | DOC-06B handoff; DOC-13 owns logic | Not Fully Defined | Shortcut exists; route UX remains pending. |
-| More | DOC-06B | Not Fully Defined | Shortcut overflow behavior and route content remain pending. |
+| Route / Area | Primary Owning Doc | Reference / Handoff Docs | Status | Notes |
+| --- | --- | --- | --- | --- |
+| Home Dashboard | DOC-06B | DOC-06A for journey touchpoints; DOC-13/DOC-15/DOC-22 where relevant | Partially Defined | Section order, shortcut baseline, Featured carousel, Important Notice, and Recent Activity summary are defined; exact UI and card rules remain open. |
+| Bottom Navigation | DOC-06B | Child route owners for destination behavior | Partially Defined | Home, Bills, Pay+, Offers, Me baseline is defined; sub-route detail remains open. |
+| Pay+ Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | Partially Defined | Working action set is defined but final visual order, disabled states, and eligibility copy remain open. |
+| Bills / Rent / Tenancy | DOC-06C | DOC-06B for route entry; DOC-06A for lifecycle; DOC-09/DOC-12 for payment/evidence detail | Partially Defined | BILLS-PAY, BILLS-RECEIVE, BILLS-ACTIVITY, BILLS-EVIDENCE, and BILLS-REMINDER have working baseline rules. |
+| Payment / Checkout | DOC-09 | DOC-06A/DOC-06C for entry, return, and high-level handoff only | Partially Defined | DOC-09 owns checkout behavior; DOC-06 family should not duplicate checkout screen detail. |
+| Requests | DOC-06B | DOC-06A for request lifecycle; DOC-06C for Bills/rent request implementation | Partially Defined | Standalone Requests route IA remains incomplete; detailed lifecycle and Bills-route implementation must stay in their owning docs. |
+| Instructions | DOC-06B for route shell; DOC-09 for payment-instruction behavior | DOC-06A/DOC-06C for entry or return touchpoints | Partially Defined | Dashboard/shortcut route is identified; detailed route UX remains incomplete. |
+| Receipts / Activity | DOC-06B for global route shell | DOC-06A for receipt/history touchpoints; DOC-06C for bill/rent-specific activity; DOC-09/DOC-10/DOC-11 for payment/payout/refund facts | Partially Defined | Bill/rent-specific activity is defined; global receipt/activity hub remains incomplete. |
+| Reminders | DOC-06C for bill/rent reminders | DOC-06B for shortcut/route shell; DOC-08 for notifications; DOC-09 for payment-instruction reminders | Partially Defined | Bill/rent reminder list/detail route is defined; relationship to payment-instruction reminders remains open. |
+| Offers | DOC-06B for route shell and placement | DOC-13 for promotion business logic | Not Fully Defined | Placement framework exists; full Offers route IA remains pending. |
+| Me / Account | DOC-06B for route shell | DOC-15/DOC-19 for privacy/security detail | Not Fully Defined | Account/settings route IA remains pending. |
+| Cards / Payment Methods | DOC-06B for route shell | DOC-09/DOC-19 for payment profile and security detail | Not Fully Defined | Shortcut exists; route UX remains pending. |
+| Referral | DOC-06B for route shell | DOC-13 for referral and reward logic | Not Fully Defined | Shortcut exists; route UX remains pending. |
+| More | DOC-06B | Destination owners for launched routes | Not Fully Defined | Shortcut overflow behavior and route content remain pending. |
 
 ---
 
@@ -312,5 +327,6 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.2 | 2026-06-25 | Added single-owner drafting rule and clarified route matrix primary owners versus reference or handoff documents. |
 | v0.21.1 | 2026-06-25 | Cleaned DOC-06 family publication wording and added compact MVP scope, role, and UX surface summaries so the parent remains understandable after modularization. |
 | v0.21 | 2026-06-25 | Split DOC-06 into parent DOC-06 plus DOC-06A to DOC-06D child documents, added family governance map, route completion matrix, ownership boundaries, and preserved prior decisions through child documents. |

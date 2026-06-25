@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.1
+version: 0.18.2
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -486,6 +486,8 @@ The MVP should include the following UX surfaces. Detailed route flows, service 
 
 DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B owns navigation and route taxonomy, DOC-06C owns Bills/rent/tenancy UX, and DOC-06D owns UX requirement/test mapping. Product requirements in DOC-05 should reference DOC-06 family route IDs where useful, use specific sub-route IDs where defined, and avoid duplicating screen-level routing rules.
 
+For split UX topics, use one primary owner. DOC-06B owns standalone route shells such as Requests, Instructions, Offers, Me, Cards, Referral, More, and global Receipts/Activity route shells. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
+
 Bills-route requirements must remain role-aware:
 
 - `BILLS-PAY` is the payer-side route for bills, fees, rent, and payee-created requests the user needs or expects to pay;
@@ -747,3 +749,4 @@ The MVP is acceptable when:
 | v0.17 | 2026-06-25 | Aligned PRD with DOC-06 role-aware `BILLS-PAY` / `BILLS-RECEIVE` route split, payee-side request/remind-payer behavior, checkout ownership boundary with DOC-09, and activity-history ownership boundaries. |
 | v0.18 | 2026-06-25 | Aligned PRD references with the DOC-06 family split by pointing navigation/dashboard content to DOC-06B, Bills/rent/tenancy UX to DOC-06C, core journeys to DOC-06A, and UX acceptance/test mapping to DOC-06D. |
 | v0.18.1 | 2026-06-25 | Confirmed DOC-06 family publication cleanup and parent scope, role, and UX-surface summaries without changing master product requirements. |
+| v0.18.2 | 2026-06-25 | Added single-primary-owner drafting rule for DOC-06 family topics and clarified route shell versus lifecycle versus Bills/rent implementation ownership. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.1
+version: 0.1.2
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -39,6 +39,8 @@ DOC-06B governs PayPlus global app navigation, information architecture, dashboa
 DOC-06B owns how app areas, routes, screens, views, sheets, components, actions, flows, and system touchpoints are named, grouped, opened, and routed at the product UX level.
 
 DOC-06B does not own detailed Bills/rent/tenancy route behavior, which belongs to DOC-06C. It does not own checkout processing, payment instruction mechanics, evidence verification logic, data schema, notification delivery rules, privacy implementation, or admin workflow detail.
+
+When drafting route IA, DOC-06B must define the route shell only: route ID, entry points, destination relationship, high-level user purpose, major sections, and handoff rules. If detailed lifecycle, status, payment, evidence, risk, notification, privacy, data, or admin logic is required, DOC-06B should reference the owning document instead of duplicating the rule.
 
 ## 3. Completion Markers
 
@@ -99,6 +101,19 @@ Route and screen registry tables should use this structure where practical.
 | Open question | OQ-06B-001 | OQ-06B-001 |
 
 Stable IDs may be assigned progressively. Shorthand labels may remain in discussion and diagrams, but build-execution materials should use stable IDs when available.
+
+### 4.3 Route Ownership Rule
+
+Each route must have one primary owner. DOC-06B may list related documents, but related documents must not become duplicate owners of the same detailed route behavior.
+
+| Route Work Item | DOC-06B Owns | Reference / Handoff Owner |
+| --- | --- | --- |
+| Route shell | Route ID, route purpose, entry points, destination relationship, major sections, empty state, and high-level allowed actions. | N/A |
+| Request lifecycle | Route entry and where request lists open. | DOC-06A owns lifecycle, status meaning, acceptance/rejection/dispute/clarification journey. |
+| Bills/rent request implementation | Global shortcut and route relationship. | DOC-06C owns `BILLS-PAY`, `BILLS-RECEIVE`, cards, details, request/remind-payer actions, and Bills-route handoff. |
+| Payment/checkout route | Entry and return/handoff expectations only. | DOC-09 owns checkout screen behavior, payment instruction, funding, authorization, and payment states. |
+| Notification destination | Route target for a notification tap. | DOC-08 owns notification IDs, channels, templates, preferences, and delivery rules. |
+| Data/intelligence signal | Signal existence at route level. | DOC-18 owns event taxonomy, schema, lineage, analytics, and reporting. |
 
 ---
 
@@ -293,7 +308,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Offers Hub IA | Define offer discovery, hot offers, card partner offers, coupon/voucher library, referral, What's New, and campaign detail routes. | Title preserved / not finalized |
 | Me Area IA | Define account, security, privacy, notification preferences, support, cards/payment methods, and user control routes. | Title preserved / not finalized |
 | More Shortcuts IA | Define secondary shortcuts and services not shown in the first eight dashboard shortcuts. | Title preserved / not finalized |
-| Requests Route | Define received requests, sent requests, request creation, response actions, status tracking, and request delivery records. | Title preserved / not finalized |
+| Requests Route | Define standalone Requests route shell, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. | Title preserved / not finalized |
 | Instructions Route | Define deferred payment instructions, split-card progress, retry/failed legs, pending actions, cancellation, expiry, and continuation paths. | Title preserved / not finalized |
 | Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
 | Receipts / Activity Route | Define receipts, proof of payment, statements, refund/reversal records, and transaction details. | Title preserved / not finalized |
@@ -317,7 +332,7 @@ App UI elements that currently require admin configuration markers include Pay+ 
 | Pay+ | Partially Defined | Confirm visual order, disabled states, eligibility copy, and final action limits. |
 | Offers | Not Fully Defined | Define Offers Hub, offer detail, coupon/voucher library routing, and placement interactions with DOC-13. |
 | Me | Not Fully Defined | Define profile, settings, privacy, notification, security, payment-method, and support routes. |
-| Requests | Partially Defined by journey only | Define standalone Requests route IA and relationship with BILLS-PAY/BILLS-RECEIVE. |
+| Requests | Partially Defined by journey only | Define standalone Requests route shell in DOC-06B; request lifecycle remains DOC-06A and Bills/rent request implementation remains DOC-06C. |
 | Instructions | Partially Defined by DOC-09 | Define route shell, shortcut behavior, dashboard action-required placement, and return-to-checkout behavior. |
 | Receipts / Activity | Partially Defined | Define global receipt/activity hub and relationship to bill/rent-specific activity in DOC-06C. |
 | Reminders | Partially Defined in DOC-06C | Confirm relationship between ordinary bill/rent reminders and payment-instruction reminders. |
@@ -339,5 +354,6 @@ App UI elements that currently require admin configuration markers include Pay+ 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.2 | 2026-06-25 | Added route ownership rule to keep DOC-06B focused on route shells and handoffs while lifecycle and module behavior remain in owning documents. |
 | 0.1.1 | 2026-06-25 | Cleaned publication wording and corrected dashboard copy formatting for official DOC-06B baseline use. |
 | 0.1.0 | 2026-06-25 | Created as DOC-06B child document for dashboard, navigation, Pay+, shortcut, route taxonomy, and route workplan content. |

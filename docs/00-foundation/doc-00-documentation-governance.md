@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.1
+version: 0.7.2
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -207,6 +207,8 @@ Repository structure changes require Project Owner approval or an approved ADR.
 Formal core documents use the DOC-XX numbering format.
 
 Formal child documents may use a letter suffix, such as `DOC-06A`, when a core `DOC-XX` document becomes too large to manage as a single file. Child documents inherit the parent document's source-of-truth tier unless otherwise stated. Child document IDs must not be reused.
+
+When a parent document is split into child documents, each route, function, status, screen, flow, control, or requirement should have one primary owning document. Related documents may reference, link, or define handoff behavior, but should not duplicate the same detailed requirements. If ownership is unclear, update the parent document's ownership matrix before drafting detailed content.
 
 Document IDs must not be reused. Deprecated or retired document IDs remain reserved.
 
@@ -765,3 +767,4 @@ DOC-00 must remain focused on documentation governance only.
 | 0.6.0 | 2026-06-02 | Product Documentation Team | Cleaned repository tree, added DOC-22 to governance references, clarified reserved AI build-execution status, and marked legacy context files as non-authoritative. |
 | 0.7.0 | 2026-06-25 | Product Documentation Team | Recognized formal letter-suffix child documents, added DOC-06A to DOC-06D to the document register, and aligned stable UX ID examples with the DOC-06 modularization. |
 | 0.7.1 | 2026-06-25 | Product Documentation Team | Cleaned official DOC-06 family publication wording and preserved parent scope, role, and UX-surface summary expectations after modularization. |
+| 0.7.2 | 2026-06-25 | Product Documentation Team | Added single-primary-owner rule for split parent/child documents to prevent duplicate or conflicting detailed requirements. |
