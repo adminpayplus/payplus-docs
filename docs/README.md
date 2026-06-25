@@ -1,4 +1,4 @@
-
+﻿
 # PayPlus Documentation Index
 
 This folder contains the PayPlus documentation set.
@@ -9,7 +9,7 @@ Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation
 
 | Layer | Status | Notes |
 | --- | --- | --- |
-| Human source documents | Active for DOC-00 to DOC-15 | Founder Working Baseline unless a document says otherwise. |
+| Human source documents | Active for DOC-00 to DOC-15 | Founder Working Baseline unless a document says otherwise. DOC-06 is now a parent family with DOC-06A to DOC-06D child documents. |
 | Technical and operational specifications | Planned or partial for DOC-16 to DOC-22 | DOC-18 now contains the current Founder Working Baseline for data model, transaction state, audit event, reporting, and AI-ready data-engine requirements. Other partial placeholders are acceptable until drafted. |
 | AI build-execution materials | Reserved | Regenerate from current human and technical specs before use. |
 | Traceability | Starter registers | Expand when stable requirement/control/test IDs are finalized. |
@@ -19,7 +19,7 @@ Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation
 | Folder | Purpose |
 | --- | --- |
 | `00-foundation/` | Governance, product positioning, business model, regulatory assessment, and compliance control framework. |
-| `01-product/` | Master PRD, UX flows, disclosures, notifications, and user-facing behavior. |
+| `01-product/` | Master PRD, DOC-06 UX/navigation child documents, disclosures, notifications, and user-facing behavior. |
 | `02-payment-domain/` | Payment requests, funding, settlement, payout, reconciliation, refunds, cancellations, disputes, and chargebacks. |
 | `03-bill-verification/` | Bill category, evidence, AI/OCR, extracted data, duplicate evidence, and payee verification requirements. |
 | `04-growth-ecosystem/` | Promotion engine, coupons, vouchers, discount codes, referrals, membership, partner rewards, and campaign controls. |
@@ -35,7 +35,7 @@ Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation
 
 1. `DOC-00` for governance and source-of-truth rules.
 2. `DOC-01` to `DOC-04` for PayPlus foundation, business, regulatory, and control baseline.
-3. `DOC-05` to `DOC-08` for product, UX, disclosure, notification, and communication behavior.
+3. `DOC-05` to `DOC-08` for product, UX, disclosure, notification, and communication behavior. Read `DOC-06` as the parent UX family map, then `DOC-06A` to `DOC-06D` for core journeys, navigation/route taxonomy, Bills/rent/tenancy UX, and UX acceptance/test mapping.
 4. `DOC-09` to `DOC-11` for payment, payout, reconciliation, refund, cancellation, dispute, and chargeback behavior.
 5. `DOC-12` to `DOC-15` for evidence verification, promotion engine, risk controls, privacy, data classification, and retention.
 6. `DOC-16` to `DOC-22` when drafted for technical architecture, integrations, data model, security, testing, monitoring, and admin operations.

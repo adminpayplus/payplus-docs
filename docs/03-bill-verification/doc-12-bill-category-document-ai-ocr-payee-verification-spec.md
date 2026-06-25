@@ -1,4 +1,4 @@
----
+﻿---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
 version: 0.7.0
@@ -74,7 +74,7 @@ Detailed specifications belong to:
 | Topic | Owning Document |
 | --- | --- |
 | Product evidence requirements and MVP request rules | DOC-05 |
-| User journey, UX screens, review/correction flow | DOC-06 |
+| User journey, UX screens, review/correction flow | DOC-06A, DOC-06C |
 | User-facing evidence, privacy, and authorization wording | DOC-07 |
 | Notifications and review alerts | DOC-08 |
 | Payment eligibility gates and authorization | DOC-09 |
@@ -208,7 +208,7 @@ Customer profile
 
 Bills, invoices, fee notices, and rent demands usually support a specific obligation or payment cycle. Tenancy agreements and similar documents usually support a contract or relationship from which rent obligations may be created. Supporting rent evidence may supplement, renew, or validate the tenancy context without replacing the underlying relationship record.
 
-Detailed logical and physical schema belongs in DOC-18. DOC-06 owns the user-facing evidence source selection and Bills tab route behavior.
+Detailed logical and physical schema belongs in DOC-18. DOC-06C owns the user-facing evidence source selection and Bills route behavior.
 
 ---
 
@@ -281,7 +281,7 @@ Typical UI display should be narrower than extraction. User-facing screens shoul
 
 Landlord ID number, tenant ID number, full landlord address, full tenant address, agent license number, and other sensitive data should not be broadly displayed unless required for an approved review, compliance, support, legal, or verification purpose.
 
-Detailed UX display rules belong in DOC-06 and DOC-07. Privacy, masking, retention, and access-control rules belong in DOC-15 and DOC-19.
+Detailed UX display rules belong in DOC-06A, DOC-06C, and DOC-07. Privacy, masking, retention, and access-control rules belong in DOC-15 and DOC-19.
 
 ---
 
@@ -403,11 +403,11 @@ Evidence verification should produce one of the following outcomes:
 
 Payment eligibility gates in DOC-09 must consume the final verification outcome.
 
-### 16.1 DOC-06 Evidence Status and Payment Readiness Mapping
+### 16.1 DOC-06C Evidence Status and Payment Readiness Mapping
 
-DOC-12 verification outcomes must map cleanly to the DOC-06 user-facing evidence status and bill/rent payment-readiness model. DOC-12 outcomes describe verification decisions; DOC-06 statuses describe what the user sees and how the bill/rent record becomes payable.
+DOC-12 verification outcomes must map cleanly to the DOC-06C user-facing evidence status and bill/rent payment-readiness model. DOC-12 outcomes describe verification decisions; DOC-06C statuses describe what the user sees and how the bill/rent record becomes payable.
 
-| DOC-12 Outcome | DOC-06 Evidence Status / Handling |
+| DOC-12 Outcome | DOC-06C Evidence Status / Handling |
 | --- | --- |
 | Auto-Verified | `Accepted`. |
 | Auto-Verified with Warning | `Accepted` if warning is low severity; otherwise `Pending Review` or `Correction Needed` according to risk/category rule. |
@@ -420,11 +420,11 @@ DOC-12 verification outcomes must map cleanly to the DOC-06 user-facing evidence
 | Evidence Replaced | New version enters the applicable status; prior version is retained and hidden from normal bill/rent UI. |
 | Evidence Expired | `Update Needed`. |
 
-DOC-06 owns the user-facing payment-readiness mapping, including `Ready to Pay`, `Action Required`, `Under Review`, `Paid` / `Received`, and `Archived`. DOC-09 consumes the mapped readiness result before quote creation, authorization, retry, settlement readiness, or payout handoff.
+DOC-06C owns the user-facing payment-readiness mapping, including `Ready to Pay`, `Action Required`, `Under Review`, `Paid` / `Received`, and `Archived`. DOC-09 consumes the mapped readiness result before quote creation, authorization, retry, settlement readiness, or payout handoff.
 
 Evidence should normally have one active evidence set per bill/rent record. Evidence updates create versions; the newest accepted version becomes active. Archived or previous evidence must not be hard-deleted and should remain available through controlled records access under DOC-15 and DOC-18.
 
-Extracted fields approved for display should populate the bill/rent detail record in DOC-06. Evidence detail screens should avoid duplicating those fields except where needed for evidence review, correction, or status explanation.
+Extracted fields approved for display should populate the bill/rent detail record in DOC-06C. Evidence detail screens should avoid duplicating those fields except where needed for evidence review, correction, or status explanation.
 
 ---
 
@@ -439,7 +439,7 @@ Rules:
 - landlord, property manager, business payee, institution, and higher-risk payees may require enhanced review;
 - mismatch between extracted payee and selected payee should route to review unless approved category rules allow it;
 - payee-created requests should require evidence equal to or stronger than payer-created requests for the same category;
-- evidence-to-payee validation, duplicate detection, and risk checks must not be treated as automatic user-to-user matching; participant linking belongs to DOC-06 and DOC-18 and requires approved user or operational action.
+- evidence-to-payee validation, duplicate detection, and risk checks must not be treated as automatic user-to-user matching; participant linking belongs to DOC-06A/DOC-06C and DOC-18 and requires approved user or operational action.
 
 KYC/KYB, sanctions, and fraud rules belong in DOC-14 and DOC-19. Payout destination controls belong in DOC-10. Data schema belongs in DOC-18.
 
@@ -516,7 +516,7 @@ Detailed privacy and retention rules belong in DOC-15. Security and access contr
 
 ## 21. UX and Document Alignment Impact
 
-DOC-06 now defines the user-facing Bills evidence sub-route model. Future DOC-12 refinements should remain aligned with DOC-06 for:
+DOC-06C now defines the user-facing Bills evidence sub-route model. Future DOC-12 refinements should remain aligned with DOC-06C for:
 
 - AI/OCR evidence capture;
 - autofill from extracted fields;
@@ -528,7 +528,7 @@ DOC-06 now defines the user-facing Bills evidence sub-route model. Future DOC-12
 - payer review of final evidence summary before authorization;
 - one active evidence set, evidence versioning, archive-not-delete behavior, and controlled access to previous evidence.
 
-DOC-06 should remain a user journey and UX scope document. It should not copy all DOC-12 field tables or data-layer rules.
+DOC-06 remains the parent UX source map; DOC-06C should remain a user-facing Bills UX document. It should not copy all DOC-12 field tables or data-layer rules.
 
 ---
 
@@ -547,7 +547,7 @@ DOC-06 should remain a user journey and UX scope document. It should not copy al
 | OQ-12-009 | What exact evidence standards, field requirements, and review thresholds apply to domestic helper, driver, and personal service obligations? | Legal / Compliance / Risk / Product | Medium | Open |
 | OQ-12-010 | What admin override permissions and reason codes are required for evidence approval? | Operations / Risk / Product | Medium | Open |
 | OQ-12-011 | Which evidence-derived fields and model features are prohibited from marketing, partner reporting, external activation, credit scoring, or insurance-related targeting? | Privacy / Legal / Risk | High | Open |
-| OQ-12-012 | What final mapping, reason codes, and exception rules should connect DOC-12 verification outcomes to DOC-06 evidence status and bill/rent payment readiness? | Product / Risk / Operations / Engineering | High | Open |
+| OQ-12-012 | What final mapping, reason codes, and exception rules should connect DOC-12 verification outcomes to DOC-06C evidence status and bill/rent payment readiness? | Product / Risk / Operations / Engineering | High | Open |
 
 ---
 

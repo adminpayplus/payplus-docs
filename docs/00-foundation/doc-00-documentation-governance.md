@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.6.0
+version: 0.7.1
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,12 +12,12 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-06-02
+last_updated: 2026-06-25
 classification: Internal
 related_documents: []
 ---
 
-# DOC-00 — Documentation Governance
+# DOC-00 - Documentation Governance
 
 ---
 
@@ -105,93 +105,97 @@ Foundation documents guide downstream drafting but do not replace detailed produ
 
 ```text
 payplus-docs/
-├── AGENTS.md
-├── docs/
-│   ├── 00-foundation/
-│   │   ├── doc-00-documentation-governance.md
-│   │   ├── doc-01-project-charter-product-positioning.md
-│   │   ├── doc-02-business-model-unit-economics.md
-│   │   ├── doc-03-regulatory-psp-acquirer-assessment.md
-│   │   └── doc-04-compliance-certification-roadmap-control-framework.md
-│   ├── 01-product/
-│   │   ├── doc-05-master-prd-feature-requirement-index.md
-│   │   ├── doc-06-user-journey-ux-flow-service-blueprint.md
-│   │   ├── doc-07-content-disclosure-user-authorization-spec.md
-│   │   └── doc-08-notification-receipt-communication-spec.md
-│   ├── 02-payment-domain/
-│   │   ├── doc-09-payment-request-multi-funding-source-settlement.md
-│   │   ├── doc-10-payout-reconciliation.md
-│   │   └── doc-11-refund-cancellation-chargeback.md
-│   ├── 03-bill-verification/
-│   │   └── doc-12-bill-category-document-ai-ocr-payee-verification-spec.md
-│   ├── 04-growth-ecosystem/
-│   │   └── doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md
-│   ├── 05-risk-compliance-privacy/
-│   │   ├── doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md
-│   │   └── doc-15-privacy-data-protection-record-retention-spec.md
-│   ├── 06-engineering/
-│   │   ├── api/
-│   │   │   └── openapi.yaml
-│   │   ├── doc-16-technical-architecture-spec.md
-│   │   ├── doc-17-api-third-party-integration-spec.md
-│   │   └── doc-18-data-model-transaction-state-audit-event-spec.md
-│   ├── 07-security-access-control/
-│   │   └── doc-19-security-tokenization-authentication-admin-control-spec.md
-│   ├── 08-qa-release-operations/
-│   │   ├── doc-20-testing-uat-golive-checklist.md
-│   │   ├── doc-21-monitoring-incident-response-operational-sops.md
-│   │   └── doc-22-admin-management-dashboard-operations-workflow.md
-│   ├── 09-ai-build-execution/
-│   │   ├── 10-agent-context-index.md
-│   │   ├── context/
-│   │   │   └── project-continuation-context.md
-│   │   └── README.md
-│   ├── 99-isms-policies/
-│   │   ├── 99-01-information-security-policy.md
-│   │   ├── 99-02-acceptable-use-policy.md
-│   │   ├── 99-03-access-control-policy.md
-│   │   ├── 99-04-cryptography-policy.md
-│   │   ├── 99-05-data-classification-handling-policy.md
-│   │   ├── 99-06-asset-management-policy.md
-│   │   ├── 99-07-supplier-vendor-security-policy.md
-│   │   ├── 99-08-hr-security-policy.md
-│   │   ├── 99-09-physical-environmental-security-policy.md
-│   │   ├── 99-10-change-management-policy.md
-│   │   ├── 99-11-vulnerability-management-policy.md
-│   │   ├── 99-12-secure-development-policy.md
-│   │   ├── 99-13-incident-management-policy.md
-│   │   ├── 99-14-business-continuity-disaster-recovery-policy.md
-│   │   ├── 99-15-logging-monitoring-policy.md
-│   │   ├── 99-16-backup-restore-policy.md
-│   │   ├── 99-17-risk-assessment-methodology.md
-│   │   ├── 99-18-statement-of-applicability.md
-│   │   ├── 99-19-internal-audit-programme.md
-│   │   ├── 99-20-management-review-procedure.md
-│   │   └── README.md
-│   ├── backup/
-│   │   └── doc-05-master-prd-feature-requirement-index-backup.md
-│   ├── change-requests/
-│   │   └── README.md
-│   ├── changelog/
-│   │   └── changelog.md
-│   ├── decision-log/
-│   │   └── README.md
-│   ├── diagrams/
-│   │   └── README.md
-│   ├── glossary/
-│   │   └── glossary.md
-│   ├── README.md
-│   ├── templates/
-│   │   ├── adr-template.md
-│   │   ├── api-spec-template.md
-│   │   ├── change-request-template.md
-│   │   ├── core-spec-template.md
-│   │   ├── rulebook-template.md
-│   │   └── test-case-template.md
-│   └── traceability/
-│       ├── open-questions-register.md
-│       └── requirements-traceability-matrix.md
-└── README.md
+??? AGENTS.md
+??? docs/
+??  ??? 00-foundation/
+??  ??  ??? doc-00-documentation-governance.md
+??  ??  ??? doc-01-project-charter-product-positioning.md
+??  ??  ??? doc-02-business-model-unit-economics.md
+??  ??  ??? doc-03-regulatory-psp-acquirer-assessment.md
+??  ??  ??? doc-04-compliance-certification-roadmap-control-framework.md
+??  ??? 01-product/
+??  ??  ??? doc-05-master-prd-feature-requirement-index.md
+??  ??  ??? doc-06-user-journey-ux-flow-service-blueprint.md
+??  ??  ??? doc-06a-core-user-journeys-service-blueprint.md
+??  ??  ??? doc-06b-navigation-ia-route-taxonomy.md
+??  ??  ??? doc-06c-bills-rent-tenancy-ux-module.md
+??  ??  ??? doc-06d-ux-requirements-acceptance-test-matrix.md
+??  ??  ??? doc-07-content-disclosure-user-authorization-spec.md
+??  ??  ??? doc-08-notification-receipt-communication-spec.md
+??  ??? 02-payment-domain/
+??  ??  ??? doc-09-payment-request-multi-funding-source-settlement.md
+??  ??  ??? doc-10-payout-reconciliation.md
+??  ??  ??? doc-11-refund-cancellation-chargeback.md
+??  ??? 03-bill-verification/
+??  ??  ??? doc-12-bill-category-document-ai-ocr-payee-verification-spec.md
+??  ??? 04-growth-ecosystem/
+??  ??  ??? doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md
+??  ??? 05-risk-compliance-privacy/
+??  ??  ??? doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md
+??  ??  ??? doc-15-privacy-data-protection-record-retention-spec.md
+??  ??? 06-engineering/
+??  ??  ??? api/
+??  ??  ??  ??? openapi.yaml
+??  ??  ??? doc-16-technical-architecture-spec.md
+??  ??  ??? doc-17-api-third-party-integration-spec.md
+??  ??  ??? doc-18-data-model-transaction-state-audit-event-spec.md
+??  ??? 07-security-access-control/
+??  ??  ??? doc-19-security-tokenization-authentication-admin-control-spec.md
+??  ??? 08-qa-release-operations/
+??  ??  ??? doc-20-testing-uat-golive-checklist.md
+??  ??  ??? doc-21-monitoring-incident-response-operational-sops.md
+??  ??  ??? doc-22-admin-management-dashboard-operations-workflow.md
+??  ??? 09-ai-build-execution/
+??  ??  ??? 10-agent-context-index.md
+??  ??  ??? context/
+??  ??  ??  ??? project-continuation-context.md
+??  ??  ??? README.md
+??  ??? 99-isms-policies/
+??  ??  ??? 99-01-information-security-policy.md
+??  ??  ??? 99-02-acceptable-use-policy.md
+??  ??  ??? 99-03-access-control-policy.md
+??  ??  ??? 99-04-cryptography-policy.md
+??  ??  ??? 99-05-data-classification-handling-policy.md
+??  ??  ??? 99-06-asset-management-policy.md
+??  ??  ??? 99-07-supplier-vendor-security-policy.md
+??  ??  ??? 99-08-hr-security-policy.md
+??  ??  ??? 99-09-physical-environmental-security-policy.md
+??  ??  ??? 99-10-change-management-policy.md
+??  ??  ??? 99-11-vulnerability-management-policy.md
+??  ??  ??? 99-12-secure-development-policy.md
+??  ??  ??? 99-13-incident-management-policy.md
+??  ??  ??? 99-14-business-continuity-disaster-recovery-policy.md
+??  ??  ??? 99-15-logging-monitoring-policy.md
+??  ??  ??? 99-16-backup-restore-policy.md
+??  ??  ??? 99-17-risk-assessment-methodology.md
+??  ??  ??? 99-18-statement-of-applicability.md
+??  ??  ??? 99-19-internal-audit-programme.md
+??  ??  ??? 99-20-management-review-procedure.md
+??  ??  ??? README.md
+??  ??? backup/
+??  ??  ??? doc-05-master-prd-feature-requirement-index-backup.md
+??  ??? change-requests/
+??  ??  ??? README.md
+??  ??? changelog/
+??  ??  ??? changelog.md
+??  ??? decision-log/
+??  ??  ??? README.md
+??  ??? diagrams/
+??  ??  ??? README.md
+??  ??? glossary/
+??  ??  ??? glossary.md
+??  ??? README.md
+??  ??? templates/
+??  ??  ??? adr-template.md
+??  ??  ??? api-spec-template.md
+??  ??  ??? change-request-template.md
+??  ??  ??? core-spec-template.md
+??  ??  ??? rulebook-template.md
+??  ??  ??? test-case-template.md
+??  ??? traceability/
+??      ??? open-questions-register.md
+??      ??? requirements-traceability-matrix.md
+??? README.md
 ```
 
 Repository structure changes require Project Owner approval or an approved ADR.
@@ -201,6 +205,8 @@ Repository structure changes require Project Owner approval or an approved ADR.
 ## 6. Core Document Register
 
 Formal core documents use the DOC-XX numbering format.
+
+Formal child documents may use a letter suffix, such as `DOC-06A`, when a core `DOC-XX` document becomes too large to manage as a single file. Child documents inherit the parent document's source-of-truth tier unless otherwise stated. Child document IDs must not be reused.
 
 Document IDs must not be reused. Deprecated or retired document IDs remain reserved.
 
@@ -213,6 +219,10 @@ Document IDs must not be reused. Deprecated or retired document IDs remain reser
 | DOC-04 | Compliance Certification Roadmap & Control Framework | 00-foundation/ | doc-04-compliance-certification-roadmap-control-framework.md |
 | DOC-05 | Master PRD & Feature Requirement Index | 01-product/ | doc-05-master-prd-feature-requirement-index.md |
 | DOC-06 | User Journey, UX Flow & Service Blueprint | 01-product/ | doc-06-user-journey-ux-flow-service-blueprint.md |
+| DOC-06A | Core User Journeys & Service Blueprint | 01-product/ | doc-06a-core-user-journeys-service-blueprint.md |
+| DOC-06B | Navigation, IA & Route Taxonomy | 01-product/ | doc-06b-navigation-ia-route-taxonomy.md |
+| DOC-06C | Bills, Rent & Tenancy UX Module | 01-product/ | doc-06c-bills-rent-tenancy-ux-module.md |
+| DOC-06D | UX Requirements, Acceptance Criteria & Test Matrix | 01-product/ | doc-06d-ux-requirements-acceptance-test-matrix.md |
 | DOC-07 | Content, Disclosure & User Authorization Specification | 01-product/ | doc-07-content-disclosure-user-authorization-spec.md |
 | DOC-08 | Notification, Receipt & Communication Specification | 01-product/ | doc-08-notification-receipt-communication-spec.md |
 | DOC-09 | Payment Request, Multi-Funding Source & Settlement | 02-payment-domain/ | doc-09-payment-request-multi-funding-source-settlement.md |
@@ -334,13 +344,13 @@ Responsibilities:
 Normal approval flow:
 
 ```text
-Planned → Draft → Founder Working Baseline → In Review → Approved
+Planned ??Draft ??Founder Working Baseline ??In Review ??Approved
 ```
 
 Revision flow for approved documents:
 
 ```text
-Approved → Needs Update → Draft → In Review → Approved
+Approved ??Needs Update ??Draft ??In Review ??Approved
 ```
 
 Final named owners and approvers should be confirmed by the Project Owner.
@@ -384,6 +394,10 @@ Stable IDs support traceability across requirements, rules, controls, tests, ris
 | Artifact | Format Example |
 | --- | --- |
 | Requirement | `REQ-09-PAY-001` |
+| UX requirement | `UXREQ-06C-001` |
+| Route | `ROUTE-06C-BILLS-PAY` |
+| Screen | `SCREEN-06B-HOME-DASHBOARD` |
+| Component | `COMP-06C-BILL-CARD` |
 | Business rule | `RULE-09-PAY-001` |
 | Test case | `TC-09-PAY-001` |
 | Assumption | `ASM-DOC01-001` |
@@ -521,7 +535,11 @@ Foundation documents guide downstream documents as follows:
 | Downstream Document | Guidance |
 | --- | --- |
 | DOC-05 Master PRD & Feature Requirement Index | Convert product baseline into prioritized requirements and acceptance criteria. |
-| DOC-06 User Journey, UX Flow & Service Blueprint | Define user, admin, review, and service flows. |
+| DOC-06 User Journey, UX Flow & Service Blueprint | Define the DOC-06 family governance map, parent UX scope, prohibited journey controls, and child-document ownership boundaries. |
+| DOC-06A Core User Journeys & Service Blueprint | Define core payer, payee, admin, system, evidence, review, authorization, status, notification, receipt, failure, and exception journeys. |
+| DOC-06B Navigation, IA & Route Taxonomy | Define bottom navigation, Home dashboard, Pay+ action sheet, route taxonomy, screen/component/action ID standards, and route completion status. |
+| DOC-06C Bills, Rent & Tenancy UX Module | Define Bills, fee, rent, tenancy, activity, reminder, evidence, linking, and role-aware Bills-route UX behavior. |
+| DOC-06D UX Requirements, Acceptance Criteria & Test Matrix | Define UX requirement IDs, acceptance criteria, route/action/state/event/test mapping, and test-readiness tracking. |
 | DOC-07 Content, Disclosure & User Authorization Specification | Define approved product language, disclosures, user authorization, consent, and confirmation requirements. |
 | DOC-08 Notification, Receipt & Communication Specification | Define lifecycle-based notifications, receipts, and communication rules. |
 | DOC-09 Payment Request, Multi-Funding Source & Settlement | Define payment request, funding, authorization, and settlement behavior. |
@@ -745,3 +763,5 @@ DOC-00 must remain focused on documentation governance only.
 | 0.4.0 | 2026-05-27 | Product Documentation Team | Updated repository structure, core document register filenames, AI build execution folder governance, template list, traceability files, and supporting repository areas. |
 | 0.5.0 | 2026-05-29 | Product Documentation Team | Added Founder Working Baseline status for founding-stage documentation workflow and clarified planning authority before final approval. |
 | 0.6.0 | 2026-06-02 | Product Documentation Team | Cleaned repository tree, added DOC-22 to governance references, clarified reserved AI build-execution status, and marked legacy context files as non-authoritative. |
+| 0.7.0 | 2026-06-25 | Product Documentation Team | Recognized formal letter-suffix child documents, added DOC-06A to DOC-06D to the document register, and aligned stable UX ID examples with the DOC-06 modularization. |
+| 0.7.1 | 2026-06-25 | Product Documentation Team | Cleaned official DOC-06 family publication wording and preserved parent scope, role, and UX-surface summary expectations after modularization. |

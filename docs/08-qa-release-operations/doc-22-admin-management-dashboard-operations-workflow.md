@@ -1,4 +1,4 @@
-# DOC-22 — Admin Management Dashboard and Operations Workflow
+﻿# DOC-22 ??Admin Management Dashboard and Operations Workflow
 
 ## 1. Purpose
 
@@ -18,7 +18,7 @@
 ### 7.2 Payee Review Queue
 ### 7.3 Evidence Review Queue
 
-Future full DOC-22 drafting must define admin queue behavior for DOC-06 Bills evidence routes.
+Future full DOC-22 drafting must define admin queue behavior for DOC-06C Bills evidence routes.
 
 Required items to be updated include:
 
@@ -81,7 +81,7 @@ Detailed promotion-engine rules belong in DOC-13. Admin workflows should support
 
 ### 18.1 Dashboard Shortcut and Placement Configuration
 
-Admin dashboard must support configuration hooks for the DOC-06 designated Home Dashboard flow where enabled.
+Admin dashboard must support configuration hooks for the DOC-06B designated Home Dashboard flow where enabled.
 
 Required capabilities should include:
 
@@ -99,7 +99,7 @@ Detailed final admin screens, permission matrix, approval workflow, and implemen
 
 ### 18.2 Reminder Default Configuration
 
-Admin dashboard must support configuration hooks for DOC-06 bill/rent reminder defaults where enabled.
+Admin dashboard must support configuration hooks for DOC-06C bill/rent reminder defaults where enabled.
 
 Required capabilities should include:
 

@@ -1,7 +1,7 @@
----
+﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.17.0
+version: 0.18.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -22,6 +22,10 @@ related_documents:
   - DOC-03 Regulatory, PSP & Acquirer Assessment
   - DOC-04 Compliance Certification Roadmap & Control Framework
   - DOC-06 User Journey, UX Flow & Service Blueprint
+  - DOC-06A Core User Journeys & Service Blueprint
+  - DOC-06B Navigation, IA & Route Taxonomy
+  - DOC-06C Bills, Rent & Tenancy UX Module
+  - DOC-06D UX Requirements, Acceptance Criteria & Test Matrix
   - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
@@ -478,9 +482,9 @@ Detailed data model, event taxonomy, warehouse, analytics marts, feature/model m
 
 ## 15. UX Requirements
 
-The MVP should include the following UX surfaces. Detailed route flows, service blueprint steps, and non-payment interaction rules belong in DOC-06. Payment/checkout screen content and payment-domain UI behavior belong primarily in DOC-09, with DOC-06 owning route entry and handoff.
+The MVP should include the following UX surfaces. Detailed route flows, service blueprint steps, and non-payment interaction rules belong in the DOC-06 family. Payment/checkout screen content and payment-domain UI behavior belong primarily in DOC-09, with DOC-06A/DOC-06C owning route entry and handoff.
 
-DOC-06 owns route IDs, route types, route ID naming standards, and button-to-route ownership for user-facing app surfaces. Product requirements in DOC-05 should reference DOC-06 route IDs where useful, use specific sub-route IDs where DOC-06 defines them, and avoid duplicating screen-level routing rules.
+DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B owns navigation and route taxonomy, DOC-06C owns Bills/rent/tenancy UX, and DOC-06D owns UX requirement/test mapping. Product requirements in DOC-05 should reference DOC-06 family route IDs where useful, use specific sub-route IDs where defined, and avoid duplicating screen-level routing rules.
 
 Bills-route requirements must remain role-aware:
 
@@ -496,14 +500,14 @@ Bills-route requirements must remain role-aware:
 - complete new-device 2FA and dormant-login reauthentication where required;
 - confirm core account, payment profile, or credential changes using password, payment passcode, 2FA, or approved confirmation method;
 - dashboard;
-- logged-in Home Dashboard baseline with `Home`, `Bills`, `Pay+`, `Offers`, and `Me` navigation where enabled by DOC-06;
-- Pay+ center action entry point and slide-up action sheet where enabled by DOC-06;
-- dashboard shortcut grid for Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More where enabled by DOC-06;
+- logged-in Home Dashboard baseline with `Home`, `Bills`, `Pay+`, `Offers`, and `Me` navigation where enabled by DOC-06B;
+- Pay+ center action entry point and slide-up action sheet where enabled by DOC-06B;
+- dashboard shortcut grid for Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More where enabled by DOC-06B;
 - user shortcut display order, visibility preference, and restore-default behavior;
-- Important Notice / Action Required, Featured / What's New / Hot Offer carousel, Upcoming Bills / Rent, and Recent Activity dashboard sections where enabled by DOC-06;
-- bill/rent reminder management through DOC-06 `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, including linked reminders, reminder defaults, custom overrides, disable/delete behavior, and notification ownership boundaries;
+- Important Notice / Action Required, Featured / What's New / Hot Offer carousel, Upcoming Bills / Rent, and Recent Activity dashboard sections where enabled by DOC-06B;
+- bill/rent reminder management through DOC-06C `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, including linked reminders, reminder defaults, custom overrides, disable/delete behavior, and notification ownership boundaries;
 - create payment;
-- view payee-created requests that require payer action through DOC-06 `BILLS-PAY`;
+- view payee-created requests that require payer action through DOC-06C `BILLS-PAY`;
 - review evidence;
 - review and correct autofilled evidence fields where applicable;
 - accept/reject/dispute request;
@@ -528,8 +532,8 @@ Bills-route requirements must remain role-aware:
 - upload evidence;
 - review and correct autofilled evidence fields where applicable;
 - send request to payer;
-- view request and receive-management status through DOC-06 `BILLS-RECEIVE`;
-- remind payer where enabled and controlled by DOC-06, DOC-08, and DOC-22;
+- view request and receive-management status through DOC-06C `BILLS-RECEIVE`;
+- remind payer where enabled and controlled by DOC-06C, DOC-08, and DOC-22;
 - view linked payments;
 - respond to clarification/dispute;
 - view payout/payment status.
@@ -568,7 +572,7 @@ The MVP should support:
 - governed product, risk, evidence, payment, promotion, support, and operations analytics where enabled;
 - payment instruction status reporting, including deferred, pending, partial funding, fully funded, expired, and cancelled states;
 - partial payout status reporting for settlement-ready funded portions;
-- user-level activity history, with bill/rent-specific activity governed by DOC-06 and full audit/event history governed by DOC-18 and DOC-22;
+- user-level activity history, with bill/rent-specific activity governed by DOC-06C and full audit/event history governed by DOC-18 and DOC-22;
 - operational review workflows;
 - support and dispute handling;
 - partner/payment processor compatibility.
@@ -674,7 +678,11 @@ The MVP is acceptable when:
 | DOC-02 | Business model and monetization |
 | DOC-03 | Regulatory assessment |
 | DOC-04 | Compliance control framework |
-| DOC-06 | User journey, product flow, and UX scope |
+| DOC-06 | Parent user journey, UX flow, and service blueprint family map |
+| DOC-06A | Core user journeys and service blueprint |
+| DOC-06B | Navigation, IA, route taxonomy, dashboard, Pay+, and route completion status |
+| DOC-06C | Bills, rent, tenancy, activity, reminder, evidence, and role-aware Bills-route UX |
+| DOC-06D | UX requirements, acceptance criteria, and test-readiness mapping |
 | DOC-07 | User-facing disclosure, authorization, evidence, privacy, and policy wording |
 | DOC-08 | Notifications, receipts, communication triggers, and delivery logging |
 | DOC-09 | Payment request, funding, authorization, and settlement readiness |
@@ -708,9 +716,9 @@ The MVP is acceptable when:
 | Major functions and modules must be independently disableable. | Confirmed |
 | Future docs should use concise product-spec structure. | Confirmed |
 | Promotion engine capabilities are framework scope but launch-gated by DOC-13 rules and admin configuration. | Confirmed |
-| DOC-06 designated Home Dashboard flow and layout baseline is accepted for MVP discussion, but final UI design and exact component specification remain open. | Confirmed |
+| DOC-06B designated Home Dashboard flow and layout baseline is accepted for MVP discussion, but final UI design and exact component specification remain open. | Confirmed |
 | Dashboard shortcut grid, user shortcut preferences, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
-| DOC-06 `BILLS-PAY` and `BILLS-RECEIVE` route split is accepted as the current role-aware Bills-route baseline; checkout/payment screen behavior remains primarily governed by DOC-09. | Working Baseline / Not Final |
+| DOC-06C `BILLS-PAY` and `BILLS-RECEIVE` route split is accepted as the current role-aware Bills-route baseline; checkout/payment screen behavior remains primarily governed by DOC-09. | Working Baseline / Not Final |
 | PayPlus MVP should be data-engine ready by design, with structured events, field classification, source lineage, auditability, consent/preference state, approved-purpose metadata, and future model-use eligibility metadata where relevant. | Confirmed |
 | Advanced AI decisioning, external partner activation, offsite advertising, user-level data sharing, credit scoring, and insurance underwriting are not MVP scope unless separately assessed, approved, and documented. | Confirmed |
 
@@ -737,3 +745,5 @@ The MVP is acceptable when:
 | v0.15 | 2026-06-17 | Aligned PRD with DOC-06 Bills reminder route split, linked reminder records, reminder defaults, custom override, and admin reminder configuration boundaries. |
 | v0.16 | 2026-06-17 | Added PRD alignment note that DOC-06 owns route ID naming standards and specific sub-route IDs where available. |
 | v0.17 | 2026-06-25 | Aligned PRD with DOC-06 role-aware `BILLS-PAY` / `BILLS-RECEIVE` route split, payee-side request/remind-payer behavior, checkout ownership boundary with DOC-09, and activity-history ownership boundaries. |
+| v0.18 | 2026-06-25 | Aligned PRD references with the DOC-06 family split by pointing navigation/dashboard content to DOC-06B, Bills/rent/tenancy UX to DOC-06C, core journeys to DOC-06A, and UX acceptance/test mapping to DOC-06D. |
+| v0.18.1 | 2026-06-25 | Confirmed DOC-06 family publication cleanup and parent scope, role, and UX-surface summaries without changing master product requirements. |

@@ -1,4 +1,4 @@
-
+﻿
 # Diagrams
 
 This folder stores visual reference artifacts for PayPlus documentation.
@@ -9,7 +9,7 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 
 | File | Purpose | Source / Owner |
 | --- | --- | --- |
-| `payplus-home-dashboard-mvp-wireframe.svg` | Visual reference for the DOC-06 designated Home Dashboard flow and layout baseline. It is not finalized UI design, visual design, component specification, or exact route-level screen specification. | DOC-06 |
+| `payplus-home-dashboard-mvp-wireframe.svg` | Visual reference for the DOC-06B designated Home Dashboard flow and layout baseline. It is not finalized UI design, visual design, component specification, or exact route-level screen specification. | DOC-06B |
 
 ## Rules
 

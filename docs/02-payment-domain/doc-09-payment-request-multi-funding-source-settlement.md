@@ -1,4 +1,4 @@
----
+﻿---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
 version: 1.0.2
@@ -74,7 +74,7 @@ DOC-09 does not define:
 
 | Topic | Owning Document |
 | --- | --- |
-| App route entry points, Bills-tab card actions, and non-payment navigation | DOC-06 |
+| App route entry points, Bills-tab card actions, and non-payment navigation | DOC-06B, DOC-06C |
 | User disclosure and authorization wording | DOC-07 |
 | Notification and receipt delivery | DOC-08 |
 | Payout execution and reconciliation | DOC-10 |
@@ -168,7 +168,7 @@ Failed gates should create a clear status and, where appropriate, admin review o
 
 ## 6. Payment Domain Flow Summary
 
-DOC-06 owns detailed user journeys, screen flow, and service blueprint steps.
+DOC-06A owns core user journeys and service blueprint steps; DOC-06B owns navigation and route taxonomy; DOC-06C owns Bills-route entry and handoff behavior.
 
 DOC-09 owns the payment-domain lifecycle after a request exists or is ready for payment evaluation.
 
@@ -347,7 +347,7 @@ Payment instruction reminders are different from ordinary bill/rent reminders.
 | User manual reminder | User sets reminder date or offset for a bill/rent/obligation. | Bill/rent/obligation detail screen. |
 | Deferred payment instruction reminder | User has entered payment flow and saved deferred payment context. | Payment/checkout screen for the same instruction. |
 
-DOC-06 owns ordinary bill/rent reminder management through `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. DOC-08 owns notification IDs, channel rules, and message delivery. Deferred payment instruction reminders remain payment-domain reminders and must not be treated as ordinary bill/rent reminder records unless a later DOC-06/DOC-09 decision explicitly allows that placement.
+DOC-06C owns ordinary bill/rent reminder management through `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. DOC-08 owns notification IDs, channel rules, and message delivery. Deferred payment instruction reminders remain payment-domain reminders and must not be treated as ordinary bill/rent reminder records unless a later DOC-06C/DOC-09 decision explicitly allows that placement.
 
 ---
 
@@ -470,12 +470,12 @@ Detailed security and authentication mechanics belong in DOC-19.
 
 DOC-09 owns payment-domain status meaning at product-rule level. Canonical event schema belongs in DOC-18.
 
-Evidence status naming must not diverge from DOC-06 and DOC-12. DOC-12 owns evidence verification outcomes. DOC-06 owns the user-facing evidence status and bill/rent payment-readiness mapping. DOC-09 consumes the mapped readiness result to decide whether payment quote creation, authorization, retry, settlement readiness, or payout handoff may proceed.
+Evidence status naming must not diverge from DOC-06C and DOC-12. DOC-12 owns evidence verification outcomes. DOC-06C owns the user-facing evidence status and bill/rent payment-readiness mapping. DOC-09 consumes the mapped readiness result to decide whether payment quote creation, authorization, retry, settlement readiness, or payout handoff may proceed.
 
 | Status Group | Example Statuses | Purpose |
 | --- | --- | --- |
 | Request setup | Draft, Submitted, Sent | Request exists but is not ready for payment. |
-| Evidence verification | Evidence Processing, Pending User Correction, Pending Evidence Review, Evidence Rejected, Duplicate Suspected, Evidence Archived where relevant | Tracks DOC-12 evidence processing and maps to DOC-06 user-facing evidence status and bill/rent payment readiness before payment eligibility. |
+| Evidence verification | Evidence Processing, Pending User Correction, Pending Evidence Review, Evidence Rejected, Duplicate Suspected, Evidence Archived where relevant | Tracks DOC-12 evidence processing and maps to DOC-06C user-facing evidence status and bill/rent payment readiness before payment eligibility. |
 | Review and response | Viewed, Accepted, Rejected, Disputed, Expired, Cancelled | Recipient action or lifecycle state before payment. |
 | Payment readiness | Approved for Payment, Payment Quote Created | Request passed required gates and quote is available. |
 | Payment instruction | Instruction Created, Pending User Action, Partially Funded, Fully Funded, Expired, Cancelled | Tracks saved payment context before and during deferred or split funding. |
@@ -620,7 +620,7 @@ DOC-09 requires traceability for:
 | OQ-09-008 | What payment profile metadata may be stored under final PSP/acquirer, PCI, privacy, and security design? | Security / Payments / Engineering | Open |
 | OQ-09-009 | What settlement file, report, webhook, or reconciliation signal confirms settlement readiness? | Payments / Finance / Engineering | Open |
 | OQ-09-010 | What partial multi-card failure status naming should be exposed to payer and admin? | Product / Design / Operations | Open |
-| OQ-09-011 | Which DOC-12 evidence verification outcomes and DOC-06 evidence-status/payment-readiness mappings block payment quote, authorization, retry, or settlement readiness? | Product / Payments / Risk | Open |
+| OQ-09-011 | Which DOC-12 evidence verification outcomes and DOC-06C evidence-status/payment-readiness mappings block payment quote, authorization, retry, or settlement readiness? | Product / Payments / Risk | Open |
 | OQ-09-012 | Which DOC-13 promotion quote, reward entitlement, card-linked eligibility, and coupon/voucher states block or require recalculation before payer authorization? | Product / Payments / Growth | Open |
 | OQ-09-013 | What exact deferred payment instruction validity window should apply if PSP/acquirer, 3DS, or security rules differ from the 7-day product baseline? | Payments / Security / Product | Open |
 | OQ-09-014 | What selected payee transfer date rules apply when split-card funding legs complete on different dates? | Payments / Finance / Product | Open |

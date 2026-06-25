@@ -1,4 +1,4 @@
-# payplus-docs
+﻿# payplus-docs
 
 PayPlus development documentation repository.
 
@@ -19,7 +19,7 @@ Human source docs
 ## Key Folders
 
 - `docs/00-foundation/`: governance, product positioning, business model, regulatory, and compliance foundation.
-- `docs/01-product/`: PRD, user journeys, disclosures, notifications, and user-facing behavior.
+- `docs/01-product/`: PRD, DOC-06 UX/navigation child documents, disclosures, notifications, and user-facing behavior.
 - `docs/02-payment-domain/`: payment, payout, reconciliation, refund, cancellation, and chargeback behavior.
 - `docs/03-bill-verification/`: bill category, document AI/OCR, evidence, and payee verification.
 - `docs/04-growth-ecosystem/`: promotion engine, coupons, vouchers, referrals, membership, and partner offers.
@@ -30,6 +30,6 @@ Human source docs
 - `docs/09-ai-build-execution/`: reserved AI-agent implementation context and prompt materials derived from approved docs. Do not treat legacy context files as current source of truth unless regenerated.
 - `docs/traceability/`: requirements, controls, tests, decisions, and open-question linkage.
 
-Start with `docs/README.md` for document navigation and `AGENTS.md` for AI assistant workflow rules.
+Start with `docs/README.md` for document navigation and `AGENTS.md` for AI assistant workflow rules. For UX work, use parent `DOC-06` as the family map, then use `DOC-06A` for core journeys, `DOC-06B` for navigation and route taxonomy, `DOC-06C` for Bills/rent/tenancy UX, and `DOC-06D` for UX acceptance and test mapping.
 
 For the recent AI/data-engine strategy alignment, use `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md` as the technical baseline and `docs/04-growth-ecosystem/payplus-data-strategy-ai-marketing-research.md` as supporting research context only.

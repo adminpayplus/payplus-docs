@@ -1,4 +1,4 @@
----
+﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
 version: 0.8.0
@@ -74,7 +74,7 @@ Detailed specifications belong to:
 
 | Topic | Owning Document |
 | --- | --- |
-| Product scope and user journeys | DOC-05, DOC-06 |
+| Product scope and user journeys | DOC-05, DOC-06, DOC-06A, DOC-06B, DOC-06C |
 | User-facing notices, disclosures, and authorization wording | DOC-07 |
 | Notification channels, templates, consent, and delivery logging | DOC-08 |
 | Payment profiles, tokenization boundary, and payment authorization data | DOC-09 |
@@ -307,7 +307,7 @@ PayPlus may use collected and derived data to support:
 
 Derived or aggregated data should retain lineage to source data class, permitted purpose, and access controls. Sensitive personal data should not be exposed in dashboards unless required for approved review or operations.
 
-Dashboard personalization, shortcut ordering, placement targeting, and Featured / What's New / Hot Offer exposure must follow consent, preference, approved-purpose, and role-appropriate visibility rules. User-selected shortcut settings may override system defaults as defined in DOC-06, but must remain subject to feature eligibility, risk restrictions, and disabled-module controls.
+Dashboard personalization, shortcut ordering, placement targeting, and Featured / What's New / Hot Offer exposure must follow consent, preference, approved-purpose, and role-appropriate visibility rules. User-selected shortcut settings may override system defaults as defined in DOC-06B, but must remain subject to feature eligibility, risk restrictions, and disabled-module controls.
 
 Model features, segments, scores, and AI-generated outputs should retain lineage to source data, approved purpose, sensitivity level, permitted use, retention expectation, access roles, and monitoring requirements. Sensitive identity, raw evidence, medical details, child/family-sensitive education details, precise tenancy/property details, domestic helper employment details, raw support narratives, sanctions/AML results, internal risk notes, and vulnerability or hardship indicators should not be used for marketing models or partner reporting unless separately assessed and approved by legal, privacy, compliance, risk, and the Project Owner.
 
@@ -426,7 +426,7 @@ Detailed ISO/ISMS policies belong in DOC-99 policy library. PCI and authenticati
 | Document | Required Cross-Check |
 | --- | --- |
 | DOC-05 | Product data requirements, evidence requirements, role visibility, and admin requirements. |
-| DOC-06 | UX display boundaries for sensitive evidence, KYC, payment, payout, promotion data, and privacy-driven screen variations. |
+| DOC-06 / DOC-06A / DOC-06B / DOC-06C | Parent UX source map, core journeys, navigation placement, Bills UX display boundaries, and privacy-driven screen variations. |
 | DOC-07 | User-facing privacy, evidence, authorization, and policy wording. |
 | DOC-08 | Consent, preferences, notification channel privacy, and sensitive message restrictions. |
 | DOC-09 | Payment profile metadata, tokenization boundary, authorization records, and masked card display. |

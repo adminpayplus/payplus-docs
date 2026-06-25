@@ -1,7 +1,7 @@
----
+﻿---
 change_request_id: CR-DOC-06-MODULARIZATION-ID-ALIGNMENT
 title: DOC-06 Modularization and ID Alignment Plan
-status: Proposed
+status: Implemented
 authority: Non-authoritative change-planning note
 owner: Product / Founder
 reviewers:
@@ -37,13 +37,13 @@ affected_documents:
 
 ## 1. Purpose
 
-This change request proposes a controlled restructuring of DOC-06 into smaller, linked companion documents.
+This change request records the controlled restructuring of DOC-06 into smaller, linked companion documents.
 
 The purpose is to make PayPlus user journey, UX flow, navigation, route, screen, component, and acceptance documentation easier to manage, review, and later convert into AI build-execution materials.
 
 This change request covers three related changes:
 
-1. splitting DOC-06 into a parent document and proposed DOC-06A to DOC-06D child documents;
+1. splitting DOC-06 into a parent document and DOC-06A to DOC-06D child documents;
 2. modularizing UX responsibilities so journeys, navigation, route taxonomy, Bills/rent/tenancy UX, and acceptance/test mapping are clearly separated;
 3. introducing stable ID alignment rules for UX requirements, routes, screens, components, actions, states, events, test cases, and open questions.
 
@@ -602,11 +602,11 @@ This change request is acceptable when:
 
 | ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
-| OQ-CR-DOC06-001 | Should DOC-00 be updated before creating DOC-06A to DOC-06D, or in the same documentation change set? | Product / Documentation Owner | High | Open |
-| OQ-CR-DOC06-002 | Should child documents use `Founder Working Baseline` immediately, matching current DOC-06, or start as `Draft` until reviewed? | Project Owner | High | Open |
-| OQ-CR-DOC06-003 | Should the current term `MVP` be preserved in child docs, or progressively replaced with `baseline`, `controlled initial release`, and `gated capability` language? | Product / Founder | Medium | Open |
-| OQ-CR-DOC06-004 | Should DOC-06D include all test scenarios immediately, or start with requirement/test mapping placeholders that are expanded before AI build-execution conversion? | Product / QA / Engineering | Medium | Open |
-| OQ-CR-DOC06-005 | Should the first split preserve current section numbering as much as possible for auditability, or renumber child docs cleanly? | Documentation Owner | Medium | Open |
+| OQ-CR-DOC06-001 | Should DOC-00 be updated before creating DOC-06A to DOC-06D, or in the same documentation change set? | Product / Documentation Owner | High | Decided: same change set |
+| OQ-CR-DOC06-002 | Should child documents use `Founder Working Baseline` immediately, matching current DOC-06, or start as `Draft` until reviewed? | Project Owner | High | Decided: Founder Working Baseline |
+| OQ-CR-DOC06-003 | Should the current term `MVP` be preserved in child docs, or progressively replaced with `baseline`, `controlled initial release`, and `gated capability` language? | Product / Founder | Medium | Decided: preserve existing wording during first split |
+| OQ-CR-DOC06-004 | Should DOC-06D include all test scenarios immediately, or start with requirement/test mapping placeholders that are expanded before AI build-execution conversion? | Product / QA / Engineering | Medium | Decided: start with skeleton/placeholders |
+| OQ-CR-DOC06-005 | Should the first split preserve current section numbering as much as possible for auditability, or renumber child docs cleanly? | Documentation Owner | Medium | Decided: use new child-doc structure while preserving source-section labels where useful |
 
 ---
 
@@ -614,15 +614,15 @@ This change request is acceptable when:
 
 | Decision | Status |
 | --- | --- |
-| DOC-06 should be split because the current single document is too large for efficient management and execution. | Proposed |
-| The split should preserve existing product decisions and avoid changing previously concluded PayPlus scope or controls. | Proposed |
-| The split should create DOC-06 as a parent and DOC-06A to DOC-06D as formal child documents. | Proposed |
-| DOC-06A should own core user journeys and service blueprint flows. | Proposed |
-| DOC-06B should own navigation, IA, and route/screen/component taxonomy. | Proposed |
-| DOC-06C should own Bills, rent, tenancy, reminders, activity, and evidence UX module details. | Proposed |
-| DOC-06D should own stable UX requirement IDs, acceptance criteria, and test matrix. | Proposed |
-| Existing route shorthand IDs should be preserved but mapped to stable traceability IDs where needed. | Proposed |
-| AI build-execution files should not be generated until the human DOC-06 family is split, reviewed, and stable enough. | Proposed |
+| DOC-06 should be split because the current single document is too large for efficient management and execution. | Implemented |
+| The split should preserve existing product decisions and avoid changing previously concluded PayPlus scope or controls. | Implemented |
+| The split should create DOC-06 as a parent and DOC-06A to DOC-06D as formal child documents. | Implemented |
+| DOC-06A should own core user journeys and service blueprint flows. | Implemented |
+| DOC-06B should own navigation, IA, and route/screen/component taxonomy. | Implemented |
+| DOC-06C should own Bills, rent, tenancy, reminders, activity, and evidence UX module details. | Implemented |
+| DOC-06D should own stable UX requirement IDs, acceptance criteria, and test matrix. | Implemented |
+| Existing route shorthand IDs should be preserved but mapped to stable traceability IDs where needed. | Implemented |
+| AI build-execution files should not be generated until the human DOC-06 family is split, reviewed, and stable enough. | Implemented |
 
 ---
 
@@ -632,3 +632,4 @@ This change request is acceptable when:
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-06-25 | AI Documentation Assistant | Initial proposed change request for DOC-06 splitting, modularization, and ID alignment. |
 | 0.1.1 | 2026-06-25 | AI Documentation Assistant | Added execution guardrails and non-goals for future AI handoff safety. |
+| 0.2.0 | 2026-06-25 | AI Documentation Assistant | Marked change request implemented after creating DOC-06A to DOC-06D, updating DOC-00 governance, and aligning index/traceability references. |

@@ -1,4 +1,4 @@
----
+﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
 version: 1.0.3
@@ -149,8 +149,8 @@ DOC-08 should reference these documents instead of duplicating their detailed ru
 | Receipt | User-facing confirmation record for a payment outcome. |
 | Statement | Periodic or on-demand account/payment summary. |
 | Dashboard task | Admin or user task shown inside the PayPlus app or admin dashboard. |
-| Important Notice / Action Required | DOC-06 logged-in dashboard section for urgent actions, account messages, system messages, announcements, late payer/payee handling, expiring tenancies, and similar items. It may contain notification-backed and dashboard-only items. |
-| Featured / What's New / Hot Offer | DOC-06 dashboard carousel placement for approved announcements, partner campaigns, feature updates, hot offers, and service events. It is a placement surface, not a notification event by itself. |
+| Important Notice / Action Required | DOC-06B logged-in dashboard section for urgent actions, account messages, system messages, announcements, late payer/payee handling, expiring tenancies, and similar items. It may contain notification-backed and dashboard-only items. |
+| Featured / What's New / Hot Offer | DOC-06B dashboard carousel placement for approved announcements, partner campaigns, feature updates, hot offers, and service events. It is a placement surface, not a notification event by itself. |
 
 ---
 
@@ -191,15 +191,15 @@ Example:
 | Payment completed | Status required; app, email, SMS, or WhatsApp may be enabled. |
 | Payout completed | Status required; notify payee through approved channels. |
 
-For DOC-06 dashboard placements:
+For DOC-06B dashboard placements:
 
 | Dashboard Surface | Communication Rule |
 | --- | --- |
-| Important Notice / Action Required | May be backed by notification events, system announcements, dashboard-only tasks, or operational action items. User-facing priority, collapse, expiry, and routing rules belong in DOC-06 and DOC-22. |
+| Important Notice / Action Required | May be backed by notification events, system announcements, dashboard-only tasks, or operational action items. User-facing priority, collapse, expiry, and routing rules belong in DOC-06B and DOC-22. |
 | Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
 | Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
-Where DOC-06 defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06 defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, and payee-side request or receive-management actions to `BILLS-RECEIVE`.
+Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, and payee-side request or receive-management actions to `BILLS-RECEIVE`.
 
 ---
 
@@ -312,9 +312,9 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-REQ-012` | Payee linking accepted or declined | App | Important service |
 | `NOTIF-REQ-013` | Payer-created record available for optional payee linking | App or disabled external channels | Optional service |
 
-Payer-created payment may proceed without payee acceptance where DOC-06 and DOC-09 gates allow it. Optional payee linking notifications must not imply the payer is blocked from payment unless a specific category, risk, payout, or compliance gate requires payee action.
+Payer-created payment may proceed without payee acceptance where DOC-06A/DOC-06C and DOC-09 gates allow it. Optional payee linking notifications must not imply the payer is blocked from payment unless a specific category, risk, payout, or compliance gate requires payee action.
 
-Payee-side `Request` and `Remind Payer` actions in DOC-06 `BILLS-RECEIVE` should use the `REQ` notification domain unless a later document defines a more specific request-reminder event. These actions should route recipients to the relevant payer-side request or bill/rent context, normally `BILLS-PAY` or the relevant authenticated detail screen. Resend limits, cooldowns, escalation wording, and channel eligibility remain open for DOC-06, DOC-08, and DOC-22 alignment.
+Payee-side `Request` and `Remind Payer` actions in DOC-06C `BILLS-RECEIVE` should use the `REQ` notification domain unless a later document defines a more specific request-reminder event. These actions should route recipients to the relevant payer-side request or bill/rent context, normally `BILLS-PAY` or the relevant authenticated detail screen. Resend limits, cooldowns, escalation wording, and channel eligibility remain open for DOC-06C, DOC-08, and DOC-22 alignment.
 
 ### 11.3 Evidence Verification Events
 
@@ -377,7 +377,7 @@ Payment instruction reminders must route the user to the payment/checkout screen
 | `NOTIF-REM-002` | Bill/rent reminder due | App, push where permission granted | Optional service |
 | `NOTIF-REM-003` | Bill/rent reminder disabled, deleted, expired, or inactive | App or disabled external channels | Optional service |
 
-Ordinary reminder events are governed by DOC-06 `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. App notification and push notification are MVP where permission is granted. Email, SMS, and WhatsApp may be enabled through the channel matrix, but should avoid sensitive bill, rent, evidence, account, and payee details outside the authenticated app. Deferred payment instruction reminders remain under `NOTIF-PINS-*` and must route to the payment/checkout screen.
+Ordinary reminder events are governed by DOC-06C `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. App notification and push notification are MVP where permission is granted. Email, SMS, and WhatsApp may be enabled through the channel matrix, but should avoid sensitive bill, rent, evidence, account, and payee details outside the authenticated app. Deferred payment instruction reminders remain under `NOTIF-PINS-*` and must route to the payment/checkout screen.
 
 ### 11.6 Payout Events
 
@@ -654,8 +654,8 @@ DOC-08 is acceptable when:
 | 0.8.0 | 2026-06-12 | Aligned request and evidence notification events with DOC-06 Bills tab rules for optional payee linking, no default payee-acceptance gate for payer-created payment, and post-setup evidence verification status. |
 | 0.9.0 | 2026-06-15 | Added DOC-06 route-ID destination guidance for Bills tab action notifications, including evidence, reminder, linking, and Bills list routes. |
 | 1.0.0 | 2026-06-17 | Aligned reminder notification routing with DOC-06 `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, and added ordinary bill/rent reminder notification events separate from payment instruction reminders. |
-| 1.0.1 | 2026-06-17 | Added notification routing guidance to use DOC-06 specific sub-route IDs where available instead of broad shorthand route labels. |
+| 1.0.1 | 2026-06-17 | Added notification routing guidance to use DOC-06C specific sub-route IDs where available instead of broad shorthand route labels. |
 | 1.0.2 | 2026-06-18 | Aligned evidence notification route examples with DOC-06 `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`. |
-| 1.0.3 | 2026-06-24 | Aligned payee-side `Request` and `Remind Payer` routing with DOC-06 `BILLS-RECEIVE` and payer-side `BILLS-PAY` destinations. |
+| 1.0.3 | 2026-06-24 | Aligned payee-side `Request` and `Remind Payer` routing with DOC-06C `BILLS-RECEIVE` and payer-side `BILLS-PAY` destinations. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |
