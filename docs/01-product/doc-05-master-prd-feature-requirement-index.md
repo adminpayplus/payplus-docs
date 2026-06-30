@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.2
+version: 0.18.5
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-25
+last_updated: 2026-06-29
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -330,7 +330,7 @@ Each completed or active payment should be linkable to:
 
 ### 9.1 Core Statuses
 
-The MVP should support the following request statuses:
+The MVP should support the following request statuses. A request is not a payment; payment authorization, processing, completion, and failure must be shown as linked payment status, not request status.
 
 | Status | Meaning |
 |---|---|
@@ -342,11 +342,7 @@ The MVP should support the following request statuses:
 | Accepted | Payer accepted the request. |
 | Rejected | Payer rejected the request. |
 | Disputed | Payer or payee disputed the request. |
-| Approved for Payment | Required checks passed before payment. |
-| Payment Authorized | Payer authorized payment. |
-| Payment Processing | Payment is being processed. |
-| Paid | Payment completed. |
-| Failed | Payment failed. |
+| Approved for Payment | Required request, evidence, verification, risk, and acceptance checks passed so the linked payment flow may become available where applicable. |
 | Cancelled | Request cancelled. |
 | Expired | Request expired. |
 
@@ -487,6 +483,10 @@ The MVP should include the following UX surfaces. Detailed route flows, service 
 DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B owns navigation and route taxonomy, DOC-06C owns Bills/rent/tenancy UX, and DOC-06D owns UX requirement/test mapping. Product requirements in DOC-05 should reference DOC-06 family route IDs where useful, use specific sub-route IDs where defined, and avoid duplicating screen-level routing rules.
 
 For split UX topics, use one primary owner. DOC-06B owns standalone route shells such as Requests, Instructions, Offers, Me, Cards, Referral, More, and global Receipts/Activity route shells. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
+
+For Requests, use the DOC-06 family boundary: a request is not a payment. It is a record asking another party to review, accept, link to, clarify, reject, or dispute a bill, rent, tenancy, fee, invoice, or approved obligation context. Accepted requests link the parties to the accepted context and may support later payment readiness, but payment authorization and processing remain separate payment-domain behavior.
+
+The standalone Requests route shell is defined in DOC-06B. It provides route entry, views, card-level summary fields, `REQUESTS-DETAIL`, high-level actions, empty states, and handoff rules. `REQUESTS-DETAIL` is the request-management screen; it may link into DOC-06C bill/rent/tenancy detail where a linked context exists, but it must not be replaced by the bill/rent detail screen. Detailed request lifecycle remains DOC-06A, Bills/rent implementation remains DOC-06C, notification routing remains DOC-08, and final data/event specification remains DOC-18.
 
 Bills-route requirements must remain role-aware:
 
@@ -750,3 +750,6 @@ The MVP is acceptable when:
 | v0.18 | 2026-06-25 | Aligned PRD references with the DOC-06 family split by pointing navigation/dashboard content to DOC-06B, Bills/rent/tenancy UX to DOC-06C, core journeys to DOC-06A, and UX acceptance/test mapping to DOC-06D. |
 | v0.18.1 | 2026-06-25 | Confirmed DOC-06 family publication cleanup and parent scope, role, and UX-surface summaries without changing master product requirements. |
 | v0.18.2 | 2026-06-25 | Added single-primary-owner drafting rule for DOC-06 family topics and clarified route shell versus lifecycle versus Bills/rent implementation ownership. |
+| v0.18.3 | 2026-06-25 | Clarified request-not-payment boundary and request acceptance as party-linking to an accepted obligation context. |
+| v0.18.5 | 2026-06-29 | Added PRD alignment that `REQUESTS-DETAIL` is the request-management screen and links to, but is not replaced by, DOC-06C bill/rent detail. |
+| v0.18.4 | 2026-06-25 | Reflected DOC-06B Requests route shell baseline and preserved lifecycle, Bills/rent implementation, notification, and data ownership boundaries. |

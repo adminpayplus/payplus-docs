@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.2
+version: 0.1.5
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-25
+last_updated: 2026-06-29
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -199,7 +199,7 @@ Dashboard section order may be refined later only through explicit design review
 | Element | Definition | Route Relationship |
 | --- | --- | --- |
 | Greeting | User recognition area. | No route required, or profile route if tapped. |
-| Inbox icon | Notifications, messages, payment alerts, request updates, support replies, system notices, and announcements. | Notification / Inbox route. |
+| Inbox icon | Notifications, messages, payment alerts, request updates, support replies, system notices, and announcements. | Notification / Inbox route. Request-related inbox items may route to `REQUESTS-ROOT`, `REQUESTS-DETAIL`, or the linked Bills/rent context depending on item type. |
 | Coupon icon | Shortcut to user's available coupon/voucher library. | Coupon / Voucher Library route. |
 
 ---
@@ -212,7 +212,7 @@ MVP shortcut grid:
 
 | Shortcut | Definition | Route Relationship |
 | --- | --- | --- |
-| Requests | Payee-created or payer-linked requests requiring review, response, acceptance, rejection, query, dispute, or payment action. | Payment Requests route. |
+| Requests | Requests that ask another party to accept, link to, review, clarify, reject, or dispute a bill, rent, tenancy, fee, invoice, or approved obligation context. A request is not a payment. | Requests route. |
 | Instructions | Deferred payment instructions, split-card progress, pending funding legs, expired instructions, and action-required instructions. | Payment Instructions route. |
 | Bills & Tenancies | Saved bills, fee records, rent records, tenancy records, evidence status, due dates, and obligation details. | Bills & Tenancies route. |
 | Receipts | Payment receipts, proof of payment, statements, completed records, refund/reversal records, and related transaction evidence. | Receipts / Activity route. |
@@ -308,7 +308,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Offers Hub IA | Define offer discovery, hot offers, card partner offers, coupon/voucher library, referral, What's New, and campaign detail routes. | Title preserved / not finalized |
 | Me Area IA | Define account, security, privacy, notification preferences, support, cards/payment methods, and user control routes. | Title preserved / not finalized |
 | More Shortcuts IA | Define secondary shortcuts and services not shown in the first eight dashboard shortcuts. | Title preserved / not finalized |
-| Requests Route | Define standalone Requests route shell, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. | Title preserved / not finalized |
+| Requests Route | Define standalone Requests route shell, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
 | Instructions Route | Define deferred payment instructions, split-card progress, retry/failed legs, pending actions, cancellation, expiry, and continuation paths. | Title preserved / not finalized |
 | Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
 | Receipts / Activity Route | Define receipts, proof of payment, statements, refund/reversal records, and transaction details. | Title preserved / not finalized |
@@ -323,6 +323,164 @@ App UI elements that currently require admin configuration markers include Pay+ 
 
 ---
 
+### 5.11 Requests Route Shell
+
+DOC-06B owns the standalone Requests route shell. DOC-06A owns request lifecycle, status meaning, acceptance, rejection, dispute, clarification, expiry, and cancellation rules. DOC-06C owns Bills/rent/tenancy-specific implementation when the request is linked to a bill, fee, rent, tenancy, invoice, or obligation record. DOC-08 owns notification routing and delivery rules.
+
+#### 5.11.1 Route Definition
+
+| Item | Requirement |
+| --- | --- |
+| Route label | Requests |
+| Working route ID | `REQUESTS-ROOT` |
+| Stable route ID | `ROUTE-06B-REQUESTS` |
+| Purpose | Let users view, manage, and respond to requests that connect parties to a bill, rent, tenancy, fee, invoice, or approved obligation context. |
+| Boundary | A request is not a payment. The route must not authorize, process, or complete payment. |
+| Default behavior | If action-required requests exist, default to `Action Required`; otherwise default to the user's last selected Requests view or `Received`. |
+
+#### 5.11.2 Request Definition
+
+A request asks another party to accept, link to, review, clarify, reject, or dispute a bill, rent, tenancy, fee, invoice, or approved obligation context.
+
+MVP request types include:
+
+| Request Type | Sender | Recipient | Meaning |
+| --- | --- | --- | --- |
+| Payee-created acceptance request | Payee, landlord, biller, or recipient | Payer | Recipient is asked to accept or respond to a bill/rent/tenancy/obligation before payment can proceed. |
+| Payer-created linking request | Payer | Payee, landlord, biller, or recipient | Recipient is asked to accept/adopt linkage to a payer-created bill/rent/tenancy/obligation context where enabled. |
+| Clarification request | Either party or admin/system where applicable | Other relevant party | Recipient is asked to provide information, correction, or explanation. |
+| Request reminder | Sender or system | Pending recipient | Recipient is reminded to act on an outstanding request. |
+
+Accepted requests link the parties to the accepted context and may enable later payment readiness where all other gates pass. Acceptance must not be treated as payment authorization.
+
+#### 5.11.3 Entry Points
+
+| Entry Point | Route Behavior |
+| --- | --- |
+| Dashboard `Requests` shortcut | Opens `REQUESTS-ROOT`. |
+| Header Inbox icon | Opens Inbox first; request-related inbox items may route to `REQUESTS-ROOT`, `REQUESTS-DETAIL`, or linked Bills/rent context depending on item type. |
+| Request notification | Routes to `REQUESTS-DETAIL` by default when a specific request exists. It may route to `REQUESTS-ROOT`, `BILLS-PAY`, `BILLS-RECEIVE`, or linked bill/rent detail only where DOC-08 routing rules require it. |
+| `Request` action on Bills/rent card or detail | Creates, sends, resends, or updates a request record. It does not open `REQUESTS-ROOT` by default. |
+| `Remind Payer` action on Bills/rent card or detail | Creates or sends a request reminder event; it does not create a payment action. |
+| App link, WhatsApp deeplink, QR code, or approved channel | Opens onboarding/login first where required, then routes to `REQUESTS-DETAIL` for the relevant request context. |
+
+#### 5.11.4 Views
+
+| View | Working ID | Purpose | Included Items |
+| --- | --- | --- | --- |
+| Action Required | `REQUESTS-ACTION` | Prioritize requests needing the current user's response. | Pending acceptance, clarification needed, dispute response, correction needed, expiring soon, failed delivery requiring action. |
+| Received | `REQUESTS-RECEIVED` | Show requests sent to the current user. | Requests where the current user is recipient, payer, payee, landlord, biller, or invited counterparty. |
+| Sent | `REQUESTS-SENT` | Show requests created or sent by the current user. | Sent, viewed, pending, reminded, accepted, rejected, disputed, expired, cancelled requests. |
+| Archived | `REQUESTS-ARCHIVED` | Show archived requests only. | User-archived request records subject to retention and visibility rules. |
+
+Filters may include category, status, counterparty, due date, expiry date, and linked bill/rent type. Exact visual design, filter density, and sort options remain open.
+
+Selecting a request card should open `REQUESTS-DETAIL`.
+
+#### 5.11.5 Request Card
+
+A request card should show enough information for the user to identify the request without exposing unnecessary sensitive details.
+
+MVP card fields:
+
+- direction badge: `Received` or `Sent`;
+- request type;
+- linked context name, such as bill name, rent name, tenancy name, or obligation name;
+- category: bill, fee, rent, tenancy, invoice, or approved obligation;
+- counterparty name;
+- amount where applicable;
+- due date, request expiry, or next action date where applicable;
+- request status;
+- last activity date;
+- primary next action.
+
+Sensitive fields must follow DOC-15 masking and role-based display rules. Detailed linked bill/rent fields remain in DOC-06C.
+
+#### 5.11.6 Request Detail Screen
+
+`REQUESTS-DETAIL` is its own DOC-06B screen. It must not be replaced by the linked DOC-06C bill/rent detail screen, because the request is a party-linking and request-management object, not the bill/rent record itself and not a payment.
+
+| Item | Requirement |
+| --- | --- |
+| Working screen ID | `REQUESTS-DETAIL` |
+| Stable screen ID | `SCREEN-06B-REQUESTS-DETAIL` |
+| Purpose | Let the user understand, respond to, or manage one request before opening any linked bill/rent/tenancy context. |
+| Boundary | The screen manages request status and request actions only. Payment authorization, checkout, evidence editing, and bill/rent record maintenance remain in the owning routes. |
+| Linked-context handoff | If a linked bill/rent/tenancy exists, show a clear button such as `View Bill Detail`, `View Rent Detail`, or `View Tenancy`. That button opens the relevant DOC-06C detail route. |
+| Payment handoff | If the linked context is payment-ready, the screen may show a handoff to the relevant payment entry point, but payment flow remains governed by DOC-09 and the related DOC-06C route. |
+
+MVP detail fields:
+
+- request type;
+- sender and recipient;
+- linked bill/rent/tenancy/fee/invoice/obligation name;
+- category;
+- amount and due date where relevant;
+- request status;
+- request message or note where available;
+- created date, last activity date, and expiry date where relevant;
+- delivery channel where relevant;
+- linked-context button where available;
+- status-specific next action.
+
+Role-aware detail actions:
+
+| User Context | Primary Actions |
+| --- | --- |
+| Recipient / current user must respond | Accept, reject, ask for clarification, dispute, open linked bill/rent detail where available. |
+| Sender / current user created request | Resend/share where allowed, remind recipient, cancel where allowed, open linked bill/rent detail where available. |
+| Accepted request | Open linked bill/rent detail, view limited request history, archive where allowed. |
+| Archived request | Restore where allowed, view retained request detail subject to DOC-15 visibility and retention rules. |
+
+#### 5.11.7 High-Level Actions
+
+Actions must be role-aware and status-aware.
+
+| User Context | Allowed High-Level Actions |
+| --- | --- |
+| Recipient / current user must respond | Open `REQUESTS-DETAIL`, accept, reject, request clarification, dispute, open linked context, archive where allowed. |
+| Sender / current user created request | Open `REQUESTS-DETAIL`, resend/share where allowed, remind recipient, cancel where allowed, open linked context, archive. |
+| Accepted request | Open `REQUESTS-DETAIL`, view linked context, open relevant Bills/rent detail, view limited request history, archive where allowed. |
+| Payment-ready linked context | Route to `BILLS-PAY` or linked bill/rent detail where payment action may be available. The Requests route itself must not process payment. |
+
+#### 5.11.8 Empty, Action-Required, and Archive Behavior
+
+| State | Behavior |
+| --- | --- |
+| Empty `Action Required` | Show no pending request actions and provide route back to `Received` or `Sent`. |
+| Empty `Received` | Explain that requests sent to the user will appear here. |
+| Empty `Sent` | Explain that requests the user sends will appear here. Creation should happen through the relevant bill/rent/request flow, not as a free-floating open money request. |
+| Archived | Archived requests disappear from active views but remain retrievable subject to retention, audit, and role-based access rules. |
+| Expiring soon | Show priority in `Action Required` and route to request detail. |
+
+#### 5.11.9 Data and Intelligence Signals
+
+DOC-06B should identify route-level signals only. Final event taxonomy, schema, lineage, model eligibility, and analytics ownership remain DOC-18.
+
+Material signals include:
+
+- Requests route opened;
+- request card viewed;
+- request detail opened;
+- request accepted, rejected, disputed, clarified, cancelled, expired, archived, or restored where applicable;
+- request reminder sent;
+- request notification opened;
+- request led to linked bill/rent context opened;
+- request led to payment-start handoff in `BILLS-PAY` where applicable.
+
+These signals should support service quality, funnel analysis, risk review, support investigation, and future approved AI-driven payment intelligence without turning Requests into a payment or open P2P feature.
+
+#### 5.11.10 Open Items
+
+| Item | Owner | Status |
+| --- | --- | --- |
+| Final visual card density, tab style, sort/filter design, and empty-state wording | Product / Design | Open |
+| Final `REQUESTS-DETAIL` visual layout, field density, copy, and button order | Product / Design | Open |
+| Resend, reminder cooldown, expiry, and escalation rules | Product / Operations / DOC-08 / DOC-22 | Open |
+
+---
+
+---
 ## 6. Route Completion Status
 
 | Route / Area | Status | Next Required Work |
@@ -332,7 +490,7 @@ App UI elements that currently require admin configuration markers include Pay+ 
 | Pay+ | Partially Defined | Confirm visual order, disabled states, eligibility copy, and final action limits. |
 | Offers | Not Fully Defined | Define Offers Hub, offer detail, coupon/voucher library routing, and placement interactions with DOC-13. |
 | Me | Not Fully Defined | Define profile, settings, privacy, notification, security, payment-method, and support routes. |
-| Requests | Partially Defined by journey only | Define standalone Requests route shell in DOC-06B; request lifecycle remains DOC-06A and Bills/rent request implementation remains DOC-06C. |
+| Requests | Route Shell Defined / Not Final UI | Confirm `REQUESTS-DETAIL` visual layout, card density, sort/filter behavior, resend/reminder limits, and linked DOC-06C handoff wording. |
 | Instructions | Partially Defined by DOC-09 | Define route shell, shortcut behavior, dashboard action-required placement, and return-to-checkout behavior. |
 | Receipts / Activity | Partially Defined | Define global receipt/activity hub and relationship to bill/rent-specific activity in DOC-06C. |
 | Reminders | Partially Defined in DOC-06C | Confirm relationship between ordinary bill/rent reminders and payment-instruction reminders. |
@@ -345,15 +503,19 @@ App UI elements that currently require admin configuration markers include Pay+ 
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-06B-001 | What final Pay+ visual layout, button order, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Open |
-| OQ-06B-002 | What route-level IA should apply to Offers, Me, More, Requests, Instructions, Receipts, Cards, Referral, and Support? | Product / Design | Open |
+| OQ-06B-002 | What route-level IA should apply to Offers, Me, More, Instructions, Receipts, Cards, Referral, and Support? | Product / Design | Open |
 | OQ-06B-003 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
+| OQ-06B-006 | What exact visual layout, card density, `REQUESTS-DETAIL` field order, resend/reminder limit, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.5 | 2026-06-29 | Defined `REQUESTS-DETAIL` as its own DOC-06B screen and clarified linked DOC-06C bill/rent detail handoff. |
+| 0.1.4 | 2026-06-25 | Drafted Requests route shell, including route definition, entry points, views, card fields, actions, empty states, and data-signal boundaries. |
+| 0.1.3 | 2026-06-25 | Clarified Requests route definition, top-right inbox relationship, and request-not-payment boundary. |
 | 0.1.2 | 2026-06-25 | Added route ownership rule to keep DOC-06B focused on route shells and handoffs while lifecycle and module behavior remain in owning documents. |
 | 0.1.1 | 2026-06-25 | Cleaned publication wording and corrected dashboard copy formatting for official DOC-06B baseline use. |
 | 0.1.0 | 2026-06-25 | Created as DOC-06B child document for dashboard, navigation, Pay+, shortcut, route taxonomy, and route workplan content. |

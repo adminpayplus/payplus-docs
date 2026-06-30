@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.1
+version: 0.1.2
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -212,6 +212,8 @@ The payee journey may begin when:
 #### Purpose
 
 Allows a payee to create an evidence-backed payment request and push it to a payer for review and payment.
+
+Within DOC-06A, a request is not a payment. A request asks another party to review, accept, link to, clarify, reject, or dispute a bill, tenancy, rent, invoice, fee, or approved obligation context. Acceptance links the parties to that accepted context and may support later payment readiness, but it does not authorize, process, or complete payment.
 
 This is a core MVP journey.
 
@@ -873,6 +875,8 @@ Both payer and payee should be able to view:
 
 The MVP UX should expose clear user-facing request states. Canonical state-machine definitions belong in DOC-09 and DOC-18.
 
+Request states must be distinct from payment states. A request may lead to payment readiness, but payment authorization, processing, completion, failure, payout, refund, reversal, and chargeback states belong to the payment, payout, refund, and data-state owner documents.
+
 | Status | Meaning |
 | --- | --- |
 | Draft | Request created but not submitted. |
@@ -886,13 +890,11 @@ The MVP UX should expose clear user-facing request states. Canonical state-machi
 | Accepted | Payer accepted the request or recipient accepted the record. |
 | Rejected | Recipient rejected the request or record. |
 | Disputed | Payer or payee disputed the request or record. |
-| Approved for Payment | Required checks passed before payment. |
-| Payment Authorized | Payer authorized payment. |
-| Payment Processing | Payment is being processed. |
-| Paid | Payment completed. |
-| Failed | Payment failed. |
+| Approved for Payment | Required request, evidence, verification, risk, and acceptance checks passed so the linked payment flow may become available where applicable. |
 | Cancelled | Request cancelled. |
 | Expired | Request expired. |
+
+If payment status is displayed near a request, it should be labelled as linked payment status, not request status.
 
 #### Status Rules
 
@@ -1215,5 +1217,6 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.2 | 2026-06-25 | Clarified that requests are party-linking and acceptance records, not payments; separated request states from linked payment states. |
 | 0.1.1 | 2026-06-25 | Removed temporary source-section heading wording and finalized official DOC-06A heading style. |
 | 0.1.0 | 2026-06-25 | Created as DOC-06A child document for core user journeys and service-blueprint content without changing product decisions. |

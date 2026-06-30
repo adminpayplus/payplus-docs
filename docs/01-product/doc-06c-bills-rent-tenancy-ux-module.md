@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.1
+version: 0.1.3
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-25
+last_updated: 2026-06-29
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -129,8 +129,8 @@ Initial route ownership:
 | Tap `To Receive` | `BILLS-ROOT` | Opens `BILLS-RECEIVE`. |
 | Tap `Add Bill / Rent` | `BILLS-ROOT` or Pay+ action sheet | Opens `BILLS-ADD`. |
 | Tap `Pay` on a payer-side card/detail | `BILLS-PAY`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. DOC-06C owns the entry point and route handoff only. |
-| Tap `Request` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Sends, resends, or opens request-delivery action for a verified payee-created request before payer acceptance. Exact request delivery method and notification behavior must follow DOC-08 and later DOC-22 controls. |
-| Tap `Remind Payer` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens or triggers an approved payer reminder action for the selected request. This is a payee-to-payer request reminder, not the user's own `BILLS-REMINDER-LIST` reminder record unless later explicitly linked. |
+| Tap `Request` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Creates, sends, resends, or opens request-delivery action for a verified bill/rent/tenancy context before counterparty acceptance. The action creates or updates a request record that may appear in `REQUESTS-ROOT` and be managed in `REQUESTS-DETAIL`; it does not open the Requests route by default. Exact request delivery method and notification behavior must follow DOC-08 and later DOC-22 controls. |
+| Tap `Remind Payer` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens or triggers an approved payer reminder action for the selected request. This is a payee-to-payer request reminder, not a payment action and not the user's own `BILLS-REMINDER-LIST` reminder record unless later explicitly linked. |
 | Tap `Details` | Bill/rent card | Opens the relevant detail screen. |
 | Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Opens `BILLS-REMINDER-DETAIL` for the selected linked record. |
 | Tap `Reminders` shortcut | Dashboard shortcut grid | Opens `BILLS-REMINDER-LIST`. |
@@ -715,5 +715,7 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.3 | 2026-06-29 | Aligned Bills/rent request actions with DOC-06B `REQUESTS-DETAIL` ownership. |
+| 0.1.2 | 2026-06-25 | Clarified that Bills/rent `Request` actions create or update request records and do not directly open the Requests route by default. |
 | 0.1.1 | 2026-06-25 | Cleaned publication wording for official DOC-06C baseline use without changing Bills/rent/tenancy decisions. |
 | 0.1.0 | 2026-06-25 | Created as DOC-06C child document for Bills, rent, tenancy, activity, evidence, reminder, payer/payee role, and data-signal UX content. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.2
+version: 0.21.4
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -140,7 +140,7 @@ This matrix prevents the split from creating a false impression that all routes 
 | Pay+ Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | Partially Defined | Working action set is defined but final visual order, disabled states, and eligibility copy remain open. |
 | Bills / Rent / Tenancy | DOC-06C | DOC-06B for route entry; DOC-06A for lifecycle; DOC-09/DOC-12 for payment/evidence detail | Partially Defined | BILLS-PAY, BILLS-RECEIVE, BILLS-ACTIVITY, BILLS-EVIDENCE, and BILLS-REMINDER have working baseline rules. |
 | Payment / Checkout | DOC-09 | DOC-06A/DOC-06C for entry, return, and high-level handoff only | Partially Defined | DOC-09 owns checkout behavior; DOC-06 family should not duplicate checkout screen detail. |
-| Requests | DOC-06B | DOC-06A for request lifecycle; DOC-06C for Bills/rent request implementation | Partially Defined | Standalone Requests route IA remains incomplete; detailed lifecycle and Bills-route implementation must stay in their owning docs. |
+| Requests | DOC-06B | DOC-06A for request lifecycle; DOC-06C for Bills/rent request implementation; DOC-08 for notification routing | Route Shell Defined / Not Final UI | Requests connect parties to bill/rent/tenancy/obligation contexts and are not payments. DOC-06B now defines the standalone route shell; detail layout, resend/reminder limits, and linked Bills/rent routing remain open. |
 | Instructions | DOC-06B for route shell; DOC-09 for payment-instruction behavior | DOC-06A/DOC-06C for entry or return touchpoints | Partially Defined | Dashboard/shortcut route is identified; detailed route UX remains incomplete. |
 | Receipts / Activity | DOC-06B for global route shell | DOC-06A for receipt/history touchpoints; DOC-06C for bill/rent-specific activity; DOC-09/DOC-10/DOC-11 for payment/payout/refund facts | Partially Defined | Bill/rent-specific activity is defined; global receipt/activity hub remains incomplete. |
 | Reminders | DOC-06C for bill/rent reminders | DOC-06B for shortcut/route shell; DOC-08 for notifications; DOC-09 for payment-instruction reminders | Partially Defined | Bill/rent reminder list/detail route is defined; relationship to payment-instruction reminders remains open. |
@@ -327,6 +327,8 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.4 | 2026-06-25 | Updated Requests status to reflect DOC-06B route shell baseline while leaving lifecycle, Bills/rent implementation, and notification behavior in owning documents. |
+| v0.21.3 | 2026-06-25 | Clarified that Requests connect parties to accepted obligation contexts and do not equal payment processing. |
 | v0.21.2 | 2026-06-25 | Added single-owner drafting rule and clarified route matrix primary owners versus reference or handoff documents. |
 | v0.21.1 | 2026-06-25 | Cleaned DOC-06 family publication wording and added compact MVP scope, role, and UX surface summaries so the parent remains understandable after modularization. |
 | v0.21 | 2026-06-25 | Split DOC-06 into parent DOC-06 plus DOC-06A to DOC-06D child documents, added family governance map, route completion matrix, ownership boundaries, and preserved prior decisions through child documents. |

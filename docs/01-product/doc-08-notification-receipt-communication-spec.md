@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.3
+version: 1.0.5
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-24
+last_updated: 2026-06-29
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -219,7 +219,7 @@ Domains:
 | `KYC` | KYC, KYB, verification, and onboarding. |
 | `EVD` | Evidence upload, OCR/autofill, evidence correction, and verification. |
 | `PROM` | Promotion, coupon, voucher, reward, referral, membership, miles, and entitlement. |
-| `REQ` | Payment request lifecycle. |
+| `REQ` | Request and party-linking lifecycle. |
 | `PAY` | Payment authorization, processing, success, and failure. |
 | `PINS` | User payment instruction and deferred funding action. |
 | `REM` | Ordinary bill, fee, rent, tenancy, or obligation reminders. |
@@ -296,11 +296,13 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 
 ### 11.2 Request Events
 
+Request notifications are about request creation, delivery, viewing, acceptance, rejection, clarification, dispute, expiry, and party-linking. A request notification is not a payment notification unless it separately references a linked payment event.
+
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
 | `NOTIF-REQ-001` | Payer-created request created | App | Important service |
 | `NOTIF-REQ-002` | Payee-created request created | App | Important service |
-| `NOTIF-REQ-003` | Payment request received | App, push optional, email optional, WhatsApp optional | Important service |
+| `NOTIF-REQ-003` | Request received | App, push optional, email optional, WhatsApp optional | Important service |
 | `NOTIF-REQ-004` | Request viewed | App or disabled | Optional service |
 | `NOTIF-REQ-005` | Clarification requested | App, push optional, email optional | Important service |
 | `NOTIF-REQ-006` | Clarification response received | App, push optional | Important service |
@@ -314,7 +316,7 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 
 Payer-created payment may proceed without payee acceptance where DOC-06A/DOC-06C and DOC-09 gates allow it. Optional payee linking notifications must not imply the payer is blocked from payment unless a specific category, risk, payout, or compliance gate requires payee action.
 
-Payee-side `Request` and `Remind Payer` actions in DOC-06C `BILLS-RECEIVE` should use the `REQ` notification domain unless a later document defines a more specific request-reminder event. These actions should route recipients to the relevant payer-side request or bill/rent context, normally `BILLS-PAY` or the relevant authenticated detail screen. Resend limits, cooldowns, escalation wording, and channel eligibility remain open for DOC-06C, DOC-08, and DOC-22 alignment.
+Payee-side `Request` and `Remind Payer` actions in DOC-06C `BILLS-RECEIVE` should use the `REQ` notification domain unless a later document defines a more specific request-reminder event. These actions should create or update request records and route recipients to `REQUESTS-DETAIL` by default when a specific request exists. They may route to `REQUESTS-ROOT`, payer-side Bills context, or linked bill/rent detail only where the notification type requires a broader list, payment-readiness handoff, or linked-context destination. Resend limits, cooldowns, escalation wording, and channel eligibility remain open for DOC-06C, DOC-08, and DOC-22 alignment.
 
 ### 11.3 Evidence Verification Events
 
@@ -657,5 +659,7 @@ DOC-08 is acceptable when:
 | 1.0.1 | 2026-06-17 | Added notification routing guidance to use DOC-06C specific sub-route IDs where available instead of broad shorthand route labels. |
 | 1.0.2 | 2026-06-18 | Aligned evidence notification route examples with DOC-06 `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`. |
 | 1.0.3 | 2026-06-24 | Aligned payee-side `Request` and `Remind Payer` routing with DOC-06C `BILLS-RECEIVE` and payer-side `BILLS-PAY` destinations. |
+| 1.0.5 | 2026-06-29 | Aligned request notifications with DOC-06B `REQUESTS-DETAIL` as the default request-specific destination. |
+| 1.0.4 | 2026-06-25 | Clarified that `REQ` notifications cover request and party-linking lifecycle, not payment processing, and may route to Requests or linked Bills/rent contexts. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |
