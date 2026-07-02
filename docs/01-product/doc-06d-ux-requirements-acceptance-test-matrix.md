@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.1
+version: 0.1.2
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-25
+last_updated: 2026-07-02
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -91,7 +91,7 @@ Example pattern:
 | Evidence visibility | Payer must be able to review evidence before payment authorization. |
 | Evidence correction | Users must be able to review and correct autofilled evidence fields before submission where OCR/autofill is enabled. |
 | Sensitive field display control | UI must apply DOC-15 role-based display, masking, approved-purpose access, and controlled detail views; broader extractable data may be stored without broad display. |
-| Status transparency | Users must see clear status for pending, processing, completed, failed, disputed, rejected, cancelled, and expired requests. |
+| Status transparency | Users must see clear request and linked payment status for pending, processing, completed, failed, rejected, cancelled, expired, and exception/support cases. |
 | Permissioning | Users must only see data appropriate to their role. |
 | Auditability | Key actions must generate audit events. |
 | Error handling | Failed, blocked, or incomplete actions must show clear next steps. |
@@ -122,8 +122,8 @@ The DOC-06 user journey scope is satisfied when:
 - evidence is linked to the request or obligation;
 - evidence verification outcomes can route to payment eligibility, user clarification, or admin review;
 - payer can review evidence before payment;
-- payer can accept, reject, dispute, or request clarification;
-- payee can respond to clarification or dispute where applicable;
+- payer can accept or reject a request, with rejection reason where required;
+- users can raise or respond to linked query, dispute, support, or exception cases where enabled;
 - payer can explicitly authorize payment;
 - payer must enter payment passcode before payment authorization proceeds;
 - payment status can be tracked;
@@ -134,7 +134,7 @@ The DOC-06 user journey scope is satisfied when:
 - admin can review users, requests, evidence, disputes, and exceptions;
 - key status changes are audit logged;
 - receipts or confirmations are available for completed payments;
-- failed, rejected, disputed, cancelled, and expired requests are handled clearly;
+- failed, rejected, cancelled, expired, and exception/support cases are handled clearly;
 - wallet, stored balance, cashout, self-cashout, and unsupported P2P journeys are blocked.
 
 ## 8. Local Open Questions
@@ -150,5 +150,6 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.2 | 2026-07-02 | Aligned UX acceptance criteria with DOC-06B request-route model by separating accept/reject request actions from support, query, dispute, and exception cases. |
 | 0.1.1 | 2026-06-25 | Removed temporary source-section heading wording and corrected the UX mapping code fence for official DOC-06D baseline use. |
 | 0.1.0 | 2026-06-25 | Created as DOC-06D child document for non-functional UX requirements, acceptance criteria, and initial test-readiness mapping. |

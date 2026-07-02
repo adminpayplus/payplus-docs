@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.4
+version: 0.21.5
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -72,7 +72,7 @@ The DOC-06 family keeps the following MVP user-journey scope as the official bas
 
 - payer and payee registration, login, verification, dashboard, and role-appropriate account journeys;
 - payer-created and payee-created bill, invoice, fee, tenancy, rent, domestic service, personal service, and approved-obligation setup;
-- payee-created request creation, delivery, payer review, payer acceptance or rejection, clarification, dispute, and payment authorization;
+- payee-created request creation, evidence-gated delivery, payer review, payer acceptance or rejection, exception/support handoff where needed, and payment authorization;
 - payer-created obligation setup, evidence-backed payment, optional payee invitation/linking, and status visibility;
 - evidence capture, OCR/autofill review, user correction, evidence verification outcome visibility, duplicate/reused evidence handling, and admin review touchpoints;
 - Bills, rent, tenancy, reminder, activity, request/receive, dashboard, Pay+, shortcut, notification, receipt, failure, exception, and support handoff journeys;
@@ -82,7 +82,7 @@ The DOC-06 family keeps the following MVP user-journey scope as the official bas
 
 | Role | Description | MVP Login? | Key Journey Responsibility |
 | --- | --- | ---: | --- |
-| Payer | User who reviews, accepts, rejects, disputes, requests clarification, and authorizes payment. | Yes | Create obligations, review requests, authorize payment, track status. |
+| Payer | User who reviews, accepts, rejects, raises approved support/exception cases where needed, and authorizes payment. | Yes | Create obligations, review requests, authorize payment, track status. |
 | Payee | User who receives payments or creates payment requests. | Yes | Create requests, upload evidence, send requests, optionally adopt/link payer-created records, track status. |
 | Admin / Operations | Internal user who reviews accounts, evidence, requests, risk, disputes, and exceptions. | Yes | Review, approve, reject, hold, investigate, configure, and audit. |
 | System | Automated services handling status changes, notifications, linking, validation, audit events, and integrations. | No | Route, link, notify, validate, and record events. |
@@ -327,6 +327,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.5 | 2026-07-02 | Aligned parent DOC-06 scope and role wording with DOC-06B `REQUESTS-NEW` and the simplified request accept/reject route model. |
 | v0.21.4 | 2026-06-25 | Updated Requests status to reflect DOC-06B route shell baseline while leaving lifecycle, Bills/rent implementation, and notification behavior in owning documents. |
 | v0.21.3 | 2026-06-25 | Clarified that Requests connect parties to accepted obligation contexts and do not equal payment processing. |
 | v0.21.2 | 2026-06-25 | Added single-owner drafting rule and clarified route matrix primary owners versus reference or handoff documents. |

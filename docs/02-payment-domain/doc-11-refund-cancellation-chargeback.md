@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 0.6.0
+version: 0.6.1
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Payments Lead
   - Operations Lead
   - Finance Lead
-last_updated: 2026-06-02
+last_updated: 2026-07-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -193,14 +193,14 @@ Status names may be refined in DOC-18 and DOC-22, but status meaning must remain
 Before payer authorization:
 
 - payer may reject a payee-created request;
-- payer may query, dispute, or request clarification;
+- payer may raise a query, dispute, or support case through the approved exception path where enabled;
 - payee may withdraw a request;
 - admin may cancel, suspend, or hold a request;
 - no card payment should be processed;
 - no payout should be generated;
 - no refund should be required because funds have not moved.
 
-Pre-authorization rejection, query, dispute, expiry, and withdrawal are product and support events, not payment refund events.
+Pre-authorization rejection, query, dispute, support case, expiry, and withdrawal are product and support events, not payment refund events.
 
 The request lifecycle belongs in DOC-05 and DOC-06. User-facing messages belong in DOC-07 and DOC-08.
 
@@ -559,5 +559,6 @@ It should not become:
 | `0.4.0` | `2026-06-01` | Product Documentation Team | Aligned refund and chargeback treatment with DOC-13 by adding reward entitlement, coupon/voucher restoration, miles, membership benefit, external voucher, and promotion clawback references. |
 | `0.5.0` | `2026-06-02` | Product Documentation Team | Aligned case records, evidence packages, funding-source allocation, recovery, and support data with DOC-15 classification metadata and DOC-18 lineage requirements. |
 | `0.6.0` | `2026-06-02` | Product Documentation Team | Aligned exception handling with DOC-09 user payment instruction by adding pending instruction cancellation, expiry, partially funded split-card, funding-leg refund linkage, and partial payout hold boundaries. |
+| `0.6.1` | `2026-07-02` | Product Documentation Team | Aligned pre-authorization query and dispute wording with DOC-06B request-route boundaries by treating them as approved exception/support paths rather than normal request actions. |
 | `0.2.0` | `2026-05-30` | Product Documentation Team | Simplified draft by consolidating detailed ledger, admin, support, communication, and analytics requirements into compact owner sections with references to DOC-08, DOC-18, DOC-21, and DOC-22. |
 | `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for refund, cancellation, reversal, dispute, chargeback, payout hold, recovery, fee reversal, audit, support, and reporting rules. |

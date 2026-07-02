@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.2
+version: 0.1.4
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-25
+last_updated: 2026-07-02
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -93,7 +93,7 @@ The MVP must support the following essential journeys:
 | 9 | Optional payee adoption or linking of payer-created record | Yes |
 | 10 | Payer review of payee-created request | Yes |
 | 11 | Evidence upload, OCR/autofill review, correction, and verification | Yes |
-| 12 | Accept, reject, dispute, and clarification flows | Yes |
+| 12 | Accept, reject, and exception/support flows | Yes |
 | 13 | Payer payment authorization | Yes |
 | 14 | User payment instruction and deferred payment action | Yes |
 | 15 | Payment and payout status visibility | Yes |
@@ -134,8 +134,7 @@ A payer must be able to:
 - review evidence before payment;
 - accept a request;
 - reject a request;
-- dispute a request;
-- request clarification;
+- escalate a query, dispute, or support issue through the approved exception flow where applicable;
 - authorize payment;
 - enter payment passcode before proceeding with payment authorization;
 - view payment processing status;
@@ -182,9 +181,7 @@ A payee must be able to:
 - review payer-created records;
 - accept or adopt payer-created records where applicable;
 - reject payer-created records where applicable;
-- dispute payer-created records where applicable;
-- request clarification where applicable;
-- respond to payer clarification requests;
+- escalate a query, dispute, or support issue through the approved exception flow where applicable;
 - respond to disputes where applicable;
 - view request status;
 - view payment status;
@@ -200,7 +197,7 @@ The payee journey may begin when:
 - the payee logs in to create a request;
 - the payee receives an invitation from a payer-created record;
 - the payee receives notification of payment status;
-- the payee returns to respond to a dispute or clarification request;
+- the payee returns to respond to a support, query, dispute, or exception case;
 - the payee returns to view history.
 
 ---
@@ -248,7 +245,7 @@ This is a core MVP journey.
 11. System links evidence and final evidence snapshot to the request.
 12. System assigns request status.
 13. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
-14. System sends the request notification or invitation to the payer through the selected approved channel.
+14. System sends the request notification or invitation to the payer through the selected approved channel only after required evidence is verified or approved by exception.
 15. Payer logs in or registers.
 16. Payer reviews:
     - payee identity/details;
@@ -262,9 +259,7 @@ This is a core MVP journey.
     - PayPlus disclosures where applicable.
 17. Payer selects one of:
     - accept;
-    - reject;
-    - dispute;
-    - request clarification.
+    - reject with reason where required.
 18. If payer accepts, payer proceeds to payment authorization.
 19. Payer explicitly authorizes payment.
 20. System processes payment through approved payment partner or sandbox integration.
@@ -293,9 +288,9 @@ Paid
 Alternative states may include:
 
 ```text
-Clarification Requested
 Rejected
-Disputed
+Additional Information Required
+Linked Support / Dispute Case
 Failed
 Cancelled
 Expired
@@ -358,9 +353,7 @@ This is a core MVP journey.
 15. Payee reviews the payer-created record.
 16. Payee selects one of:
     - accept/adopt;
-    - reject;
-    - dispute;
-    - request clarification.
+    - reject with reason where required.
 17. Admin/system reviews request and evidence according to applicable risk controls.
 18. Payer reviews final payment summary.
 19. Payer explicitly authorizes payment.
@@ -388,9 +381,9 @@ Paid
 Alternative states may include:
 
 ```text
-Clarification Requested
 Rejected
-Disputed
+Additional Information Required
+Linked Support / Dispute Case
 Failed
 Cancelled
 Expired
@@ -447,7 +440,7 @@ An obligation record may represent:
 10. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
 11. Payer is notified or invited through the selected approved channel.
 12. Payer reviews the obligation, evidence summary, and request.
-13. Payer accepts, rejects, disputes, or requests clarification.
+13. Payer accepts or rejects the request, with rejection reason where required.
 14. If accepted, payer may authorize payment.
 15. System links payer, payee, request, evidence, and payment records.
 
@@ -464,7 +457,7 @@ An obligation record may represent:
 9. Payer may proceed to payment once required evidence, verification, risk, payout, and authorization gates pass.
 10. Payee may be invited or linked where useful, but payee acceptance is not required before payer-created payment unless a category, risk rule, payout rule, or compliance gate explicitly requires it.
 11. If the payee is a PayPlus user and linking is initiated, payee logs in or registers and reviews the obligation context.
-12. Payee may accept/adopt, reject, dispute, or request clarification for linkage purposes.
+12. Payee may accept/adopt or reject with reason for linkage purposes.
 13. If adopted, payee becomes linked to the shared obligation context.
 14. System links payer, payee, obligation, evidence, and payment records according to permissions.
 
@@ -476,9 +469,9 @@ An obligation record may represent:
 | Optional payee adoption | Payee may accept/adopt payer-created obligation records for two-sided visibility, communication, and linked recordkeeping where applicable. |
 | Payer acceptance | Payer may accept payee-created requests before authorizing payment. |
 | No forced adoption | A recipient should not be forced to accept an inaccurate record. |
-| Dispute support | Recipient may dispute or request clarification. |
+| Rejection support | Recipient may reject an inaccurate record with a reason where required. |
 | Linked context | Once accepted/adopted, both sides should see the linked context subject to permissions. |
-| Audit trail | Adoption, rejection, clarification, and dispute actions must be logged. |
+| Audit trail | Adoption and rejection actions must be logged. |
 
 ---
 
@@ -494,8 +487,8 @@ Allows the recipient of a request or obligation record to review the details and
 
 | Creator | Recipient | Recipient Review Actions |
 | --- | --- | --- |
-| Payee creates payment request | Payer | Accept, reject, dispute, request clarification, authorize payment after acceptance. |
-| Payer creates payment/obligation record | Payee | Optional accept/adopt, reject, dispute, or request clarification for linkage only; payer payment does not require payee acceptance unless a specific gate requires it. |
+| Payee creates payment request | Payer | Accept, reject with reason where required, authorize payment after acceptance. |
+| Payer creates payment/obligation record | Payee | Optional accept/adopt or reject for linkage only; payer payment does not require payee acceptance unless a specific gate requires it. |
 
 #### Required Review Information
 
@@ -523,8 +516,6 @@ The recipient should be able to view:
 | Accept | Recipient accepts the request or record as valid. |
 | Adopt | Payee accepts a payer-created bill, tenancy, invoice, or payment context as linked to them. |
 | Reject | Recipient rejects the request or record. |
-| Dispute | Recipient disputes the request, evidence, amount, payee, payer, or obligation context. |
-| Request clarification | Recipient asks the creator for more information or correction. |
 | Authorize payment | Payer-only action that permits payment processing. |
 
 #### Payment Authorization Boundary
@@ -607,19 +598,21 @@ MVP evidence may include:
 
 ---
 
-### Clarification and Dispute Journey
+### Query, Dispute, and Exception Support Journey
 
 #### Purpose
 
-Allows payer, payee, or admin to resolve incomplete, disputed, incorrect, or unclear request information.
+Allows payer, payee, support, or admin to resolve incomplete, disputed, incorrect, or unclear request information through an exception/support path.
 
-#### Clarification Flow
+This journey is not the normal `REQUESTS-DETAIL` acceptance path. `REQUESTS-DETAIL` should keep material request actions focused on accept, reject, send, resend, remind, cancel, archive, and linked-detail handoff according to DOC-06B. Queries, disputes, and requests for more information may be available through support, admin review, or exception handling where enabled, and must remain linked to the original request.
+
+#### Query / Additional Information Flow
 
 1. Recipient reviews request or obligation record.
-2. Recipient selects **Request Clarification**.
-3. Recipient enters clarification reason or question.
-4. Recipient may identify the disputed or unclear field.
-5. System updates status to **Clarification Requested**.
+2. Recipient opens the approved support, query, or exception path where available.
+3. Recipient enters the reason, question, or field requiring additional information.
+4. Recipient may identify the disputed, missing, or unclear field.
+5. System creates or updates a linked support/exception case.
 6. System notifies the other party.
 7. Other party responds with:
    - text explanation;
@@ -627,8 +620,8 @@ Allows payer, payee, or admin to resolve incomplete, disputed, incorrect, or unc
    - additional evidence;
    - cancellation;
    - dispute escalation.
-8. System logs all clarification activity.
-9. Request returns to review, acceptance, rejection, dispute, or cancellation state.
+8. System logs all support/exception activity.
+9. Request returns to review, acceptance, rejection, cancellation, or admin-controlled status where allowed.
 
 #### Dispute Flow
 
@@ -641,7 +634,7 @@ Allows payer, payee, or admin to resolve incomplete, disputed, incorrect, or unc
 7. Admin may review the dispute where required.
 8. Other party may respond.
 9. Admin or system may move the request to:
-   - clarification requested;
+   - additional information required;
    - accepted;
    - rejected;
    - cancelled;
@@ -650,14 +643,14 @@ Allows payer, payee, or admin to resolve incomplete, disputed, incorrect, or unc
    - approved for payment where allowed.
 10. System logs all dispute actions.
 
-#### Required Dispute and Clarification Controls
+#### Required Query, Dispute, and Exception Controls
 
 | Control | Requirement |
 | --- | --- |
-| Linked thread | Clarification and dispute activity must remain linked to the original request. |
-| Audit trail | All clarification and dispute actions must be logged. |
-| Notification | Relevant parties must be notified of dispute or clarification events. |
-| Admin visibility | Admin must be able to review dispute and clarification history. |
+| Linked thread | Query, dispute, support, and exception activity must remain linked to the original request. |
+| Audit trail | All query, dispute, support, and exception actions must be logged. |
+| Notification | Relevant parties must be notified of material dispute, query, or exception events where enabled. |
+| Admin visibility | Admin must be able to review query, dispute, support, and exception history. |
 | Payment block | Disputed requests should not proceed to payment unless resolved under approved rules. |
 
 ---
@@ -809,7 +802,7 @@ Automatic user-to-user matching must not be assumed for the user experience. Dup
 | User-accepted linking | User-to-user linking must be initiated, invited, accepted, or otherwise approved; automatic UX linking is not allowed. |
 | Duplicate detection | System should help detect duplicate bills, requests, or payments. |
 | Status consistency | Payer and payee views must reflect the same underlying status. |
-| Dispute linkage | Disputes and clarifications must remain linked to the original request. |
+| Exception linkage | Queries, disputes, support cases, and exception records must remain linked to the original request. |
 
 ---
 
@@ -886,10 +879,8 @@ Request states must be distinct from payment states. A request may lead to payme
 | Pending Evidence Review | Evidence requires admin or risk review before payment eligibility. |
 | Sent | Request sent to payer or payee. |
 | Viewed | Recipient viewed the request. |
-| Clarification Requested | Recipient or admin requested more information. |
 | Accepted | Payer accepted the request or recipient accepted the record. |
 | Rejected | Recipient rejected the request or record. |
-| Disputed | Payer or payee disputed the request or record. |
 | Approved for Payment | Required request, evidence, verification, risk, and acceptance checks passed so the linked payment flow may become available where applicable. |
 | Cancelled | Request cancelled. |
 | Expired | Request expired. |
@@ -936,7 +927,7 @@ Admins must be able to:
 - approve requests where applicable;
 - reject requests where applicable;
 - hold requests where applicable;
-- request clarification;
+- raise a support, query, or dispute case where enabled;
 - investigate duplicates;
 - review disputes;
 - review payment status;
@@ -966,7 +957,7 @@ Admins must be able to:
    - approve;
    - reject;
    - hold;
-   - request clarification;
+   - raise a support, query, or dispute case where enabled;
    - escalate;
    - mark duplicate;
    - cancel;
@@ -1006,11 +997,8 @@ The MVP should support basic notifications for:
 - payment request created;
 - payment request received;
 - request viewed;
-- clarification requested;
-- clarification response received;
 - request accepted;
 - request rejected;
-- request disputed;
 - payer-created record available for optional payee adoption/linking;
 - payee adopted payer-created record;
 - payment authorized;
@@ -1217,6 +1205,8 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.4 | 2026-07-02 | Reclassified query, dispute, and information-request handling as exception/support flows instead of normal `REQUESTS-DETAIL` actions. |
+| 0.1.3 | 2026-07-02 | Aligned request lifecycle with DOC-06B `REQUESTS-NEW`, evidence-before-send delivery gate, and simplified accept/reject request actions. |
 | 0.1.2 | 2026-06-25 | Clarified that requests are party-linking and acceptance records, not payments; separated request states from linked payment states. |
 | 0.1.1 | 2026-06-25 | Removed temporary source-section heading wording and finalized official DOC-06A heading style. |
 | 0.1.0 | 2026-06-25 | Created as DOC-06A child document for core user journeys and service-blueprint content without changing product decisions. |

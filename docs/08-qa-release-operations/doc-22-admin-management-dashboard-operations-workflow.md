@@ -112,6 +112,21 @@ Required capabilities should include:
 
 Detailed reminder data structures belong in DOC-18. User-facing reminder route behavior belongs in DOC-06.
 
+### 18.3 Request Creation and Delivery Configuration
+
+Admin dashboard must support future configuration hooks for DOC-06B `REQUESTS-NEW`, `REQUESTS-DETAIL`, and request-delivery controls where enabled.
+
+Required capabilities should include:
+
+- configure request feature/module availability by user type, category, risk state, launch phase, or compliance restriction;
+- configure request expiry, resend eligibility, reminder cooldown, maximum reminders per period, and cancellation rules;
+- configure whether specific categories require admin review or approved exception before evidence-gated request delivery;
+- configure approved request delivery and sharing channels, including in-app, app link, WhatsApp deeplink, QR code, or other approved channels;
+- distinguish request reminders from new request creation;
+- audit request creation, evidence-gated send, resend, reminder, cancellation, share-link generation, and channel-configuration changes.
+
+Detailed request route behavior belongs in DOC-06B. Request notification routing belongs in DOC-08. Request, sharing, and audit event taxonomy belongs in DOC-18.
+
 ## 19. Audit Logging Requirements
 
 ## 20. Notifications and Escalations
@@ -154,3 +169,4 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 | --- | --- | --- |
 | 0.1.0 | 2026-06-17 | Added DOC-06 reminder default configuration hooks for bill/rent reminder timing, category gating, channel linkage, and audit logging. |
 | 0.2.0 | 2026-06-18 | Added future DOC-22 update markers for admin handling of DOC-06 Bills evidence detail/upload routes, evidence statuses, readiness impact, archive-not-delete behavior, prior evidence access, notifications, and audit logging. |
+| 0.3.0 | 2026-07-02 | Added future DOC-22 configuration markers for DOC-06B request creation, evidence-gated request delivery, resend/reminder limits, sharing channels, and audit logging. |

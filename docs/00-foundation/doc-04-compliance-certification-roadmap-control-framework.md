@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.12.0
+version: 0.12.1
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -22,7 +22,7 @@ approvers:
   - Risk Lead
   - Payments Lead
   - Finance Lead
-last_updated: 2026-06-02
+last_updated: 2026-07-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -169,7 +169,7 @@ Payee-created requests, bill payments, fee payments, rent/tenancy payments, dome
 | `CTRL-DOC04-USER-004` | `T1` | Apply user eligibility rules, blocked-user rules, and restricted-user handling. | Product / Compliance / Risk | Eligibility config, blocked-user logs |
 | `CTRL-DOC04-USER-005` | `T1` | Prevent users from paying themselves or related accounts unless explicitly approved. | Risk / Engineering | Rule config, alert logs |
 | `CTRL-DOC04-USER-006` | `T1` | Provide payer access to request status, payment status, refund status, and support options. | Product / Operations | UI evidence, support logs |
-| `CTRL-DOC04-USER-007` | `T1` | Allow payer to review, accept, reject, query, dispute, or ignore a payee-created request before payment. | Product / Operations | Request lifecycle logs |
+| `CTRL-DOC04-USER-007` | `T1` | Allow payer to review, accept, reject, or ignore a payee-created request before payment, with query or dispute handled through approved support/exception paths where enabled. | Product / Operations | Request lifecycle and support/exception logs |
 | `CTRL-DOC04-USER-008` | `T0` | Prevent funding, capture, and payout unless payer has explicitly authorized the payee-created request. | Product / Payments / Engineering | Authorization logs, payment state logs |
 
 ---
@@ -201,7 +201,7 @@ Payee-created requests, bill payments, fee payments, rent/tenancy payments, dome
 | `CTRL-DOC04-AUTH-004` | `T1` | Authorization, capture, reversal, cancellation, refund, and chargeback events must be linked to the original request. | Payments / Engineering / Finance | Transaction ledger |
 | `CTRL-DOC04-AUTH-005` | `T1` | Failed or expired authorizations must not result in payout. | Payments / Engineering | Payment state logs |
 | `CTRL-DOC04-AUTH-006` | `T1` | Payer must receive confirmation or receipt after successful authorization or payment. | Product / Operations | Receipt logs |
-| `CTRL-DOC04-AUTH-007` | `T1` | Payee-created requests must remain in pending, viewed, queried, disputed, rejected, expired, cancelled, withdrawn, or accepted state until payer authorization occurs. | Product / Engineering | Request state history |
+| `CTRL-DOC04-AUTH-007` | `T1` | Payee-created requests must remain in a non-payment state such as pending evidence verification, sent/reviewing, viewed, accepted, rejected, expired, cancelled, withdrawn, or support/exception-linked until payer authorization occurs. | Product / Engineering | Request state and support/exception history |
 | `CTRL-DOC04-AUTH-008` | `T0` | Payee-created request acceptance and payment authorization must be distinct, recorded events unless legally and product-approved as a single combined action. | Product / Legal / Engineering | Event logs |
 | `CTRL-DOC04-AUTH-009` | `T1` | Payee cannot change amount, destination, due date, evidence, or material terms after payer authorization unless payer re-authorizes. | Product / Engineering | Change lock logs |
 | `CTRL-DOC04-AUTH-010` | `T1 if payment instruction enabled` | A deferred user payment instruction must not be treated as card authorization, capture, settlement, payout readiness, or completed payment until the relevant funding leg is submitted and confirmed. | Product / Payments / Engineering | Payment instruction and funding-leg logs |
@@ -319,7 +319,7 @@ PayPlus must prevent or restrict activity that could undermine the product's evi
 | `CTRL-DOC04-RDC-004` | `T1` | Track payer disputes, payee disputes, payer queries, complaints, and support escalations. | Operations | Case logs |
 | `CTRL-DOC04-RDC-005` | `T1` | Track chargebacks, reason codes, deadlines, evidence, representment status, liability, and outcome. | Operations / Payments | Chargeback case |
 | `CTRL-DOC04-RDC-006` | `T1` | Maintain chargeback evidence package including request evidence, payer authorization, disclosures, communication, payment logs, and payout proof. | Operations / Payments / Compliance | Chargeback evidence package |
-| `CTRL-DOC04-RDC-007` | `T1 if payee-created enabled` | Track payer rejection, query, dispute, expiry, cancellation, and payee withdrawal before authorization. | Product / Operations | Request lifecycle logs |
+| `CTRL-DOC04-RDC-007` | `T1 if payee-created enabled` | Track payer rejection, expiry, cancellation, payee withdrawal, and any linked query/dispute/support case before authorization. | Product / Operations | Request lifecycle and support/exception logs |
 | `CTRL-DOC04-RDC-008` | `T1 if payee-created enabled` | Payee withdrawal must not reverse an already authorized payment unless cancellation, refund, or reversal rules allow it. | Product / Payments / Operations | Withdrawal and refund logs |
 
 ---
@@ -439,7 +439,7 @@ If payee-created requests are enabled, additional tests must include:
 - blocked payee cannot create request;
 - required evidence for payee-created request;
 - payer can review request before payment;
-- payer can reject, query, dispute, or ignore request without funds movement;
+- payer can reject or ignore request without funds movement, and can raise a query/dispute/support case through the approved exception path where enabled;
 - payee-created request cannot fund, capture, or pay out before payer authorization;
 - payee cannot change material terms after payer authorization without renewed authorization;
 - payee withdrawal before authorization where supported;
@@ -507,7 +507,7 @@ After launch, PayPlus must monitor the following.
 | Payment instructions | Pending instructions, expired instructions, incomplete split-card funding, reminder effectiveness, quote revalidation changes, and partial funding/payout exceptions. |
 | Payouts | Payout success rate, payout failures, delayed payouts, returned payouts. |
 | Payee onboarding | Applications, approvals, rejections, pending reviews, verification failures, payout destination failures. |
-| Payee-created requests | Sent, viewed, accepted, rejected, queried, disputed, expired, withdrawn, and paid requests. |
+| Payee-created requests | Sent, viewed, accepted, rejected, expired, withdrawn, paid, and linked query/dispute/support case records. |
 | Rent requests | Landlord approvals, tenancy evidence failures, duplicate rent signals, relationship alerts, rent amount exceptions. |
 | Reconciliation | Unmatched transactions, settlement breaks, payout breaks, fee breaks, request creator type mismatches. |
 | Fraud | Rule triggers, manual review queue, blocked transactions, suspicious payees, suspicious requests. |
@@ -723,5 +723,6 @@ It should not become:
 | `0.10.0` | `2026-06-02` | Product Documentation Team | Clarified that bill, fee, and rent/tenancy payments are MVP scope and that category-specific controls remain independently gated, aligned with DOC-14. |
 | `0.11.0` | `2026-06-02` | Product Documentation Team | Added DOC-15 data classification register control covering approved-purpose use, masking, retention, and access-control mapping for material data objects and fields. |
 | `0.12.0` | `2026-06-02` | Product Documentation Team | Aligned control framework with confirmed evidence-backed domestic helper, driver, and personal service MVP categories, DOC-09 user payment instruction controls, DOC-22 admin operations references, and updated category-gating open question wording. |
+| `0.12.1` | `2026-07-02` | Product Documentation Team | Aligned payee-created request controls with DOC-06B `REQUESTS-NEW` and `REQUESTS-DETAIL` by treating query/dispute handling as linked support or exception paths rather than normal request-route statuses. |
 ```
 ```

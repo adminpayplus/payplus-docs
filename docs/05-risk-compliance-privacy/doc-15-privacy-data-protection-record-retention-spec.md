@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.0
+version: 0.8.1
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-06-17
+last_updated: 2026-07-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -252,6 +252,8 @@ Rules:
 - payer-created payment may use a valid non-user payee record or payout destination where allowed by DOC-06, DOC-09, DOC-10, DOC-12, and DOC-14;
 - shared payer/payee visibility should require user-initiated search/input, invitation, acceptance, or approved operational action;
 - phone number, user ID, QR code, app link, WhatsApp deeplink, or other invitation methods must avoid exposing unnecessary profile, KYC, evidence, payment, or relationship data before acceptance;
+- counterparty lookup in DOC-06B `REQUESTS-NEW` may use PayPlus user ID or phone-number identifier, but the lookup result must avoid exposing unnecessary account, profile, evidence, payment, KYC/KYB, or relationship information before acceptance;
+- WhatsApp deeplink, app-link, QR, or other request-sharing methods should route the receiver to authenticated/onboarded `REQUESTS-DETAIL` and must keep sensitive request and evidence details inside the authenticated app where practical;
 - declined, expired, or ignored invitations must not reveal private information beyond the minimum status needed for the sender;
 - participant search, invitation, acceptance, decline, and linking events should be logged and classified in DOC-18.
 
@@ -512,3 +514,4 @@ It should not become:
 | `0.6.0` | `2026-06-08` | Product Documentation Team | Added data-use tiers, model-use governance, partner-sharing boundaries, sensitive-data red lines, clean-room/external activation gates, and related open questions for AI/data-engine readiness. |
 | `0.7.0` | `2026-06-12` | Product Documentation Team | Aligned privacy boundaries with DOC-06 Bills tab baseline by adding participant linking and invitation data, no automatic user-to-user matching, and minimum-disclosure invitation rules. |
 | `0.8.0` | `2026-06-17` | Product Documentation Team | Aligned data classification with DOC-06 Bills reminder routes by adding linked reminder records, reminder timing, custom override, soft-delete state, and reminder interaction behavior. |
+| `0.8.1` | `2026-07-02` | Product Documentation Team | Aligned participant-linking privacy with DOC-06B `REQUESTS-NEW`, counterparty lookup, and request-sharing deeplink boundaries. |

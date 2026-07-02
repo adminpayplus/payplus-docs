@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.6
+version: 0.18.8
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -133,6 +133,7 @@ Current launch assumptions:
 - business KYB is expected to require a Business Registration document and owner ID;
 - candidate notification channels are app notifications, push notifications, email, SMS, and WhatsApp;
 - request delivery may use in-app message, app link, WhatsApp deeplink, QR code, or other approved channel;
+- Pay+ `Request Payment` and the Requests `+ Create Request` action route to DOC-06B `REQUESTS-NEW`, which must link to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation before sending;
 - receipt, payment, account, tax, and audit record retention is expected to be 7 years, subject to final privacy and legal review;
 - exact fee rates, fee allocation, promotion, coupon, voucher, reward, entitlement, refund, reversal, and multi-card card-count limit remain to be confirmed and should be admin-configurable where applicable.
 
@@ -237,7 +238,7 @@ The payee-created flow allows a payee to request payment from a payer.
 10. Payer is notified or invited to view the request.
 11. Payer logs in or registers.
 12. Payer reviews the request, evidence summary, amount, payee details, and required disclosures.
-13. Payer accepts, rejects, disputes, or requests clarification.
+13. Payer accepts or rejects the request, with rejection reason where required.
 14. If accepted, payer authorizes payment.
 15. Payment is processed through approved payment partners.
 16. Payee receives payment according to approved settlement/payout rules.
@@ -279,6 +280,7 @@ MVP evidence may include:
 | OCR/autofill support | Where enabled, system should extract evidence fields and autofill request fields for user review. |
 | User correction | Users must be able to review and correct autofilled fields before submission. |
 | Verification outcome | Evidence must have a verification outcome or approved exception before payment eligibility. |
+| Request delivery gate | Requests created through DOC-06B `REQUESTS-NEW` must not be sent or shown to the receiver before required evidence is verified or approved by exception. |
 | Duplicate/reuse detection | System should detect duplicate or reused evidence and route configured red flags to review. |
 | Payer review | Payer must be able to review evidence before authorizing payment. |
 | Payee review | Payee must be able to view evidence attached to their own created requests or linked received payments. |
@@ -322,7 +324,7 @@ Each completed or active payment should be linkable to:
 | Duplicate detection | System should help detect duplicate requests or duplicate payments. |
 | Evidence verification linkage | OCR extraction, user corrections, verification outcomes, duplicate indicators, and review decisions must remain linked to the request. |
 | Status consistency | Request status shown to payer and payee must be consistent. |
-| Dispute tracking | Disputes or clarifications must remain linked to the original request. |
+| Exception/support tracking | Queries, disputes, requests for more information, or support cases must remain linked to the original request without becoming normal request-route actions. |
 
 ---
 
@@ -335,13 +337,11 @@ The MVP should support the following request statuses. A request is not a paymen
 | Status | Meaning |
 |---|---|
 | Draft | Request created but not submitted. |
-| Submitted | Request submitted for review or routing. |
-| Sent | Request sent to payer or payee. |
+| Pending Evidence Verification | Request submitted but not yet sent to receiver because evidence verification or approved exception is pending. |
+| Reviewing / Awaiting | Request sent and pending receiver action; sender sees `Reviewing`, receiver sees `Awaiting`. |
 | Viewed | Recipient viewed the request. |
-| Clarification Requested | Recipient or admin requested more information. |
 | Accepted | Payer accepted the request. |
 | Rejected | Payer rejected the request. |
-| Disputed | Payer or payee disputed the request. |
 | Approved for Payment | Required request, evidence, verification, risk, and acceptance checks passed so the linked payment flow may become available where applicable. |
 | Cancelled | Request cancelled. |
 | Expired | Request expired. |
@@ -388,7 +388,7 @@ Admins must be able to:
 - view evidence;
 - review new payees;
 - review high-risk requests;
-- approve, reject, hold, or request clarification;
+- approve, reject, hold, or request additional information;
 - investigate duplicates;
 - review disputes;
 - view payment and payout status;
@@ -425,12 +425,15 @@ The MVP should support basic notifications for:
 
 - account registration;
 - payment request created;
+- request submitted for evidence verification;
+- request evidence verified and sent;
 - payment request received;
 - request viewed;
-- clarification requested;
 - request accepted;
 - request rejected;
-- request disputed;
+- request expired;
+- request cancelled;
+- request reminder sent;
 - payment authorized;
 - payment processing;
 - payment completed;
@@ -484,9 +487,9 @@ DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B 
 
 For split UX topics, use one primary owner. DOC-06B owns standalone route shells such as Requests, Instructions, Offers, Me, Cards, Referral, More, and global Receipts/Activity route shells. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
 
-For Requests, use the DOC-06 family boundary: a request is not a payment. It is a record asking another party to review, accept, link to, clarify, reject, or dispute a bill, rent, tenancy, fee, invoice, or approved obligation context. Accepted requests link the parties to the accepted context and may support later payment readiness, but payment authorization and processing remain separate payment-domain behavior.
+For Requests, use the DOC-06 family boundary: a request is not a payment. It is a record asking another party to review, accept, link to, or reject a bill, rent, tenancy, fee, invoice, or approved obligation context. Accepted requests link the parties to the accepted context and may support later payment readiness, but payment authorization and processing remain separate payment-domain behavior.
 
-The standalone Requests route shell is defined in DOC-06B. It provides route entry, views, card-level summary fields, `REQUESTS-DETAIL`, high-level actions, empty states, and handoff rules. `REQUESTS-DETAIL` is the request-management screen; it may link into DOC-06C bill/rent/tenancy detail where a linked context exists, but it must not be replaced by the bill/rent detail screen. Detailed request lifecycle remains DOC-06A, Bills/rent implementation remains DOC-06C, notification routing remains DOC-08, and final data/event specification remains DOC-18.
+The standalone Requests route shell is defined in DOC-06B. It provides route entry, views, card-level summary fields, `REQUESTS-DETAIL`, `REQUESTS-NEW`, high-level actions, empty states, and handoff rules. `REQUESTS-DETAIL` is the request-management screen; it may link into DOC-06C bill/rent/tenancy detail where a linked context exists, but it must not be replaced by the bill/rent detail screen. `REQUESTS-NEW` is the controlled creation flow and must not create an open money request. Detailed request lifecycle remains DOC-06A, Bills/rent implementation remains DOC-06C, notification routing remains DOC-08, and final data/event specification remains DOC-18.
 
 Bills-route requirements must remain role-aware:
 
@@ -512,7 +515,7 @@ Bills-route requirements must remain role-aware:
 - view payee-created requests that require payer action through DOC-06C `BILLS-PAY`;
 - review evidence;
 - review and correct autofilled evidence fields where applicable;
-- accept/reject/dispute request;
+- accept or reject request;
 - authorize payment;
 - enter payment passcode before proceeding with payment authorization;
 - choose pay now or create a deferred payment instruction where enabled;
@@ -611,7 +614,7 @@ PayPlus must not:
 - allow unsupported arbitrary P2P transfers;
 - process payments without payer authorization;
 - process payments without evidence or approved exception;
-- allow payee-created requests to trigger payment without payer acceptance;
+- allow payee-created requests to trigger payment without required payer acceptance and explicit payer authorization;
 - hide material payment information from payer before authorization;
 - create untraceable payment records;
 - bypass admin/risk controls where required;
@@ -632,7 +635,7 @@ The MVP is acceptable when:
 - users can review and correct autofilled evidence fields before submission;
 - duplicate/reused evidence and material mismatch cases can route to review;
 - payer can review evidence before payment;
-- payer can accept, reject, dispute, or request clarification;
+- payer can accept or reject a request, with rejection reason where required;
 - payer can authorize payment;
 - payment status can be tracked;
 - payer and payee can view the same linked request/payment context;
@@ -640,7 +643,7 @@ The MVP is acceptable when:
 - no wallet balance or cashout behavior exists;
 - all key actions are audit logged;
 - prohibited flows are blocked;
-- failed, rejected, disputed, and cancelled requests are handled clearly.
+- failed, rejected, expired, and cancelled requests are handled clearly.
 
 ---
 
@@ -754,3 +757,5 @@ The MVP is acceptable when:
 | v0.18.4 | 2026-06-25 | Reflected DOC-06B Requests route shell baseline and preserved lifecycle, Bills/rent implementation, notification, and data ownership boundaries. |
 | v0.18.5 | 2026-06-29 | Added PRD alignment that `REQUESTS-DETAIL` is the request-management screen and links to, but is not replaced by, DOC-06C bill/rent detail. |
 | v0.18.6 | 2026-07-02 | Clarified dashboard shortcuts as entry points into owning routes or management areas, aligned with DOC-06B route-entry map. |
+| v0.18.7 | 2026-07-02 | Aligned PRD with DOC-06B `REQUESTS-NEW`, evidence-before-send request delivery gate, and request-not-payment route boundary. |
+| v0.18.8 | 2026-07-02 | Removed stale request-route clarification/dispute actions and aligned exception/support wording with DOC-06B `REQUESTS-NEW` and `REQUESTS-DETAIL`. |

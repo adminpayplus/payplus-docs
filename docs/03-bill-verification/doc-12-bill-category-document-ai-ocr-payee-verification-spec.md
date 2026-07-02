@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.7.0
+version: 0.7.1
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-06-18
+last_updated: 2026-07-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -439,6 +439,7 @@ Rules:
 - landlord, property manager, business payee, institution, and higher-risk payees may require enhanced review;
 - mismatch between extracted payee and selected payee should route to review unless approved category rules allow it;
 - payee-created requests should require evidence equal to or stronger than payer-created requests for the same category;
+- requests created through DOC-06B `REQUESTS-NEW` must not be delivered to the receiver until required evidence is verified or approved by exception;
 - evidence-to-payee validation, duplicate detection, and risk checks must not be treated as automatic user-to-user matching; participant linking belongs to DOC-06A/DOC-06C and DOC-18 and requires approved user or operational action.
 
 KYC/KYB, sanctions, and fraud rules belong in DOC-14 and DOC-19. Payout destination controls belong in DOC-10. Data schema belongs in DOC-18.
@@ -597,3 +598,4 @@ It should not become:
 | `0.5.0` | `2026-06-08` | Product Documentation Team | Added evidence-derived model-use, sensitive-field, prohibited marketing/partner-reporting, and DOC-15/DOC-18 lineage boundaries for AI/data-engine readiness. |
 | `0.6.0` | `2026-06-12` | Product Documentation Team | Aligned evidence structure with DOC-06 Bills tab baseline by separating obligation, contract/relationship, and evidence source records; added rent-supporting evidence examples; clarified payee/payout validation versus participant linking. |
 | `0.7.0` | `2026-06-18` | Product Documentation Team | Aligned DOC-12 verification outcomes with DOC-06 evidence status, bill/rent payment readiness, active evidence versioning, archive-not-delete behavior, and extracted-field display ownership. |
+| `0.7.1` | `2026-07-02` | Product Documentation Team | Aligned evidence verification with DOC-06B `REQUESTS-NEW` by adding evidence-before-request-delivery gate. |

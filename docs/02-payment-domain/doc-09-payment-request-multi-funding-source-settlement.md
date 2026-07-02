@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.2
+version: 1.0.3
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-06-24
+last_updated: 2026-07-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -171,6 +171,8 @@ Failed gates should create a clear status and, where appropriate, admin review o
 DOC-06A owns core user journeys and service blueprint steps; DOC-06B owns navigation and route taxonomy; DOC-06C owns Bills-route entry and handoff behavior.
 
 DOC-09 owns the payment-domain lifecycle after a request exists or is ready for payment evaluation.
+
+DOC-06B `REQUESTS-NEW` is a request creation and party-linking route, not a payment/checkout route. A request created through `REQUESTS-NEW` must not reach payment quote, payment method selection, authorization, funding, capture, settlement readiness, or payout handoff until the required evidence gate, request acceptance gate where applicable, and all payment eligibility gates pass.
 
 ### 6.1 Common Payment Lifecycle
 
@@ -671,3 +673,4 @@ DOC-09 is acceptable when:
 | 1.0.0 | 2026-06-17 | Aligned reminder boundary with DOC-06 reminder list/detail routes while keeping deferred payment instruction reminders under the checkout/payment instruction flow. |
 | 1.0.1 | 2026-06-18 | Aligned evidence status consumption with DOC-06 evidence status/payment-readiness mapping and DOC-12 verification outcomes. |
 | 1.0.2 | 2026-06-24 | Clarified that DOC-09 owns payment/checkout screen content and payment-domain UI behavior while DOC-06 owns route entry and handoff. |
+| 1.0.3 | 2026-07-02 | Aligned payment-domain boundary with DOC-06B `REQUESTS-NEW`, confirming request creation is not checkout and cannot bypass evidence, acceptance, or payment eligibility gates. |

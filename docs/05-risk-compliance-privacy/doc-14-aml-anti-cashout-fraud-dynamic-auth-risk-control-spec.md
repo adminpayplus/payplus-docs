@@ -1,7 +1,7 @@
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 0.6.0
+version: 0.6.1
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -17,7 +17,7 @@ approvers:
   - Project Owner
   - Compliance Lead
   - Risk Lead
-last_updated: 2026-06-08
+last_updated: 2026-07-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -395,7 +395,7 @@ Admin/risk workflows must support:
 
 - review queue creation with risk reason codes;
 - evidence, payment, payout, refund, chargeback, promotion, and account context;
-- approve, reject, hold, release, block, suspend, escalate, or request clarification actions;
+- approve, reject, hold, release, block, suspend, escalate, or request additional information actions;
 - permission-based override controls;
 - mandatory reason and evidence for overrides;
 - immutable audit trail;
@@ -510,3 +510,4 @@ It should not become:
 | `0.4.0` | `2026-06-02` | Product Documentation Team | Added quote revalidation, promotion reservation, quota-holding, and card-linked benefit testing as deferred payment instruction risk signals. |
 | `0.5.0` | `2026-06-02` | Product Documentation Team | Aligned domestic helper, driver, and personal service risk treatment with confirmed evidence-backed MVP scope and configurable risk-based controls. |
 | `0.6.0` | `2026-06-08` | Product Documentation Team | Added future AI/model-assisted risk governance boundaries, graph-signal controls, prohibited reuse of risk signals, and related open questions aligned with DOC-15 and DOC-18. |
+| `0.6.1` | `2026-07-02` | Product Documentation Team | Aligned risk/admin action wording with DOC-06B request-route boundaries by using additional-information wording for operational review instead of request-route clarification actions. |
