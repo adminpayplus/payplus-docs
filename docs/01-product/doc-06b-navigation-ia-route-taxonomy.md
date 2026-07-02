@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.5
+version: 0.1.6
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-29
+last_updated: 2026-07-02
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -129,7 +129,10 @@ The dashboard is not a marketing page. Promotions, partner offers, hot offers, P
 
 This section defines the designated dashboard flow and layout baseline for MVP discussion. It is not the finalized UI design, visual design, component specification, or exact route-level screen specification. Exact UI details remain subject to later DOC-06B refinement and future design/specification work.
 
-Visual reference: `docs/diagrams/payplus-home-dashboard-mvp-wireframe.svg` is a companion wireframe for this section. It supports human and AI understanding of layout hierarchy but does not override this document.
+Visual references:
+
+- `docs/diagrams/payplus-home-dashboard-mvp-wireframe.svg` is a companion wireframe for this section. It supports human and AI understanding of layout hierarchy but does not override this document.
+- `docs/diagrams/payplus-app-route-entry-map.md` is a Mermaid route-entry map showing bottom navigation, Pay+ actions, the eight dashboard shortcuts, and major route handoffs. It is a discussion and alignment aid, not final UI design.
 
 ---
 
@@ -140,7 +143,7 @@ MVP bottom navigation should use five primary destinations.
 | Nav Item | Definition | Route Relationship | Current Status |
 | --- | --- | --- | --- |
 | Home | Default task-first dashboard. | Opens Home Dashboard. | Discussion baseline |
-| Bills | Obligation and record management area. | Opens Bills area covering bills, rent/tenancies, requests, instructions, reminders, receipts, and related records. Exact sub-navigation remains to be finalized. | Discussion baseline |
+| Bills | Bill, fee, rent, tenancy, and obligation record management area. | Opens Bills area covering saved bill/rent/tenancy records and their DOC-06C sub-routes. Requests, instructions, receipts, cards, referral, and More remain separate management routes or shortcut destinations unless explicitly embedded as contextual handoffs. | Discussion baseline |
 | Pay+ | Central payment and request action. | Opens a slide-up action sheet for payment, setup, continuation, and request-payment actions. Exact visual UI and final ordering remain to be finalized. | Working baseline |
 | Offers | Full promotion discovery area. | Opens Offers Hub covering hot offers, card partner offers, PayPlus campaigns, coupon/voucher library, referral, and What's New. Exact route IA remains to be finalized. | Discussion baseline |
 | Me | Account and user control area. | Opens profile, settings, security, notifications, privacy, support, cards/payment methods, and account controls. Exact route IA remains to be finalized. | Discussion baseline |
@@ -208,18 +211,20 @@ Dashboard section order may be refined later only through explicit design review
 
 The shortcut grid provides quick access to common non-payment-start tasks.
 
+Shortcut grid items are entry points, not independent feature owners. Each shortcut should open or deep-link to the relevant owning route, screen, sheet, or management area. The owning document for the destination continues to govern detailed behavior.
+
 MVP shortcut grid:
 
 | Shortcut | Definition | Route Relationship |
 | --- | --- | --- |
-| Requests | Requests that ask another party to accept, link to, review, clarify, reject, or dispute a bill, rent, tenancy, fee, invoice, or approved obligation context. A request is not a payment. | Requests route. |
-| Instructions | Deferred payment instructions, split-card progress, pending funding legs, expired instructions, and action-required instructions. | Payment Instructions route. |
-| Bills & Tenancies | Saved bills, fee records, rent records, tenancy records, evidence status, due dates, and obligation details. | Bills & Tenancies route. |
-| Receipts | Payment receipts, proof of payment, statements, completed records, refund/reversal records, and related transaction evidence. | Receipts / Activity route. |
+| Requests | Requests that ask another party to accept, link to, review, clarify, reject, or dispute a bill, rent, tenancy, fee, invoice, or approved obligation context. A request is not a payment. | Opens `REQUESTS-ROOT`. |
+| Instructions | Deferred payment instructions, split-card progress, pending funding legs, expired instructions, and action-required instructions. | Opens the future Instructions route / DOC-09 continuation surface. |
+| Bills & Tenancies | Saved bills, fee records, rent records, tenancy records, evidence status, due dates, and obligation details. | Opens `BILLS-ROOT`. |
+| Receipts | Payment receipts, proof of payment, statements, completed records, refund/reversal records, and related transaction evidence. | Opens the future Receipts / Activity hub. |
 | Reminders | User-set due reminders for bills, rent, tenancy obligations, and manual reminders. | Opens `BILLS-REMINDER-LIST`. |
-| Cards | Tokenized payment profiles, cards, payment methods, card status, and payment-method settings. | Cards / Payment Methods route. |
-| Referral | Referral / MGM entry point and referral reward status where enabled. | Referral route and Offers Hub referral section. |
-| More | Opens remaining or secondary shortcuts and services. | More Shortcuts / Services route or sheet. |
+| Cards | Tokenized payment profiles, cards, payment methods, card status, and payment-method settings. | Opens the future Cards / Payment Methods route. |
+| Referral | Referral / MGM entry point and referral reward status where enabled. | Opens the future Referral route and may also link to Offers Hub referral content. |
+| More | Opens remaining or secondary shortcuts and services. | Opens future More Shortcuts / Services route or sheet. |
 
 Support should not be part of the initial eight dashboard shortcuts. Support remains accessible through `Me`, issue-specific status screens, and/or `More` if enabled.
 
@@ -513,6 +518,7 @@ These signals should support service quality, funnel analysis, risk review, supp
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.6 | 2026-07-02 | Clarified shortcut grid items as entry points rather than feature owners, narrowed Bills bottom-nav ownership, and added the app route-entry Mermaid diagram reference. |
 | 0.1.5 | 2026-06-29 | Defined `REQUESTS-DETAIL` as its own DOC-06B screen and clarified linked DOC-06C bill/rent detail handoff. |
 | 0.1.4 | 2026-06-25 | Drafted Requests route shell, including route definition, entry points, views, card fields, actions, empty states, and data-signal boundaries. |
 | 0.1.3 | 2026-06-25 | Clarified Requests route definition, top-right inbox relationship, and request-not-payment boundary. |

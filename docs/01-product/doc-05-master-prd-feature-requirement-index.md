@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.5
+version: 0.18.6
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-29
+last_updated: 2026-07-02
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -504,7 +504,7 @@ Bills-route requirements must remain role-aware:
 - dashboard;
 - logged-in Home Dashboard baseline with `Home`, `Bills`, `Pay+`, `Offers`, and `Me` navigation where enabled by DOC-06B;
 - Pay+ center action entry point and slide-up action sheet where enabled by DOC-06B;
-- dashboard shortcut grid for Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More where enabled by DOC-06B;
+- dashboard shortcut grid for Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More where enabled by DOC-06B; shortcuts are entry points into owning routes or management areas, not independent feature owners;
 - user shortcut display order, visibility preference, and restore-default behavior;
 - Important Notice / Action Required, Featured / What's New / Hot Offer carousel, Upcoming Bills / Rent, and Recent Activity dashboard sections where enabled by DOC-06B;
 - bill/rent reminder management through DOC-06C `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, including linked reminders, reminder defaults, custom overrides, disable/delete behavior, and notification ownership boundaries;
@@ -751,5 +751,6 @@ The MVP is acceptable when:
 | v0.18.1 | 2026-06-25 | Confirmed DOC-06 family publication cleanup and parent scope, role, and UX-surface summaries without changing master product requirements. |
 | v0.18.2 | 2026-06-25 | Added single-primary-owner drafting rule for DOC-06 family topics and clarified route shell versus lifecycle versus Bills/rent implementation ownership. |
 | v0.18.3 | 2026-06-25 | Clarified request-not-payment boundary and request acceptance as party-linking to an accepted obligation context. |
-| v0.18.5 | 2026-06-29 | Added PRD alignment that `REQUESTS-DETAIL` is the request-management screen and links to, but is not replaced by, DOC-06C bill/rent detail. |
 | v0.18.4 | 2026-06-25 | Reflected DOC-06B Requests route shell baseline and preserved lifecycle, Bills/rent implementation, notification, and data ownership boundaries. |
+| v0.18.5 | 2026-06-29 | Added PRD alignment that `REQUESTS-DETAIL` is the request-management screen and links to, but is not replaced by, DOC-06C bill/rent detail. |
+| v0.18.6 | 2026-07-02 | Clarified dashboard shortcuts as entry points into owning routes or management areas, aligned with DOC-06B route-entry map. |
