@@ -88,6 +88,116 @@ DOC-15 owns the cross-document privacy, data classification, masking, retention,
 
 Legacy files under `docs/09-ai-build-execution/context/`, including `project-continuation-context.md`, are non-authoritative unless explicitly refreshed from current formal documents.
 
+## PayPlus Product Drafting Method
+
+When drafting, reviewing, or restructuring any PayPlus document, apply this product-thinking method before proposing structure or edits.
+
+### Concept Classification
+
+Classify the subject before designing it. Be explicit about whether the item is a:
+
+- route;
+- screen;
+- view or filter;
+- sheet or modal;
+- card or component;
+- button or user action;
+- status or user-facing status label;
+- backend event or audit signal;
+- data object;
+- policy rule;
+- admin setting;
+- notification;
+- report or reconciliation artifact.
+
+Do not create a new route, module, status, data object, or document section when the item is only a view, filter, state, entry point, or contextual action.
+
+### Concept Separation
+
+Keep similar concepts separate unless the source documents clearly combine them. In particular:
+
+- a request is not a payment;
+- a shortcut is an entry point, not a feature owner;
+- a route is not the same as a view, filter, or tab;
+- a bill/rent record is not the same as evidence;
+- evidence status is not the same as payment readiness, although it may affect readiness;
+- a notification is not the same as a status;
+- a user-facing label is not always the same as the underlying system state;
+- a Pay+ action is not automatically a standalone route;
+- a reminder is not automatically a deferred payment instruction;
+- a user action is not the same as a backend event or audit record.
+
+### User-First Flow Check
+
+Before recommending a flow or editing a UX/product document, answer the practical user questions:
+
+1. Who is the user: payer, payee, landlord, business payee, admin, or system?
+2. What does the user want to do?
+3. What does the user see first?
+4. What button or action can the user take?
+5. Where does the action route?
+6. What happens after the action?
+7. How can the user return to the prior context?
+8. What is hidden, masked, or admin-only?
+9. What happens if the counterparty is not a PayPlus user or is not linked?
+10. What happens if evidence, verification, risk, payout, privacy, or authorization gates fail?
+
+### Simplicity and Structure Rule
+
+Prefer the simplest structure that preserves product control, compliance boundaries, future implementation clarity, and user understanding.
+
+- If several items render the same list with different selection criteria, treat them as views or filters unless a materially different screen is required.
+- If a button only opens another area, treat it as an entry point, not a new feature owner.
+- If detailed behavior belongs in another document, reference that owner instead of duplicating the rule.
+- If the user experience would be confusing because of internal terminology, use user-facing wording and keep internal terms for technical docs.
+- If a future admin, data, API, or operations detail is needed, mark the future owning document instead of overloading the human source document.
+
+### PayPlus Boundary Check
+
+Every proposed feature, route, flow, data rule, promotion, notification, or admin control must preserve PayPlus boundaries:
+
+- evidence-backed bill, fee, rent, tenancy, or approved obligation context;
+- payer authorization remains central;
+- payee-created requests require payer acceptance before payment authorization;
+- payer-created payments may proceed without payee acceptance where evidence, verification, risk, payout, compliance, and authorization gates pass;
+- optional party linking creates shared visibility or communication, not payment authorization;
+- no open money request marketplace;
+- no wallet, stored-value, cashout, remittance, lending, cash advance, or unrestricted P2P behavior;
+- no automatic user-to-user matching unless later approved with privacy, security, and compliance controls.
+
+### Source Ownership Rule
+
+Assign one primary owner before drafting. Other documents may reference or hand off, but should not redefine the same behavior.
+
+Common ownership baseline:
+
+- `DOC-06B`: navigation, route shells, entry points, route taxonomy, dashboard placement;
+- `DOC-06C`: Bills/rent/tenancy UX, cards, details, evidence UI entry, reminder UI, bill-specific activity;
+- `DOC-08`: notification IDs, channels, templates, preferences, and delivery rules;
+- `DOC-09`: payment request mechanics, checkout, funding, authorization, payment instructions, payment states;
+- `DOC-10`: payout and reconciliation;
+- `DOC-11`: refund, cancellation, dispute, chargeback;
+- `DOC-12`: evidence, document AI/OCR, field extraction, verification;
+- `DOC-13`: promotions, coupons, vouchers, referrals, membership, offers logic;
+- `DOC-14`: AML, anti-cashout, fraud, dynamic risk controls;
+- `DOC-15`: privacy, data classification, masking, retention, approved-purpose access;
+- `DOC-18`: data model, event taxonomy, audit events, lineage, reporting;
+- `DOC-22`: admin operations, dashboard workflow, configurable controls, manual review operations.
+
+If ownership is unclear, identify the likely primary owner and list reference documents before editing.
+
+### Recommended Pre-Edit Output
+
+For any new feature, route, workflow, policy, status model, or cross-document change, provide this summary before editing unless the founder has already approved the exact change:
+
+1. concept classification;
+2. recommended structure;
+3. why the structure is not over-complicated;
+4. primary owning document and reference documents;
+5. user-facing flow;
+6. affected documents;
+7. open questions or `TBC` items.
+
 ## Agent Workflow Rules
 
 Before making broad documentation changes:
