@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.7
+version: 0.1.8
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-03
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -466,31 +466,72 @@ Request activity may show system-visible request events such as created, submitt
 
 #### 5.11.8 `REQUESTS-NEW` Creation Flow
 
-`REQUESTS-NEW` is the controlled request creation flow. It may be opened from the `+ Create Request` action in `REQUESTS-ROOT` or Pay+ `Request Payment`.
+`REQUESTS-NEW` is the controlled request creation flow. It may be opened from the `+ Create Request` action in `REQUESTS-ROOT`, Pay+ `Request Payment`, or an approved Bills/rent request action.
 
-The flow must not create an open money request. It must link to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation before sending.
+The flow must not create an open money request. It must link to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation before sending. It must not perform payment quote, checkout, authorization, funding, settlement, payout, or refund actions.
 
-Recommended flow:
+| Field | Requirement |
+| --- | --- |
+| Working route ID | `REQUESTS-NEW` |
+| Stable screen ID | `SCREEN-06B-REQUESTS-NEW` |
+| Route type | Controlled creation flow / screen group |
+| Primary owner | DOC-06B |
+| Linked owner | DOC-06C owns `BILLS-ADD` and Bills/rent detail handoff. DOC-08 owns notification and delivery-channel rules. DOC-12 owns evidence verification. DOC-15 owns privacy and counterparty lookup boundaries. |
+| Primary user goal | Create a request that asks another party to accept or link to an eligible evidence-backed obligation context. |
+| Boundary | A request is not a payment. This route prepares and sends the request only after the required evidence gate passes. |
 
-1. Select category: bill, fee, or rent.
-2. Select existing bill/rent/tenancy or create a new one.
-3. If creating a new bill/rent/tenancy, route to `BILLS-ADD`.
-4. After `BILLS-ADD` completes, return to `REQUESTS-NEW` with the created context selected.
-5. Confirm linked evidence-backed details.
-6. Select counterparty using PayPlus user ID or phone-number identifier. Phone number may be used to recognize a PayPlus user, subject to DOC-15 privacy and DOC-19 security controls.
-7. Add optional message/note.
-8. Review request.
-9. Submit for evidence verification and send automatically once verified.
-10. Show share option when the request is ready/sent, including WhatsApp deeplink or other approved channel that routes to `REQUESTS-DETAIL` after authentication/onboarding where required.
+The route should use the following section order:
 
-Evidence gate rule:
+| Order | Section | What User Sees / Does | Route Behavior |
+| ---: | --- | --- | --- |
+| 1 | Start Request | Header `Create Request`; short context that the request must link to a bill, fee, or rent item. | Preserve entry source for return behavior and analytics. |
+| 2 | Category and Direction | Category selection: bill, fee, or rent. Direction should be inferred where possible from role and entry source. | Payee-to-payer requires payer acceptance before payment from that request. Payer-to-payee is for optional linking/adoption unless a gate requires payee action. |
+| 3 | Linked Context | Select existing bill/rent/tenancy context, or create a new one. | Existing context stays in `REQUESTS-NEW`. New context opens `BILLS-ADD`; completion returns to `REQUESTS-NEW` with the created context selected. |
+| 4 | Linked Detail Review | Compact summary: name, category, amount, due date, counterparty/payee/payer where applicable, evidence status, and readiness/status badge. | If evidence is missing, rejected, expired, or action-required, route to the relevant DOC-06C evidence/setup path before submission. |
+| 5 | Counterparty and Delivery | Select counterparty by PayPlus user ID or phone-number identifier; add optional note; select allowed delivery method where available. | Lookup must be privacy-safe. Delivery options may include in-app, app link, WhatsApp deeplink, QR code, or approved channel. |
+| 6 | Review and Submit | Final review of request summary, linked context, receiver, delivery method, expiry/due information where applicable, and notices. | Primary CTA should be `Submit and send after verification`. If evidence is already accepted, the system may send immediately. |
 
-- the request must not be sent to the receiver before linked evidence is verified;
+Counterparty lookup rules:
+
+- lookup may use PayPlus user ID or phone-number identifier;
+- lookup should confirm that a potential receiver exists only with minimal, privacy-safe display;
+- lookup must not expose unnecessary account, KYC/KYB, evidence, payment, risk, or relationship data before acceptance;
+- if no PayPlus user is found or the receiver is not onboarded, the sender may use an approved share/invitation method where enabled;
+- final privacy, masking, and authentication controls belong to DOC-15 and DOC-19.
+
+Evidence gate and send rules:
+
+- the request must not be sent to the receiver before linked evidence is verified or approved by exception;
 - the receiver must not be notified or shown the request while evidence verification is pending;
-- once evidence is accepted, the system should send the request immediately using the approved delivery method;
-- if evidence is rejected or requires correction, the sender should see action required and the receiver should not receive the request.
+- if evidence is already accepted, the request may be sent immediately after user submission;
+- if evidence becomes accepted after submission, the system should send the request automatically using the approved delivery method;
+- if evidence is rejected or requires correction, the sender should see action required and the receiver should not receive the request;
+- the request should remain linked to the evidence verification outcome for audit and support.
 
-The primary submission button should communicate this behavior, for example `Submit and send after verification`.
+Share and delivery rules:
+
+- in-app delivery is preferred where both parties are active PayPlus users;
+- app link, WhatsApp deeplink, QR code, or other approved channel may be offered where enabled;
+- external share content must avoid sensitive request, evidence, payment, identity, and account details;
+- accepted share links should route through authentication or onboarding before opening `REQUESTS-DETAIL`;
+- share-link expiry, resend limits, reminder cooldown, and channel eligibility belong to DOC-08 and DOC-22.
+
+Return behavior:
+
+- from `BILLS-ADD`, successful creation returns to `REQUESTS-NEW` with the created context selected;
+- cancelling `BILLS-ADD` returns to `REQUESTS-NEW` without changing the selected context;
+- opening linked bill/rent detail from request review should return to `REQUESTS-NEW` or `REQUESTS-DETAIL` according to the entry source;
+- after request submission, the user should route to `REQUESTS-DETAIL` for the created request.
+
+Primary state behavior:
+
+| State | Sender View | Receiver View |
+| --- | --- | --- |
+| Draft | Editable draft. | Not visible. |
+| Pending evidence verification | Waiting for verification; edit/cancel where allowed. | Not visible. |
+| Action required | Evidence or linked detail correction required. | Not visible. |
+| Sent / reviewing | Request detail shows sent status and allowed remind/share actions. | Request appears as awaiting review. |
+| Accepted / rejected / expired / cancelled | Request detail shows final or current request state and available follow-up actions. | Same underlying state, role-appropriate actions only. |
 
 #### 5.11.9 Empty, Action-Required, and Archive Behavior
 
@@ -531,7 +572,7 @@ These signals should support service quality, funnel analysis, risk review, supp
 | --- | --- | --- |
 | Final visual card density, tab style, sort/filter design, and empty-state wording | Product / Design | Open |
 | Final `REQUESTS-DETAIL` visual layout, field density, copy, and button order | Product / Design | Open |
-| Final `REQUESTS-NEW` visual layout, field validation, counterparty lookup wording, share button placement, and return behavior | Product / Design / Privacy / Security | Open |
+| Final `REQUESTS-NEW` visual styling, field-level validation copy, counterparty lookup display copy, and share-button placement | Product / Design / Privacy / Security | Open |
 | Resend, reminder cooldown, expiry, and escalation rules | Product / Operations / DOC-08 / DOC-22 | Open |
 
 ---
@@ -546,7 +587,7 @@ These signals should support service quality, funnel analysis, risk review, supp
 | Pay+ | Partially Defined | Confirm visual order, disabled states, eligibility copy, and final action limits. |
 | Offers | Not Fully Defined | Define Offers Hub, offer detail, coupon/voucher library routing, and placement interactions with DOC-13. |
 | Me | Not Fully Defined | Define profile, settings, privacy, notification, security, payment-method, and support routes. |
-| Requests | Route Shell Defined / Not Final UI | Confirm `REQUESTS-ROOT`, `REQUESTS-DETAIL`, and `REQUESTS-NEW` visual layout, card density, sort/filter behavior, counterparty lookup wording, share-button placement, resend/reminder limits, and linked DOC-06C handoff wording. |
+| Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
 | Instructions | Partially Defined by DOC-09 | Define route shell, shortcut behavior, dashboard action-required placement, and return-to-checkout behavior. |
 | Receipts / Activity | Partially Defined | Define global receipt/activity hub and relationship to bill/rent-specific activity in DOC-06C. |
 | Reminders | Partially Defined in DOC-06C | Confirm relationship between ordinary bill/rent reminders and payment-instruction reminders. |
@@ -563,12 +604,13 @@ These signals should support service quality, funnel analysis, risk review, supp
 | OQ-06B-003 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
-| OQ-06B-006 | What exact visual layout, card density, `REQUESTS-DETAIL` field order, `REQUESTS-NEW` field validation, resend/reminder limit, share-button placement, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
+| OQ-06B-006 | What exact visual styling, card density, field-level copy, resend/reminder limit, share-button placement, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.8 | 2026-07-03 | Finalized `REQUESTS-NEW` route shell with section order, route boundary, linked-context selection, evidence gate, counterparty lookup, share/delivery rules, state behavior, and DOC-06C return behavior. |
 | 0.1.7 | 2026-07-02 | Added `REQUESTS-NEW`, clarified request status labels, evidence-before-send gate, counterparty identifier, WhatsApp deeplink sharing, and return behavior between Requests and Bills routes. |
 | 0.1.6 | 2026-07-02 | Clarified shortcut grid items as entry points rather than feature owners, narrowed Bills bottom-nav ownership, and added the app route-entry Mermaid diagram reference. |
 | 0.1.5 | 2026-06-29 | Defined `REQUESTS-DETAIL` as its own DOC-06B screen and clarified linked DOC-06C bill/rent detail handoff. |

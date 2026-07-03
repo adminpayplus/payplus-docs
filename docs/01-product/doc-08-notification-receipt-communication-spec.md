@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.6
+version: 1.0.7
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-03
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -318,7 +318,16 @@ Payer-created payment may proceed without payee acceptance where DOC-06A/DOC-06C
 
 Payee-side `Request` and `Remind Payer` actions in DOC-06C `BILLS-RECEIVE` should use the `REQ` notification domain unless a later document defines a more specific request-reminder event. These actions should create or update request records and route recipients to `REQUESTS-DETAIL` by default when a specific request exists. They may route to `REQUESTS-ROOT`, payer-side Bills context, or linked bill/rent detail only where the notification type requires a broader list, payment-readiness handoff, or linked-context destination. Resend limits, cooldowns, escalation wording, and channel eligibility remain open for DOC-06C, DOC-08, and DOC-22 alignment.
 
-Requests created through DOC-06B `REQUESTS-NEW` must not notify or display to the receiver until required evidence is verified or approved by exception. Once verified, the request should be sent immediately through the approved delivery method. WhatsApp deeplinks or other approved share links should route to `REQUESTS-DETAIL` after authentication or onboarding where required and must avoid sensitive details outside the authenticated app.
+Requests created through DOC-06B `REQUESTS-NEW` must not notify or display to the receiver until required evidence is verified or approved by exception. Once verified, the request should be sent immediately through the approved delivery method. If evidence is already accepted at submission, request delivery may occur immediately after submission.
+
+`REQUESTS-NEW` delivery and share behavior must follow these communication rules:
+
+- in-app delivery is preferred where both parties are active PayPlus users;
+- app link, WhatsApp deeplink, QR code, SMS, email, or other approved external channel may be used only where enabled by product, privacy, risk, and admin configuration;
+- external message content must avoid sensitive request, evidence, identity, payment, account, card, KYC/KYB, risk, or relationship details;
+- external links should route through authentication or onboarding before opening `REQUESTS-DETAIL`;
+- pending-evidence requests must not trigger receiver notifications, external share links, or receiver-visible request records;
+- rejected or correction-required evidence should notify only the sender unless an approved support/admin workflow requires otherwise.
 
 ### 11.3 Evidence Verification Events
 
@@ -664,5 +673,6 @@ DOC-08 is acceptable when:
 | 1.0.4 | 2026-06-25 | Clarified that `REQ` notifications cover request and party-linking lifecycle, not payment processing, and may route to Requests or linked Bills/rent contexts. |
 | 1.0.5 | 2026-06-29 | Aligned request notifications with DOC-06B `REQUESTS-DETAIL` as the default request-specific destination. |
 | 1.0.6 | 2026-07-02 | Aligned request notifications with DOC-06B `REQUESTS-NEW`, evidence-before-send delivery gate, request sharing, and WhatsApp deeplink routing to `REQUESTS-DETAIL`. |
+| 1.0.7 | 2026-07-03 | Aligned request delivery and share-channel rules with finalized DOC-06B `REQUESTS-NEW`, including in-app preference, privacy-safe external content, authenticated `REQUESTS-DETAIL` routing, and pending-evidence notification suppression. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

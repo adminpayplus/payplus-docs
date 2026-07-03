@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.4
+version: 0.1.5
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-03
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -127,9 +127,9 @@ Initial route ownership:
 | Tap `Bills` bottom nav | App bottom navigation | Opens `BILLS-ROOT`, defaulting to the last used or system-default `To Pay` / `To Receive` view. |
 | Tap `To Pay` | `BILLS-ROOT` | Opens `BILLS-PAY`. |
 | Tap `To Receive` | `BILLS-ROOT` | Opens `BILLS-RECEIVE`. |
-| Tap `Add Bill / Rent` | `BILLS-ROOT`, Pay+ action sheet, or `REQUESTS-NEW` create-new path | Opens `BILLS-ADD`. If opened from `REQUESTS-NEW`, completion should return to `REQUESTS-NEW` with the created bill/rent context selected. |
+| Tap `Add Bill / Rent` | `BILLS-ROOT`, Pay+ action sheet, or `REQUESTS-NEW` create-new path | Opens `BILLS-ADD`. If opened from `REQUESTS-NEW`, successful completion must return to `REQUESTS-NEW` with the created bill/rent context selected; cancellation returns to `REQUESTS-NEW` without changing the selected context. |
 | Tap `Pay` on a payer-side card/detail | `BILLS-PAY`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. DOC-06C owns the entry point and route handoff only. |
-| Tap `Request` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Creates, sends, resends, or opens request-delivery action for a verified bill/rent/tenancy context before counterparty acceptance. The action creates or updates a request record that may appear in `REQUESTS-ROOT` and be managed in `REQUESTS-DETAIL`; it does not open the Requests route by default. A request must not be delivered before required evidence is verified or approved by exception. Exact request delivery method and notification behavior must follow DOC-08 and later DOC-22 controls. |
+| Tap `Request` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Creates, sends, resends, or opens request-delivery action for a verified bill/rent/tenancy context before counterparty acceptance. The action creates or updates a request record that may appear in `REQUESTS-ROOT` and be managed in `REQUESTS-DETAIL`; it does not open `REQUESTS-ROOT` by default. Where the user must select receiver, delivery method, or share channel, route through DOC-06B `REQUESTS-NEW`. A request must not be delivered before required evidence is verified or approved by exception. Exact request delivery method and notification behavior must follow DOC-08 and later DOC-22 controls. |
 | Tap `Remind Payer` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens or triggers an approved payer reminder action for the selected request. This is a payee-to-payer request reminder, not a payment action and not the user's own `BILLS-REMINDER-LIST` reminder record unless later explicitly linked. |
 | Tap `Details` | Bill/rent card | Opens the relevant detail screen. |
 | Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Opens `BILLS-REMINDER-DETAIL` for the selected linked record. |
@@ -643,7 +643,7 @@ The Bills route should therefore support evidence source detection or selection 
 
 Phone number, user ID, app link, WhatsApp deeplink, QR code, or other approved invitation mechanisms remain to be defined. Search, invitation, and acceptance design must follow DOC-15 privacy and DOC-19 security controls.
 
-When a user opens `BILLS-ADD` from DOC-06B `REQUESTS-NEW`, `BILLS-ADD` owns the bill/rent/evidence setup steps and should return the created context to `REQUESTS-NEW` after setup. If a user opens `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` from `REQUESTS-DETAIL`, save/back behavior should return to `REQUESTS-DETAIL` and refresh the linked request summary.
+When a user opens `BILLS-ADD` from DOC-06B `REQUESTS-NEW`, `BILLS-ADD` owns the bill/rent/evidence setup steps and must preserve the request-creation context. Successful setup returns the created context to `REQUESTS-NEW`; cancellation returns without creating or selecting a new context. If a user opens `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` from `REQUESTS-DETAIL`, save/back behavior should return to `REQUESTS-DETAIL` and refresh the linked request summary. If a user opens linked bill/rent detail from `REQUESTS-NEW` review, save/back behavior should return to `REQUESTS-NEW`.
 
 ### 5.14 Action-Required UX
 
@@ -717,6 +717,7 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.5 | 2026-07-03 | Aligned Bills add/request handoffs with the finalized DOC-06B `REQUESTS-NEW` route shell, including create-new return behavior, cancellation behavior, and request-delivery handoff. |
 | 0.1.4 | 2026-07-02 | Aligned Bills add/detail handoffs with DOC-06B `REQUESTS-NEW` and `REQUESTS-DETAIL`, including evidence-before-request-delivery boundary. |
 | 0.1.3 | 2026-06-29 | Aligned Bills/rent request actions with DOC-06B `REQUESTS-DETAIL` ownership. |
 | 0.1.2 | 2026-06-25 | Clarified that Bills/rent `Request` actions create or update request records and do not directly open the Requests route by default. |
