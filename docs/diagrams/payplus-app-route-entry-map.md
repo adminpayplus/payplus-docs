@@ -2,7 +2,7 @@
 
 Status: Discussion reference / IA alignment aid  
 Owner: DOC-06B  
-Last updated: 2026-07-02
+Last updated: 2026-07-03
 
 These Mermaid diagrams show the current working relationship between bottom navigation, the Pay+ action sheet, the eight dashboard shortcuts, and major route handoffs.
 
@@ -33,7 +33,7 @@ flowchart TD
   PAYPLUS --> PACTIONS["Pay+ Action Sheet"]
   PACTIONS --> BPAY["BILLS-PAY<br/>Pay Bill / Fee or Pay Rent"]
   PACTIONS --> BADD["BILLS-ADD<br/>Add Bill / Rent"]
-  PACTIONS --> INSTRUCTIONS["Instructions<br/>Continue Payment"]
+  PACTIONS --> INSTRUCTIONS["INSTRUCTIONS-ROOT<br/>Payment Instructions / Continue Payment"]
   PACTIONS --> RNEW["REQUESTS-NEW<br/>Request Payment"]
 
   HSHORTCUTS --> REQROOT["REQUESTS-ROOT<br/>Requests"]
@@ -99,4 +99,33 @@ flowchart TD
   RACTION --> RNEW
   RDETAIL --> BDETAIL["Linked BILLS-DETAIL-BILL / BILLS-DETAIL-RENT"]
   BDETAIL --> RDETAILRETURN["Back / save returns to REQUESTS-DETAIL"]
+```
+
+## 4. Instructions Route Handoff
+
+This diagram shows the Payment Instructions route shell owned by DOC-06B and its handoff to DOC-09 checkout/payment.
+
+```mermaid
+flowchart TD
+  ENTRY1["Dashboard Instructions shortcut"] --> IROOT["INSTRUCTIONS-ROOT"]
+  ENTRY2["Pay+ Continue Payment"] --> IROOT
+  ENTRY3["Action Required / PINS notification"] --> IDETAIL["INSTRUCTIONS-DETAIL"]
+  ENTRY4["+ Add Instruction"] --> ISETUP["Instruction setup"]
+
+  IROOT --> ICARDS["Pending / Incomplete / Archived cards"]
+  ICARDS --> IDETAIL
+  IROOT --> ISETUP
+
+  ISETUP --> BSELECT["Select existing bill / rent / fee"]
+  ISETUP --> BADD["BILLS-ADD<br/>if new bill/rent needed"]
+  BADD --> ISETUPRETURN["Return to instruction setup<br/>with target selected"]
+
+  IDETAIL -->|"Pending: Pay Now"| CHECKOUT["DOC-09 checkout / review"]
+  IDETAIL -->|"Pending: Update Instruction"| ISETUP
+  IDETAIL -->|"Pending: Cancel"| IARCHIVE["Cancelled / archived view"]
+  IDETAIL -->|"Incomplete: Continue Payment"| CHECKOUT
+  IDETAIL -->|"Incomplete: Archive"| IARCHIVE
+
+  CHECKOUT -->|"Submitted / completed"| ACTIVITY["Receipts / Activity"]
+  CHECKOUT -->|"Still pending or incomplete"| IDETAIL
 ```

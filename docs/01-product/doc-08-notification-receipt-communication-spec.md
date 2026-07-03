@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.7
+version: 1.0.8
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -21,6 +21,8 @@ related_documents:
   - DOC-01 Product Overview & Positioning
   - DOC-05 Master PRD & Feature Requirement Index
   - DOC-06 User Journey, UX Flow & Service Blueprint
+  - DOC-06B Navigation, IA & Route Taxonomy
+  - DOC-06C Bills, Rent & Tenancy UX Module
   - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
   - DOC-10 Payout & Reconciliation
@@ -221,7 +223,7 @@ Domains:
 | `PROM` | Promotion, coupon, voucher, reward, referral, membership, miles, and entitlement. |
 | `REQ` | Request and party-linking lifecycle. |
 | `PAY` | Payment authorization, processing, success, and failure. |
-| `PINS` | User payment instruction and deferred funding action. |
+| `PINS` | User payment instruction, action-required alert, and deferred/incomplete funding action. |
 | `REM` | Ordinary bill, fee, rent, tenancy, or obligation reminders. |
 | `POUT` | Payout and settlement visibility. |
 | `REF` | Refund, reversal, cancellation, and chargeback. |
@@ -380,7 +382,7 @@ Marketing campaign messages must be consent-based. Service messages that affect 
 
 Payment authorization may require a status update without an external notification. Payment completion usually requires a receipt or confirmation message.
 
-Payment instruction reminders must route the user to the payment/checkout screen for the same instruction. Normal due-date reminders and user manual bill/rent reminders route to the bill/rent/obligation detail screen. If quote, promotion, card eligibility, fee, or timing terms changed, the message should route to the updated checkout review before submission.
+Payment instruction action alerts must route the user to `INSTRUCTIONS-DETAIL` for the same instruction or directly to the DOC-09 payment/checkout review where immediate submission is required. Normal due-date reminders and user manual bill/rent reminders route to the bill/rent/obligation detail screen. If quote, promotion, card eligibility, fee, or timing terms changed, the message should route to instruction detail or updated checkout review before submission.
 
 ### 11.5A Bill/Rent Reminder Events
 
@@ -390,7 +392,7 @@ Payment instruction reminders must route the user to the payment/checkout screen
 | `NOTIF-REM-002` | Bill/rent reminder due | App, push where permission granted | Optional service |
 | `NOTIF-REM-003` | Bill/rent reminder disabled, deleted, expired, or inactive | App or disabled external channels | Optional service |
 
-Ordinary reminder events are governed by DOC-06C `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. App notification and push notification are MVP where permission is granted. Email, SMS, and WhatsApp may be enabled through the channel matrix, but should avoid sensitive bill, rent, evidence, account, and payee details outside the authenticated app. Deferred payment instruction reminders remain under `NOTIF-PINS-*` and must route to the payment/checkout screen.
+Ordinary reminder events are governed by DOC-06C `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. App notification and push notification are MVP where permission is granted. Email, SMS, and WhatsApp may be enabled through the channel matrix, but should avoid sensitive bill, rent, evidence, account, and payee details outside the authenticated app. Payment instruction action alerts remain under `NOTIF-PINS-*` and must not create ordinary bill/rent reminder records.
 
 ### 11.6 Payout Events
 
@@ -627,7 +629,7 @@ Detailed schema belongs in DOC-18.
 | OQ-08-008 | What retention exceptions, deletion rules, and masking rules apply beyond the 7-year baseline? | Legal / Privacy | Open |
 | OQ-08-009 | Which evidence verification events should notify users versus remain app status or admin-only dashboard tasks? | Product / Operations / Legal | Open |
 | OQ-08-010 | Which DOC-13 promotion, coupon, voucher, referral, membership, miles, entitlement, fulfilment, and clawback events should notify users versus remain app status or admin-only tasks? | Product / Growth / Operations | Open |
-| OQ-08-011 | Which payment instruction reminder schedule, channel mix, and final-action wording should apply for single-card, split-card, partial funding, and expiry cases? | Product / Payments / Operations | Open |
+| OQ-08-011 | Which payment instruction action-alert schedule, channel mix, and final-action wording should apply for single-card, split-card, partial funding, and expiry cases? | Product / Payments / Operations | Open |
 | OQ-08-012 | What notification wording and channel rules should apply when deferred payment quote, promotion, card eligibility, fee, or timing terms changed before submission? | Product / Growth / Payments | Open |
 | OQ-08-013 | Which Important Notice / Action Required dashboard items should also create notification events, inbox entries, push alerts, email, SMS, or WhatsApp messages? | Product / Operations / Legal | Open |
 | OQ-08-014 | Which Featured / What's New / Hot Offer carousel items require notification consent, marketing consent, inbox entries, or dashboard-only display? | Product / Growth / Privacy | Open |
@@ -647,7 +649,7 @@ DOC-08 is acceptable when:
 - receipt and statement rules are defined;
 - evidence verification, correction, duplicate warning, and admin review message boundaries are defined;
 - promotion, reward, coupon, voucher, referral, membership, miles, entitlement, and fulfilment message boundaries are defined;
-- payment instruction, deferred action, split-card remaining action, partial funding, expiry/cancellation, and partial payout message boundaries are defined;
+- payment instruction, action-required alert, deferred action, split-card remaining action, partial funding, expiry/cancellation, and partial payout message boundaries are defined;
 - deferred payment quote or promotion change notification boundaries are defined without renumbering existing notification IDs;
 - dashboard placement boundaries are defined so Important Notice / Action Required, Inbox, Featured carousel, and notification events remain separate but linkable surfaces;
 - delivery logging and retention expectations are defined;
@@ -674,5 +676,6 @@ DOC-08 is acceptable when:
 | 1.0.5 | 2026-06-29 | Aligned request notifications with DOC-06B `REQUESTS-DETAIL` as the default request-specific destination. |
 | 1.0.6 | 2026-07-02 | Aligned request notifications with DOC-06B `REQUESTS-NEW`, evidence-before-send delivery gate, request sharing, and WhatsApp deeplink routing to `REQUESTS-DETAIL`. |
 | 1.0.7 | 2026-07-03 | Aligned request delivery and share-channel rules with finalized DOC-06B `REQUESTS-NEW`, including in-app preference, privacy-safe external content, authenticated `REQUESTS-DETAIL` routing, and pending-evidence notification suppression. |
+| 1.0.8 | 2026-07-03 | Aligned payment instruction communication with DOC-06B `INSTRUCTIONS-ROOT` / `INSTRUCTIONS-DETAIL`, replacing ordinary reminder treatment with action-alert routing and keeping `PINS` separate from bill/rent reminders. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

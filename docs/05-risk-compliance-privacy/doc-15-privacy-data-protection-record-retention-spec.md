@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.1
+version: 0.8.2
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-03
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -145,7 +145,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Risk and Compliance Data | Risk score/band, rule triggers, AML/sanctions status, duplicate evidence signals, same-party indicators, fraud flags, payout holds, admin review outcome, escalation records. | Anti-cashout, fraud prevention, compliance control, monitoring, audit. |
 | Refund, Dispute, Chargeback, and Support Data | Support tickets, user messages, dispute reason, refund case, chargeback reason code, evidence package, resolution, recovery/write-off status. | Support, dispute resolution, chargeback defense, operational learning, reporting. |
 | Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument, reward entitlement, referral link/code, MGM relationship, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, abuse detection. |
-| Communication and Notification Data | Notification preferences, delivery channel, message ID, template ID, delivery/read status, bill/rent reminder ID, linked obligation ID, reminder timing, custom override, active/inactive/deleted status, payment instruction reminder status, WhatsApp/SMS/email/push logs. | Service communication, audit, support, communication performance. |
+| Communication and Notification Data | Notification preferences, delivery channel, message ID, template ID, delivery/read status, bill/rent reminder ID, linked obligation ID, reminder timing, custom override, active/inactive/deleted status, payment instruction action-alert status, WhatsApp/SMS/email/push logs. | Service communication, audit, support, communication performance. |
 | UI Preference and Personalization Data | Dashboard shortcut order, shortcut visibility, restore-default action, dashboard placement exposure, carousel impression/action, inbox interaction, and user-selected display preferences. | User experience personalization, product operation, consented marketing/promotion display, analytics, audit where required. |
 | Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, category usage, correction behavior, conversion, drop-off, retry behavior, spend behavior, payer/payee relationship patterns, dashboard shortcut usage, reminder opened/ignored/actioned behavior, and placement performance. | Product improvement, risk intelligence, commercial analytics, segmentation. |
 | Derived and Aggregated Data | Risk indicators, user segments, category economics, OCR quality metrics, fraud trends, campaign performance, anonymized or aggregated insights, model features where approved. | Analytics, approved model improvement, business intelligence, strategic decisions. |
@@ -515,3 +515,4 @@ It should not become:
 | `0.7.0` | `2026-06-12` | Product Documentation Team | Aligned privacy boundaries with DOC-06 Bills tab baseline by adding participant linking and invitation data, no automatic user-to-user matching, and minimum-disclosure invitation rules. |
 | `0.8.0` | `2026-06-17` | Product Documentation Team | Aligned data classification with DOC-06 Bills reminder routes by adding linked reminder records, reminder timing, custom override, soft-delete state, and reminder interaction behavior. |
 | `0.8.1` | `2026-07-02` | Product Documentation Team | Aligned participant-linking privacy with DOC-06B `REQUESTS-NEW`, counterparty lookup, and request-sharing deeplink boundaries. |
+| `0.8.2` | `2026-07-03` | Product Documentation Team | Aligned notification data classification with DOC-06B Instructions route by distinguishing payment instruction action-alert status from ordinary bill/rent reminder records. |

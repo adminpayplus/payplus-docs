@@ -58,10 +58,10 @@ Required capabilities should include:
 
 - view payment instruction status;
 - view single-card or split-card funding leg progress;
-- view deferred funding date, selected payee transfer date, reminder status, partial funding, remaining unpaid amount, and partial payout linkage;
+- view deferred funding date, selected payee transfer date, payment instruction action-alert status, partial funding, remaining unpaid amount, and partial payout linkage;
 - view payment quote, promotion quote, reservation status, revalidation result, changed-term acknowledgement, and expiry where applicable;
 - distinguish partially funded instruction from completed payment;
-- trigger permitted reminder, user action, hold, cancellation, expiry, or escalation workflow according to approved policy.
+- trigger permitted action alert, user action, hold, cancellation, expiry, or escalation workflow according to approved policy.
 
 ## 12. Payout and Reconciliation Workflows
 

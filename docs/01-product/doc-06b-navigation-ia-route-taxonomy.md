@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.8
+version: 0.1.9
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -22,6 +22,7 @@ related_documents:
   - DOC-06C Bills, Rent & Tenancy UX Module
   - DOC-06D UX Requirements, Acceptance Criteria & Test Matrix
   - DOC-08 Notification, Receipt & Communication Rules
+  - DOC-09 Payment Request, Multi-Funding Source & Settlement
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
@@ -51,7 +52,7 @@ When drafting route IA, DOC-06B must define the route shell only: route ID, entr
 | Pay+ action sheet | Partially defined | Working action set exists; exact order and disabled states remain open. |
 | Shortcut grid | Partially defined | Eight MVP shortcuts exist; detailed More/overflow UX remains open. |
 | Route taxonomy and ID standard | Initial baseline | Stable IDs should be assigned progressively. |
-| Non-Bills route registry | Placeholder | Offers, Me, Requests, Instructions, Receipts, Cards, Referral, More need future drafting. |
+| Non-Bills route registry | Partially defined | Requests and Instructions route shells are defined; Offers, Me, Receipts, Cards, Referral, More need future drafting. |
 
 ---
 
@@ -156,7 +157,7 @@ MVP bottom navigation should use five primary destinations.
 
 Tapping `Pay+` should open a slide-up action sheet instead of routing directly to one screen.
 
-The Pay+ action sheet should contain user-friendly actions for starting or continuing the core PayPlus journey. It should not expose internal terms such as payment instruction, capture layer, or verification layer to users.
+The Pay+ action sheet should contain user-friendly actions for starting or continuing the core PayPlus journey. It should not expose internal implementation terms such as capture layer, funding leg, or verification layer to users. User-facing labels such as `Payment Instructions` or `付款指示` may be used where the product means a pending or future payment action.
 
 Working baseline Pay+ actions:
 
@@ -170,7 +171,7 @@ Working baseline Pay+ actions:
 
 `Add Bill / Rent` should include scan QR, upload bill/invoice/tenancy/evidence, and manual entry as input methods inside the setup flow. QR or upload should not be a standalone Pay+ payment action because PayPlus must remain evidence-backed and must not behave as generic QR instant payment.
 
-`Continue Payment` should cover deferred payment instructions, unfinished split-card payments, failed or retry payment legs, interrupted checkout, and other payment actions that require the user to resume.
+`Continue Payment` should cover pending payment instructions, unfinished split-card payments, failed or retry payment legs, and interrupted checkout only where an eligible saved or incomplete payment instruction exists.
 
 The Pay+ action sheet must avoid creating wallet, stored-value, cashout, unsupported P2P, or automatic recurring-payment behavior.
 
@@ -218,7 +219,7 @@ MVP shortcut grid:
 | Shortcut | Definition | Route Relationship |
 | --- | --- | --- |
 | Requests | Requests that ask another party to accept, link to, review, or reject a bill, rent, tenancy, fee, invoice, or approved obligation context. A request is not a payment. | Opens `REQUESTS-ROOT`. |
-| Instructions | Deferred payment instructions, split-card progress, pending funding legs, expired instructions, and action-required instructions. | Opens the future Instructions route / DOC-09 continuation surface. |
+| Instructions | Payment instructions / 付款指示 for pending pay-later setups, incomplete split-card payments, pending funding legs, expired instructions, and action-required instruction items. | Opens `INSTRUCTIONS-ROOT`. |
 | Bills & Tenancies | Saved bills, fee records, rent records, tenancy records, evidence status, due dates, and obligation details. | Opens `BILLS-ROOT`. |
 | Receipts | Payment receipts, proof of payment, statements, completed records, refund/reversal records, and related transaction evidence. | Opens the future Receipts / Activity hub. |
 | Reminders | User-set due reminders for bills, rent, tenancy obligations, and manual reminders. | Opens `BILLS-REMINDER-LIST`. |
@@ -314,7 +315,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Me Area IA | Define account, security, privacy, notification preferences, support, cards/payment methods, and user control routes. | Title preserved / not finalized |
 | More Shortcuts IA | Define secondary shortcuts and services not shown in the first eight dashboard shortcuts. | Title preserved / not finalized |
 | Requests Route | Define standalone Requests route shell, creation flow, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
-| Instructions Route | Define deferred payment instructions, split-card progress, retry/failed legs, pending actions, cancellation, expiry, and continuation paths. | Title preserved / not finalized |
+| Instructions Route | Define payment instruction / 付款指示 route shell, pending versus incomplete instruction display, edit boundaries, cancellation/archive behavior, and checkout handoff. | Working baseline / not finalized |
 | Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
 | Receipts / Activity Route | Define receipts, proof of payment, statements, refund/reversal records, and transaction details. | Title preserved / not finalized |
 | Reminders Route | Define due reminders, user-set reminders, notification settings, and reminder destinations. | Title preserved / not finalized |
@@ -577,6 +578,214 @@ These signals should support service quality, funnel analysis, risk review, supp
 
 ---
 
+### 5.12 Payment Instructions Route
+
+The user-facing route label may be `Payment Instructions` or `付款指示`.
+
+The route is for pending, future, or incomplete payment setups. It is not the normal pay-now checkout route, not a bill/rent reminder route, not a request route, not full card management, and not payment history.
+
+| Field | Requirement |
+| --- | --- |
+| Working route ID | `INSTRUCTIONS-ROOT` |
+| Stable route ID | `ROUTE-06B-INSTRUCTIONS-ROOT` |
+| Detail screen ID | `INSTRUCTIONS-DETAIL` |
+| Stable detail screen ID | `SCREEN-06B-INSTRUCTIONS-DETAIL` |
+| Primary owner | DOC-06B owns route shell, list/detail layout, entry points, high-level actions, and route handoff. |
+| Payment owner | DOC-09 owns payment instruction mechanics, checkout/payment screen behavior, payment quote, payment profile/card allocation, funding-leg state, authorization, revalidation, and payment status. |
+| Related owners | DOC-08 owns notification delivery; DOC-13 owns promotion quote impact; DOC-15 owns masking/privacy; DOC-18 owns schema/events; DOC-19 owns security/tokenization; DOC-22 owns admin controls. |
+
+#### 5.12.1 Instruction Definition
+
+A payment instruction means the user has already entered, or intentionally started, a payment setup and the payment is not submitted or completed immediately.
+
+Payment instruction is created only where:
+
+- the user intentionally creates a pay-later instruction within the allowed instruction window;
+- the user starts a split-card payment and one or more funding legs remain pending;
+- a payment setup remains incomplete due to pending, failed, expired, or retry-required funding action;
+- the instruction requires user action before payment can proceed.
+
+Payment instruction must not be created merely because a user pays immediately and completes payment. Normal completed payments belong to receipt/activity surfaces. A user who wants to pay beyond the allowed instruction window should create a normal reminder or future payment prompt, not a payment instruction.
+
+#### 5.12.2 Instruction Types
+
+| Type | Meaning | User Edit Boundary |
+| --- | --- | --- |
+| Pending Instruction | User intentionally set up a future/pay-later payment and no funding leg has been submitted. | User may change target bill/rent, amount, payment profile/card allocation, and payment schedule before submitting. |
+| Incomplete Instruction | User already started payment and at least one payment step, funding leg, or failure/retry state exists. | User may continue payment or archive the instruction, but should not materially change target bill/rent, original amount, or completed funding legs. |
+
+`Pay now` is not an instruction type. It is the normal checkout/payment path governed by DOC-09. Every payment may have backend session, quote, attempt, or audit records, but only pending/future/incomplete setups appear as user-facing payment instructions.
+
+#### 5.12.3 Entry Points
+
+| Entry Point | Route Behavior |
+| --- | --- |
+| Dashboard shortcut `Instructions` | Opens `INSTRUCTIONS-ROOT`. |
+| Pay+ `Continue Payment` | Opens `INSTRUCTIONS-ROOT`, or may deep-link to `INSTRUCTIONS-DETAIL` where there is one urgent instruction. |
+| Important Notice / Action Required card | Opens the relevant `INSTRUCTIONS-DETAIL` where a specific instruction exists. |
+| Payment instruction notification | Opens `INSTRUCTIONS-DETAIL` by default for context; its primary action may continue to DOC-09 checkout/review where payment submission is required. |
+| Checkout/payment flow | May create or update a payment instruction where user chooses pay later, split-card remains incomplete, or payment remains pending action. |
+
+#### 5.12.4 `INSTRUCTIONS-ROOT` List Screen
+
+`INSTRUCTIONS-ROOT` displays existing instruction cards and provides the entry point for creating a new instruction. It should not process payment directly.
+
+Recommended screen order:
+
+1. Header: `Payment Instructions` or `付款指示`.
+2. Top action: `+ Add Instruction`.
+3. Filter row: `All`, `Pending`, `Incomplete`, `Archived`.
+4. Instruction card list.
+5. Empty state.
+
+Instruction cards should be compact. They should not behave like a full payment summary or receipt.
+
+MVP card fields:
+
+- linked bill/rent/fee name;
+- category;
+- payee / recipient name;
+- intended amount or remaining amount, depending instruction type;
+- instruction status;
+- timing label:
+  - pending instruction: `Pay on [date]`;
+  - incomplete instruction: `Expires in X days`, `Expires today`, or `Expired`.
+
+Card action:
+
+- `View Detail` opens `INSTRUCTIONS-DETAIL`.
+
+The card should not show detailed quote, fee, promotion, or full payment profile status. Those belong in the instruction detail screen or DOC-09 checkout/review.
+
+#### 5.12.5 `INSTRUCTIONS-DETAIL` Detail Screen
+
+`INSTRUCTIONS-DETAIL` explains and controls one instruction. It is a context and management screen; actual payment submission remains in DOC-09 checkout/payment.
+
+For a pending instruction, show:
+
+- linked bill/rent/fee;
+- category;
+- payee / recipient;
+- payment amount;
+- selected payment profile or card allocation summary;
+- payment schedule;
+- expiry countdown;
+- instruction status.
+
+Pending instruction allowed edits:
+
+- change target bill/rent, with payment details recalculated through DOC-09;
+- edit payment amount;
+- change payment profile/card allocation;
+- change payment schedule.
+
+Pending instruction actions:
+
+- `Pay Now`, routing to DOC-09 checkout/review;
+- `Update Instruction`;
+- `Cancel Instruction`.
+
+For an incomplete instruction, show:
+
+- linked bill/rent/fee;
+- category;
+- payee / recipient;
+- total intended amount;
+- funded amount where applicable;
+- remaining amount;
+- payment method or split-leg progress summary;
+- failed, pending, or retry-required leg summary where applicable;
+- expiry countdown;
+- instruction status.
+
+Incomplete instruction actions:
+
+- `Continue Payment`, routing to DOC-09 checkout/review for remaining eligible action;
+- `Archive`.
+
+Incomplete instruction must not allow material changes to the target bill/rent, original intended amount, or completed funding legs. If the user wants a different target, different amount, or different payment setup after payment has partly started, the user should create a new payment or instruction instead of mutating the incomplete one.
+
+#### 5.12.6 Add Instruction Flow
+
+`+ Add Instruction` starts an instruction setup flow, not a generic checkout shortcut.
+
+The flow should:
+
+1. require the user to select an existing eligible bill, fee, rent, or approved obligation;
+2. route to `BILLS-ADD` if the user needs to add a new bill/rent first;
+3. route into DOC-09 payment setup rules for amount, payment profile/card allocation, timing, quote, eligibility, and authorization boundary;
+4. create a pending instruction only when the user confirms a pay-later setup within the allowed instruction window.
+
+If the selected target bill/rent changes during a pending instruction edit, the payee, amount, payment readiness, fee, promotion eligibility, schedule, and available payment profile/allocation must be recalculated through DOC-09 before the instruction can be updated or paid.
+
+#### 5.12.7 Reminder and Notification Boundary
+
+A payment instruction may generate app notifications, action-required alerts, and system tasks, but it should not create a normal user-visible `BILLS-REMINDER-LIST` reminder record.
+
+| Concept | Route / Owner |
+| --- | --- |
+| Bill/rent due-date reminder | DOC-06C `BILLS-REMINDER-LIST` / `BILLS-REMINDER-DETAIL`. |
+| User manual bill/rent reminder | DOC-06C `BILLS-REMINDER-LIST` / `BILLS-REMINDER-DETAIL`. |
+| Payment instruction action alert | `INSTRUCTIONS-DETAIL` and DOC-09 checkout/review, with delivery governed by DOC-08. |
+
+This avoids duplicate user functions:
+
+- Reminders mean "remind me about an obligation."
+- Payment Instructions mean "finish or manage a pending payment setup."
+- Checkout means "submit payment."
+
+#### 5.12.8 Payment Profile / Card Allocation Boundary
+
+Payment instruction may display selected payment profile, masked card, or split allocation summary because that information is needed to understand the pending payment setup.
+
+Payment instruction must not become the full Cards / Payment Profile management route.
+
+Allowed route behavior:
+
+- show masked payment profile/card allocation summary;
+- show if a selected card/profile is unavailable, expired, failed, or requires action;
+- provide contextual actions such as `Change Payment Method` or `Fix Payment Method`.
+
+Handoff behavior:
+
+- payment method selection, split allocation changes, quote recalculation, and payment submission are governed by DOC-09 checkout/payment;
+- full add/remove/manage card behavior belongs to the future Cards / Payment Methods route and DOC-19 tokenization/security rules.
+
+#### 5.12.9 Data and Intelligence Signals
+
+DOC-06B should identify route-level signals only. Final event taxonomy, schema, lineage, model eligibility, and analytics ownership remain DOC-18.
+
+Material signals include:
+
+- Instructions route opened;
+- instruction card viewed;
+- instruction detail opened;
+- add instruction started;
+- target bill/rent selected;
+- pending instruction created;
+- pending instruction updated;
+- pending instruction cancelled;
+- incomplete instruction continued;
+- incomplete instruction archived;
+- instruction expired;
+- payment profile/card issue displayed;
+- user routed from instruction to checkout/review;
+- user returned from checkout/review to instruction where applicable;
+- instruction led to successful funding, partial funding, failure, expiry, cancellation, or payout-ready funded portion.
+
+These signals support funnel analysis, payment-friction analysis, support investigation, risk monitoring, operations, and future approved AI-driven payment intelligence.
+
+#### 5.12.10 Open Items
+
+| Item | Owner | Status |
+| --- | --- | --- |
+| Final visual layout, field density, and exact button labels for pending versus incomplete instruction cards | Product / Design | Open |
+| Final expiry window, expiry countdown wording, cancellation/archive rules, and restore rules | Product / Payments / Operations | Open |
+| Exact payment-profile/card-allocation update route and future Cards route relationship | Product / Payments / Security | Open |
+| Exact notification wording and timing for payment instruction action alerts | Product / Payments / DOC-08 | Open |
+
+---
+
 ---
 ## 6. Route Completion Status
 
@@ -588,9 +797,9 @@ These signals should support service quality, funnel analysis, risk review, supp
 | Offers | Not Fully Defined | Define Offers Hub, offer detail, coupon/voucher library routing, and placement interactions with DOC-13. |
 | Me | Not Fully Defined | Define profile, settings, privacy, notification, security, payment-method, and support routes. |
 | Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
-| Instructions | Partially Defined by DOC-09 | Define route shell, shortcut behavior, dashboard action-required placement, and return-to-checkout behavior. |
+| Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/archive rules, and payment-profile handoff behavior. |
 | Receipts / Activity | Partially Defined | Define global receipt/activity hub and relationship to bill/rent-specific activity in DOC-06C. |
-| Reminders | Partially Defined in DOC-06C | Confirm relationship between ordinary bill/rent reminders and payment-instruction reminders. |
+| Reminders | Partially Defined in DOC-06C | Ordinary bill/rent reminders remain separate from payment instruction action alerts. |
 | Cards | Not Fully Defined | Define payment profile route UX with DOC-09 and DOC-19. |
 | Referral | Not Fully Defined | Define route UX with DOC-13. |
 | More | Not Fully Defined | Define overflow, management, and admin/user shortcut configuration behavior. |
@@ -605,11 +814,13 @@ These signals should support service quality, funnel analysis, risk review, supp
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
 | OQ-06B-006 | What exact visual styling, card density, field-level copy, resend/reminder limit, share-button placement, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
+| OQ-06B-007 | What exact visual styling, field density, expiry/archive wording, and card/payment-profile handoff should apply to pending and incomplete payment instruction routes? | Product / Design / Payments / Security | Open |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.9 | 2026-07-03 | Defined `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` route shell for payment instructions / 付款指示, including pending versus incomplete instruction behavior, compact card fields, detail actions, reminder boundary, checkout handoff, and payment-profile/card allocation boundary. |
 | 0.1.8 | 2026-07-03 | Finalized `REQUESTS-NEW` route shell with section order, route boundary, linked-context selection, evidence gate, counterparty lookup, share/delivery rules, state behavior, and DOC-06C return behavior. |
 | 0.1.7 | 2026-07-02 | Added `REQUESTS-NEW`, clarified request status labels, evidence-before-send gate, counterparty identifier, WhatsApp deeplink sharing, and return behavior between Requests and Bills routes. |
 | 0.1.6 | 2026-07-02 | Clarified shortcut grid items as entry points rather than feature owners, narrowed Bills bottom-nav ownership, and added the app route-entry Mermaid diagram reference. |

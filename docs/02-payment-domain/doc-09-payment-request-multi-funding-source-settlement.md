@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.3
+version: 1.0.4
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-03
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -100,7 +100,7 @@ DOC-09 does not define:
 | Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
 | Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
 | Multi-card payment | MVP scope, supporting up to a configurable number of credit cards per payment. Launch cap is to be confirmed. |
-| User payment instruction | MVP scope. User may pay immediately or create a deferred payment instruction for single-card or split-card payment, subject to authorization, reminder, settlement, and payout rules. |
+| User payment instruction | MVP scope for pending pay-later setup and incomplete payment continuation. Pay-now completed payments do not appear as user-facing payment instructions. |
 | Payout rails | FPS, cheque, and EPS are acceptable Hong Kong payout rails; payout execution belongs to DOC-10. |
 | Upstream settlement | Payment gateway settlement expected T+1 to T+3. |
 | Fee model | Percentage-based online payment processing service fee; exact rates and allocations remain admin-configurable and to be confirmed. |
@@ -183,9 +183,9 @@ DOC-06B `REQUESTS-NEW` is a request creation and party-linking route, not a paym
 5. System creates payment quote.
 6. Payer selects eligible payment profile(s).
 7. System recalculates promotion and payment quote if selected payment profile affects eligibility.
-8. Payer chooses pay now or creates a payment instruction.
+8. Payer chooses pay now, creates a pending payment instruction, or continues an incomplete payment instruction.
 9. For pay-now flow, payer authorizes payment and system submits payment through approved PSP/acquirer flow.
-10. For deferred instruction flow, system stores the instruction and sends the payer back to payment/checkout screen when action is required.
+10. For payment instruction flow, system stores or updates the instruction and sends the payer back to the relevant instruction detail or payment/checkout screen when action is required.
 11. System records payment outcome for each submitted funding leg.
 12. System records settlement readiness for each completed funding leg.
 13. Payout readiness for settlement-ready funded portions passes to DOC-10.
@@ -236,7 +236,7 @@ If a selected payment profile changes card-linked promotion eligibility, or a pr
 
 User payment instruction is MVP scope.
 
-A payment instruction means the user has entered the payment flow and selected payment amount, payment profile(s), split allocation where applicable, timing, and payee transfer preference, but one or more funding legs have not yet been submitted to the PSP/acquirer.
+A payment instruction means the user has entered, or intentionally started, a payment setup and the payment is pending, future-dated within the allowed window, or incomplete. It may include selected payment amount, payment profile(s), split allocation where applicable, timing, and payee transfer preference, but one or more funding legs have not yet been submitted or completed through the PSP/acquirer.
 
 Payment instruction is not:
 
@@ -248,13 +248,15 @@ Payment instruction is not:
 
 ### 8.1 Instruction Types
 
-| Type | Meaning | Gateway Submission |
+| Type | Meaning | Edit Boundary |
 | --- | --- | --- |
-| Pay now | User submits selected funding leg(s) immediately. | Submit now. |
-| Deferred payment instruction | User saves selected funding leg(s) for later action within the allowed window. | Do not submit until user returns and confirms. |
-| Reminder only | User asks to be reminded about a bill/rent/obligation outside the payment flow. | No gateway submission and no payment instruction. |
+| Pending Instruction | User intentionally creates a pay-later payment setup within the allowed window and no funding leg has been submitted. | User may change target bill/rent, amount, payment profile/card allocation, and payment schedule before submission. |
+| Incomplete Instruction | User already started payment and one or more funding legs, failures, retries, or pending actions remain unresolved. | User may continue payment or archive; material changes to target bill/rent, original amount, or completed funding legs should not be allowed. |
+| Reminder only | User asks to be reminded about a bill/rent/obligation outside the payment flow or beyond the allowed instruction window. | No gateway submission and no payment instruction. |
 
-Deferred payment instruction must support both single-card and split-card payments.
+Pay now is not a payment instruction type. A pay-now flow that is submitted and completed should route to receipt/activity surfaces, not the user-facing Payment Instructions route.
+
+Payment instruction must support both single-card and split-card payments where enabled.
 
 ### 8.2 Timing Rules
 
@@ -263,14 +265,14 @@ Deferred payment instruction must support both single-card and split-card paymen
 | Deferred instruction window | A deferred payment instruction may target a funding action date within 7 days. |
 | Beyond 7 days | If user wants action more than 7 days later, PayPlus should create a reminder only; user must return and start or resume payment flow. |
 | Gateway authorization validity | PayPlus must not assume PSP/acquirer 2FA, 3DS, authorization, or session validity will remain available until the deferred date. |
-| User return required | Deferred instruction reminder should return the user to payment/checkout screen to confirm and submit payment. |
+| User return required | Payment instruction action alerts should return the user to the relevant instruction detail or payment/checkout review so the user can confirm and submit payment. |
 | Quote revalidation | Stored payment and promotion quotes must be revalidated when the user returns to submit a deferred funding leg. Material changes require recalculation and user confirmation. |
 | Selected payee transfer date | User may select a payee transfer date only if it is no earlier than the applicable T+3 / settlement-ready date for the funded portion and subject to DOC-10 readiness rules. |
 | No selected payee transfer date | Settlement-ready funded portions may pass to DOC-10 for normal payout timing. |
 
 The exact 7-day window, T+3 basis, cutoff, business-day treatment, and PSP/acquirer constraints must remain configurable and subject to DOC-10, DOC-17, and DOC-18.
 
-Creating a deferred payment instruction stores the user's selected payment context. It must not be represented as card authorization, capture, settlement, payout readiness, or completed payment until the relevant funding leg has actually been submitted and confirmed through the approved payment flow.
+Creating a payment instruction stores the user's selected payment context. It must not be represented as card authorization, capture, settlement, payout readiness, or completed payment until the relevant funding leg has actually been submitted and confirmed through the approved payment flow.
 
 ### 8.3 Split-Card Instruction Rules
 
@@ -288,7 +290,7 @@ Each card leg should include:
 - payment attempt status;
 - settlement status;
 - payout linkage where settlement-ready;
-- reminder status;
+- action-alert status;
 - failure, expiry, or cancellation reason where applicable.
 
 Rules:
@@ -299,24 +301,26 @@ Rules:
 - settlement-ready funded portions may proceed to DOC-10 payout evaluation even if the overall instruction remains partially funded;
 - remaining unpaid legs must stay visible as pending, expired, failed, or cancelled according to status rules;
 - user and payee screens must not describe partial funding as full payment completion.
+- once a payment becomes an incomplete instruction, user-facing UI should allow continuation or archive, but should not allow material changes to target bill/rent, original intended amount, or completed funding legs.
 
 ### 8.4 Payment Instruction Status
 
 | Status | Meaning |
 | --- | --- |
-| Instruction Created | Payment instruction exists but no funding leg has been submitted. |
+| Pending Instruction | Payment instruction exists and no funding leg has been submitted. |
 | Pending User Action | User must return to confirm or submit one or more funding legs. |
 | Partially Funded | At least one funding leg is completed, but the intended full amount is not funded. |
 | Fully Funded | All intended funding legs are completed. |
 | Expired | Instruction or remaining leg passed allowed action window. |
 | Cancelled | User or admin cancelled the instruction where permitted. |
+| Archived | User hides an expired, cancelled, or incomplete instruction from the active instruction list where allowed; archive is not hard deletion. |
 
 ### 8.5 Funding Leg Status
 
 | Status | Meaning |
 | --- | --- |
 | Pending | Leg selected but not submitted to gateway. |
-| Reminder Sent | User reminder sent for pending leg. |
+| Action Alert Sent | User action alert or notification sent for pending leg. |
 | Submitted | Leg submitted to PSP/acquirer. |
 | Authorized | Gateway authorization succeeded where applicable. |
 | Failed | Leg failed or was declined. |
@@ -339,17 +343,17 @@ Payment completion and funded-portion payout are separate.
 
 DOC-10 owns payout execution, partial payout grouping, bank file/API handling, and reconciliation for settlement-ready funded portions.
 
-### 8.7 Reminder Boundary
+### 8.7 Reminder and Action-Alert Boundary
 
-Payment instruction reminders are different from ordinary bill/rent reminders.
+Payment instruction action alerts are different from ordinary bill/rent reminders.
 
 | Reminder Type | Source | User Action Destination |
 | --- | --- | --- |
 | Normal due-date reminder | System generated from bill/rent/obligation due date. | Bill/rent/obligation detail screen. |
 | User manual reminder | User sets reminder date or offset for a bill/rent/obligation. | Bill/rent/obligation detail screen. |
-| Deferred payment instruction reminder | User has entered payment flow and saved deferred payment context. | Payment/checkout screen for the same instruction. |
+| Payment instruction action alert | User has entered payment flow and has a pending or incomplete payment instruction requiring action. | `INSTRUCTIONS-DETAIL` and/or payment/checkout review for the same instruction. |
 
-DOC-06C owns ordinary bill/rent reminder management through `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. DOC-08 owns notification IDs, channel rules, and message delivery. Deferred payment instruction reminders remain payment-domain reminders and must not be treated as ordinary bill/rent reminder records unless a later DOC-06C/DOC-09 decision explicitly allows that placement.
+DOC-06C owns ordinary bill/rent reminder management through `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. DOC-06B owns `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` route shells. DOC-08 owns notification IDs, channel rules, and message delivery. Payment instruction action alerts must not be treated as ordinary bill/rent reminder records.
 
 ---
 
@@ -480,9 +484,9 @@ Evidence status naming must not diverge from DOC-06C and DOC-12. DOC-12 owns evi
 | Evidence verification | Evidence Processing, Pending User Correction, Pending Evidence Review, Evidence Rejected, Duplicate Suspected, Evidence Archived where relevant | Tracks DOC-12 evidence processing and maps to DOC-06C user-facing evidence status and bill/rent payment readiness before payment eligibility. |
 | Review and response | Viewed, Accepted, Rejected, Disputed, Expired, Cancelled | Recipient action or lifecycle state before payment. |
 | Payment readiness | Approved for Payment, Payment Quote Created | Request passed required gates and quote is available. |
-| Payment instruction | Instruction Created, Pending User Action, Partially Funded, Fully Funded, Expired, Cancelled | Tracks saved payment context before and during deferred or split funding. |
+| Payment instruction | Pending Instruction, Pending User Action, Partially Funded, Fully Funded, Expired, Cancelled, Archived | Tracks saved payment context before and during pending, future, or incomplete funding. |
 | Authorization | Payment Authorized, Step-Up Required, Step-Up Passed, Step-Up Failed | Tracks payer authorization and extra authentication. |
-| Funding leg | Pending, Reminder Sent, Submitted, Authorized, Failed, Settlement Pending, Settlement Ready, Paid Out, Expired, Cancelled | Tracks each card leg in single-card or split-card funding. |
+| Funding leg | Pending, Action Alert Sent, Submitted, Authorized, Failed, Settlement Pending, Settlement Ready, Paid Out, Expired, Cancelled | Tracks each card leg in single-card or split-card funding. |
 | Processing | Payment Processing, Payment Completed, Payment Failed, Partially Funded | Tracks PSP/acquirer payment outcome without treating partial funding as complete. |
 | Review or hold | Held for Review | Payment requires admin, risk, or partner review. |
 | Settlement readiness | Settlement Pending, Settlement Confirmed | Tracks upstream settlement state before payout readiness. |
@@ -515,7 +519,7 @@ Rules:
 - failed payment must be visible and traceable;
 - failed or expired authorization must not result in payout readiness;
 - retries may be allowed where configured;
-- pending or incomplete funding legs may generate reminders and user action tasks;
+- pending or incomplete funding legs may generate action alerts and user action tasks;
 - retry limits must be configurable;
 - repeated failures may trigger risk review or payment profile suspension;
 - failure events should feed DOC-08 notification decisions and DOC-18 audit records.
@@ -626,7 +630,7 @@ DOC-09 requires traceability for:
 | OQ-09-012 | Which DOC-13 promotion quote, reward entitlement, card-linked eligibility, and coupon/voucher states block or require recalculation before payer authorization? | Product / Payments / Growth | Open |
 | OQ-09-013 | What exact deferred payment instruction validity window should apply if PSP/acquirer, 3DS, or security rules differ from the 7-day product baseline? | Payments / Security / Product | Open |
 | OQ-09-014 | What selected payee transfer date rules apply when split-card funding legs complete on different dates? | Payments / Finance / Product | Open |
-| OQ-09-015 | What expiry, cancellation, and reminder schedule should apply to incomplete payment instructions and funding legs? | Product / Operations / Payments | Open |
+| OQ-09-015 | What expiry, cancellation, archive, and action-alert schedule should apply to incomplete payment instructions and funding legs? | Product / Operations / Payments | Open |
 | OQ-09-016 | What payer/payee wording should describe partial funding, partial payout, remaining unpaid amount, and incomplete payment? | Product / Legal / Operations | Open |
 | OQ-09-017 | What quote reservation, expiry, revalidation, and campaign-budget handling should apply to deferred payment instructions? | Product / Growth / Payments | Open |
 
@@ -640,7 +644,7 @@ DOC-09 is acceptable when:
 - payment eligibility gates are clear;
 - DOC-12 evidence verification outcomes are consumed before payment quote and authorization where required;
 - payment quote requirements are defined;
-- user payment instruction and deferred funding rules are defined for single-card and split-card payments;
+- user payment instruction and deferred/incomplete funding rules are defined for single-card and split-card payments;
 - deferred payment instruction quote revalidation and material-term confirmation rules are defined;
 - DOC-13 promotion quote requirements are consumed before authorization where applicable;
 - payment profiles and tokenization boundaries are included without duplicating DOC-17, DOC-18, or DOC-19;
@@ -674,3 +678,4 @@ DOC-09 is acceptable when:
 | 1.0.1 | 2026-06-18 | Aligned evidence status consumption with DOC-06 evidence status/payment-readiness mapping and DOC-12 verification outcomes. |
 | 1.0.2 | 2026-06-24 | Clarified that DOC-09 owns payment/checkout screen content and payment-domain UI behavior while DOC-06 owns route entry and handoff. |
 | 1.0.3 | 2026-07-02 | Aligned payment-domain boundary with DOC-06B `REQUESTS-NEW`, confirming request creation is not checkout and cannot bypass evidence, acceptance, or payment eligibility gates. |
+| 1.0.4 | 2026-07-03 | Aligned payment instruction definition with DOC-06B: pay-now completed payments do not appear as instructions; pending instructions are editable before submission; incomplete instructions allow continue/archive but not material changes; action alerts are separate from ordinary bill/rent reminders. |

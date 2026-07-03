@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.5
+version: 0.1.6
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -57,7 +57,7 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | Activity sub-route | Working baseline | Payment activity and limited milestones defined; global receipt/activity hub remains separate. |
 | Add Bill / Rent flow | Working baseline | Evidence capture methods and required fields defined; source selection UX remains open. |
 | Evidence sub-route | Working baseline | Evidence detail/upload behavior and status mapping defined; data model remains DOC-18. |
-| Reminder list/detail route | Working baseline | Linked reminders, defaults, custom override, toggle, and soft-delete defined; payment-instruction reminder placement remains open. |
+| Reminder list/detail route | Working baseline | Linked reminders, defaults, custom override, toggle, and soft-delete defined; payment-instruction action alerts remain outside Bills reminder management. |
 | User-to-user linking | Partially defined | Automatic matching is not allowed; invitation/linking mechanism remains open. |
 
 ## 4. Shorthand to Stable Route ID Map
@@ -538,7 +538,7 @@ Reminder routes must use specific route IDs:
 
 `BILLS-REMINDER` may be used only as a shorthand discussion label. AI build documents should use the specific list/detail route ID so screens, sheets, and actions are not confused.
 
-Reminder source type should be stored internally without overexposing technical labels to users. MVP source types should include system due-date reminder, user manual reminder, and user custom override reminder. Deferred payment instruction reminders are governed by DOC-09 and remain an open placement question for the Bills reminder management UI.
+Reminder source type should be stored internally without overexposing technical labels to users. MVP source types should include system due-date reminder, user manual reminder, and user custom override reminder. Payment instruction action alerts are not ordinary Bills reminder records and should not appear in `BILLS-REMINDER-LIST`.
 
 Every Bills reminder must have a `reminderID` and link to exactly one existing bill, fee, rent, tenancy, or obligation record ID. A reminder created from a bill/rent card or detail page should automatically inherit the linked record ID. A reminder created from `BILLS-REMINDER-LIST` through `+ Add Reminder` must first require the user to select an existing bill, fee, rent, tenancy, or obligation record. Free-floating reminders are not MVP scope.
 
@@ -602,13 +602,11 @@ Reminder deletion should be supported from `BILLS-REMINDER-LIST`:
 6. Delete requires confirmation.
 7. User-facing delete should be implemented as soft delete for audit, support, analytics, and abuse investigation.
 
-User-created or custom reminder records may be deleted. System/default due-date reminders should normally be disabled rather than hard-deleted. Deferred payment instruction reminders are excluded from this deletion flow unless a later decision explicitly brings them into reminder management.
+User-created or custom reminder records may be deleted. System/default due-date reminders should normally be disabled rather than hard-deleted. Payment instruction action alerts are excluded from this deletion flow.
 
 Due soon, overdue, evidence rejected, and payment-readiness action states belong primarily to the linked bill/rent card and detail page. Reminder cards should focus on reminder state such as next reminder date, reminder off, reminder expired, or custom reminder set.
 
-DOC-08 owns notification IDs, channel matrix, templates, user preferences, retry behavior, and delivery logging. DOC-09 owns deferred payment instruction reminders and return-to-checkout behavior. DOC-15 owns sensitive-data display and masking. DOC-18 owns final schema, event taxonomy, lineage, and analytics definitions.
-
-Open question: Should deferred payment instruction reminders also appear in `BILLS-REMINDER-LIST`, or remain only under Instructions, dashboard action-required surfaces, and the DOC-09 checkout/payment instruction flow?
+DOC-08 owns notification IDs, channel matrix, templates, user preferences, retry behavior, and delivery logging. DOC-06B owns `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` route shells. DOC-09 owns payment instruction mechanics and return-to-checkout behavior. DOC-15 owns sensitive-data display and masking. DOC-18 owns final schema, event taxonomy, lineage, and analytics definitions.
 
 ### 5.12 Evidence Structure and UX
 
@@ -711,12 +709,12 @@ These events should support product analytics, operational monitoring, risk revi
 | OQ-06C-004 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
 | OQ-06C-005 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
 | OQ-06C-006 | What exact request-delivery and Remind Payer UX should apply inside BILLS-RECEIVE, including resend limits, payer acceptance states, wording, and notification-channel rules? | Product / Design / Operations | Open |
-| OQ-06C-007 | Should deferred payment instruction reminders appear in Bills reminder management, or remain only under Instructions, dashboard action-required surfaces, and DOC-09 checkout/payment instruction flow? | Product / Design / Payments / Operations | Open |
 
 ## 7. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.6 | 2026-07-03 | Aligned reminder route boundary with DOC-06B Instructions route: payment instruction action alerts stay outside `BILLS-REMINDER-LIST` and route through Instructions / DOC-09 instead. |
 | 0.1.5 | 2026-07-03 | Aligned Bills add/request handoffs with the finalized DOC-06B `REQUESTS-NEW` route shell, including create-new return behavior, cancellation behavior, and request-delivery handoff. |
 | 0.1.4 | 2026-07-02 | Aligned Bills add/detail handoffs with DOC-06B `REQUESTS-NEW` and `REQUESTS-DETAIL`, including evidence-before-request-delivery boundary. |
 | 0.1.3 | 2026-06-29 | Aligned Bills/rent request actions with DOC-06B `REQUESTS-DETAIL` ownership. |

@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.8
+version: 0.18.9
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-03
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -117,7 +117,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Fees and promotions | Enable only when DOC-13 promotion quote, entitlement, discount, coupon, voucher, reward, disclosure, accounting, tax, commercial, and reporting treatment is confirmed. |
 | OCR or document AI | Enable by category, payee type, risk tier, document type, and provider readiness; manual or assisted review may be used until automation is approved. |
 | Multi-card funding | MVP scope; support up to a configurable number of credit cards per payment, with the launch cap and related controls to be confirmed. |
-| User payment instruction | MVP scope; enable for single-card and split-card payments where DOC-09 deferred funding, reminder, partial funding, and payout controls are ready. |
+| User payment instruction | MVP scope for pending pay-later setup and incomplete payment continuation where DOC-06B route shell, DOC-09 funding rules, action-alert routing, partial funding, and payout controls are ready. |
 | Data and AI readiness | Require structured events, field classification, lineage, auditability, consent/preference state, approved-purpose metadata, and model-use eligibility metadata where relevant; advanced model automation and external activation remain future-gated. |
 
 Current launch assumptions:
@@ -157,7 +157,7 @@ The MVP does not include:
 - crypto payments;
 - lending or credit issuance;
 - automatic recurring payments unless separately approved;
-- deferred user payment instruction for single-card and split-card payment is in scope under DOC-09 and is not an automatic recurring payment;
+- deferred or incomplete user payment instruction for single-card and split-card payment is in scope under DOC-06B/DOC-09 and is not an automatic recurring payment;
 - marketplace escrow;
 - investment, savings, or deposit accounts;
 - open-loop funds transfer unrelated to a bill or evidence-backed obligation;
@@ -373,7 +373,7 @@ The MVP should support the following request statuses. A request is not a paymen
 | No unsupported transfer | Payment cannot be unrelated to a bill, invoice, fee, rent, tenancy, domestic service, or proof of obligation. |
 | No stored balance | PayPlus must not hold user wallet balances. |
 | Failed payment handling | Failed payments must be visible and traceable. |
-| Deferred instruction quote validity | A deferred payment instruction must revalidate payment quote, promotion quote, card eligibility, and material terms before funding submission where required by DOC-09 and DOC-13. |
+| Payment instruction quote validity | A pending or incomplete payment instruction must revalidate payment quote, promotion quote, card eligibility, and material terms before funding submission where required by DOC-09 and DOC-13. |
 | Refunds/reversals | Refunds or reversals require admin-dashboard status handling and must follow approved operational policy. |
 
 ---
@@ -518,9 +518,9 @@ Bills-route requirements must remain role-aware:
 - accept or reject request;
 - authorize payment;
 - enter payment passcode before proceeding with payment authorization;
-- choose pay now or create a deferred payment instruction where enabled;
-- view and act on payment instruction reminders;
-- review updated quote, promotion, fee, card eligibility, or timing changes when returning to a deferred payment instruction;
+- choose pay now or create a pending payment instruction where enabled;
+- view and act on payment instruction action alerts through DOC-06B `INSTRUCTIONS-ROOT` / `INSTRUCTIONS-DETAIL`;
+- review updated quote, promotion, fee, card eligibility, or timing changes when returning to a pending or incomplete payment instruction;
 - view partial funding, remaining amount, and partial payout status where applicable;
 - review eligible discounts, coupon/voucher selection, reward status, or promotion quote where promotions are enabled;
 - view payment status;
@@ -759,3 +759,4 @@ The MVP is acceptable when:
 | v0.18.6 | 2026-07-02 | Clarified dashboard shortcuts as entry points into owning routes or management areas, aligned with DOC-06B route-entry map. |
 | v0.18.7 | 2026-07-02 | Aligned PRD with DOC-06B `REQUESTS-NEW`, evidence-before-send request delivery gate, and request-not-payment route boundary. |
 | v0.18.8 | 2026-07-02 | Removed stale request-route clarification/dispute actions and aligned exception/support wording with DOC-06B `REQUESTS-NEW` and `REQUESTS-DETAIL`. |
+| v0.18.9 | 2026-07-03 | Aligned PRD wording with DOC-06B Instructions route and DOC-09 payment instruction boundary: pending/incomplete instructions remain separate from ordinary reminders and completed pay-now payments. |

@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.1
+version: 0.4.2
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-03
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -207,7 +207,7 @@ DOC-18 should maintain linkages between:
 - admin review case;
 - audit event.
 
-DOC-18 must include data structures for DOC-09 user payment instruction, payment instruction funding leg, deferred funding date, selected payee transfer date, reminder/action task, partial funding status, partial payout linkage, remaining unpaid amount, payment quote revalidation, promotion quote reservation, and changed-term acknowledgement.
+DOC-18 must include data structures for DOC-09 user payment instruction, payment instruction funding leg, deferred funding date, selected payee transfer date, payment instruction action alert/task, partial funding status, partial payout linkage, remaining unpaid amount, payment quote revalidation, promotion quote reservation, and changed-term acknowledgement.
 
 DOC-18 must also include data structures for DOC-06C ordinary bill/rent reminders, including reminder ID, linked obligation ID, reminder source type, cycle, offset or custom date/time, active/inactive/expired/deleted status, custom override marker, soft-delete/audit metadata, notification linkage, and events for reminder creation, edit, disable, deletion, firing, opening, dismissal, and payment-start attribution.
 
@@ -342,3 +342,4 @@ This document should not become:
 | 0.3.0 | 2026-06-17 | Product Documentation Team | Aligned data-model baseline with DOC-06 Bills reminder list/detail routes by adding linked reminder objects, lifecycle states, soft-delete metadata, notification linkage, and reminder effectiveness events. |
 | 0.4.0 | 2026-06-18 | Product Documentation Team | Added future DOC-18 update markers for DOC-06 Bills evidence detail/upload routes, active evidence versioning, archive-not-delete behavior, evidence status changes, and readiness-change audit events. |
 | 0.4.1 | 2026-07-02 | Product Documentation Team | Added future data/event markers for DOC-06B `REQUESTS-NEW`, evidence-gated auto-send, counterparty lookup, sharing, and route handoff auditability. |
+| 0.4.2 | 2026-07-03 | Product Documentation Team | Aligned future data-model marker with DOC-06B Instructions route by distinguishing payment instruction action alerts/tasks from ordinary bill/rent reminders. |
