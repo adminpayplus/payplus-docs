@@ -122,9 +122,12 @@ flowchart TD
 
   IDETAIL -->|"Pending: Pay Now"| CHECKOUT["DOC-09 checkout / review"]
   IDETAIL -->|"Pending: Update Instruction"| ISETUP
+  IDETAIL -->|"Choose / update card or profile"| PPROOT["PAYMENT-PROFILE-ROOT<br/>Payment Profile"]
   IDETAIL -->|"Pending: Cancel"| IARCHIVE["Cancelled / archived view"]
   IDETAIL -->|"Incomplete: Continue Payment"| CHECKOUT
   IDETAIL -->|"Incomplete: Archive"| IARCHIVE
+
+  PPROOT -->|"Return with refreshed card/profile data"| IDETAIL
 
   CHECKOUT -->|"Submitted / completed"| ACTIVITY["Receipts / Activity"]
   CHECKOUT -->|"Still pending or incomplete"| IDETAIL
@@ -138,8 +141,8 @@ This diagram shows the Payment Profile route shell owned by DOC-06B, including t
 flowchart TD
   ENTRY1["Dashboard Cards shortcut"] --> PPROOT["PAYMENT-PROFILE-ROOT"]
   ENTRY2["Me / payment settings"] --> PPROOT
-  ENTRY3["Checkout change card/profile"] --> PPROOT
-  ENTRY4["Instruction card/profile action"] --> PPROOT
+  CHECKOUT["DOC-09 checkout / review"] -->|"Add / change card or profile"| PPROOT
+  IDETAIL["INSTRUCTIONS-DETAIL"] -->|"Choose / update card or profile"| PPROOT
 
   PPROOT --> TABS["Two-tab route<br/>Cards / Profiles"]
   TABS --> CARDS["Cards tab<br/>PAYMENT-CARD-LIST"]
@@ -156,8 +159,7 @@ flowchart TD
   ADDPROFILE --> PROFILES
   PROFILEDETAIL --> PROFILES
 
-  CARDS -->|"If opened from checkout"| CHECKOUT["DOC-09 checkout / review"]
-  PROFILES -->|"If opened from checkout"| CHECKOUT
-  CARDS -->|"If opened from instruction"| IDETAIL["INSTRUCTIONS-DETAIL"]
-  PROFILES -->|"If opened from instruction"| IDETAIL
+  PPROOT -->|"Return with refreshed card/profile data"| RETURN["Return to originating context"]
+  RETURN --> CHECKOUT
+  RETURN --> IDETAIL
 ```
