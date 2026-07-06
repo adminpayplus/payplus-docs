@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.11
+version: 0.1.12
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -757,6 +757,8 @@ Handoff behavior:
 - reusable card and split-profile management belongs to `PAYMENT-PROFILE-ROOT`;
 - tokenization, card-data security, PSP return handling, and PCI mechanics belong to DOC-19.
 
+`Choose Card`, `Update Card`, `Choose Profile`, and `Edit Profile` should open `PAYMENT-PROFILE-ROOT` in instruction-context mode and return to `INSTRUCTIONS-DETAIL` with refreshed card/profile data after the permitted selection, setup, or edit action.
+
 #### 5.12.9 Data and Intelligence Signals
 
 DOC-06B should identify route-level signals only. Final event taxonomy, schema, lineage, model eligibility, and analytics ownership remain DOC-18.
@@ -775,6 +777,8 @@ Material signals include:
 - incomplete instruction archived;
 - instruction expired;
 - payment profile/card issue displayed;
+- user routed from instruction to Payment Profile;
+- user returned from Payment Profile to instruction with refreshed card/profile data;
 - user routed from instruction to checkout/review;
 - user returned from checkout/review to instruction where applicable;
 - instruction led to successful funding, partial funding, failure, expiry, cancellation, or payout-ready funded portion.
@@ -787,7 +791,7 @@ These signals support funnel analysis, payment-friction analysis, support invest
 | --- | --- | --- |
 | Final visual layout, field density, and exact button labels for pending versus incomplete instruction cards | Product / Design | Open |
 | Final expiry window, expiry countdown wording, cancellation/archive rules, and restore rules | Product / Payments / Operations | Open |
-| Exact visual handoff among `INSTRUCTIONS-DETAIL`, `PAYMENT-PROFILE-ROOT`, and DOC-09 checkout | Product / Payments / Security | Open |
+| Exact visual copy, placement, and return-state UI for handoff among `INSTRUCTIONS-DETAIL`, `PAYMENT-PROFILE-ROOT`, and DOC-09 checkout. Route direction is clarified in `docs/diagrams/payplus-app-route-entry-map.md`. | Product / Payments / Security | Open |
 | Exact notification wording and timing for payment instruction action alerts | Product / Payments / DOC-08 | Open |
 
 ---
@@ -986,6 +990,7 @@ These signals support checkout-friction analysis, card/profile usability, suppor
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.12 | 2026-07-06 | Clarified instruction-context handoff to `PAYMENT-PROFILE-ROOT`, return to `INSTRUCTIONS-DETAIL`, related data signals, and remaining visual handoff open item. |
 | 0.1.11 | 2026-07-06 | Confirmed Payment Profile two-tab `Cards` / `Profiles` structure and added root visual behavior, empty-state, return-context, and non-wallet/non-checkout UI boundaries. |
 | 0.1.10 | 2026-07-06 | Defined `PAYMENT-PROFILE-ROOT` route shell for tokenized card management and saved split-card profile management, including final `Payment Profile` label, max 6-card profile/payment cap, default confirmation behavior, card/profile entry points, instruction and checkout handoffs, invalid-card behavior, split-profile boundaries, and DOC-09/DOC-19 ownership separation. |
 | 0.1.9 | 2026-07-03 | Defined `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` route shell for payment instructions / 付款指示, including pending versus incomplete instruction behavior, compact card fields, detail actions, reminder boundary, checkout handoff, and payment-profile/card allocation boundary. |
