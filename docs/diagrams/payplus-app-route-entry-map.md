@@ -132,7 +132,7 @@ flowchart TD
 
 ## 5. Payment Profile Route Handoff
 
-This diagram shows the Payment Profile route shell owned by DOC-06B and its handoff to DOC-09 checkout/payment and DOC-19 tokenization/security.
+This diagram shows the Payment Profile route shell owned by DOC-06B, including the confirmed two-tab `Cards` / `Profiles` baseline and its handoff to DOC-09 checkout/payment and DOC-19 tokenization/security.
 
 ```mermaid
 flowchart TD
@@ -141,8 +141,9 @@ flowchart TD
   ENTRY3["Checkout change card/profile"] --> PPROOT
   ENTRY4["Instruction card/profile action"] --> PPROOT
 
-  PPROOT --> CARDS["PAYMENT-CARD-LIST<br/>Manage Cards"]
-  PPROOT --> PROFILES["PAYMENT-PROFILE-LIST<br/>Manage Profiles"]
+  PPROOT --> TABS["Two-tab route<br/>Cards / Profiles"]
+  TABS --> CARDS["Cards tab<br/>PAYMENT-CARD-LIST"]
+  TABS --> PROFILES["Profiles tab<br/>PAYMENT-PROFILE-LIST"]
 
   CARDS --> ADDCARD["PAYMENT-CARD-ADD<br/>PSP tokenization"]
   CARDS --> CARDDETAIL["PAYMENT-CARD-DETAIL"]
@@ -155,6 +156,8 @@ flowchart TD
   ADDPROFILE --> PROFILES
   PROFILEDETAIL --> PROFILES
 
-  PPROOT -->|"Return when opened from checkout"| CHECKOUT["DOC-09 checkout / review"]
-  PPROOT -->|"Return when opened from instruction"| IDETAIL["INSTRUCTIONS-DETAIL"]
+  CARDS -->|"If opened from checkout"| CHECKOUT["DOC-09 checkout / review"]
+  PROFILES -->|"If opened from checkout"| CHECKOUT
+  CARDS -->|"If opened from instruction"| IDETAIL["INSTRUCTIONS-DETAIL"]
+  PROFILES -->|"If opened from instruction"| IDETAIL
 ```
