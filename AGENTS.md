@@ -127,6 +127,8 @@ Keep similar concepts separate unless the source documents clearly combine them.
 - a reminder is not automatically a deferred payment instruction;
 - a user action is not the same as a backend event or audit record.
 
+When drafting or editing user-facing status labels, activity labels, checkout/result status, receipt or statement wording, notification wording, or admin status display, check `docs/traceability/status-display-reference-matrix.md`. That matrix is the status-display alignment reference; domain documents still own the underlying system status meaning and DOC-18 remains the future canonical status/event taxonomy owner.
+
 ### User-First Flow Check
 
 Before recommending a flow or editing a UX/product document, answer the practical user questions:

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.7
+version: 0.1.8
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -361,19 +361,16 @@ Activity list entries should show:
 | Recipient / payee name | Normal text prominence. |
 | Bill / rent name | Smaller supporting text. |
 | Amount | Clear and easy to scan. |
-| Status | User-facing status such as `Paid`, `Transferred`, `Processing`, `Under Review`, `Returned`, `Rejected`, or `Failed`. |
+| Status | User-facing status mapped from `docs/traceability/status-display-reference-matrix.md`. |
 
-Status meaning should remain high-level:
+Bill/rent activity status must not create a separate status vocabulary. User-facing labels should follow the status display reference matrix, with DOC-09, DOC-10, and DOC-11 remaining owners of the underlying payment, payout, refund, reversal, and failure statuses.
 
-| Status | User Meaning | Owning Detail |
+Initial payment-lifecycle display mapping:
+
+| Role | Example User-Facing Labels | Owning Detail |
 | --- | --- | --- |
-| `Paid` | Payer funding/payment completed. | DOC-09 |
-| `Transferred` | PayPlus transfer/payout to payee completed. | DOC-10 |
-| `Processing` | Payment, settlement, or transfer is still in progress. | DOC-09 / DOC-10 |
-| `Under Review` | Payment or payout requires review before completion. | DOC-14 / DOC-22 |
-| `Returned` | Funds were returned, refunded, reversed, or recovered. | DOC-11 |
-| `Rejected` | Payment or payout could not proceed or was rejected. | DOC-09 / DOC-10 / DOC-11 |
-| `Failed` | Payment attempt or transfer failed. | DOC-09 / DOC-10 |
+| Payer | `Paid`, `Transferred`, `Failed`, `Returned`, `Refunded`, `Reversed`, `Under Review` | DOC-09 / DOC-10 / DOC-11 / DOC-14 / DOC-22 |
+| Payee | `Processing`, `Received`, `Rejected`, `Returned`, `Reversed`, `Under Review` | DOC-09 / DOC-10 / DOC-11 / DOC-14 / DOC-22 |
 
 Tapping one activity entry should open `BILLS-ACTIVITY-DETAIL` or a later payment detail route if separately defined.
 
@@ -388,6 +385,8 @@ Tapping one activity entry should open `BILLS-ACTIVITY-DETAIL` or a later paymen
 - payment reference number, if any;
 - receipt/proof download where available;
 - link to payment detail where needed and separately governed.
+
+Activity detail may show system lifecycle milestones, but user-facing labels must follow the status display reference matrix. Do not expose raw backend milestones such as payment authorization, settlement readiness, payout processing, reversal handling, or review queue status as independent user-facing status labels unless mapped and approved.
 
 Request and evidence milestones in `BILLS-ACTIVITY` should remain minimal. MVP user-facing evidence milestones should be limited to:
 
@@ -714,6 +713,7 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.8 | 2026-07-06 | Aligned `BILLS-ACTIVITY` user-facing status labels and activity-detail timeline wording with the status display reference matrix. |
 | 0.1.7 | 2026-07-06 | Clarified Bills-route checkout handoff with DOC-06B `PAYMENT-PROFILE-ROOT` while preserving DOC-09 ownership of checkout and split-card payment behavior. |
 | 0.1.6 | 2026-07-03 | Aligned reminder route boundary with DOC-06B Instructions route: payment instruction action alerts stay outside `BILLS-REMINDER-LIST` and route through Instructions / DOC-09 instead. |
 | 0.1.5 | 2026-07-03 | Aligned Bills add/request handoffs with the finalized DOC-06B `REQUESTS-NEW` route shell, including create-new return behavior, cancellation behavior, and request-delivery handoff. |

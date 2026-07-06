@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.9
+version: 1.0.10
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -148,8 +148,8 @@ DOC-08 should reference these documents instead of duplicating their detailed ru
 | Channel rule | Configuration defining which channels are used for a notification event. |
 | Template | Channel-specific message content and variables. |
 | Delivery log | Record of attempted delivery, result, timestamp, recipient, channel, and template version. |
-| Receipt | User-facing confirmation record for a payment outcome. |
-| Statement | Periodic or on-demand account/payment summary. |
+| Receipt | User-facing transaction confirmation record for a completed transaction. It may be viewed, downloaded, shared, corrected, or replaced according to approved rules. |
+| Statement | Periodic or on-demand account/payment summary. It may include payer and payee-side financial activity for the same user account, but should not include unrelated system events. |
 | Dashboard task | Admin or user task shown inside the PayPlus app or admin dashboard. |
 | Important Notice / Action Required | DOC-06B logged-in dashboard section for urgent actions, account messages, system messages, announcements, late payer/payee handling, expiring tenancies, and similar items. It may contain notification-backed and dashboard-only items. |
 | Featured / What's New / Hot Offer | DOC-06B dashboard carousel placement for approved announcements, partner campaigns, feature updates, hot offers, and service events. It is a placement surface, not a notification event by itself. |
@@ -169,6 +169,8 @@ DOC-08 should reference these documents instead of duplicating their detailed ru
 | Auditability | Sent messages, failed messages, template versions, and delivery outcomes must be logged. |
 | Legal control | Legally sensitive templates require approval before publication. |
 | Placement separation | Dashboard placement, notification delivery, inbox entry, and promotion display are related but separate decisions. A dashboard item does not automatically require push, SMS, email, or WhatsApp delivery. |
+
+Where notifications, receipts, statements, proof messages, or in-app communication display payment lifecycle status to users, user-facing status labels should follow `docs/traceability/status-display-reference-matrix.md`. This document controls communication rules and templates, but it should not redefine status-display mapping.
 
 ---
 
@@ -678,5 +680,6 @@ DOC-08 is acceptable when:
 | 1.0.7 | 2026-07-03 | Aligned request delivery and share-channel rules with finalized DOC-06B `REQUESTS-NEW`, including in-app preference, privacy-safe external content, authenticated `REQUESTS-DETAIL` routing, and pending-evidence notification suppression. |
 | 1.0.8 | 2026-07-03 | Aligned payment instruction communication with DOC-06B `INSTRUCTIONS-ROOT` / `INSTRUCTIONS-DETAIL`, replacing ordinary reminder treatment with action-alert routing and keeping `PINS` separate from bill/rent reminders. |
 | 1.0.9 | 2026-07-06 | Aligned notification routing with DOC-06B Payment Profile route by allowing card/profile action-required items to route to `PAYMENT-PROFILE-ROOT` or relevant card/profile screens without creating new notification IDs. |
+| 1.0.10 | 2026-07-06 | Clarified receipt as a transaction confirmation record and statement as a periodic/account summary record, aligned with Activity and status-display terminology, and referenced the status display matrix for user-facing status labels. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

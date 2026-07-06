@@ -29,7 +29,7 @@ Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation
 | `08-qa-release-operations/` | Testing, UAT, go-live, monitoring, incidents, operations, and admin dashboard workflow. |
 | `09-ai-build-execution/` | Reserved AI execution materials. Legacy context files are non-authoritative unless refreshed. |
 | `99-isms-policies/` | ISMS and security policy library. |
-| `traceability/` | Requirements traceability and open-question registers. |
+| `traceability/` | Requirements traceability, open-question registers, and status-display alignment references. |
 
 ## Reading Order
 
@@ -39,6 +39,8 @@ Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation
 4. `DOC-09` to `DOC-11` for payment, payout, reconciliation, refund, cancellation, dispute, and chargeback behavior.
 5. `DOC-12` to `DOC-15` for evidence verification, promotion engine, risk controls, privacy, data classification, and retention.
 6. `DOC-16` to `DOC-22` when drafted for technical architecture, integrations, data model, security, testing, monitoring, and admin operations.
+
+For user-facing status labels across checkout, activity, receipts, statements, notifications, Bills/rent surfaces, and future admin display, also check `traceability/status-display-reference-matrix.md`. The matrix aligns display labels only; domain documents own system status meaning and DOC-18 owns the future canonical status/event taxonomy.
 
 ## AI/Data-Engine Alignment
 

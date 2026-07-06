@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.12
+version: 0.1.13
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -290,6 +290,8 @@ Exact card layout, maximum visible items, empty state, and filtering rules remai
 
 The Recent Activity section should display a capped list of recent transactions and status records.
 
+Activity is the event or lifecycle view of what happened in the user account. Receipt is a transaction confirmation record for a completed transaction. Statement is a periodic or account-level summary record.
+
 Dashboard recent activity items should show:
 
 - date;
@@ -299,6 +301,8 @@ Dashboard recent activity items should show:
 - status.
 
 The section should include a button or arrow to the Recent Activity detail page.
+
+User-facing activity statuses must follow `docs/traceability/status-display-reference-matrix.md` so dashboard Recent Activity, global Activity, Bills activity, checkout result, receipts, statements, notifications, and future admin views do not invent conflicting labels for the same system/domain status.
 
 Detailed receipt content, retention, and notification linkage belong in DOC-08, DOC-11, DOC-15, and DOC-18.
 
@@ -319,7 +323,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Requests Route | Define standalone Requests route shell, creation flow, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
 | Instructions Route | Define payment instruction / 付款指示 route shell, pending versus incomplete instruction display, edit boundaries, cancellation/archive behavior, and checkout handoff. | Working baseline / not finalized |
 | Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
-| Receipts / Activity Route | Define receipts, proof of payment, statements, refund/reversal records, and transaction details. | Title preserved / not finalized |
+| Receipts / Activity Route | Define global Activity and Receipts route shells, including single-entry transaction lifecycle behavior, receipts/proofs/statements, and status-display matrix handoff. | Title preserved / not finalized |
 | Reminders Route | Define due reminders, user-set reminders, notification settings, and reminder destinations. | Title preserved / not finalized |
 | Payment Profile Route | Define tokenized card management, saved split-card profile management, card status, default card, profile action-required behavior, and checkout/instruction handoff. | Route shell defined / not final UI |
 | Referral Route | Define referral entry, invitation link, progress, reward status, and relationship with Offers Hub. | Title preserved / not finalized |
@@ -990,6 +994,7 @@ These signals support checkout-friction analysis, card/profile usability, suppor
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.13 | 2026-07-06 | Added Activity, Receipt, and Statement definitions and required user-facing activity status labels to follow the status display reference matrix. |
 | 0.1.12 | 2026-07-06 | Clarified instruction-context handoff to `PAYMENT-PROFILE-ROOT`, return to `INSTRUCTIONS-DETAIL`, related data signals, and remaining visual handoff open item. |
 | 0.1.11 | 2026-07-06 | Confirmed Payment Profile two-tab `Cards` / `Profiles` structure and added root visual behavior, empty-state, return-context, and non-wallet/non-checkout UI boundaries. |
 | 0.1.10 | 2026-07-06 | Defined `PAYMENT-PROFILE-ROOT` route shell for tokenized card management and saved split-card profile management, including final `Payment Profile` label, max 6-card profile/payment cap, default confirmation behavior, card/profile entry points, instruction and checkout handoffs, invalid-card behavior, split-profile boundaries, and DOC-09/DOC-19 ownership separation. |
