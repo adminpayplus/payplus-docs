@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.6
+version: 0.1.7
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-03
+last_updated: 2026-07-06
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -146,7 +146,7 @@ Initial route ownership:
 Payment/checkout ownership rule:
 
 - DOC-06C owns the user-facing entry point, route handoff, back/return behavior expectation, and the fact that payer-side `Pay` opens checkout.
-- DOC-09 owns the payment/checkout screen content and behavior, including payment quote, fee display, promotion quote, card or payment profile selection, split-card allocation, authorization, 2FA/passcode gates, deferred payment instruction, revalidation, error handling, and payment-state outcomes.
+- DOC-09 owns the payment/checkout screen content and behavior, including payment quote, fee display, promotion quote, card or payment profile selection, split-card allocation, authorization, 2FA/passcode gates, deferred payment instruction, revalidation, error handling, and payment-state outcomes. DOC-06B `PAYMENT-PROFILE-ROOT` owns reusable card/profile management when checkout or instruction flows need a card/profile management handoff.
 - DOC-07 owns required user-facing wording and disclosures; DOC-08 owns checkout-related notifications and receipts; DOC-13 owns promotion/coupon/voucher checkout treatment; DOC-15 owns masking and data visibility; DOC-19 owns authentication/security controls; DOC-18 owns route events and data signals.
 
 ### 5.2 Top-Level Views
@@ -714,6 +714,7 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.7 | 2026-07-06 | Clarified Bills-route checkout handoff with DOC-06B `PAYMENT-PROFILE-ROOT` while preserving DOC-09 ownership of checkout and split-card payment behavior. |
 | 0.1.6 | 2026-07-03 | Aligned reminder route boundary with DOC-06B Instructions route: payment instruction action alerts stay outside `BILLS-REMINDER-LIST` and route through Instructions / DOC-09 instead. |
 | 0.1.5 | 2026-07-03 | Aligned Bills add/request handoffs with the finalized DOC-06B `REQUESTS-NEW` route shell, including create-new return behavior, cancellation behavior, and request-delivery handoff. |
 | 0.1.4 | 2026-07-02 | Aligned Bills add/detail handoffs with DOC-06B `REQUESTS-NEW` and `REQUESTS-DETAIL`, including evidence-before-request-delivery boundary. |

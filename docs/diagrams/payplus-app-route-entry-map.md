@@ -2,7 +2,7 @@
 
 Status: Discussion reference / IA alignment aid  
 Owner: DOC-06B  
-Last updated: 2026-07-03
+Last updated: 2026-07-06
 
 These Mermaid diagrams show the current working relationship between bottom navigation, the Pay+ action sheet, the eight dashboard shortcuts, and major route handoffs.
 
@@ -41,7 +41,7 @@ flowchart TD
   HSHORTCUTS --> BROOT["BILLS-ROOT<br/>Bills & Tenancies"]
   HSHORTCUTS --> RECEIPTS["Receipts<br/>Not fully defined"]
   HSHORTCUTS --> REMINDERS["BILLS-REMINDER-LIST<br/>Reminders"]
-  HSHORTCUTS --> CARDS["Cards / Payment Methods<br/>Not fully defined"]
+  HSHORTCUTS --> PPROOT["PAYMENT-PROFILE-ROOT<br/>Cards / Payment Profile"]
   HSHORTCUTS --> REFERRAL["Referral<br/>Not fully defined"]
   HSHORTCUTS --> MORE["More<br/>Not fully defined"]
 ```
@@ -128,4 +128,33 @@ flowchart TD
 
   CHECKOUT -->|"Submitted / completed"| ACTIVITY["Receipts / Activity"]
   CHECKOUT -->|"Still pending or incomplete"| IDETAIL
+```
+
+## 5. Payment Profile Route Handoff
+
+This diagram shows the Payment Profile route shell owned by DOC-06B and its handoff to DOC-09 checkout/payment and DOC-19 tokenization/security.
+
+```mermaid
+flowchart TD
+  ENTRY1["Dashboard Cards shortcut"] --> PPROOT["PAYMENT-PROFILE-ROOT"]
+  ENTRY2["Me / payment settings"] --> PPROOT
+  ENTRY3["Checkout change card/profile"] --> PPROOT
+  ENTRY4["Instruction card/profile action"] --> PPROOT
+
+  PPROOT --> CARDS["PAYMENT-CARD-LIST<br/>Manage Cards"]
+  PPROOT --> PROFILES["PAYMENT-PROFILE-LIST<br/>Manage Profiles"]
+
+  CARDS --> ADDCARD["PAYMENT-CARD-ADD<br/>PSP tokenization"]
+  CARDS --> CARDDETAIL["PAYMENT-CARD-DETAIL"]
+  PROFILES --> ADDPROFILE["PAYMENT-PROFILE-ADD"]
+  PROFILES --> PROFILEDETAIL["PAYMENT-PROFILE-DETAIL"]
+
+  ADDCARD --> TOKEN["DOC-19 tokenization / PSP return"]
+  TOKEN --> CARDS
+
+  ADDPROFILE --> PROFILES
+  PROFILEDETAIL --> PROFILES
+
+  PPROOT -->|"Return when opened from checkout"| CHECKOUT["DOC-09 checkout / review"]
+  PPROOT -->|"Return when opened from instruction"| IDETAIL["INSTRUCTIONS-DETAIL"]
 ```

@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.9
+version: 0.18.10
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-03
+last_updated: 2026-07-06
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -116,7 +116,8 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Payout methods | Enable only when payout provider, rail, timing, exception handling, and reconciliation are ready. |
 | Fees and promotions | Enable only when DOC-13 promotion quote, entitlement, discount, coupon, voucher, reward, disclosure, accounting, tax, commercial, and reporting treatment is confirmed. |
 | OCR or document AI | Enable by category, payee type, risk tier, document type, and provider readiness; manual or assisted review may be used until automation is approved. |
-| Multi-card funding | MVP scope; support up to a configurable number of credit cards per payment, with the launch cap and related controls to be confirmed. |
+| Multi-card funding | MVP scope; support up to 6 credit cards per payment/profile, with related controls configurable where applicable. |
+| Tokenized cards and saved payment profiles | MVP scope; DOC-06B defines the user route shell, DOC-09 defines checkout use, and DOC-19 defines tokenization/security mechanics. |
 | User payment instruction | MVP scope for pending pay-later setup and incomplete payment continuation where DOC-06B route shell, DOC-09 funding rules, action-alert routing, partial funding, and payout controls are ready. |
 | Data and AI readiness | Require structured events, field classification, lineage, auditability, consent/preference state, approved-purpose metadata, and model-use eligibility metadata where relevant; advanced model automation and external activation remain future-gated. |
 
@@ -135,7 +136,7 @@ Current launch assumptions:
 - request delivery may use in-app message, app link, WhatsApp deeplink, QR code, or other approved channel;
 - Pay+ `Request Payment` and the Requests `+ Create Request` action route to DOC-06B `REQUESTS-NEW`, which must link to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation before sending;
 - receipt, payment, account, tax, and audit record retention is expected to be 7 years, subject to final privacy and legal review;
-- exact fee rates, fee allocation, promotion, coupon, voucher, reward, entitlement, refund, reversal, and multi-card card-count limit remain to be confirmed and should be admin-configurable where applicable.
+- exact fee rates, fee allocation, promotion, coupon, voucher, reward, entitlement, refund, and reversal treatment remain to be confirmed and should be admin-configurable where applicable; multi-card card-count cap is 6 for MVP.
 
 ### 3.1.2 Requirement ID Approach
 
@@ -465,6 +466,7 @@ The MVP should support data structures for the following object families. Detail
 - payment transaction;
 - payment instruction;
 - payment instruction funding leg;
+- tokenized card and payment profile record, including masked metadata, card status, default-card marker, saved split-card profile ratios, starred/frequent marker, action-required state, and soft-delete/archive metadata where applicable;
 - bill/rent reminder record, including linked obligation ID, timing, status, custom override, and deletion/disable state where enabled;
 - payout/settlement record;
 - campaign, offer, promotion quote, promotion quote reservation, benefit entitlement, reward instrument, and redemption/fulfilment records where promotions are enabled;
@@ -485,7 +487,7 @@ The MVP should include the following UX surfaces. Detailed route flows, service 
 
 DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B owns navigation and route taxonomy, DOC-06C owns Bills/rent/tenancy UX, and DOC-06D owns UX requirement/test mapping. Product requirements in DOC-05 should reference DOC-06 family route IDs where useful, use specific sub-route IDs where defined, and avoid duplicating screen-level routing rules.
 
-For split UX topics, use one primary owner. DOC-06B owns standalone route shells such as Requests, Instructions, Offers, Me, Cards, Referral, More, and global Receipts/Activity route shells. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
+For split UX topics, use one primary owner. DOC-06B owns standalone route shells such as Requests, Instructions, Payment Profile, Offers, Me, Referral, More, and global Receipts/Activity route shells. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
 
 For Requests, use the DOC-06 family boundary: a request is not a payment. It is a record asking another party to review, accept, link to, or reject a bill, rent, tenancy, fee, invoice, or approved obligation context. Accepted requests link the parties to the accepted context and may support later payment readiness, but payment authorization and processing remain separate payment-domain behavior.
 
@@ -508,6 +510,7 @@ Bills-route requirements must remain role-aware:
 - logged-in Home Dashboard baseline with `Home`, `Bills`, `Pay+`, `Offers`, and `Me` navigation where enabled by DOC-06B;
 - Pay+ center action entry point and slide-up action sheet where enabled by DOC-06B;
 - dashboard shortcut grid for Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More where enabled by DOC-06B; shortcuts are entry points into owning routes or management areas, not independent feature owners;
+- `Cards` shortcut opens DOC-06B `PAYMENT-PROFILE-ROOT` for tokenized card management and saved split-card profile management; it is not checkout and does not authorize payment;
 - user shortcut display order, visibility preference, and restore-default behavior;
 - Important Notice / Action Required, Featured / What's New / Hot Offer carousel, Upcoming Bills / Rent, and Recent Activity dashboard sections where enabled by DOC-06B;
 - bill/rent reminder management through DOC-06C `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, including linked reminders, reminder defaults, custom overrides, disable/delete behavior, and notification ownership boundaries;
@@ -523,6 +526,7 @@ Bills-route requirements must remain role-aware:
 - review updated quote, promotion, fee, card eligibility, or timing changes when returning to a pending or incomplete payment instruction;
 - view partial funding, remaining amount, and partial payout status where applicable;
 - review eligible discounts, coupon/voucher selection, reward status, or promotion quote where promotions are enabled;
+- manage tokenized cards, set a default card for single-card checkout, and manage saved split-card payment profiles where enabled;
 - view payment status;
 - view coupon/voucher library where enabled;
 - view receipts/history.
@@ -662,7 +666,7 @@ The MVP is acceptable when:
 | OQ-05-009 | What privacy, deletion, masking, and legal exception rules apply beyond the 7-year tax and audit retention baseline? | Legal / Compliance | Open |
 | OQ-05-010 | What dispute process applies after payment completion? | Operations / Legal | Open |
 | OQ-05-011 | What appropriate or special MCC and transaction classification will the selected acquirer confirm for PayPlus? | Payments / Legal | Open |
-| OQ-05-012 | What configurable maximum number of credit cards per payment should be allowed at launch? | Product / Payments | Open |
+| OQ-05-012 | What maximum number of credit cards per payment/profile should be allowed at launch? | Product / Payments | Answered: 6 |
 | OQ-05-013 | Which OCR/document AI provider, confidence thresholds, and launch categories should be enabled first? | Product / Engineering / Risk | Open |
 | OQ-05-014 | Which extracted fields are displayable, masked, or restricted by role and evidence category? | Product / Privacy / Security | Open |
 | OQ-05-015 | What exact dashboard shortcut cap, default ordering, user reorder UI, restore-default behavior, and More shortcut behavior should apply? | Product / Design / Operations | Open |
@@ -671,6 +675,7 @@ The MVP is acceptable when:
 | OQ-05-018 | Which MVP events and data objects must be captured for product analytics, risk analytics, commercial reporting, and future approved AI/model improvement? | Product / Data / Engineering | Open |
 | OQ-05-019 | What user consent and preference categories are required for personalization, partner offers, marketing communication, and model improvement? | Product / Privacy / Legal | Open |
 | OQ-05-020 | Which data classes, fields, and derived features are prohibited from marketing models, partner reports, or external activation? | Product / Privacy / Risk | Open |
+| OQ-05-021 | What final Payment Profile card metadata display and tokenization return UX should apply at launch? Route label is `Payment Profile`; payment/profile card-count cap is 6. | Product / Payments / Security | Partially open |
 
 ---
 
@@ -724,6 +729,7 @@ The MVP is acceptable when:
 | DOC-06B designated Home Dashboard flow and layout baseline is accepted for MVP discussion, but final UI design and exact component specification remain open. | Confirmed |
 | Dashboard shortcut grid, user shortcut preferences, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
 | DOC-06C `BILLS-PAY` and `BILLS-RECEIVE` route split is accepted as the current role-aware Bills-route baseline; checkout/payment screen behavior remains primarily governed by DOC-09. | Working Baseline / Not Final |
+| DOC-06B `PAYMENT-PROFILE-ROOT` is accepted as the current route shell for tokenized card and saved split-card profile management; checkout authorization and funding remain governed by DOC-09. | Working Baseline / Not Final |
 | PayPlus MVP should be data-engine ready by design, with structured events, field classification, source lineage, auditability, consent/preference state, approved-purpose metadata, and future model-use eligibility metadata where relevant. | Confirmed |
 | Advanced AI decisioning, external partner activation, offsite advertising, user-level data sharing, credit scoring, and insurance underwriting are not MVP scope unless separately assessed, approved, and documented. | Confirmed |
 
@@ -760,3 +766,4 @@ The MVP is acceptable when:
 | v0.18.7 | 2026-07-02 | Aligned PRD with DOC-06B `REQUESTS-NEW`, evidence-before-send request delivery gate, and request-not-payment route boundary. |
 | v0.18.8 | 2026-07-02 | Removed stale request-route clarification/dispute actions and aligned exception/support wording with DOC-06B `REQUESTS-NEW` and `REQUESTS-DETAIL`. |
 | v0.18.9 | 2026-07-03 | Aligned PRD wording with DOC-06B Instructions route and DOC-09 payment instruction boundary: pending/incomplete instructions remain separate from ordinary reminders and completed pay-now payments. |
+| v0.18.10 | 2026-07-06 | Aligned PRD with DOC-06B Payment Profile route shell for tokenized cards and saved split-card profiles, including final `Payment Profile` label, max 6-card cap, checkout/instruction handoff, default confirmation behavior, and non-wallet boundary. |

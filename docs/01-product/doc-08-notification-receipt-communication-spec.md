@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.8
+version: 1.0.9
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-03
+last_updated: 2026-07-06
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -201,7 +201,7 @@ For DOC-06B dashboard placements:
 | Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
 | Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
-Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, and payee-side request or receive-management actions to `BILLS-RECEIVE`.
+Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, and card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen.
 
 ---
 
@@ -382,7 +382,7 @@ Marketing campaign messages must be consent-based. Service messages that affect 
 
 Payment authorization may require a status update without an external notification. Payment completion usually requires a receipt or confirmation message.
 
-Payment instruction action alerts must route the user to `INSTRUCTIONS-DETAIL` for the same instruction or directly to the DOC-09 payment/checkout review where immediate submission is required. Normal due-date reminders and user manual bill/rent reminders route to the bill/rent/obligation detail screen. If quote, promotion, card eligibility, fee, or timing terms changed, the message should route to instruction detail or updated checkout review before submission.
+Payment instruction action alerts must route the user to `INSTRUCTIONS-DETAIL` for the same instruction or directly to the DOC-09 payment/checkout review where immediate submission is required. Normal due-date reminders and user manual bill/rent reminders route to the bill/rent/obligation detail screen. If quote, promotion, card eligibility, payment profile, fee, or timing terms changed, the message should route to instruction detail, `PAYMENT-PROFILE-ROOT`, or updated checkout review as appropriate before submission. No new notification ID is required solely because the action is a card/profile correction.
 
 ### 11.5A Bill/Rent Reminder Events
 
@@ -677,5 +677,6 @@ DOC-08 is acceptable when:
 | 1.0.6 | 2026-07-02 | Aligned request notifications with DOC-06B `REQUESTS-NEW`, evidence-before-send delivery gate, request sharing, and WhatsApp deeplink routing to `REQUESTS-DETAIL`. |
 | 1.0.7 | 2026-07-03 | Aligned request delivery and share-channel rules with finalized DOC-06B `REQUESTS-NEW`, including in-app preference, privacy-safe external content, authenticated `REQUESTS-DETAIL` routing, and pending-evidence notification suppression. |
 | 1.0.8 | 2026-07-03 | Aligned payment instruction communication with DOC-06B `INSTRUCTIONS-ROOT` / `INSTRUCTIONS-DETAIL`, replacing ordinary reminder treatment with action-alert routing and keeping `PINS` separate from bill/rent reminders. |
+| 1.0.9 | 2026-07-06 | Aligned notification routing with DOC-06B Payment Profile route by allowing card/profile action-required items to route to `PAYMENT-PROFILE-ROOT` or relevant card/profile screens without creating new notification IDs. |
 | 0.2.0 | 2026-05-30 | Aligned notification rules with DOC-12 by adding evidence verification events, correction prompts, duplicate/reused evidence warnings, admin evidence review tasks, and sensitive extracted-field messaging limits. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for notification event IDs, channel rules, receipts, statements, admin configurability, and delivery logging. |

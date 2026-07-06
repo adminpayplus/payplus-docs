@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.4
+version: 1.0.5
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-07-03
+last_updated: 2026-07-06
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -99,7 +99,7 @@ DOC-09 does not define:
 | Bill and fee payments | MVP scope, subject to payment eligibility, evidence, payee, payout, and risk controls. |
 | Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
 | Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
-| Multi-card payment | MVP scope, supporting up to a configurable number of credit cards per payment. Launch cap is to be confirmed. |
+| Multi-card payment | MVP scope, supporting up to 6 credit cards per payment/profile, with related controls configurable where applicable. |
 | User payment instruction | MVP scope for pending pay-later setup and incomplete payment continuation. Pay-now completed payments do not appear as user-facing payment instructions. |
 | Payout rails | FPS, cheque, and EPS are acceptable Hong Kong payout rails; payout execution belongs to DOC-10. |
 | Upstream settlement | Payment gateway settlement expected T+1 to T+3. |
@@ -181,8 +181,8 @@ DOC-06B `REQUESTS-NEW` is a request creation and party-linking route, not a paym
 3. System applies eligibility gates.
 4. System obtains promotion quote where promotions or rewards are enabled.
 5. System creates payment quote.
-6. Payer selects eligible payment profile(s).
-7. System recalculates promotion and payment quote if selected payment profile affects eligibility.
+6. Payer selects eligible card or split-card payment profile.
+7. System recalculates promotion and payment quote if selected card or profile affects eligibility.
 8. Payer chooses pay now, creates a pending payment instruction, or continues an incomplete payment instruction.
 9. For pay-now flow, payer authorizes payment and system submits payment through approved PSP/acquirer flow.
 10. For payment instruction flow, system stores or updates the instruction and sends the payer back to the relevant instruction detail or payment/checkout screen when action is required.
@@ -357,18 +357,36 @@ DOC-06C owns ordinary bill/rent reminder management through `BILLS-REMINDER-LIST
 
 ---
 
-## 9. Payment Profiles and Tokenization
+## 9. Tokenized Cards and Payment Profiles
 
-A payment profile represents a payer's saved or selected payment instrument reference.
+DOC-09 distinguishes individual tokenized cards from saved payment profiles.
 
-Payment profiles may include:
+| Object | Meaning | Primary UX Owner |
+| --- | --- | --- |
+| Tokenized card | Payer-owned card reference created through PSP/acquirer tokenization and represented in PayPlus only by token/reference and permitted masked metadata. | DOC-06B `PAYMENT-CARD-*`; security mechanics in DOC-19. |
+| Payment profile | Saved split-card allocation template created from one or more tokenized cards. It stores reusable allocation logic, not money or payment authorization. | DOC-06B `PAYMENT-PROFILE-*`; checkout use in DOC-09. |
+
+Tokenized card records may include:
 
 - PSP/acquirer token or payment method reference;
 - masked card summary;
+- masked cardholder name only where returned or permitted by PSP/acquirer;
 - card brand and expiry where permitted;
+- user-entered card nickname;
 - payer owner reference;
+- default-card marker where applicable;
 - status;
 - risk or verification status where applicable.
+
+Saved payment profiles may include:
+
+- profile name;
+- selected tokenized cards;
+- saved allocation ratios;
+- reference/base amount used for setup calculation;
+- starred/frequent marker;
+- profile status;
+- action-required marker where an underlying card is unavailable.
 
 Core rules:
 
@@ -377,12 +395,13 @@ Core rules:
 | Tokenized processing | Card funding should use PSP/acquirer tokenization where available. |
 | No raw card storage | PayPlus must not store raw card number, CVV, magnetic stripe data, or sensitive authentication data unless separately approved under PCI scope. |
 | Limited metadata | PayPlus should store only token/reference and permitted masked metadata. |
-| Payer ownership | Payment profile must be linked to the payer account or approved user context. |
-| Authorization link | Each token/profile use must be linked to payer authorization. |
-| Reuse | Saved profile reuse requires payer authorization for each payment unless a separately approved recurring authorization model exists. |
-| Privacy classification | Payment profile, token reference, masked card, card metadata, authorization, step-up, and payment behavior data must be classified as Payment and Funding Data or Authentication and Security Data under DOC-15 as applicable. |
+| Payer ownership | Tokenized cards and payment profiles must be linked to the payer account or approved user context. |
+| Authorization link | Each token/card/profile use in checkout must be linked to payer authorization. |
+| Reuse | Saved card or profile reuse requires payer authorization for each payment unless a separately approved recurring authorization model exists. |
+| Profile storage | Saved split-card profiles should store allocation ratios as reusable values. Amounts are recalculated against the current checkout amount. |
+| Privacy classification | Token references, masked card metadata, payment profiles, allocation ratios, authorization, step-up, and payment behavior data must be classified as Payment and Funding Data or Authentication and Security Data under DOC-15 as applicable. |
 
-Payment profile statuses should include `Active`, `Verification Required`, `Expired`, `Suspended`, and `Deleted`.
+Tokenized card statuses should include `Active`, `Verification Required`, `Expired`, `Suspended`, and `Deleted` or archived/removed where user-facing deletion is implemented as soft delete. A saved profile should show `Action Required` if an underlying card is removed, expired, suspended, invalid, or otherwise unavailable.
 
 Detailed token vault, encryption, PCI, authentication, privacy classification, API, and schema requirements belong in DOC-15, DOC-17, DOC-18, and DOC-19.
 
@@ -390,11 +409,15 @@ Detailed token vault, encryption, PCI, authentication, privacy classification, A
 
 ## 10. Payment Method Selection
 
-The payer must select one or more eligible payment profiles before authorization.
+The payer must select an eligible card or split-card payment profile before authorization.
 
 Rules:
 
-- blocked, expired, suspended, deleted, or failed profiles must not be used without resolution;
+- a default card may be pre-selected for single-card checkout, but the payer must be able to change it before authorization;
+- split-card checkout must not pre-select a payment profile by default; the payer must choose the profile or define the split;
+- starred/frequent split-card profiles should be displayed first during profile selection;
+- blocked, expired, suspended, deleted, removed, unavailable, or failed cards/profiles must not proceed without resolution;
+- a profile with an unavailable card may be selected for review, but checkout must warn that the profile is incomplete and block authorization until the affected card is replaced, removed, or updated;
 - selected methods must cover the payment amount and applicable fees;
 - payer must see masked method summary before authorization;
 - payment method changes after authorization require reauthorization where material;
@@ -406,15 +429,19 @@ Rules:
 
 Multi-card funding is MVP scope.
 
-PayPlus must support up to a configurable number of credit cards per payment. The exact launch card-count limit is to be confirmed.
+PayPlus must support up to 6 credit cards per payment/profile for MVP. Related controls may be configurable, but the MVP maximum is 6 unless later approved.
 
 | Rule | Requirement |
 | --- | --- |
-| Configurable cap | Maximum cards per payment must be configurable. |
-| Allocation | Each selected card must have an allocated amount. |
+| Card-count cap | Maximum cards per payment/profile is 6 for MVP. |
+| Allocation | Each selected card must have an allocated amount. If a saved profile is used, checkout calculates card amounts from the saved ratios and current payment amount. |
 | Total match | Allocations must equal the authorized total charge. |
+| Amount/ratio edit | Before authorization, payer may adjust amount or ratio where enabled; changing one recalculates the other and the final total must still match. |
+| Profile save | A revised checkout split may be saved as a new or updated payment profile where permitted. |
 | Masked summary | Payer must see masked card summary and amount per card before authorization. |
 | Reauthorization | Changing selected cards or split amounts after authorization requires reauthorization. |
+| Leg-by-leg authorization | Split-card payment must authorize and submit each card leg one by one unless a later approved PSP/acquirer model supports another controlled approach. |
+| Benefit recalculation | Card-linked promotion or reward eligibility may be estimated before authorization but must be recalculated for each card leg before submission. |
 | Partial funding | Payment instruction may be partially funded, but overall payment must not be treated as fully completed until the intended full amount is funded. |
 | Retry | Retry may be allowed subject to partner, risk, velocity, and authorization rules. |
 | Audit | Each card attempt and result must be logged. |
@@ -618,12 +645,12 @@ DOC-09 requires traceability for:
 | --- | --- | --- | --- |
 | OQ-09-001 | Which PSP/acquirer will support the intended bill payment or ordinary online card purchase treatment? | Payments / Commercial | Open |
 | OQ-09-002 | What MCC/classification will the selected acquirer assign? | Payments / Legal | Open |
-| OQ-09-003 | What configurable maximum number of credit cards per payment should be allowed at launch? | Product / Payments | Open |
+| OQ-09-003 | What maximum number of credit cards per payment/profile should be allowed at launch? | Product / Payments | Answered: 6 |
 | OQ-09-004 | What configurable amount threshold allows step-up authentication to be skipped? | Risk / Security / Payments | Open |
 | OQ-09-005 | Which risk factors force step-up authentication even below the amount threshold? | Risk / Security | Open |
 | OQ-09-006 | What retry limits apply by user, card, request, payee, category, and time window? | Risk / Payments | Open |
 | OQ-09-007 | What authorization expiry period applies before payer reauthorization is required? | Payments / Product | Open |
-| OQ-09-008 | What payment profile metadata may be stored under final PSP/acquirer, PCI, privacy, and security design? | Security / Payments / Engineering | Open |
+| OQ-09-008 | What tokenized card and payment profile metadata may be stored under final PSP/acquirer, PCI, privacy, and security design? | Security / Payments / Engineering | Open |
 | OQ-09-009 | What settlement file, report, webhook, or reconciliation signal confirms settlement readiness? | Payments / Finance / Engineering | Open |
 | OQ-09-010 | What partial multi-card failure status naming should be exposed to payer and admin? | Product / Design / Operations | Open |
 | OQ-09-011 | Which DOC-12 evidence verification outcomes and DOC-06C evidence-status/payment-readiness mappings block payment quote, authorization, retry, or settlement readiness? | Product / Payments / Risk | Open |
@@ -647,7 +674,8 @@ DOC-09 is acceptable when:
 - user payment instruction and deferred/incomplete funding rules are defined for single-card and split-card payments;
 - deferred payment instruction quote revalidation and material-term confirmation rules are defined;
 - DOC-13 promotion quote requirements are consumed before authorization where applicable;
-- payment profiles and tokenization boundaries are included without duplicating DOC-17, DOC-18, or DOC-19;
+- tokenized card, payment profile, and tokenization boundaries are included without duplicating DOC-17, DOC-18, or DOC-19;
+- split-card payment profile use is defined as reusable allocation setup, while payment-time authorization and submission remain per funding leg;
 - multi-card funding is defined as MVP scope with configurable card-count limit;
 - partial funding is distinguished from payment completion;
 - settlement-ready funded portions can be routed to DOC-10 without falsely completing the overall payment;
@@ -679,3 +707,4 @@ DOC-09 is acceptable when:
 | 1.0.2 | 2026-06-24 | Clarified that DOC-09 owns payment/checkout screen content and payment-domain UI behavior while DOC-06 owns route entry and handoff. |
 | 1.0.3 | 2026-07-02 | Aligned payment-domain boundary with DOC-06B `REQUESTS-NEW`, confirming request creation is not checkout and cannot bypass evidence, acceptance, or payment eligibility gates. |
 | 1.0.4 | 2026-07-03 | Aligned payment instruction definition with DOC-06B: pay-now completed payments do not appear as instructions; pending instructions are editable before submission; incomplete instructions allow continue/archive but not material changes; action alerts are separate from ordinary bill/rent reminders. |
+| 1.0.5 | 2026-07-06 | Distinguished tokenized cards from saved split-card payment profiles, added max 6-card payment/profile cap, default-card versus user-selected split-profile rules, profile action-required behavior, ratio-based profile reuse, and leg-by-leg split-card authorization. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.4
+version: 0.1.5
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-06
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -693,7 +693,7 @@ Before authorization, the payer should be shown:
 2. Payer confirms that evidence and payment details are acceptable.
 3. System displays final payment summary.
 4. System displays fee, promotion quote, discount, coupon/voucher impact, reward impact, and total charge where applicable.
-5. Payer selects or confirms payment method.
+5. Payer selects or confirms payment method: default card may apply for single-card checkout; split-card checkout requires the payer to choose or define a payment profile under DOC-06B/DOC-09 rules.
 6. Payer chooses pay now or creates a deferred payment instruction where enabled.
 7. Payer accepts required terms or disclosures for the selected action.
 8. Payer enters payment passcode or completes confirmation required for the selected action.
@@ -1205,6 +1205,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.5 | 2026-07-06 | Added lightweight journey alignment for default single-card selection and user-selected split-card payment profile handoff without moving checkout behavior out of DOC-09. |
 | 0.1.4 | 2026-07-02 | Reclassified query, dispute, and information-request handling as exception/support flows instead of normal `REQUESTS-DETAIL` actions. |
 | 0.1.3 | 2026-07-02 | Aligned request lifecycle with DOC-06B `REQUESTS-NEW`, evidence-before-send delivery gate, and simplified accept/reject request actions. |
 | 0.1.2 | 2026-06-25 | Clarified that requests are party-linking and acceptance records, not payments; separated request states from linked payment states. |

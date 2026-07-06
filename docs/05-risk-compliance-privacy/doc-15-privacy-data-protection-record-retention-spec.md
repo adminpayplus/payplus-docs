@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.2
+version: 0.8.3
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-07-03
+last_updated: 2026-07-06
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -139,7 +139,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Authentication and Security Data | Password hash, payment passcode hash, OTP events, device ID, session logs, login history, failed attempts, new-device flags, biometric unlock status. | Authentication, step-up, security monitoring, incident investigation. |
 | KYC / KYB Data | Provider reference, ID type, ID number, name, sex where returned, date of birth where required, nationality where required, Business Registration document, owner ID, verification outcome. | Onboarding, compliance, payee approval, risk control, dispute and chargeback evidence. |
 | Evidence and Obligation Data | Bills, invoices, tenancy agreements, contracts, OCR text, extracted fields, corrected fields, final evidence snapshot, landlord/payee details, property address, due date, amount, reference number. | Payment validation, autofill, payer review, payee verification, duplicate detection, audit, analytics. |
-| Payment and Funding Data | Request ID, amount, fees, quote, quote revalidation result, payment instruction, funding leg, deferred funding date, selected payee transfer date, authorization record, payment token reference, masked card summary, card brand, issuer/BIN metadata where available, multi-card split, partial funding status, step-up result, PSP reference. | Payment processing, risk, reconciliation, chargeback defense, product analytics. |
+| Payment and Funding Data | Request ID, amount, fees, quote, quote revalidation result, payment instruction, funding leg, deferred funding date, selected payee transfer date, authorization record, payment token reference, masked card summary, permitted masked cardholder name, card nickname, card brand, expiry, issuer/BIN metadata where available, default-card marker, saved split-card profile name, profile ratios, starred/frequent marker, profile action-required state, multi-card split, partial funding status, step-up result, PSP reference. | Payment processing, risk, reconciliation, chargeback defense, product analytics. |
 | Payout and Payee Data | Payee profile, landlord/business payee data, payout destination, bank/FPS/cheque/EPS details, payout status, payout batch, bank reference, reconciliation result. | Payout execution, payee validation, reconciliation, fraud prevention, support. |
 | Participant Linking and Invitation Data | User-initiated search/input, invitation channel, deeplink/QR/app-link reference, pending participant record, linking acceptance/decline, linked participant role, and linkage audit trail. | Two-sided visibility, request delivery, support, fraud prevention, privacy-controlled communication. |
 | Risk and Compliance Data | Risk score/band, rule triggers, AML/sanctions status, duplicate evidence signals, same-party indicators, fraud flags, payout holds, admin review outcome, escalation records. | Anti-cashout, fraud prevention, compliance control, monitoring, audit. |
@@ -181,7 +181,7 @@ Material changes should be grouped by sensitivity and handled with proportionate
 | Contact rebinding | Change phone, change email, add or replace login identifier. | Require password or payment passcode plus 2FA to old or trusted channel where available; notify old and new channels. |
 | Credential change | Change password, payment passcode, recovery method, or 2FA setting. | Require current password, payment passcode, or step-up verification; notify user after completion. |
 | Device trust change | New device, trusted-device addition/removal, device reset. | Require step-up verification; log device and session event. |
-| Payment profile change | Add, delete, suspend, or reactivate card/payment profile. | Require payer confirmation and step-up where risk or partner rules require; never expose raw card data. |
+| Payment profile change | Add, remove/archive, update, suspend, reactivate, star/unstar, or change default card/payment profile. | Require payer confirmation by default; payment passcode confirmation may be enabled by user setting; step-up may still apply where risk, PSP/acquirer, or security rules require; never expose raw card data. |
 | Payout destination change | Add or change bank/FPS/cheque/EPS destination. | Require step-up and may require admin/risk review before payout release. |
 | Identity/KYC change | Change legal name, ID data, business owner data, landlord/payee identity, or verification record. | Require step-up and route to KYC/KYB or risk review where configured. |
 | Marketing or communication preference change | Opt-in/out, WhatsApp/SMS/email preference, direct-marketing consent. | Require logged preference update; step-up only if account takeover risk is present. |
@@ -233,8 +233,8 @@ Visibility must reflect role, task, permission, and approved purpose.
 
 | Actor | Visibility Rule |
 | --- | --- |
-| Payer | May view own account, payment request, payment summary, evidence summary, selected payment method summary, status, receipts, and support history. |
-| Payee | May view request and payout context needed to receive or request payment, but not payer card details, private funding data, unrelated KYC data, internal risk flags, or private payer profile data. |
+| Payer | May view own account, payment request, payment summary, evidence summary, selected payment method summary, own masked card and payment profile summaries, status, receipts, and support history. |
+| Payee | May view request and payout context needed to receive or request payment, but not payer card details, payer payment profiles, private funding data, unrelated KYC data, internal risk flags, or private payer profile data. |
 | Admin / Operations | May access data required for assigned queue, review, support, payout, refund, dispute, risk, or compliance task. Access must be permissioned and logged. |
 | Risk / Compliance | May access broader identity, evidence, relationship, payment, payout, refund, chargeback, promotion, and risk signals where needed for approved review. |
 | Engineering | Should not access production personal data unless approved for incident, support, debugging, migration, or security task under controlled process. |
@@ -516,3 +516,4 @@ It should not become:
 | `0.8.0` | `2026-06-17` | Product Documentation Team | Aligned data classification with DOC-06 Bills reminder routes by adding linked reminder records, reminder timing, custom override, soft-delete state, and reminder interaction behavior. |
 | `0.8.1` | `2026-07-02` | Product Documentation Team | Aligned participant-linking privacy with DOC-06B `REQUESTS-NEW`, counterparty lookup, and request-sharing deeplink boundaries. |
 | `0.8.2` | `2026-07-03` | Product Documentation Team | Aligned notification data classification with DOC-06B Instructions route by distinguishing payment instruction action-alert status from ordinary bill/rent reminder records. |
+| `0.8.3` | `2026-07-06` | Product Documentation Team | Aligned payment and funding data classification with DOC-06B Payment Profile route by adding tokenized card metadata, saved split-card profile metadata, payer-only visibility, action-required profile handling, and default confirmation behavior. |

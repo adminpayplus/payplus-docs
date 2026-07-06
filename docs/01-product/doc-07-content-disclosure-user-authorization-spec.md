@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.9.0
+version: 0.9.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-06-17
+last_updated: 2026-07-06
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -107,7 +107,7 @@ Those details belong in downstream or adjacent documents.
 | Bill and fee payments | MVP scope, subject to evidence, payee, payment, payout, and risk controls. |
 | Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
 | Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
-| Multi-card payment | MVP scope, up to a configurable number of credit cards per payment. The launch cap is to be confirmed. |
+| Multi-card payment | MVP scope, up to 6 credit cards per payment/profile. |
 | Payout rails | FPS, cheque, and EPS are acceptable Hong Kong payout rails; final operating-bank setup remains to be confirmed. |
 | Settlement timing | Payment gateway settlement expected T+1 to T+3; payout expected same day after upstream settlement. |
 | Fee model | Online payment processing service fee as a percentage of transaction amount; exact rates and allocation remain to be confirmed and admin-configurable. |
@@ -211,8 +211,8 @@ Required fields:
 | Amount | Show payment amount. |
 | Service fee | Show payer fee where applicable. |
 | Total charge | Show final amount charged to the payer. |
-| Payment method | Show selected card or masked funding source summary. |
-| Multi-card split | If applicable, show split amounts and masked card summaries. |
+| Payment method | Show selected card or selected split-card payment profile with masked funding summary. |
+| Multi-card split | If applicable, show split amounts, masked card summaries, and any action-required profile issue before authorization. |
 | Evidence | Show evidence summary or accessible evidence view, subject to privacy rules. |
 | Verification status | Show role-appropriate evidence status where action is needed, such as pending correction, pending review, duplicate warning, or rejected evidence. |
 | Timing | Show expected processing, settlement, and payout timing where relevant. |
@@ -236,6 +236,8 @@ Payment passcode entry is a separate payer confirmation step before payment auth
 If the payer creates a deferred payment instruction, content must make clear that the payment has not yet been submitted to the PSP/acquirer and that the payer must return to the payment screen to complete the pending action.
 
 If payment quote, promotion quote, card eligibility, fee, timing, or other material terms are revalidated when the payer returns, the updated terms must be shown before submission.
+
+If a saved split-card profile is incomplete because one card is removed, expired, suspended, invalid, or otherwise unavailable, wording must explain that payment cannot proceed until the affected card is replaced, removed, or updated.
 
 ### 8.2 Authorization Statement
 
@@ -542,7 +544,7 @@ This document does not interpret those sources as final legal advice.
 | OQ-07-001 | What final legal wording is required for payer authorization? | Legal / Product | Open |
 | OQ-07-002 | What final privacy notice wording is required at registration, evidence upload, eKYC/KYB, payment authorization, and support touchpoints? | Legal / Privacy | Open |
 | OQ-07-003 | What exact fee, promotion, coupon, discount, refund, and reversal wording should be configurable in admin? | Product / Commercial | Open |
-| OQ-07-004 | What configurable maximum number of credit cards per payment should be shown at launch? | Product / Payments | Open |
+| OQ-07-004 | What maximum number of credit cards per payment/profile should be shown at launch? | Product / Payments | Answered: 6 |
 | OQ-07-005 | What wording should explain T+1 to T+3 upstream settlement and same-day-after-settlement payout without overpromising? | Payments / Legal / Product | Open |
 | OQ-07-006 | What category-specific disclosure is required for rent and tenancy payments? | Legal / Risk / Product | Open |
 | OQ-07-007 | What refund, cancellation, dispute, chargeback, and reversal policy links or short summaries must be shown before authorization? | Operations / Legal / Product | Open |
@@ -587,6 +589,7 @@ DOC-07 is acceptable when:
 | 0.7.0 | 2026-06-02 | Aligned disclosure requirements with DOC-09 user payment instruction by adding deferred payment, reminder destination, partial funding, partial payout, and remaining unpaid amount wording boundaries. |
 | 0.8.0 | 2026-06-02 | Added deferred payment instruction quote revalidation disclosure for payment quote, promotion quote, card eligibility, fee, timing, and changed checkout terms. |
 | 0.9.0 | 2026-06-17 | Aligned reminder disclosure boundaries with DOC-06 reminder list/detail routes by distinguishing recurring reminders from automatic recurring payment or stored authorization. |
+| 0.9.1 | 2026-07-06 | Aligned disclosure requirements with DOC-06B Payment Profile route and DOC-09 split-card profile rules, including masked card/profile summaries, 6-card cap, and incomplete-profile warnings before authorization. |
 | 0.4.0 | 2026-06-01 | Aligned disclosure requirements with DOC-13 by adding promotion quote, coupon/voucher, reward, miles, membership, entitlement, expiry, and authorization-audit wording boundaries. |
 | 0.3.0 | 2026-05-30 | Aligned disclosure requirements with DOC-12 OCR/autofill, evidence correction, duplicate/reused evidence warning, verification status, and sensitive extracted-field display controls. |
 | 0.2.0 | 2026-05-30 | Aligned disclosure scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, approved obligations, and payer-authorized push payment language. |

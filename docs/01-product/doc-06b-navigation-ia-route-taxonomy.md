@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.9
+version: 0.1.10
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-03
+last_updated: 2026-07-06
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -26,6 +26,7 @@ related_documents:
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
+  - DOC-19 Security, Tokenization & Authentication
   - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
@@ -52,7 +53,7 @@ When drafting route IA, DOC-06B must define the route shell only: route ID, entr
 | Pay+ action sheet | Partially defined | Working action set exists; exact order and disabled states remain open. |
 | Shortcut grid | Partially defined | Eight MVP shortcuts exist; detailed More/overflow UX remains open. |
 | Route taxonomy and ID standard | Initial baseline | Stable IDs should be assigned progressively. |
-| Non-Bills route registry | Partially defined | Requests and Instructions route shells are defined; Offers, Me, Receipts, Cards, Referral, More need future drafting. |
+| Non-Bills route registry | Partially defined | Requests, Instructions, and Payment Profile route shells are defined; Offers, Me, Receipts, Referral, More need future drafting. |
 
 ---
 
@@ -113,6 +114,7 @@ Each route must have one primary owner. DOC-06B may list related documents, but 
 | Request lifecycle | Route entry and where request lists open. | DOC-06A owns lifecycle, status meaning, acceptance, rejection, expiry, cancellation, and any later clarification/dispute extension if enabled. |
 | Bills/rent request implementation | Global shortcut and route relationship. | DOC-06C owns `BILLS-PAY`, `BILLS-RECEIVE`, cards, details, request/remind-payer actions, and Bills-route handoff. |
 | Payment/checkout route | Entry and return/handoff expectations only. | DOC-09 owns checkout screen behavior, payment instruction, funding, authorization, and payment states. |
+| Payment Profile route | Route shell, entry points, major screens, card/profile management purpose, and route handoff. | DOC-09 owns checkout selection, allocation, authorization, funding, and payment states. DOC-19 owns tokenization and security mechanics. |
 | Notification destination | Route target for a notification tap. | DOC-08 owns notification IDs, channels, templates, preferences, and delivery rules. |
 | Data/intelligence signal | Signal existence at route level. | DOC-18 owns event taxonomy, schema, lineage, analytics, and reporting. |
 
@@ -223,7 +225,7 @@ MVP shortcut grid:
 | Bills & Tenancies | Saved bills, fee records, rent records, tenancy records, evidence status, due dates, and obligation details. | Opens `BILLS-ROOT`. |
 | Receipts | Payment receipts, proof of payment, statements, completed records, refund/reversal records, and related transaction evidence. | Opens the future Receipts / Activity hub. |
 | Reminders | User-set due reminders for bills, rent, tenancy obligations, and manual reminders. | Opens `BILLS-REMINDER-LIST`. |
-| Cards | Tokenized payment profiles, cards, payment methods, card status, and payment-method settings. | Opens the future Cards / Payment Methods route. |
+| Cards | Payment Profile route for managing tokenized cards and saved split-card profiles. The shortcut is an entry point, not checkout. | Opens `PAYMENT-PROFILE-ROOT`. |
 | Referral | Referral / MGM entry point and referral reward status where enabled. | Opens the future Referral route and may also link to Offers Hub referral content. |
 | More | Opens remaining or secondary shortcuts and services. | Opens future More Shortcuts / Services route or sheet. |
 
@@ -319,7 +321,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
 | Receipts / Activity Route | Define receipts, proof of payment, statements, refund/reversal records, and transaction details. | Title preserved / not finalized |
 | Reminders Route | Define due reminders, user-set reminders, notification settings, and reminder destinations. | Title preserved / not finalized |
-| Cards / Payment Methods Route | Define tokenized card/payment profile management, card status, default card, and payment method issue handling. | Title preserved / not finalized |
+| Payment Profile Route | Define tokenized card management, saved split-card profile management, card status, default card, profile action-required behavior, and checkout/instruction handoff. | Route shell defined / not final UI |
 | Referral Route | Define referral entry, invitation link, progress, reward status, and relationship with Offers Hub. | Title preserved / not finalized |
 | Admin-Configurable UI Marker List | Mark app UI elements that require admin configuration later without drafting admin UI in DOC-06. | Title preserved / DOC-22 owns admin UI |
 
@@ -738,18 +740,22 @@ This avoids duplicate user functions:
 
 Payment instruction may display selected payment profile, masked card, or split allocation summary because that information is needed to understand the pending payment setup.
 
-Payment instruction must not become the full Cards / Payment Profile management route.
+Payment instruction must not become the full Payment Profile management route.
 
 Allowed route behavior:
 
-- show masked payment profile/card allocation summary;
-- show if a selected card/profile is unavailable, expired, failed, or requires action;
-- provide contextual actions such as `Change Payment Method` or `Fix Payment Method`.
+- show whether the instruction uses a single-card payment or split-card payment;
+- show masked card or payment-profile allocation summary;
+- show if a selected card or profile is unavailable, expired, failed, or requires action;
+- for pending single-card instructions, provide `Choose Card` or `Update Card`;
+- for pending split-card instructions, provide `Choose Profile` or `Edit Profile`;
+- for incomplete instructions, preserve completed funding-leg facts and route only to permitted continuation or correction actions.
 
 Handoff behavior:
 
-- payment method selection, split allocation changes, quote recalculation, and payment submission are governed by DOC-09 checkout/payment;
-- full add/remove/manage card behavior belongs to the future Cards / Payment Methods route and DOC-19 tokenization/security rules.
+- actual checkout selection, split allocation for the current payment, quote recalculation, card-leg authorization, and payment submission are governed by DOC-09;
+- reusable card and split-profile management belongs to `PAYMENT-PROFILE-ROOT`;
+- tokenization, card-data security, PSP return handling, and PCI mechanics belong to DOC-19.
 
 #### 5.12.9 Data and Intelligence Signals
 
@@ -781,10 +787,154 @@ These signals support funnel analysis, payment-friction analysis, support invest
 | --- | --- | --- |
 | Final visual layout, field density, and exact button labels for pending versus incomplete instruction cards | Product / Design | Open |
 | Final expiry window, expiry countdown wording, cancellation/archive rules, and restore rules | Product / Payments / Operations | Open |
-| Exact payment-profile/card-allocation update route and future Cards route relationship | Product / Payments / Security | Open |
+| Exact visual handoff among `INSTRUCTIONS-DETAIL`, `PAYMENT-PROFILE-ROOT`, and DOC-09 checkout | Product / Payments / Security | Open |
 | Exact notification wording and timing for payment instruction action alerts | Product / Payments / DOC-08 | Open |
 
 ---
+
+### 5.13 Payment Profile Route
+
+The final user-facing route label is `Payment Profile`. The dashboard shortcut may remain `Cards`.
+
+The route manages reusable payment setup objects. It is not checkout, not a wallet, not a stored-value account, and not a way to move money without an eligible evidence-backed obligation.
+
+| Field | Requirement |
+| --- | --- |
+| Working route ID | `PAYMENT-PROFILE-ROOT` |
+| Stable route ID | `ROUTE-06B-PAYMENT-PROFILE-ROOT` |
+| Primary owner | DOC-06B owns route shell, entry points, major screens, route handoff, and high-level user actions. |
+| Payment owner | DOC-09 owns actual checkout selection, payment quote, split-card allocation for a payment, authorization, funding-leg submission, and payment states. |
+| Security owner | DOC-19 owns PSP/acquirer tokenization, card-data security, PCI boundary, authentication, and token handling. |
+| Related owners | DOC-07 owns wording; DOC-08 owns notifications; DOC-13 owns card-linked benefit rules; DOC-15 owns masking/privacy; DOC-18 owns schema/events; DOC-22 owns admin controls. |
+
+#### 5.13.1 Route Structure
+
+`PAYMENT-PROFILE-ROOT` should contain two management layers:
+
+| Layer | Purpose | Working IDs |
+| --- | --- | --- |
+| Manage Cards | Manage individual tokenized credit cards for the payer account. | `PAYMENT-CARD-LIST`, `PAYMENT-CARD-ADD`, `PAYMENT-CARD-DETAIL` |
+| Manage Profiles | Manage saved split-card allocation templates created from tokenized cards. | `PAYMENT-PROFILE-LIST`, `PAYMENT-PROFILE-ADD`, `PAYMENT-PROFILE-DETAIL` |
+
+Payment profiles belong to the payer user account. Payees must not see payer cards, payer payment profiles, token references, or private funding data.
+
+#### 5.13.2 Entry Points and Return Behavior
+
+| Entry Point | Route Behavior |
+| --- | --- |
+| Dashboard shortcut `Cards` | Opens `PAYMENT-PROFILE-ROOT`. |
+| Me / account payment settings | Opens `PAYMENT-PROFILE-ROOT` or the relevant card/profile screen. |
+| Checkout add/change card | Opens card add or selection flow and returns to DOC-09 checkout. |
+| Checkout choose/edit split profile | Opens profile selection or edit flow and returns to DOC-09 checkout. |
+| `INSTRUCTIONS-DETAIL` payment profile action | Opens the relevant card/profile screen and returns to the instruction or checkout context according to the entry source. |
+
+The route must preserve return context when opened from checkout, instruction detail, or profile editing.
+
+#### 5.13.3 Manage Cards
+
+Card list items should show:
+
+- card nickname entered by the user;
+- masked cardholder name only where returned or permitted by the PSP/acquirer;
+- masked card number;
+- expiry date;
+- card brand where available;
+- card status;
+- default-card marker where applicable;
+- remove action.
+
+`PAYMENT-CARD-ADD` should route through the approved PSP/acquirer tokenization flow. PayPlus should store only the token/reference and permitted masked metadata. It must not store raw card number, CVV, magnetic-stripe data, or sensitive authentication data unless separately approved under final PCI scope.
+
+A default card may be set for single-card checkout. It may be pre-selected in checkout, but the user must be able to change it before authorization.
+
+Removing or updating a card should show a confirmation prompt by default. Payment-passcode confirmation should be optional where the user enables it in user settings. Additional step-up may still apply where PSP/acquirer, risk, or security rules require it. Removal should be implemented as archive/soft delete, not hard deletion.
+
+#### 5.13.4 Manage Profiles
+
+A payment profile means a saved split-card allocation template. It is not a stored balance and does not authorize future payment by itself.
+
+Profile list items should show:
+
+- profile name;
+- number of cards;
+- starred/frequent marker where set by the user;
+- profile status;
+- edit and remove actions.
+
+Add/edit profile should support:
+
+- profile name;
+- base total payment amount for setup calculation;
+- card slots, default 1 and maximum 6 for MVP;
+- selected saved card per slot;
+- payment amount per card;
+- auto-calculated ratio per card;
+- amount-to-ratio and ratio-to-amount recalculation while editing;
+- save and cancel actions.
+
+The saved reusable profile should store ratios as the reusable allocation basis. The base total amount is a setup/reference value and should not lock future checkout amount.
+
+Validation rules:
+
+- total allocation must equal the entered total amount for MVP;
+- total allocation must not exceed the entered total amount;
+- each card allocation must be positive;
+- duplicate use of the same card in one profile should be blocked unless later explicitly approved;
+- maximum card count is 6 for MVP unless a later approved change reduces or expands it.
+
+Split-card checkout should not pre-select a payment profile by default. Users should choose a profile during checkout. Starred/frequent profiles should be displayed first.
+
+#### 5.13.5 Invalid Card and Action-Required Behavior
+
+If a card is removed, expired, suspended, invalid, or otherwise unavailable:
+
+- the affected card remains visible where retention and masking rules allow;
+- affected payment profiles remain visible but show `Action Required`;
+- the user may select the profile in checkout, but checkout must warn that the profile is incomplete and cannot proceed until the affected card is replaced, removed, or updated;
+- pending instructions using the affected card/profile should show action required;
+- historical payments and receipts must not be changed.
+
+Recommended warning meaning: the profile is incomplete because one card is unavailable, and the user must replace, remove, or update that card before payment.
+
+#### 5.13.6 Checkout and Split-Card Boundary
+
+`PAYMENT-PROFILE-ROOT` manages reusable setup only. DOC-09 checkout owns payment-time behavior.
+
+For split-card payment, checkout should:
+
+1. require the payer to choose a profile or define a current-payment split;
+2. calculate each card leg from the selected profile ratios and current payment amount;
+3. allow amount and ratio adjustment before authorization, subject to total-amount rules;
+4. allow saving the adjusted split as a new or updated profile where permitted;
+5. authorize and submit each card leg one by one;
+6. treat the payment as completed only when all required legs complete.
+
+Estimated card-linked benefits may be shown during checkout, but final eligibility must be recalculated per card leg before authorization under DOC-13 and DOC-09.
+
+#### 5.13.7 Data and Intelligence Signals
+
+DOC-06B should identify route-level signals only. Final event taxonomy, schema, lineage, model eligibility, and analytics ownership remain DOC-18.
+
+Material signals include:
+
+- Payment Profile route opened;
+- card add started and tokenization returned;
+- card nickname edited;
+- card default set or changed;
+- card removed, expired, suspended, or restored;
+- profile created, edited, starred, unstarred, removed, or marked action-required;
+- profile selected from checkout or instruction context;
+- profile issue displayed;
+- user returned to checkout or instruction after card/profile action.
+
+These signals support checkout-friction analysis, card/profile usability, support investigation, risk monitoring, and future approved AI-driven payment intelligence.
+
+#### 5.13.8 Open Items
+
+| Item | Owner | Status |
+| --- | --- | --- |
+| Final visual layout, field density, and card/profile list design | Product / Design | Open |
+| Final PSP/acquirer tokenization return behavior and permitted card metadata | Payments / Security / DOC-19 | Open |
 
 ---
 ## 6. Route Completion Status
@@ -800,7 +950,7 @@ These signals support funnel analysis, payment-friction analysis, support invest
 | Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/archive rules, and payment-profile handoff behavior. |
 | Receipts / Activity | Partially Defined | Define global receipt/activity hub and relationship to bill/rent-specific activity in DOC-06C. |
 | Reminders | Partially Defined in DOC-06C | Ordinary bill/rent reminders remain separate from payment instruction action alerts. |
-| Cards | Not Fully Defined | Define payment profile route UX with DOC-09 and DOC-19. |
+| Payment Profile / Cards | Route Shell Defined / Not Final UI | Confirm final visual layout, PSP tokenization return behavior, permitted card metadata, and checkout/instruction return UX. |
 | Referral | Not Fully Defined | Define route UX with DOC-13. |
 | More | Not Fully Defined | Define overflow, management, and admin/user shortcut configuration behavior. |
 
@@ -809,17 +959,19 @@ These signals support funnel analysis, payment-friction analysis, support invest
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-06B-001 | What final Pay+ visual layout, button order, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Open |
-| OQ-06B-002 | What route-level IA should apply to Offers, Me, More, Instructions, Receipts, Cards, Referral, and Support? | Product / Design | Open |
+| OQ-06B-002 | What route-level IA should apply to Offers, Me, More, Receipts, Referral, and Support? | Product / Design | Open |
 | OQ-06B-003 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
 | OQ-06B-006 | What exact visual styling, card density, field-level copy, resend/reminder limit, share-button placement, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
 | OQ-06B-007 | What exact visual styling, field density, expiry/archive wording, and card/payment-profile handoff should apply to pending and incomplete payment instruction routes? | Product / Design / Payments / Security | Open |
+| OQ-06B-008 | What exact Payment Profile visual design, tokenization return UX, and permitted PSP card metadata should be used? | Product / Design / Payments / Security | Open |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.10 | 2026-07-06 | Defined `PAYMENT-PROFILE-ROOT` route shell for tokenized card management and saved split-card profile management, including final `Payment Profile` label, max 6-card profile/payment cap, default confirmation behavior, card/profile entry points, instruction and checkout handoffs, invalid-card behavior, split-profile boundaries, and DOC-09/DOC-19 ownership separation. |
 | 0.1.9 | 2026-07-03 | Defined `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` route shell for payment instructions / 付款指示, including pending versus incomplete instruction behavior, compact card fields, detail actions, reminder boundary, checkout handoff, and payment-profile/card allocation boundary. |
 | 0.1.8 | 2026-07-03 | Finalized `REQUESTS-NEW` route shell with section order, route boundary, linked-context selection, evidence gate, counterparty lookup, share/delivery rules, state behavior, and DOC-06C return behavior. |
 | 0.1.7 | 2026-07-02 | Added `REQUESTS-NEW`, clarified request status labels, evidence-before-send gate, counterparty identifier, WhatsApp deeplink sharing, and return behavior between Requests and Bills routes. |

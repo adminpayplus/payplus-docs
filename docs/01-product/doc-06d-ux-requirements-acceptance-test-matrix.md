@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.2
+version: 0.1.3
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-06
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -78,6 +78,7 @@ Example pattern:
 | Bills evidence sub-flow | DOC-06C / DOC-12 | Partial | UX flow is testable; verification logic depends on DOC-12/DOC-18. |
 | Bills reminder route | DOC-06C / DOC-08 | Partial | Reminder list/detail behavior is testable; payment-instruction placement remains open. |
 | Payment checkout handoff | DOC-06A / DOC-06C / DOC-09 | Partial | DOC-06 can test route handoff; DOC-09 owns checkout tests. |
+| Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial | Route shell is testable for card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary; final UI and tokenization behavior remain open. |
 | Offers route | DOC-06B / DOC-13 | Not Ready | Route IA pending. |
 | Me route | DOC-06B / DOC-15 / DOC-19 | Not Ready | Route IA pending. |
 
@@ -126,6 +127,9 @@ The DOC-06 user journey scope is satisfied when:
 - users can raise or respond to linked query, dispute, support, or exception cases where enabled;
 - payer can explicitly authorize payment;
 - payer must enter payment passcode before payment authorization proceeds;
+- users can manage tokenized cards and saved split-card profiles through `PAYMENT-PROFILE-ROOT` without creating wallet, stored-value, cashout, or payment authorization behavior;
+- saved split-card profiles and split-card checkout must observe the MVP maximum of 6 cards;
+- single-card checkout may preselect a default card while split-card checkout requires user selection of a payment profile;
 - payment status can be tracked;
 - payout or settlement status can be tracked where applicable;
 - payer-side Bills routes do not show payee-side request actions as payment actions;
@@ -150,6 +154,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.3 | 2026-07-06 | Added Payment Profile route test-readiness and MVP acceptance coverage for card/profile management, max 6-card cap, default single-card behavior, split-profile selection, default confirmation behavior, and non-checkout boundary. |
 | 0.1.2 | 2026-07-02 | Aligned UX acceptance criteria with DOC-06B request-route model by separating accept/reject request actions from support, query, dispute, and exception cases. |
 | 0.1.1 | 2026-06-25 | Removed temporary source-section heading wording and corrected the UX mapping code fence for official DOC-06D baseline use. |
 | 0.1.0 | 2026-06-25 | Created as DOC-06D child document for non-functional UX requirements, acceptance criteria, and initial test-readiness mapping. |

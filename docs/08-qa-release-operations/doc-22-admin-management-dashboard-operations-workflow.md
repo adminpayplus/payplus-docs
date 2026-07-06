@@ -125,7 +125,20 @@ Required capabilities should include:
 - distinguish request reminders from new request creation;
 - audit request creation, evidence-gated send, resend, reminder, cancellation, share-link generation, and channel-configuration changes.
 
-Detailed request route behavior belongs in DOC-06B. Request notification routing belongs in DOC-08. Request, sharing, and audit event taxonomy belongs in DOC-18.
+### 18.4 Payment Profile and Tokenized Card Configuration
+
+Admin dashboard must support future configuration and operations hooks for DOC-06B `PAYMENT-PROFILE-ROOT`, DOC-09 payment profile use, and DOC-19 tokenization controls where enabled.
+
+Required items to be updated include:
+
+- configure controls for the MVP maximum of 6 cards per payment profile and checkout split;
+- configure default confirmation behavior, optional user-enabled payment-passcode confirmation, and risk/PSP/security step-up rules for card removal/update;
+- view masked tokenized card and payment profile status without exposing raw card data, CVV, sensitive authentication data, or full token secrets;
+- view profile action-required reasons such as removed, expired, suspended, invalid, or unavailable card;
+- support permitted suspend/reactivate/flag workflows for risk, support, or partner requirements;
+- audit card add, tokenization return, card removal/archive, default-card change, profile create/edit/remove, profile star/unstar, and profile action-required resolution.
+
+Detailed Payment Profile route behavior belongs in DOC-06B. Checkout use belongs in DOC-09. Tokenization and card-security controls belong in DOC-19. Notification routing belongs in DOC-08. Data, state, and audit-event taxonomy belongs in DOC-18.
 
 ## 19. Audit Logging Requirements
 
@@ -170,3 +183,4 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 | 0.1.0 | 2026-06-17 | Added DOC-06 reminder default configuration hooks for bill/rent reminder timing, category gating, channel linkage, and audit logging. |
 | 0.2.0 | 2026-06-18 | Added future DOC-22 update markers for admin handling of DOC-06 Bills evidence detail/upload routes, evidence statuses, readiness impact, archive-not-delete behavior, prior evidence access, notifications, and audit logging. |
 | 0.3.0 | 2026-07-02 | Added future DOC-22 configuration markers for DOC-06B request creation, evidence-gated request delivery, resend/reminder limits, sharing channels, and audit logging. |
+| 0.4.0 | 2026-07-06 | Added future admin configuration and operations markers for DOC-06B Payment Profile route, tokenized card status, payment profile action-required handling, max 6-card payment/profile limit, default confirmation behavior, optional user-enabled payment-passcode confirmation, and audit logging. |
