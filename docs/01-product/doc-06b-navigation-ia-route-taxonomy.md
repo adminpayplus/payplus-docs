@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.13
+version: 0.1.14
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -53,7 +53,7 @@ When drafting route IA, DOC-06B must define the route shell only: route ID, entr
 | Pay+ action sheet | Partially defined | Working action set exists; exact order and disabled states remain open. |
 | Shortcut grid | Partially defined | Eight MVP shortcuts exist; detailed More/overflow UX remains open. |
 | Route taxonomy and ID standard | Initial baseline | Stable IDs should be assigned progressively. |
-| Non-Bills route registry | Partially defined | Requests, Instructions, and Payment Profile route shells are defined; Offers, Me, Receipts, Referral, More need future drafting. |
+| Non-Bills route registry | Partially defined | Requests, Instructions, Payment Profile, Activity, and Receipts & Statements route shells are defined; Offers, Me, Referral, More need future drafting. |
 
 ---
 
@@ -223,7 +223,7 @@ MVP shortcut grid:
 | Requests | Requests that ask another party to accept, link to, review, or reject a bill, rent, tenancy, fee, invoice, or approved obligation context. A request is not a payment. | Opens `REQUESTS-ROOT`. |
 | Instructions | Payment instructions / 付款指示 for pending pay-later setups, incomplete split-card payments, pending funding legs, expired instructions, and action-required instruction items. | Opens `INSTRUCTIONS-ROOT`. |
 | Bills & Tenancies | Saved bills, fee records, rent records, tenancy records, evidence status, due dates, and obligation details. | Opens `BILLS-ROOT`. |
-| Receipts | Payment receipts, proof of payment, statements, completed records, refund/reversal records, and related transaction evidence. | Opens the future Receipts / Activity hub. |
+| Receipts | Payment receipts, proof of payment, statements, and related transaction confirmation files. | Opens `RECEIPTS-ROOT`. |
 | Reminders | User-set due reminders for bills, rent, tenancy obligations, and manual reminders. | Opens `BILLS-REMINDER-LIST`. |
 | Cards | Payment Profile route for managing tokenized cards and saved split-card profiles. The shortcut is an entry point, not checkout. | Opens `PAYMENT-PROFILE-ROOT`. |
 | Referral | Referral / MGM entry point and referral reward status where enabled. | Opens the future Referral route and may also link to Offers Hub referral content. |
@@ -323,7 +323,8 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Requests Route | Define standalone Requests route shell, creation flow, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
 | Instructions Route | Define payment instruction / 付款指示 route shell, pending versus incomplete instruction display, edit boundaries, cancellation/archive behavior, and checkout handoff. | Working baseline / not finalized |
 | Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
-| Receipts / Activity Route | Define global Activity and Receipts route shells, including single-entry transaction lifecycle behavior, receipts/proofs/statements, and status-display matrix handoff. | Title preserved / not finalized |
+| Activity Route | Define global account-level financial activity route shell, including role-aware `Paid` / `Received` views, single-entry transaction lifecycle behavior, and status-display matrix handoff. | Route shell defined / not final UI |
+| Receipts & Statements Route | Define receipt, proof, statement, view/download, and re-issue route shell. | Route shell defined / not final UI |
 | Reminders Route | Define due reminders, user-set reminders, notification settings, and reminder destinations. | Title preserved / not finalized |
 | Payment Profile Route | Define tokenized card management, saved split-card profile management, card status, default card, profile action-required behavior, and checkout/instruction handoff. | Route shell defined / not final UI |
 | Referral Route | Define referral entry, invitation link, progress, reward status, and relationship with Offers Hub. | Title preserved / not finalized |
@@ -960,6 +961,180 @@ These signals support checkout-friction analysis, card/profile usability, suppor
 | Final PSP/acquirer tokenization return behavior and permitted card metadata | Payments / Security / DOC-19 | Open |
 
 ---
+
+### 5.14 Activity Route
+
+Activity is the event and lifecycle view of what happened in a user's PayPlus account. It is not the same as a receipt, statement, internal audit log, or bill/rent-specific activity timeline.
+
+DOC-06B owns the global Activity route shell. DOC-06C owns `BILLS-ACTIVITY` for one selected bill/rent record. DOC-08 owns receipt and statement communication. DOC-09, DOC-10, and DOC-11 own payment, payout, refund, reversal, and failure status meaning. DOC-18 owns final event taxonomy, IDs, schema, lineage, and analytics. DOC-22 owns admin operations and internal review history.
+
+| Field | Requirement |
+| --- | --- |
+| User-facing route label | `Activity` |
+| Working route IDs | `ACTIVITY-ROOT`, `ACTIVITY-DETAIL` |
+| Stable route IDs | `ROUTE-06B-ACTIVITY-ROOT`, `ROUTE-06B-ACTIVITY-DETAIL` |
+| Purpose | Let a user review account-level financial activity across payer and payee roles. |
+| Boundary | Activity lists events and lifecycle status. It must not become the receipt/statement file library, the bill/rent-specific timeline, or an internal audit log. |
+
+#### 5.14.1 Entry Points
+
+| Entry Point | Destination |
+| --- | --- |
+| Dashboard Recent Activity arrow / View More | `ACTIVITY-ROOT` |
+| Me / account activity entry | `ACTIVITY-ROOT` |
+| Payment, payout, refund, return, or reversal notification | `ACTIVITY-DETAIL` where a specific transaction exists; otherwise `ACTIVITY-ROOT` |
+| Checkout or payment result where activity review is needed | `ACTIVITY-DETAIL` for the submitted transaction where available |
+
+Bill/rent `View Activities` opens DOC-06C `BILLS-ACTIVITY`, not `ACTIVITY-ROOT`. `BILLS-ACTIVITY` stays contextual to one bill/rent record.
+
+#### 5.14.2 Root Views
+
+`ACTIVITY-ROOT` should use role-aware views:
+
+| View | Meaning |
+| --- | --- |
+| `All` | Mixed payer and payee account-level financial activity. |
+| `Paid` | User acted as payer or funded a payment. |
+| `Received` | User acted as payee/recipient and received or expects transfer/payout visibility. |
+
+Refunds, reversals, returns, failures, and rejected outcomes should appear in the relevant view with mapped status labels. They should not have a separate top-level MVP view unless later product usage justifies it.
+
+#### 5.14.3 Activity List Items
+
+Each activity list entry should show:
+
+- date;
+- bill, rent, fee, or payment name;
+- counterparty;
+- amount;
+- role/action label: `Paid` or `Received`;
+- user-facing status from `docs/traceability/status-display-reference-matrix.md`;
+- receipt/proof indicator where available.
+
+One transaction should normally appear as one activity entry. Payment, settlement, payout, receipt, refund, return, and reversal milestones should update the same activity lifecycle where they belong to the same transaction, instead of creating duplicate entries that describe the same payment.
+
+#### 5.14.4 Activity Detail
+
+`ACTIVITY-DETAIL` should show:
+
+- transaction ID or reference ID;
+- payment reference ID where available;
+- payout or transfer reference ID where available;
+- bill/rent/fee/payment name;
+- counterparty;
+- amount;
+- role/action label: `Paid` or `Received`;
+- user-facing status from the status display reference matrix;
+- linked bill/rent detail where applicable;
+- masked payment method summary where allowed;
+- receipt/proof download button where available;
+- lifecycle timeline using mapped user-facing labels.
+
+The detail screen may show lifecycle milestones, but it must not expose raw backend status names as user-facing labels. Timeline wording should follow the status display reference matrix and the owning domain documents.
+
+The Activity detail route should not display a linked request as the main context after a request has become an accepted bill/rent/payment context. If a request is relevant for support or audit, that relationship belongs in system records and controlled detail views, not the default activity list.
+
+#### 5.14.5 Data and Intelligence Signals
+
+DOC-06B identifies route-level signals only. Final event taxonomy, ID strategy, audit events, warehouse fields, model eligibility, and analytics rules belong in DOC-18.
+
+Material route signals include:
+
+- Activity route opened;
+- Activity view selected;
+- activity item opened;
+- receipt/proof downloaded from activity detail;
+- linked bill/rent detail opened from activity detail;
+- user viewed or acted after a failed, returned, refunded, reversed, or under-review activity status.
+
+### 5.15 Receipts & Statements Route
+
+`Receipts & Statements` is the route for transaction confirmation records and periodic/account summary files. The dashboard shortcut may remain `Receipts`.
+
+Receipt is a transaction confirmation record for a completed transaction. Statement is a periodic or account-level summary record. Activity is the event/lifecycle view and remains separate.
+
+DOC-06B owns the route shell and entry points. DOC-08 owns receipt/statement content, notification, delivery, view/download rules, and re-issue communication. DOC-15 owns masking, retention, and privacy access. DOC-18 owns final document IDs, file metadata, versioning schema, lineage, and audit events. DOC-22 owns admin re-issue and correction operations.
+
+| Field | Requirement |
+| --- | --- |
+| Full route label | `Receipts & Statements` |
+| Dashboard shortcut label | `Receipts` |
+| Working route IDs | `RECEIPTS-ROOT`, `RECEIPT-DETAIL`, `STATEMENT-DETAIL` |
+| Stable route IDs | `ROUTE-06B-RECEIPTS-ROOT`, `ROUTE-06B-RECEIPT-DETAIL`, `ROUTE-06B-STATEMENT-DETAIL` |
+| Purpose | Let users view and download transaction receipts, proof records, and account statements. |
+| Boundary | This route is a file/document hub. It should not replace Activity, checkout, bill/rent activity, or internal audit history. |
+
+#### 5.15.1 Entry Points
+
+| Entry Point | Destination |
+| --- | --- |
+| Dashboard shortcut `Receipts` | `RECEIPTS-ROOT` |
+| Me / account records entry | `RECEIPTS-ROOT` |
+| Receipt notification | `RECEIPT-DETAIL` |
+| Statement notification | `STATEMENT-DETAIL` |
+| `ACTIVITY-DETAIL` receipt/proof action | Direct file download or `RECEIPT-DETAIL` where preview/view is needed |
+| DOC-06C `BILLS-ACTIVITY-DETAIL` receipt/proof action | Direct file download by default |
+
+#### 5.15.2 Root Views
+
+`RECEIPTS-ROOT` should use:
+
+| View | Meaning |
+| --- | --- |
+| `All` | Receipts and statements together. |
+| `Receipts` | Transaction receipt/proof records. |
+| `Statements` | Periodic/account summary records. |
+
+There should be no separate `Corrections` MVP view. If a receipt or statement must be replaced, PayPlus should re-issue a new version and retain the prior version under controlled recordkeeping.
+
+#### 5.15.3 Receipt List Item
+
+Receipt items should show:
+
+- date of payment;
+- bill/rent name;
+- counterparty;
+- amount;
+- `View` button;
+- `Download` button.
+
+#### 5.15.4 Statement List Item
+
+Statement items should show:
+
+- date of issuance;
+- statement name, such as `Pay+ Statement - June 2026`;
+- `View` button;
+- `Download` button.
+
+#### 5.15.5 Receipt and Statement Detail
+
+`RECEIPT-DETAIL` should display the receipt file, expected to be PDF or another approved downloadable format. It may show receipt ID, version, issue timestamp, and buttons for `Download` and approved sharing.
+
+`STATEMENT-DETAIL` should display the statement file, expected to be PDF or another approved downloadable format. It may show statement ID, version, issue timestamp, and buttons for `Download` and approved sharing.
+
+The MVP keeps separate detail route IDs for future flexibility even if both routes initially display a file preview with similar controls.
+
+#### 5.15.6 Re-Issue and Versioning
+
+If a receipt or statement is wrong, replaced, or re-issued:
+
+- the latest valid version should be shown by default;
+- prior versions must be retained where required for audit, tax, support, and dispute handling;
+- version number or issue timestamp should be stored;
+- affected users should be notified where material;
+- admin workflow and re-issue controls belong in DOC-22;
+- final document metadata, lineage, versioning, and retention schema belong in DOC-18;
+- notification and wording rules belong in DOC-08.
+
+#### 5.15.7 Open Items
+
+| Item | Owner | Status |
+| --- | --- | --- |
+| Final Activity visual layout, field density, filters, sorting, and empty state | Product / Design | Open |
+| Final receipt/statement file format, preview behavior, export naming, and sharing controls | Product / Design / Finance / Legal | Open |
+| Final receipt/statement re-issue policy and admin workflow | Product / Finance / Operations / DOC-22 | Open |
+
 ## 6. Route Completion Status
 
 | Route / Area | Status | Next Required Work |
@@ -971,7 +1146,8 @@ These signals support checkout-friction analysis, card/profile usability, suppor
 | Me | Not Fully Defined | Define profile, settings, privacy, notification, security, payment-method, and support routes. |
 | Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
 | Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/archive rules, and payment-profile handoff behavior. |
-| Receipts / Activity | Partially Defined | Define global receipt/activity hub and relationship to bill/rent-specific activity in DOC-06C. |
+| Activity | Route Shell Defined / Not Final UI | Confirm visual layout, field density, sorting, empty state, lifecycle timeline wording, and exact transaction-detail display. |
+| Receipts & Statements | Route Shell Defined / Not Final UI | Confirm file format, preview behavior, export naming, sharing controls, statement schedule, and re-issue workflow. |
 | Reminders | Partially Defined in DOC-06C | Ordinary bill/rent reminders remain separate from payment instruction action alerts. |
 | Payment Profile / Cards | Two-Tab Route Baseline Defined / Not Final Visual Design | Confirm final card styling, field density, empty-state copy, PSP tokenization return behavior, and permitted card metadata. |
 | Referral | Not Fully Defined | Define route UX with DOC-13. |
@@ -982,18 +1158,21 @@ These signals support checkout-friction analysis, card/profile usability, suppor
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-06B-001 | What final Pay+ visual layout, button order, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Open |
-| OQ-06B-002 | What route-level IA should apply to Offers, Me, More, Receipts, Referral, and Support? | Product / Design | Open |
+| OQ-06B-002 | What route-level IA should apply to Offers, Me, More, Referral, and Support? | Product / Design | Open |
 | OQ-06B-003 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
 | OQ-06B-006 | What exact visual styling, card density, field-level copy, resend/reminder limit, share-button placement, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
 | OQ-06B-007 | What exact visual styling, field density, expiry/archive wording, and card/payment-profile handoff should apply to pending and incomplete payment instruction routes? | Product / Design / Payments / Security | Open |
 | OQ-06B-008 | What exact Payment Profile card styling, field density, empty-state copy, tokenization return UX, and permitted PSP card metadata should be used? Two-tab `Cards` / `Profiles` structure is confirmed. | Product / Design / Payments / Security | Partially open |
+| OQ-06B-009 | What exact Activity visual layout, field density, sorting, empty state, lifecycle timeline wording, and transaction-detail display should be used? | Product / Design / Payments / Operations | Open |
+| OQ-06B-010 | What receipt/statement file format, preview behavior, export naming, sharing control, statement schedule, and re-issue workflow should be used? | Product / Finance / Legal / Operations | Open |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.14 | 2026-07-08 | Defined global `ACTIVITY-ROOT` / `ACTIVITY-DETAIL` and `RECEIPTS-ROOT` / `RECEIPT-DETAIL` / `STATEMENT-DETAIL` route shells, separated Activity from receipt/statement files, and clarified contextual Bills activity boundaries. |
 | 0.1.13 | 2026-07-06 | Added Activity, Receipt, and Statement definitions and required user-facing activity status labels to follow the status display reference matrix. |
 | 0.1.12 | 2026-07-06 | Clarified instruction-context handoff to `PAYMENT-PROFILE-ROOT`, return to `INSTRUCTIONS-DETAIL`, related data signals, and remaining visual handoff open item. |
 | 0.1.11 | 2026-07-06 | Confirmed Payment Profile two-tab `Cards` / `Profiles` structure and added root visual behavior, empty-state, return-context, and non-wallet/non-checkout UI boundaries. |

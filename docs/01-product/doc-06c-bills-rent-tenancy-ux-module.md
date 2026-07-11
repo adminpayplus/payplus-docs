@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.8
+version: 0.1.9
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -54,7 +54,7 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | BILLS-PAY payer-side route | Working baseline | Card/detail actions defined; final visual UI remains open. |
 | BILLS-RECEIVE payee-side route | Working baseline | Request/remind-payer actions defined; resend limits and exact wording remain open. |
 | Bill/rent cards and details | Working baseline | Field set defined; final density, masking, and visual hierarchy remain open. |
-| Activity sub-route | Working baseline | Payment activity and limited milestones defined; global receipt/activity hub remains separate. |
+| Activity sub-route | Working baseline | Payment activity and limited milestones defined; global Activity and Receipts & Statements routes remain separate under DOC-06B. |
 | Add Bill / Rent flow | Working baseline | Evidence capture methods and required fields defined; source selection UX remains open. |
 | Evidence sub-route | Working baseline | Evidence detail/upload behavior and status mapping defined; data model remains DOC-18. |
 | Reminder list/detail route | Working baseline | Linked reminders, defaults, custom override, toggle, and soft-delete defined; payment-instruction action alerts remain outside Bills reminder management. |
@@ -316,13 +316,14 @@ Rent normally should not require a new invoice for each payment cycle unless ten
 
 `BILLS-ACTIVITY` is a user-facing sub-route for one selected bill/rent record. It should be opened from `View Activities` inside `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT`.
 
-Primary owner: DOC-06.
+Primary owner: DOC-06C.
 
 Related ownership:
 
 | Area | Owning Document |
 | --- | --- |
 | Notification and receipt/proof messaging | DOC-08 |
+| Global Activity and Receipts & Statements route shells | DOC-06B |
 | Payment status and payment-detail linkage | DOC-09 |
 | Transfer, payout, and rejected payout status | DOC-10 |
 | Returned, refunded, reversed, disputed, or chargeback-related outcomes | DOC-11 |
@@ -349,6 +350,7 @@ Related ownership:
 - internal approval workflow history;
 - admin audit trail;
 - global transaction history;
+- global receipt or statement library;
 - evidence view, update, upload, or archive actions, which belong to `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`;
 - payment processing logic, which belongs to DOC-09;
 - payout and reconciliation logic, which belongs to DOC-10.
@@ -383,8 +385,10 @@ Tapping one activity entry should open `BILLS-ACTIVITY-DETAIL` or a later paymen
 - payment status;
 - transfer/payout status where applicable;
 - payment reference number, if any;
-- receipt/proof download where available;
+- receipt/proof direct download where available;
 - link to payment detail where needed and separately governed.
+
+`BILLS-ACTIVITY-DETAIL` should not route to global `RECEIPT-DETAIL` by default. The default user action should be direct receipt/proof download because the user is already in the contextual activity detail for one bill/rent. Global receipt and statement browsing belongs to DOC-06B `RECEIPTS-ROOT`.
 
 Activity detail may show system lifecycle milestones, but user-facing labels must follow the status display reference matrix. Do not expose raw backend milestones such as payment authorization, settlement readiness, payout processing, reversal handling, or review queue status as independent user-facing status labels unless mapped and approved.
 
@@ -713,6 +717,7 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.9 | 2026-07-08 | Clarified `BILLS-ACTIVITY` as DOC-06C contextual activity, separated it from DOC-06B global Activity and Receipts & Statements routes, and made receipt/proof access a direct download by default from `BILLS-ACTIVITY-DETAIL`. |
 | 0.1.8 | 2026-07-06 | Aligned `BILLS-ACTIVITY` user-facing status labels and activity-detail timeline wording with the status display reference matrix. |
 | 0.1.7 | 2026-07-06 | Clarified Bills-route checkout handoff with DOC-06B `PAYMENT-PROFILE-ROOT` while preserving DOC-09 ownership of checkout and split-card payment behavior. |
 | 0.1.6 | 2026-07-03 | Aligned reminder route boundary with DOC-06B Instructions route: payment instruction action alerts stay outside `BILLS-REMINDER-LIST` and route through Instructions / DOC-09 instead. |

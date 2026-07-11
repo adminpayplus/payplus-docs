@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.6
+version: 0.21.7
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-06
+last_updated: 2026-07-08
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -142,7 +142,7 @@ This matrix prevents the split from creating a false impression that all routes 
 | Payment / Checkout | DOC-09 | DOC-06A/DOC-06C for entry, return, and high-level handoff only | Partially Defined | DOC-09 owns checkout behavior; DOC-06 family should not duplicate checkout screen detail. |
 | Requests | DOC-06B | DOC-06A for request lifecycle; DOC-06C for Bills/rent request implementation; DOC-08 for notification routing | Route Shell Defined / Not Final UI | Requests connect parties to bill/rent/tenancy/obligation contexts and are not payments. DOC-06B now defines the standalone route shell; detail layout, resend/reminder limits, and linked Bills/rent routing remain open. |
 | Instructions | DOC-06B for route shell; DOC-09 for payment-instruction behavior | DOC-06A/DOC-06C for entry or return touchpoints | Partially Defined | Dashboard/shortcut route is identified; detailed route UX remains incomplete. |
-| Receipts / Activity | DOC-06B for global route shell | DOC-06A for receipt/history touchpoints; DOC-06C for bill/rent-specific activity; DOC-09/DOC-10/DOC-11 for payment/payout/refund facts | Partially Defined | Bill/rent-specific activity is defined; global receipt/activity hub remains incomplete. |
+| Activity and Receipts & Statements | DOC-06B for global route shells | DOC-06A for receipt/history touchpoints; DOC-06C for bill/rent-specific activity; DOC-08 for receipts/statements; DOC-09/DOC-10/DOC-11 for payment/payout/refund facts | Route Shell Defined / Not Final UI | Global `ACTIVITY-ROOT` / `ACTIVITY-DETAIL` and `RECEIPTS-ROOT` / `RECEIPT-DETAIL` / `STATEMENT-DETAIL` are separate route families; bill/rent-specific activity remains contextual in DOC-06C. |
 | Reminders | DOC-06C for bill/rent reminders | DOC-06B for shortcut/route shell; DOC-08 for notifications; DOC-09 for payment-instruction reminders | Partially Defined | Bill/rent reminder list/detail route is defined; relationship to payment-instruction reminders remains open. |
 | Offers | DOC-06B for route shell and placement | DOC-13 for promotion business logic | Not Fully Defined | Placement framework exists; full Offers route IA remains pending. |
 | Me / Account | DOC-06B for route shell | DOC-15/DOC-19 for privacy/security detail | Not Fully Defined | Account/settings route IA remains pending. |
@@ -294,6 +294,7 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | Important Notice / Action Required is a combined swipeable section, collapsible by user, hidden when empty. | Confirmed |
 | Featured / What's New / Hot Offer is one combined admin-controllable carousel at this stage. | Confirmed |
 | Recent Activity dashboard section displays limited recent transactions with date, item, action, amount, and status. | Confirmed |
+| Global Activity is an account-level event/lifecycle route, while Receipts & Statements is a file/document route for receipts, proof records, and statements. They must not be merged into one generic history hub. | Working Baseline / Not Final UI |
 | The dashboard flow and layout are designated for MVP discussion, but final UI design, exact component specification, and exact route-level screen specification are not finalized. | Confirmed |
 | Bills tab working baseline uses `To Pay` and `To Receive` views, route/subsection IDs, bill/rent cards, detail pages, bill/rent-specific activity sub-routes, evidence status, archive behavior, and Add Bill / Rent setup flow. | Working Baseline / Not Final |
 | `BILLS-PAY` is the formal payer-side route replacing the earlier informal `To Pay` view description; `BILLS-RECEIVE` is the formal payee-side request/receive route and must not show payer-side `Pay` actions. | Working Baseline / Not Final |
@@ -328,6 +329,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.7 | 2026-07-08 | Aligned parent DOC-06 route status with DOC-06B Activity and Receipts & Statements route shells and clarified separation from contextual DOC-06C Bills activity. |
 | v0.21.6 | 2026-07-06 | Updated parent DOC-06 route matrix and decision summary to recognize DOC-06B `PAYMENT-PROFILE-ROOT` as the payment profile route shell while keeping checkout and tokenization detail in DOC-09/DOC-19. |
 | v0.21.5 | 2026-07-02 | Aligned parent DOC-06 scope and role wording with DOC-06B `REQUESTS-NEW` and the simplified request accept/reject route model. |
 | v0.21.4 | 2026-06-25 | Updated Requests status to reflect DOC-06B route shell baseline while leaving lifecycle, Bills/rent implementation, and notification behavior in owning documents. |

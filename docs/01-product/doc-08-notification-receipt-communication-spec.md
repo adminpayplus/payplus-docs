@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.10
+version: 1.0.11
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -148,7 +148,7 @@ DOC-08 should reference these documents instead of duplicating their detailed ru
 | Channel rule | Configuration defining which channels are used for a notification event. |
 | Template | Channel-specific message content and variables. |
 | Delivery log | Record of attempted delivery, result, timestamp, recipient, channel, and template version. |
-| Receipt | User-facing transaction confirmation record for a completed transaction. It may be viewed, downloaded, shared, corrected, or replaced according to approved rules. |
+| Receipt | User-facing transaction confirmation record for a completed transaction. It may be viewed, downloaded, shared where allowed, or re-issued/replaced according to approved rules. |
 | Statement | Periodic or on-demand account/payment summary. It may include payer and payee-side financial activity for the same user account, but should not include unrelated system events. |
 | Dashboard task | Admin or user task shown inside the PayPlus app or admin dashboard. |
 | Important Notice / Action Required | DOC-06B logged-in dashboard section for urgent actions, account messages, system messages, announcements, late payer/payee handling, expiring tenancies, and similar items. It may contain notification-backed and dashboard-only items. |
@@ -203,7 +203,7 @@ For DOC-06B dashboard placements:
 | Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
 | Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
-Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, and card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen.
+Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, and transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists.
 
 ---
 
@@ -433,7 +433,7 @@ Detailed policy and operational handling belong in DOC-11 and DOC-21.
 | `NOTIF-RCPT-002` | Proof of payment available | App, email optional | Important service |
 | `NOTIF-RCPT-003` | Payee statement available | App, email optional | Important service |
 | `NOTIF-RCPT-004` | Payer statement available | App, email optional | Important service |
-| `NOTIF-RCPT-005` | Receipt correction or replacement | App, email | Mandatory service |
+| `NOTIF-RCPT-005` | Receipt or statement re-issued / replaced | App, email | Mandatory service |
 
 ### 11.9 Admin Events
 
@@ -483,14 +483,16 @@ Proof of payment should be available only when the relevant payment outcome is c
 
 It should not imply payout is complete unless payout completion is separately confirmed.
 
-### 12.3 Receipt Corrections
+### 12.3 Receipt Re-Issue and Replacement
 
-If receipt content is corrected or replaced:
+If receipt content is wrong, corrected, replaced, or re-issued:
 
 - create a new receipt version;
 - retain the prior version where required;
-- log the correction reason;
+- log the re-issue or replacement reason;
 - notify affected users where material.
+
+The latest valid receipt version should be shown by default in DOC-06B `RECEIPTS-ROOT` and `RECEIPT-DETAIL`. Prior versions must remain retained where required for audit, tax, support, dispute, refund, reversal, and chargeback handling. Final document metadata, versioning, lineage, and retention schema belong in DOC-18; admin re-issue workflow belongs in DOC-22.
 
 ---
 
@@ -514,6 +516,8 @@ Statement content should include:
 - downloadable format where supported.
 
 Final export formats remain to be confirmed.
+
+Statement notifications should route to DOC-06B `STATEMENT-DETAIL`. The `Receipts & Statements` route may display statements together with receipts in `RECEIPTS-ROOT`, but statements remain periodic/account summary records, not activity entries. If a statement is wrong or replaced, PayPlus should re-issue a new statement version, retain the prior version where required, and notify affected users where material. Final statement schedule, export format, naming, versioning, and admin re-issue workflow remain open.
 
 ---
 
@@ -663,6 +667,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.11 | 2026-07-08 | Aligned receipt and statement notification routing with DOC-06B `RECEIPTS-ROOT`, `RECEIPT-DETAIL`, `STATEMENT-DETAIL`, and `ACTIVITY-DETAIL`; replaced correction-view wording with re-issue/replacement and version-retention rules. |
 | 0.3.0 | 2026-06-01 | Aligned notification rules with DOC-13 by adding promotion and reward event domain, coupon/voucher, referral, membership, miles, entitlement, external voucher, reversal, and admin exception notifications. |
 | 0.4.0 | 2026-06-02 | Aligned notification rules with DOC-15 by adding new-device, dormant-login, material-change, sensitive account/security messaging, and DOC-15 data-classification channel controls. |
 | 0.5.0 | 2026-06-02 | Aligned notification rules with DOC-09 user payment instruction by adding deferred payment action, split-card remaining action, partial funding, expiry/cancellation, and partial payout notification events. |

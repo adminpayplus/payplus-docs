@@ -2,7 +2,7 @@
 
 Status: Discussion reference / IA alignment aid  
 Owner: DOC-06B  
-Last updated: 2026-07-06
+Last updated: 2026-07-08
 
 These Mermaid diagrams show the current working relationship between bottom navigation, the Pay+ action sheet, the eight dashboard shortcuts, and major route handoffs.
 
@@ -39,11 +39,13 @@ flowchart TD
   HSHORTCUTS --> REQROOT["REQUESTS-ROOT<br/>Requests"]
   HSHORTCUTS --> INSTRUCTIONS
   HSHORTCUTS --> BROOT["BILLS-ROOT<br/>Bills & Tenancies"]
-  HSHORTCUTS --> RECEIPTS["Receipts<br/>Not fully defined"]
+  HSHORTCUTS --> RECEIPTS["RECEIPTS-ROOT<br/>Receipts & Statements"]
   HSHORTCUTS --> REMINDERS["BILLS-REMINDER-LIST<br/>Reminders"]
   HSHORTCUTS --> PPROOT["PAYMENT-PROFILE-ROOT<br/>Cards / Payment Profile"]
   HSHORTCUTS --> REFERRAL["Referral<br/>Not fully defined"]
   HSHORTCUTS --> MORE["More<br/>Not fully defined"]
+
+  HRECENT --> ACTIVITYROOT["ACTIVITY-ROOT<br/>Activity"]
 ```
 
 ## 2. Bills Route Handoff
@@ -129,7 +131,7 @@ flowchart TD
 
   PPROOT -->|"Return with refreshed card/profile data"| IDETAIL
 
-  CHECKOUT -->|"Submitted / completed"| ACTIVITY["Receipts / Activity"]
+  CHECKOUT -->|"Submitted / completed"| ACTIVITYDETAIL["ACTIVITY-DETAIL"]
   CHECKOUT -->|"Still pending or incomplete"| IDETAIL
 ```
 
@@ -162,4 +164,38 @@ flowchart TD
   PPROOT -->|"Return with refreshed card/profile data"| RETURN["Return to originating context"]
   RETURN --> CHECKOUT
   RETURN --> IDETAIL
+```
+
+## 6. Activity and Receipts Route Handoff
+
+This diagram separates event/lifecycle activity from receipt and statement files.
+
+```mermaid
+flowchart TD
+  DASHRECENT["Dashboard Recent Activity arrow"] --> AROOT["ACTIVITY-ROOT"]
+  MEACTIVITY["Me / Account Activity"] --> AROOT
+  ACTNOTIF["Payment / payout / refund / reversal notification"] --> ADETAIL["ACTIVITY-DETAIL"]
+  CHECKOUT["DOC-09 checkout / result"] --> ADETAIL
+
+  AROOT --> AVIEWS["All / Paid / Received views"]
+  AVIEWS --> ADETAIL
+
+  ADETAIL --> BILLDETAIL["Linked BILLS-DETAIL-BILL / BILLS-DETAIL-RENT<br/>where applicable"]
+  ADETAIL --> RECEIPTDOWNLOAD["Receipt / proof direct download<br/>where available"]
+
+  SHORTCUT["Dashboard Receipts shortcut"] --> RROOT["RECEIPTS-ROOT"]
+  MERECORDS["Me / Account Records"] --> RROOT
+  RCPTNOTIF["Receipt notification"] --> RDETAIL["RECEIPT-DETAIL"]
+  STMTNOTIF["Statement notification"] --> SDETAIL["STATEMENT-DETAIL"]
+
+  RROOT --> RVIEWS["All / Receipts / Statements views"]
+  RVIEWS --> RDETAIL
+  RVIEWS --> SDETAIL
+
+  RDETAIL --> RFILE["View / download receipt file"]
+  SDETAIL --> SFILE["View / download statement file"]
+
+  BILLDETAIL --> BACTIVITY["BILLS-ACTIVITY<br/>contextual bill/rent activity"]
+  BACTIVITY --> BACTIVITYDETAIL["BILLS-ACTIVITY-DETAIL"]
+  BACTIVITYDETAIL --> BDIRECT["Receipt / proof direct download by default"]
 ```
