@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.14
+version: 0.1.15
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-06
+last_updated: 2026-07-13
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -999,17 +999,62 @@ Bill/rent `View Activities` opens DOC-06C `BILLS-ACTIVITY`, not `ACTIVITY-ROOT`.
 
 Refunds, reversals, returns, failures, and rejected outcomes should appear in the relevant view with mapped status labels. They should not have a separate top-level MVP view unless later product usage justifies it.
 
-#### 5.14.3 Activity List Items
+#### 5.14.3 Activity Root Screen Behavior
 
-Each activity list entry should show:
+`ACTIVITY-ROOT` should behave like a bank or accounting activity list. It is designed for scanning transaction-like entries first, then expanding one entry only when the user wants more actions.
 
-- date;
-- bill, rent, fee, or payment name;
-- counterparty;
-- amount;
-- role/action label: `Paid` or `Received`;
-- user-facing status from `docs/traceability/status-display-reference-matrix.md`;
-- receipt/proof indicator where available.
+Recommended screen order:
+
+1. Header: `Activity`.
+2. Segmented views: `All`, `Paid`, `Received`.
+3. Optional search or filter row if enabled.
+4. Activity list, newest first, grouped by date where useful.
+5. Empty state where no activity exists.
+
+Each collapsed activity entry should show:
+
+| Field | Requirement |
+| --- | --- |
+| Date | Activity or transaction date. |
+| Rent / bill / fee name | Linked obligation, payment, or activity name. |
+| Payee / payer name | Counterparty name, role-aware and masked where required. |
+| Amount | Display as positive or negative to show debit/credit direction. |
+| Status | User-facing mapped status from `docs/traceability/status-display-reference-matrix.md`. |
+
+Amount direction should follow the user's account perspective:
+
+| Scenario | Display Direction |
+| --- | --- |
+| User paid as payer | Negative amount, such as `-HK$8,000`. |
+| User received as payee | Positive amount, such as `+HK$8,000`. |
+| Refund returned to payer | Positive amount. |
+| Return, reversal, or adjustment | Direction should follow the actual user account impact and mapped status. |
+
+Interaction behavior:
+
+| User Action | Behavior |
+| --- | --- |
+| Tap collapsed entry | Expand the entry into an activity card. |
+| Tap expanded entry or `Close` | Collapse the activity card. |
+| Tap `View Details` | Open `ACTIVITY-DETAIL`. |
+| Tap receipt/proof download button | Directly download the available receipt/proof. |
+| Tap invoice button, if shown | Directly download the permitted linked invoice. Evidence access remains governed by DOC-06C, DOC-12, and DOC-15. |
+
+Expanded activity card should show the same core entry information plus available actions:
+
+- `View Details`;
+- `Download Receipt`, where available;
+- `Download Proof`, where available;
+- `View / Download Invoice`, only where linked invoice/evidence access is permitted;
+- `Close`.
+
+Button availability rules:
+
+| Situation | Requirement |
+| --- | --- |
+| Receipt/proof unavailable | Hide the button by default. Show a disabled button only where useful with a clear, non-sensitive reason. |
+| Invoice/evidence access not permitted | Hide restricted document buttons. Do not show sensitive denial details. |
+| Invoice/evidence file permitted and relevant | Show direct download action. |
 
 One transaction should normally appear as one activity entry. Payment, settlement, payout, receipt, refund, return, and reversal milestones should update the same activity lifecycle where they belong to the same transaction, instead of creating duplicate entries that describe the same payment.
 
@@ -1022,13 +1067,35 @@ One transaction should normally appear as one activity entry. Payment, settlemen
 - payout or transfer reference ID where available;
 - bill/rent/fee/payment name;
 - counterparty;
-- amount;
+- amount with positive/negative direction from the user's account perspective;
 - role/action label: `Paid` or `Received`;
 - user-facing status from the status display reference matrix;
 - linked bill/rent detail where applicable;
 - masked payment method summary where allowed;
 - receipt/proof download button where available;
+- invoice or evidence access only where permitted;
 - lifecycle timeline using mapped user-facing labels.
+
+Recommended detail screen order:
+
+1. Header with back button.
+2. Status summary.
+3. Main transaction summary.
+4. Counterparty and linked bill/rent section.
+5. Reference IDs section.
+6. Lifecycle timeline.
+7. Download receipt/proof section with available file actions and a `Close` or back action.
+
+Route exit and return behavior:
+
+| Action / Entry Context | Behavior |
+| --- | --- |
+| Open linked bill/rent detail | Route to `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT`; back returns to `ACTIVITY-DETAIL`. |
+| `Close` / back after opening from `ACTIVITY-ROOT` | Return to `ACTIVITY-ROOT` with the originating entry still available; preserving the expanded state is preferred where practical. |
+| `Close` / back after opening from notification | Return to the prior app context. |
+| Download receipt/proof | Direct download where available and permitted. |
+| Receipt/proof unavailable | Hide the button by default, or show disabled only where useful with a clear, non-sensitive reason. |
+| Invoice/evidence access not permitted | Hide restricted document buttons and avoid exposing sensitive denial details. |
 
 The detail screen may show lifecycle milestones, but it must not expose raw backend status names as user-facing labels. Timeline wording should follow the status display reference matrix and the owning domain documents.
 
@@ -1043,7 +1110,9 @@ Material route signals include:
 - Activity route opened;
 - Activity view selected;
 - activity item opened;
-- receipt/proof downloaded from activity detail;
+- activity entry expanded or collapsed;
+- receipt/proof downloaded from activity root or detail;
+- invoice/evidence access opened from activity root or detail where permitted;
 - linked bill/rent detail opened from activity detail;
 - user viewed or acted after a failed, returned, refunded, reversed, or under-review activity status.
 
@@ -1131,7 +1200,7 @@ If a receipt or statement is wrong, replaced, or re-issued:
 
 | Item | Owner | Status |
 | --- | --- | --- |
-| Final Activity visual layout, field density, filters, sorting, and empty state | Product / Design | Open |
+| Final Activity visual styling, field density, search/filter behavior, grouping behavior, and empty-state copy | Product / Design | Open |
 | Final receipt/statement file format, preview behavior, export naming, and sharing controls | Product / Design / Finance / Legal | Open |
 | Final receipt/statement re-issue policy and admin workflow | Product / Finance / Operations / DOC-22 | Open |
 
@@ -1146,7 +1215,7 @@ If a receipt or statement is wrong, replaced, or re-issued:
 | Me | Not Fully Defined | Define profile, settings, privacy, notification, security, payment-method, and support routes. |
 | Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
 | Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/archive rules, and payment-profile handoff behavior. |
-| Activity | Route Shell Defined / Not Final UI | Confirm visual layout, field density, sorting, empty state, lifecycle timeline wording, and exact transaction-detail display. |
+| Activity | Route Shell Defined / Not Final UI | Screen order, accounting-style list behavior, expandable activity cards, amount direction, core detail sections, and download actions are defined. Confirm final visual styling, field density, search/filter behavior, grouping behavior, and empty-state copy. |
 | Receipts & Statements | Route Shell Defined / Not Final UI | Confirm file format, preview behavior, export naming, sharing controls, statement schedule, and re-issue workflow. |
 | Reminders | Partially Defined in DOC-06C | Ordinary bill/rent reminders remain separate from payment instruction action alerts. |
 | Payment Profile / Cards | Two-Tab Route Baseline Defined / Not Final Visual Design | Confirm final card styling, field density, empty-state copy, PSP tokenization return behavior, and permitted card metadata. |
@@ -1165,13 +1234,14 @@ If a receipt or statement is wrong, replaced, or re-issued:
 | OQ-06B-006 | What exact visual styling, card density, field-level copy, resend/reminder limit, share-button placement, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
 | OQ-06B-007 | What exact visual styling, field density, expiry/archive wording, and card/payment-profile handoff should apply to pending and incomplete payment instruction routes? | Product / Design / Payments / Security | Open |
 | OQ-06B-008 | What exact Payment Profile card styling, field density, empty-state copy, tokenization return UX, and permitted PSP card metadata should be used? Two-tab `Cards` / `Profiles` structure is confirmed. | Product / Design / Payments / Security | Partially open |
-| OQ-06B-009 | What exact Activity visual layout, field density, sorting, empty state, lifecycle timeline wording, and transaction-detail display should be used? | Product / Design / Payments / Operations | Open |
+| OQ-06B-009 | What exact Activity visual styling, field density, search/filter behavior, grouping behavior, empty-state copy, lifecycle timeline wording, and transaction-detail display should be used? Screen order, expandable entry behavior, amount direction, and core actions are defined. | Product / Design / Payments / Operations | Partially open |
 | OQ-06B-010 | What receipt/statement file format, preview behavior, export naming, sharing control, statement schedule, and re-issue workflow should be used? | Product / Finance / Legal / Operations | Open |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.15 | 2026-07-13 | Refined `ACTIVITY-ROOT` and `ACTIVITY-DETAIL` UI behavior with accounting-style activity entries, positive/negative amount direction, expandable activity cards, permitted receipt/proof/invoice actions, and detail screen order without support/help. |
 | 0.1.14 | 2026-07-08 | Defined global `ACTIVITY-ROOT` / `ACTIVITY-DETAIL` and `RECEIPTS-ROOT` / `RECEIPT-DETAIL` / `STATEMENT-DETAIL` route shells, separated Activity from receipt/statement files, and clarified contextual Bills activity boundaries. |
 | 0.1.13 | 2026-07-06 | Added Activity, Receipt, and Statement definitions and required user-facing activity status labels to follow the status display reference matrix. |
 | 0.1.12 | 2026-07-06 | Clarified instruction-context handoff to `PAYMENT-PROFILE-ROOT`, return to `INSTRUCTIONS-DETAIL`, related data signals, and remaining visual handoff open item. |

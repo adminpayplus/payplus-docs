@@ -178,10 +178,13 @@ flowchart TD
   CHECKOUT["DOC-09 checkout / result"] --> ADETAIL
 
   AROOT --> AVIEWS["All / Paid / Received views"]
-  AVIEWS --> ADETAIL
+  AVIEWS --> AENTRY["Accounting-style activity entry"]
+  AENTRY --> AEXPANDED["Expanded activity card"]
+  AEXPANDED --> ADETAIL
+  AEXPANDED --> ROOTDOWNLOAD["Direct receipt / proof / permitted invoice download"]
 
   ADETAIL --> BILLDETAIL["Linked BILLS-DETAIL-BILL / BILLS-DETAIL-RENT<br/>where applicable"]
-  ADETAIL --> RECEIPTDOWNLOAD["Receipt / proof direct download<br/>where available"]
+  ADETAIL --> RECEIPTDOWNLOAD["Direct receipt / proof download<br/>where available"]
 
   SHORTCUT["Dashboard Receipts shortcut"] --> RROOT["RECEIPTS-ROOT"]
   MERECORDS["Me / Account Records"] --> RROOT
