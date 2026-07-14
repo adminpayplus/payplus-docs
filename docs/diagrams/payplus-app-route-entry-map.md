@@ -2,7 +2,7 @@
 
 Status: Discussion reference / IA alignment aid  
 Owner: DOC-06B  
-Last updated: 2026-07-08
+Last updated: 2026-07-14
 
 These Mermaid diagrams show the current working relationship between bottom navigation, the Pay+ action sheet, the eight dashboard shortcuts, and major route handoffs.
 
@@ -191,12 +191,17 @@ flowchart TD
   RCPTNOTIF["Receipt notification"] --> RDETAIL["RECEIPT-DETAIL"]
   STMTNOTIF["Statement notification"] --> SDETAIL["STATEMENT-DETAIL"]
 
-  RROOT --> RVIEWS["All / Receipts / Statements views"]
-  RVIEWS --> RDETAIL
-  RVIEWS --> SDETAIL
+  RROOT --> RLIST["Searchable document list<br/>All / Receipts / Statements views"]
+  RLIST --> RITEM["Receipt list item"]
+  RLIST --> SITEM["Statement list item"]
 
-  RDETAIL --> RFILE["View / download receipt file"]
-  SDETAIL --> SFILE["View / download statement file"]
+  RITEM -->|"View"| RDETAIL
+  RITEM -->|"Download"| RDIRECT["Direct receipt PDF download"]
+  SITEM -->|"View"| SDETAIL
+  SITEM -->|"Download"| SDIRECT["Direct statement PDF download"]
+
+  RDETAIL --> RFILE["In-app receipt PDF preview<br/>Close / Back / Download"]
+  SDETAIL --> SFILE["In-app statement PDF preview<br/>Close / Back / Download"]
 
   BILLDETAIL --> BACTIVITY["BILLS-ACTIVITY<br/>contextual bill/rent activity"]
   BACTIVITY --> BACTIVITYDETAIL["BILLS-ACTIVITY-DETAIL"]

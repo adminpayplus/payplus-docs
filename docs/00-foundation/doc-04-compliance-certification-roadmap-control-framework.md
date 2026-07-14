@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.12.1
+version: 0.12.2
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -22,7 +22,7 @@ approvers:
   - Risk Lead
   - Payments Lead
   - Finance Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-14
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -200,7 +200,7 @@ Payee-created requests, bill payments, fee payments, rent/tenancy payments, dome
 | `CTRL-DOC04-AUTH-003` | `T0` | Payment amount, fees, and total charge must not change after authorization unless payer re-authorizes. | Product / Payments / Engineering | Change logs, authorization logs |
 | `CTRL-DOC04-AUTH-004` | `T1` | Authorization, capture, reversal, cancellation, refund, and chargeback events must be linked to the original request. | Payments / Engineering / Finance | Transaction ledger |
 | `CTRL-DOC04-AUTH-005` | `T1` | Failed or expired authorizations must not result in payout. | Payments / Engineering | Payment state logs |
-| `CTRL-DOC04-AUTH-006` | `T1` | Payer must receive confirmation or receipt after successful authorization or payment. | Product / Operations | Receipt logs |
+| `CTRL-DOC04-AUTH-006` | `T1` | Payer must receive an authorization confirmation after successful authorization and a receipt after completed payment. | Product / Operations | Authorization confirmation and receipt logs |
 | `CTRL-DOC04-AUTH-007` | `T1` | Payee-created requests must remain in a non-payment state such as pending evidence verification, sent/reviewing, viewed, accepted, rejected, expired, cancelled, withdrawn, or support/exception-linked until payer authorization occurs. | Product / Engineering | Request state and support/exception history |
 | `CTRL-DOC04-AUTH-008` | `T0` | Payee-created request acceptance and payment authorization must be distinct, recorded events unless legally and product-approved as a single combined action. | Product / Legal / Engineering | Event logs |
 | `CTRL-DOC04-AUTH-009` | `T1` | Payee cannot change amount, destination, due date, evidence, or material terms after payer authorization unless payer re-authorizes. | Product / Engineering | Change lock logs |
@@ -724,5 +724,6 @@ It should not become:
 | `0.11.0` | `2026-06-02` | Product Documentation Team | Added DOC-15 data classification register control covering approved-purpose use, masking, retention, and access-control mapping for material data objects and fields. |
 | `0.12.0` | `2026-06-02` | Product Documentation Team | Aligned control framework with confirmed evidence-backed domestic helper, driver, and personal service MVP categories, DOC-09 user payment instruction controls, DOC-22 admin operations references, and updated category-gating open question wording. |
 | `0.12.1` | `2026-07-02` | Product Documentation Team | Aligned payee-created request controls with DOC-06B `REQUESTS-NEW` and `REQUESTS-DETAIL` by treating query/dispute handling as linked support or exception paths rather than normal request-route statuses. |
+| `0.12.2` | `2026-07-14` | Product Documentation Team | Distinguished authorization confirmation from the receipt issued after completed payment. |
 ```
 ```

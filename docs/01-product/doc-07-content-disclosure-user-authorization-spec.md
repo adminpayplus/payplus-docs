@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.9.1
+version: 0.9.2
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-06
+last_updated: 2026-07-14
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -257,7 +257,7 @@ Final wording must be reviewed by Legal, Compliance, Payments, and Product befor
 The system must record:
 
 - payer ID;
-- request ID;
+- request ID where applicable;
 - payment ID where available;
 - payee ID or payee record;
 - authorization timestamp;
@@ -590,6 +590,7 @@ DOC-07 is acceptable when:
 | 0.8.0 | 2026-06-02 | Added deferred payment instruction quote revalidation disclosure for payment quote, promotion quote, card eligibility, fee, timing, and changed checkout terms. |
 | 0.9.0 | 2026-06-17 | Aligned reminder disclosure boundaries with DOC-06 reminder list/detail routes by distinguishing recurring reminders from automatic recurring payment or stored authorization. |
 | 0.9.1 | 2026-07-06 | Aligned disclosure requirements with DOC-06B Payment Profile route and DOC-09 split-card profile rules, including masked card/profile summaries, 6-card cap, and incomplete-profile warnings before authorization. |
+| 0.9.2 | 2026-07-14 | Clarified that authorization records require a request ID only where the payment originated from a request. |
 | 0.4.0 | 2026-06-01 | Aligned disclosure requirements with DOC-13 by adding promotion quote, coupon/voucher, reward, miles, membership, entitlement, expiry, and authorization-audit wording boundaries. |
 | 0.3.0 | 2026-05-30 | Aligned disclosure requirements with DOC-12 OCR/autofill, evidence correction, duplicate/reused evidence warning, verification status, and sensitive extracted-field display controls. |
 | 0.2.0 | 2026-05-30 | Aligned disclosure scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, approved obligations, and payer-authorized push payment language. |

@@ -173,7 +173,7 @@ Assign one primary owner before drafting. Other documents may reference or hand 
 
 Common ownership baseline:
 
-- `DOC-06B`: navigation, route shells, entry points, route taxonomy, dashboard placement;
+- `DOC-06B`: navigation, global non-Bills route shells and human-readable route-level UX behavior, entry points, route taxonomy, and dashboard placement;
 - `DOC-06C`: Bills/rent/tenancy UX, cards, details, evidence UI entry, reminder UI, bill-specific activity;
 - `DOC-08`: notification IDs, channels, templates, preferences, and delivery rules;
 - `DOC-09`: payment request mechanics, checkout, funding, authorization, payment instructions, payment states;

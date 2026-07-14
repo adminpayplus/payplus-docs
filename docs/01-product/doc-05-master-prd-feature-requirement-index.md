@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.10
+version: 0.18.11
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-06
+last_updated: 2026-07-14
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -485,9 +485,9 @@ Detailed data model, event taxonomy, warehouse, analytics marts, feature/model m
 
 The MVP should include the following UX surfaces. Detailed route flows, service blueprint steps, and non-payment interaction rules belong in the DOC-06 family. Payment/checkout screen content and payment-domain UI behavior belong primarily in DOC-09, with DOC-06A/DOC-06C owning route entry and handoff.
 
-DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B owns navigation and route taxonomy, DOC-06C owns Bills/rent/tenancy UX, and DOC-06D owns UX requirement/test mapping. Product requirements in DOC-05 should reference DOC-06 family route IDs where useful, use specific sub-route IDs where defined, and avoid duplicating screen-level routing rules.
+DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B owns navigation, route taxonomy, and human-readable route-level UX for global non-Bills routes, DOC-06C owns Bills/rent/tenancy UX, and DOC-06D owns UX requirement/test mapping. Product requirements in DOC-05 should reference DOC-06 family route IDs where useful, use specific sub-route IDs where defined, and avoid duplicating screen-level routing rules.
 
-For split UX topics, use one primary owner. DOC-06B owns standalone route shells such as Requests, Instructions, Payment Profile, Offers, Me, Referral, More, and global Receipts/Activity route shells. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
+For split UX topics, use one primary owner. DOC-06B owns standalone route shells and human-readable route-level UX for Requests, Instructions, Payment Profile, Offers, Me, Referral, More, and global Receipts/Activity routes. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
 
 For Requests, use the DOC-06 family boundary: a request is not a payment. It is a record asking another party to review, accept, link to, or reject a bill, rent, tenancy, fee, invoice, or approved obligation context. Accepted requests link the parties to the accepted context and may support later payment readiness, but payment authorization and processing remain separate payment-domain behavior.
 
@@ -690,7 +690,7 @@ The MVP is acceptable when:
 | DOC-04 | Compliance control framework |
 | DOC-06 | Parent user journey, UX flow, and service blueprint family map |
 | DOC-06A | Core user journeys and service blueprint |
-| DOC-06B | Navigation, IA, route taxonomy, dashboard, Pay+, and route completion status |
+| DOC-06B | Navigation, IA, route taxonomy, dashboard, Pay+, global non-Bills route-level UX, and route completion status |
 | DOC-06C | Bills, rent, tenancy, activity, reminder, evidence, and role-aware Bills-route UX |
 | DOC-06D | UX requirements, acceptance criteria, and test-readiness mapping |
 | DOC-07 | User-facing disclosure, authorization, evidence, privacy, and policy wording |
@@ -767,3 +767,4 @@ The MVP is acceptable when:
 | v0.18.8 | 2026-07-02 | Removed stale request-route clarification/dispute actions and aligned exception/support wording with DOC-06B `REQUESTS-NEW` and `REQUESTS-DETAIL`. |
 | v0.18.9 | 2026-07-03 | Aligned PRD wording with DOC-06B Instructions route and DOC-09 payment instruction boundary: pending/incomplete instructions remain separate from ordinary reminders and completed pay-now payments. |
 | v0.18.10 | 2026-07-06 | Aligned PRD with DOC-06B Payment Profile route shell for tokenized cards and saved split-card profiles, including final `Payment Profile` label, max 6-card cap, checkout/instruction handoff, default confirmation behavior, and non-wallet boundary. |
+| v0.18.11 | 2026-07-14 | Clarified DOC-06B ownership of human-readable route-level UX for global non-Bills routes while preserving domain-logic ownership boundaries. |

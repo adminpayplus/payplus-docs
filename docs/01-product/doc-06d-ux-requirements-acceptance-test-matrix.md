@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.3
+version: 0.1.4
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,13 +13,14 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-06
+last_updated: 2026-07-14
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
   - DOC-06A Core User Journeys & Service Blueprint
   - DOC-06B Navigation, IA & Route Taxonomy
   - DOC-06C Bills, Rent & Tenancy UX Module
+  - DOC-08 Notification, Receipt & Communication Rules
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-20 Testing, UAT & Go-Live Checklist
 ---
@@ -79,6 +80,7 @@ Example pattern:
 | Bills reminder route | DOC-06C / DOC-08 | Partial | Reminder list/detail behavior is testable; payment-instruction placement remains open. |
 | Payment checkout handoff | DOC-06A / DOC-06C / DOC-09 | Partial | DOC-06 can test route handoff; DOC-09 owns checkout tests. |
 | Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial to strong | Two-tab `Cards` / `Profiles` baseline, card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary are testable; final styling and tokenization behavior remain open. |
+| Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
 | Offers route | DOC-06B / DOC-13 | Not Ready | Route IA pending. |
 | Me route | DOC-06B / DOC-15 / DOC-19 | Not Ready | Route IA pending. |
 
@@ -138,6 +140,7 @@ The DOC-06 user journey scope is satisfied when:
 - admin can review users, requests, evidence, disputes, and exceptions;
 - key status changes are audit logged;
 - receipts or confirmations are available for completed payments;
+- users can search, view, and directly download available receipts and statements through `RECEIPTS-ROOT`, with `RECEIPT-DETAIL` and `STATEMENT-DETAIL` providing a minimal in-app PDF preview;
 - failed, rejected, cancelled, expired, and exception/support cases are handled clearly;
 - wallet, stored balance, cashout, self-cashout, and unsupported P2P journeys are blocked.
 
@@ -154,6 +157,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.4 | 2026-07-14 | Added test-readiness and MVP acceptance coverage for `RECEIPTS-ROOT` search, role-aware list behavior, direct document download, and shared PDF preview behavior through `RECEIPT-DETAIL` and `STATEMENT-DETAIL`. |
 | 0.1.3 | 2026-07-06 | Added Payment Profile route test-readiness and MVP acceptance coverage for two-tab card/profile management, max 6-card cap, default single-card behavior, split-profile selection, default confirmation behavior, return context, and non-checkout boundary. |
 | 0.1.2 | 2026-07-02 | Aligned UX acceptance criteria with DOC-06B request-route model by separating accept/reject request actions from support, query, dispute, and exception cases. |
 | 0.1.1 | 2026-06-25 | Removed temporary source-section heading wording and corrected the UX mapping code fence for official DOC-06D baseline use. |

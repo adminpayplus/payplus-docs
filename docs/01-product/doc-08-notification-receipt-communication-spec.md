@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.12
+version: 1.0.13
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-13
+last_updated: 2026-07-14
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -203,7 +203,7 @@ For DOC-06B dashboard placements:
 | Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
 | Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
-Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required.
+Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required. `RECEIPT-DETAIL` and `STATEMENT-DETAIL` open the selected PDF in the shared in-app preview defined by DOC-06B.
 
 DOC-06B `ACTIVITY-ROOT` may expose direct receipt/proof download actions from an expanded activity card where the file is available and the user has permission. DOC-06B `ACTIVITY-DETAIL` may also expose direct receipt/proof download actions. If receipt/proof is unavailable, the button should be hidden by default or disabled only where useful with clear, non-sensitive wording. Invoice/evidence buttons should be hidden where access is not permitted. DOC-08 owns the communication, delivery, file-availability, and receipt/proof wording rules; DOC-15 owns masking and access boundaries.
 
@@ -463,7 +463,7 @@ Detailed policy and operational handling belong in DOC-11 and DOC-21.
 A payment receipt should include:
 
 - receipt ID;
-- request ID;
+- request ID where applicable;
 - payment ID where available;
 - payer display name or payer reference;
 - payee display name or payee reference;
@@ -478,6 +478,8 @@ A payment receipt should include:
 - bill, invoice, rent, or obligation reference;
 - payout or settlement status where appropriate;
 - support or dispute reference path.
+
+PDF is the MVP receipt preview/download format. Any additional export formats remain to be confirmed.
 
 ### 12.2 Proof of Payment
 
@@ -494,32 +496,30 @@ If receipt content is wrong, corrected, replaced, or re-issued:
 - log the re-issue or replacement reason;
 - notify affected users where material.
 
-The latest valid receipt version should be shown by default in DOC-06B `RECEIPTS-ROOT` and `RECEIPT-DETAIL`. Prior versions must remain retained where required for audit, tax, support, dispute, refund, reversal, and chargeback handling. Final document metadata, versioning, lineage, and retention schema belong in DOC-18; admin re-issue workflow belongs in DOC-22.
+The latest valid receipt version should be shown by default in DOC-06B `RECEIPTS-ROOT` and `RECEIPT-DETAIL`. `View` opens the in-app PDF preview and `Download` may download the PDF directly from `RECEIPTS-ROOT` or the preview. Prior versions must remain retained where required for audit, tax, support, dispute, refund, reversal, and chargeback handling. Final document metadata, versioning, lineage, and retention schema belong in DOC-18; admin re-issue workflow belongs in DOC-22.
 
 ---
 
 ## 13. Statement Rules
 
-Statements may be available to payers and payees.
+Statements should be available to registered payers and registered payees with qualifying account activity. A statement may include both payer-side and payee-side financial activity for the same user account.
 
 Statement content should include:
 
 - statement period;
 - payer or payee account reference;
-- payment requests;
 - completed payments;
-- failed payments;
+- received payments and payout records where applicable;
 - refunds;
 - reversals;
 - chargebacks where applicable;
 - fees;
 - discounts or promotions;
-- payout records where applicable;
 - downloadable format where supported.
 
-Final export formats remain to be confirmed.
+PDF is the MVP statement preview/download format. Any additional export formats remain to be confirmed.
 
-Statement notifications should route to DOC-06B `STATEMENT-DETAIL`. The `Receipts & Statements` route may display statements together with receipts in `RECEIPTS-ROOT`, but statements remain periodic/account summary records, not activity entries. If a statement is wrong or replaced, PayPlus should re-issue a new statement version, retain the prior version where required, and notify affected users where material. Final statement schedule, export format, naming, versioning, and admin re-issue workflow remain open.
+Statement notifications should route to DOC-06B `STATEMENT-DETAIL`, which opens the selected statement PDF in the shared in-app preview. The `Receipts & Statements` route may display statements together with receipts in `RECEIPTS-ROOT`, where `View` opens the preview and `Download` downloads the PDF directly. Statements remain periodic/account financial summary records, not request histories, failed-attempt logs, or unrelated system-event records. If a statement is wrong or replaced, PayPlus should re-issue a new statement version, retain the prior version where required, and notify affected users where material. Final statement schedule, PDF layout/design, naming, versioning, and admin re-issue workflow remain open.
 
 ---
 
@@ -632,7 +632,7 @@ Detailed schema belongs in DOC-18.
 | OQ-08-003 | What exact templates are required for each notification event and channel? | Product / Design / Legal | Open |
 | OQ-08-004 | What WhatsApp consent and opt-out flow is required? | Legal / Product | Open |
 | OQ-08-005 | What SMS consent, fallback, and cost controls are required? | Product / Operations | Open |
-| OQ-08-006 | What statement export formats are required at MVP? | Product / Finance | Open |
+| OQ-08-006 | What additional receipt or statement export formats, if any, are required beyond the MVP PDF? | Product / Finance | Open |
 | OQ-08-007 | What notification delivery failure threshold should create an admin alert? | Operations / Engineering | Open |
 | OQ-08-008 | What retention exceptions, deletion rules, and masking rules apply beyond the 7-year baseline? | Legal / Privacy | Open |
 | OQ-08-009 | Which evidence verification events should notify users versus remain app status or admin-only dashboard tasks? | Product / Operations / Legal | Open |
@@ -669,6 +669,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.13 | 2026-07-14 | Aligned receipt and statement notification destinations with DOC-06B shared PDF preview/direct-download behavior, confirmed PDF as the MVP format, made receipt request ID conditional, and limited statements to role-mixed financial activity. |
 | 1.0.12 | 2026-07-13 | Aligned notification and direct receipt/proof download routing with DOC-06B `ACTIVITY-ROOT` expanded activity cards and `ACTIVITY-DETAIL` file actions, including unavailable-file and restricted-document behavior. |
 | 1.0.11 | 2026-07-08 | Aligned receipt and statement notification routing with DOC-06B `RECEIPTS-ROOT`, `RECEIPT-DETAIL`, `STATEMENT-DETAIL`, and `ACTIVITY-DETAIL`; replaced correction-view wording with re-issue/replacement and version-retention rules. |
 | 0.3.0 | 2026-06-01 | Aligned notification rules with DOC-13 by adding promotion and reward event domain, coupon/voucher, referral, membership, miles, entitlement, external voucher, reversal, and admin exception notifications. |
