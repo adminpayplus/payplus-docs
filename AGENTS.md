@@ -213,6 +213,18 @@ For any new feature, route, workflow, policy, status model, or cross-document ch
 
 ## Agent Workflow Rules
 
+### Parallel-Agent Documentation Workflow
+
+When the founder requests parallel agents, multi-agent drafting, a review swarm, or worktree-based documentation work, read and apply `docs/00-foundation/payplus-parallel-agent-drafting-workflow.md`.
+
+The lead agent in the active task acts as Orchestrator / Integration Lead unless the founder appoints another owner. Do not create worktrees or begin parallel editing until the workflow's classification, ownership, baseline, and approval gates have been satisfied.
+
+### Documentation Change Integration and Commit Workflow
+
+For any material documentation change, read and apply `docs/00-foundation/payplus-document-change-integration-workflow.md` after the product decision and edit scope are accepted.
+
+The workflow requires the primary owner to be updated first, followed by an impact search and only necessary alignment of governing documents, product requirements, references, traceability, indexes, `AGENTS.md`, README files, and route diagrams. Complete its integrated review and pre-commit report before requesting commit approval.
+
 Before making broad documentation changes:
 
 1. Check the current workspace path.

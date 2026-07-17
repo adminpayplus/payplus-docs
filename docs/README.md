@@ -3,7 +3,7 @@
 
 This folder contains the PayPlus documentation set.
 
-Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance source of truth. Use `AGENTS.md` for AI assistant workflow rules.
+Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance source of truth. Use `AGENTS.md` for AI assistant workflow rules. For parallel-agent or worktree-based drafting, also use [`00-foundation/payplus-parallel-agent-drafting-workflow.md`](00-foundation/payplus-parallel-agent-drafting-workflow.md). For accepted changes that require repository alignment and commit preparation, use [`00-foundation/payplus-document-change-integration-workflow.md`](00-foundation/payplus-document-change-integration-workflow.md).
 
 ## Current Baseline
 
