@@ -15,7 +15,7 @@ approvers:
   - Project Owner
   - Product Lead
 created_date: 2026-06-25
-last_updated: 2026-06-25
+last_updated: 2026-07-17
 classification: Internal
 affected_documents:
   - DOC-00 Documentation Governance
@@ -32,6 +32,8 @@ affected_documents:
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-22 Admin Management Dashboard & Operations Workflow
 ---
+
+> Historical ID note: the document-scoped `ROUTE-06B-*` and `ROUTE-06C-*` proposal in this implemented planning record is superseded by DOC-00 and the current DOC-06 family rule. Semantic product destination IDs such as `BILLS-PAY`, `OFFERS-ROOT`, and `OFFERS-CARD-LIST` are now stable; document-scoped IDs are retained only where needed for traceability.
 
 # CR-DOC-06-MODULARIZATION-ID-ALIGNMENT - DOC-06 Modularization and ID Alignment Plan
 

@@ -154,6 +154,17 @@ Prefer the simplest structure that preserves product control, compliance boundar
 - If the user experience would be confusing because of internal terminology, use user-facing wording and keep internal terms for technical docs.
 - If a future admin, data, API, or operations detail is needed, mark the future owning document instead of overloading the human source document.
 
+### Route and Destination Naming Rule
+
+Product route and destination IDs must describe the product area and remain independent of the document that currently owns them. Do not add `DOC-XX`, `06B`, or another document number to a product destination solely because that document defines it.
+
+- Reserve `*-ROOT` for the main screen of an independent product area, such as `OFFERS-ROOT`, `REWARDS-ROOT`, or `REFERRAL-ROOT`.
+- Use a clear child-screen suffix for subordinate destinations, such as `OFFERS-CARD-LIST` or `OFFER-DETAIL`.
+- Keep requirement, acceptance, control, and test IDs document-scoped where needed for traceability.
+- Record ordinary navigation through a transition table containing source, user action, destination, and return behavior. Do not create a permanent entry-point ID for every button, card, notification, or deeplink.
+- Maintain a route register with each destination's parent, type, purpose, owning document, and definition status so undefined intermediate screens remain visible.
+- Leave backend event names, analytics events, deeplink contracts, and implementation paths to their technical owning documents; they must map back to the product destinations without renaming them.
+
 ### PayPlus Boundary Check
 
 Every proposed feature, route, flow, data rule, promotion, notification, or admin control must preserve PayPlus boundaries:

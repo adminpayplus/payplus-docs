@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.9
+version: 0.1.10
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-06
+last_updated: 2026-07-17
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -60,9 +60,9 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | Reminder list/detail route | Working baseline | Linked reminders, defaults, custom override, toggle, and soft-delete defined; payment-instruction action alerts remain outside Bills reminder management. |
 | User-to-user linking | Partially defined | Automatic matching is not allowed; invitation/linking mechanism remains open. |
 
-## 4. Shorthand to Stable Route ID Map
+## 4. Product Destination and Legacy Traceability Map
 
-| Shorthand ID | Stable ID |
+| Product Destination ID | Legacy DOC-06C Traceability Alias |
 | --- | --- |
 | BILLS-ROOT | ROUTE-06C-BILLS-ROOT |
 | BILLS-PAY | ROUTE-06C-BILLS-PAY |
@@ -75,7 +75,7 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | BILLS-REMINDER-LIST | ROUTE-06C-BILLS-REMINDER-LIST |
 | BILLS-REMINDER-DETAIL | ROUTE-06C-BILLS-REMINDER-DETAIL |
 
-Existing shorthand IDs remain acceptable for founder discussion and diagrams. Stable IDs should be used for formal traceability and AI build-execution conversion when available.
+The product destination IDs in the first column are the stable route names for human documents, diagrams, and later AI build-execution conversion. The DOC-06C-prefixed aliases are retained only as legacy traceability references and must not replace the product destination names or be extended as a separate route taxonomy.
 
 ---
 
@@ -717,6 +717,7 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.10 | 2026-07-17 | Reclassified existing `BILLS-*` names as stable product destinations and retained `ROUTE-06C-*` values only as legacy traceability aliases, without changing Bills behavior. |
 | 0.1.9 | 2026-07-08 | Clarified `BILLS-ACTIVITY` as DOC-06C contextual activity, separated it from DOC-06B global Activity and Receipts & Statements routes, and made receipt/proof access a direct download by default from `BILLS-ACTIVITY-DETAIL`. |
 | 0.1.8 | 2026-07-06 | Aligned `BILLS-ACTIVITY` user-facing status labels and activity-detail timeline wording with the status display reference matrix. |
 | 0.1.7 | 2026-07-06 | Clarified Bills-route checkout handoff with DOC-06B `PAYMENT-PROFILE-ROOT` while preserving DOC-09 ownership of checkout and split-card payment behavior. |

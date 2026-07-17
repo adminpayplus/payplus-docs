@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.13
+version: 1.0.14
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-14
+last_updated: 2026-07-17
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -204,6 +204,8 @@ For DOC-06B dashboard placements:
 | Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
 Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required. `RECEIPT-DETAIL` and `STATEMENT-DETAIL` open the selected PDF in the shared in-app preview defined by DOC-06B.
+
+Promotion-discovery notifications should route to the relevant `OFFER-DETAIL`, or to `OFFERS-ROOT` only when no specific offer exists. Issued-reward notifications should route to `REWARDS-ROOT` or the relevant `REWARD-DETAIL`. Referral invitations, progress, or referral-program actions should route to `REFERRAL-ROOT` or a later defined referral child destination. The notification record should preserve its source and target context without requiring a DOC-06B entry-point ID. Notification routing must not turn `BILLS-PAY` into an Offers sub-route.
 
 DOC-06B `ACTIVITY-ROOT` may expose direct receipt/proof download actions from an expanded activity card where the file is available and the user has permission. DOC-06B `ACTIVITY-DETAIL` may also expose direct receipt/proof download actions. If receipt/proof is unavailable, the button should be hidden by default or disabled only where useful with clear, non-sensitive wording. Invoice/evidence buttons should be hidden where access is not permitted. DOC-08 owns the communication, delivery, file-availability, and receipt/proof wording rules; DOC-15 owns masking and access boundaries.
 
@@ -669,6 +671,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.14 | 2026-07-17 | Aligned promotion, issued-reward, and referral notification destinations with stable DOC-06B product destinations without creating document-scoped entry-point IDs. |
 | 1.0.13 | 2026-07-14 | Aligned receipt and statement notification destinations with DOC-06B shared PDF preview/direct-download behavior, confirmed PDF as the MVP format, made receipt request ID conditional, and limited statements to role-mixed financial activity. |
 | 1.0.12 | 2026-07-13 | Aligned notification and direct receipt/proof download routing with DOC-06B `ACTIVITY-ROOT` expanded activity cards and `ACTIVITY-DETAIL` file actions, including unavailable-file and restricted-document behavior. |
 | 1.0.11 | 2026-07-08 | Aligned receipt and statement notification routing with DOC-06B `RECEIPTS-ROOT`, `RECEIPT-DETAIL`, `STATEMENT-DETAIL`, and `ACTIVITY-DETAIL`; replaced correction-view wording with re-issue/replacement and version-retention rules. |

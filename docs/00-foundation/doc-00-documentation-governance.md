@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.2
+version: 0.7.3
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,7 +12,7 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-06-25
+last_updated: 2026-07-17
 classification: Internal
 related_documents: []
 ---
@@ -397,7 +397,7 @@ Stable IDs support traceability across requirements, rules, controls, tests, ris
 | --- | --- |
 | Requirement | `REQ-09-PAY-001` |
 | UX requirement | `UXREQ-06C-001` |
-| Route | `ROUTE-06C-BILLS-PAY` |
+| Product route / destination | `BILLS-PAY`, `OFFERS-ROOT`, `OFFERS-CARD-LIST` |
 | Screen | `SCREEN-06B-HOME-DASHBOARD` |
 | Component | `COMP-06C-BILL-CARD` |
 | Business rule | `RULE-09-PAY-001` |
@@ -414,6 +414,10 @@ Stable IDs support traceability across requirements, rules, controls, tests, ris
 | ADR | `ADR-001` |
 
 IDs must not be reused.
+
+Product route and destination IDs are semantic product identifiers and must remain independent of the document that currently owns them. Reserve `*-ROOT` for an independent area's main screen and use clear child-screen suffixes such as `*-LIST` or `*-DETAIL`. Document-scoped requirement, screen, component, control, and test IDs remain valid traceability artifacts and may reference these product destinations.
+
+Ordinary entry points should be recorded as source/action/destination/return transitions rather than assigned permanent IDs. A route register should identify each destination's parent, type, purpose, owner, and definition status. Technical paths, deeplink contracts, and event identifiers belong in the later technical specifications and must map back to the product destination IDs.
 
 If a requirement, rule, control, or test case is removed, it should be marked as removed or deprecated rather than silently deleted.
 
@@ -539,7 +543,7 @@ Foundation documents guide downstream documents as follows:
 | DOC-05 Master PRD & Feature Requirement Index | Convert product baseline into prioritized requirements and acceptance criteria. |
 | DOC-06 User Journey, UX Flow & Service Blueprint | Define the DOC-06 family governance map, parent UX scope, prohibited journey controls, and child-document ownership boundaries. |
 | DOC-06A Core User Journeys & Service Blueprint | Define core payer, payee, admin, system, evidence, review, authorization, status, notification, receipt, failure, and exception journeys. |
-| DOC-06B Navigation, IA & Route Taxonomy | Define bottom navigation, Home dashboard, Pay+ action sheet, route taxonomy, screen/component/action ID standards, and route completion status. |
+| DOC-06B Navigation, IA & Route Taxonomy | Define bottom navigation, Home dashboard, Pay+ action sheet, product-destination taxonomy, route register, navigation transitions, screen/component/action traceability standards, and route completion status. |
 | DOC-06C Bills, Rent & Tenancy UX Module | Define Bills, fee, rent, tenancy, activity, reminder, evidence, linking, and role-aware Bills-route UX behavior. |
 | DOC-06D UX Requirements, Acceptance Criteria & Test Matrix | Define UX requirement IDs, acceptance criteria, route/action/state/event/test mapping, and test-readiness tracking. |
 | DOC-07 Content, Disclosure & User Authorization Specification | Define approved product language, disclosures, user authorization, consent, and confirmation requirements. |
@@ -768,3 +772,4 @@ DOC-00 must remain focused on documentation governance only.
 | 0.7.0 | 2026-06-25 | Product Documentation Team | Recognized formal letter-suffix child documents, added DOC-06A to DOC-06D to the document register, and aligned stable UX ID examples with the DOC-06 modularization. |
 | 0.7.1 | 2026-06-25 | Product Documentation Team | Cleaned official DOC-06 family publication wording and preserved parent scope, role, and UX-surface summary expectations after modularization. |
 | 0.7.2 | 2026-06-25 | Product Documentation Team | Added single-primary-owner rule for split parent/child documents to prevent duplicate or conflicting detailed requirements. |
+| 0.7.3 | 2026-07-17 | Product Documentation Team | Separated semantic product destination IDs from document-scoped traceability IDs and required route registers plus source/action/destination/return transition tables. |

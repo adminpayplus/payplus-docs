@@ -1,16 +1,16 @@
-# PayPlus App Route Entry Map
+# PayPlus App Product Destination and Navigation Transition Map
 
 Status: Discussion reference / IA alignment aid  
 Owner: DOC-06B  
-Last updated: 2026-07-14
+Last updated: 2026-07-17
 
-These Mermaid diagrams show the current working relationship between bottom navigation, the Pay+ action sheet, the eight dashboard shortcuts, and major route handoffs.
+These Mermaid diagrams show the current working relationship between bottom navigation, the Pay+ action sheet, the eight dashboard shortcuts, stable product destinations, and major route transitions.
 
-The map is split into layers so that navigation entry points, Bills-route ownership, and Requests-route ownership are not mixed into one unreadable graph.
+The map is split into layers so that navigation actions, destination hierarchy, Bills-route ownership, and Requests-route ownership are not mixed into one unreadable graph.
 
 It is not final UI design, visual design, component specification, or implementation source of truth. If this diagram conflicts with formal `DOC-XX` documents, the formal documents prevail.
 
-## 1. Main Entry Map
+## 1. Main Navigation Map
 
 This diagram shows only how users enter major areas. It does not try to show every sub-route.
 
@@ -42,10 +42,14 @@ flowchart TD
   HSHORTCUTS --> RECEIPTS["RECEIPTS-ROOT<br/>Receipts & Statements"]
   HSHORTCUTS --> REMINDERS["BILLS-REMINDER-LIST<br/>Reminders"]
   HSHORTCUTS --> PPROOT["PAYMENT-PROFILE-ROOT<br/>Cards / Payment Profile"]
-  HSHORTCUTS --> REFERRAL["Referral<br/>Not fully defined"]
+  HSHORTCUTS --> REFERRAL["REFERRAL-ROOT<br/>Partially defined"]
   HSHORTCUTS --> MORE["More<br/>Not fully defined"]
+  ME --> REFERRAL
 
   HRECENT --> ACTIVITYROOT["ACTIVITY-ROOT<br/>Activity"]
+
+  OFFERS --> OFFERSROOT["OFFERS-ROOT<br/>Offer discovery"]
+  HFEATURED --> OFFERDETAIL["OFFER-DETAIL<br/>when the item is an offer"]
 ```
 
 ## 2. Bills Route Handoff
@@ -206,4 +210,34 @@ flowchart TD
   BILLDETAIL --> BACTIVITY["BILLS-ACTIVITY<br/>contextual bill/rent activity"]
   BACTIVITY --> BACTIVITYDETAIL["BILLS-ACTIVITY-DETAIL"]
   BACTIVITYDETAIL --> BDIRECT["Receipt / proof direct download by default"]
+```
+
+## 7. Offers and Rewards Route Handoff
+
+This diagram separates promotion discovery, issued-reward management, and referral participation. `BILLS-PAY` is shown only as a cross-route destination and is not part of the Offers route family.
+
+```mermaid
+flowchart TD
+  NAV["Bottom navigation: Offers"] --> OROOT["OFFERS-ROOT<br/>Main Offers screen"]
+  FEATURED["Home Featured / Hot Offer"] -->|"Tap offer"| ODETAIL["OFFER-DETAIL<br/>Full-screen modal"]
+  PROMONOTIF["Promotion notification or approved deeplink"] -->|"Open referenced offer"| ODETAIL
+
+  OROOT -->|"Tap displayed offer"| ODETAIL
+  OROOT -->|"Card Offers: View More"| CARDLIST["OFFERS-CARD-LIST<br/>All Card Offers"]
+  OROOT -->|"Pay+ Offers: View More"| PAYPLUSLIST["OFFERS-PAYPLUS-LIST<br/>All Pay+ Offers"]
+  OROOT -->|"Partner Offers: View More"| PARTNERLIST["OFFERS-PARTNER-LIST<br/>All Partner Offers"]
+  CARDLIST -->|"Tap offer"| ODETAIL
+  PAYPLUSLIST -->|"Tap offer"| ODETAIL
+  PARTNERLIST -->|"Tap offer"| ODETAIL
+
+  OROOT -->|"My Rewards banner"| REWARDS["REWARDS-ROOT<br/>My Rewards"]
+  REWARDICON["Home coupon / rewards icon"] --> REWARDS
+  REWARDNOTIF["Reward notification"] -->|"Open referenced reward"| RDETAIL["REWARD-DETAIL<br/>Full-screen modal"]
+  REWARDS -->|"Tap reward"| RDETAIL
+
+  ODETAIL -. "Referral-program action" .-> REFERRAL
+  REFSHORTCUT["Dashboard Referral shortcut"] --> REFERRAL["REFERRAL-ROOT<br/>Partially defined"]
+  ME["Me"] --> REFERRAL
+  ODETAIL -. "Issued reward handoff" .-> REWARDS
+  ODETAIL -. "Eligible obligation handoff" .-> BPAY["BILLS-PAY<br/>Owned by DOC-06C"]
 ```

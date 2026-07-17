@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.16
+version: 0.1.17
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-14
+last_updated: 2026-07-17
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -93,7 +93,7 @@ Route and screen registry tables should use this structure where practical.
 | Artifact | Pattern | Example |
 | --- | --- | --- |
 | UX requirement | UXREQ-06B-001 | UXREQ-06B-001 |
-| Route | ROUTE-06B-{AREA} | ROUTE-06B-HOME |
+| Product route / destination | Semantic product name | OFFERS-ROOT, OFFERS-CARD-LIST |
 | Screen | SCREEN-06B-{NAME} | SCREEN-06B-HOME-DASHBOARD |
 | View | VIEW-06B-{NAME} | VIEW-06B-OFFERS-HUB |
 | Sheet / Modal | SHEET-06B-{NAME} | SHEET-06B-PAYPLUS-ACTION |
@@ -102,7 +102,7 @@ Route and screen registry tables should use this structure where practical.
 | Event signal | EVT-06B-{NAME} | EVT-06B-SHORTCUT-TAPPED |
 | Open question | OQ-06B-001 | OQ-06B-001 |
 
-Stable IDs may be assigned progressively. Shorthand labels may remain in discussion and diagrams, but build-execution materials should use stable IDs when available.
+Product destination IDs remain independent of DOC-06B and must survive future document restructuring. Reserve `*-ROOT` for an independent area's main screen and use clear child-screen suffixes such as `*-LIST` or `*-DETAIL`. Ordinary entry points are recorded through source/action/destination/return transitions rather than permanent IDs. Document-scoped requirement, screen, component, action, and test IDs may still be assigned progressively for traceability.
 
 ### 4.3 Route Ownership Rule
 
@@ -148,7 +148,7 @@ MVP bottom navigation should use five primary destinations.
 | Home | Default task-first dashboard. | Opens Home Dashboard. | Discussion baseline |
 | Bills | Bill, fee, rent, tenancy, and obligation record management area. | Opens Bills area covering saved bill/rent/tenancy records and their DOC-06C sub-routes. Requests, instructions, receipts, cards, referral, and More remain separate management routes or shortcut destinations unless explicitly embedded as contextual handoffs. | Discussion baseline |
 | Pay+ | Central payment and request action. | Opens a slide-up action sheet for payment, setup, continuation, and request-payment actions. Exact visual UI and final ordering remain to be finalized. | Working baseline |
-| Offers | Full promotion discovery area. | Opens Offers Hub covering hot offers, card partner offers, PayPlus campaigns, coupon/voucher library, referral, and What's New. Exact route IA remains to be finalized. | Discussion baseline |
+| Offers | Promotion and partner-offer discovery area. | Opens `OFFERS-ROOT`. Issued rewards and referral participation remain separate routes reached through contextual handoffs. | Working baseline |
 | Me | Account and user control area. | Opens profile, settings, security, notifications, privacy, support, cards/payment methods, and account controls. Exact route IA remains to be finalized. | Discussion baseline |
 
 `Pay+` should be visually treated as the primary center action in the bottom navigation.
@@ -189,10 +189,10 @@ The Home Dashboard should use the following MVP section order.
 
 | Order | Section | Definition | Display Rule | Route Relationship |
 | ---: | --- | --- | --- | --- |
-| 1 | Header | Greets the user and provides quick access to high-priority utilities. | Always shown. | Inbox and coupon/voucher library icons route to their respective screens. |
+| 1 | Header | Greets the user and provides quick access to high-priority utilities. | Always shown. | Inbox and coupon/rewards icons route to their respective screens. |
 | 2 | Important Notice / Action Required | Combined swipeable section for urgent actions, account messages, system messages, announcements, late handling from payer/payee, expiring tenancies, and other important updates. | Disappears if empty. User may collapse with a close button. Eligible item types are initially defined here and may be expanded later. | Each card routes to the relevant task, detail, or message route. |
 | 3 | Shortcut Grid | Operational shortcuts for common management tasks. Must not duplicate Pay+ direct payment-start actions. | MVP displays 8 shortcuts. Shortcut set, default order, visibility, and enablement must be configurable. | Each shortcut routes to its related management area. |
-| 4 | Featured / What's New / Hot Offer | One combined carousel for approved PayPlus announcements, partner campaigns, feature updates, hot offers, and service events. | Must be admin-controllable. Use one combined carousel at this stage. | Routes to Offers Hub, offer detail, announcement detail, or feature route. |
+| 4 | Featured / What's New / Hot Offer | One combined carousel for approved PayPlus announcements, partner campaigns, feature updates, hot offers, and service events. | Must be admin-controllable. Use one combined carousel at this stage. | Routes to `OFFERS-ROOT`, `OFFER-DETAIL`, announcement detail, or the relevant feature route. |
 | 5 | Upcoming Bills / Rent | Summary of upcoming bills, fees, rent, tenancy obligations, due reminders, and related next actions. | Show when active or saved obligations exist. Detailed card fields may be refined later. | Routes to Bills area or the specific bill/tenancy detail. |
 | 6 | Recent Activity | Limited list of recent transactions and status records. | Show recent items only, capped by dashboard display rules. | Arrow or View More routes to Recent Activity detail page. |
 
@@ -206,7 +206,7 @@ Dashboard section order may be refined later only through explicit design review
 | --- | --- | --- |
 | Greeting | User recognition area. | No route required, or profile route if tapped. |
 | Inbox icon | Notifications, messages, payment alerts, request updates, support replies, system notices, and announcements. | Notification / Inbox route. Request-related inbox items may route to `REQUESTS-ROOT`, `REQUESTS-DETAIL`, or the linked Bills/rent context depending on item type. |
-| Coupon icon | Shortcut to user's available coupon/voucher library. | Coupon / Voucher Library route. |
+| Coupon / rewards icon | Shortcut to the user's issued coupons, vouchers, and other supported rewards. | Opens `REWARDS-ROOT`. |
 
 ---
 
@@ -226,7 +226,7 @@ MVP shortcut grid:
 | Receipts | Payment receipts and statements. Proof of payment remains available from relevant Activity contexts for MVP. | Opens `RECEIPTS-ROOT`. |
 | Reminders | User-set due reminders for bills, rent, tenancy obligations, and manual reminders. | Opens `BILLS-REMINDER-LIST`. |
 | Cards | Payment Profile route for managing tokenized cards and saved split-card profiles. The shortcut is an entry point, not checkout. | Opens `PAYMENT-PROFILE-ROOT`. |
-| Referral | Referral / MGM entry point and referral reward status where enabled. | Opens the future Referral route and may also link to Offers Hub referral content. |
+| Referral | Referral / MGM entry point and referral reward status where enabled. | Opens `REFERRAL-ROOT`. Referral campaigns may be promoted in `OFFERS-ROOT`, but participation and progress remain owned by the Referral route. |
 | More | Opens remaining or secondary shortcuts and services. | Opens future More Shortcuts / Services route or sheet. |
 
 Support should not be part of the initial eight dashboard shortcuts. Support remains accessible through `Me`, issue-specific status screens, and/or `More` if enabled.
@@ -317,7 +317,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Bottom Navigation Route Map | Define how `Home`, `Bills`, `Pay+`, `Offers`, and `Me` relate to top-level routes and deep links. | Title preserved / not finalized |
 | Pay+ Action Sheet Detail | Define final label order, empty states, disabled states, permission rules, and route destinations for the working baseline actions. | Working baseline / not finalized |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
-| Offers Hub IA | Define offer discovery, hot offers, card partner offers, coupon/voucher library, referral, What's New, and campaign detail routes. | Title preserved / not finalized |
+| Offers and Rewards IA | Define `OFFERS-ROOT` discovery, category collection routes, `OFFER-DETAIL`, separate issued-reward management, referral handoff, and placement behavior. | Route shell defined / not final visual design |
 | Me Area IA | Define account, security, privacy, notification preferences, support, cards/payment methods, and user control routes. | Title preserved / not finalized |
 | More Shortcuts IA | Define secondary shortcuts and services not shown in the first eight dashboard shortcuts. | Title preserved / not finalized |
 | Requests Route | Define standalone Requests route shell, creation flow, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
@@ -327,7 +327,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Receipts & Statements Route | Define the searchable receipt/statement list, direct download, shared PDF preview, return behavior, and re-issue handoff. | Root and preview behavior defined / not final PDF design |
 | Reminders Route | Define due reminders, user-set reminders, notification settings, and reminder destinations. | Title preserved / not finalized |
 | Payment Profile Route | Define tokenized card management, saved split-card profile management, card status, default card, profile action-required behavior, and checkout/instruction handoff. | Route shell defined / not final UI |
-| Referral Route | Define referral entry, invitation link, progress, reward status, and relationship with Offers Hub. | Title preserved / not finalized |
+| Referral Route | Define `REFERRAL-ROOT` invitation, relationship, progress, and referral-program UX. Referral campaigns may be discovered through Offers, but Referral remains a separate route. | Partially defined / detailed route not finalized |
 | Admin-Configurable UI Marker List | Mark app UI elements that require admin configuration later without drafting admin UI in DOC-06. | Title preserved / DOC-22 owns admin UI |
 
 App UI elements that currently require admin configuration markers include Pay+ action visibility, shortcut visibility/order/defaults, Featured / What's New / Hot Offer carousel placement, Important Notice / Action Required item types, feature/module enablement, request-payment availability, and route-level gating by user type, category, launch phase, risk state, or compliance restriction.
@@ -345,8 +345,7 @@ DOC-06B owns the standalone Requests route shell. DOC-06A owns request lifecycle
 | Item | Requirement |
 | --- | --- |
 | Route label | Requests |
-| Working route ID | `REQUESTS-ROOT` |
-| Stable route ID | `ROUTE-06B-REQUESTS` |
+| Product destination | `REQUESTS-ROOT` |
 | Purpose | Let users create, view, manage, and respond to requests that connect parties to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation context. |
 | Boundary | A request is not a payment. The route must not authorize, process, capture, settle, or complete payment. |
 | Default behavior | Open `Received` unless the user's last selected Requests view is available. Action-required received requests should be visually prioritized inside `Received`, not treated as a separate route. |
@@ -439,8 +438,8 @@ Card-level material actions such as accept, reject, cancel, resend, or remind sh
 
 | Item | Requirement |
 | --- | --- |
-| Working screen ID | `REQUESTS-DETAIL` |
-| Stable screen ID | `SCREEN-06B-REQUESTS-DETAIL` |
+| Product destination | `REQUESTS-DETAIL` |
+| Optional traceability screen reference | `SCREEN-06B-REQUESTS-DETAIL` |
 | Purpose | Let the user understand, respond to, or manage one request before opening any linked bill/rent/tenancy context. |
 | Boundary | The screen manages request status and request actions only. Payment authorization, checkout, evidence editing, and bill/rent record maintenance remain in the owning routes. |
 | Linked-context handoff | If a linked bill/rent/tenancy exists, show a clear button such as `View Bill Detail`, `View Rent Detail`, or `View Tenancy`. That button opens the relevant DOC-06C detail route. |
@@ -480,8 +479,8 @@ The flow must not create an open money request. It must link to an evidence-back
 
 | Field | Requirement |
 | --- | --- |
-| Working route ID | `REQUESTS-NEW` |
-| Stable screen ID | `SCREEN-06B-REQUESTS-NEW` |
+| Product destination | `REQUESTS-NEW` |
+| Optional traceability screen reference | `SCREEN-06B-REQUESTS-NEW` |
 | Route type | Controlled creation flow / screen group |
 | Primary owner | DOC-06B |
 | Linked owner | DOC-06C owns `BILLS-ADD` and Bills/rent detail handoff. DOC-08 owns notification and delivery-channel rules. DOC-12 owns evidence verification. DOC-15 owns privacy and counterparty lookup boundaries. |
@@ -593,10 +592,9 @@ The route is for pending, future, or incomplete payment setups. It is not the no
 
 | Field | Requirement |
 | --- | --- |
-| Working route ID | `INSTRUCTIONS-ROOT` |
-| Stable route ID | `ROUTE-06B-INSTRUCTIONS-ROOT` |
-| Detail screen ID | `INSTRUCTIONS-DETAIL` |
-| Stable detail screen ID | `SCREEN-06B-INSTRUCTIONS-DETAIL` |
+| Root product destination | `INSTRUCTIONS-ROOT` |
+| Detail product destination | `INSTRUCTIONS-DETAIL` |
+| Optional traceability screen reference | `SCREEN-06B-INSTRUCTIONS-DETAIL` |
 | Primary owner | DOC-06B owns route shell, list/detail layout, entry points, high-level actions, and route handoff. |
 | Payment owner | DOC-09 owns payment instruction mechanics, checkout/payment screen behavior, payment quote, payment profile/card allocation, funding-leg state, authorization, revalidation, and payment status. |
 | Related owners | DOC-08 owns notification delivery; DOC-13 owns promotion quote impact; DOC-15 owns masking/privacy; DOC-18 owns schema/events; DOC-19 owns security/tokenization; DOC-22 owns admin controls. |
@@ -809,8 +807,7 @@ The route manages reusable payment setup objects. It is not checkout, not a wall
 
 | Field | Requirement |
 | --- | --- |
-| Working route ID | `PAYMENT-PROFILE-ROOT` |
-| Stable route ID | `ROUTE-06B-PAYMENT-PROFILE-ROOT` |
+| Product destination | `PAYMENT-PROFILE-ROOT` |
 | Primary owner | DOC-06B owns route shell, entry points, major screens, route handoff, and high-level user actions. |
 | Payment owner | DOC-09 owns actual checkout selection, payment quote, split-card allocation for a payment, authorization, funding-leg submission, and payment states. |
 | Security owner | DOC-19 owns PSP/acquirer tokenization, card-data security, PCI boundary, authentication, and token handling. |
@@ -971,8 +968,7 @@ DOC-06B owns the global Activity route shell. DOC-06C owns `BILLS-ACTIVITY` for 
 | Field | Requirement |
 | --- | --- |
 | User-facing route label | `Activity` |
-| Working route IDs | `ACTIVITY-ROOT`, `ACTIVITY-DETAIL` |
-| Stable route IDs | `ROUTE-06B-ACTIVITY-ROOT`, `ROUTE-06B-ACTIVITY-DETAIL` |
+| Product destinations | `ACTIVITY-ROOT`, `ACTIVITY-DETAIL` |
 | Purpose | Let a user review account-level financial activity across payer and payee roles. |
 | Boundary | Activity lists events and lifecycle status. It must not become the receipt/statement file library, the bill/rent-specific timeline, or an internal audit log. |
 
@@ -1128,8 +1124,7 @@ DOC-06B owns the route, list, search, preview handoff, and entry points. DOC-08 
 | --- | --- |
 | Full route label | `Receipts & Statements` |
 | Dashboard shortcut label | `Receipts` |
-| Working route IDs | `RECEIPTS-ROOT`, `RECEIPT-DETAIL`, `STATEMENT-DETAIL` |
-| Stable route IDs | `ROUTE-06B-RECEIPTS-ROOT`, `ROUTE-06B-RECEIPT-DETAIL`, `ROUTE-06B-STATEMENT-DETAIL` |
+| Product destinations | `RECEIPTS-ROOT`, `RECEIPT-DETAIL`, `STATEMENT-DETAIL` |
 | Purpose | Let users find, preview, and download transaction receipts and account statements. |
 | Boundary | This route is a file/document hub. It should not replace Activity, checkout, bill/rent activity, or internal audit history. |
 
@@ -1223,6 +1218,161 @@ If a receipt or statement is wrong, replaced, or re-issued:
 | Final receipt/statement PDF layout, visual design, export naming, and sharing controls | Product / Design / Finance / Legal | Open |
 | Final receipt/statement re-issue policy and admin workflow | Product / Finance / Operations / DOC-22 | Open |
 
+### 5.16 Offers and Rewards Routes
+
+#### 5.16.1 Route Boundary and Register
+
+Offers, issued rewards, and referral serve different user intentions and must not be treated as one route:
+
+| Destination | Parent | Type | User-Facing Purpose | Owner | Definition Status |
+| --- | --- | --- | --- | --- | --- |
+| `OFFERS-ROOT` | Offers area | Root screen | Discover current Featured / Hot, card, Pay+, and partner offers. | DOC-06B | Defined baseline |
+| `OFFERS-CARD-LIST` | `OFFERS-ROOT` | Child collection screen | View all card offers. | DOC-06B | Partially defined |
+| `OFFERS-PAYPLUS-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all Pay+ offers. | DOC-06B | Partially defined |
+| `OFFERS-PARTNER-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all partner offers. | DOC-06B | Partially defined |
+| `OFFER-DETAIL` | `OFFERS-ROOT` or an Offers child list | Route-addressable full-screen modal | Understand one offer and take its configured action. | DOC-06B; DOC-13 for offer logic | Defined baseline |
+| `REWARDS-ROOT` | Rewards area | Root screen | Manage rewards already issued to the user, including supported coupons, vouchers, external-partner instruments, and miles entitlements. | DOC-06B; DOC-13 for reward logic | Defined baseline |
+| `REWARD-DETAIL` | `REWARDS-ROOT` | Route-addressable full-screen modal | View and use one issued reward according to its instrument and fulfilment method. | DOC-06B; DOC-13 for reward logic | Defined baseline |
+| `REFERRAL-ROOT` | Referral area | Root screen | Join and manage referral participation, invitation, relationship, progress, and referral reward status. | DOC-06B; DOC-13 for referral logic | Partially defined |
+
+`OFFERS-ROOT` is a discovery route. `REWARDS-ROOT` is an issued-benefit management route. `REFERRAL-ROOT` is a relationship and progress route. They may link to one another but must not redefine one another's behavior.
+
+What's New is not an Offers category by default. A dashboard What's New item should open its announcement or feature destination unless the item is also an approved offer governed by DOC-13.
+
+Coupons, vouchers, external vouchers, and miles are reward types or views inside `REWARDS-ROOT`; they are not separate routes by default. A direct checkout discount, service-fee waiver, or special rate is not an issued reward and must not appear in `REWARDS-ROOT` unless DOC-13 creates a separate reward entitlement or instrument.
+
+Navigation is defined by transition rather than by assigning an ID to every entry action:
+
+| Source | User Action | Destination | Return Behavior |
+| --- | --- | --- | --- |
+| Bottom navigation | Tap `Offers` | `OFFERS-ROOT` | Normal bottom-navigation behavior. |
+| Home Featured / Hot Offer | Tap an offer | `OFFER-DETAIL` | Return to Home and the prior carousel position. |
+| `OFFERS-ROOT` | Tap any displayed offer | `OFFER-DETAIL` | Return to the same section and scroll position. |
+| `OFFERS-ROOT` | Tap Card Offers `View More` | `OFFERS-CARD-LIST` | Return to the Card Offers section. |
+| `OFFERS-ROOT` | Tap Pay+ Offers `View More` | `OFFERS-PAYPLUS-LIST` | Return to the Pay+ Offers section. |
+| `OFFERS-ROOT` | Tap Partner Offers `View More` | `OFFERS-PARTNER-LIST` | Return to the Partner Offers section. |
+| Any Offers child list | Tap an offer | `OFFER-DETAIL` | Return with search, filter, and scroll state preserved. |
+| `OFFERS-ROOT` | Tap My Rewards banner | `REWARDS-ROOT` | Return to the prior Offers position. |
+| Home rewards icon | Tap | `REWARDS-ROOT` | Return to Home. |
+| `REWARDS-ROOT` | Tap a reward | `REWARD-DETAIL` | Return with the prior view and scroll state preserved. |
+| Dashboard Referral shortcut or `Me` | Tap Referral | `REFERRAL-ROOT` | Return to the originating context. |
+| `OFFER-DETAIL` | Take a referral-program action | `REFERRAL-ROOT` | Return to the originating offer where supported. |
+| Promotion or reward notification / approved deeplink | Open the referenced item | Relevant detail destination, or the corresponding root when no item is identified | Return to prior app context where available; otherwise use the corresponding root. |
+
+#### 5.16.2 `OFFERS-ROOT` Screen
+
+MVP screen order:
+
+1. header with Back, title `Offers`, and Search icon;
+2. My Rewards banner opening `REWARDS-ROOT`;
+3. Featured / Hot Offers carousel, maximum 3 displayed offers;
+4. Card Offers carousel, automatic slide, randomized order, maximum 4 displayed offers, and `View More`;
+5. Pay+ Offers grid, maximum 6 displayed offers and `View More`;
+6. Partner Offers grid, maximum 6 displayed offers and `View More`.
+
+Randomized Card Offers must be selected only from active, approved, eligible-for-display offers after mandatory admin priority, targeting, consent, and compliance gates are applied. Exact refresh frequency and randomization method belong to later technical and admin specifications.
+
+The Search icon opens route-local search rather than a new route. Search should support offer title, partner or sponsor, offer category/label, eligible payment method, and relevant keywords without exposing internal rule fields. If no active offers match, show a no-offers state while keeping search reset and My Rewards available.
+
+`View More` opens a dedicated collection route:
+
+| Source Section | Destination | Required Screen Structure |
+| --- | --- | --- |
+| Card Offers | `OFFERS-CARD-LIST` | Back, title `Card Offers`, Search icon, and card-offer list or grid. |
+| Pay+ Offers | `OFFERS-PAYPLUS-LIST` | Back, title `Pay+ Offers`, Search icon, label filters, and Pay+ offer list or grid. |
+| Partner Offers | `OFFERS-PARTNER-LIST` | Back, title `Partner Offers`, Search icon, label filters, and partner-offer list or grid. |
+
+Label-filter values for Pay+ and Partner Offers remain open. Each relevant offer must carry one or more approved category/label references so filtering can be supported. DOC-13 owns the business metadata requirement, DOC-18 owns final schema, and DOC-22 owns label administration and placement controls.
+
+Back from a collection route returns to `OFFERS-ROOT` at the originating section and prior scroll position. Back from `OFFERS-ROOT` returns to the prior app context where one exists; otherwise it returns to Home.
+
+An offer card should show:
+
+- partner or PayPlus identity;
+- offer title;
+- short benefit summary;
+- applicable category or payment method where material;
+- expiry or ending-soon information;
+- concise availability or claim-method label;
+- `View Details` action.
+
+Material acceptance, claim, redemption, or payment actions should occur in `OFFER-DETAIL`, not directly on the discovery card.
+
+#### 5.16.3 `OFFER-DETAIL` Screen
+
+`OFFER-DETAIL` opens as a full-screen modal that can also resolve as a notification or deeplink destination. Its screen structure is:
+
+1. offer key visual;
+2. Close icon;
+3. offer title and sponsor;
+4. offer details;
+5. contextual action area.
+
+Offer details should show:
+
+1. offer title and sponsor;
+2. benefit summary;
+3. how the benefit is applied or delivered;
+4. eligible bill, fee, rent, payment method, card, user, or partner conditions where applicable;
+5. minimum amount, eligible amount cap, quota, frequency, or usage limit where user-relevant;
+6. campaign period, claim period, and usage period as separate dates where they differ;
+7. current eligibility, entitlement, claim, or availability outcome where known;
+8. material terms, exclusions, and expandable full terms;
+9. one contextual primary action and relevant secondary action.
+
+The action target is configured by the offer and may open an approved campaign landing page, card-application flow, external link, in-app screen, referral route, or reward-redemption action. External targets must use approved destinations and must not expose sensitive PayPlus data in the URL or handoff.
+
+The primary action depends on the DOC-13 benefit-delivery method:
+
+| Benefit Context | User Action and Handoff |
+| --- | --- |
+| Direct checkout discount, fee waiver, or card-linked offer | `View Eligible Bills` or equivalent hands off to DOC-06C `BILLS-PAY`; `BILLS-PAY` remains outside the Offers route and DOC-09 owns checkout. |
+| Redeemable coupon, voucher, or other reward | `Redeem` first checks current eligibility, campaign availability, quota, entitlement, and prior-redemption state under DOC-13. A successful redemption creates or confirms the reward entitlement/instrument. The primary button changes to non-actionable `Redeemed`, and `View My Reward` appears and opens `REWARDS-ROOT`. |
+| Already redeemed reward | Show non-actionable `Redeemed` and `View My Reward`, which opens `REWARDS-ROOT`. |
+| External partner benefit | Claim or eligibility confirmation precedes any approved QR, code, deeplink, or partner handoff. |
+| Referral campaign | `View Referral` opens `REFERRAL-ROOT`; Offers does not manage invitations or progress. |
+
+If redemption fails or the user is not eligible, no entitlement or reward instrument is created and the UI must show a clear, non-sensitive reason or next step. Closing an offer opened from an Offers route returns to the same search, filter, section, and list position. Closing an offer opened from Home, notification, or deeplink returns to the prior app context where available; otherwise it returns to `OFFERS-ROOT`.
+
+#### 5.16.4 `REWARDS-ROOT` and `REWARD-DETAIL`
+
+The working user-facing label for `REWARDS-ROOT` is `My Rewards`. It is a management surface for issued benefits, not a wallet, stored balance, transferable value, or cashout right.
+
+Recommended views are `Active`, `Used`, and `Expired`. Reward-type filters may distinguish coupons, vouchers, miles, or partner benefits without creating separate routes.
+
+Each reward item should show:
+
+- reward name and source campaign or program;
+- benefit summary;
+- reward type;
+- issue date where useful;
+- expiry or usage period;
+- current user-facing status;
+- `View` or `Use` action where available.
+
+`REWARD-DETAIL` opens as a full-screen modal. It shows a reward key visual, Close icon, reward details, and contextual action button. Reward details include the selected instrument's benefit, source, conditions, status, expiry, and permitted use method. Depending on DOC-13 fulfilment rules, the action may support checkout use, QR display, partner code, deeplink, or another approved in-app or external fulfilment destination; miles status or non-sensitive failure/reversal information may be shown without a use action.
+
+If a reward cannot be used, the action must be hidden or disabled with a clear reason. Expired, used, reversed, or unavailable rewards remain viewable according to retention and user-record rules but must not be presented as active value.
+
+#### 5.16.5 Placement, Control, and Data Boundaries
+
+DOC-13 owns campaign, offer, qualification, entitlement, benefit, instrument, redemption, stacking, budget, quota, reversal, and fulfilment logic. DOC-06B owns only the route presentation and handoffs defined here.
+
+DOC-22 should later define admin controls for offer approval, placement, priority, scheduling, targeting, enable/disable, category/label filters, and exception handling. Dashboard What's New administration remains a separate placement concern. DOC-15 owns consent, permitted personalization, masking, and partner-data boundaries. Sensitive evidence-derived data must not be used for offer targeting unless expressly approved under DOC-15.
+
+Material route-level signals for later DOC-18 specification include offer impression, search/filter use, offer open, claim attempt/result, reward open, use action, checkout handoff, referral handoff, external fulfilment handoff, and return outcome. DOC-18 owns final event IDs, schema, lineage, analytics, and model-use metadata.
+
+#### 5.16.6 Open Items
+
+| Item | Owner | Status |
+| --- | --- | --- |
+| Final `My Rewards` user-facing label and icon | Product / Design | Open |
+| Final Pay+ and Partner Offer label taxonomy and launch visibility | Product / Growth / Design | Open |
+| Final offer/reward card styling, density, and empty-state copy | Product / Design | Open |
+| Final personalized ranking and targeting scope | Product / Growth / Privacy | Open |
+| Final membership-program route destination | Product / Growth | Open |
+| Final external-partner reward MVP scope | Product / Commercial | Open |
+
 ## 6. Route Completion Status
 
 | Route / Area | Status | Next Required Work |
@@ -1230,7 +1380,7 @@ If a receipt or statement is wrong, replaced, or re-issued:
 | Home Dashboard | Partially Defined | Confirm card-level UI, notice priority, carousel behavior, dashboard activity cap, and empty states. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Pay+ | Partially Defined | Confirm visual order, disabled states, eligibility copy, and final action limits. |
-| Offers | Not Fully Defined | Define Offers Hub, offer detail, coupon/voucher library routing, and placement interactions with DOC-13. |
+| Offers and Rewards | Route Shell Defined / Not Final Visual Design | `OFFERS-ROOT`, the three `OFFERS-*-LIST` child screens, `OFFER-DETAIL`, `REWARDS-ROOT`, and `REWARD-DETAIL` purpose, hierarchy, screen order, core fields, actions, and handoffs are defined. Confirm child-list UI detail, final labels, filters, styling, personalization, and external-reward scope. |
 | Me | Not Fully Defined | Define profile, settings, privacy, notification, security, payment-method, and support routes. |
 | Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
 | Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/archive rules, and payment-profile handoff behavior. |
@@ -1238,7 +1388,7 @@ If a receipt or statement is wrong, replaced, or re-issued:
 | Receipts & Statements | Root and Preview Behavior Defined / Not Final PDF Design | `RECEIPTS-ROOT` search, list, role indicator, empty state, direct download, shared PDF preview, and return behavior are defined. Confirm PDF layout/design, export naming, sharing controls, statement schedule, and re-issue workflow. |
 | Reminders | Partially Defined in DOC-06C | Ordinary bill/rent reminders remain separate from payment instruction action alerts. |
 | Payment Profile / Cards | Two-Tab Route Baseline Defined / Not Final Visual Design | Confirm final card styling, field density, empty-state copy, PSP tokenization return behavior, and permitted card metadata. |
-| Referral | Not Fully Defined | Define route UX with DOC-13. |
+| Referral | Partially Defined | `REFERRAL-ROOT` is separate from Offers and Rewards and may be entered from the dashboard shortcut, `Me`, or referral campaign handoff. Detailed invitation, relationship, progress, and referral-status UX remains open. |
 | More | Not Fully Defined | Define overflow, management, and admin/user shortcut configuration behavior. |
 
 ## 7. Local Open Questions
@@ -1246,7 +1396,7 @@ If a receipt or statement is wrong, replaced, or re-issued:
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-06B-001 | What final Pay+ visual layout, button order, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Open |
-| OQ-06B-002 | What route-level IA should apply to Offers, Me, More, Referral, and Support? | Product / Design | Open |
+| OQ-06B-002 | What route-level IA should apply to Me, More, detailed Referral behavior, and Support? Offers and Rewards route boundaries are now defined. | Product / Design | Open |
 | OQ-06B-003 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
@@ -1255,11 +1405,13 @@ If a receipt or statement is wrong, replaced, or re-issued:
 | OQ-06B-008 | What exact Payment Profile card styling, field density, empty-state copy, tokenization return UX, and permitted PSP card metadata should be used? Two-tab `Cards` / `Profiles` structure is confirmed. | Product / Design / Payments / Security | Partially open |
 | OQ-06B-009 | What exact Activity visual styling, field density, search/filter behavior, grouping behavior, empty-state copy, lifecycle timeline wording, and transaction-detail display should be used? Screen order, expandable entry behavior, amount direction, and core actions are defined. | Product / Design / Payments / Operations | Partially open |
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
+| OQ-06B-011 | What final `My Rewards` label/icon, Pay+ and Partner Offer label taxonomy, card styling, personalized ranking scope, membership destination, external-partner reward scope, and Card Offers randomization cadence should apply? | Product / Design / Growth / Privacy / Commercial | Partially open |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.17 | 2026-07-17 | Defined Offers, child collection, Rewards, and partial Referral route boundaries; added a product-level route register and source/action/destination/return transitions, section limits/layout, View More list screens, full-screen offer/reward detail behavior, redemption-state changes, cross-route handoffs, and promotion-engine ownership separation. |
 | 0.1.16 | 2026-07-14 | Defined `RECEIPTS-ROOT` search, views, role-aware list and empty-state behavior; defined direct download and shared in-app PDF preview behavior for `RECEIPT-DETAIL` and `STATEMENT-DETAIL`; kept proof as an Activity-context direct download and final PDF design open. |
 | 0.1.15 | 2026-07-13 | Refined `ACTIVITY-ROOT` and `ACTIVITY-DETAIL` UI behavior with accounting-style activity entries, positive/negative amount direction, expandable activity cards, permitted receipt/proof/invoice actions, and detail screen order without support/help. |
 | 0.1.14 | 2026-07-08 | Defined global `ACTIVITY-ROOT` / `ACTIVITY-DETAIL` and `RECEIPTS-ROOT` / `RECEIPT-DETAIL` / `STATEMENT-DETAIL` route shells, separated Activity from receipt/statement files, and clarified contextual Bills activity boundaries. |

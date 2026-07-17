@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 0.8.0
+version: 0.9.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-06-08
+last_updated: 2026-07-17
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -99,7 +99,7 @@ DOC-13 does not own:
 | Card-linked offers | Tokenized payment profile or gateway-returned card metadata is preferred; BIN check is supplementary. |
 | Service-fee benefits | Service-fee rate changes, reductions, or waivers are calculated before absolute checkout amount discounts. |
 | Spending rewards | Accumulated spend rewards track entitlement, not raw card usage. |
-| Coupon/voucher library | Reward instruments from different sources may appear in one user-facing library, with source metadata preserved. This must not create a wallet, stored balance, transferable value, or cashout right. |
+| Issued rewards management | Reward instruments from different sources may appear together in DOC-06B `REWARDS-ROOT` under the working label `My Rewards`, with source and instrument type preserved. This must not create a wallet, stored balance, transferable value, or cashout right. |
 | MGM and membership | Referral/MGM and membership/tier are separate qualification modules. |
 | Asia Miles | Miles reward is supported; API auto-credit is optional and to be confirmed. |
 | External vouchers | Framework included; QR, deeplink, code, API, file, webhook, or manual fulfilment may be supported. |
@@ -113,21 +113,43 @@ DOC-13 does not own:
 
 PayPlus should use one unified promotion engine.
 
-```text
-Campaign
-  -> Offer
-      -> Offer Type
-      -> Application Path
-      -> Eligibility Rules
-      -> Qualification Rules
-      -> Entitlement Rules
-      -> Benefit Rules
-      -> Usage / Quota Rules
-      -> Stacking / Priority Rules
-      -> Funding Rules
-      -> Reversal / Clawback Rules
-      -> Fulfilment Rules
+```mermaid
+flowchart TD
+    ENGINE["Unified Growth and Promotion Engine"]
+
+    GENERAL["General Promotion"]
+    REFERRAL["Referral Program"]
+    MEMBERSHIP["Membership / Loyalty Program"]
+
+    CAMPAIGNS["Each context contains Campaigns"]
+    OFFERS["Each campaign contains Offers"]
+    RULES["Rule Sets<br/>Eligibility, qualification, entitlement and limits"]
+    DECISION{"Benefit Decision"}
+
+    CHECKOUT["Apply at Checkout<br/>Discount, fee waiver or special rate"]
+    REWARD["Issue Reward<br/>Coupon, voucher or miles"]
+    PARTNER["Partner Fulfilment<br/>QR, code, deeplink or API"]
+
+    ENGINE --> GENERAL
+    ENGINE --> REFERRAL
+    ENGINE --> MEMBERSHIP
+
+    GENERAL --> CAMPAIGNS
+    REFERRAL --> CAMPAIGNS
+    MEMBERSHIP --> CAMPAIGNS
+
+    CAMPAIGNS --> OFFERS
+    OFFERS --> RULES
+    RULES --> DECISION
+
+    DECISION --> CHECKOUT
+    DECISION --> REWARD
+    DECISION --> PARTNER
 ```
+
+Each general-promotion, referral, or membership context may contain multiple campaigns. Each campaign may contain multiple offers. An offer may combine multiple rule groups and conditions; the detailed rule families remain defined in Section 5.
+
+The diagram is a business-structure reference, not an app route map. DOC-06B separately governs how users discover offers, manage issued rewards, and enter referral functions.
 
 ### 4.1 Campaign
 
@@ -432,7 +454,7 @@ Reversal / clawback options:
 Fulfilment options:
 
 - immediate checkout application;
-- coupon/voucher library issuance;
+- issued reward management through DOC-06B `REWARDS-ROOT`;
 - QR code generation;
 - static partner code;
 - unique partner code;
@@ -642,6 +664,10 @@ Offer stores the benefit package:
 - offer name;
 - offer type;
 - application path;
+- discovery section or offer group, such as Featured / Hot, Card, Pay+, or Partner;
+- category/label references for user-facing filtering;
+- key-visual or approved content-asset reference;
+- action type and approved destination reference, such as in-app route, redemption, campaign landing page, card application, or external link;
 - benefit target;
 - benefit method;
 - priority;
@@ -650,6 +676,8 @@ Offer stores the benefit package:
 - funding source;
 - cost bearer;
 - status.
+
+Each offer displayed in a filterable Pay+ or Partner collection must carry at least one approved category/label reference. Label values and display wording remain to be confirmed. DOC-18 owns the final relational/schema design and DOC-22 owns admin creation, localization, ordering, enablement, and audit controls.
 
 ### 8.3 Offer Rule
 
@@ -780,7 +808,7 @@ For multi-card payments, the card-linked benefit should apply only to the eligib
 
 ## 10. Coupon, Voucher, Miles, Referral, and Membership Rules
 
-The coupon/voucher library may show instruments from different earning sources, including referral reward, spending reward, membership reward, or partner campaign. Source metadata must remain preserved.
+DOC-06B `REWARDS-ROOT` may show issued instruments from different earning sources, including referral reward, spending reward, membership reward, or partner campaign. Source metadata and instrument type must remain preserved.
 
 The UI does not need to show every structured field separately. It may show a human-readable summary, key conditions, expiry, status, and expandable terms. DOC-06B owns route/screen placement; DOC-07 owns wording.
 
@@ -800,7 +828,7 @@ Referral/MGM is separate from membership/tier:
 - referral tracks referrer, referee, invitation code/link, attribution, qualifying event, and reward;
 - membership tracks usage-oriented tier, payment volume, transaction count, consecutive usage, tier status, and benefits.
 
-Both modules may issue normal reward instruments into the coupon/voucher library.
+Both modules may issue normal reward instruments into `REWARDS-ROOT`.
 
 Membership conversion ratios and tier formulas remain to be confirmed.
 
@@ -827,7 +855,7 @@ Operational handling belongs in DOC-11 and DOC-22.
 
 ## 12. Risk, Compliance, Privacy, and Security Boundaries
 
-Promotion features must not create wallet, stored-value, cashout, arbitrary transfer, or unrestricted reward balance behavior unless separately assessed and approved. The coupon/voucher library is only a display and management surface for eligible reward instruments.
+Promotion features must not create wallet, stored-value, cashout, arbitrary transfer, or unrestricted reward balance behavior unless separately assessed and approved. `REWARDS-ROOT` is only a display and management surface for issued reward instruments.
 
 Controls should address:
 
@@ -928,7 +956,7 @@ DOC-13 is acceptable when:
 - checkout calculation sequence is clear;
 - deferred payment instruction quote revalidation and reservation boundaries are defined;
 - card-linked eligibility prefers tokenized payment profile and treats BIN check as supplementary;
-- coupon/voucher library can show rewards from different sources while preserving source metadata;
+- `REWARDS-ROOT` can show issued rewards from different sources while preserving source and instrument type;
 - MGM/referral and membership/tier are separate qualification modules;
 - Asia Miles reward and external partner fulfilment are covered;
 - campaign measurement, partner reporting, consent-aware offer ranking, and model-assisted placement boundaries are traceable to DOC-15 and DOC-18;
@@ -951,3 +979,4 @@ This document should remain a compact promotion engine specification. It should 
 | 0.6.0 | 2026-06-02 | Standardized coupon/voucher library wording to avoid stored-value confusion while preserving reward instrument source metadata. |
 | 0.7.0 | 2026-06-04 | Aligned promotion placement boundaries with DOC-06 by defining Featured / What's New / Hot Offer carousel ownership split across DOC-06, DOC-08, DOC-13, DOC-15, and DOC-22. |
 | 0.8.0 | 2026-06-08 | Added promotion intelligence boundaries for consent-aware offer ranking, campaign measurement, partner reporting, model-use metadata, and privacy-safe aggregation alignment with DOC-15 and DOC-18. |
+| 0.9.0 | 2026-07-17 | Added a simplified promotion-engine hierarchy covering general promotions, referral and membership programs, multiple campaigns and offers, rule evaluation, and benefit delivery; added offer discovery-group, category/label, key-visual, and action-destination metadata requirements for DOC-06B offer routes; clarified that the hierarchy is not app route ownership. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.4
+version: 0.1.5
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-14
+last_updated: 2026-07-17
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -81,7 +81,7 @@ Example pattern:
 | Payment checkout handoff | DOC-06A / DOC-06C / DOC-09 | Partial | DOC-06 can test route handoff; DOC-09 owns checkout tests. |
 | Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial to strong | Two-tab `Cards` / `Profiles` baseline, card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary are testable; final styling and tokenization behavior remain open. |
 | Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
-| Offers route | DOC-06B / DOC-13 | Not Ready | Route IA pending. |
+| Offers and Rewards routes | DOC-06B / DOC-09 / DOC-13 / DOC-15 | Partial to strong | Section limits, Card Offers carousel behavior, View More collection routes, entry-point IDs, full-screen detail behavior, redemption state, issued-reward management, partial Referral entry points, return behavior, and cross-route handoffs are testable; final visual design, label taxonomy, personalization, and external-reward scope remain open. |
 | Me route | DOC-06B / DOC-15 / DOC-19 | Not Ready | Route IA pending. |
 
 ---
@@ -141,6 +141,12 @@ The DOC-06 user journey scope is satisfied when:
 - key status changes are audit logged;
 - receipts or confirmations are available for completed payments;
 - users can search, view, and directly download available receipts and statements through `RECEIPTS-ROOT`, with `RECEIPT-DETAIL` and `STATEMENT-DETAIL` providing a minimal in-app PDF preview;
+- users can discover promotions through `OFFERS-ROOT`, review material conditions in `OFFER-DETAIL`, and manage issued rewards separately through `REWARDS-ROOT` and `REWARD-DETAIL`;
+- users can open complete Card, Pay+, and Partner offer collections through `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` without treating category labels as routes;
+- navigation tests cover source, user action, destination, and return behavior without requiring a permanent ID for every entry action;
+- successful redemption changes the offer action to `Redeemed` and exposes `View My Reward`, while failed or ineligible redemption creates no reward instrument;
+- referral participation remains in `REFERRAL-ROOT`, and `BILLS-PAY` remains an external handoff rather than an Offers sub-route;
+- direct checkout discounts do not appear as issued rewards unless DOC-13 creates a separate entitlement or instrument;
 - failed, rejected, cancelled, expired, and exception/support cases are handled clearly;
 - wallet, stored balance, cashout, self-cashout, and unsupported P2P journeys are blocked.
 
@@ -157,6 +163,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.5 | 2026-07-17 | Added Offers and Rewards test-readiness for stable product destinations, source/action/destination/return transitions, section limits, child collection screens, full-screen detail behavior, redemption state, issued-reward management, partial Referral routing, and external Bills/checkout handoffs. |
 | 0.1.4 | 2026-07-14 | Added test-readiness and MVP acceptance coverage for `RECEIPTS-ROOT` search, role-aware list behavior, direct document download, and shared PDF preview behavior through `RECEIPT-DETAIL` and `STATEMENT-DETAIL`. |
 | 0.1.3 | 2026-07-06 | Added Payment Profile route test-readiness and MVP acceptance coverage for two-tab card/profile management, max 6-card cap, default single-card behavior, split-profile selection, default confirmation behavior, return context, and non-checkout boundary. |
 | 0.1.2 | 2026-07-02 | Aligned UX acceptance criteria with DOC-06B request-route model by separating accept/reject request actions from support, query, dispute, and exception cases. |

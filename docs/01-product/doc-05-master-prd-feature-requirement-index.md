@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.11
+version: 0.18.12
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-14
+last_updated: 2026-07-17
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -485,9 +485,11 @@ Detailed data model, event taxonomy, warehouse, analytics marts, feature/model m
 
 The MVP should include the following UX surfaces. Detailed route flows, service blueprint steps, and non-payment interaction rules belong in the DOC-06 family. Payment/checkout screen content and payment-domain UI behavior belong primarily in DOC-09, with DOC-06A/DOC-06C owning route entry and handoff.
 
-DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B owns navigation, route taxonomy, and human-readable route-level UX for global non-Bills routes, DOC-06C owns Bills/rent/tenancy UX, and DOC-06D owns UX requirement/test mapping. Product requirements in DOC-05 should reference DOC-06 family route IDs where useful, use specific sub-route IDs where defined, and avoid duplicating screen-level routing rules.
+DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B owns navigation, route taxonomy, and human-readable route-level UX for global non-Bills routes, DOC-06C owns Bills/rent/tenancy UX, and DOC-06D owns UX requirement/test mapping. Product requirements in DOC-05 should reference stable product destination IDs where useful, use specific child destinations where defined, and avoid duplicating screen-level routing rules.
 
 For split UX topics, use one primary owner. DOC-06B owns standalone route shells and human-readable route-level UX for Requests, Instructions, Payment Profile, Offers, Me, Referral, More, and global Receipts/Activity routes. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
+
+For growth UX, `OFFERS-ROOT` owns promotion discovery; its child screens `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` own the respective View More collections; `REWARDS-ROOT` owns issued-reward management; and `REFERRAL-ROOT` owns referral participation and progress. Direct checkout discounts are not issued rewards. Referral campaigns may appear in Offers, but referral actions remain in the Referral route. Detailed commercial and calculation logic remains owned by DOC-13.
 
 For Requests, use the DOC-06 family boundary: a request is not a payment. It is a record asking another party to review, accept, link to, or reject a bill, rent, tenancy, fee, invoice, or approved obligation context. Accepted requests link the parties to the accepted context and may support later payment readiness, but payment authorization and processing remain separate payment-domain behavior.
 
@@ -526,9 +528,11 @@ Bills-route requirements must remain role-aware:
 - review updated quote, promotion, fee, card eligibility, or timing changes when returning to a pending or incomplete payment instruction;
 - view partial funding, remaining amount, and partial payout status where applicable;
 - review eligible discounts, coupon/voucher selection, reward status, or promotion quote where promotions are enabled;
+- discover approved promotions through DOC-06B `OFFERS-ROOT` and review conditions through `OFFER-DETAIL`;
+- manage issued coupons, vouchers, miles entitlements, or other supported rewards through `REWARDS-ROOT` and `REWARD-DETAIL` where enabled;
+- manage referral participation separately through `REFERRAL-ROOT` where enabled;
 - manage tokenized cards, set a default card for single-card checkout, and manage saved split-card payment profiles where enabled;
 - view payment status;
-- view coupon/voucher library where enabled;
 - view receipts/history.
 
 ### Payee
@@ -768,3 +772,4 @@ The MVP is acceptable when:
 | v0.18.9 | 2026-07-03 | Aligned PRD wording with DOC-06B Instructions route and DOC-09 payment instruction boundary: pending/incomplete instructions remain separate from ordinary reminders and completed pay-now payments. |
 | v0.18.10 | 2026-07-06 | Aligned PRD with DOC-06B Payment Profile route shell for tokenized cards and saved split-card profiles, including final `Payment Profile` label, max 6-card cap, checkout/instruction handoff, default confirmation behavior, and non-wallet boundary. |
 | v0.18.11 | 2026-07-14 | Clarified DOC-06B ownership of human-readable route-level UX for global non-Bills routes while preserving domain-logic ownership boundaries. |
+| v0.18.12 | 2026-07-17 | Aligned the PRD with stable product destination naming, separate Offers child-list screens, issued-reward management, and partial referral routes while preserving DOC-13 business-logic and DOC-09 checkout ownership. |
