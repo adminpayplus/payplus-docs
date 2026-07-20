@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 0.9.0
+version: 1.0.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-07-17
+last_updated: 2026-07-20
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -96,7 +96,7 @@ DOC-13 does not own:
 | Promotion engine | Required as a unified rule engine; individual campaign launch remains gated. |
 | Checkout impact | Promotion impact must be calculated before payer authorization and included in the payment quote. |
 | Deferred payment instruction | Promotion quote may be stored with a DOC-09 payment instruction, but eligibility, quota, budget, and instrument status must be revalidated before actual funding submission unless explicit reservation rules apply. |
-| Card-linked offers | Tokenized payment profile or gateway-returned card metadata is preferred; BIN check is supplementary. |
+| Card-linked offers | Selected tokenized payment-card reference or gateway-returned card metadata is preferred; BIN check is supplementary. |
 | Service-fee benefits | Service-fee rate changes, reductions, or waivers are calculated before absolute checkout amount discounts. |
 | Spending rewards | Accumulated spend rewards track entitlement, not raw card usage. |
 | Issued rewards management | Reward instruments from different sources may appear together in DOC-06B `REWARDS-ROOT` under the working label `My Rewards`, with source and instrument type preserved. This must not create a wallet, stored balance, transferable value, or cashout right. |
@@ -277,7 +277,7 @@ Common eligibility dimensions:
 - payee type;
 - evidence verification status;
 - payment method;
-- tokenized card profile;
+- selected payment card or applicable split-payment funding leg;
 - card scheme;
 - card issuer;
 - card type;
@@ -288,7 +288,7 @@ Common eligibility dimensions:
 - campaign period;
 - campaign budget or quota availability.
 
-Card-linked eligibility should prefer tokenized payment profile or gateway-returned card metadata. BIN check may support pre-screening and display, but should not be the final proof for checkout discount.
+Card-linked eligibility should prefer the selected tokenized payment-card reference or gateway-returned card metadata. For split payment, evaluation should link to the applicable funding leg. BIN check may support pre-screening and display, but should not be the final proof for checkout discount.
 
 ### 5.2 Qualification Rules
 
@@ -405,6 +405,13 @@ Stacking rules answer: **Can this benefit combine with another benefit?**
 
 Priority rules answer: **Which benefit applies first or wins when there is a conflict?**
 
+For clarity:
+
+- an **offer card** is only the user-interface component used to summarize an offer;
+- a **payment card** is a tokenized or newly entered credit/debit card used for funding;
+- a **Card Offer** is an offer whose eligibility depends on permitted payment-card attributes;
+- a **payment profile** is a saved split-card allocation template, not an individual payment card.
+
 Options include:
 
 - not stackable;
@@ -424,9 +431,15 @@ Options include:
 Recommended default:
 
 - service-fee rate, reduction, or waiver benefits apply before absolute checkout amount discounts;
-- one user-selected coupon or discount code applies unless explicitly stackable;
-- card-linked offers may auto-apply only if confirmed against the selected payment profile;
+- only one payment-method-sensitive Card Offer may apply to each selected payment card or split-payment funding leg;
+- if more than one Card Offer is eligible for the same payment card or funding leg, PayPlus must automatically apply the offer with the highest user value and display the applied offer and benefit;
+- highest user value means the highest approved quantified benefit for the current payment context; equal or non-directly-comparable values use a deterministic admin-configured priority until the final valuation method is specified;
+- a Card Offer may auto-apply only after eligibility is confirmed against the selected payment card or applicable funding leg;
+- the payer does not manually choose between competing payment-method-sensitive Card Offers;
+- the applied Card Offer does not consume the separate coupon/voucher selection slot; one eligible user-selected checkout coupon, voucher, or discount code may also apply unless additional same-family stacking is explicitly approved;
 - external vouchers do not reduce PayPlus checkout amount unless configured as checkout-funded.
+
+For split-card payment, the one-best-Card-Offer rule applies independently to each funding leg. A card-sensitive benefit normally applies only to the amount funded by the eligible payment card unless the approved offer rules explicitly use the whole payment. Transaction-level caps, quotas, usage limits, and exclusions still apply across all legs.
 
 ### 5.7 Funding, Reversal, and Fulfilment Rules
 
@@ -479,14 +492,17 @@ Checkout calculation sequence:
 4. Filter eligible offers.
 5. Apply qualification and entitlement rules.
 6. Determine eligible amount and caps.
-7. Apply special service fee rate, rate reduction, or waiver.
-8. Calculate final service fee.
-9. Apply eligible absolute or percentage checkout discounts.
-10. Apply stacking, priority, budget, quota, and usage limits.
-11. Produce promotion quote.
-12. Pass promotion quote to payment quote.
-13. Store applied promotion terms for authorization and audit.
-14. Revalidate or recalculate before actual funding submission where DOC-09 deferred payment instruction is used.
+7. For each selected payment card or split-payment funding leg, select and auto-apply the single eligible payment-method-sensitive Card Offer with the highest user value.
+8. Apply the selected Card Offer's special service fee rate, rate reduction, waiver, or other approved benefit.
+9. Calculate final service fee.
+10. Apply one eligible user-selected checkout coupon, voucher, or discount code where provided.
+11. Apply remaining approved stacking, priority, budget, quota, and usage rules.
+12. Produce promotion quote.
+13. Pass promotion quote to payment quote.
+14. Store applied promotion terms, selection basis, and user-value result for authorization and audit.
+15. Revalidate or recalculate before actual funding submission where DOC-09 deferred payment instruction is used.
+
+After the payer selects a payment card or payment profile, DOC-09 checkout must evaluate and display the available promotion result in the same checkout screen or step. The UI must identify the automatically applied Card Offer, allow a separate eligible coupon/voucher/discount selection, and show the recalculated fee, discount, benefit, and final total before authorization. Changing the payment card, profile, funding allocation, amount, or other material eligibility input invalidates the prior promotion quote and triggers re-evaluation.
 
 Material changes require recalculation. Material changes include payment amount, category, payee, evidence status, selected card, card split, service fee, discount, campaign status, usage entitlement, or budget availability.
 
@@ -664,13 +680,18 @@ Offer stores the benefit package:
 - offer name;
 - offer type;
 - application path;
-- discovery section or offer group, such as Featured / Hot, Card, Pay+, or Partner;
+- one or more discovery collection references, such as Card, Pay+, or Partner;
+- Featured / Hot placement flag where applicable;
+- primary `OFFERS-ROOT` placement;
 - category/label references for user-facing filtering;
 - key-visual or approved content-asset reference;
 - action type and approved destination reference, such as in-app route, redemption, campaign landing page, card application, or external link;
 - benefit target;
 - benefit method;
-- priority;
+- display priority by collection;
+- payment-method-sensitive flag;
+- application mode, including automatic or user-selected;
+- approved user-value amount, method, or deterministic comparison priority;
 - stacking group;
 - stackable flag;
 - funding source;
@@ -678,6 +699,15 @@ Offer stores the benefit package:
 - status.
 
 Each offer displayed in a filterable Pay+ or Partner collection must carry at least one approved category/label reference. Label values and display wording remain to be confirmed. DOC-18 owns the final relational/schema design and DOC-22 owns admin creation, localization, ordering, enablement, and audit controls.
+
+Discovery collection rules:
+
+- one Offer ID may belong to multiple discovery collections where the offer genuinely satisfies each collection's purpose;
+- Featured / Hot is a placement flag, not a mutually exclusive offer type;
+- different Offer IDs remain distinct even when the same payment card qualifies for each offer;
+- the same Offer ID should appear once on a normal `OFFERS-ROOT` rendering, using its configured primary root placement, while remaining available in every relevant complete child collection;
+- an approved, audited admin override may intentionally repeat an Offer ID on `OFFERS-ROOT`;
+- display priority is configured by collection and must remain separate from stacking or benefit-selection priority.
 
 ### 8.3 Offer Rule
 
@@ -719,7 +749,7 @@ Fields:
 - campaign ID;
 - offer ID;
 - user ID;
-- card profile ID, if applicable;
+- payment-card token/reference or funding-leg ID, if applicable;
 - category;
 - period start/end;
 - accumulated qualifying amount;
@@ -773,12 +803,12 @@ Redemption / fulfilment records later use or delivery, such as checkout redempti
 
 ## 9. Card-Linked Promotion Rules
 
-Card-linked offer eligibility should be confirmed against the actual selected payment profile before payer authorization.
+Card-linked offer eligibility should be confirmed against the actual selected payment card and, for split payment, the applicable funding leg before payer authorization.
 
 Preferred method:
 
 ```text
-Tokenized card profile or gateway-returned card metadata.
+Selected tokenized payment-card reference or gateway-returned card metadata.
 ```
 
 Supplementary method:
@@ -793,7 +823,7 @@ Card-linked rules should support:
 - issuer;
 - card type;
 - BIN range;
-- tokenized payment profile;
+- selected payment-card token/reference and applicable funding-leg reference;
 - payment channel;
 - per-user limits;
 - per-card limits;
@@ -926,7 +956,7 @@ If future AI or model-assisted ranking is used for offers or placements, DOC-13 
 | Question ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-13-001 | Which promotion types are MVP versus launch-gated? | Product / Commercial | Open |
-| OQ-13-002 | What default stacking policy should apply at launch? | Product / Finance / Risk | Open |
+| OQ-13-002 | Which approved exceptions, equal-value tie-breaks, or non-monetary valuation methods may vary from the confirmed one-best-Card-Offer plus one checkout coupon/voucher/discount default? | Product / Finance / Risk | Open |
 | OQ-13-003 | Which card metadata fields will PSP/acquirer/gateway return for tokenized card eligibility? | Payments / Engineering / Security | Open |
 | OQ-13-004 | What normal service fee rates, special rates, fee reductions, and waivers are approved? | Commercial / Finance | Open |
 | OQ-13-005 | What campaign budget and approval workflow is required? | Commercial / Finance / Project Owner | Open |
@@ -955,7 +985,7 @@ DOC-13 is acceptable when:
 - accumulated spend rewards track entitlement, not raw card usage;
 - checkout calculation sequence is clear;
 - deferred payment instruction quote revalidation and reservation boundaries are defined;
-- card-linked eligibility prefers tokenized payment profile and treats BIN check as supplementary;
+- card-linked eligibility prefers the selected tokenized payment-card reference or gateway-returned card metadata, links split-card evaluation to the applicable funding leg, and treats BIN check as supplementary;
 - `REWARDS-ROOT` can show issued rewards from different sources while preserving source and instrument type;
 - MGM/referral and membership/tier are separate qualification modules;
 - Asia Miles reward and external partner fulfilment are covered;
@@ -971,6 +1001,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.0 | 2026-07-20 | Confirmed multi-collection offer membership, root duplicate suppression boundary, one automatically selected highest-user-value payment-method-sensitive Card Offer per payment card/funding leg, separate eligible coupon/voucher/discount selection, and same-screen DOC-09 checkout recalculation handoff. |
 | 0.1.0 | 2026-06-01 | Initial founder working baseline for promotion engine, coupon, voucher, discount code, card-linked offer, Asia Miles reward, referral, membership, external partner voucher, checkout calculation, stacking, usage, data, reversal, and cross-document alignment requirements. |
 | 0.2.0 | 2026-06-01 | Rewritten to separate promotion-engine structure from data-layer requirements, add rule families, clarify entitlement versus usage logic for accumulated spend rewards, and preserve tokenized card, service-fee, coupon library, Asia Miles, MGM, membership, and cross-document alignment decisions. |
 | 0.3.0 | 2026-06-02 | Aligned promotion abuse wording with DOC-14 by treating DOC-14 as the risk-control framework and clarifying reward-hold versus payment-blocking boundaries. |

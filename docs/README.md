@@ -3,7 +3,7 @@
 
 This folder contains the PayPlus documentation set.
 
-Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance source of truth. Use `AGENTS.md` for AI assistant workflow rules. For parallel-agent or worktree-based drafting, also use [`00-foundation/payplus-parallel-agent-drafting-workflow.md`](00-foundation/payplus-parallel-agent-drafting-workflow.md). For accepted changes that require repository alignment and commit preparation, use [`00-foundation/payplus-document-change-integration-workflow.md`](00-foundation/payplus-document-change-integration-workflow.md).
+Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance source of truth. Use `AGENTS.md` for AI assistant workflow rules. For parallel-agent or worktree-based drafting, also use [`00-foundation/payplus-parallel-agent-drafting-workflow.md`](00-foundation/payplus-parallel-agent-drafting-workflow.md). For accepted changes that require repository alignment, commit preparation, and post-commit records, use [`00-foundation/payplus-document-change-integration-workflow.md`](00-foundation/payplus-document-change-integration-workflow.md). Substantive commits are recorded in [`changelog/changelog.md`](changelog/changelog.md) and [`decision-log/decisionlog.md`](decision-log/decisionlog.md).
 
 ## Current Baseline
 
@@ -29,6 +29,8 @@ Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation
 | `08-qa-release-operations/` | Testing, UAT, go-live, monitoring, incidents, operations, and admin dashboard workflow. |
 | `09-ai-build-execution/` | Reserved AI execution materials. Legacy context files are non-authoritative unless refreshed. |
 | `99-isms-policies/` | ISMS and security policy library. |
+| `changelog/` | Append-only documentation delivery history linked to substantive commits. |
+| `decision-log/` | Append-only accepted decision records linked to owning documents and substantive commits. |
 | `traceability/` | Requirements traceability, open-question registers, and status-display alignment references. |
 
 ## Reading Order

@@ -140,6 +140,24 @@ Required items to be updated include:
 
 Detailed Payment Profile route behavior belongs in DOC-06B. Checkout use belongs in DOC-09. Tokenization and card-security controls belong in DOC-19. Notification routing belongs in DOC-08. Data, state, and audit-event taxonomy belongs in DOC-18.
 
+### 18.5 Offers Collection, Placement, and Application Configuration
+
+Future full DOC-22 drafting must support the confirmed DOC-06B, DOC-09, and DOC-13 Offers behavior without redefining promotion logic.
+
+Required capabilities include:
+
+- assign one Offer ID to one or more discovery collections;
+- configure Featured / Hot placement separately from collection membership;
+- configure the primary `OFFERS-ROOT` placement and suppress unintended repeated root display of the same Offer ID by default;
+- allow an approved, audited override for intentional repeated root placement;
+- configure pinning and display priority separately for each collection;
+- configure offer enablement, display dates, targeting, labels, and publication approval;
+- configure whether an offer is payment-method-sensitive and automatically applied or belongs to the separate user-selected coupon/voucher/discount family;
+- configure the approved user-value amount/method and deterministic equal-value or non-comparable tie-break used to auto-select the best eligible Card Offer;
+- audit collection assignment, placement, priority, override, value-comparison, and application-mode changes.
+
+Detailed eligibility, stacking, value comparison, and benefit calculation belong in DOC-13. Same-screen checkout behavior belongs in DOC-09. Final data objects and events belong in DOC-18.
+
 ## 19. Audit Logging Requirements
 
 ## 20. Notifications and Escalations
@@ -180,6 +198,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.5.0 | 2026-07-20 | Added future admin markers for multi-collection Offers, primary root placement, duplicate suppression and override, per-collection priority, payment-method-sensitive application mode, highest-user-value comparison, and audit controls. |
 | 0.1.0 | 2026-06-17 | Added DOC-06 reminder default configuration hooks for bill/rent reminder timing, category gating, channel linkage, and audit logging. |
 | 0.2.0 | 2026-06-18 | Added future DOC-22 update markers for admin handling of DOC-06 Bills evidence detail/upload routes, evidence statuses, readiness impact, archive-not-delete behavior, prior evidence access, notifications, and audit logging. |
 | 0.3.0 | 2026-07-02 | Added future DOC-22 configuration markers for DOC-06B request creation, evidence-gated request delivery, resend/reminder limits, sharing channels, and audit logging. |

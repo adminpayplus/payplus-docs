@@ -1,5 +1,7 @@
 # PayPlus Documentation Change Integration and Commit Workflow
 
+Last updated: 2026-07-20
+
 ## 1. Purpose
 
 This procedure governs how an accepted PayPlus documentation change becomes repository-consistent and commit-ready. It applies whether the change is produced by one agent, a Level 1 parallel-agent task, a Level 2 worktree drafting wave, or a founder edit.
@@ -233,6 +235,36 @@ Before reporting commit readiness, verify:
 
 Use `git diff --check` and appropriate repository searches. Add other validation when the affected artifact requires it.
 
+### 4.15 Prepare Changelog and Decision-Log Recording
+
+Every substantive documentation commit must be recorded in both:
+
+- `docs/changelog/changelog.md`; and
+- `docs/decision-log/decisionlog.md`.
+
+Before the substantive commit, prepare the information required for both records, including the change title, affected documents, owning document, accepted decision or requirement, founder approval status, remaining open items, and intended commit scope. Do not invent a commit identifier before the commit exists.
+
+After the substantive commit succeeds:
+
+1. add the substantive commit identifier to both records;
+2. update the changelog with the actual files and material changes delivered;
+3. update the decision log with the accepted decision, rationale, alternatives considered, ownership, consequences, superseded rules, and remaining `TBC` items;
+4. apply the same PayPlus writing, ownership, source-of-truth, scope, and review standards used for formal documentation;
+5. validate the registry diff and create one immediate records-only follow-up commit;
+6. do not push or report the documentation change as complete until both the substantive commit and records-only commit exist.
+
+The records-only follow-up commit does not require another self-referential changelog or decision-log entry unless it introduces a new substantive product, governance, ownership, or workflow decision. This exemption prevents an infinite commit-recording loop.
+
+Registry rules:
+
+- use stable decision IDs in the format defined by `decisionlog.md`;
+- keep entries concise but decision-complete;
+- link to the primary owning document and affected alignment documents;
+- preserve append-only history; correct an earlier record through a dated correction or superseding decision rather than silently rewriting history;
+- do not paste raw chat or agent output into either registry;
+- do not record an unapproved proposal as an accepted decision;
+- use `Not applicable` with a short reason when a commit contains no product or governance decision, rather than omitting the decision-log record.
+
 ## 5. Optional Parallel Review
 
 Parallel agents are not required for every change. Use them when the change is cross-document, conceptually difficult, replaces existing definitions, affects several owners, or has material payment, evidence, promotion, risk, privacy, status, data, route, or operations consequences.
@@ -264,7 +296,8 @@ Before requesting commit approval, report:
 9. remaining open questions;
 10. unrelated existing changes preserved;
 11. whether anything still needs cross-document alignment;
-12. commit readiness.
+12. prepared changelog and decision-log record content;
+13. commit readiness.
 
 ## 7. Commit and Push Gate
 
@@ -274,8 +307,10 @@ After explicit founder approval:
 2. inspect the staged diff and file list;
 3. confirm unrelated changes are not staged;
 4. create a concise, scoped commit;
-5. report the commit identifier and included files;
-6. push only when explicitly requested or clearly included in the founder's approval.
+5. update `docs/changelog/changelog.md` and `docs/decision-log/decisionlog.md` with the substantive commit identifier and actual delivered scope;
+6. inspect and create the immediate records-only follow-up commit;
+7. report both commit identifiers and included files;
+8. push both commits only when explicitly requested or clearly included in the founder's approval.
 
 If the staged diff differs materially from the approved scope, stop and obtain renewed confirmation.
 

@@ -225,6 +225,8 @@ For any material documentation change, read and apply `docs/00-foundation/payplu
 
 The workflow requires the primary owner to be updated first, followed by an impact search and only necessary alignment of governing documents, product requirements, references, traceability, indexes, `AGENTS.md`, README files, and route diagrams. Complete its integrated review and pre-commit report before requesting commit approval.
 
+After every substantive documentation commit, update `docs/changelog/changelog.md` and `docs/decision-log/decisionlog.md` with the substantive commit identifier and actual delivered scope, then create the immediate records-only follow-up commit required by the workflow. Do not push or report completion before both commits exist. Records-only follow-up commits are exempt from self-referential recording unless they introduce another substantive decision.
+
 Before making broad documentation changes:
 
 1. Check the current workspace path.

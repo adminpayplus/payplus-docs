@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.3
+version: 0.7.4
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,7 +12,7 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-07-17
+last_updated: 2026-07-20
 classification: Internal
 related_documents: []
 ---
@@ -636,7 +636,7 @@ The documentation repository includes supporting areas for change management, de
 | --- | --- |
 | docs/change-requests/ | Stores change request records or instructions. |
 | docs/changelog/changelog.md | Maintains documentation-level change history. |
-| docs/decision-log/ | Stores ADRs or decision records. |
+| docs/decision-log/decisionlog.md | Stores the append-only accepted decision register linked to owning documents and substantive commits. |
 | docs/diagrams/ | Stores architecture, process, service, data, and operational diagrams. |
 | docs/backup/ | Stores temporary backup files only when needed. |
 | docs/glossary/glossary.md | Defines shared terminology. |
@@ -645,7 +645,7 @@ The documentation repository includes supporting areas for change management, de
 
 Backup files should not be treated as authoritative documentation.
 
-Changelog entries, decision records, and change requests should reference affected documents where applicable.
+Every substantive documentation commit must be recorded in `docs/changelog/changelog.md` and `docs/decision-log/decisionlog.md` under the Documentation Change Integration and Commit Workflow. Changelog entries, decision records, and change requests should reference affected documents where applicable.
 
 ---
 
@@ -763,6 +763,7 @@ DOC-00 must remain focused on documentation governance only.
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.7.4 | 2026-07-20 | Product Documentation Team | Added mandatory post-commit changelog and decision-log recording under the Documentation Change Integration and Commit Workflow and identified the canonical decision-log file. |
 | 0.1.0 | 2026-05-14 | Initial Author | Initial draft of DOC-00 Documentation Governance. |
 | 0.2.0 | 2026-05-26 | Product Documentation Team | Standardized metadata, aligned document register names, added foundation document role, metadata standard, stable ID guidance, foundation-to-downstream guidance, source-of-truth rules, AI context rules, and version history expectations. |
 | 0.3.0 | 2026-05-27 | Product Documentation Team | Simplified structure, reduced repetition, consolidated ID conventions, and retained essential governance controls. |

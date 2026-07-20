@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.17
+version: 0.1.18
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-17
+last_updated: 2026-07-20
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -53,7 +53,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 | Pay+ action sheet | Partially defined | Working action set exists; exact order and disabled states remain open. |
 | Shortcut grid | Partially defined | Eight MVP shortcuts exist; detailed More/overflow UX remains open. |
 | Route taxonomy and ID standard | Initial baseline | Stable IDs should be assigned progressively. |
-| Non-Bills route registry | Partially defined | Requests, Instructions, Payment Profile, Activity, and Receipts & Statements have route-level working baselines; Offers, Me, Referral, and More need future drafting. |
+| Non-Bills route registry | Partially defined | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, and Offers have route-level working baselines; Me, Referral, and More need future drafting. |
 
 ---
 
@@ -317,7 +317,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Bottom Navigation Route Map | Define how `Home`, `Bills`, `Pay+`, `Offers`, and `Me` relate to top-level routes and deep links. | Title preserved / not finalized |
 | Pay+ Action Sheet Detail | Define final label order, empty states, disabled states, permission rules, and route destinations for the working baseline actions. | Working baseline / not finalized |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
-| Offers and Rewards IA | Define `OFFERS-ROOT` discovery, category collection routes, `OFFER-DETAIL`, separate issued-reward management, referral handoff, and placement behavior. | Route shell defined / not final visual design |
+| Offers and Rewards IA | Define `OFFERS-ROOT` discovery, category collection routes, `OFFER-DETAIL`, separate issued-reward management, referral handoff, and placement behavior. | Offers child-list baseline defined / not final visual design |
 | Me Area IA | Define account, security, privacy, notification preferences, support, cards/payment methods, and user control routes. | Title preserved / not finalized |
 | More Shortcuts IA | Define secondary shortcuts and services not shown in the first eight dashboard shortcuts. | Title preserved / not finalized |
 | Requests Route | Define standalone Requests route shell, creation flow, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
@@ -1227,9 +1227,9 @@ Offers, issued rewards, and referral serve different user intentions and must no
 | Destination | Parent | Type | User-Facing Purpose | Owner | Definition Status |
 | --- | --- | --- | --- | --- | --- |
 | `OFFERS-ROOT` | Offers area | Root screen | Discover current Featured / Hot, card, Pay+, and partner offers. | DOC-06B | Defined baseline |
-| `OFFERS-CARD-LIST` | `OFFERS-ROOT` | Child collection screen | View all card offers. | DOC-06B | Partially defined |
-| `OFFERS-PAYPLUS-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all Pay+ offers. | DOC-06B | Partially defined |
-| `OFFERS-PARTNER-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all partner offers. | DOC-06B | Partially defined |
+| `OFFERS-CARD-LIST` | `OFFERS-ROOT` | Child collection screen | View all Card Offers. | DOC-06B | Defined baseline |
+| `OFFERS-PAYPLUS-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all Pay+ offers. | DOC-06B | Defined baseline |
+| `OFFERS-PARTNER-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all partner offers. | DOC-06B | Defined baseline |
 | `OFFER-DETAIL` | `OFFERS-ROOT` or an Offers child list | Route-addressable full-screen modal | Understand one offer and take its configured action. | DOC-06B; DOC-13 for offer logic | Defined baseline |
 | `REWARDS-ROOT` | Rewards area | Root screen | Manage rewards already issued to the user, including supported coupons, vouchers, external-partner instruments, and miles entitlements. | DOC-06B; DOC-13 for reward logic | Defined baseline |
 | `REWARD-DETAIL` | `REWARDS-ROOT` | Route-addressable full-screen modal | View and use one issued reward according to its instrument and fulfilment method. | DOC-06B; DOC-13 for reward logic | Defined baseline |
@@ -1272,15 +1272,31 @@ MVP screen order:
 
 Randomized Card Offers must be selected only from active, approved, eligible-for-display offers after mandatory admin priority, targeting, consent, and compliance gates are applied. Exact refresh frequency and randomization method belong to later technical and admin specifications.
 
+An offer may belong to more than one discovery collection where its characteristics genuinely overlap. Collection membership is display metadata and does not change DOC-13 eligibility or benefit rules. The same Offer ID should appear only once on a normal `OFFERS-ROOT` rendering, using its admin-configured primary placement, while remaining available in every relevant complete child collection. An audited admin override may intentionally repeat an offer on the root where approved.
+
 The Search icon opens route-local search rather than a new route. Search should support offer title, partner or sponsor, offer category/label, eligible payment method, and relevant keywords without exposing internal rule fields. If no active offers match, show a no-offers state while keeping search reset and My Rewards available.
 
 `View More` opens a dedicated collection route:
 
 | Source Section | Destination | Required Screen Structure |
 | --- | --- | --- |
-| Card Offers | `OFFERS-CARD-LIST` | Back, title `Card Offers`, Search icon, and card-offer list or grid. |
-| Pay+ Offers | `OFFERS-PAYPLUS-LIST` | Back, title `Pay+ Offers`, Search icon, label filters, and Pay+ offer list or grid. |
-| Partner Offers | `OFFERS-PARTNER-LIST` | Back, title `Partner Offers`, Search icon, label filters, and partner-offer list or grid. |
+| Card Offers | `OFFERS-CARD-LIST` | Back, title `Card Offers`, Search icon, and a single-column Card Offer list. No visible label filter is required for MVP. |
+| Pay+ Offers | `OFFERS-PAYPLUS-LIST` | Back, title `Pay+ Offers`, Search icon, single-select label filters with `All` as default, and a single-column Pay+ offer list. |
+| Partner Offers | `OFFERS-PARTNER-LIST` | Back, title `Partner Offers`, Search icon, single-select label filters with `All` as default, and a single-column partner-offer list. |
+
+For this section, an **offer card** is only the UI component used to summarize an offer. A **payment card** is a credit/debit funding instrument, and a **Card Offer** is an offer whose eligibility depends on permitted payment-card attributes. These terms must not be used interchangeably.
+
+All three child collection screens use this shared behavior:
+
+1. Show Back, collection title, and Search in the header.
+2. Open route-local Search without creating another route.
+3. Show the applicable single-select label filters below Search where enabled.
+4. Render each Offer ID once within the current child list.
+5. Open `OFFER-DETAIL` when the user taps an offer card or `View Details`.
+6. Preserve search, filter, loaded position, scroll position, and display order when returning from `OFFER-DETAIL`.
+7. Show loading placeholders, a no-offers empty state, a no-match state with reset action, and a recoverable error with Retry where applicable.
+
+Child-list ordering controls discovery position only. After mandatory approval, display-period, market, privacy, consent, targeting, compliance, and enablement gates, apply collection-specific admin pinning/priority, permitted personalization within that priority band, and then a deterministic fallback. Preserve the resulting order during the browsing session. Child lists do not randomize or provide user sorting for MVP; the limited root Card Offers carousel remains a separate placement behavior.
 
 Label-filter values for Pay+ and Partner Offers remain open. Each relevant offer must carry one or more approved category/label references so filtering can be supported. DOC-13 owns the business metadata requirement, DOC-18 owns final schema, and DOC-22 owns label administration and placement controls.
 
@@ -1297,6 +1313,8 @@ An offer card should show:
 - `View Details` action.
 
 Material acceptance, claim, redemption, or payment actions should occur in `OFFER-DETAIL`, not directly on the discovery card.
+
+Where a payment-method-sensitive offer hands off to checkout, `OFFER-DETAIL` may identify the offer as a candidate but must not finalize its selection. DOC-09 checkout evaluates the selected payment card/profile, DOC-13 automatically applies the single eligible Card Offer with the highest user value per payment card/funding leg, and checkout displays that result together with any separate eligible coupon/voucher/discount selection before authorization.
 
 #### 5.16.3 `OFFER-DETAIL` Screen
 
@@ -1380,7 +1398,7 @@ Material route-level signals for later DOC-18 specification include offer impres
 | Home Dashboard | Partially Defined | Confirm card-level UI, notice priority, carousel behavior, dashboard activity cap, and empty states. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Pay+ | Partially Defined | Confirm visual order, disabled states, eligibility copy, and final action limits. |
-| Offers and Rewards | Route Shell Defined / Not Final Visual Design | `OFFERS-ROOT`, the three `OFFERS-*-LIST` child screens, `OFFER-DETAIL`, `REWARDS-ROOT`, and `REWARD-DETAIL` purpose, hierarchy, screen order, core fields, actions, and handoffs are defined. Confirm child-list UI detail, final labels, filters, styling, personalization, and external-reward scope. |
+| Offers and Rewards | Child-List Baseline Defined / Not Final Visual Design | `OFFERS-ROOT`, the three `OFFERS-*-LIST` child screens, `OFFER-DETAIL`, `REWARDS-ROOT`, and `REWARD-DETAIL` purpose, hierarchy, shared child-list behavior, collection membership, duplicate handling, display ordering, core fields, actions, and handoffs are defined. Confirm final styling, label taxonomy, personalization, equal-priority fallback, and external-reward scope. |
 | Me | Not Fully Defined | Define profile, settings, privacy, notification, security, payment-method, and support routes. |
 | Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
 | Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/archive rules, and payment-profile handoff behavior. |
@@ -1411,6 +1429,7 @@ Material route-level signals for later DOC-18 specification include offer impres
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.18 | 2026-07-20 | Defined the three Offers child-list baselines, clarified offer card versus payment card versus Card Offer terminology, added multi-collection membership, root duplicate suppression, stable collection-specific ordering, list states, return preservation, and DOC-09/DOC-13 checkout handoff. |
 | 0.1.17 | 2026-07-17 | Defined Offers, child collection, Rewards, and partial Referral route boundaries; added a product-level route register and source/action/destination/return transitions, section limits/layout, View More list screens, full-screen offer/reward detail behavior, redemption-state changes, cross-route handoffs, and promotion-engine ownership separation. |
 | 0.1.16 | 2026-07-14 | Defined `RECEIPTS-ROOT` search, views, role-aware list and empty-state behavior; defined direct download and shared in-app PDF preview behavior for `RECEIPT-DETAIL` and `STATEMENT-DETAIL`; kept proof as an Activity-context direct download and final PDF design open. |
 | 0.1.15 | 2026-07-13 | Refined `ACTIVITY-ROOT` and `ACTIVITY-DETAIL` UI behavior with accounting-style activity entries, positive/negative amount direction, expandable activity cards, permitted receipt/proof/invoice actions, and detail screen order without support/help. |

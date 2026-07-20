@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.10
+version: 0.21.11
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-17
+last_updated: 2026-07-20
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -144,7 +144,7 @@ This matrix prevents the split from creating a false impression that all routes 
 | Instructions | DOC-06B for route shell; DOC-09 for payment-instruction behavior | DOC-06A/DOC-06C for entry or return touchpoints | Partially Defined | Dashboard/shortcut route is identified; detailed route UX remains incomplete. |
 | Activity and Receipts & Statements | DOC-06B for global route shells | DOC-06A for receipt/history touchpoints; DOC-06C for bill/rent-specific activity; DOC-08 for receipts/statements; DOC-09/DOC-10/DOC-11 for payment/payout/refund facts | Working Baseline / Not Final Visual Design | Global Activity and Receipts & Statements remain separate. `RECEIPTS-ROOT` owns search and the document list; `RECEIPT-DETAIL` / `STATEMENT-DETAIL` open the shared in-app PDF preview, while list-level `Download` acts directly. |
 | Reminders | DOC-06C for bill/rent reminders | DOC-06B for shortcut/route shell; DOC-08 for notifications; DOC-09 for payment-instruction reminders | Partially Defined | Bill/rent reminder list/detail route is defined; relationship to payment-instruction reminders remains open. |
-| Offers and Rewards | DOC-06B for route shells and placement | DOC-13 for promotion, entitlement, instrument, and fulfilment logic; DOC-09 for checkout | Route Shell Defined / Not Final Visual Design | `OFFERS-ROOT` governs sectioned discovery; `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` are its View More child screens; `OFFER-DETAIL` and `REWARD-DETAIL` are full-screen modal destinations; `REWARDS-ROOT` governs issued rewards. `BILLS-PAY` remains an external DOC-06C handoff. |
+| Offers and Rewards | DOC-06B for route shells and placement | DOC-13 for promotion, entitlement, instrument, and fulfilment logic; DOC-09 for checkout | Offers Child-List Baseline Defined / Not Final Visual Design | `OFFERS-ROOT` governs sectioned discovery; `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` use the shared child-list baseline with multi-collection membership, root duplicate suppression, and stable ordering; `OFFER-DETAIL` and `REWARD-DETAIL` are full-screen modal destinations; `REWARDS-ROOT` governs issued rewards. `BILLS-PAY` remains an external DOC-06C handoff and DOC-09 owns same-screen payment-card/profile and promotion selection. |
 | Me / Account | DOC-06B for route shell | DOC-15/DOC-19 for privacy/security detail | Not Fully Defined | Account/settings route IA remains pending. |
 | Payment Profile / Cards | DOC-06B for route shell | DOC-09/DOC-15/DOC-19 for checkout, privacy, and security detail | Route Shell Defined / Not Final UI | Shortcut opens `PAYMENT-PROFILE-ROOT`; route manages tokenized cards and saved split-card profiles, while checkout remains DOC-09. |
 | Referral | DOC-06B for route shell | DOC-13 for referral and reward logic | Partially Defined | `REFERRAL-ROOT` is separate from Offers and Rewards and may be entered from the dashboard shortcut, `Me`, or a referral campaign; detailed route UX remains pending. |
@@ -331,6 +331,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.11 | 2026-07-20 | Aligned the parent UX map with the defined Offers child-list baseline, multi-collection membership, root duplicate suppression, stable ordering, and DOC-09 same-screen payment-card/profile and promotion-selection ownership. |
 | v0.21.10 | 2026-07-17 | Aligned the parent route matrix with stable Offers destination names, child-list screens, full-screen offer/reward detail destinations, separate `REWARDS-ROOT`, partial `REFERRAL-ROOT`, and external `BILLS-PAY` handoff. |
 | v0.21.9 | 2026-07-14 | Aligned DOC-06B route-level UX ownership and the parent route status with `RECEIPTS-ROOT` search/list behavior, minimal PDF preview/direct-download behavior, and direct Activity-context proof download. |
 | v0.21.8 | 2026-07-13 | Aligned parent DOC-06 with DOC-06B Activity root/detail behavior, including accounting-style entries, expandable activity cards, and separate Activity versus Receipts & Statements ownership. |

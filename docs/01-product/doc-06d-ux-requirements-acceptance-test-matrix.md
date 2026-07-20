@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.5
+version: 0.1.6
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-17
+last_updated: 2026-07-20
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -81,7 +81,7 @@ Example pattern:
 | Payment checkout handoff | DOC-06A / DOC-06C / DOC-09 | Partial | DOC-06 can test route handoff; DOC-09 owns checkout tests. |
 | Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial to strong | Two-tab `Cards` / `Profiles` baseline, card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary are testable; final styling and tokenization behavior remain open. |
 | Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
-| Offers and Rewards routes | DOC-06B / DOC-09 / DOC-13 / DOC-15 | Partial to strong | Section limits, Card Offers carousel behavior, View More collection routes, entry-point IDs, full-screen detail behavior, redemption state, issued-reward management, partial Referral entry points, return behavior, and cross-route handoffs are testable; final visual design, label taxonomy, personalization, and external-reward scope remain open. |
+| Offers and Rewards routes | DOC-06B / DOC-09 / DOC-13 / DOC-15 | Strong human-readable baseline | Section limits, Card Offers carousel behavior, three child collection screens, source/action/destination/return transitions, multi-collection membership, root duplicate suppression, stable child-list ordering, full-screen detail behavior, same-screen checkout handoff, issued-reward management, and return behavior are testable; final visual design, label taxonomy, personalization, equal-priority tie-break, and external-reward scope remain open. |
 | Me route | DOC-06B / DOC-15 / DOC-19 | Not Ready | Route IA pending. |
 
 ---
@@ -143,6 +143,12 @@ The DOC-06 user journey scope is satisfied when:
 - users can search, view, and directly download available receipts and statements through `RECEIPTS-ROOT`, with `RECEIPT-DETAIL` and `STATEMENT-DETAIL` providing a minimal in-app PDF preview;
 - users can discover promotions through `OFFERS-ROOT`, review material conditions in `OFFER-DETAIL`, and manage issued rewards separately through `REWARDS-ROOT` and `REWARD-DETAIL`;
 - users can open complete Card, Pay+, and Partner offer collections through `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` without treating category labels as routes;
+- one Offer ID may belong to multiple discovery collections, appears once within each child list, and is suppressed from unintended repeated display on `OFFERS-ROOT` while remaining available in every relevant child list;
+- Offers child lists apply mandatory display gates and stable collection-specific admin priority without random reshuffling or MVP user sorting;
+- one payment card may qualify for multiple distinct offers without those offers being treated as duplicates;
+- checkout automatically applies the single eligible payment-method-sensitive Card Offer with the highest user value per selected payment card or split-payment funding leg and displays the applied result;
+- payment-card/profile selection, automatic Card Offer result, separate eligible coupon/voucher/discount selection, recalculated quote, and payer review occur in the same checkout screen or step before authorization;
+- changing a payment card, profile, funding allocation, amount, or other material eligibility input re-evaluates the promotion result and blocks authorization until the revised quote is reviewed;
 - navigation tests cover source, user action, destination, and return behavior without requiring a permanent ID for every entry action;
 - successful redemption changes the offer action to `Redeemed` and exposes `View My Reward`, while failed or ineligible redemption creates no reward instrument;
 - referral participation remains in `REFERRAL-ROOT`, and `BILLS-PAY` remains an external handoff rather than an Offers sub-route;
@@ -163,6 +169,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.6 | 2026-07-20 | Added Offers child-list, multi-collection, duplicate-suppression, stable-ordering, distinct-offer, same-screen checkout, highest-user-value Card Offer, separate coupon/voucher, and promotion-recalculation acceptance coverage; removed stale entry-point-ID wording. |
 | 0.1.5 | 2026-07-17 | Added Offers and Rewards test-readiness for stable product destinations, source/action/destination/return transitions, section limits, child collection screens, full-screen detail behavior, redemption state, issued-reward management, partial Referral routing, and external Bills/checkout handoffs. |
 | 0.1.4 | 2026-07-14 | Added test-readiness and MVP acceptance coverage for `RECEIPTS-ROOT` search, role-aware list behavior, direct document download, and shared PDF preview behavior through `RECEIPT-DETAIL` and `STATEMENT-DETAIL`. |
 | 0.1.3 | 2026-07-06 | Added Payment Profile route test-readiness and MVP acceptance coverage for two-tab card/profile management, max 6-card cap, default single-card behavior, split-profile selection, default confirmation behavior, return context, and non-checkout boundary. |

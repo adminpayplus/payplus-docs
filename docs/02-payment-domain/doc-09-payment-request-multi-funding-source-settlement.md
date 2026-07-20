@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.5
+version: 1.0.6
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-07-06
+last_updated: 2026-07-20
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -214,7 +214,7 @@ Before authorization, PayPlus must generate a payment quote containing:
 - evidence verification summary and final evidence snapshot reference where applicable;
 - payment amount;
 - service fee;
-- promotion quote ID, campaign/offer reference, discount, coupon, voucher, reward, entitlement, or subsidy where applicable;
+- promotion quote ID, automatically applied payment-method-sensitive Card Offer, user-selected coupon/voucher/discount, other campaign/offer references, reward, entitlement, or subsidy where applicable;
 - total charge;
 - selected payment method summary;
 - multi-card split summary where applicable;
@@ -228,7 +228,7 @@ If amount, fee, discount, promotion quote, reward entitlement, payment method, c
 
 If evidence is corrected, replaced, rejected, marked duplicate, or routed to review after quote creation, the quote must be recalculated or blocked until the required verification outcome is resolved.
 
-If a selected payment profile changes card-linked promotion eligibility, or a promotion campaign, budget, entitlement, coupon/voucher, membership benefit, or reward status changes after quote creation, the quote must be recalculated or blocked until DOC-13 rules are resolved.
+If a selected payment card, payment profile, funding-leg allocation, promotion campaign, budget, entitlement, coupon/voucher, membership benefit, or reward status changes after quote creation, the quote must be recalculated or blocked until DOC-13 rules are resolved.
 
 ---
 
@@ -422,6 +422,24 @@ Rules:
 - payer must see masked method summary before authorization;
 - payment method changes after authorization require reauthorization where material;
 - admin users must not select payment methods for a payer unless a separately approved support process exists.
+
+### 10.1 Payment-Method-Sensitive Offers in Checkout
+
+Payment-card/profile selection and available-offer handling must occur in the same checkout screen or step before payer authorization.
+
+Required behavior:
+
+1. The payer selects or confirms the payment card or split-card payment profile.
+2. PayPlus evaluates payment-method-sensitive Card Offers against the selected payment card and, for split payment, each applicable funding leg.
+3. Where more than one Card Offer is eligible for the same payment card or funding leg, DOC-13 automatically selects the single offer with the highest user value.
+4. Checkout displays the automatically applied Card Offer and resulting benefit; the payer does not manually choose a competing Card Offer.
+5. A separate eligible coupon, voucher, or discount code may also be selected and applied under DOC-13 rules.
+6. Checkout recalculates and displays the service fee, discount, total promotion impact, and final total.
+7. The payer reviews the final payment quote before authorization.
+
+Changing the payment card, payment profile, funding allocation, payment amount, obligation, or another material eligibility input must clear or replace an invalid promotion result, explain the change where user-relevant, and generate a revised quote before authorization.
+
+For split-card payment, the one-best-Card-Offer rule applies per funding leg and the benefit normally applies only to that leg's funded amount. DOC-13 owns eligibility, value comparison, stacking, caps, quotas, and benefit calculation; DOC-09 owns checkout presentation, quote review, and leg-by-leg authorization.
 
 ---
 
@@ -654,7 +672,7 @@ DOC-09 requires traceability for:
 | OQ-09-009 | What settlement file, report, webhook, or reconciliation signal confirms settlement readiness? | Payments / Finance / Engineering | Open |
 | OQ-09-010 | What partial multi-card failure status naming should be exposed to payer and admin? | Product / Design / Operations | Open |
 | OQ-09-011 | Which DOC-12 evidence verification outcomes and DOC-06C evidence-status/payment-readiness mappings block payment quote, authorization, retry, or settlement readiness? | Product / Payments / Risk | Open |
-| OQ-09-012 | Which DOC-13 promotion quote, reward entitlement, card-linked eligibility, and coupon/voucher states block or require recalculation before payer authorization? | Product / Payments / Growth | Open |
+| OQ-09-012 | Which final DOC-13 technical states and reason codes represent Card Offer replacement, equal-value tie-break, coupon/voucher conflict, or promotion recalculation before payer authorization? | Product / Payments / Growth | Open |
 | OQ-09-013 | What exact deferred payment instruction validity window should apply if PSP/acquirer, 3DS, or security rules differ from the 7-day product baseline? | Payments / Security / Product | Open |
 | OQ-09-014 | What selected payee transfer date rules apply when split-card funding legs complete on different dates? | Payments / Finance / Product | Open |
 | OQ-09-015 | What expiry, cancellation, archive, and action-alert schedule should apply to incomplete payment instructions and funding legs? | Product / Operations / Payments | Open |
@@ -693,6 +711,7 @@ DOC-09 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.6 | 2026-07-20 | Added same-screen payment-card/profile and offer handling, automatic highest-user-value Card Offer selection per funding leg, separate coupon/voucher/discount selection, and quote recalculation before authorization. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for payment request, card funding, multi-card funding, payment profiles, tokenization boundary, payer authorization, step-up authentication, payment status, failure handling, and settlement readiness. |
 | 0.3.0 | 2026-05-30 | Aligned payment eligibility and quote rules with DOC-12 evidence verification outcomes, final evidence snapshots, duplicate/reused evidence routing, and evidence-related payment blocks. |
 | 0.2.0 | 2026-05-30 | Aligned payment request scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, and evidence-backed payment boundaries. |

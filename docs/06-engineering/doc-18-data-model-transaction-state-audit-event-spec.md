@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.3
+version: 0.4.4
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-07-06
+last_updated: 2026-07-20
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -80,6 +80,7 @@ Detailed requirements belong to:
 | Lineage | Raw, extracted, corrected, verified, derived, aggregated, reported, and model-feature data should preserve lineage. |
 | Bills evidence future update | Final DOC-18 must define the logical objects, status fields, active-version rules, lineage, events, and audit records for DOC-06C `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`. |
 | Payment profile future update | Final DOC-18 must define tokenized card, saved split-card payment profile, allocation-ratio, card-slot, default-card, starred/frequent profile, action-required profile, return-context, and audit-event structures for DOC-06B `PAYMENT-PROFILE-ROOT`. |
+| Offers and promotion future update | Final DOC-18 must distinguish offer UI presentation from payment-card funding data and define Offer ID, multi-collection membership, primary root placement, per-collection display priority, display snapshot, payment-card/funding-leg eligibility result, highest-user-value comparison, automatic Card Offer application, separate coupon/voucher/discount application, promotion quote, and audit-event structures required by DOC-06B, DOC-09, and DOC-13. |
 | Human review | Sensitive AI/model-assisted outcomes should support reason codes, reviewability, override controls, and audit trails. |
 
 ## 4. Core Object Families
@@ -118,9 +119,11 @@ DOC-18 should define logical structures for at least the following object famili
 - refund, cancellation, dispute, reversal, chargeback, and support case;
 - campaign;
 - offer;
+- offer discovery collection membership;
 - offer rule;
 - promotion quote;
 - promotion quote reservation;
+- benefit application and selection-basis record;
 - qualification accumulator;
 - benefit entitlement;
 - reward instrument;
@@ -178,7 +181,7 @@ PayPlus should define event families before implementation.
 | Payment profile events | card add started, tokenization returned, card nickname edited, default card changed, card removed or archived, profile created, profile edited, profile starred/unstarred, profile marked action-required, profile selected for checkout/instruction, profile issue displayed. |
 | Payout events | settlement received, payout ready, payout held, payout released, payout submitted, payout completed, reconciliation matched, exception opened. |
 | Risk events | rule triggered, risk score assigned, step-up required, manual review opened, hold applied, block applied, override approved, escalation recorded. |
-| Promotion events | offer viewed, eligibility evaluated, promotion quote created, benefit reserved, entitlement earned, reward issued, reward redeemed, reward reversed. |
+| Promotion events | offer displayed, offer viewed, collection filtered, eligibility evaluated, competing Card Offers compared, highest-user-value Card Offer auto-selected, coupon/voucher/discount selected, promotion quote created or recalculated, benefit reserved, entitlement earned, reward issued, reward redeemed, reward reversed. |
 | Communication events | notification queued, sent, delivered, read, failed, opted in, opted out, template version applied. |
 | Admin events | queue assigned, evidence viewed, action taken, export requested, sensitive field revealed, override reason captured. |
 | Analytics/model events | aggregate created, model feature refreshed, model run executed, AI-assisted recommendation shown, human review outcome recorded where approved. |
@@ -214,6 +217,8 @@ DOC-18 should maintain linkages between:
 DOC-18 must include data structures for DOC-09 user payment instruction, payment instruction funding leg, deferred funding date, selected payee transfer date, payment instruction action alert/task, partial funding status, partial payout linkage, remaining unpaid amount, payment quote revalidation, promotion quote reservation, and changed-term acknowledgement.
 
 DOC-18 must include data structures for DOC-06B/DOC-09 tokenized card and payment profile behavior, including card token/reference, permitted masked metadata, card nickname, card status, default-card marker, saved split-card profile name, card slots, stored ratios, setup/reference amount, starred/frequent marker, action-required state, soft-delete/archive metadata, checkout/instruction return context, and related audit events.
+
+DOC-18 must include data structures linking each applied payment-method-sensitive Card Offer to the selected payment card or funding leg, the competing eligible Offer IDs, approved user-value comparison result, automatic-selection reason, affected funded amount, separate coupon/voucher/discount application, promotion quote version, and revalidation event. The same Offer ID may have multiple discovery-collection memberships but should remain one underlying offer object.
 
 DOC-18 must also include data structures for DOC-06C ordinary bill/rent reminders, including reminder ID, linked obligation ID, reminder source type, cycle, offset or custom date/time, active/inactive/expired/deleted status, custom override marker, soft-delete/audit metadata, notification linkage, and events for reminder creation, edit, disable, deletion, firing, opening, dismissal, and payment-start attribution.
 
@@ -343,6 +348,7 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.4.4 | 2026-07-20 | Product Documentation Team | Added future data/event markers for multi-collection Offers, root placement, per-collection priority, payment-card/funding-leg offer evaluation, highest-user-value automatic Card Offer selection, separate coupon/voucher/discount application, quote recalculation, and audit linkage. |
 | 0.1.0 | 2026-06-08 | Product Documentation Team | Replaced interim note with founder working baseline for data model ownership, field metadata, event taxonomy, lineage, analytics marts, AI/model-readiness metadata, partner reporting controls, and open questions. |
 | 0.2.0 | 2026-06-12 | Product Documentation Team | Aligned data-model baseline with DOC-06 Bills tab requirements by adding obligation, contract/relationship, evidence source, participant linking, invitation, action, and no-auto-matching state/event expectations. |
 | 0.3.0 | 2026-06-17 | Product Documentation Team | Aligned data-model baseline with DOC-06 Bills reminder list/detail routes by adding linked reminder objects, lifecycle states, soft-delete metadata, notification linkage, and reminder effectiveness events. |

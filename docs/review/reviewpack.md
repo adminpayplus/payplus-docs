@@ -1,174 +1,132 @@
 # Founder Review Pack: Offers Child Lists
 
-## 1. Task And Boundary
+## 1. Review Status
 
-Apply the PayPlus Level 1 parallel-agent review to:
+The founder has accepted `OCL-01` through `OCL-09`, including the clarified multi-collection, duplicate-suppression, stable-ordering, and checkout-promotion rules recorded below.
 
-- `OFFERS-CARD-LIST`
-- `OFFERS-PAYPLUS-LIST`
-- `OFFERS-PARTNER-LIST`
+This pack is a review and decision record. The authoritative behavior remains in `DOC-06B`, `DOC-09`, and `DOC-13`.
 
-In scope: screen structure, cards, search and filter behavior, ordering, states, navigation, collection membership, ownership, and future document changes.
+## 2. Mandatory Terminology
 
-Out of scope: exact visual styling, campaign calculation, reward issuance, referral logic, checkout, redemption fulfilment, technical schemas, and admin-dashboard UI.
-
-This is a proposal for founder review. It does not make the proposed decisions authoritative until approved and recorded in the owning documents.
-
-## 2. Current Repository Position
-
-- The three child screens already exist as minimal shells in `DOC-06B`.
-- The Mermaid route topology is correct.
-- `DOC-13` defines discovery groups and offer metadata but not multi-collection membership or duplicate-placement rules.
-- `DOC-06D` incorrectly refers to `entry-point IDs`.
-
-## 3. Proposed Decisions
-
-| ID | Recommended decision | Rationale |
-| --- | --- | --- |
-| `OCL-01` | Treat all three as child collection screens under `OFFERS-ROOT`. | They browse collections; they do not own promotion logic. |
-| `OCL-02` | Define one shared collection-screen contract with route-specific differences. | Prevents duplication while preserving clear behavior. |
-| `OCL-03` | Search, labels, filters, sorting, and result states remain screen states, not routes. | No materially different destination exists. |
-| `OCL-04` | Cards open `OFFER-DETAIL`; material actions do not execute from list cards. | Keeps discovery separate from redemption, checkout, and external handoff. |
-| `OCL-05` | Permit one offer to belong to multiple collections. | Card applicability, PayPlus management, and partner sponsorship are different classification dimensions. |
-| `OCL-06` | Suppress duplicate offers on `OFFERS-ROOT`, while permitting them in every applicable child list. | Keeps the root concise without weakening complete collections. |
-| `OCL-07` | Use stable admin-priority ordering; no randomization or user sorting in child lists for MVP. | Supports predictable browsing and return-state preservation. |
-| `OCL-08` | Display may precede final transaction eligibility confirmation. | Users may discover offers before selecting a card or payment context. |
-| `OCL-09` | Use a single-column mobile list and single-select labels for MVP. | Offer cards contain material conditions that need readable space. |
-
-## 4. Shared Screen Structure
-
-1. Header: Back, collection title, and Search.
-2. Search field when activated.
-3. Label-filter row where applicable.
-4. Scrollable offer collection.
-5. Loading-more indicator where needed.
-6. Empty, no-results, or recoverable-error state where applicable.
-
-Back closes active Search first. Otherwise, it returns to the originating `OFFERS-ROOT` section and restores its position.
-
-## 5. Shared Offer Card
-
-Show:
-
-- approved key visual or identity mark;
-- PayPlus, issuer, sponsor, or partner identity;
-- offer title;
-- concise benefit;
-- material category, card, or payment-method condition;
-- expiry or `Ending Soon`;
-- concise availability or use-method description;
-- `View Details`.
-
-The entire card may be tappable. Redemption, card application, checkout, QR presentation, external links, and partner handoff remain in `OFFER-DETAIL`.
-
-## 6. Route Differences
-
-| Route | Collection and controls |
+| Term | Definition |
 | --- | --- |
-| `OFFERS-CARD-LIST` | Card or payment-method offers. Search offer, issuer, card product, scheme, partner, and benefit. No visible label filter for MVP. Never claim final eligibility solely from saved-card or BIN detection. |
-| `OFFERS-PAYPLUS-LIST` | PayPlus-branded or PayPlus-managed offers. Search plus `All` and single-select label filters. Show applicable bill, fee, rent, payment, or service-fee context. |
-| `OFFERS-PARTNER-LIST` | External-partner offers. Search plus `All` and single-select label filters. Clearly identify the partner and whether use is in-app or external. |
+| Offer | One promotion-engine benefit package identified by one unique Offer ID. |
+| Offer card | A UI component displaying a simplified offer summary. It is unrelated to credit cards or tokenization. |
+| Payment card | A tokenized or newly entered credit/debit card used as a funding instrument. |
+| Payment method | A broader funding channel, such as payment card, Alipay, WeChat Pay, or another supported method. |
+| Card Offer | An offer whose eligibility depends on permitted payment-card attributes. |
+| Payment profile | A saved split-card allocation template containing multiple payment cards. |
+| Discovery collection | A user-facing offer grouping, such as Card Offers, Pay+ Offers, or Partner Offers. It is not an eligibility rule or campaign. |
+| Duplicate offer | The same Offer ID displayed repeatedly in the same screen context. Different Offer IDs are not duplicates. |
 
-## 7. Business And System Rules
+The documents should avoid using `card` alone where it could mean either an offer card or payment card.
 
-- `All offers` means active, approved, scheduled, and currently displayable offers assigned to that collection after visibility, consent, targeting, and compliance gates.
-- Display does not confirm final payment eligibility. `DOC-13` and `DOC-09` revalidate card, quota, budget, payment, and checkout conditions.
-- `Featured/Hot` is a placement flag, not an offer type.
-- Child-list ordering applies mandatory display gates, admin priority, approved personalization, and then a deterministic fallback.
-- Ordering remains stable during the navigation session.
-- Returning from `OFFER-DETAIL` restores route, search, label, loaded results, and scroll position.
-- Cards must not expose BINs, internal targeting reasons, risk signals, or sensitive evidence-derived information.
-- Future `DOC-18` events should cover impressions, position, searches, filters, no-results, offer opens, and returns.
-- `DOC-22` should govern labels, placement, priority, targeting, enablement, scheduling, and audit history.
+## 3. Accepted Decisions
 
-## 8. Screen States
-
-- Loading: skeleton cards without fabricated content.
-- Empty: no currently available offers; no create action.
-- No results: `Clear Search` or `Reset Filters`.
-- Error: non-sensitive message and `Retry`, preserving state.
-- Expired or withdrawn: `OFFER-DETAIL` shows unavailable and disables material actions.
-- Personalization unavailable: show the approved generic collection.
-- No collection-level `Action Required` state.
-
-## 9. Ownership And Handoffs
-
-| Document | Ownership or handoff |
+| ID | Accepted decision |
 | --- | --- |
-| `DOC-06B` | Route UX and navigation owner. |
-| `DOC-13` | Campaign, offer, eligibility, redemption, benefit, and collection-membership owner. |
-| `DOC-09` | Checkout and payment validation. |
-| `DOC-15` | Privacy, targeting, and approved-purpose data use. |
-| `DOC-18` | Future data objects, events, lineage, and analytics. |
-| `DOC-22` | Future admin configuration and placement operations. |
-| `DOC-06D` | Acceptance coverage. |
+| `OCL-01` | `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` remain child collection screens under `OFFERS-ROOT`. |
+| `OCL-02` | The three screens share one collection-screen contract with route-specific differences. |
+| `OCL-03` | Search, labels, filters, sorting, and result states are screen states, not routes. |
+| `OCL-04` | Discovery offer cards open `OFFER-DETAIL`; material checkout, redemption, and external actions do not execute from the list card. |
+| `OCL-05A` | One payment card may match multiple distinct offers, each evaluated under its own Offer ID. |
+| `OCL-05B` | One Offer ID may belong to multiple relevant discovery collections. |
+| `OCL-06` | The same Offer ID is suppressed from unintended repeated display on `OFFERS-ROOT` but remains available in every relevant child list. |
+| `OCL-07` | Child lists use controlled, stable, collection-specific admin ordering without random reshuffling or MVP user sorting. |
+| `OCL-08` | Payment-card/profile selection and applicable promotion handling occur in the same checkout screen or step before authorization. |
+| `OCL-09` | MVP uses a single-column mobile list and single-select label filters where applicable. |
 
-## 10. Exact Future Document Changes
+## 4. Collection And Duplicate Behavior
 
-- `DOC-06B`: add the shared contract, route differences, states, ordering, and return behavior.
-- `DOC-06D`: replace `entry-point IDs` with source/action/destination/return transitions and add acceptance tests.
-- `DOC-13`: add approved multi-collection membership, root duplicate suppression, and PayPlus classification rules.
-- Parent `DOC-06` and the traceability matrix: update completion and test references.
-- Route Mermaid: no topology change; add definition-status annotation only if useful.
-- `DOC-18` and `DOC-22`: add future ownership markers only where missing.
-- Check but otherwise leave unchanged: `DOC-00`, `DOC-05`, `DOC-08`, `DOC-09`, `DOC-15`, `AGENTS.md`, `docs/README.md`, and the Product Charter.
+One Offer ID may be assigned to several discovery collections where its characteristics overlap. For example, one Cathay Mastercard offer may belong to Card Offers because card eligibility applies and Partner Offers because Cathay or Standard Chartered sponsors it.
 
-## 11. Replacement And Consistency Effects
+Collection membership does not duplicate the underlying offer object or change eligibility rules.
 
-- Replace the stale `entry-point IDs` wording in `DOC-06D`; do not create entry IDs for search, filters, or collection entry actions.
-- Keep route ownership separate from promotion-engine ownership.
-- Keep offer discovery separate from checkout, reward management, referral, and payment authorization.
-- Keep display eligibility separate from final transaction eligibility.
-- Do not redefine notification, privacy, checkout, or benefit-calculation rules in `DOC-06B`.
+Default display behavior:
 
-## 12. Reviewer Findings
+1. Render each Offer ID once within each child list.
+2. Allow the offer to appear in every relevant complete child list.
+3. Render the same Offer ID once on a normal `OFFERS-ROOT` presentation.
+4. Use the admin-configured primary root placement.
+5. Permit an approved, audited override for intentional repeated root placement.
 
-All Level 1 reviewers agreed on the shared contract, route boundaries, stable child-list ordering, detail handoff, and absence of direct material actions.
+Two distinct offers eligible for the same payment card are not duplicates.
 
-The principal unresolved question was whether currently ineligible offers should be hidden. The recommendation is to hide offers failing mandatory display, privacy, or compliance gates, but allow publicly discoverable offers whose final card or transaction eligibility is not yet known.
+## 5. Stable Child-List Ordering
 
-The consistency review also found that Card, PayPlus, and Partner collections use different classification dimensions. Treating them as mutually exclusive would create unnecessary promotion-engine constraints.
+Display ordering controls discovery position only. It does not determine eligibility, stacking, benefit calculation, or which offer wins at checkout.
 
-## 13. Meaningful Alternatives
+Required sequence:
 
-| Alternative | Decision and reason |
+1. Apply approval, enablement, display-period, market, privacy, consent, targeting, and compliance gates.
+2. Apply collection-specific admin pinning and priority.
+3. Apply approved personalization within the permitted priority band.
+4. Resolve equal priority through a deterministic fallback, currently `TBC`.
+5. Preserve the order while the user browses and returns from `OFFER-DETAIL`.
+
+Root-carousel randomization remains separate from complete child-list ordering.
+
+## 6. Payment-Method-Sensitive Offer Principle
+
+If one payment card or split-payment funding leg is eligible for multiple payment-method-sensitive Card Offers:
+
+1. Only one Card Offer applies to that payment card or funding leg.
+2. PayPlus automatically selects the eligible Card Offer with the highest user value.
+3. Checkout displays the applied offer and resulting benefit.
+4. The payer does not manually choose between competing Card Offers.
+5. Equal or non-directly-comparable values use a deterministic admin-configured priority until the final valuation method is specified.
+
+This does not prevent a separate eligible checkout coupon, voucher, or discount code from applying. The automatically selected Card Offer and the user-selected coupon/voucher/discount are different benefit families and use separate application slots.
+
+For split-card payment, the one-best-Card-Offer rule applies independently to each funding leg. A card-sensitive benefit normally applies only to that leg's funded amount unless approved offer rules explicitly use the whole payment.
+
+## 7. Checkout Behavior
+
+The same checkout screen or step must:
+
+1. show the obligation and payment amount;
+2. allow selection or confirmation of the payment card or payment profile;
+3. evaluate payment-method-sensitive Card Offers;
+4. auto-apply and display the highest-user-value eligible Card Offer per card/funding leg;
+5. allow a separate eligible coupon/voucher/discount selection;
+6. recalculate fees, discounts, benefits, and final total;
+7. show the final quote before payer authorization.
+
+Changing the payment card, profile, allocation, amount, or another material eligibility input invalidates the prior promotion result and triggers recalculation.
+
+An offer opened through `OFFER-DETAIL` may be carried into checkout as a candidate, but checkout cannot treat it as selected or eligible until payment-card and transaction validation succeeds.
+
+## 8. Ownership
+
+| Document | Ownership |
 | --- | --- |
-| Mutually exclusive collections | Not recommended because card applicability and sponsorship can overlap. |
-| Random child-list ordering | Not recommended because it disrupts browsing and return context. |
-| Direct material actions on cards | Not recommended because conditions must be reviewed in `OFFER-DETAIL`. |
-| Two-column grid | Defer as a responsive design option; single-column is recommended for MVP. |
-| Multi-select filters | Defer; single-select is simpler and sufficient initially. |
-| Hide every currently ineligible offer | Not recommended when the offer is publicly discoverable and final eligibility requires later context. |
+| `DOC-06B` | Child-list UX, offer-card behavior, collection display, ordering, navigation, states, and checkout handoff. |
+| `DOC-13` | Offer identity, collection membership, payment-card eligibility, highest-user-value selection, stacking, coupon/voucher rules, benefit calculation, and application. |
+| `DOC-09` | Same-screen checkout sequence, payment-card/profile selection, promotion result display, quote recalculation, and payer authorization. |
+| `DOC-06D` | Acceptance and test-readiness coverage. |
+| `DOC-18` | Future data structures, selection records, funding-leg links, display snapshots, and audit events. |
+| `DOC-22` | Future collection assignment, primary placement, priority, override, valuation, and audit controls. |
 
-## 14. Open Questions And Deferred Details
+## 9. Remaining TBC Items
 
-Required now:
-
-1. Confirm `OCL-05` and `OCL-06`: multi-collection membership and root-level duplicate suppression.
-2. Confirm whether `Pay+ Offers` means PayPlus-branded or PayPlus-managed regardless of funding source.
-3. Confirm the treatment of discoverable offers whose final eligibility is not yet known.
-
-May remain `TBC`:
-
-- PayPlus and Partner label taxonomy.
-- Equal-priority fallback ordering.
-- Card issuer or network filters after MVP.
+- Pay+ and Partner label taxonomy.
+- Equal-priority child-list ordering fallback.
+- Approved valuation method for non-monetary or non-directly-comparable Card Offers.
+- Exact split-card offer-selection presentation.
 - Whether personalization affects inclusion, ordering, or both.
-- Exact card design and responsive breakpoint.
-- Whether list state survives only the navigation session or later visits.
+- Final PSP/acquirer card metadata available for eligibility confirmation.
+- Exact offer-card styling and responsive behavior.
 
-## 15. Founder Approval Checklist
+## 10. Repository Alignment
 
-Mark each proposal as `Accept`, `Amend`, `Reject`, or `Defer`:
+The accepted decisions require alignment in:
 
-| Proposal | Decision |
-| --- | --- |
-| `OCL-01` Route classification | |
-| `OCL-02` Shared collection contract | |
-| `OCL-03` Search, filter, and state classification | |
-| `OCL-04` Detail-only material actions | |
-| `OCL-05` Multi-collection membership | |
-| `OCL-06` Root duplicate suppression | |
-| `OCL-07` Stable ordering without MVP user sorting | |
-| `OCL-08` Display versus final eligibility | |
-| `OCL-09` MVP list and filter layout | |
+- `DOC-05` and parent `DOC-06` for concise product/ownership references;
+- `DOC-06B` for child-list UX;
+- `DOC-06D` for acceptance coverage;
+- `DOC-09` for checkout behavior;
+- `DOC-13` for promotion rules;
+- `DOC-18` and `DOC-22` for future technical/admin markers;
+- the requirements traceability matrix.
+
+No route-diagram topology change is required.

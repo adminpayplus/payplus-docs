@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.12
+version: 0.18.13
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-17
+last_updated: 2026-07-20
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -489,7 +489,7 @@ DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B 
 
 For split UX topics, use one primary owner. DOC-06B owns standalone route shells and human-readable route-level UX for Requests, Instructions, Payment Profile, Offers, Me, Referral, More, and global Receipts/Activity routes. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
 
-For growth UX, `OFFERS-ROOT` owns promotion discovery; its child screens `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` own the respective View More collections; `REWARDS-ROOT` owns issued-reward management; and `REFERRAL-ROOT` owns referral participation and progress. Direct checkout discounts are not issued rewards. Referral campaigns may appear in Offers, but referral actions remain in the Referral route. Detailed commercial and calculation logic remains owned by DOC-13.
+For growth UX, `OFFERS-ROOT` owns promotion discovery; its child screens `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` own the respective View More collections; `REWARDS-ROOT` owns issued-reward management; and `REFERRAL-ROOT` owns referral participation and progress. One offer may belong to multiple discovery collections, while unintended repeated display of the same Offer ID is suppressed on `OFFERS-ROOT`. Direct checkout discounts are not issued rewards. Referral campaigns may appear in Offers, but referral actions remain in the Referral route. Detailed commercial and calculation logic remains owned by DOC-13.
 
 For Requests, use the DOC-06 family boundary: a request is not a payment. It is a record asking another party to review, accept, link to, or reject a bill, rent, tenancy, fee, invoice, or approved obligation context. Accepted requests link the parties to the accepted context and may support later payment readiness, but payment authorization and processing remain separate payment-domain behavior.
 
@@ -527,7 +527,7 @@ Bills-route requirements must remain role-aware:
 - view and act on payment instruction action alerts through DOC-06B `INSTRUCTIONS-ROOT` / `INSTRUCTIONS-DETAIL`;
 - review updated quote, promotion, fee, card eligibility, or timing changes when returning to a pending or incomplete payment instruction;
 - view partial funding, remaining amount, and partial payout status where applicable;
-- review eligible discounts, coupon/voucher selection, reward status, or promotion quote where promotions are enabled;
+- review the automatically selected highest-user-value payment-method-sensitive Card Offer, separately select an eligible checkout coupon/voucher/discount, and review the recalculated promotion/payment quote in the same checkout screen or step before authorization;
 - discover approved promotions through DOC-06B `OFFERS-ROOT` and review conditions through `OFFER-DETAIL`;
 - manage issued coupons, vouchers, miles entitlements, or other supported rewards through `REWARDS-ROOT` and `REWARD-DETAIL` where enabled;
 - manage referral participation separately through `REFERRAL-ROOT` where enabled;
@@ -743,6 +743,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.13 | 2026-07-20 | Aligned the PRD with multi-collection Offers, root duplicate suppression, stable child-list ordering, automatic highest-user-value Card Offer selection per payment card/funding leg, separate coupon/voucher/discount selection, and same-screen checkout review. |
 | v0.1 | Initial Draft | Initial master PRD structure. |
 | v0.2 | 2026-05-27 | Updated MVP to include both payer-created and payee-created payment requests; added two-sided user visibility, evidence-backed linking, linked payer/payee records, and simplified structure. |
 | v0.3 | 2026-05-29 | Confirmed payee-created requests and tenancy/rent as MVP scope, added MVP gating and configuration rules, clarified that detailed data and UX design belong in downstream docs, and updated open questions. |
