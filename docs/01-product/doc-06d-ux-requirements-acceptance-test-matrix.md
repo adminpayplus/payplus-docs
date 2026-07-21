@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.7
+version: 0.1.8
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -156,7 +156,11 @@ The DOC-06 user journey scope is satisfied when:
 - referral deeplink/QR registration displays a valid code prefilled and not editable, while ordinary registration permits optional manual entry, retry, or clearing an invalid code;
 - completed valid registration creates normal-user-immutable referral attribution without creating payer/payee linking, a Request, payment authority, or shared financial visibility;
 - referral qualification displays `In Progress`, `Qualified`, `Not Qualified`, or `Under Review` without exposing private financial, evidence, KYC, card, payee, or internal risk data;
-- referrer and referee benefits preserve beneficiary role, and claiming a referrer entitlement creates one canonical issued reward visible through `REWARD-DETAIL` rather than a duplicate reward record or status family;
+- corresponding referrer and referee entitlements appear in `REFERRAL-REWARDS-LIST`, preserve beneficiary role, and use `Available to Claim` and `History` route-local tabs without creating additional routes;
+- referral reward cards expose only approved reward/campaign/status/date fields, open `REFERRAL-ENTITLEMENT-DETAIL`, and do not expose referral-party identity or private qualification data;
+- claim is initiated from entitlement detail, prevents duplicate submission, and creates at most one canonical issued reward; success offers `View Reward` to `REWARD-DETAIL` and `Done` to the Referral Rewards `History` tab with the issued card visible;
+- campaign end, claim deadline, and reward usage expiry remain separate; valid earned entitlements survive campaign end according to DOC-13;
+- normal Referral reward presentation uses `Available to Claim`, `Issued`, `Expired`, and `Reversed`; an administrator-held claimed item remains inactive in `History` with exceptional `Under Review` presentation until resolved;
 - direct checkout discounts do not appear as issued rewards unless DOC-13 creates a separate entitlement or instrument;
 - failed, rejected, cancelled, expired, and exception/support cases are handled clearly;
 - wallet, stored balance, cashout, self-cashout, and unsupported P2P journeys are blocked.
@@ -174,6 +178,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.8 | 2026-07-21 | Added Referral child-screen acceptance coverage for role-sensitive rewards, two tabs, card/privacy boundaries, detail-first claim, idempotent issuance, lifecycle-date separation, and exceptional admin-held History presentation. |
 | 0.1.7 | 2026-07-21 | Added Referral route, sharing, registration-attribution, qualification-display, privacy-boundary, role-sensitive entitlement, claim, and canonical reward-handoff acceptance coverage. |
 | 0.1.6 | 2026-07-20 | Added Offers child-list, multi-collection, duplicate-suppression, stable-ordering, distinct-offer, same-screen checkout, highest-user-value Card Offer, separate coupon/voucher, and promotion-recalculation acceptance coverage; removed stale entry-point-ID wording. |
 | 0.1.5 | 2026-07-17 | Added Offers and Rewards test-readiness for stable product destinations, source/action/destination/return transitions, section limits, child collection screens, full-screen detail behavior, redemption state, issued-reward management, partial Referral routing, and external Bills/checkout handoffs. |

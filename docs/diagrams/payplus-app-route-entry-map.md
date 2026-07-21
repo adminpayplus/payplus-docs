@@ -238,10 +238,11 @@ flowchart TD
   ODETAIL -. "Referral-program action" .-> REFERRAL
   REFSHORTCUT["Dashboard Referral shortcut"] --> REFERRAL["REFERRAL-ROOT<br/>Defined baseline"]
   ME["Me"] --> REFERRAL
-  REFERRAL -->|"View Referral Rewards"| REFLIST["REFERRAL-REWARDS-LIST<br/>Referrer entitlements"]
-  REFLIST -->|"Tap entitlement"| REFDETAIL["REFERRAL-ENTITLEMENT-DETAIL"]
+  REFERRAL -->|"View Referral Rewards"| REFLIST["REFERRAL-REWARDS-LIST<br/>Referrer and referee entitlements"]
+  REFLIST -->|"Tap reward card / View Details"| REFDETAIL["REFERRAL-ENTITLEMENT-DETAIL"]
   REFDETAIL -->|"Claim Reward"| REFCLAIM["REFERRAL-REWARD-CLAIM"]
-  REFCLAIM -->|"Issued reward"| RDETAIL
+  REFCLAIM -->|"View Reward after issuance"| RDETAIL
+  REFCLAIM -. "Done / History selected" .-> REFLIST
   REFLIST -. "View issued reward" .-> RDETAIL
 
   REFLINK["Referral deeplink / QR"] --> REGISTRATION["Registration / onboarding<br/>Code prefilled and not editable"]

@@ -167,11 +167,13 @@ Required capabilities include:
 - enable or disable the PayPlus Referral Program and individual campaigns;
 - support one MVP campaign and preserve support for multiple future campaigns;
 - configure separate referrer and referee offers and beneficiary-role entitlements;
-- configure qualifying conditions, source events, payment/risk finality, qualification periods, deadlines, quotas, and per-user limits;
+- configure qualifying conditions, source events, payment/risk finality, qualification periods, campaign end, claim deadlines, reward usage expiry, quotas, and per-user limits as separate controls;
+- reserve quota/value when each role-sensitive entitlement is created and preserve the applicable campaign, offer, benefit, and terms snapshot;
 - keep reusable user-linked referral codes non-expiring by default while preserving optional future validity controls;
 - configure campaign availability, terms, share channels, and campaign-specific registration context;
 - review privacy-safe attribution and qualification records without exposing unnecessary bills, evidence, payments, cards, KYC data, payees, or internal risk reasons;
-- hold, release, reject, reverse, or claw back referral entitlements according to approved permissions, reason codes, and audit rules;
+- hold, release, reject, reverse, or claw back referral entitlements or issued rewards according to approved permissions, reason codes, and audit rules; an authorized hold on a claimed item must support the inactive `Under Review` History presentation defined by DOC-06B without exposing internal reasons;
+- reconcile duplicate, concurrent, retried, or uncertain claim submissions against the existing entitlement-to-instrument issuance result without creating another reward;
 - support controlled attribution correction only if later approved, with reason capture, authorization, and full audit history;
 - audit campaign changes, rule changes, qualification decisions, manual overrides, entitlement actions, claim outcomes, and reward issuance linkages.
 
@@ -217,6 +219,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.7.0 | 2026-07-21 | Added future Referral admin markers for entitlement-time quota reservation and terms snapshot, separate campaign/claim/use dates, idempotent claim oversight, and authorized hold/release handling for exceptional `Under Review` presentation. |
 | 0.6.0 | 2026-07-21 | Added future Referral Program, campaign, role-sensitive offer, qualification, finality, quota, validity, privacy-safe review, entitlement hold/release/reversal, attribution-correction, and audit configuration markers. |
 | 0.5.0 | 2026-07-20 | Added future admin markers for multi-collection Offers, primary root placement, duplicate suppression and override, per-collection priority, payment-method-sensitive application mode, highest-user-value comparison, and audit controls. |
 | 0.1.0 | 2026-06-17 | Added DOC-06 reminder default configuration hooks for bill/rent reminder timing, category gating, channel linkage, and audit logging. |

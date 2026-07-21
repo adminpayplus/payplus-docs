@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.1.0
+version: 1.1.1
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -812,7 +812,9 @@ Referral data must preserve separate, linked records for:
 - qualification progress and outcome;
 - referrer and referee benefit entitlements;
 - beneficiary role for each entitlement;
+- reserved campaign quota/value and applicable campaign, offer, benefit, claim-deadline, usage-expiry, and terms snapshot;
 - issued reward-instrument references;
+- idempotent entitlement-to-instrument issuance result;
 - hold, reversal, and clawback outcomes.
 
 Sharing, copying, or displaying a referral link/QR is an event only. It does not identify a recipient or create a referral relationship. The relationship starts when an eligible new user completes registration with a valid referral code/link. DOC-18 owns final objects, identifiers, statuses, event taxonomy, lineage, and schema.
@@ -884,14 +886,26 @@ Referral/MGM is separate from membership/tier:
 - referral attribution begins only when an eligible new user completes registration using a valid code/link;
 - referral qualification tracks the configured campaign conditions after attribution;
 - referrer and referee entitlements are separate linked records and preserve beneficiary role;
-- rewards earned through referrer activity may be claimed through DOC-06B Referral entitlement screens; issued instruments use the same canonical reward records and statuses as `REWARDS-ROOT` and `REWARD-DETAIL`;
+- corresponding referrer and referee rewards may be claimed through DOC-06B Referral entitlement screens; beneficiary role remains preserved, while issued instruments use the same canonical reward records and statuses as `REWARDS-ROOT` and `REWARD-DETAIL`;
 - membership tracks usage-oriented tier, payment volume, transaction count, consecutive usage, tier status, and benefits.
 
 Both modules may issue normal reward instruments into `REWARDS-ROOT`.
 
 Referral campaign conditions must be configurable and event-driven. DOC-13 owns condition and entitlement meaning; DOC-18 must later define the qualifying signal/event contract; DOC-22 must later define admin configuration, enablement, limits, qualification rules, manual review, holds, release, reversal, and audit controls. Exact MVP condition values and payment/risk finality remain to be configured.
 
-Referral qualification user-facing outcomes may be summarized as `In Progress`, `Qualified`, `Not Qualified`, and `Under Review`. Referral reward entitlement and issued-instrument statuses must reuse the canonical promotion/reward status model rather than define a second referral-only status family.
+Referral qualification user-facing outcomes may be summarized as `In Progress`, `Qualified`, `Not Qualified`, and `Under Review`. Referral reward entitlement and issued-instrument states must reuse the canonical promotion/reward status model rather than define a second referral-only status family. DOC-06B owns the child-screen projections `Available to Claim`, `Issued`, `Expired`, and `Reversed`; internal processing is not a persistent user-facing status.
+
+For each role-sensitive entitlement:
+
+- campaign quota/value must be reserved when the entitlement is created, not delayed until claim;
+- the applicable campaign, offer, benefit, claim deadline, reward usage expiry, and user-facing terms must be snapshotted so later campaign edits do not silently alter the earned entitlement;
+- campaign participation end, claim deadline, and issued-reward usage expiry are separate lifecycle dates;
+- campaign end stops new participation or attribution as configured but does not remove a valid earned entitlement;
+- claim must revalidate current ownership, claimability, applicable hold/finality gates, deadline, and prior issuance without rerunning ordinary historical qualification;
+- one entitlement may create at most one canonical reward instrument, and duplicate, concurrent, retried, or uncertain submissions must resolve idempotently to the existing issuance result;
+- after successful claim, issued-reward usage and fulfilment remain governed through `REWARDS-ROOT` and `REWARD-DETAIL`, not Referral claim history.
+
+`Under Review` is not a normal Referral Rewards tab or claim-processing label. If an authorized administrator holds an already-claimed entitlement or issued reward, DOC-06B may show the affected History item as inactive with `Under Review` until resolution. The hold, release, reversal, permissions, reasons, and audit trail remain subject to DOC-22 and future DOC-18 specification; internal reasons must not be exposed to the user.
 
 Membership conversion ratios and tier formulas remain to be confirmed.
 
@@ -1036,6 +1050,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.1 | 2026-07-21 | Defined role-sensitive Referral reward claiming for referrers and referees, entitlement-time quota reservation and terms snapshot, separate campaign/claim/usage dates, idempotent one-entitlement-to-one-instrument issuance, and exceptional admin-held reward presentation. |
 | 1.1.0 | 2026-07-21 | Defined the PayPlus Referral Program, reusable code/link and registration-attribution rules, single-campaign MVP and future campaign selection, event-driven qualification, role-sensitive referrer/referee entitlements, referrer claim flow, and canonical issued-reward handoff; removed invitation code from reward-instrument types. |
 | 1.0.0 | 2026-07-20 | Confirmed multi-collection offer membership, root duplicate suppression boundary, one automatically selected highest-user-value payment-method-sensitive Card Offer per payment card/funding leg, separate eligible coupon/voucher/discount selection, and same-screen DOC-09 checkout recalculation handoff. |
 | 0.1.0 | 2026-06-01 | Initial founder working baseline for promotion engine, coupon, voucher, discount code, card-linked offer, Asia Miles reward, referral, membership, external partner voucher, checkout calculation, stacking, usage, data, reversal, and cross-document alignment requirements. |

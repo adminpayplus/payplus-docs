@@ -73,7 +73,8 @@ The following domains should be aligned later as their routes, checkout screens,
 | Payment Instruction Lifecycle | Pending instruction, incomplete instruction, expired, cancelled, archived. | DOC-06B, DOC-09, DOC-18 |
 | Evidence Lifecycle | Uploaded, processing, approved, rejected, update required, archived. | DOC-06C, DOC-12, DOC-18, DOC-22 |
 | Promotion / Reward Lifecycle | Eligible, applied, redeemed, reversed, expired, clawed back. | DOC-13, DOC-18, DOC-22 |
-| Referral Qualification Lifecycle | In Progress, Qualified, Not Qualified, Under Review. Referral entitlement and issued-instrument states reuse the Promotion / Reward Lifecycle rather than creating a second reward status family. | DOC-06B, DOC-13, DOC-18, DOC-22 |
+| Referral Qualification Lifecycle | `In Progress`, `Qualified`, `Not Qualified`, `Under Review`. These labels belong to attributed-referee progress in `REFERRAL-ROOT`. | DOC-06B, DOC-13, DOC-18, DOC-22 |
+| Referral Reward Presentation | `Available to Claim`, `Issued`, `Expired`, `Reversed`. Entitlement and issued-instrument states reuse the Promotion / Reward Lifecycle rather than create a referral-only status family. `Processing` is transient/internal. `Under Review` appears only as an exceptional inactive History projection when an administrator holds an already-claimed entitlement or issued reward. | DOC-06B, DOC-13, DOC-18, DOC-22 |
 | Account / Security Lifecycle | Verification, login, device, passcode, suspended, restricted. | DOC-15, DOC-19, DOC-22 |
 | Support / Case Lifecycle | Open, pending information, under review, resolved, closed. | DOC-11, DOC-14, DOC-21, DOC-22 |
 
