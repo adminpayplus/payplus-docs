@@ -355,3 +355,45 @@ Supersedes the prior undefined Me route baseline and shorthand Me/account entry 
 - Final identity-verification display labels and technical status mapping.
 - Final receiving-destination workflow and Archived Documents list/detail behavior.
 - Final language/theme options, Support/About/Terms content, Membership destination, and More shortcut-management UI.
+
+### `DEC-2026-008` - Canonical YAML With Human-Readable Document Control Mirror
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-22` |
+| Status | Accepted |
+| Primary owner | `DOC-00` documentation governance |
+| Affected documents | `AGENTS.md`, documentation change-integration workflow, all 23 active YAML-backed documents, DOC-22 title, and DOC-00 repository tree |
+| Substantive commit | `53bfc19` |
+| Founder approval | Approved on `2026-07-22` |
+
+**Decision**
+
+YAML front matter remains the canonical metadata source for AI agents, validation, indexing, and later specification generation. Every active document that uses YAML must also present the same values in a human-readable `Document Control` table immediately below its H1 title. The YAML and table must be updated and verified together whenever metadata changes.
+
+Empty placeholders are exempt until substantive drafting begins. Backup files are excluded from mechanical presentation updates. A document without established YAML metadata must not receive invented metadata solely to create a table.
+
+**Rationale**
+
+Canonical YAML preserves structured machine readability while the synchronized table gives founders, advisers, and reviewers a clean rendered presentation. Keeping one canonical source and one verified display mirror avoids choosing between AI usability and human readability. Placeholder and backup exclusions prevent speculative metadata and unnecessary historical-file churn.
+
+**Alternatives Considered**
+
+- Replacing YAML with tables was rejected because it would weaken structured metadata processing and later AI-execution generation.
+- Keeping YAML only was rejected because raw metadata is visually poor in ordinary document review.
+- Adding speculative metadata to every placeholder or partial document was rejected because unknown ownership, version, status, approval, and relationship values must not be invented.
+
+**Consequences And Handoffs**
+
+DOC-00, `AGENTS.md`, and the documentation change-integration workflow now require synchronized metadata presentation. Future edits must treat YAML as canonical and check the corresponding table for drift. Newly drafted formal documents and previously empty placeholders must adopt both representations when their metadata becomes known.
+
+The physical repository structure was confirmed intact. DOC-00 now contains a repaired current ASCII structure illustration, and its lifecycle arrows and the DOC-22 title separator no longer contain corrupted presentation characters.
+
+**Supersedes / Superseded By**
+
+Supersedes the YAML-only presentation convention. It does not change document authority, product requirements, route ownership, or domain behavior.
+
+**Remaining Open Items**
+
+- Define DOC-22 metadata before adding its synchronized control table.
+- Apply the standard to each currently empty formal or supporting placeholder when substantive drafting begins.

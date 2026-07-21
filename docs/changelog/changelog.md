@@ -286,3 +286,62 @@ This append-only register records the documentation delivered by each substantiv
 - Final identity-verification display labels and system mapping.
 - Final receiving-destination workflow and Archived Documents list/detail behavior.
 - Final language/theme options, Support/About/Terms content, Membership destination, and More UI.
+
+### `2026-07-22` - Document Control Presentation And Repository-Tree Repair
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `53bfc19` |
+| Primary owner | `DOC-00` documentation governance |
+| Decision record | `DEC-2026-008` |
+| Founder approval | Approved in the documentation-formatting task on `2026-07-22` |
+
+**Files Changed**
+
+- `AGENTS.md`
+- `docs/00-foundation/doc-00-documentation-governance.md`
+- `docs/00-foundation/doc-01-project-charter-product-positioning.md`
+- `docs/00-foundation/doc-02-business-model-unit-economics.md`
+- `docs/00-foundation/doc-03-regulatory-psp-acquirer-assessment.md`
+- `docs/00-foundation/doc-04-compliance-certification-roadmap-control-framework.md`
+- `docs/00-foundation/payplus-document-change-integration-workflow.md`
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-07-content-disclosure-user-authorization-spec.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/02-payment-domain/doc-09-payment-request-multi-funding-source-settlement.md`
+- `docs/02-payment-domain/doc-10-payout-reconciliation.md`
+- `docs/02-payment-domain/doc-11-refund-cancellation-chargeback.md`
+- `docs/03-bill-verification/doc-12-bill-category-document-ai-ocr-payee-verification-spec.md`
+- `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`
+- `docs/04-growth-ecosystem/payplus-data-strategy-ai-marketing-research.md`
+- `docs/05-risk-compliance-privacy/doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md`
+- `docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/change-requests/cr-doc-06-modularization-and-id-alignment.md`
+
+**Material Changes**
+
+- Kept YAML front matter as canonical machine-readable metadata and added a synchronized human-readable `Document Control` table below the H1 title.
+- Applied the presentation to all 23 active YAML-backed documents without changing their substantive product requirements.
+- Added synchronization and validation requirements to `AGENTS.md`, DOC-00, and the documentation change-integration workflow.
+- Exempted empty placeholders until drafting begins and excluded backup files from mechanical presentation updates.
+- Replaced the corrupted and stale DOC-00 repository-tree illustration with an ASCII representation aligned to the current repository, repaired lifecycle arrows, and corrected the DOC-22 title separator.
+
+**Checks Performed**
+
+- Verified all 23 active YAML-backed documents contain a `Document Control` table.
+- Compared every YAML field against its table presentation and found zero mismatches.
+- Verified all documented top-level repository areas exist.
+- Ran `git diff --cached --check` before the substantive commit.
+- Staged only the 26 approved files and preserved unrelated working-tree changes.
+
+**Remaining Open Items**
+
+- DOC-22 remains without YAML metadata or a control table because its formal metadata has not yet been defined.
+- Empty DOC-16, DOC-17, DOC-19, DOC-20, DOC-21, AI-execution, policy, and template placeholders should receive YAML and a synchronized table when substantive drafting begins.
