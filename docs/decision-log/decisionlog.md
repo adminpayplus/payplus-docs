@@ -24,6 +24,8 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-001` | `2026-07-20` | Post-Commit Documentation Records | Accepted | `DOC-00` | `36458da` |
 | `DEC-2026-002` | `2026-07-20` | Offers Child-List Collection And Display Rules | Accepted | `DOC-13` | `36458da` |
 | `DEC-2026-003` | `2026-07-20` | Card Offer Selection And Checkout Combination | Accepted | `DOC-13` | `36458da` |
+| `DEC-2026-004` | `2026-07-21` | Referral Attribution, Qualification, And Reward Claiming | Accepted | `DOC-06B` / `DOC-13` | `898d994` |
+| `DEC-2026-005` | `2026-07-21` | Referral Child-Screen And Entitlement Lifecycle | Accepted | `DOC-06B` / `DOC-13` | `9306498` |
 
 ## 4. Decision Record Template
 
@@ -215,3 +217,47 @@ Supersedes earlier partial Referral route wording and any implied referral invit
 - Exact MVP campaign rewards, qualification conditions, source events, payment/risk finality, quotas, and limits.
 - Final deeplink/QR token contract, attribution idempotency and correction controls, notification copy, and admin implementation.
 - Final multi-campaign visual design and technical data/status/event schemas.
+
+### `DEC-2026-005` - Referral Child-Screen And Entitlement Lifecycle
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-21` |
+| Status | Accepted |
+| Primary owner | `DOC-06B` Referral child screens and `DOC-13` referral entitlement logic |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06D`, `DOC-08`, `DOC-13`, `DOC-15`, `DOC-18`, `DOC-22`, app route map, status matrix, open-questions register, traceability matrix |
+| Substantive commit | `9306498` |
+| Founder approval | RCS-01 to RCS-13 and the exceptional administrator-held behavior approved on `2026-07-21` |
+
+**Decision**
+
+`REFERRAL-REWARDS-LIST` presents the current user's corresponding referrer and referee entitlements through route-local `Available to Claim` and `History` tabs. `REFERRAL-REWARD-CARD` is a list component and entry point to `REFERRAL-ENTITLEMENT-DETAIL`, not a route. Reward cards and child screens do not display referrer/referee identity; masked referee phone remains restricted to attributed-referee progress in `REFERRAL-ROOT`.
+
+Manual claim remains detail-first through `REFERRAL-REWARD-CLAIM`. A successful claim offers `View Reward` to canonical `REWARD-DETAIL` or `Done` to the Referral Rewards History view. One entitlement creates at most one canonical reward instrument. Quota/value is reserved and applicable campaign, benefit, dates, and terms are snapshotted when the entitlement is created. Campaign end, claim deadline, and reward usage expiry remain separate.
+
+Normal Referral reward presentation is `Available to Claim`, `Issued`, `Expired`, or `Reversed`. `Processing` remains transient/internal. `Under Review` appears only as an exceptional inactive History presentation where an authorized administrator holds an already-claimed entitlement or issued reward.
+
+**Rationale**
+
+The two-tab child-screen model separates immediately actionable rewards from claim history without creating extra routes. Role-sensitive beneficiary visibility supports both sides of a referral campaign while one canonical reward instrument prevents duplicate records. Entitlement-time reservation, snapshots, and idempotent issuance protect earned rewards from later campaign edits, quota races, or repeated submissions.
+
+**Alternatives Considered**
+
+- A referrer-only Referral Rewards list was rejected because referee offers may create corresponding entitlements for the referee.
+- Separate tabs or routes for `Under Review` and `Processing` were rejected because they are exceptional or transient states, not primary user tasks.
+- Claim directly from the list card was rejected because the user should review the full benefit and conditions before the material action.
+- Tracking actual reward use in Referral History was rejected because issued-reward use belongs to `REWARDS-ROOT` and `REWARD-DETAIL`.
+
+**Consequences And Handoffs**
+
+DOC-06B owns list, card, detail, claim, and return behavior. DOC-13 owns entitlement creation, reservation, snapshot, claimability, issuance, expiry, reversal, and campaign lifecycle meaning. DOC-08 owns notifications; DOC-15 owns masking; DOC-18 must define canonical objects, states, events, idempotency, recovery, and audit linkage; DOC-22 must define authorized hold/release/reversal controls and operational reconciliation.
+
+**Supersedes / Superseded By**
+
+Supersedes only the referrer-only child-screen and claim wording in `DEC-2026-004`; the Referral Program, sharing, registration attribution, qualification, campaign, privacy, and canonical reward-engine decisions in that record remain effective.
+
+**Remaining Open Items**
+
+- Exact campaign rewards, qualification conditions, source events, payment/risk finality, values, quotas, and limits.
+- Final deeplink/QR contract, attribution correction controls, notification copy, future multi-campaign visual behavior, and admin implementation.
+- Final DOC-18 objects, canonical statuses/events, recovery contracts, and audit schema.

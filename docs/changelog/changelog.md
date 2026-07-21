@@ -139,3 +139,49 @@ This append-only register records the documentation delivered by each substantiv
 - Exact campaign rewards, qualification conditions, source events, payment/risk finality, quotas, and limits.
 - Final deeplink/QR token contract, attribution idempotency/correction controls, notification copy, and admin implementation.
 - Final multi-campaign visual design and technical data/status/event schemas.
+
+### `2026-07-21` - Referral Child-Screen And Entitlement Lifecycle
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `9306498` |
+| Primary owner | `DOC-06B` Referral child screens and `DOC-13` referral entitlement logic |
+| Decision record | `DEC-2026-005` |
+| Founder approval | RCS-01 to RCS-13 and the exceptional administrator-held behavior approved on `2026-07-21` |
+
+**Files Changed**
+
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`
+- `docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/diagrams/payplus-app-route-entry-map.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+- `docs/traceability/status-display-reference-matrix.md`
+
+**Material Changes**
+
+- Defined `Available to Claim` and `History` route-local tabs, `REFERRAL-REWARD-CARD` as a non-route component, and detailed list/detail/claim behavior.
+- Made corresponding referrer and referee entitlements visible to each beneficiary while restricting masked referee phone to `REFERRAL-ROOT` progress.
+- Defined detail-first manual claiming, deterministic success return, idempotent one-entitlement-to-at-most-one-instrument issuance, and canonical `REWARD-DETAIL` handoff.
+- Defined entitlement-time quota reservation and terms snapshot, separate campaign-end/claim-deadline/usage-expiry dates, and exceptional inactive `Under Review` History presentation for an administrator-held claimed reward.
+- Aligned product, notification, privacy, acceptance, future data/admin markers, route diagram, status display, open questions, and traceability without creating new routes or reward status families.
+
+**Checks Performed**
+
+- Verified the staged scope contained only the 13 approved files and preserved unrelated workspace changes.
+- Ran `git diff --cached --check` before the substantive commit.
+- Searched for active referrer-only claiming definitions and checked route, component, status, privacy, notification, canonical reward, acceptance, and lifecycle-date alignment.
+- Reviewed the Mermaid source manually; Mermaid CLI was unavailable for rendered validation.
+
+**Remaining Open Items**
+
+- Exact campaign rewards, qualification conditions, source events, payment/risk finality, values, quotas, and limits.
+- Final deeplink/QR contract, attribution correction controls, notification copy, future multi-campaign visual behavior, and full admin implementation.
+- Final DOC-18 objects, canonical statuses/events, recovery contracts, and audit schema.
