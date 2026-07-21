@@ -234,6 +234,9 @@ flowchart TD
   REWARDICON["Home coupon / rewards icon"] --> REWARDS
   REWARDNOTIF["Reward notification"] -->|"Open referenced reward"| RDETAIL["REWARD-DETAIL<br/>Full-screen modal"]
   REWARDS -->|"Tap reward"| RDETAIL
+  RDETAIL -. "Close; restore My Rewards state when origin" .-> REWARDS
+  CHECKOUT["DOC-09 checkout<br/>Card/profile then eligible rewards"] -->|"View reward details"| RDETAIL
+  RDETAIL -. "Close; preserve checkout without selection" .-> CHECKOUT
 
   ODETAIL -. "Referral-program action" .-> REFERRAL
   REFSHORTCUT["Dashboard Referral shortcut"] --> REFERRAL["REFERRAL-ROOT<br/>Defined baseline"]
@@ -244,6 +247,7 @@ flowchart TD
   REFCLAIM -->|"View Reward after issuance"| RDETAIL
   REFCLAIM -. "Done / History selected" .-> REFLIST
   REFLIST -. "View issued reward" .-> RDETAIL
+  RDETAIL -. "Close; restore originating Referral context" .-> REFLIST
 
   REFLINK["Referral deeplink / QR"] --> REGISTRATION["Registration / onboarding<br/>Code prefilled and not editable"]
   REGISTRATION -. "Valid completed registration" .-> ATTRIBUTION["Referral attribution record<br/>DOC-13 / DOC-18"]

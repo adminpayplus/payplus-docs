@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.5
+version: 0.8.6
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -144,7 +144,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Participant Linking and Invitation Data | User-initiated search/input, invitation channel, deeplink/QR/app-link reference, pending participant record, linking acceptance/decline, linked participant role, and linkage audit trail. | Two-sided visibility, request delivery, support, fraud prevention, privacy-controlled communication. |
 | Risk and Compliance Data | Risk score/band, rule triggers, AML/sanctions status, duplicate evidence signals, same-party indicators, fraud flags, payout holds, admin review outcome, escalation records. | Anti-cashout, fraud prevention, compliance control, monitoring, audit. |
 | Refund, Dispute, Chargeback, and Support Data | Support tickets, user messages, dispute reason, refund case, chargeback reason code, evidence package, resolution, recovery/write-off status. | Support, dispute resolution, chargeback defense, operational learning, reporting. |
-| Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument, reward entitlement, opaque user-linked referral code/reference, registration attribution, masked referee phone, qualification progress/outcome, beneficiary role, entitlement-to-instrument link, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, attribution, abuse detection. |
+| Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument type, earning source, program context, campaign/offer/entitlement source, fulfilment method, reward entitlement, opaque user-linked referral code/reference, registration attribution, masked referee phone, qualification progress/outcome, beneficiary role, entitlement-to-instrument link, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, attribution, abuse detection. |
 | Communication and Notification Data | Notification preferences, delivery channel, message ID, template ID, delivery/read status, bill/rent reminder ID, linked obligation ID, reminder timing, custom override, active/inactive/deleted status, payment instruction action-alert status, WhatsApp/SMS/email/push logs. | Service communication, audit, support, communication performance. |
 | UI Preference and Personalization Data | Dashboard shortcut order, shortcut visibility, restore-default action, dashboard placement exposure, carousel impression/action, inbox interaction, and user-selected display preferences. | User experience personalization, product operation, consented marketing/promotion display, analytics, audit where required. |
 | Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, category usage, correction behavior, conversion, drop-off, retry behavior, spend behavior, payer/payee relationship patterns, dashboard shortcut usage, reminder opened/ignored/actioned behavior, and placement performance. | Product improvement, risk intelligence, commercial analytics, segmentation. |
@@ -272,6 +272,19 @@ Rules:
 - referral views and communications must not disclose the referee's bills, rent, evidence, payment amounts, payment cards/profiles, KYC data, payees, or internal risk reasons.
 
 DOC-13 owns referral relationship, qualification, entitlement, and reward rules. DOC-18 owns final referral objects and events. DOC-22 owns future admin access and correction controls.
+
+### 9.3 Reward Credential and Partner-Fulfilment Privacy
+
+Issued reward metadata may be displayed according to DOC-06B, but usable credentials and partner handoffs require tighter controls:
+
+- reward cards and notifications must not expose redeemable QR payloads, full partner/redemption codes, secrets, internal references, partner payloads, referral-party information, or internal risk reasons;
+- QR/code payloads should be opaque and contain no unnecessary account, identity, evidence, payment, card/profile, payee, or risk data;
+- credentials should remain concealed until deliberate reveal and current revalidation; app-switcher concealment should be used where supported, without promising generic screenshot prevention;
+- copying a code is allowed only where the fulfilment method permits it and must not expose unrelated personal or partner data;
+- cached reward metadata may be read-only with last-updated information, but credential reveal, checkout use, and partner handoff require authenticated access and current availability checks unless a separately approved fulfilment method permits otherwise;
+- external partners receive only the fields required for the approved fulfilment, reconciliation, support, legal, or contractual purpose.
+
+DOC-13 owns authoritative reward use and fulfilment. DOC-18 owns final credential-reference, access-event, reveal-event, partner-handoff, and lineage structures. DOC-19 owns technical protection and DOC-22 owns controlled operational access.
 
 ---
 
@@ -523,6 +536,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.6` | `2026-07-21` | Product Documentation Team | Added explicit classification of confirmed reward dimensions and issued-reward credential/partner-fulfilment privacy controls for safe display, opaque payloads, deliberate reveal, cached read-only metadata, partner minimization, and controlled access events. |
 | `0.8.5` | `2026-07-21` | Product Documentation Team | Restricted masked referee-phone display to attributed-referee progress in `REFERRAL-ROOT` and excluded referral reward cards, entitlement detail, claim, and issued-reward screens. |
 | `0.8.4` | `2026-07-21` | Product Documentation Team | Added referral attribution data classification and privacy rules for opaque reusable codes, no-recipient sharing, immutable normal-user attribution, masked referee phone display, restricted referral visibility, and separation from payer/payee linking. |
 | `0.1.0` | `2026-06-02` | Product Documentation Team | Initial founder working baseline for privacy, lawful data utility, data classification, registration/authentication data handling, visibility, masking, retention, vendor handling, ISO/PCI alignment, and cross-document ownership. |

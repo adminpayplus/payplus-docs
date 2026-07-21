@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.8
+version: 0.1.9
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -81,7 +81,7 @@ Example pattern:
 | Payment checkout handoff | DOC-06A / DOC-06C / DOC-09 | Partial | DOC-06 can test route handoff; DOC-09 owns checkout tests. |
 | Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial to strong | Two-tab `Cards` / `Profiles` baseline, card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary are testable; final styling and tokenization behavior remain open. |
 | Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
-| Offers and Rewards routes | DOC-06B / DOC-09 / DOC-13 / DOC-15 | Strong human-readable baseline | Section limits, Card Offers carousel behavior, three child collection screens, source/action/destination/return transitions, multi-collection membership, root duplicate suppression, stable child-list ordering, full-screen detail behavior, same-screen checkout handoff, issued-reward management, and return behavior are testable; final visual design, label taxonomy, personalization, equal-priority tie-break, and external-reward scope remain open. |
+| Offers and Rewards routes | DOC-06B / DOC-09 / DOC-13 / DOC-15 | Strong human-readable baseline | Section limits, child collection behavior, source/action/destination/return transitions, multi-collection membership, duplicate suppression, ordering, full-screen detail, checkout handoff, and issued-reward management are testable. External vouchers and miles are launch-supported; final visual design, label taxonomy, personalization, equal-priority tie-break, partner selection, fulfilment method, and operational readiness remain open. |
 | Me route | DOC-06B / DOC-15 / DOC-19 | Not Ready | Route IA pending. |
 
 ---
@@ -142,6 +142,12 @@ The DOC-06 user journey scope is satisfied when:
 - receipts or confirmations are available for completed payments;
 - users can search, view, and directly download available receipts and statements through `RECEIPTS-ROOT`, with `RECEIPT-DETAIL` and `STATEMENT-DETAIL` providing a minimal in-app PDF preview;
 - users can discover promotions through `OFFERS-ROOT`, review material conditions in `OFFER-DETAIL`, and manage issued rewards separately through `REWARDS-ROOT` and `REWARD-DETAIL`;
+- `REWARDS-ROOT` uses route-local Active and History views, route-local search, instrument filters that are not statuses, defined ordering, and loading, empty, no-match, error, and permitted cached read-only states;
+- reward cards expose approved summary fields and open `REWARD-DETAIL` without revealing redemption credentials, internal references, internal risk reasons, referral-party information, or partner payloads;
+- `REWARD-DETAIL` shows the full benefit, eligibility, restrictions, usage method, expiry, and complete terms and conditions, and exposes only a meaningful contextual action;
+- checkout-applied rewards are selected in DOC-09 checkout after card/profile selection; viewing reward detail returns to the same checkout without selection, reservation, or consumption;
+- credential reveal, copy, or external-partner open does not mark a reward Used; authoritative outcomes, duplicate retries, unknown results, and terminal display follow DOC-13 and the status-display reference matrix;
+- issued reward records preserve instrument type, earning source, participant role where applicable, program, campaign/offer/entitlement source, and fulfilment method without presenting My Rewards as a wallet or stored balance;
 - users can open complete Card, Pay+, and Partner offer collections through `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` without treating category labels as routes;
 - one Offer ID may belong to multiple discovery collections, appears once within each child list, and is suppressed from unintended repeated display on `OFFERS-ROOT` while remaining available in every relevant child list;
 - Offers child lists apply mandatory display gates and stable collection-specific admin priority without random reshuffling or MVP user sorting;
@@ -178,6 +184,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.9 | 2026-07-21 | Added Rewards acceptance coverage for Active/History views, search/filter/order and route states, safe reward cards, complete detail/T&C, checkout selection and return, credential-versus-use behavior, canonical statuses, and separate reward-data dimensions. |
 | 0.1.8 | 2026-07-21 | Added Referral child-screen acceptance coverage for role-sensitive rewards, two tabs, card/privacy boundaries, detail-first claim, idempotent issuance, lifecycle-date separation, and exceptional admin-held History presentation. |
 | 0.1.7 | 2026-07-21 | Added Referral route, sharing, registration-attribution, qualification-display, privacy-boundary, role-sensitive entitlement, claim, and canonical reward-handoff acceptance coverage. |
 | 0.1.6 | 2026-07-20 | Added Offers child-list, multi-collection, duplicate-suppression, stable-ordering, distinct-offer, same-screen checkout, highest-user-value Card Offer, separate coupon/voucher, and promotion-recalculation acceptance coverage; removed stale entry-point-ID wording. |

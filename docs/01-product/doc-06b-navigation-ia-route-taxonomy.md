@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.20
+version: 0.1.21
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -53,7 +53,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 | Pay+ action sheet | Partially defined | Working action set exists; exact order and disabled states remain open. |
 | Shortcut grid | Partially defined | Eight MVP shortcuts exist; detailed More/overflow UX remains open. |
 | Route taxonomy and ID standard | Initial baseline | Stable IDs should be assigned progressively. |
-| Non-Bills route registry | Partially defined | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, and Offers have route-level working baselines; Me, Referral, and More need future drafting. |
+| Non-Bills route registry | Partially defined | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, and Referral have route-level working baselines; Me and More need future drafting. |
 
 ---
 
@@ -1231,8 +1231,8 @@ Offers, issued rewards, and referral serve different user intentions and must no
 | `OFFERS-PAYPLUS-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all Pay+ offers. | DOC-06B | Defined baseline |
 | `OFFERS-PARTNER-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all partner offers. | DOC-06B | Defined baseline |
 | `OFFER-DETAIL` | `OFFERS-ROOT` or an Offers child list | Route-addressable full-screen modal | Understand one offer and take its configured action. | DOC-06B; DOC-13 for offer logic | Defined baseline |
-| `REWARDS-ROOT` | Rewards area | Root screen | Manage rewards already issued to the user, including supported coupons, vouchers, external-partner instruments, and miles entitlements. | DOC-06B; DOC-13 for reward logic | Defined baseline |
-| `REWARD-DETAIL` | `REWARDS-ROOT` | Route-addressable full-screen modal | View and use one issued reward according to its instrument and fulfilment method. | DOC-06B; DOC-13 for reward logic | Defined baseline |
+| `REWARDS-ROOT` | Rewards area | Root screen | Search, filter, and manage rewards already issued to the user, including launch-supported coupons, vouchers, external-partner instruments, and miles entitlements. | DOC-06B; DOC-13 for reward logic | Defined behavior |
+| `REWARD-DETAIL` | `REWARDS-ROOT` | Route-addressable full-screen modal | View one issued reward's full details, terms, status, and permitted contextual action. Checkout, Referral, notification, and deeplink are alternative entry contexts, not route parents. | DOC-06B; DOC-13 for reward logic; DOC-09 for checkout | Defined behavior |
 | `REFERRAL-ROOT` | Referral area | Root screen | Share the user's reusable referral link/code, select an active campaign where applicable, monitor attributed-referee qualification, and enter role-sensitive referral reward management. | DOC-06B; DOC-13 for referral logic | Defined baseline |
 | `REFERRAL-REWARDS-LIST` | `REFERRAL-ROOT` | Child list screen | View the current user's corresponding referrer and referee reward entitlements through `Available to Claim` and `History` views. | DOC-06B; DOC-13 for entitlement logic | Defined behavior |
 | `REFERRAL-ENTITLEMENT-DETAIL` | `REFERRAL-REWARDS-LIST` | Child detail screen | View one referral reward entitlement's campaign, benefit, conditions, claim deadline, usage expiry, and available action without displaying referral-party information. | DOC-06B; DOC-13 for entitlement logic | Defined behavior |
@@ -1242,7 +1242,7 @@ Offers, issued rewards, and referral serve different user intentions and must no
 
 What's New is not an Offers category by default. A dashboard What's New item should open its announcement or feature destination unless the item is also an approved offer governed by DOC-13.
 
-Coupons, vouchers, external vouchers, and miles are reward types or views inside `REWARDS-ROOT`; they are not separate routes by default. A direct checkout discount, service-fee waiver, or special rate is not an issued reward and must not appear in `REWARDS-ROOT` unless DOC-13 creates a separate reward entitlement or instrument.
+Coupons, vouchers, external-partner benefits, and miles are reward-instrument classifications inside `REWARDS-ROOT`; they are not separate routes. A direct checkout discount, service-fee waiver, or special rate is not an issued reward and must not appear in `REWARDS-ROOT` unless DOC-13 creates a separate reward entitlement or instrument.
 
 Navigation is defined by transition rather than by assigning an ID to every entry action:
 
@@ -1258,6 +1258,7 @@ Navigation is defined by transition rather than by assigning an ID to every entr
 | `OFFERS-ROOT` | Tap My Rewards banner | `REWARDS-ROOT` | Return to the prior Offers position. |
 | Home rewards icon | Tap | `REWARDS-ROOT` | Return to Home. |
 | `REWARDS-ROOT` | Tap a reward | `REWARD-DETAIL` | Return with the prior view and scroll state preserved. |
+| DOC-09 checkout reward selector | Tap `View Details` for an eligible reward | `REWARD-DETAIL` | Close returns to the same checkout context without consuming, reserving, or selecting the reward. |
 | Dashboard Referral shortcut or `Me` | Tap Referral | `REFERRAL-ROOT` | Return to the originating context. |
 | `OFFER-DETAIL` | Take a referral-program action | `REFERRAL-ROOT` | Return to the originating offer where supported. |
 | `REFERRAL-ROOT` | Tap `View Referral Rewards` | `REFERRAL-REWARDS-LIST` | Return to the selected campaign and prior Referral position. |
@@ -1362,23 +1363,46 @@ If redemption fails or the user is not eligible, no entitlement or reward instru
 
 #### 5.16.4 `REWARDS-ROOT` and `REWARD-DETAIL`
 
-The working user-facing label for `REWARDS-ROOT` is `My Rewards`. It is a management surface for issued benefits, not a wallet, stored balance, transferable value, or cashout right.
+The user-facing label for `REWARDS-ROOT` is `My Rewards`. It manages issued reward instruments and is not a wallet, stored balance, transferable value, cashout right, campaign-discovery route, referral-progress route, or checkout owner.
 
-Recommended views are `Active`, `Used`, and `Expired`. Reward-type filters may distinguish coupons, vouchers, miles, or partner benefits without creating separate routes.
+`REWARDS-ROOT` has two route-local views:
 
-Each reward item should show:
+- `Active`: non-terminal instruments shown with `Available`, `Action Required`, `In Progress`, or `Under Review` status as defined in the status-display reference matrix;
+- `History`: terminal instruments shown with `Used`, `Credited`, `Expired`, or `Reversed` status.
 
-- reward name and source campaign or program;
-- benefit summary;
-- reward type;
-- issue date where useful;
-- expiry or usage period;
+Search is route-local and may match reward name, partner/program, source, and approved benefit wording. It must not search or expose redemption credentials or internal references. Instrument filters are `All`, `Coupons & Codes`, `Vouchers`, `Partner Benefits`, and `Miles`; these are classifications, not statuses. Any status filter must use the status-display reference matrix.
+
+Active ordering is: Action Required; Available rewards within the configurable expiring-soon window by nearest expiry; other Available rewards by expiry with no-expiry items last; In Progress; Under Review. The default expiring-soon window is seven calendar days. History uses latest lifecycle event first. User sorting is not required for MVP.
+
+A reward card is a component, not a route. It shows:
+
+- reward name and benefit summary;
+- source, program, or sponsor;
+- instrument type;
 - current user-facing status;
-- `View` or `Use` action where available.
+- relevant expiry, completion, or lifecycle date;
+- `View Details`.
 
-`REWARD-DETAIL` opens as a full-screen modal. It shows a reward key visual, Close icon, reward details, and contextual action button. Reward details include the selected instrument's benefit, source, conditions, status, expiry, and permitted use method. Depending on DOC-13 fulfilment rules, the action may support checkout use, QR display, partner code, deeplink, or another approved in-app or external fulfilment destination; miles status or non-sensitive failure/reversal information may be shown without a use action.
+The card and `View Details` open `REWARD-DETAIL`. Cards must not reveal QR credentials, redemption codes, internal risk reasons, referral-party information, or partner payloads. Loading, no-rewards, no-active-rewards, no-history, no-match with reset, recoverable-error with Retry, and permitted cached read-only states must be supported. `Explore Offers` may appear only when no issued rewards exist; an empty Active view should preserve access to History.
 
-If a reward cannot be used, the action must be hidden or disabled with a clear reason. Expired, used, reversed, or unavailable rewards remain viewable according to retention and user-record rules but must not be presented as active value.
+`REWARD-DETAIL` opens as a full-screen modal and shows, in order:
+
+1. Close control and reward key visual;
+2. reward name and full benefit;
+3. current status and safe explanation;
+4. source, campaign, program, or sponsor;
+5. instrument type, issue date, usage period, and expiry;
+6. full eligibility, restrictions, limits, and usage method;
+7. complete, expandable terms and conditions;
+8. one contextual action only where meaningful.
+
+Checkout coupons, vouchers, and discounts normally show `Available at checkout` and their conditions without a default direct-use action. Reward selection remains in the DOC-09 checkout after the payer selects a payment card or payment profile. If detail is opened from checkout, Close returns to the same checkout context without changing reward selection.
+
+External instruments may expose only their configured action, such as `Show QR`, `Reveal Code`, permitted `Copy Code`, or `Open Partner`. Miles instruments show fulfilment progress and masked destination-account information where permitted, without a use action. `Action Required` may expose the action needed to resolve the issue. Held or terminal instruments show a safe explanation and no decorative use button.
+
+Revealing or copying a credential, opening a partner destination, or viewing detail does not mark an instrument `Used`. Only an authoritative DOC-13 redemption or fulfilment result changes lifecycle status. On return from an external destination, PayPlus refreshes the same detail without assuming success. Unknown outcomes must prevent unsafe duplicate use until reconciled.
+
+Closing detail restores its origin: Rewards preserves view, search, filter, list order, and scroll; Referral restores its prior context; checkout restores checkout; notification or deeplink returns to prior app context where available, otherwise to `REWARDS-ROOT`. Cached non-sensitive metadata may be read-only with last-updated information, but checkout use, credential reveal, and partner handoff require current revalidation unless a later approved fulfilment method explicitly permits otherwise.
 
 #### 5.16.5 Referral Routes
 
@@ -1452,12 +1476,12 @@ Material route-level signals for later DOC-18 specification include offer impres
 
 | Item | Owner | Status |
 | --- | --- | --- |
-| Final `My Rewards` user-facing label and icon | Product / Design | Open |
+| Final My Rewards icon | Product / Design | Open; user-facing label confirmed |
 | Final Pay+ and Partner Offer label taxonomy and launch visibility | Product / Growth / Design | Open |
 | Final offer/reward card styling, density, and empty-state copy | Product / Design | Open |
 | Final personalized ranking and targeting scope | Product / Growth / Privacy | Open |
 | Final membership-program route destination | Product / Growth | Open |
-| Final external-partner reward MVP scope | Product / Commercial | Open |
+| Final launch partner activation, credential, fulfilment, and reconciliation method for each external reward | Product / Commercial / Operations / Engineering | Open; launch capability confirmed |
 | Final referral campaign reward values, qualification conditions, payment/risk finality, technical deeplink/QR format, and multi-campaign visual design | Product / Growth / Risk / Design / Engineering | Open; admin-configurable baseline defined |
 
 ## 6. Route Completion Status
@@ -1467,7 +1491,7 @@ Material route-level signals for later DOC-18 specification include offer impres
 | Home Dashboard | Partially Defined | Confirm card-level UI, notice priority, carousel behavior, dashboard activity cap, and empty states. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Pay+ | Partially Defined | Confirm visual order, disabled states, eligibility copy, and final action limits. |
-| Offers and Rewards | Child-List Baseline Defined / Not Final Visual Design | `OFFERS-ROOT`, the three `OFFERS-*-LIST` child screens, `OFFER-DETAIL`, `REWARDS-ROOT`, and `REWARD-DETAIL` purpose, hierarchy, shared child-list behavior, collection membership, duplicate handling, display ordering, core fields, actions, and handoffs are defined. Confirm final styling, label taxonomy, personalization, equal-priority fallback, and external-reward scope. |
+| Offers and Rewards | Defined Behavior / Not Final Visual Design | Offers discovery and child-list behavior are defined. `REWARDS-ROOT` Active/History views, search, filters, ordering, cards, route states, `REWARD-DETAIL`, checkout return, and contextual fulfilment actions are defined. Confirm final styling, Offers label taxonomy, personalization, equal-priority fallback, and partner-specific activation methods. |
 | Me | Not Fully Defined | Define profile, settings, privacy, notification, security, payment-method, and support routes. |
 | Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
 | Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/archive rules, and payment-profile handoff behavior. |
@@ -1492,12 +1516,13 @@ Material route-level signals for later DOC-18 specification include offer impres
 | OQ-06B-008 | What exact Payment Profile card styling, field density, empty-state copy, tokenization return UX, and permitted PSP card metadata should be used? Two-tab `Cards` / `Profiles` structure is confirmed. | Product / Design / Payments / Security | Partially open |
 | OQ-06B-009 | What exact Activity visual styling, field density, search/filter behavior, grouping behavior, empty-state copy, lifecycle timeline wording, and transaction-detail display should be used? Screen order, expandable entry behavior, amount direction, and core actions are defined. | Product / Design / Payments / Operations | Partially open |
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
-| OQ-06B-011 | What final `My Rewards` label/icon, Pay+ and Partner Offer label taxonomy, card styling, personalized ranking scope, membership destination, external-partner reward scope, and Card Offers randomization cadence should apply? | Product / Design / Growth / Privacy / Commercial | Partially open |
+| OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Pay+ and Partner Offer label taxonomy, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed. | Product / Design / Growth / Privacy / Commercial | Partially open |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.21 | 2026-07-21 | Defined `My Rewards` Active/History views, search and instrument filters, ordering, reward-card fields, full `REWARD-DETAIL` content and terms, contextual fulfilment actions, checkout-detail return, credential/use boundary, route states, and secure return behavior. |
 | 0.1.20 | 2026-07-21 | Defined Referral child-screen behavior for role-sensitive referrer/referee entitlements, two list tabs, reward-card fields and privacy boundary, detail and claim UI, idempotent success handling, canonical reward handoff, and exceptional admin-held `Under Review` presentation. |
 | 0.1.19 | 2026-07-21 | Defined the Referral route family, reusable share behavior, registration attribution handoff, qualification display, referrer entitlement list/detail/claim flow, role-sensitive reward handoff, privacy boundary, and distinction between referral entitlements and canonical issued reward instruments. |
 | 0.1.18 | 2026-07-20 | Defined the three Offers child-list baselines, clarified offer card versus payment card versus Card Offer terminology, added multi-collection membership, root duplicate suppression, stable collection-specific ordering, list states, return preservation, and DOC-09/DOC-13 checkout handoff. |

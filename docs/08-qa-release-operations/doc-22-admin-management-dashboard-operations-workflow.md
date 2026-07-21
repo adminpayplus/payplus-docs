@@ -179,6 +179,23 @@ Required capabilities include:
 
 Detailed Referral route behavior belongs in DOC-06B. Referral, qualification, entitlement, and reward rules belong in DOC-13. Privacy and masking belong in DOC-15. Final objects, identifiers, statuses, events, and lineage belong in DOC-18.
 
+### 18.7 Reward Instrument and Fulfilment Operations
+
+Future full DOC-22 drafting must support the confirmed canonical reward lifecycle without redefining DOC-13 business rules.
+
+Required capabilities include:
+
+- manage activation and operational readiness for launch-supported external-voucher and miles fulfilment methods;
+- view instrument type, earning source, participant role where applicable, program, campaign/offer/entitlement source, fulfilment method, and canonical status as separate dimensions;
+- review Action Required, In Progress, Under Review, unknown-result, partner-failure, duplicate-use, and reconciliation exceptions;
+- perform permitted hold, release, reverse, void, restore, reissue, or fulfilment-retry actions with permission, reason, user-notice, and audit controls;
+- prevent duplicate issuance or use by reconciling repeated, concurrent, retried, and uncertain operations against the authoritative result;
+- configure the seven-calendar-day expiring-soon default and later approved fixed-count usage where enabled;
+- define hold-versus-expiry behavior after the open DOC-13 policy decision is resolved;
+- restrict credential reveal, export, partner payload, and internal reason access according to DOC-15 and DOC-19.
+
+Detailed reward logic and status meaning belong in DOC-13 and the status-display reference matrix. User-facing screens belong in DOC-06B, checkout selection in DOC-09, privacy in DOC-15, and final objects/events in DOC-18.
+
 ## 19. Audit Logging Requirements
 
 ## 20. Notifications and Escalations
@@ -219,6 +236,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.8.0 | 2026-07-21 | Added future Reward operations markers for launch-supported partner/miles readiness, separate data dimensions, lifecycle and exception queues, authoritative/idempotent fulfilment, expiry configuration, hold-versus-expiry follow-up, and credential access controls. |
 | 0.7.0 | 2026-07-21 | Added future Referral admin markers for entitlement-time quota reservation and terms snapshot, separate campaign/claim/use dates, idempotent claim oversight, and authorized hold/release handling for exceptional `Under Review` presentation. |
 | 0.6.0 | 2026-07-21 | Added future Referral Program, campaign, role-sensitive offer, qualification, finality, quota, validity, privacy-safe review, entitlement hold/release/reversal, attribution-correction, and audit configuration markers. |
 | 0.5.0 | 2026-07-20 | Added future admin markers for multi-collection Offers, primary root placement, duplicate suppression and override, per-collection priority, payment-method-sensitive application mode, highest-user-value comparison, and audit controls. |

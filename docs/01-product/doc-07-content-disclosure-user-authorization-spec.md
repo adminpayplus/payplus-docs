@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.9.2
+version: 0.9.3
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-14
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -334,6 +334,8 @@ Before payer authorization, PayPlus must show:
 
 Exact fee rates, fee allocation, coupons, vouchers, promotion codes, discount codes, rewards, miles, membership benefits, refunds, and reversals remain to be confirmed and should be admin-configurable. Promotion calculation and entitlement rules belong in DOC-13.
 
+For an issued reward, `REWARD-DETAIL` must disclose the full benefit, eligibility, restrictions, usage method, limits, issue and usage dates, expiry, status explanation, and complete terms and conditions. Checkout-applied rewards must be shown as available candidates only after current eligibility is evaluated in DOC-09 checkout; viewing details must not imply selection, reservation, use, or guaranteed application.
+
 PayPlus must not hide payer-facing fees inside vague or misleading wording.
 
 ---
@@ -590,6 +592,7 @@ DOC-07 is acceptable when:
 | 0.8.0 | 2026-06-02 | Added deferred payment instruction quote revalidation disclosure for payment quote, promotion quote, card eligibility, fee, timing, and changed checkout terms. |
 | 0.9.0 | 2026-06-17 | Aligned reminder disclosure boundaries with DOC-06 reminder list/detail routes by distinguishing recurring reminders from automatic recurring payment or stored authorization. |
 | 0.9.1 | 2026-07-06 | Aligned disclosure requirements with DOC-06B Payment Profile route and DOC-09 split-card profile rules, including masked card/profile summaries, 6-card cap, and incomplete-profile warnings before authorization. |
+| 0.9.3 | 2026-07-21 | Added issued-reward detail disclosure requirements for full benefit, eligibility, restrictions, usage, limits, dates, status, and complete terms, while separating detail viewing from checkout selection and consumption. |
 | 0.9.2 | 2026-07-14 | Clarified that authorization records require a request ID only where the payment originated from a request. |
 | 0.4.0 | 2026-06-01 | Aligned disclosure requirements with DOC-13 by adding promotion quote, coupon/voucher, reward, miles, membership, entitlement, expiry, and authorization-audit wording boundaries. |
 | 0.3.0 | 2026-05-30 | Aligned disclosure requirements with DOC-12 OCR/autofill, evidence correction, duplicate/reused evidence warning, verification status, and sensitive extracted-field display controls. |

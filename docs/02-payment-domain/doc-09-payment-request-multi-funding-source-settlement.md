@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.6
+version: 1.0.7
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-07-20
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -179,10 +179,10 @@ DOC-06B `REQUESTS-NEW` is a request creation and party-linking route, not a paym
 1. Request is created through an approved payer-created, payee-created, admin-created, or system-generated path.
 2. Evidence is uploaded, processed, corrected, and verified where required by DOC-12.
 3. System applies eligibility gates.
-4. System obtains promotion quote where promotions or rewards are enabled.
-5. System creates payment quote.
-6. Payer selects eligible card or split-card payment profile.
-7. System recalculates promotion and payment quote if selected card or profile affects eligibility.
+4. System prepares the obligation amount, normal service fee, and preliminary payment context.
+5. Payer selects an eligible card or split-card payment profile.
+6. System evaluates and displays payment-method-sensitive offers and separately selectable eligible checkout rewards under DOC-13.
+7. System creates or recalculates the promotion and payment quote for payer review.
 8. Payer chooses pay now, creates a pending payment instruction, or continues an incomplete payment instruction.
 9. For pay-now flow, payer authorizes payment and system submits payment through approved PSP/acquirer flow.
 10. For payment instruction flow, system stores or updates the instruction and sends the payer back to the relevant instruction detail or payment/checkout screen when action is required.
@@ -423,7 +423,7 @@ Rules:
 - payment method changes after authorization require reauthorization where material;
 - admin users must not select payment methods for a payer unless a separately approved support process exists.
 
-### 10.1 Payment-Method-Sensitive Offers in Checkout
+### 10.1 Payment-Method-Sensitive Offers and Rewards in Checkout
 
 Payment-card/profile selection and available-offer handling must occur in the same checkout screen or step before payer authorization.
 
@@ -433,9 +433,12 @@ Required behavior:
 2. PayPlus evaluates payment-method-sensitive Card Offers against the selected payment card and, for split payment, each applicable funding leg.
 3. Where more than one Card Offer is eligible for the same payment card or funding leg, DOC-13 automatically selects the single offer with the highest user value.
 4. Checkout displays the automatically applied Card Offer and resulting benefit; the payer does not manually choose a competing Card Offer.
-5. A separate eligible coupon, voucher, or discount code may also be selected and applied under DOC-13 rules.
-6. Checkout recalculates and displays the service fee, discount, total promotion impact, and final total.
-7. The payer reviews the final payment quote before authorization.
+5. Checkout displays the separately selectable issued coupons, vouchers, discount codes, or other approved checkout rewards that remain eligible for the current obligation, amount, payment method, and stacking context.
+6. The payer may select one permitted reward under DOC-13 rules; `View Details` opens DOC-06B `REWARD-DETAIL` and Close returns to the same checkout without selecting, reserving, or consuming it.
+7. Checkout revalidates status, expiry, availability, stacking, caps, limits, and current eligibility, then recalculates the service fee, discount, total promotion impact, and final total.
+8. The payer reviews the final payment quote before authorization.
+
+Checkout is the canonical selection point for checkout-applied rewards. `REWARDS-ROOT` and `REWARD-DETAIL` do not create a second payment path. Selecting or viewing a reward does not consume it; DOC-13 determines the authoritative redemption or fulfilment result. Failed, cancelled, or uncertain outcomes must follow DOC-13 release, restoration, idempotency, and reconciliation rules before another use is allowed.
 
 Changing the payment card, payment profile, funding allocation, payment amount, obligation, or another material eligibility input must clear or replace an invalid promotion result, explain the change where user-relevant, and generate a revised quote before authorization.
 
@@ -711,6 +714,7 @@ DOC-09 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.7 | 2026-07-21 | Clarified the canonical checkout sequence: payment-card/profile selection precedes offer and reward evaluation; checkout displays eligible issued rewards, supports detail-and-return without selection or consumption, revalidates before authorization, and remains the sole checkout selection owner. |
 | 1.0.6 | 2026-07-20 | Added same-screen payment-card/profile and offer handling, automatic highest-user-value Card Offer selection per funding leg, separate coupon/voucher/discount selection, and quote recalculation before authorization. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for payment request, card funding, multi-card funding, payment profiles, tokenization boundary, payer authorization, step-up authentication, payment status, failure handling, and settlement readiness. |
 | 0.3.0 | 2026-05-30 | Aligned payment eligibility and quote rules with DOC-12 evidence verification outcomes, final evidence snapshots, duplicate/reused evidence routing, and evidence-related payment blocks. |

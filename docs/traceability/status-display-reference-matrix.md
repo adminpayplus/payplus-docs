@@ -61,6 +61,27 @@ User-facing labels should be mapped from system/domain statuses. A route should 
 
 ---
 
+## Reward Instrument Lifecycle - MVP Display Mapping
+
+`Active` and `History` are route-local views in `REWARDS-ROOT`, not statuses. Instrument filters such as Coupons & Codes, Vouchers, Partner Benefits, and Miles are classifications and must not be used as lifecycle labels.
+
+| Domain | Stage / Status Type | System / Domain State | Owning Doc | User-Facing Label | Appears In | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| Reward Instrument Lifecycle | Issued and usable | Issued instrument passes current eligibility and availability checks | DOC-13 | `Available` | Rewards Active, reward detail, checkout selector | Checkout must revalidate before authorization. |
+| Reward Instrument Lifecycle | Recoverable issue | Issued instrument requires user correction or permitted setup | DOC-13 | `Action Required` | Rewards Active, reward detail | Show only the permitted resolution action and a safe explanation. |
+| Reward Instrument Lifecycle | Fulfilment pending | Redemption or partner/miles fulfilment submitted but not final | DOC-13 | `In Progress` | Rewards Active, reward detail | Internal `Processing` may exist but is not a separate persistent user-facing label. |
+| Reward Instrument Lifecycle | Held for review | Issued instrument is temporarily inactive under approved review | DOC-13 / DOC-14 / DOC-22 | `Under Review` | Rewards Active, reward detail | Do not expose internal risk reasons. Hold-versus-expiry treatment remains open. |
+| Reward Instrument Lifecycle | Authoritative consumption | Checkout, QR, code, partner, or other approved use confirmed | DOC-13 | `Used` | Rewards History, reward detail | Reveal, copy, or partner-link open alone does not establish this state. |
+| Reward Instrument Lifecycle | Value delivered | Miles or another non-use fulfilment confirmed delivered | DOC-13 | `Credited` | Rewards History, reward detail | Use when delivery, not consumption, is the terminal outcome. |
+| Reward Instrument Lifecycle | Usage period ended | Instrument expired before authoritative use/delivery | DOC-13 | `Expired` | Rewards History, reward detail | Exact hold-versus-expiry precedence remains open. |
+| Reward Instrument Lifecycle | Withdrawn or clawed back | Instrument voided, reversed, or clawed back under an approved rule | DOC-13 / DOC-11 | `Reversed` | Rewards History, reward detail | Show a safe explanation and preserve audit history. |
+
+A partner or miles `failed` state is domain/internal, not an additional display label. Map it to `In Progress` while unresolved or automatically retrying, `Action Required` where the user can resolve it, or `Reversed` where the instrument is terminally withdrawn. Preserve the underlying failure and reason for operations and audit under DOC-18/DOC-22.
+
+Referral claim `Issued` means that an entitlement created one canonical reward instrument. It is not the issued instrument's ongoing status. A claimed referral item may remain in Referral Rewards `History` while the canonical instrument appears in My Rewards Active as `Available`, `Action Required`, `In Progress`, or `Under Review`, and later in My Rewards History as `Used`, `Credited`, `Expired`, or `Reversed`.
+
+---
+
 ## Future Status Domains
 
 The following domains should be aligned later as their routes, checkout screens, admin workflows, and technical specs mature. They are not all MVP for the current Activity / Receipts route drafting step.
@@ -72,9 +93,9 @@ The following domains should be aligned later as their routes, checkout screens,
 | Payment Lifecycle | Payment, funding leg, settlement, payout, refund, reversal, return, failed, under review. | DOC-09, DOC-10, DOC-11, DOC-14, DOC-18 |
 | Payment Instruction Lifecycle | Pending instruction, incomplete instruction, expired, cancelled, archived. | DOC-06B, DOC-09, DOC-18 |
 | Evidence Lifecycle | Uploaded, processing, approved, rejected, update required, archived. | DOC-06C, DOC-12, DOC-18, DOC-22 |
-| Promotion / Reward Lifecycle | Eligible, applied, redeemed, reversed, expired, clawed back. | DOC-13, DOC-18, DOC-22 |
+| Promotion Eligibility and Quote Lifecycle | Eligible, selected, applied, reserved, recalculated, released, or rejected before or during checkout. Issued reward-instrument display uses the MVP mapping above. | DOC-09, DOC-13, DOC-18, DOC-22 |
 | Referral Qualification Lifecycle | `In Progress`, `Qualified`, `Not Qualified`, `Under Review`. These labels belong to attributed-referee progress in `REFERRAL-ROOT`. | DOC-06B, DOC-13, DOC-18, DOC-22 |
-| Referral Reward Presentation | `Available to Claim`, `Issued`, `Expired`, `Reversed`. Entitlement and issued-instrument states reuse the Promotion / Reward Lifecycle rather than create a referral-only status family. `Processing` is transient/internal. `Under Review` appears only as an exceptional inactive History projection when an administrator holds an already-claimed entitlement or issued reward. | DOC-06B, DOC-13, DOC-18, DOC-22 |
+| Referral Reward Presentation | `Available to Claim`, `Issued`, `Expired`, `Reversed`. Entitlement presentation does not create a referral-only issued-instrument status family. `Processing` is transient/internal. A held claim record may remain inactive in Referral History as `Under Review`, while the canonical issued instrument follows the Reward Instrument Lifecycle mapping above. | DOC-06B, DOC-13, DOC-18, DOC-22 |
 | Account / Security Lifecycle | Verification, login, device, passcode, suspended, restricted. | DOC-15, DOC-19, DOC-22 |
 | Support / Case Lifecycle | Open, pending information, under review, resolved, closed. | DOC-11, DOC-14, DOC-21, DOC-22 |
 

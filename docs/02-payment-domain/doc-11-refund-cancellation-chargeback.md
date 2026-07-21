@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 0.6.1
+version: 0.6.2
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Payments Lead
   - Operations Lead
   - Finance Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -314,6 +314,8 @@ Refund, cancellation, reversal, dispute, and chargeback cases may affect:
 
 Exact fee refundability, fee reversal, coupon restoration, voucher reversal, reward entitlement clawback, miles reversal, promotion clawback, and allocation logic remain to be confirmed and should be configurable where appropriate.
 
+When DOC-13 determines an authoritative reward restoration, expiry, void, reversal, or clawback outcome, the canonical issued instrument must update once under the corresponding user-facing status. A restored usable instrument returns to `REWARDS-ROOT` Active as `Available`; terminal expiry, void, reversal, or clawback outcomes appear in History as `Expired` or `Reversed` as applicable. Uncertain or duplicate refund/chargeback callbacks must not independently restore or reverse the same instrument.
+
 DOC-02 owns business model and unit economics. DOC-13 owns promotion, entitlement, instrument, and fulfilment rules. DOC-18 owns ledger and reporting treatment. DOC-07 and DOC-08 own user-facing disclosure and receipt wording.
 
 ---
@@ -555,6 +557,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.6.2` | `2026-07-21` | Product Documentation Team | Linked authoritative reward restoration/reversal outcomes to canonical My Rewards Active/History status, including restored usable rewards returning to Active, and prohibited duplicate outcome application from uncertain or repeated callbacks. |
 | `0.3.0` | `2026-05-30` | Product Documentation Team | Aligned case handling with DOC-12 by adding evidence verification history, OCR/extracted field and user correction records, duplicate/reused evidence indicators, and verification-outcome linkage for refunds, disputes, chargebacks, payout holds, and recovery decisions. |
 | `0.4.0` | `2026-06-01` | Product Documentation Team | Aligned refund and chargeback treatment with DOC-13 by adding reward entitlement, coupon/voucher restoration, miles, membership benefit, external voucher, and promotion clawback references. |
 | `0.5.0` | `2026-06-02` | Product Documentation Team | Aligned case records, evidence packages, funding-source allocation, recovery, and support data with DOC-15 classification metadata and DOC-18 lineage requirements. |

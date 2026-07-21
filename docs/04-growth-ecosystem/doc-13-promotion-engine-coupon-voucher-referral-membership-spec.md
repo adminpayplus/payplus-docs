@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.1.1
+version: 1.2.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -99,10 +99,10 @@ DOC-13 does not own:
 | Card-linked offers | Selected tokenized payment-card reference or gateway-returned card metadata is preferred; BIN check is supplementary. |
 | Service-fee benefits | Service-fee rate changes, reductions, or waivers are calculated before absolute checkout amount discounts. |
 | Spending rewards | Accumulated spend rewards track entitlement, not raw card usage. |
-| Issued rewards management | Reward instruments from different sources may appear together in DOC-06B `REWARDS-ROOT` under the working label `My Rewards`, with source and instrument type preserved. This must not create a wallet, stored balance, transferable value, or cashout right. |
+| Issued rewards management | Reward instruments from different sources may appear together in DOC-06B `REWARDS-ROOT` under the confirmed label `My Rewards`, with independent source, instrument, role, program, campaign/offer/entitlement, and fulfilment dimensions preserved. This must not create a wallet, stored balance, transferable value, or cashout right. |
 | MGM and membership | Referral/MGM and membership/tier are separate qualification modules. |
-| Asia Miles | Miles reward is supported; API auto-credit is optional and to be confirmed. |
-| External vouchers | Framework included; QR, deeplink, code, API, file, webhook, or manual fulfilment may be supported. |
+| Asia Miles | Launch-supported reward type; final provider method, account validation, API/portal/file/manual fulfilment, and reconciliation remain to be confirmed. |
+| External vouchers | Launch-supported reward type; each partner method must be configured and operationally ready before activation. QR, deeplink, code, API, file, webhook, or manual fulfilment may be supported. |
 | Stacking | Configurable by offer and campaign, with conservative defaults. |
 | Dashboard placement | Featured / What's New / Hot Offer is a DOC-06B dashboard carousel placement. DOC-13 owns campaign, offer, eligibility, entitlement, budget, and reversal logic; DOC-22 owns admin placement controls. |
 | Promotion intelligence | Promotion analytics, offer ranking, campaign measurement, and partner reporting must follow DOC-15 data-use tiers and DOC-18 event, lineage, and model-readiness rules. |
@@ -798,6 +798,27 @@ Instrument types:
 
 Redemption / fulfilment records later use or delivery, such as checkout redemption, QR redemption, partner API confirmation, manual fulfilment, or Asia Miles crediting.
 
+Reward records must not overload one `reward type` field with unrelated meanings. The logical model must preserve these independent dimensions:
+
+| Dimension | Required Meaning | Examples |
+| --- | --- | --- |
+| Instrument type | What was issued and how it may be used or fulfilled. | Cash coupon, discount code, voucher, external benefit, miles entitlement. |
+| Earning source | Why the user earned or received it. | Referral, spending, membership, partner campaign, approved administration. |
+| Participant role | Which role earned the entitlement where role-sensitive. | Referrer, referee, payer, payee, not applicable. |
+| Program context | Which business program produced the entitlement. | Referral Program, membership program, partner promotion. |
+| Campaign and offer source | Which approved campaign, offer, and entitlement created the instrument. | Campaign ID, Offer ID, Entitlement ID. |
+| Fulfilment method | How authoritative use or delivery is confirmed. | Checkout, QR, code, partner link, API, file, portal, manual, miles credit. |
+
+A referral cash coupon is therefore a cash-coupon instrument earned from referral, linked to its campaign and entitlement, and marked with `referrer` or `referee` beneficiary role. These dimensions are business requirements in DOC-13; DOC-18 owns final objects, keys, field names, relationships, lineage, and events.
+
+Issued instruments use the status-display reference matrix. Non-terminal instruments appear in DOC-06B `REWARDS-ROOT` Active view as `Available`, `Action Required`, `In Progress`, or `Under Review`; terminal instruments appear in History as `Used`, `Credited`, `Expired`, or `Reversed`. `Active` and `History` are views, not statuses. Referral claim `Issued` describes entitlement-to-instrument conversion; the issued instrument then uses the canonical reward lifecycle.
+
+MVP instruments are single-use by default and must not create a monetary partial-use balance. A future instrument may permit a fixed count of atomic uses only where the offer rules define the count, authoritative confirmation, remaining-use presentation, reversal, and reconciliation behavior. An instrument remains non-terminal until its permitted uses are exhausted.
+
+Viewing details, revealing or copying an approved credential, or opening a partner destination does not by itself confirm use. One authoritative redemption or fulfilment outcome must determine `Used`, `Credited`, `Action Required`, or another approved state. Duplicate taps, retries, callbacks, and uncertain outcomes must resolve idempotently; an unknown result must block unsafe repeated use until reconciled.
+
+For checkout instruments, DOC-09 owns selection after payment-card/profile choice. DOC-13 revalidates eligibility, availability, stacking, limits, and status before authorization and records consumption only at the configured authoritative result. `REWARD-DETAIL` is primarily informational and does not create a second checkout path.
+
 A referral code/link is an attribution credential, not a reward instrument. It must be stored and governed through the referral relationship and campaign-attribution model below.
 
 ### 8.8 Referral Relationship and Qualification
@@ -860,6 +881,8 @@ For multi-card payments, the card-linked benefit should apply only to the eligib
 
 DOC-06B `REWARDS-ROOT` may show issued instruments from different earning sources, including referral reward, spending reward, membership reward, or partner campaign. Source metadata and instrument type must remain preserved.
 
+The route may combine those instruments in one list only because instrument type, earning source, participant role where applicable, program context, campaign/offer source, and fulfilment method remain separately identifiable. Referral role is not an instrument type, and a cash coupon is not inherently a referral reward.
+
 The UI does not need to show every structured field separately. It may show a human-readable summary, key conditions, expiry, status, and expandable terms. DOC-06B owns route/screen placement; DOC-07 owns wording.
 
 Asia Miles rewards should support:
@@ -868,8 +891,10 @@ Asia Miles rewards should support:
 - account validation status where available;
 - miles formula;
 - eligible amount;
-- pending, submitted, credited, failed, reversed statuses;
+- pending, submitted, credited, failed, and reversed domain states, mapped to the approved user-facing reward labels in the status-display reference matrix;
 - manual, file, portal, API, webhook, or manual adjustment fulfilment.
+
+`Failed` is a domain outcome, not a separate user-facing reward label. While the outcome is unresolved or automatically retrying, display `In Progress`; where the user can correct it, display `Action Required`; where the instrument is terminally withdrawn, display `Reversed`. DOC-18 must preserve the underlying failure state and reason without exposing internal-only detail.
 
 If auto-credit is available, DOC-08 must support app communication and notification.
 
@@ -1007,7 +1032,7 @@ If future AI or model-assisted ranking is used for offers or placements, DOC-13 
 | OQ-13-003 | Which card metadata fields will PSP/acquirer/gateway return for tokenized card eligibility? | Payments / Engineering / Security | Open |
 | OQ-13-004 | What normal service fee rates, special rates, fee reductions, and waivers are approved? | Commercial / Finance | Open |
 | OQ-13-005 | What campaign budget and approval workflow is required? | Commercial / Finance / Project Owner | Open |
-| OQ-13-006 | Are external partner vouchers MVP, pilot, or future only? | Product / Commercial | Open |
+| OQ-13-006 | Which external voucher partners and fulfilment methods are operationally ready for launch activation? External vouchers are a launch-supported reward type. | Product / Commercial / Operations / Engineering | Open; launch capability confirmed |
 | OQ-13-007 | Is Asia Miles auto-credit through API available, or will fulfilment start with manual/batch reconciliation? | Product / Partnerships / Engineering | Open |
 | OQ-13-008 | What Asia Miles account validation, consent, and retention rules are required? | Legal / Privacy / Partnerships | Open |
 | OQ-13-009 | Which admin-configured referral qualification conditions and source events are enabled for the MVP campaign? | Product / Growth / Risk / Operations | Open; configurable requirement confirmed |
@@ -1018,6 +1043,7 @@ If future AI or model-assisted ranking is used for offers or placements, DOC-13 
 | OQ-13-014 | Which promotion, partner, announcement, referral, or feature items may appear in the DOC-06B Featured / What's New / Hot Offer carousel, and what approval, targeting, and consent rules apply? | Product / Growth / Privacy | Open |
 | OQ-13-015 | What data may be used for offer ranking, placement personalization, campaign lift measurement, and partner-funded offer reporting? | Product / Growth / Privacy | Open |
 | OQ-13-016 | What aggregation, de-identification, report approval, and partner-contract controls are required before campaign performance data is shared externally? | Growth / Privacy / Legal | Open |
+| OQ-13-017 | When a reward is held, does expiry continue, pause, extend, or lead to reversal, and what user notice and admin authority apply? | Product / Growth / Risk / Operations | Open |
 
 ---
 
@@ -1034,6 +1060,8 @@ DOC-13 is acceptable when:
 - deferred payment instruction quote revalidation and reservation boundaries are defined;
 - card-linked eligibility prefers the selected tokenized payment-card reference or gateway-returned card metadata, links split-card evaluation to the applicable funding leg, and treats BIN check as supplementary;
 - `REWARDS-ROOT` can show issued rewards from different sources while preserving source and instrument type;
+- reward instruments preserve separate instrument-type, earning-source, participant-role, program, campaign/offer, entitlement, and fulfilment dimensions;
+- canonical issued-reward status, single-use default, authoritative fulfilment, idempotency, unknown-result, and checkout-selection boundaries are defined;
 - MGM/referral and membership/tier are separate qualification modules;
 - referral sharing is separated from registration attribution, qualification, entitlement, issuance, and reward use;
 - reusable referral code/link, single-campaign MVP, future campaign selection, role-sensitive referrer/referee offers, and canonical reward-instrument handoff are defined;
@@ -1050,6 +1078,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.0 | 2026-07-21 | Defined canonical issued-reward lifecycle and display projections, single-use default, authoritative/idempotent fulfilment, checkout-selection boundary, launch support for external vouchers and miles, and separate instrument, source, role, program, campaign/offer, entitlement, and fulfilment data dimensions; retained hold-versus-expiry as open. |
 | 1.1.1 | 2026-07-21 | Defined role-sensitive Referral reward claiming for referrers and referees, entitlement-time quota reservation and terms snapshot, separate campaign/claim/usage dates, idempotent one-entitlement-to-one-instrument issuance, and exceptional admin-held reward presentation. |
 | 1.1.0 | 2026-07-21 | Defined the PayPlus Referral Program, reusable code/link and registration-attribution rules, single-campaign MVP and future campaign selection, event-driven qualification, role-sensitive referrer/referee entitlements, referrer claim flow, and canonical issued-reward handoff; removed invitation code from reward-instrument types. |
 | 1.0.0 | 2026-07-20 | Confirmed multi-collection offer membership, root duplicate suppression boundary, one automatically selected highest-user-value payment-method-sensitive Card Offer per payment card/funding leg, separate eligible coupon/voucher/discount selection, and same-screen DOC-09 checkout recalculation handoff. |

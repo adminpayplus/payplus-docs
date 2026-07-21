@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.6
+version: 0.4.7
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -82,6 +82,7 @@ Detailed requirements belong to:
 | Payment profile future update | Final DOC-18 must define tokenized card, saved split-card payment profile, allocation-ratio, card-slot, default-card, starred/frequent profile, action-required profile, return-context, and audit-event structures for DOC-06B `PAYMENT-PROFILE-ROOT`. |
 | Offers and promotion future update | Final DOC-18 must distinguish offer UI presentation from payment-card funding data and define Offer ID, multi-collection membership, primary root placement, per-collection display priority, display snapshot, payment-card/funding-leg eligibility result, highest-user-value comparison, automatic Card Offer application, separate coupon/voucher/discount application, promotion quote, and audit-event structures required by DOC-06B, DOC-09, and DOC-13. |
 | Referral future update | Final DOC-18 must define the reusable user-linked referral code/reference, registration attribution, campaign and beneficiary-role linkage, qualification progression/outcome, entitlement, claim, issued reward reference, privacy-safe display projection, hold/reversal, and audit-event structures required by DOC-06B, DOC-13, DOC-15, and DOC-22. Sharing must remain distinct from recipient identity and attribution. |
+| Reward instrument future update | Final DOC-18 must define canonical issued-reward objects, lifecycle projections, authoritative fulfilment and idempotency, unknown-result recovery, credential references, reveal/access events, checkout selection linkage, and separate instrument-type, earning-source, participant-role, program, campaign/offer/entitlement, and fulfilment-method dimensions required by DOC-06B, DOC-09, DOC-13, DOC-15, and DOC-22. |
 | Human review | Sensitive AI/model-assisted outcomes should support reason codes, reviewability, override controls, and audit trails. |
 
 ## 4. Core Object Families
@@ -186,7 +187,7 @@ PayPlus should define event families before implementation.
 | Payment profile events | card add started, tokenization returned, card nickname edited, default card changed, card removed or archived, profile created, profile edited, profile starred/unstarred, profile marked action-required, profile selected for checkout/instruction, profile issue displayed. |
 | Payout events | settlement received, payout ready, payout held, payout released, payout submitted, payout completed, reconciliation matched, exception opened. |
 | Risk events | rule triggered, risk score assigned, step-up required, manual review opened, hold applied, block applied, override approved, escalation recorded. |
-| Promotion events | offer displayed, offer viewed, collection filtered, eligibility evaluated, competing Card Offers compared, highest-user-value Card Offer auto-selected, coupon/voucher/discount selected, promotion quote created or recalculated, benefit reserved, entitlement earned, reward issued, reward redeemed, reward reversed. |
+| Promotion events | offer displayed, offer viewed, collection filtered, eligibility evaluated, competing Card Offers compared, highest-user-value Card Offer auto-selected, coupon/voucher/discount selected, promotion quote created or recalculated, benefit reserved, entitlement earned, reward issued, reward detail viewed, credential revealed/copied where permitted, partner handoff opened/returned, reward use attempted/confirmed/unknown, reward credited, reward expired, reward held/released/reversed. |
 | Referral events | share action initiated, referral link copied, QR displayed, registration code validated, attribution created, qualification progressed or decided, referral entitlement created or held, claim attempted or completed, reward issued, reward reversed or clawed back. Share events must not imply delivery, recipient identity, or attribution. |
 | Communication events | notification queued, sent, delivered, read, failed, opted in, opted out, template version applied. |
 | Admin events | queue assigned, evidence viewed, action taken, export requested, sensitive field revealed, override reason captured. |
@@ -221,6 +222,8 @@ DOC-18 should maintain linkages between:
 - audit event.
 
 Referral linkage must preserve the sequence `referrer -> user-linked code/reference -> campaign and role-specific offer -> referee registration attribution -> qualification -> beneficiary-specific entitlement -> issued reward instrument`. Referrer and referee entitlements may use the same campaign but must remain separate records with explicit beneficiary role. Referral sharing must not create a referee, relationship, or invitation lifecycle before valid registration attribution.
+
+Reward-instrument linkage must preserve independent instrument type, earning source, participant role where applicable, program context, campaign and offer source, originating entitlement, fulfilment method, current canonical state, lifecycle projection, authoritative redemption/fulfilment result, and related checkout/payment or partner-reconciliation reference. Referral role must not be stored as an instrument type, and issued reward status must remain distinct from Referral claim-history presentation.
 
 Future DOC-18 drafting must also specify entitlement-time quota/value reservation, campaign/offer/benefit/terms snapshot, separate campaign-end/claim-deadline/reward-usage-expiry fields, one-entitlement-to-at-most-one-instrument idempotency, duplicate/concurrent/uncertain claim recovery, and administrator hold/release/reversal audit linkage. User-facing Referral projections must remain distinct from canonical internal states, and masked referee phone must be projected only to the permitted `REFERRAL-ROOT` progress context.
 
@@ -329,6 +332,7 @@ Sections 4 through 10 define the current baseline for PayPlus data objects, life
 | OQ-18-008 | What final data objects, fields, events, lineage, and audit records should support DOC-06C evidence detail/upload routes, one active evidence set, evidence versioning, archive-not-delete behavior, and evidence-status-to-readiness changes? | Engineering / Data / Product / Risk | High | Open |
 | OQ-18-009 | What final data objects, states, events, reason codes, correlation IDs, and audit records should support DOC-06B `REQUESTS-NEW`, evidence-gated auto-send, counterparty lookup, request sharing, reminder events, and return handoffs with DOC-06C Bills routes? | Engineering / Data / Product / Privacy / Operations | High | Open |
 | OQ-18-010 | What final referral identifiers, deeplink/QR token contract, attribution idempotency, qualification event mapping, entitlement/claim linkage, masking projection, correction controls, and audit records should implement the DOC-06B/DOC-13 Referral baseline? | Engineering / Data / Product / Privacy / Growth / Risk | High | Open |
+| OQ-18-011 | What final reward-instrument schema, state mapping, credential-reference model, checkout/partner linkage, idempotency keys, unknown-result recovery, and field-level representation should implement the separate reward dimensions and lifecycle defined in DOC-13? | Engineering / Data / Product / Growth / Privacy / Operations | High | Open |
 
 ## 12. Acceptance Criteria
 
@@ -359,6 +363,7 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.4.7 | 2026-07-21 | Product Documentation Team | Added future canonical reward-instrument markers for separate data dimensions, lifecycle projections, checkout/partner linkage, credential events, authoritative fulfilment, idempotency, unknown-result recovery, and operational auditability. |
 | 0.4.6 | 2026-07-21 | Product Documentation Team | Added future Referral markers for entitlement-time quota reservation and terms snapshot, separate lifecycle dates, idempotent issuance and recovery, admin hold auditability, status projection, and route-scoped masked-phone visibility. |
 | 0.4.5 | 2026-07-21 | Product Documentation Team | Added future Referral object, linkage, event, privacy-projection, qualification, claim, reward-issuance, and audit markers while separating sharing from recipient identity and registration attribution. |
 | 0.4.4 | 2026-07-20 | Product Documentation Team | Added future data/event markers for multi-collection Offers, root placement, per-collection priority, payment-card/funding-leg offer evaluation, highest-user-value automatic Card Offer selection, separate coupon/voucher/discount application, quote recalculation, and audit linkage. |
