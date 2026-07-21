@@ -92,3 +92,50 @@ This append-only register records the documentation delivered by each substantiv
 - PayPlus Offer and Partner Offer label taxonomy.
 - Exact split-card checkout presentation and future personalization rules.
 - Final PSP-returned card metadata.
+
+### `2026-07-21` - Referral Attribution, Qualification, And Reward Claiming
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `898d994` |
+| Primary owner | `DOC-06B` Referral routes and `DOC-13` referral/entitlement logic |
+| Decision record | `DEC-2026-004` |
+| Founder approval | Approved in the founder review task on `2026-07-21` |
+
+**Files Changed**
+
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`
+- `docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/diagrams/payplus-app-route-entry-map.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+- `docs/traceability/status-display-reference-matrix.md`
+
+**Material Changes**
+
+- Defined `REFERRAL-ROOT`, `REFERRAL-REWARDS-LIST`, `REFERRAL-ENTITLEMENT-DETAIL`, and `REFERRAL-REWARD-CLAIM` with registration and canonical Rewards handoffs.
+- Defined one PayPlus Referral Program, one MVP campaign, reusable non-expiring user-linked codes, no-recipient-on-share behavior, registration attribution, qualification progress, and role-sensitive referrer/referee entitlements.
+- Confirmed that referral entitlements and issued instruments reuse the canonical promotion/reward engine and status model.
+- Aligned notification, privacy, future data/event, admin, acceptance, route-map, and traceability requirements without changing Requests, payment authorization, or payer/payee linking boundaries.
+
+**Checks Performed**
+
+- Verified the staged scope contained only the 14 approved files.
+- Ran `git diff --cached --check` before the substantive commit.
+- Searched for stale Referral invitation-lifecycle and partially-defined route wording.
+- Checked route ownership, registration attribution, masking, status reuse, canonical reward issuance, PayPlus boundaries, metadata, acceptance, diagrams, and traceability.
+- Confirmed external handoff files, prototypes, generated assets, and unrelated workspace changes were excluded.
+
+**Remaining Open Items**
+
+- Exact campaign rewards, qualification conditions, source events, payment/risk finality, quotas, and limits.
+- Final deeplink/QR token contract, attribution idempotency/correction controls, notification copy, and admin implementation.
+- Final multi-campaign visual design and technical data/status/event schemas.

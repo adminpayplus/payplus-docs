@@ -174,3 +174,44 @@ None.
 
 - Final valuation method for non-monetary, equal-value, or non-directly-comparable offers.
 - Exact split-card checkout presentation.
+
+### `DEC-2026-004` - Referral Attribution, Qualification, And Reward Claiming
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-21` |
+| Status | Accepted |
+| Primary owner | `DOC-06B` Referral routes and `DOC-13` referral/entitlement logic |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06A`, `DOC-06B`, `DOC-06D`, `DOC-08`, `DOC-13`, `DOC-15`, `DOC-18`, `DOC-22`, app route map, status matrix, open-questions register, traceability matrix |
+| Substantive commit | `898d994` |
+| Founder approval | REF-01 to REF-12 and subsequent registration-attribution decisions approved in the founder review task on `2026-07-21` |
+
+**Decision**
+
+PayPlus has one Referral Program. Every existing user may share a reusable user-linked referral code, link, or QR. Sharing does not identify a recipient or create invitation statuses. Referral attribution begins only when an eligible new user completes registration with a valid code. The MVP uses one campaign; future campaigns remain campaign selections inside the Referral route rather than separate route families.
+
+The Referral route family comprises `REFERRAL-ROOT`, `REFERRAL-REWARDS-LIST`, `REFERRAL-ENTITLEMENT-DETAIL`, and `REFERRAL-REWARD-CLAIM`. Campaigns may create separate role-sensitive referrer and referee entitlements. Claim converts an eligible referrer entitlement into one canonical issued reward instrument, which is then managed through `REWARDS-ROOT` and `REWARD-DETAIL`.
+
+**Rationale**
+
+Separating anonymous sharing, registration attribution, qualification, entitlement, claim, and reward use avoids false invitation records and duplicate reward models. It keeps referral progress understandable while preserving one promotion/reward engine and clear privacy, payment, Request, and payer/payee-linking boundaries.
+
+**Alternatives Considered**
+
+- Invitation statuses such as awaiting, accepted, declined, or expired were rejected because PayPlus usually does not know the recipient when a link is externally shared.
+- A separate referral reward schema and status family was rejected because referral benefits use the same entitlement and reward-instrument engine as other rewards.
+- Separate route families for each campaign were rejected because campaign selection is a view within the one PayPlus Referral Program.
+
+**Consequences And Handoffs**
+
+DOC-06B owns route presentation and registration handoffs. DOC-13 owns campaigns, qualification, entitlements, claims, and reward logic. DOC-08 owns notifications; DOC-15 owns masking and privacy; DOC-18 must define final objects, events, linkage, and auditability; DOC-22 must define admin campaign, qualification, review, and correction controls. Referral attribution does not create a Request, authorize payment, link payer/payee financial records, or grant shared financial visibility.
+
+**Supersedes / Superseded By**
+
+Supersedes earlier partial Referral route wording and any implied referral invitation lifecycle before registration attribution.
+
+**Remaining Open Items**
+
+- Exact MVP campaign rewards, qualification conditions, source events, payment/risk finality, quotas, and limits.
+- Final deeplink/QR token contract, attribution idempotency and correction controls, notification copy, and admin implementation.
+- Final multi-campaign visual design and technical data/status/event schemas.
