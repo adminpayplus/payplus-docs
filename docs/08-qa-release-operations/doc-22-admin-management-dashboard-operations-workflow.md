@@ -196,6 +196,23 @@ Required capabilities include:
 
 Detailed reward logic and status meaning belong in DOC-13 and the status-display reference matrix. User-facing screens belong in DOC-06B, checkout selection in DOC-09, privacy in DOC-15, and final objects/events in DOC-18.
 
+### 18.8 Me Route and Account-Control Configuration
+
+Future full DOC-22 drafting must support the confirmed DOC-06B `ME-ROOT` baseline without turning the admin dashboard into the owner of user-facing route behavior.
+
+Required controls include:
+
+- preserve `ME-ROOT` as a permanent MVP bottom-navigation destination;
+- prevent ordinary configuration from hiding core Account Information, Security & Privacy, Help & Support, About PayPlus, Terms and Policies, or Log Out controls;
+- enable or disable optional module rows, including Membership and Receiving Details where the underlying capability is unavailable, while preserving permitted access to retained user records;
+- manage account, identity-verification, security, and receiving-setup action-required cases without exposing internal reasons on the user root;
+- support controlled review and approval of receiving/payout-destination changes under DOC-10, DOC-15, and DOC-19;
+- support controlled archived/previous evidence access and audit under DOC-06C, DOC-12, DOC-15, and DOC-18;
+- audit sensitive reveal, account/profile changes, privacy requests, receiving-destination changes, optional-row configuration, and account restriction or closure operations;
+- preserve the separate More boundary for dashboard shortcut management, reorder/arrangement, restore-default, overflow, and secondary services.
+
+Detailed `ME-ROOT` route behavior belongs in DOC-06B. Notification preferences belong in DOC-08, payout-destination rules in DOC-10, evidence in DOC-06C/DOC-12, privacy in DOC-15, and final objects/events in DOC-18.
+
 ## 19. Audit Logging Requirements
 
 ## 20. Notifications and Escalations
@@ -236,6 +253,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.9.0 | 2026-07-22 | Added future admin and operations markers for permanent `ME-ROOT`, protected core controls, optional-row enablement, account action-required handling, Receiving Details, archived-evidence access, reveal/privacy auditability, and the separate More shortcut-management boundary. |
 | 0.8.0 | 2026-07-21 | Added future Reward operations markers for launch-supported partner/miles readiness, separate data dimensions, lifecycle and exception queues, authoritative/idempotent fulfilment, expiry configuration, hold-versus-expiry follow-up, and credential access controls. |
 | 0.7.0 | 2026-07-21 | Added future Referral admin markers for entitlement-time quota reservation and terms snapshot, separate campaign/claim/use dates, idempotent claim oversight, and authorized hold/release handling for exceptional `Under Review` presentation. |
 | 0.6.0 | 2026-07-21 | Added future Referral Program, campaign, role-sensitive offer, qualification, finality, quota, validity, privacy-safe review, entitlement hold/release/reversal, attribution-correction, and audit configuration markers. |

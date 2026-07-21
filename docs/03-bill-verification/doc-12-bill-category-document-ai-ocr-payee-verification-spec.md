@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.7.1
+version: 0.7.2
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -422,7 +422,7 @@ DOC-12 verification outcomes must map cleanly to the DOC-06C user-facing evidenc
 
 DOC-06C owns the user-facing payment-readiness mapping, including `Ready to Pay`, `Action Required`, `Under Review`, `Paid` / `Received`, and `Archived`. DOC-09 consumes the mapped readiness result before quote creation, authorization, retry, settlement readiness, or payout handoff.
 
-Evidence should normally have one active evidence set per bill/rent record. Evidence updates create versions; the newest accepted version becomes active. Archived or previous evidence must not be hard-deleted and should remain available through controlled records access under DOC-15 and DOC-18.
+Evidence should normally have one active evidence set per bill/rent record. Evidence updates create versions; the newest accepted version becomes active. Archived or previous evidence must not be hard-deleted and should remain available through DOC-06B `ME-ROOT` and `ARCHIVED-EVIDENCE-LIST`, subject to DOC-06C historical-evidence UX, DOC-15 access and retention controls, and DOC-18 versioning and audit requirements.
 
 Extracted fields approved for display should populate the bill/rent detail record in DOC-06C. Evidence detail screens should avoid duplicating those fields except where needed for evidence review, correction, or status explanation.
 
@@ -591,6 +591,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.7.2` | `2026-07-22` | Product Documentation Team | Aligned controlled archived/previous evidence retrieval with DOC-06B `ME-ROOT` and `ARCHIVED-EVIDENCE-LIST` without changing evidence lifecycle, active-version, or archive-not-delete rules. |
 | `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for bill category verification, document AI/OCR extraction, autofill, evidence data layers, duplicate detection, payee verification linkage, red-flag routing, and DOC-06 alignment impact. |
 | `0.2.0` | `2026-06-02` | Product Documentation Team | Clarified that DOC-14 owns risk meaning and routing framework while final thresholds, algorithms, configuration, and schemas remain with DOC-18 and DOC-22. |
 | `0.3.0` | `2026-06-02` | Product Documentation Team | Aligned evidence data layers with DOC-15 by adding field-level classification metadata, displayability, masking, retention, approved-purpose, and lineage requirements for DOC-18. |

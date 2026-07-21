@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 0.5.0
+version: 0.6.0
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-06-02
+last_updated: 2026-07-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -149,6 +149,10 @@ Rules:
 - admin users must not bypass destination controls without permission, reason, evidence, and audit log.
 
 Detailed payee verification and risk rules belong in DOC-12 and DOC-14. Data fields belong in DOC-18.
+
+DOC-06B `ME-ROOT` provides the user-facing `RECEIVING-DETAILS` entry for managing the approved payout destination used when the user acts as payee. This route is configuration, not transaction history; `ACTIVITY-ROOT` remains the single account-level payer/payee financial activity route.
+
+`RECEIVING-DETAILS` should be available to all users when payee/request capability is enabled because one account may act as payer, payee, or both. The route must consume, not redefine, the destination validation, approval, active/hold, change-history, masking, step-up, and audit rules in DOC-10, DOC-15, DOC-18, DOC-19, and DOC-22. Exact fields and visual behavior remain a DOC-06B/DOC-10 open item.
 
 ---
 
@@ -603,6 +607,7 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.6.0 | 2026-07-22 | Added the DOC-06B `ME-ROOT` handoff to `RECEIVING-DETAILS`, clarified its payout-configuration purpose and mixed-role availability, and kept payer/payee transaction history in `ACTIVITY-ROOT`. |
 | 0.1.0 | 2026-05-30 | Initial founder working baseline for payout readiness, payout rails, settlement calendars, split-payment grouping, payout batching, bank record ingestion, reconciliation matching, exceptions, idempotency, admin controls, and reporting. |
 | 0.2.0 | 2026-05-30 | Aligned payout wording with updated DOC-01 settlement, fee, and approved payout positioning. |
 | 0.3.0 | 2026-06-01 | Aligned payout and reconciliation boundaries with DOC-13 by adding promotion-funded adjustment, partner reimbursement, external voucher, and miles reward reconciliation references where applicable. |

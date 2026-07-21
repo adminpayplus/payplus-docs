@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.21
+version: 0.1.22
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,19 +14,23 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-21
+last_updated: 2026-07-22
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
   - DOC-06A Core User Journeys & Service Blueprint
   - DOC-06C Bills, Rent & Tenancy UX Module
   - DOC-06D UX Requirements, Acceptance Criteria & Test Matrix
+  - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
   - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-10 Payout & Reconciliation
+  - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization & Authentication
+  - DOC-21 Monitoring, Incident Response & Operational SOPs
   - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
@@ -53,7 +57,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 | Pay+ action sheet | Partially defined | Working action set exists; exact order and disabled states remain open. |
 | Shortcut grid | Partially defined | Eight MVP shortcuts exist; detailed More/overflow UX remains open. |
 | Route taxonomy and ID standard | Initial baseline | Stable IDs should be assigned progressively. |
-| Non-Bills route registry | Partially defined | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, and Referral have route-level working baselines; Me and More need future drafting. |
+| Non-Bills route registry | Partially defined | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, and Me have route-level working baselines; More needs future drafting. |
 
 ---
 
@@ -149,7 +153,7 @@ MVP bottom navigation should use five primary destinations.
 | Bills | Bill, fee, rent, tenancy, and obligation record management area. | Opens Bills area covering saved bill/rent/tenancy records and their DOC-06C sub-routes. Requests, instructions, receipts, cards, referral, and More remain separate management routes or shortcut destinations unless explicitly embedded as contextual handoffs. | Discussion baseline |
 | Pay+ | Central payment and request action. | Opens a slide-up action sheet for payment, setup, continuation, and request-payment actions. Exact visual UI and final ordering remain to be finalized. | Working baseline |
 | Offers | Promotion and partner-offer discovery area. | Opens `OFFERS-ROOT`. Issued rewards and referral participation remain separate routes reached through contextual handoffs. | Working baseline |
-| Me | Account and user control area. | Opens profile, settings, security, notifications, privacy, support, cards/payment methods, and account controls. Exact route IA remains to be finalized. | Discussion baseline |
+| Me | Permanent account and user-control area. | Opens `ME-ROOT` for account information, security and privacy, Bills access, payments and records, rewards, Referral, preferences, support, About PayPlus, terms, and logout. | Route shell defined / child details pending |
 
 `Pay+` should be visually treated as the primary center action in the bottom navigation.
 
@@ -318,8 +322,8 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Pay+ Action Sheet Detail | Define final label order, empty states, disabled states, permission rules, and route destinations for the working baseline actions. | Working baseline / not finalized |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
 | Offers and Rewards IA | Define `OFFERS-ROOT` discovery, category collection routes, `OFFER-DETAIL`, separate issued-reward management, referral handoff, and placement behavior. | Offers child-list baseline defined / not final visual design |
-| Me Area IA | Define account, security, privacy, notification preferences, support, cards/payment methods, and user control routes. | Title preserved / not finalized |
-| More Shortcuts IA | Define secondary shortcuts and services not shown in the first eight dashboard shortcuts. | Title preserved / not finalized |
+| Me Area IA | `ME-ROOT` is the permanent account-control route. Its section order, existing-route handoffs, child-destination shells, masking, reveal, state, and return boundaries are defined in Section 5.17. | Route shell defined / child details pending |
+| More Shortcuts IA | Define dashboard shortcut management, reorder/arrangement, restore-default behavior, overflow, and secondary services not shown in the first eight shortcuts. | Boundary defined / route detail pending |
 | Requests Route | Define standalone Requests route shell, creation flow, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
 | Instructions Route | Define payment instruction / 付款指示 route shell, pending versus incomplete instruction display, edit boundaries, cancellation/archive behavior, and checkout handoff. | Working baseline / not finalized |
 | Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
@@ -829,7 +833,7 @@ Payment profiles belong to the payer user account. Payees must not see payer car
 | Entry Point | Route Behavior |
 | --- | --- |
 | Dashboard shortcut `Cards` | Opens `PAYMENT-PROFILE-ROOT`. |
-| Me / account payment settings | Opens `PAYMENT-PROFILE-ROOT` or the relevant card/profile screen. |
+| `ME-ROOT` / Payments & Records | Opens `PAYMENT-PROFILE-ROOT` or the relevant card/profile screen. |
 | Checkout add/change card | Opens card add or selection flow and returns to DOC-09 checkout. |
 | Checkout choose/edit split profile | Opens profile selection or edit flow and returns to DOC-09 checkout. |
 | `INSTRUCTIONS-DETAIL` payment profile action | Opens the relevant card/profile screen and returns to the instruction or checkout context according to the entry source. |
@@ -846,7 +850,7 @@ The route must preserve return context when opened from checkout, instruction de
 - clear empty states for no saved cards and no saved profiles;
 - no balance, wallet, cashout, transfer, or payment authorization content.
 
-When opened from dashboard shortcut or Me/account settings, the route behaves as a normal management area.
+When opened from the dashboard shortcut or `ME-ROOT`, the route behaves as a normal management area.
 
 When opened from checkout or `INSTRUCTIONS-DETAIL`, the route behaves as a temporary management or selection support flow. After add/edit/select actions, the user should return to the originating checkout or instruction context with refreshed card/profile data.
 
@@ -977,7 +981,7 @@ DOC-06B owns the global Activity route shell. DOC-06C owns `BILLS-ACTIVITY` for 
 | Entry Point | Destination |
 | --- | --- |
 | Dashboard Recent Activity arrow / View More | `ACTIVITY-ROOT` |
-| Me / account activity entry | `ACTIVITY-ROOT` |
+| `ME-ROOT` / Activity row | `ACTIVITY-ROOT` |
 | Payment, payout, refund, return, or reversal notification | `ACTIVITY-DETAIL` where a specific transaction exists; otherwise `ACTIVITY-ROOT` |
 | Checkout or payment result where activity review is needed | `ACTIVITY-DETAIL` for the submitted transaction where available |
 
@@ -1133,7 +1137,7 @@ DOC-06B owns the route, list, search, preview handoff, and entry points. DOC-08 
 | Entry Point | Destination |
 | --- | --- |
 | Dashboard shortcut `Receipts` | `RECEIPTS-ROOT` |
-| Me / account records entry | `RECEIPTS-ROOT` |
+| `ME-ROOT` / Receipts & Statements row | `RECEIPTS-ROOT` |
 | Receipt notification | `RECEIPT-DETAIL` |
 | Statement notification | `STATEMENT-DETAIL` |
 | `ACTIVITY-DETAIL` receipt action | Direct file download or `RECEIPT-DETAIL` where an in-app PDF preview is needed |
@@ -1484,6 +1488,146 @@ Material route-level signals for later DOC-18 specification include offer impres
 | Final launch partner activation, credential, fulfilment, and reconciliation method for each external reward | Product / Commercial / Operations / Engineering | Open; launch capability confirmed |
 | Final referral campaign reward values, qualification conditions, payment/risk finality, technical deeplink/QR format, and multi-campaign visual design | Product / Growth / Risk / Design / Engineering | Open; admin-configurable baseline defined |
 
+### 5.17 Me Route
+
+#### 5.17.1 Route Definition
+
+`ME-ROOT` is the permanent mixed-role account and user-control destination opened by the bottom-navigation `Me` button. It must remain present for MVP and must not be hidden, disabled, or replaced by `More`.
+
+| Field | Definition |
+| --- | --- |
+| Route ID | `ME-ROOT` |
+| Type | Top-level root route |
+| Role | Mixed; one account may act as payer, payee, or both |
+| Purpose | Let users view account information and reach account controls, records, settings, preferences, support, and established feature routes. |
+| Primary owner | DOC-06B |
+| Boundary | `ME-ROOT` is not a dashboard, inbox, payment/checkout route, wallet, balance screen, or owner of the feature behavior it links to. |
+
+The route uses a vertically grouped settings-style list. It does not use payer/payee tabs, a role switch, a duplicate dashboard shortcut grid, or user-reorderable sections.
+
+#### 5.17.2 Screen Order
+
+The MVP screen order is:
+
+1. **Header** - title `Me`; no Back button when opened through bottom navigation.
+2. **Action Required** - compact banner for account, identity-verification, security, or receiving-setup issues only; hidden when empty.
+3. **Account Information** - masked account summary; opens `ACCOUNT-PROFILE`.
+4. **Security & Privacy** - `Login & Security` opens `ACCOUNT-SECURITY`; `Privacy & Data` opens `PRIVACY-DATA-CONTROLS`.
+5. **Bills & Tenancies** - opens `BILLS-ROOT` without moving Bills ownership into Me.
+6. **Payments & Records** - Payment Profile, Receiving Details, Activity, Receipts & Statements, and Archived Documents.
+7. **Rewards & Programs** - `My Rewards` opens `REWARDS-ROOT`; Membership remains hidden until its destination and launch behavior are defined and enabled.
+8. **Referral Program** - opens `REFERRAL-ROOT` as a separate program area.
+9. **Preferences & Settings** - Notification Settings, Language, and Theme.
+10. **Help & Support** - opens `SUPPORT-ROOT`.
+11. **About PayPlus** - About opens `ABOUT-ROOT`; Terms and Policies opens `TERMS-ROOT`.
+12. **Log Out** - final button at the bottom of the screen.
+
+Exact typography, spacing, icons, row density, banners, sheets, and visual design remain open.
+
+#### 5.17.3 Destination Register and Transitions
+
+The following register defines the new or newly confirmed Me destinations. Established destinations such as `BILLS-ROOT`, `PAYMENT-PROFILE-ROOT`, `ACTIVITY-ROOT`, `RECEIPTS-ROOT`, `REWARDS-ROOT`, and `REFERRAL-ROOT` retain their existing route ownership and definitions.
+
+| Destination | Parent / Entry Context | Type | Purpose | Primary Route Owner | Definition Status |
+| --- | --- | --- | --- | --- | --- |
+| `ME-ROOT` | Bottom navigation | Root route | Permanent mixed-role account, records, settings, preferences, and support entry. | DOC-06B | Route shell defined; visual design pending |
+| `ACCOUNT-PROFILE` | `ME-ROOT` Account Information | Child route | View and manage permitted account/profile information, identity-verification summary, and account closure. | DOC-06B | Purpose defined; detailed UI pending |
+| `ACCOUNT-SECURITY` | `ME-ROOT` Security & Privacy | Child route | Manage login, authentication, payment-passcode, device, session, and recovery controls. | DOC-06B | Purpose defined; detailed UI pending |
+| `PRIVACY-DATA-CONTROLS` | `ME-ROOT` Security & Privacy | Child route | Manage approved privacy, consent, access, correction, export, and retention/deletion-request controls. | DOC-06B | Purpose defined; detailed UI pending |
+| `RECEIVING-DETAILS` | `ME-ROOT` Payments & Records | Child route | Manage the approved payout destination used when the user acts as payee. | DOC-06B | Purpose defined; detailed UI pending |
+| `ARCHIVED-EVIDENCE-LIST` | `ME-ROOT` Payments & Records | Child list screen | Access archived or previous evidence under controlled retention and permission rules. | DOC-06B | Purpose and boundary defined; list/detail UI pending |
+| `NOTIFICATION-SETTINGS` | `ME-ROOT` Preferences & Settings | Child route | Manage permitted notification-channel and communication preferences. | DOC-06B | Purpose defined; detailed UI pending |
+| `SUPPORT-ROOT` | `ME-ROOT` Help & Support | Root route | Enter the user support area. | DOC-06B | Purpose defined; detailed UI pending |
+| `ABOUT-ROOT` | `ME-ROOT` About PayPlus | Root route | View PayPlus and app information. | DOC-06B | Purpose defined; content and detailed UI pending |
+| `TERMS-ROOT` | `ME-ROOT` About PayPlus | Root route | View applicable terms, policies, and legal documents. | DOC-06B | Purpose defined; content and detailed UI pending |
+
+Domain rules and content remain with the reference owners named in Sections 5.17.4 to 5.17.7; this register does not transfer those responsibilities to DOC-06B.
+
+| Source | User action | Destination / behavior | Return behavior |
+| --- | --- | --- | --- |
+| Bottom navigation | Tap `Me` | `ME-ROOT` | Normal bottom-navigation behavior. |
+| Account Information | Tap summary or row | `ACCOUNT-PROFILE` | Return with the masked summary refreshed and prior Me position preserved. |
+| Security & Privacy | Tap `Login & Security` | `ACCOUNT-SECURITY` | Return to the same Me position. |
+| Security & Privacy | Tap `Privacy & Data` | `PRIVACY-DATA-CONTROLS` | Return to the same Me position. |
+| Bills & Tenancies | Tap row | `BILLS-ROOT` | Return to the same Me position; Bills retains its own route state. |
+| Payments & Records | Tap Payment Profile | `PAYMENT-PROFILE-ROOT` | Return with refreshed card/profile data and prior Me position preserved. |
+| Payments & Records | Tap Receiving Details | `RECEIVING-DETAILS` | Return with refreshed receiving-destination summary; DOC-10 owns destination rules. |
+| Payments & Records | Tap Activity | `ACTIVITY-ROOT` | Return with the prior Me position preserved. |
+| Payments & Records | Tap Receipts & Statements | `RECEIPTS-ROOT` | Return with the prior Me position preserved. |
+| Payments & Records | Tap Archived Documents | `ARCHIVED-EVIDENCE-LIST` | Return with the archived-document list state or prior Me position preserved. |
+| Rewards & Programs | Tap My Rewards | `REWARDS-ROOT` | Return with prior Rewards state and Me origin preserved. |
+| Referral Program | Tap row | `REFERRAL-ROOT` | Return with prior Referral state and Me origin preserved. |
+| Preferences & Settings | Tap Notification Settings | `NOTIFICATION-SETTINGS` | Return with updated preference summaries. |
+| Preferences & Settings | Tap Language or Theme | Open route-local selection sheet/modal | Apply or cancel without creating another root route. |
+| Help & Support | Tap row | `SUPPORT-ROOT` | Return to the same Me position. |
+| About PayPlus | Tap About | `ABOUT-ROOT` | Return to the same Me position. |
+| About PayPlus | Tap Terms and Policies | `TERMS-ROOT` | Return to the same Me position. |
+| Log Out | Tap and confirm | End the current session and return to pre-logon/login | Protected route history must not remain accessible after logout. |
+
+Dashboard shortcuts and `ME-ROOT` may both link to an established route. The shortcut is a fast entry point; Me provides permanent account-level discoverability. The destination owner continues to govern its behavior.
+
+#### 5.17.4 Account Information, Security, and Privacy
+
+The Account Information summary should show only:
+
+- display or login name;
+- masked phone number;
+- masked email address;
+- a high-level identity-verification summary.
+
+The verification summary tells the user whether required identity verification is complete, requires action, is under review, or requires updating. Exact labels must later align with the canonical account/KYC status taxonomy. `ME-ROOT` must not show full ID numbers, identity documents, provider payloads, internal risk reasons, full bank details, payment credentials, or evidence content.
+
+`ACCOUNT-PROFILE` is the child route for account/profile information, permitted edits, identity-verification summary, and controlled account-management actions. Account closure belongs inside this child route and is distinct from immediate data deletion or expiry of retained records.
+
+`ACCOUNT-SECURITY` is the child route for password, payment passcode, 2FA, biometrics, trusted devices, sessions, recovery, and related security controls. `PRIVACY-DATA-CONTROLS` is the separate child route for data access, correction, export, consent, personalization, partner-data use, retention/deletion requests, and approved privacy controls.
+
+Masked information may be viewed in the authenticated route. Revealing sensitive information requires the existing PayPlus payment passcode for MVP; no second reveal-only passcode should be introduced. Additional step-up may still apply under DOC-14, DOC-15, DOC-19, or provider requirements. Detailed child-screen behavior remains open.
+
+#### 5.17.5 Payments, Receiving Details, and Archived Documents
+
+`ACTIVITY-ROOT` already shows account-level financial activity across payer and payee roles. No separate receiving-activity route is required.
+
+`RECEIVING-DETAILS` has a different purpose: it lets a user manage the approved payout destination used when that user acts as payee. It should be available to all users when payee/request capability is enabled because one account may act as both payer and payee. It is configuration, not transaction history. DOC-10 owns destination validation, approval, change, hold, and payout rules; DOC-15 and DOC-19 own masking and step-up boundaries.
+
+`ARCHIVED-EVIDENCE-LIST` is the controlled account-records route for archived or previous invoices, bills, rental documents, tenancy documents, and other evidence. Its user-facing label is `Archived Documents`.
+
+It must not become a general archive for archived bills/rent records, requests, instructions, or activities. Those objects remain in their owning routes. Archived evidence must not be hard-deleted and may open the permitted historical evidence view governed by DOC-06C, DOC-12, DOC-15, and DOC-18. Exact list fields, search/filter behavior, and historical-detail presentation remain open.
+
+#### 5.17.6 Visibility, State, and Return Rules
+
+- `ME-ROOT` itself has no global empty state because core account controls always exist.
+- The MVP section order is fixed and is not user-reorderable.
+- Core Account Information, Security & Privacy, Help & Support, About PayPlus, Terms and Policies, and Log Out access must not be hidden by ordinary admin placement controls.
+- Optional rows may follow module enablement, launch phase, account restriction, and retained-record requirements. When retained records require user access, the relevant route should remain available in permitted read-only form.
+- The Action Required banner must not duplicate bill, payment, request, reward, or evidence-specific task lists. It is limited to account, identity-verification, security, or receiving-setup issues and must not expose internal risk reasons.
+- A dependent-service failure should affect only the relevant row or child route and should provide retry or clear unavailable behavior; it must not blank `ME-ROOT`.
+- Restricted accounts should retain access to security, privacy, permitted records, terms, and support where legally and operationally allowed.
+- Offline behavior may show approved cached masked summaries but must block sensitive reveal, export, material changes, or other actions requiring current validation.
+- Child routes opened from Me return to Me with position preserved. The same routes opened from checkout, Instructions, notification, deeplink, or another contextual flow return to that originating context instead.
+
+`More` remains separate from Me. Me governs account information, records, settings, preferences, and support. More governs dashboard shortcut management, reorder/arrangement, restore-default behavior, overflow, and secondary services; its detailed route remains open.
+
+#### 5.17.7 Notification, Data, and Admin Handoffs
+
+`NOTIFICATION-SETTINGS` manages optional channel and communication preferences under DOC-08. It is not the Inbox and must not allow mandatory service, security, payment, receipt, risk, compliance, or legal messages to be universally disabled.
+
+Material route-level signals for later DOC-18 specification include Me opened, destination selected, account-action item opened, sensitive reveal attempted/completed/failed, preference changed, receiving-details action initiated/completed/failed, archived-document access, and logout completed. These signals must not copy sensitive values into analytics events. DOC-18 owns final event IDs, schema, lineage, audit classification, and model-use metadata.
+
+DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or the core account, security, privacy, support, legal, and logout controls. Exact admin workflow remains deferred to DOC-22.
+
+#### 5.17.8 Open Items
+
+| Item | Owner | Status |
+| --- | --- | --- |
+| Exact Account Profile, Account Security, Privacy & Data, Receiving Details, Archived Documents, Support, About, and Terms child-screen UI | Product / Design / Privacy / Security / Operations | Open; route purposes confirmed |
+| Exact identity-verification user-facing labels and system mapping | Product / Compliance / Security / Data | Open |
+| Exact receiving-destination fields, validation, change, and review behavior | Payments / Operations / Privacy / Security | Open; DOC-10 owns rules |
+| Archived Documents list fields, search/filter behavior, and historical evidence presentation | Product / Design / Privacy / Data | Open; dedicated route confirmed |
+| Final language options, theme options, selection controls, and accessibility behavior | Product / Design / Engineering | Open |
+| Final support, About PayPlus, terms, policies, and app-version content | Product / Support / Legal / Design | Open |
+| Final Membership route and launch behavior | Product / Growth | Open; hidden until defined and enabled |
+| Final visual styling, icons, density, action copy, and confirmation copy | Product / Design | Open |
+
 ## 6. Route Completion Status
 
 | Route / Area | Status | Next Required Work |
@@ -1492,7 +1636,7 @@ Material route-level signals for later DOC-18 specification include offer impres
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Pay+ | Partially Defined | Confirm visual order, disabled states, eligibility copy, and final action limits. |
 | Offers and Rewards | Defined Behavior / Not Final Visual Design | Offers discovery and child-list behavior are defined. `REWARDS-ROOT` Active/History views, search, filters, ordering, cards, route states, `REWARD-DETAIL`, checkout return, and contextual fulfilment actions are defined. Confirm final styling, Offers label taxonomy, personalization, equal-priority fallback, and partner-specific activation methods. |
-| Me | Not Fully Defined | Define profile, settings, privacy, notification, security, payment-method, and support routes. |
+| Me | Route Shell Defined / Child Details Pending | `ME-ROOT` permanent bottom-navigation behavior, section order, account/security/privacy boundaries, established-route handoffs, Receiving Details, Archived Documents, state rules, logout, and Me-versus-More boundary are defined. Confirm child-screen details and final visual design. |
 | Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
 | Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/archive rules, and payment-profile handoff behavior. |
 | Activity | Route Shell Defined / Not Final UI | Screen order, accounting-style list behavior, expandable activity cards, amount direction, core detail sections, and download actions are defined. Confirm final visual styling, field density, search/filter behavior, grouping behavior, and empty-state copy. |
@@ -1500,14 +1644,14 @@ Material route-level signals for later DOC-18 specification include offer impres
 | Reminders | Partially Defined in DOC-06C | Ordinary bill/rent reminders remain separate from payment instruction action alerts. |
 | Payment Profile / Cards | Two-Tab Route Baseline Defined / Not Final Visual Design | Confirm final card styling, field density, empty-state copy, PSP tokenization return behavior, and permitted card metadata. |
 | Referral | Child-Screen Behavior Defined / Not Final Visual Design | `REFERRAL-ROOT`, role-sensitive entitlement list/detail/claim screens, registration attribution handoff, reusable sharing, qualification display, privacy boundary, two-tab reward list, exceptional admin hold presentation, and canonical issued-reward handoff are defined. Confirm final styling and open campaign parameters. |
-| More | Not Fully Defined | Define overflow, management, and admin/user shortcut configuration behavior. |
+| More | Boundary Defined / Route Detail Pending | Define shortcut-management, reorder/arrangement, restore-default, overflow, and secondary-service UI without replacing `ME-ROOT`. |
 
 ## 7. Local Open Questions
 
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-06B-001 | What final Pay+ visual layout, button order, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Open |
-| OQ-06B-002 | What route-level IA should apply to Me, More, and Support? Referral, Offers, and Rewards route boundaries are now defined. | Product / Design | Open |
+| OQ-06B-002 | What detailed UI should apply to the confirmed Me child routes, More shortcut management, and Support? `ME-ROOT` route purpose, section order, handoffs, states, and Me-versus-More boundary are defined. | Product / Design / Privacy / Security / Operations | Partially open |
 | OQ-06B-003 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
@@ -1522,6 +1666,7 @@ Material route-level signals for later DOC-18 specification include offer impres
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.22 | 2026-07-22 | Defined permanent `ME-ROOT` route behavior, fixed section order, masked Account Information and passcode-gated reveal, Security & Privacy child routes, Bills and existing-route handoffs, Receiving Details, Archived Documents, Preferences, Support, About/Terms, logout, state/return rules, and the separate More shortcut-management boundary. |
 | 0.1.21 | 2026-07-21 | Defined `My Rewards` Active/History views, search and instrument filters, ordering, reward-card fields, full `REWARD-DETAIL` content and terms, contextual fulfilment actions, checkout-detail return, credential/use boundary, route states, and secure return behavior. |
 | 0.1.20 | 2026-07-21 | Defined Referral child-screen behavior for role-sensitive referrer/referee entitlements, two list tabs, reward-card fields and privacy boundary, detail and claim UI, idempotent success handling, canonical reward handoff, and exceptional admin-held `Under Review` presentation. |
 | 0.1.19 | 2026-07-21 | Defined the Referral route family, reusable share behavior, registration attribution handoff, qualification display, referrer entitlement list/detail/claim flow, role-sensitive reward handoff, privacy boundary, and distinction between referral entitlements and canonical issued reward instruments. |

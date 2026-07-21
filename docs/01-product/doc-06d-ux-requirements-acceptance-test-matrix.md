@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.9
+version: 0.1.10
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-21
+last_updated: 2026-07-22
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -82,7 +82,7 @@ Example pattern:
 | Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial to strong | Two-tab `Cards` / `Profiles` baseline, card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary are testable; final styling and tokenization behavior remain open. |
 | Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
 | Offers and Rewards routes | DOC-06B / DOC-09 / DOC-13 / DOC-15 | Strong human-readable baseline | Section limits, child collection behavior, source/action/destination/return transitions, multi-collection membership, duplicate suppression, ordering, full-screen detail, checkout handoff, and issued-reward management are testable. External vouchers and miles are launch-supported; final visual design, label taxonomy, personalization, equal-priority tie-break, partner selection, fulfilment method, and operational readiness remain open. |
-| Me route | DOC-06B / DOC-15 / DOC-19 | Not Ready | Route IA pending. |
+| Me route | DOC-06B / DOC-06C / DOC-08 / DOC-10 / DOC-12 / DOC-15 / DOC-18 / DOC-19 / DOC-21 / DOC-22 | Partial to strong | Permanent `ME-ROOT`, fixed screen order, masked account summary, passcode-gated sensitive reveal, child-route handoffs, Receiving Details, Archived Documents, fixed core visibility, return behavior, logout, and Me-versus-More boundary are testable; child-screen detail and final visual design remain open. |
 
 ---
 
@@ -130,6 +130,16 @@ The DOC-06 user journey scope is satisfied when:
 - payer can explicitly authorize payment;
 - payer must enter payment passcode before payment authorization proceeds;
 - users can manage tokenized cards and saved split-card profiles through `PAYMENT-PROFILE-ROOT` without creating wallet, stored-value, cashout, or payment authorization behavior;
+- payer, payee, and mixed-role users can open permanent `ME-ROOT` from bottom navigation without a role switch;
+- `ME-ROOT` presents the confirmed fixed section order and treats Bills, Payment Profile, Activity, Receipts & Statements, My Rewards, and Referral as handoffs to their owning routes;
+- Account Information shows masked display/login name, phone, email, and high-level identity-verification summary without exposing identity documents, full identifiers, payment credentials, evidence, or internal risk reasons;
+- revealing sensitive information through a Me child route requires the existing PayPlus payment passcode, with additional step-up where the owning security/risk rules require it;
+- `RECEIVING-DETAILS` is available when payee/request capability is enabled and manages an approved payout destination without creating another Activity route;
+- `ARCHIVED-EVIDENCE-LIST`, labelled `Archived Documents`, exposes controlled archived/previous evidence access without becoming a general archive or hard-deleting evidence;
+- core Me account, security, privacy, support, legal, and logout controls cannot be hidden by ordinary placement configuration, while optional rows follow module and retained-record rules;
+- Me child-route return restores the prior Me position, while contextual entry from checkout, Instructions, notifications, or deeplinks returns to the originating context;
+- Log Out is the final Me action, ends the current session, clears protected route history, and returns to pre-logon/login without being treated as account closure;
+- More remains separate and governs dashboard shortcut management, reorder/arrangement, restore-default, overflow, and secondary services;
 - saved split-card profiles and split-card checkout must observe the MVP maximum of 6 cards;
 - single-card checkout may preselect a default card while split-card checkout requires user selection of a payment profile;
 - payment status can be tracked;
@@ -184,6 +194,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.10 | 2026-07-22 | Added `ME-ROOT` acceptance coverage for permanent mixed-role entry, fixed section order, masking and passcode-gated reveal, established-route handoffs, Receiving Details, Archived Documents, core visibility, return behavior, logout, and the separate More boundary. |
 | 0.1.9 | 2026-07-21 | Added Rewards acceptance coverage for Active/History views, search/filter/order and route states, safe reward cards, complete detail/T&C, checkout selection and return, credential-versus-use behavior, canonical statuses, and separate reward-data dimensions. |
 | 0.1.8 | 2026-07-21 | Added Referral child-screen acceptance coverage for role-sensitive rewards, two tabs, card/privacy boundaries, detail-first claim, idempotent issuance, lifecycle-date separation, and exceptional admin-held History presentation. |
 | 0.1.7 | 2026-07-21 | Added Referral route, sharing, registration-attribution, qualification-display, privacy-boundary, role-sensitive entitlement, claim, and canonical reward-handoff acceptance coverage. |

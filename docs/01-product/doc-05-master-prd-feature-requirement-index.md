@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.16
+version: 0.18.17
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-21
+last_updated: 2026-07-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -502,6 +502,10 @@ Bills-route requirements must remain role-aware:
 - payee-side records must not show payer-side `Pay` actions;
 - payer-side received requests belong in `BILLS-PAY`, not `BILLS-RECEIVE`.
 
+For account-control UX, `ME-ROOT` is a permanent MVP bottom-navigation route for users acting as payer, payee, or both. It provides masked Account Information, account/security/privacy child-route entry, Bills access, Payment Profile, Receiving Details, Activity, Receipts & Statements, Archived Documents, My Rewards, Referral, preferences, support, About/Terms, and logout. These rows are route handoffs and do not transfer ownership from DOC-06C, DOC-08, DOC-10, DOC-12, DOC-13, DOC-15, DOC-18, DOC-19, DOC-21, or DOC-22.
+
+Sensitive information remains masked by default. Revealing sensitive information through a Me child route requires the existing PayPlus payment passcode for MVP, with additional step-up where required. `ACTIVITY-ROOT` remains the single account-level payer/payee financial activity route; `RECEIVING-DETAILS` manages an approved payee payout destination and `ARCHIVED-EVIDENCE-LIST` provides controlled access to archived or previous evidence only.
+
 ### Payer
 
 - register/login;
@@ -514,6 +518,7 @@ Bills-route requirements must remain role-aware:
 - dashboard shortcut grid for Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More where enabled by DOC-06B; shortcuts are entry points into owning routes or management areas, not independent feature owners;
 - `Cards` shortcut opens DOC-06B `PAYMENT-PROFILE-ROOT` for tokenized card management and saved split-card profile management; it is not checkout and does not authorize payment;
 - user shortcut display order, visibility preference, and restore-default behavior;
+- permanent `ME-ROOT` access with fixed account-control sections, masked Account Information, security/privacy entry, established-route handoffs, preferences, support, About/Terms, and a bottom Log Out button;
 - Important Notice / Action Required, Featured / What's New / Hot Offer carousel, Upcoming Bills / Rent, and Recent Activity dashboard sections where enabled by DOC-06B;
 - bill/rent reminder management through DOC-06C `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, including linked reminders, reminder defaults, custom overrides, disable/delete behavior, and notification ownership boundaries;
 - create payment;
@@ -549,7 +554,9 @@ Bills-route requirements must remain role-aware:
 - remind payer where enabled and controlled by DOC-06C, DOC-08, and DOC-22;
 - view linked payments;
 - respond to clarification/dispute;
-- view payout/payment status.
+- view payout/payment status;
+- manage the user's approved receiving/payout destination through `RECEIVING-DETAILS` where payee/request capability is enabled, subject to DOC-10 validation and change controls;
+- access account-level Activity, Receipts & Statements, and controlled archived/previous evidence through the applicable `ME-ROOT` handoffs.
 
 ### Admin
 
@@ -734,6 +741,7 @@ The MVP is acceptable when:
 | Dashboard shortcut grid, user shortcut preferences, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
 | DOC-06C `BILLS-PAY` and `BILLS-RECEIVE` route split is accepted as the current role-aware Bills-route baseline; checkout/payment screen behavior remains primarily governed by DOC-09. | Working Baseline / Not Final |
 | DOC-06B `PAYMENT-PROFILE-ROOT` is accepted as the current route shell for tokenized card and saved split-card profile management; checkout authorization and funding remain governed by DOC-09. | Working Baseline / Not Final |
+| DOC-06B `ME-ROOT` is accepted as the permanent mixed-role account-control route, with fixed section order, masked Account Information, passcode-gated sensitive reveal, Receiving Details, Archived Documents, established-route handoffs, preferences, support, About/Terms, logout, and a separate More shortcut-management boundary. | Working Baseline / Child Details Pending |
 | PayPlus MVP should be data-engine ready by design, with structured events, field classification, source lineage, auditability, consent/preference state, approved-purpose metadata, and future model-use eligibility metadata where relevant. | Confirmed |
 | Advanced AI decisioning, external partner activation, offsite advertising, user-level data sharing, credit scoring, and insurance underwriting are not MVP scope unless separately assessed, approved, and documented. | Confirmed |
 
@@ -743,6 +751,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.17 | 2026-07-22 | Aligned the PRD with permanent `ME-ROOT`, masked account display and passcode-gated reveal, account/security/privacy handoffs, Receiving Details, archived-evidence access, established feature-route entry, preferences, support, About/Terms, logout, and the separate More boundary. |
 | v0.18.16 | 2026-07-21 | Aligned the PRD with defined My Rewards Active/History management, complete reward detail/T&C, checkout-owned reward selection, launch-supported external vouchers and miles, and separate reward instrument/source/role/program/campaign/entitlement/fulfilment data dimensions. |
 | v0.18.15 | 2026-07-21 | Aligned the PRD with role-sensitive Referral Rewards child screens, two list tabs, detail-first claiming, canonical issued-reward usage, and the restricted masked-phone display boundary. |
 | v0.18.14 | 2026-07-21 | Aligned the PRD with the defined Referral route family, reusable sharing, registration attribution, qualification progress, referrer entitlement claiming, and canonical issued-reward handoff. |

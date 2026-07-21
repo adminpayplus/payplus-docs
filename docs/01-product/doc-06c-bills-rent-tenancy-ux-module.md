@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.10
+version: 0.1.11
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-17
+last_updated: 2026-07-22
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -492,7 +492,7 @@ Evidence archive behavior:
 - archive hides evidence from normal bill/rent UI;
 - archive must not hard-delete evidence from the database;
 - archived evidence remains retained under DOC-15 and DOC-18;
-- archived/previous evidence should be retrievable through a controlled account records/archive area, likely under `Me`; exact route remains open.
+- archived/previous evidence is retrievable from DOC-06B `ME-ROOT` through `ARCHIVED-EVIDENCE-LIST`, labelled `Archived Documents`; this route contains archived/previous evidence only and must not become a general archive for Bills, requests, instructions, or activities.
 
 Evidence statuses:
 
@@ -717,6 +717,7 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.11 | 2026-07-22 | Aligned archived/previous evidence retrieval with DOC-06B `ME-ROOT` and the dedicated `ARCHIVED-EVIDENCE-LIST` destination while preserving Bills-specific archive ownership and archive-not-delete behavior. |
 | 0.1.10 | 2026-07-17 | Reclassified existing `BILLS-*` names as stable product destinations and retained `ROUTE-06C-*` values only as legacy traceability aliases, without changing Bills behavior. |
 | 0.1.9 | 2026-07-08 | Clarified `BILLS-ACTIVITY` as DOC-06C contextual activity, separated it from DOC-06B global Activity and Receipts & Statements routes, and made receipt/proof access a direct download by default from `BILLS-ACTIVITY-DETAIL`. |
 | 0.1.8 | 2026-07-06 | Aligned `BILLS-ACTIVITY` user-facing status labels and activity-detail timeline wording with the status display reference matrix. |

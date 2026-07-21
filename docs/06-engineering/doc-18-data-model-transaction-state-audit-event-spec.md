@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.7
+version: 0.4.8
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-07-21
+last_updated: 2026-07-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -136,6 +136,9 @@ DOC-18 should define logical structures for at least the following object famili
 - referral qualification record;
 - referral beneficiary-role linkage;
 - membership account;
+- account/profile preference and privacy-request record;
+- receiving/payout-destination reference;
+- archived-evidence access reference;
 - dashboard shortcut configuration;
 - user shortcut preference;
 - dashboard placement exposure;
@@ -179,13 +182,13 @@ PayPlus should define event families before implementation.
 
 | Event Family | Examples |
 | --- | --- |
-| Account events | registration, login, logout, new-device login, dormant reauthentication, contact change, credential change. |
+| Account events | registration, login, logout, new-device login, dormant reauthentication, contact change, credential change, Me opened, account/security/privacy destination selected, action-required item opened, sensitive reveal attempted/completed/failed, language/theme changed, privacy request initiated/completed/failed. |
 | Evidence events | upload started, upload submitted, OCR processed, field extracted, user corrected, verification passed, mismatch found, duplicate detected, status changed, evidence snapshot finalized, evidence version created, evidence archived. |
 | Request events | draft created, creation started, existing bill/rent selected, submitted for evidence verification, evidence verified and auto-sent, sent, shared, viewed, accepted, rejected with reason, expired, cancelled, archived, restored. |
 | Participant-linking events | invitation created, app link generated, QR link generated, WhatsApp deeplink generated, invitation sent, viewed, accepted, declined, expired, linking completed, linking revoked. |
 | Payment events | quote created, quote revalidated, instruction created, funding leg created, authorization attempted, authorized, failed, captured, payment completed. |
 | Payment profile events | card add started, tokenization returned, card nickname edited, default card changed, card removed or archived, profile created, profile edited, profile starred/unstarred, profile marked action-required, profile selected for checkout/instruction, profile issue displayed. |
-| Payout events | settlement received, payout ready, payout held, payout released, payout submitted, payout completed, reconciliation matched, exception opened. |
+| Payout events | receiving-details action initiated/completed/failed, payout destination added/changed/held/approved, settlement received, payout ready, payout held, payout released, payout submitted, payout completed, reconciliation matched, exception opened. |
 | Risk events | rule triggered, risk score assigned, step-up required, manual review opened, hold applied, block applied, override approved, escalation recorded. |
 | Promotion events | offer displayed, offer viewed, collection filtered, eligibility evaluated, competing Card Offers compared, highest-user-value Card Offer auto-selected, coupon/voucher/discount selected, promotion quote created or recalculated, benefit reserved, entitlement earned, reward issued, reward detail viewed, credential revealed/copied where permitted, partner handoff opened/returned, reward use attempted/confirmed/unknown, reward credited, reward expired, reward held/released/reversed. |
 | Referral events | share action initiated, referral link copied, QR displayed, registration code validated, attribution created, qualification progressed or decided, referral entitlement created or held, claim attempted or completed, reward issued, reward reversed or clawed back. Share events must not imply delivery, recipient identity, or attribution. |
@@ -333,6 +336,7 @@ Sections 4 through 10 define the current baseline for PayPlus data objects, life
 | OQ-18-009 | What final data objects, states, events, reason codes, correlation IDs, and audit records should support DOC-06B `REQUESTS-NEW`, evidence-gated auto-send, counterparty lookup, request sharing, reminder events, and return handoffs with DOC-06C Bills routes? | Engineering / Data / Product / Privacy / Operations | High | Open |
 | OQ-18-010 | What final referral identifiers, deeplink/QR token contract, attribution idempotency, qualification event mapping, entitlement/claim linkage, masking projection, correction controls, and audit records should implement the DOC-06B/DOC-13 Referral baseline? | Engineering / Data / Product / Privacy / Growth / Risk | High | Open |
 | OQ-18-011 | What final reward-instrument schema, state mapping, credential-reference model, checkout/partner linkage, idempotency keys, unknown-result recovery, and field-level representation should implement the separate reward dimensions and lifecycle defined in DOC-13? | Engineering / Data / Product / Growth / Privacy / Operations | High | Open |
+| OQ-18-012 | What final objects, preference records, privacy-request links, route events, reveal audit events, receiving-destination references, archived-evidence access records, and retention-safe projections should implement DOC-06B `ME-ROOT` without copying sensitive values into analytics? | Engineering / Data / Product / Privacy / Security / Operations | High | Open |
 
 ## 12. Acceptance Criteria
 
@@ -363,6 +367,7 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.4.8 | 2026-07-22 | Product Documentation Team | Added future data/event markers for DOC-06B `ME-ROOT`, account/security/privacy navigation, payment-passcode-gated reveal auditability, preferences, Receiving Details, archived-evidence access, and logout. |
 | 0.4.7 | 2026-07-21 | Product Documentation Team | Added future canonical reward-instrument markers for separate data dimensions, lifecycle projections, checkout/partner linkage, credential events, authoritative fulfilment, idempotency, unknown-result recovery, and operational auditability. |
 | 0.4.6 | 2026-07-21 | Product Documentation Team | Added future Referral markers for entitlement-time quota reservation and terms snapshot, separate lifecycle dates, idempotent issuance and recovery, admin hold auditability, status projection, and route-scoped masked-phone visibility. |
 | 0.4.5 | 2026-07-21 | Product Documentation Team | Added future Referral object, linkage, event, privacy-projection, qualification, claim, reward-issuance, and audit markers while separating sharing from recipient identity and registration attribution. |

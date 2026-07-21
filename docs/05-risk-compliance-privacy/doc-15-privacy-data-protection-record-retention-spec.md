@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.6
+version: 0.8.7
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-07-21
+last_updated: 2026-07-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -146,7 +146,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Refund, Dispute, Chargeback, and Support Data | Support tickets, user messages, dispute reason, refund case, chargeback reason code, evidence package, resolution, recovery/write-off status. | Support, dispute resolution, chargeback defense, operational learning, reporting. |
 | Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument type, earning source, program context, campaign/offer/entitlement source, fulfilment method, reward entitlement, opaque user-linked referral code/reference, registration attribution, masked referee phone, qualification progress/outcome, beneficiary role, entitlement-to-instrument link, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, attribution, abuse detection. |
 | Communication and Notification Data | Notification preferences, delivery channel, message ID, template ID, delivery/read status, bill/rent reminder ID, linked obligation ID, reminder timing, custom override, active/inactive/deleted status, payment instruction action-alert status, WhatsApp/SMS/email/push logs. | Service communication, audit, support, communication performance. |
-| UI Preference and Personalization Data | Dashboard shortcut order, shortcut visibility, restore-default action, dashboard placement exposure, carousel impression/action, inbox interaction, and user-selected display preferences. | User experience personalization, product operation, consented marketing/promotion display, analytics, audit where required. |
+| UI Preference and Personalization Data | Dashboard shortcut order, shortcut visibility, restore-default action, dashboard placement exposure, carousel impression/action, inbox interaction, Me destination use, notification preference, language, theme, and other user-selected display preferences. | User experience personalization, product operation, consented marketing/promotion display, analytics, audit where required. |
 | Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, category usage, correction behavior, conversion, drop-off, retry behavior, spend behavior, payer/payee relationship patterns, dashboard shortcut usage, reminder opened/ignored/actioned behavior, and placement performance. | Product improvement, risk intelligence, commercial analytics, segmentation. |
 | Derived and Aggregated Data | Risk indicators, user segments, category economics, OCR quality metrics, fraud trends, campaign performance, anonymized or aggregated insights, model features where approved. | Analytics, approved model improvement, business intelligence, strategic decisions. |
 
@@ -187,6 +187,22 @@ Material changes should be grouped by sensitivity and handled with proportionate
 | Marketing or communication preference change | Opt-in/out, WhatsApp/SMS/email preference, direct-marketing consent. | Require logged preference update; step-up only if account takeover risk is present. |
 
 Material changes should create audit events and user-facing security notifications where appropriate. Detailed status, event schema, and admin workflow belong in DOC-18, DOC-19, and DOC-22.
+
+### 6.2 `ME-ROOT` Account Display and Reveal
+
+DOC-06B `ME-ROOT` is the permanent mixed-role account-control route. Privacy requirements are:
+
+- the root account summary may show display/login name, masked phone, masked email, and a high-level identity-verification summary;
+- full identity attributes, identity documents, provider payloads, payment credentials, evidence content, full payout details, and internal risk reasons must not appear on the root;
+- revealing sensitive information through a Me child route requires the existing PayPlus payment passcode for MVP; no second reveal-only passcode should be introduced;
+- additional step-up may apply where risk, security, legal, provider, or data-classification rules require it;
+- reveal attempts and outcomes should be logged without copying sensitive values into analytics or ordinary notification content;
+- `PRIVACY-DATA-CONTROLS` should support approved data access, correction, export, consent, personalization, partner-data use, retention/deletion request, and related privacy actions;
+- account closure in `ACCOUNT-PROFILE` is not immediate deletion and must preserve records subject to retention, dispute, audit, tax, security, compliance, and legal-hold requirements;
+- `RECEIVING-DETAILS` must mask payout data and apply the material-change rules in Section 6.1;
+- `ARCHIVED-EVIDENCE-LIST` may expose archived or previous evidence only through controlled, role-appropriate access and must not bypass retention, masking, or audit rules.
+
+Detailed passcode, session, device, reauthentication, and reveal implementation belongs in DOC-19. Final event and data structures belong in DOC-18.
 
 ---
 
@@ -536,6 +552,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.7` | `2026-07-22` | Product Documentation Team | Aligned privacy requirements with DOC-06B `ME-ROOT`, including masked account summary, payment-passcode-gated sensitive reveal, Privacy & Data controls, account-closure retention boundary, Receiving Details masking, Archived Documents access, and Me preference data. |
 | `0.8.6` | `2026-07-21` | Product Documentation Team | Added explicit classification of confirmed reward dimensions and issued-reward credential/partner-fulfilment privacy controls for safe display, opaque payloads, deliberate reveal, cached read-only metadata, partner minimization, and controlled access events. |
 | `0.8.5` | `2026-07-21` | Product Documentation Team | Restricted masked referee-phone display to attributed-referee progress in `REFERRAL-ROOT` and excluded referral reward cards, entitlement detail, claim, and issued-reward screens. |
 | `0.8.4` | `2026-07-21` | Product Documentation Team | Added referral attribution data classification and privacy rules for opaque reusable codes, no-recipient sharing, immutable normal-user attribution, masked referee phone display, restricted referral visibility, and separation from payer/payee linking. |

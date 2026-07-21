@@ -2,7 +2,7 @@
 
 Status: Discussion reference / IA alignment aid  
 Owner: DOC-06B  
-Last updated: 2026-07-17
+Last updated: 2026-07-22
 
 These Mermaid diagrams show the current working relationship between bottom navigation, the Pay+ action sheet, the eight dashboard shortcuts, stable product destinations, and major route transitions.
 
@@ -22,7 +22,7 @@ flowchart TD
   NAV --> BILLS["Bills"]
   NAV --> PAYPLUS["Pay+"]
   NAV --> OFFERS["Offers"]
-  NAV --> ME["Me"]
+  NAV --> ME["ME-ROOT<br/>Me"]
 
   HOME --> HNOTICE["Important Notice / Action Required"]
   HOME --> HSHORTCUTS["Shortcut Grid<br/>8 MVP shortcuts"]
@@ -43,8 +43,7 @@ flowchart TD
   HSHORTCUTS --> REMINDERS["BILLS-REMINDER-LIST<br/>Reminders"]
   HSHORTCUTS --> PPROOT["PAYMENT-PROFILE-ROOT<br/>Cards / Payment Profile"]
   HSHORTCUTS --> REFERRAL["REFERRAL-ROOT<br/>Defined baseline"]
-  HSHORTCUTS --> MORE["More<br/>Not fully defined"]
-  ME --> REFERRAL
+  HSHORTCUTS --> MORE["More<br/>Shortcut management / overflow<br/>Route detail pending"]
 
   HRECENT --> ACTIVITYROOT["ACTIVITY-ROOT<br/>Activity"]
 
@@ -146,7 +145,7 @@ This diagram shows the Payment Profile route shell owned by DOC-06B, including t
 ```mermaid
 flowchart TD
   ENTRY1["Dashboard Cards shortcut"] --> PPROOT["PAYMENT-PROFILE-ROOT"]
-  ENTRY2["Me / payment settings"] --> PPROOT
+  MEROOT["ME-ROOT"] --> PPROOT
   CHECKOUT["DOC-09 checkout / review"] -->|"Add / change card or profile"| PPROOT
   IDETAIL["INSTRUCTIONS-DETAIL"] -->|"Choose / update card or profile"| PPROOT
 
@@ -177,7 +176,7 @@ This diagram separates event/lifecycle activity from receipt and statement files
 ```mermaid
 flowchart TD
   DASHRECENT["Dashboard Recent Activity arrow"] --> AROOT["ACTIVITY-ROOT"]
-  MEACTIVITY["Me / Account Activity"] --> AROOT
+  MEROOT["ME-ROOT<br/>Activity row"] --> AROOT
   ACTNOTIF["Payment / payout / refund / reversal notification"] --> ADETAIL["ACTIVITY-DETAIL"]
   CHECKOUT["DOC-09 checkout / result"] --> ADETAIL
 
@@ -191,7 +190,7 @@ flowchart TD
   ADETAIL --> RECEIPTDOWNLOAD["Direct receipt / proof download<br/>where available"]
 
   SHORTCUT["Dashboard Receipts shortcut"] --> RROOT["RECEIPTS-ROOT"]
-  MERECORDS["Me / Account Records"] --> RROOT
+  MEROOT --> RROOT
   RCPTNOTIF["Receipt notification"] --> RDETAIL["RECEIPT-DETAIL"]
   STMTNOTIF["Statement notification"] --> SDETAIL["STATEMENT-DETAIL"]
 
@@ -240,7 +239,7 @@ flowchart TD
 
   ODETAIL -. "Referral-program action" .-> REFERRAL
   REFSHORTCUT["Dashboard Referral shortcut"] --> REFERRAL["REFERRAL-ROOT<br/>Defined baseline"]
-  ME["Me"] --> REFERRAL
+  ME["ME-ROOT<br/>Me"] --> REFERRAL
   REFERRAL -->|"View Referral Rewards"| REFLIST["REFERRAL-REWARDS-LIST<br/>Referrer and referee entitlements"]
   REFLIST -->|"Tap reward card / View Details"| REFDETAIL["REFERRAL-ENTITLEMENT-DETAIL"]
   REFDETAIL -->|"Claim Reward"| REFCLAIM["REFERRAL-REWARD-CLAIM"]
@@ -255,4 +254,50 @@ flowchart TD
 
   ODETAIL -. "Issued reward handoff" .-> REWARDS
   ODETAIL -. "Eligible obligation handoff" .-> BPAY["BILLS-PAY<br/>Owned by DOC-06C"]
+```
+
+## 8. Me Route Handoff
+
+This diagram shows the permanent `ME-ROOT` account-control route and its confirmed destination relationships. It does not define the detailed UI inside child routes.
+
+```mermaid
+flowchart TD
+  NAV["Bottom navigation Me"] --> MROOT["ME-ROOT<br/>Permanent mixed-role route"]
+
+  MROOT --> ACTION["Action Required<br/>Hidden when empty"]
+  MROOT --> ACCOUNT["Account Information"]
+  MROOT --> SECURITY["Security & Privacy"]
+  MROOT --> BILLS["Bills & Tenancies"]
+  MROOT --> PAYMENTS["Payments & Records"]
+  MROOT --> BENEFITS["Rewards & Programs"]
+  MROOT --> REFERRAL["Referral Program"]
+  MROOT --> PREFS["Preferences & Settings"]
+  MROOT --> SUPPORT["Help & Support"]
+  MROOT --> ABOUT["About PayPlus"]
+  MROOT --> LOGOUT["Log Out<br/>Bottom button"]
+
+  ACCOUNT --> APROFILE["ACCOUNT-PROFILE"]
+  SECURITY --> ASECURITY["ACCOUNT-SECURITY"]
+  SECURITY --> PRIVACY["PRIVACY-DATA-CONTROLS"]
+  BILLS --> BROOT["BILLS-ROOT"]
+
+  PAYMENTS --> PPROOT["PAYMENT-PROFILE-ROOT"]
+  PAYMENTS --> RECEIVE["RECEIVING-DETAILS"]
+  PAYMENTS --> AROOT["ACTIVITY-ROOT<br/>Payer and payee activity"]
+  PAYMENTS --> RROOT["RECEIPTS-ROOT"]
+  PAYMENTS --> ARCHIVE["ARCHIVED-EVIDENCE-LIST<br/>Archived Documents"]
+
+  BENEFITS --> REWARDS["REWARDS-ROOT"]
+  BENEFITS -. "Hidden until defined and enabled" .-> MEMBERSHIP["Membership destination TBC"]
+  REFERRAL --> REFROOT["REFERRAL-ROOT"]
+
+  PREFS --> NOTIFY["NOTIFICATION-SETTINGS"]
+  PREFS --> SELECTORS["Language / Theme<br/>Selection sheets"]
+  SUPPORT --> SUPROOT["SUPPORT-ROOT"]
+  ABOUT --> ABOUTROOT["ABOUT-ROOT"]
+  ABOUT --> TERMS["TERMS-ROOT"]
+  LOGOUT --> AUTH["Pre-logon / login<br/>Protected history cleared"]
+
+  RETURN["Child route closes or returns<br/>Restore Me position"] -.-> MROOT
+  HOME["Dashboard shortcut grid"] --> MORE["More<br/>Shortcut management, reorder,<br/>restore default, overflow<br/>Separate from Me"]
 ```
