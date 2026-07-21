@@ -185,3 +185,55 @@ This append-only register records the documentation delivered by each substantiv
 - Exact campaign rewards, qualification conditions, source events, payment/risk finality, values, quotas, and limits.
 - Final deeplink/QR contract, attribution correction controls, notification copy, future multi-campaign visual behavior, and full admin implementation.
 - Final DOC-18 objects, canonical statuses/events, recovery contracts, and audit schema.
+
+### `2026-07-21` - My Rewards Route And Canonical Reward Instrument Lifecycle
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `298ab49` |
+| Primary owner | `DOC-06B` Rewards routes and `DOC-13` reward-instrument logic |
+| Decision record | `DEC-2026-006` |
+| Founder approval | RWD-01 to RWD-16 approved on `2026-07-21`; hold-versus-expiry treatment remains open |
+
+**Files Changed**
+
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-07-content-disclosure-user-authorization-spec.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/02-payment-domain/doc-09-payment-request-multi-funding-source-settlement.md`
+- `docs/02-payment-domain/doc-11-refund-cancellation-chargeback.md`
+- `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`
+- `docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/diagrams/payplus-app-route-entry-map.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+- `docs/traceability/status-display-reference-matrix.md`
+
+**Material Changes**
+
+- Defined `My Rewards` through `REWARDS-ROOT` Active/History views, search, instrument filters, ordering, route states, reward cards, and origin-preserving return behavior.
+- Defined `REWARD-DETAIL` as the complete reward/T&C surface with contextual external, credential, miles, action-required, and checkout-detail behavior without creating another checkout route.
+- Kept reward selection in DOC-09 checkout after payment-card/profile choice and required status, expiry, eligibility, stacking, limits, and quote revalidation before authorization.
+- Defined canonical reward display labels, single-use default, authoritative/idempotent fulfilment, credential-reveal-versus-use boundary, unknown-result protection, and restored-reward return to Active.
+- Required independent reward instrument type, earning source, participant role, program, campaign/offer/entitlement source, and fulfilment-method dimensions across product, data, privacy, acceptance, and admin handoffs.
+- Confirmed external vouchers and miles as launch-supported reward types while leaving each partner method and operational readiness gated.
+
+**Checks Performed**
+
+- Ran product/reward-domain, consistency/privacy/data, and acceptance/integration reviews and resolved all material findings.
+- Verified the staged scope contained only the 16 approved files and preserved unrelated workspace changes.
+- Ran `git diff --cached --check` before the substantive commit.
+- Searched for superseded three-view Rewards wording, unresolved My Rewards naming, stale external-reward scope, conflicting status labels, route-parent errors, and restoration-to-History errors.
+- Reviewed Mermaid source manually; Mermaid CLI was unavailable for rendered validation.
+
+**Remaining Open Items**
+
+- Whether a reward hold pauses, extends, permits, or reverses expiry.
+- Final external-voucher and miles partners, credentials, fulfilment methods, reconciliation, and activation readiness.
+- Final DOC-18 schema, idempotency keys, credential model, and unknown-result recovery.
+- Final My Rewards visual styling/icon and any later approved fixed-count usage rules.

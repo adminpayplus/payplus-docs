@@ -261,3 +261,49 @@ Supersedes only the referrer-only child-screen and claim wording in `DEC-2026-00
 - Exact campaign rewards, qualification conditions, source events, payment/risk finality, values, quotas, and limits.
 - Final deeplink/QR contract, attribution correction controls, notification copy, future multi-campaign visual behavior, and admin implementation.
 - Final DOC-18 objects, canonical statuses/events, recovery contracts, and audit schema.
+
+### `DEC-2026-006` - My Rewards Route And Canonical Reward Instrument Lifecycle
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-21` |
+| Status | Accepted |
+| Primary owner | `DOC-06B` Rewards routes and `DOC-13` reward-instrument logic |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-09`, `DOC-11`, `DOC-13`, `DOC-15`, `DOC-18`, `DOC-22`, app route map, status matrix, open-questions register, traceability matrix |
+| Substantive commit | `298ab49` |
+| Founder approval | RWD-01 to RWD-16 approved on `2026-07-21`; hold-versus-expiry treatment deferred |
+
+**Decision**
+
+`REWARDS-ROOT`, labelled `My Rewards`, manages canonical issued reward instruments through route-local Active and History views. Active contains non-terminal `Available`, `Action Required`, `In Progress`, and `Under Review` instruments. History contains terminal `Used`, `Credited`, `Expired`, and `Reversed` instruments. Search, instrument filters, ordering, cards, route states, and origin-preserving return behavior are defined without creating extra routes.
+
+`REWARD-DETAIL` is the full reward-information and terms surface. Checkout rewards normally show availability and conditions without a direct-use action because DOC-09 checkout is the canonical selection point after payment-card/profile choice. External instruments may use configured QR, code, copy, or partner actions; miles show fulfilment progress. Viewing, revealing, copying, or opening a partner destination does not confirm use. One authoritative, idempotent redemption or fulfilment result governs lifecycle status and uncertain outcomes block unsafe repeated use.
+
+MVP reward instruments are single-use by default and do not create a monetary partial-use balance. External vouchers and miles are launch-supported reward types, subject to partner-specific integration and operational readiness. Reward records separately preserve instrument type, earning source, participant role where applicable, program context, campaign/offer/entitlement source, and fulfilment method. Referral role is not an instrument type; issued referral rewards use the same canonical instrument and status model as other rewards.
+
+**Rationale**
+
+One canonical issued-reward route and lifecycle prevents duplicate schemas, conflicting statuses, checkout miscalculation, false redemption, and wallet-like presentation. Separating instrument, source, role, program, campaign, entitlement, and fulfilment dimensions preserves referral and partner context without overloading a generic reward type. Keeping checkout selection in DOC-09 maintains payer review and authorization as the payment control point.
+
+**Alternatives Considered**
+
+- Separate Active, Used, and Expired root views were replaced by Active and History because terminal outcomes belong together and status filters remain available.
+- A default direct-use action from Reward Detail was rejected because checkout reward selection should follow obligation and payment-method selection.
+- A separate referral reward schema/status family was rejected because referral describes earning source and participant role, not a different issued-instrument model.
+- Monetary partial use was rejected for MVP because it would introduce balance-like behavior and substantially more accounting, reconciliation, and expiry complexity.
+- Treating external vouchers and miles as future-only was rejected; capability is launch-supported while each partner method remains activation-gated.
+
+**Consequences And Handoffs**
+
+DOC-06B owns route presentation and navigation. DOC-09 owns checkout selection, recalculation, and authorization review. DOC-13 owns eligibility, lifecycle, dimensions, use, fulfilment, reversal, and restoration meaning. DOC-07/08 own disclosure and communication; DOC-11 owns refund/chargeback handoff; DOC-15 owns privacy and credential boundaries; DOC-18 must define final schema/events; DOC-22 must define operational controls. The status-display matrix is the user-facing alignment reference.
+
+**Supersedes / Superseded By**
+
+Supersedes the earlier three-view Rewards baseline, working-label wording, unresolved external-reward launch-scope wording, and any implication that viewing/revealing a reward confirms use or that Reward Detail independently owns checkout.
+
+**Remaining Open Items**
+
+- Whether a reward hold pauses, extends, permits, or reverses expiry.
+- Final external-voucher and miles partners, credential contracts, fulfilment methods, reconciliation, and activation readiness.
+- Final DOC-18 schema, idempotency keys, canonical event/reason model, credential references, and unknown-result recovery.
+- Final My Rewards visual styling/icon and any future fixed-count usage extension.
