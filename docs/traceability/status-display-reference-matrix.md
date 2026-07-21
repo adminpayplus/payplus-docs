@@ -2,7 +2,7 @@
 
 Status: Working alignment reference  
 Owner: Product / Founder  
-Last updated: 2026-07-14
+Last updated: 2026-07-21
 Classification: Internal
 
 This matrix aligns PayPlus system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
@@ -13,6 +13,7 @@ It is not the final backend status schema. DOC-18 owns the future canonical stat
 - DOC-10: payout, settlement-calendar, batch, bank-record, and reconciliation statuses.
 - DOC-11: refund, cancellation, reversal, dispute, chargeback, hold, recovery, and case statuses.
 - DOC-12: evidence, OCR/autofill, verification, and duplicate/reuse statuses.
+- DOC-13: promotion eligibility, qualification, entitlement, reward instrument, referral qualification, redemption, reversal, and clawback status meaning.
 - DOC-14: risk, AML, anti-cashout, fraud, and review statuses.
 - DOC-22: admin queue, task, permission, and operations workflow statuses.
 
@@ -72,6 +73,7 @@ The following domains should be aligned later as their routes, checkout screens,
 | Payment Instruction Lifecycle | Pending instruction, incomplete instruction, expired, cancelled, archived. | DOC-06B, DOC-09, DOC-18 |
 | Evidence Lifecycle | Uploaded, processing, approved, rejected, update required, archived. | DOC-06C, DOC-12, DOC-18, DOC-22 |
 | Promotion / Reward Lifecycle | Eligible, applied, redeemed, reversed, expired, clawed back. | DOC-13, DOC-18, DOC-22 |
+| Referral Qualification Lifecycle | In Progress, Qualified, Not Qualified, Under Review. Referral entitlement and issued-instrument states reuse the Promotion / Reward Lifecycle rather than creating a second reward status family. | DOC-06B, DOC-13, DOC-18, DOC-22 |
 | Account / Security Lifecycle | Verification, login, device, passcode, suspended, restricted. | DOC-15, DOC-19, DOC-22 |
 | Support / Case Lifecycle | Open, pending information, under review, resolved, closed. | DOC-11, DOC-14, DOC-21, DOC-22 |
 

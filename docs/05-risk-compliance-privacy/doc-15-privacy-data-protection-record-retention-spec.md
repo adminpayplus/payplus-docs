@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.3
+version: 0.8.4
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-07-06
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -144,7 +144,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Participant Linking and Invitation Data | User-initiated search/input, invitation channel, deeplink/QR/app-link reference, pending participant record, linking acceptance/decline, linked participant role, and linkage audit trail. | Two-sided visibility, request delivery, support, fraud prevention, privacy-controlled communication. |
 | Risk and Compliance Data | Risk score/band, rule triggers, AML/sanctions status, duplicate evidence signals, same-party indicators, fraud flags, payout holds, admin review outcome, escalation records. | Anti-cashout, fraud prevention, compliance control, monitoring, audit. |
 | Refund, Dispute, Chargeback, and Support Data | Support tickets, user messages, dispute reason, refund case, chargeback reason code, evidence package, resolution, recovery/write-off status. | Support, dispute resolution, chargeback defense, operational learning, reporting. |
-| Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument, reward entitlement, referral link/code, MGM relationship, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, abuse detection. |
+| Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument, reward entitlement, opaque user-linked referral code/reference, registration attribution, masked referee phone, qualification progress/outcome, beneficiary role, entitlement-to-instrument link, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, attribution, abuse detection. |
 | Communication and Notification Data | Notification preferences, delivery channel, message ID, template ID, delivery/read status, bill/rent reminder ID, linked obligation ID, reminder timing, custom override, active/inactive/deleted status, payment instruction action-alert status, WhatsApp/SMS/email/push logs. | Service communication, audit, support, communication performance. |
 | UI Preference and Personalization Data | Dashboard shortcut order, shortcut visibility, restore-default action, dashboard placement exposure, carousel impression/action, inbox interaction, and user-selected display preferences. | User experience personalization, product operation, consented marketing/promotion display, analytics, audit where required. |
 | Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, category usage, correction behavior, conversion, drop-off, retry behavior, spend behavior, payer/payee relationship patterns, dashboard shortcut usage, reminder opened/ignored/actioned behavior, and placement performance. | Product improvement, risk intelligence, commercial analytics, segmentation. |
@@ -256,6 +256,22 @@ Rules:
 - WhatsApp deeplink, app-link, QR, or other request-sharing methods should route the receiver to authenticated/onboarded `REQUESTS-DETAIL` and must keep sensitive request and evidence details inside the authenticated app where practical;
 - declined, expired, or ignored invitations must not reveal private information beyond the minimum status needed for the sender;
 - participant search, invitation, acceptance, decline, and linking events should be logged and classified in DOC-18.
+
+### 9.2 Referral Attribution Privacy
+
+Referral attribution is separate from payer/payee participant linking and must not grant shared visibility, create a Request, or authorize payment.
+
+Rules:
+
+- opening a share sheet, copying a referral link, or displaying a QR must not create a known-recipient record or invitation status;
+- referral URLs, QR payloads, and codes should use opaque references and must not expose account, KYC, evidence, bill/rent, payment, card/profile, payee, or internal risk data;
+- a referral deeplink/QR may prefill a displayed non-editable code during registration; ordinary registration may provide an optional manually entered code;
+- an invalid manual code may be corrected or cleared before registration completes;
+- valid attribution should not be editable by the normal user after completed registration; controlled admin correction, if later approved, must require reason capture and audit;
+- the referrer may see only the campaign, privacy-safe qualification progress, and a phone number with the middle half of digits masked, using `91****67` as the MVP format for an eight-digit Hong Kong number;
+- referral views and communications must not disclose the referee's bills, rent, evidence, payment amounts, payment cards/profiles, KYC data, payees, or internal risk reasons.
+
+DOC-13 owns referral relationship, qualification, entitlement, and reward rules. DOC-18 owns final referral objects and events. DOC-22 owns future admin access and correction controls.
 
 ---
 
@@ -478,6 +494,7 @@ DOC-15 is acceptable when it clearly defines:
 - identity and KYC/KYB data boundaries;
 - evidence and obligation data handling;
 - payer, payee, admin, system, vendor, and partner visibility rules;
+- referral attribution privacy, masking, no-recipient-on-share, and separation from payer/payee participant linking;
 - consent, notice, and communication privacy boundaries;
 - data-use tiers, partner-sharing boundaries, model-use governance, and sensitive-data red lines;
 - dashboard shortcut preference, placement exposure, personalization, and user preference boundaries;
@@ -506,6 +523,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.4` | `2026-07-21` | Product Documentation Team | Added referral attribution data classification and privacy rules for opaque reusable codes, no-recipient sharing, immutable normal-user attribution, masked referee phone display, restricted referral visibility, and separation from payer/payee linking. |
 | `0.1.0` | `2026-06-02` | Product Documentation Team | Initial founder working baseline for privacy, lawful data utility, data classification, registration/authentication data handling, visibility, masking, retention, vendor handling, ISO/PCI alignment, and cross-document ownership. |
 | `0.2.0` | `2026-06-02` | Product Documentation Team | Aligned data classification with DOC-09 user payment instruction by adding payment instruction, funding leg, deferred funding date, selected transfer date, partial funding, and payment-instruction reminder data. |
 | `0.3.0` | `2026-06-02` | Product Documentation Team | Added deferred instruction quote revalidation result and DOC-13 promotion quote reservation data to the classification baseline. |

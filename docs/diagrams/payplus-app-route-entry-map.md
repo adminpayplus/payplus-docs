@@ -42,7 +42,7 @@ flowchart TD
   HSHORTCUTS --> RECEIPTS["RECEIPTS-ROOT<br/>Receipts & Statements"]
   HSHORTCUTS --> REMINDERS["BILLS-REMINDER-LIST<br/>Reminders"]
   HSHORTCUTS --> PPROOT["PAYMENT-PROFILE-ROOT<br/>Cards / Payment Profile"]
-  HSHORTCUTS --> REFERRAL["REFERRAL-ROOT<br/>Partially defined"]
+  HSHORTCUTS --> REFERRAL["REFERRAL-ROOT<br/>Defined baseline"]
   HSHORTCUTS --> MORE["More<br/>Not fully defined"]
   ME --> REFERRAL
 
@@ -214,7 +214,7 @@ flowchart TD
 
 ## 7. Offers and Rewards Route Handoff
 
-This diagram separates promotion discovery, issued-reward management, and referral participation. `BILLS-PAY` is shown only as a cross-route destination and is not part of the Offers route family.
+This diagram separates promotion discovery, issued-reward management, and referral participation. It also shows the Referral registration-attribution handoff without treating sharing as a known-recipient invitation. `BILLS-PAY` is shown only as a cross-route destination and is not part of the Offers route family.
 
 ```mermaid
 flowchart TD
@@ -236,8 +236,18 @@ flowchart TD
   REWARDS -->|"Tap reward"| RDETAIL
 
   ODETAIL -. "Referral-program action" .-> REFERRAL
-  REFSHORTCUT["Dashboard Referral shortcut"] --> REFERRAL["REFERRAL-ROOT<br/>Partially defined"]
+  REFSHORTCUT["Dashboard Referral shortcut"] --> REFERRAL["REFERRAL-ROOT<br/>Defined baseline"]
   ME["Me"] --> REFERRAL
+  REFERRAL -->|"View Referral Rewards"| REFLIST["REFERRAL-REWARDS-LIST<br/>Referrer entitlements"]
+  REFLIST -->|"Tap entitlement"| REFDETAIL["REFERRAL-ENTITLEMENT-DETAIL"]
+  REFDETAIL -->|"Claim Reward"| REFCLAIM["REFERRAL-REWARD-CLAIM"]
+  REFCLAIM -->|"Issued reward"| RDETAIL
+  REFLIST -. "View issued reward" .-> RDETAIL
+
+  REFLINK["Referral deeplink / QR"] --> REGISTRATION["Registration / onboarding<br/>Code prefilled and not editable"]
+  REGISTRATION -. "Valid completed registration" .-> ATTRIBUTION["Referral attribution record<br/>DOC-13 / DOC-18"]
+  ATTRIBUTION -. "Progress visible to referrer" .-> REFERRAL
+
   ODETAIL -. "Issued reward handoff" .-> REWARDS
   ODETAIL -. "Eligible obligation handoff" .-> BPAY["BILLS-PAY<br/>Owned by DOC-06C"]
 ```

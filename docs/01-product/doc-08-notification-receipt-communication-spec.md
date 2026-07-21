@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.14
+version: 1.0.15
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-17
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -205,7 +205,7 @@ For DOC-06B dashboard placements:
 
 Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required. `RECEIPT-DETAIL` and `STATEMENT-DETAIL` open the selected PDF in the shared in-app preview defined by DOC-06B.
 
-Promotion-discovery notifications should route to the relevant `OFFER-DETAIL`, or to `OFFERS-ROOT` only when no specific offer exists. Issued-reward notifications should route to `REWARDS-ROOT` or the relevant `REWARD-DETAIL`. Referral invitations, progress, or referral-program actions should route to `REFERRAL-ROOT` or a later defined referral child destination. The notification record should preserve its source and target context without requiring a DOC-06B entry-point ID. Notification routing must not turn `BILLS-PAY` into an Offers sub-route.
+Promotion-discovery notifications should route to the relevant `OFFER-DETAIL`, or to `OFFERS-ROOT` only when no specific offer exists. Issued-reward notifications should route to `REWARDS-ROOT` or the relevant `REWARD-DETAIL`. Referral attribution or qualification notifications should route to `REFERRAL-ROOT`; referrer entitlement or claim notifications should route to `REFERRAL-REWARDS-LIST` or `REFERRAL-ENTITLEMENT-DETAIL` where a specific entitlement exists. A share-sheet action, copied link, or displayed QR is not an invitation delivery event and must not notify an unknown recipient. The notification record should preserve its source and target context without requiring a DOC-06B entry-point ID. Notification routing must not turn `BILLS-PAY` into an Offers sub-route.
 
 DOC-06B `ACTIVITY-ROOT` may expose direct receipt/proof download actions from an expanded activity card where the file is available and the user has permission. DOC-06B `ACTIVITY-DETAIL` may also expose direct receipt/proof download actions. If receipt/proof is unavailable, the button should be hidden by default or disabled only where useful with clear, non-sensitive wording. Invoice/evidence buttons should be hidden where access is not permitted. DOC-08 owns the communication, delivery, file-availability, and receipt/proof wording rules; DOC-15 owns masking and access boundaries.
 
@@ -359,8 +359,8 @@ Evidence messages must avoid sensitive extracted data in SMS, WhatsApp, push, an
 | `NOTIF-PROM-002` | Coupon or voucher expiring | App, push optional, email optional | Optional service |
 | `NOTIF-PROM-003` | Coupon, voucher, or discount applied at checkout | App or disabled external channels | Important service |
 | `NOTIF-PROM-004` | Reward entitlement reached | App, push optional | Optional service |
-| `NOTIF-PROM-005` | Referral invitation sent or received | App, share channel, email optional | Optional service |
-| `NOTIF-PROM-006` | Referral reward pending or approved | App, push optional | Optional service |
+| `NOTIF-PROM-005` | Referral attribution confirmed or qualification outcome changed | App, push optional | Optional service |
+| `NOTIF-PROM-006` | Referral entitlement available, held, or issued | App, push optional | Optional service |
 | `NOTIF-PROM-007` | Membership tier changed | App, email optional | Optional service |
 | `NOTIF-PROM-008` | Miles reward pending, submitted, credited, failed, or reversed | App, email optional | Important service |
 | `NOTIF-PROM-009` | External voucher claimed, ready, redeemed, failed, or reversed | App, push optional | Important service |
@@ -659,6 +659,7 @@ DOC-08 is acceptable when:
 - receipt and statement rules are defined;
 - evidence verification, correction, duplicate warning, and admin review message boundaries are defined;
 - promotion, reward, coupon, voucher, referral, membership, miles, entitlement, and fulfilment message boundaries are defined;
+- referral share actions do not create recipient notifications, while attribution, qualification, entitlement, claim, and issued-reward events route to their defined destinations;
 - payment instruction, action-required alert, deferred action, split-card remaining action, partial funding, expiry/cancellation, and partial payout message boundaries are defined;
 - deferred payment quote or promotion change notification boundaries are defined without renumbering existing notification IDs;
 - dashboard placement boundaries are defined so Important Notice / Action Required, Inbox, Featured carousel, and notification events remain separate but linkable surfaces;
@@ -671,6 +672,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.15 | 2026-07-21 | Replaced invitation-delivery wording with referral attribution, qualification, entitlement, and issuance events; aligned notification destinations with the defined Referral route family and canonical issued-reward handoff. |
 | 1.0.14 | 2026-07-17 | Aligned promotion, issued-reward, and referral notification destinations with stable DOC-06B product destinations without creating document-scoped entry-point IDs. |
 | 1.0.13 | 2026-07-14 | Aligned receipt and statement notification destinations with DOC-06B shared PDF preview/direct-download behavior, confirmed PDF as the MVP format, made receipt request ID conditional, and limited statements to role-mixed financial activity. |
 | 1.0.12 | 2026-07-13 | Aligned notification and direct receipt/proof download routing with DOC-06B `ACTIVITY-ROOT` expanded activity cards and `ACTIVITY-DETAIL` file actions, including unavailable-file and restricted-document behavior. |

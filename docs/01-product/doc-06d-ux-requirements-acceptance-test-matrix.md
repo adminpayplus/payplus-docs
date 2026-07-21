@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.6
+version: 0.1.7
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-20
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -151,7 +151,12 @@ The DOC-06 user journey scope is satisfied when:
 - changing a payment card, profile, funding allocation, amount, or other material eligibility input re-evaluates the promotion result and blocks authorization until the revised quote is reviewed;
 - navigation tests cover source, user action, destination, and return behavior without requiring a permanent ID for every entry action;
 - successful redemption changes the offer action to `Redeemed` and exposes `View My Reward`, while failed or ineligible redemption creates no reward instrument;
-- referral participation remains in `REFERRAL-ROOT`, and `BILLS-PAY` remains an external handoff rather than an Offers sub-route;
+- referral participation remains separate from Offers through `REFERRAL-ROOT`, `REFERRAL-REWARDS-LIST`, `REFERRAL-ENTITLEMENT-DETAIL`, and `REFERRAL-REWARD-CLAIM`, and `BILLS-PAY` remains an external handoff rather than an Offers sub-route;
+- opening a referral share sheet, copying a link, or showing a QR creates no known recipient, invitation card, or invitation status;
+- referral deeplink/QR registration displays a valid code prefilled and not editable, while ordinary registration permits optional manual entry, retry, or clearing an invalid code;
+- completed valid registration creates normal-user-immutable referral attribution without creating payer/payee linking, a Request, payment authority, or shared financial visibility;
+- referral qualification displays `In Progress`, `Qualified`, `Not Qualified`, or `Under Review` without exposing private financial, evidence, KYC, card, payee, or internal risk data;
+- referrer and referee benefits preserve beneficiary role, and claiming a referrer entitlement creates one canonical issued reward visible through `REWARD-DETAIL` rather than a duplicate reward record or status family;
 - direct checkout discounts do not appear as issued rewards unless DOC-13 creates a separate entitlement or instrument;
 - failed, rejected, cancelled, expired, and exception/support cases are handled clearly;
 - wallet, stored balance, cashout, self-cashout, and unsupported P2P journeys are blocked.
@@ -169,6 +174,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.7 | 2026-07-21 | Added Referral route, sharing, registration-attribution, qualification-display, privacy-boundary, role-sensitive entitlement, claim, and canonical reward-handoff acceptance coverage. |
 | 0.1.6 | 2026-07-20 | Added Offers child-list, multi-collection, duplicate-suppression, stable-ordering, distinct-offer, same-screen checkout, highest-user-value Card Offer, separate coupon/voucher, and promotion-recalculation acceptance coverage; removed stale entry-point-ID wording. |
 | 0.1.5 | 2026-07-17 | Added Offers and Rewards test-readiness for stable product destinations, source/action/destination/return transitions, section limits, child collection screens, full-screen detail behavior, redemption state, issued-reward management, partial Referral routing, and external Bills/checkout handoffs. |
 | 0.1.4 | 2026-07-14 | Added test-readiness and MVP acceptance coverage for `RECEIPTS-ROOT` search, role-aware list behavior, direct document download, and shared PDF preview behavior through `RECEIPT-DETAIL` and `STATEMENT-DETAIL`. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.6
+version: 0.1.7
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-14
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -102,6 +102,7 @@ The MVP must support the following essential journeys:
 | 18 | Notification touchpoints | Yes |
 | 19 | Receipt and history touchpoints | Yes |
 | 20 | Failure, cancellation, dispute, and exception touchpoints | Yes |
+| 21 | Referral registration attribution and qualification tracking | Yes, where Referral campaign is enabled |
 
 ---
 
@@ -199,6 +200,21 @@ The payee journey may begin when:
 - the payee receives notification of payment status;
 - the payee returns to respond to a support, query, dispute, or exception case;
 - the payee returns to view history.
+
+---
+
+#### Referral Registration Attribution Journey
+
+An existing user may share a reusable referral link, code, or QR without identifying a recipient. Sharing does not create an invitation relationship or invitation status.
+
+1. A prospective new user opens a referral deeplink/QR or enters an optional referral code during ordinary registration.
+2. Deeplink/QR registration shows the code prefilled and not editable. Ordinary registration allows the user to correct an invalid code or continue without one.
+3. The system validates the code and campaign before registration completes. The MVP uses one campaign; future manual entry may require campaign selection first.
+4. Successful registration creates immutable normal-user referral attribution between the referrer, referee, campaign, and role-sensitive offers.
+5. The system tracks configured qualification conditions and exposes privacy-safe progress to the referrer through the DOC-06B Referral route.
+6. Qualification may create separate referrer and referee entitlements under DOC-13. Issued instruments use the canonical Rewards route and status model.
+
+Referral attribution is not payer/payee participant linking, a Request, payment authorization, or permission to view another user's bills, evidence, payment amounts, cards, KYC data, payees, or internal risk reasons.
 
 ---
 
@@ -1187,7 +1203,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
 | OQ-06-020 | What exact payment-instruction screen labels, call-to-action wording, and partial-funded visual treatment should be used? | Product / Design / Legal | Open |
 | OQ-06-021 | What exact Pay+ action sheet visual layout, button order, empty states, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Partially answered |
-| OQ-06-022 | What route-level IA remains to be defined in DOC-06B for Offers, Me, More, Referral, and Support entry points? | Product / Design | Open |
+| OQ-06-022 | What route-level IA remains to be defined in DOC-06B for Me, More, and Support entry points? Offers, Rewards, and Referral route boundaries are defined. | Product / Design | Open |
 | OQ-06-023 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06-024 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06-025 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
@@ -1205,6 +1221,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.7 | 2026-07-21 | Added the referral registration-attribution journey, separating external sharing from attribution, qualification, payer/payee linking, requests, payment authority, and canonical reward issuance. |
 | 0.1.6 | 2026-07-14 | Clarified that receipt request ID applies only where the completed payment originated from a request. |
 | 0.1.5 | 2026-07-06 | Added lightweight journey alignment for default single-card selection and user-selected split-card payment profile handoff without moving checkout behavior out of DOC-09. |
 | 0.1.4 | 2026-07-02 | Reclassified query, dispute, and information-request handling as exception/support flows instead of normal `REQUESTS-DETAIL` actions. |

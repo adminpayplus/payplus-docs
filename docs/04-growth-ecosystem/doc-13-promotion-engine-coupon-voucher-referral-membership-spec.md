@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.0.0
+version: 1.1.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-07-20
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -284,7 +284,7 @@ Common eligibility dimensions:
 - BIN range;
 - saved card status;
 - membership tier;
-- referral status;
+- referral attribution or qualification status;
 - campaign period;
 - campaign budget or quota availability.
 
@@ -793,11 +793,29 @@ Instrument types:
 - coupon;
 - voucher;
 - discount code;
-- invitation code;
 - external voucher;
 - miles entitlement.
 
 Redemption / fulfilment records later use or delivery, such as checkout redemption, QR redemption, partner API confirmation, manual fulfilment, or Asia Miles crediting.
+
+A referral code/link is an attribution credential, not a reward instrument. It must be stored and governed through the referral relationship and campaign-attribution model below.
+
+### 8.8 Referral Relationship and Qualification
+
+Referral data must preserve separate, linked records for:
+
+- referrer account;
+- reusable user-linked referral code/reference;
+- referral campaign and separate referrer/referee offers;
+- referee account after valid registration attribution;
+- attribution timestamp and source context;
+- qualification progress and outcome;
+- referrer and referee benefit entitlements;
+- beneficiary role for each entitlement;
+- issued reward-instrument references;
+- hold, reversal, and clawback outcomes.
+
+Sharing, copying, or displaying a referral link/QR is an event only. It does not identify a recipient or create a referral relationship. The relationship starts when an eligible new user completes registration with a valid referral code/link. DOC-18 owns final objects, identifiers, statuses, event taxonomy, lineage, and schema.
 
 ---
 
@@ -855,10 +873,25 @@ If auto-credit is available, DOC-08 must support app communication and notificat
 
 Referral/MGM is separate from membership/tier:
 
-- referral tracks referrer, referee, invitation code/link, attribution, qualifying event, and reward;
+- PayPlus has one Referral Program, with one MVP campaign and support for multiple future campaigns;
+- every existing PayPlus user may act as a referrer without separate program enrolment;
+- each campaign may define separate, role-sensitive referrer and referee offers using the same rule, entitlement, and reward-instrument structures;
+- a reusable user-linked referral code does not expire by default, while campaign availability, qualification period, quotas, limits, and optional future code-validity controls remain configurable;
+- a referral deeplink or QR carries an opaque referral reference and campaign context into registration; the code is displayed, prefilled, and not editable;
+- ordinary registration provides an optional manual referral-code field; an invalid code may be re-entered or cleared, but successful attribution is not editable through the normal user UI after registration completes;
+- the MVP has one campaign; when multiple campaigns are later enabled, manual code entry requires campaign selection before code entry;
+- external sharing does not create a known invitation, recipient, or invitation status;
+- referral attribution begins only when an eligible new user completes registration using a valid code/link;
+- referral qualification tracks the configured campaign conditions after attribution;
+- referrer and referee entitlements are separate linked records and preserve beneficiary role;
+- rewards earned through referrer activity may be claimed through DOC-06B Referral entitlement screens; issued instruments use the same canonical reward records and statuses as `REWARDS-ROOT` and `REWARD-DETAIL`;
 - membership tracks usage-oriented tier, payment volume, transaction count, consecutive usage, tier status, and benefits.
 
 Both modules may issue normal reward instruments into `REWARDS-ROOT`.
+
+Referral campaign conditions must be configurable and event-driven. DOC-13 owns condition and entitlement meaning; DOC-18 must later define the qualifying signal/event contract; DOC-22 must later define admin configuration, enablement, limits, qualification rules, manual review, holds, release, reversal, and audit controls. Exact MVP condition values and payment/risk finality remain to be configured.
+
+Referral qualification user-facing outcomes may be summarized as `In Progress`, `Qualified`, `Not Qualified`, and `Under Review`. Referral reward entitlement and issued-instrument statuses must reuse the canonical promotion/reward status model rather than define a second referral-only status family.
 
 Membership conversion ratios and tier formulas remain to be confirmed.
 
@@ -963,8 +996,8 @@ If future AI or model-assisted ranking is used for offers or placements, DOC-13 
 | OQ-13-006 | Are external partner vouchers MVP, pilot, or future only? | Product / Commercial | Open |
 | OQ-13-007 | Is Asia Miles auto-credit through API available, or will fulfilment start with manual/batch reconciliation? | Product / Partnerships / Engineering | Open |
 | OQ-13-008 | What Asia Miles account validation, consent, and retention rules are required? | Legal / Privacy / Partnerships | Open |
-| OQ-13-009 | What referral qualifying event triggers reward approval? | Product / Growth / Risk | Open |
-| OQ-13-010 | What refund, chargeback, and risk window applies before referral or miles rewards become final? | Risk / Finance / Operations | Open |
+| OQ-13-009 | Which admin-configured referral qualification conditions and source events are enabled for the MVP campaign? | Product / Growth / Risk / Operations | Open; configurable requirement confirmed |
+| OQ-13-010 | What payment, settlement, refund, chargeback, and risk finality values are configured before referral or miles rewards become final? | Risk / Finance / Operations | Open; configurable requirement confirmed |
 | OQ-13-011 | What membership tier formula, conversion ratio, downgrade rule, and grace period apply? | Product / Growth / Commercial | Open |
 | OQ-13-012 | What partner reimbursement, tax, and accounting treatment applies to partner-funded offers? | Finance / Legal / Commercial | Open |
 | OQ-13-013 | Which promotion types may be hard-reserved for DOC-09 deferred payment instructions, and what expiry, budget-release, and user-notice rules apply? | Product / Growth / Finance | Open |
@@ -988,6 +1021,8 @@ DOC-13 is acceptable when:
 - card-linked eligibility prefers the selected tokenized payment-card reference or gateway-returned card metadata, links split-card evaluation to the applicable funding leg, and treats BIN check as supplementary;
 - `REWARDS-ROOT` can show issued rewards from different sources while preserving source and instrument type;
 - MGM/referral and membership/tier are separate qualification modules;
+- referral sharing is separated from registration attribution, qualification, entitlement, issuance, and reward use;
+- reusable referral code/link, single-campaign MVP, future campaign selection, role-sensitive referrer/referee offers, and canonical reward-instrument handoff are defined;
 - Asia Miles reward and external partner fulfilment are covered;
 - campaign measurement, partner reporting, consent-aware offer ranking, and model-assisted placement boundaries are traceable to DOC-15 and DOC-18;
 - affected documents are clearly marked for follow-up alignment.
@@ -1001,6 +1036,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.0 | 2026-07-21 | Defined the PayPlus Referral Program, reusable code/link and registration-attribution rules, single-campaign MVP and future campaign selection, event-driven qualification, role-sensitive referrer/referee entitlements, referrer claim flow, and canonical issued-reward handoff; removed invitation code from reward-instrument types. |
 | 1.0.0 | 2026-07-20 | Confirmed multi-collection offer membership, root duplicate suppression boundary, one automatically selected highest-user-value payment-method-sensitive Card Offer per payment card/funding leg, separate eligible coupon/voucher/discount selection, and same-screen DOC-09 checkout recalculation handoff. |
 | 0.1.0 | 2026-06-01 | Initial founder working baseline for promotion engine, coupon, voucher, discount code, card-linked offer, Asia Miles reward, referral, membership, external partner voucher, checkout calculation, stacking, usage, data, reversal, and cross-document alignment requirements. |
 | 0.2.0 | 2026-06-01 | Rewritten to separate promotion-engine structure from data-layer requirements, add rule families, clarify entitlement versus usage logic for accumulated spend rewards, and preserve tokenized card, service-fee, coupon library, Asia Miles, MGM, membership, and cross-document alignment decisions. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.18
+version: 0.1.19
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-20
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -226,7 +226,7 @@ MVP shortcut grid:
 | Receipts | Payment receipts and statements. Proof of payment remains available from relevant Activity contexts for MVP. | Opens `RECEIPTS-ROOT`. |
 | Reminders | User-set due reminders for bills, rent, tenancy obligations, and manual reminders. | Opens `BILLS-REMINDER-LIST`. |
 | Cards | Payment Profile route for managing tokenized cards and saved split-card profiles. The shortcut is an entry point, not checkout. | Opens `PAYMENT-PROFILE-ROOT`. |
-| Referral | Referral / MGM entry point and referral reward status where enabled. | Opens `REFERRAL-ROOT`. Referral campaigns may be promoted in `OFFERS-ROOT`, but participation and progress remain owned by the Referral route. |
+| Referral | Referral entry point for sharing the user's reusable referral link, monitoring attributed-referee qualification, and claiming referrer rewards where enabled. | Opens `REFERRAL-ROOT`. Referral campaigns may be promoted in `OFFERS-ROOT`, but attribution, progress, and referrer reward claiming remain owned by the Referral route. |
 | More | Opens remaining or secondary shortcuts and services. | Opens future More Shortcuts / Services route or sheet. |
 
 Support should not be part of the initial eight dashboard shortcuts. Support remains accessible through `Me`, issue-specific status screens, and/or `More` if enabled.
@@ -327,7 +327,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Receipts & Statements Route | Define the searchable receipt/statement list, direct download, shared PDF preview, return behavior, and re-issue handoff. | Root and preview behavior defined / not final PDF design |
 | Reminders Route | Define due reminders, user-set reminders, notification settings, and reminder destinations. | Title preserved / not finalized |
 | Payment Profile Route | Define tokenized card management, saved split-card profile management, card status, default card, profile action-required behavior, and checkout/instruction handoff. | Route shell defined / not final UI |
-| Referral Route | Define `REFERRAL-ROOT` invitation, relationship, progress, and referral-program UX. Referral campaigns may be discovered through Offers, but Referral remains a separate route. | Partially defined / detailed route not finalized |
+| Referral Route | Define `REFERRAL-ROOT`, referral attribution and progress presentation, referrer entitlement list/detail/claim screens, registration handoff, and issued-reward handoff. Referral campaigns may be discovered through Offers, but Referral remains a separate route. | Route baseline defined / not final visual design |
 | Admin-Configurable UI Marker List | Mark app UI elements that require admin configuration later without drafting admin UI in DOC-06. | Title preserved / DOC-22 owns admin UI |
 
 App UI elements that currently require admin configuration markers include Pay+ action visibility, shortcut visibility/order/defaults, Featured / What's New / Hot Offer carousel placement, Important Notice / Action Required item types, feature/module enablement, request-payment availability, and route-level gating by user type, category, launch phase, risk state, or compliance restriction.
@@ -1233,9 +1233,12 @@ Offers, issued rewards, and referral serve different user intentions and must no
 | `OFFER-DETAIL` | `OFFERS-ROOT` or an Offers child list | Route-addressable full-screen modal | Understand one offer and take its configured action. | DOC-06B; DOC-13 for offer logic | Defined baseline |
 | `REWARDS-ROOT` | Rewards area | Root screen | Manage rewards already issued to the user, including supported coupons, vouchers, external-partner instruments, and miles entitlements. | DOC-06B; DOC-13 for reward logic | Defined baseline |
 | `REWARD-DETAIL` | `REWARDS-ROOT` | Route-addressable full-screen modal | View and use one issued reward according to its instrument and fulfilment method. | DOC-06B; DOC-13 for reward logic | Defined baseline |
-| `REFERRAL-ROOT` | Referral area | Root screen | Join and manage referral participation, invitation, relationship, progress, and referral reward status. | DOC-06B; DOC-13 for referral logic | Partially defined |
+| `REFERRAL-ROOT` | Referral area | Root screen | Share the user's reusable referral link/code, select an active campaign where applicable, monitor attributed-referee qualification, and enter referrer reward management. | DOC-06B; DOC-13 for referral logic | Defined baseline |
+| `REFERRAL-REWARDS-LIST` | `REFERRAL-ROOT` | Child list screen | View referral-sourced entitlements earned through the user's referrer activity and their claim/issuance history. | DOC-06B; DOC-13 for entitlement logic | Defined baseline |
+| `REFERRAL-ENTITLEMENT-DETAIL` | `REFERRAL-REWARDS-LIST` | Child detail screen | View one referral entitlement's campaign source, qualification basis, approval/hold outcome, conditions, and claim availability. | DOC-06B; DOC-13 for entitlement logic | Defined baseline |
+| `REFERRAL-REWARD-CLAIM` | `REFERRAL-ENTITLEMENT-DETAIL` | Confirmation flow | Confirm conversion of an approved referral entitlement into an issued reward instrument. | DOC-06B; DOC-13 for issuance logic | Defined baseline |
 
-`OFFERS-ROOT` is a discovery route. `REWARDS-ROOT` is an issued-benefit management route. `REFERRAL-ROOT` is a relationship and progress route. They may link to one another but must not redefine one another's behavior.
+`OFFERS-ROOT` is a discovery route. `REWARDS-ROOT` is an issued-benefit management route. `REFERRAL-ROOT` is the PayPlus Referral Program management route for existing users acting as referrers. They may link to one another but must not redefine one another's behavior. Referral attribution does not create payer/payee linking, a Request, payment authority, or shared financial visibility.
 
 What's New is not an Offers category by default. A dashboard What's New item should open its announcement or feature destination unless the item is also an approved offer governed by DOC-13.
 
@@ -1257,6 +1260,11 @@ Navigation is defined by transition rather than by assigning an ID to every entr
 | `REWARDS-ROOT` | Tap a reward | `REWARD-DETAIL` | Return with the prior view and scroll state preserved. |
 | Dashboard Referral shortcut or `Me` | Tap Referral | `REFERRAL-ROOT` | Return to the originating context. |
 | `OFFER-DETAIL` | Take a referral-program action | `REFERRAL-ROOT` | Return to the originating offer where supported. |
+| `REFERRAL-ROOT` | Tap `View Referral Rewards` | `REFERRAL-REWARDS-LIST` | Return to the selected campaign and prior Referral position. |
+| `REFERRAL-REWARDS-LIST` | Tap an entitlement | `REFERRAL-ENTITLEMENT-DETAIL` | Return with list position preserved. |
+| `REFERRAL-ENTITLEMENT-DETAIL` | Tap `Claim Reward` | `REFERRAL-REWARD-CLAIM` | Cancel returns to entitlement detail; successful issuance opens the issued reward or returns with issuance confirmed. |
+| `REFERRAL-REWARDS-LIST` or `REFERRAL-ENTITLEMENT-DETAIL` | Tap `View in My Rewards` for an issued instrument | `REWARD-DETAIL` | Return to the originating Referral context where supported. |
+| Referral deeplink or QR | Open referral link as a prospective new user | Registration/onboarding with the referral code and campaign context prefilled | After successful registration attribution, continue the normal onboarding destination; this does not open a Referral child route. |
 | Promotion or reward notification / approved deeplink | Open the referenced item | Relevant detail destination, or the corresponding root when no item is identified | Return to prior app context where available; otherwise use the corresponding root. |
 
 #### 5.16.2 `OFFERS-ROOT` Screen
@@ -1372,15 +1380,50 @@ Each reward item should show:
 
 If a reward cannot be used, the action must be hidden or disabled with a clear reason. Expired, used, reversed, or unavailable rewards remain viewable according to retention and user-record rules but must not be presented as active value.
 
-#### 5.16.5 Placement, Control, and Data Boundaries
+#### 5.16.5 Referral Routes
+
+PayPlus has one Referral Program. Every existing PayPlus user may act as a referrer without a separate program-enrolment action. The MVP supports one active referral campaign; later campaigns remain selectable as a route-local view rather than separate routes.
+
+`REFERRAL-ROOT` screen order is:
+
+1. header with Back, title `Referral`, and terms action;
+2. campaign selector, hidden when only the MVP campaign is available;
+3. selected campaign benefit, qualification, period, limit, and material-condition summary;
+4. separate referrer and referee benefit explanation;
+5. reusable personal referral code/link;
+6. `Share`, `Copy Link`, and `Show QR` actions using approved external share channels;
+7. attributed-referee qualification summary and list;
+8. referrer reward summary and `View Referral Rewards`;
+9. no-active-campaign, no-attributed-referee, campaign-ended, and recoverable-error states.
+
+Opening a system share sheet, copying a link, or displaying a QR does not identify a recipient and must not create an invitation card or user-facing `Awaiting acceptance`, `Accepted`, `Declined`, or `Expired` invitation status. A referee appears only after an eligible new user completes registration using a valid referral code/link.
+
+The registration handoff must support:
+
+- referral deeplink or QR context with the code shown, prefilled, and not editable;
+- an optional manual referral-code field for ordinary registration;
+- immediate validation before registration completion;
+- invalid-code handling that lets the user re-enter the code or leave the field blank;
+- immutable normal-user attribution after registration completes with a valid code;
+- one MVP campaign without a campaign selector; where multiple campaigns are later enabled, manual entry requires campaign selection before code entry.
+
+Exact registration, authentication, deeplink, QR-token, and technical return contracts remain owned by their applicable journey, privacy, security, and technical specifications.
+
+Attributed-referee entries show the configured campaign, qualification progress, and a phone number with the middle half of digits masked; for an eight-digit Hong Kong number, use the MVP presentation `91****67`. They must not expose bills, rent, evidence, payment amounts, payment cards/profiles, KYC data, payee data, or internal risk reasons. Qualification display labels are `In Progress`, `Qualified`, `Not Qualified`, and `Under Review`, subject to the status-display reference matrix and future DOC-18 canonical mapping.
+
+`REFERRAL-REWARDS-LIST` is limited to rewards earned through the user's activity as a referrer. It presents linked referral entitlements and claim/issuance history; it does not create a second issued-reward record or status family. `REFERRAL-ENTITLEMENT-DETAIL` shows the qualification basis, entitlement conditions, approval/hold outcome, and `Claim Reward` action where available. `REFERRAL-REWARD-CLAIM` confirms issuance. After successful issuance, the same reward instrument appears in `REWARDS-ROOT`, and `View in My Rewards` opens canonical `REWARD-DETAIL`.
+
+Referee benefits use the same DOC-13 entitlement and reward-instrument structures and appear in the referee's My Rewards after issuance. Referral campaigns must therefore preserve the beneficiary role on each entitlement and issued reward while keeping referrer/referee offers independently configurable.
+
+#### 5.16.6 Placement, Control, and Data Boundaries
 
 DOC-13 owns campaign, offer, qualification, entitlement, benefit, instrument, redemption, stacking, budget, quota, reversal, and fulfilment logic. DOC-06B owns only the route presentation and handoffs defined here.
 
 DOC-22 should later define admin controls for offer approval, placement, priority, scheduling, targeting, enable/disable, category/label filters, and exception handling. Dashboard What's New administration remains a separate placement concern. DOC-15 owns consent, permitted personalization, masking, and partner-data boundaries. Sensitive evidence-derived data must not be used for offer targeting unless expressly approved under DOC-15.
 
-Material route-level signals for later DOC-18 specification include offer impression, search/filter use, offer open, claim attempt/result, reward open, use action, checkout handoff, referral handoff, external fulfilment handoff, and return outcome. DOC-18 owns final event IDs, schema, lineage, analytics, and model-use metadata.
+Material route-level signals for later DOC-18 specification include offer impression, search/filter use, offer open, claim attempt/result, reward open, use action, checkout handoff, referral handoff, referral share action, registration attribution, qualification outcome, entitlement availability, referral claim/issuance result, external fulfilment handoff, and return outcome. A share action is not proof of delivery or recipient identity. DOC-18 owns final event IDs, schema, lineage, analytics, and model-use metadata.
 
-#### 5.16.6 Open Items
+#### 5.16.7 Open Items
 
 | Item | Owner | Status |
 | --- | --- | --- |
@@ -1390,6 +1433,7 @@ Material route-level signals for later DOC-18 specification include offer impres
 | Final personalized ranking and targeting scope | Product / Growth / Privacy | Open |
 | Final membership-program route destination | Product / Growth | Open |
 | Final external-partner reward MVP scope | Product / Commercial | Open |
+| Final referral campaign reward values, qualification conditions, payment/risk finality, technical deeplink/QR format, and multi-campaign visual design | Product / Growth / Risk / Design / Engineering | Open; admin-configurable baseline defined |
 
 ## 6. Route Completion Status
 
@@ -1406,7 +1450,7 @@ Material route-level signals for later DOC-18 specification include offer impres
 | Receipts & Statements | Root and Preview Behavior Defined / Not Final PDF Design | `RECEIPTS-ROOT` search, list, role indicator, empty state, direct download, shared PDF preview, and return behavior are defined. Confirm PDF layout/design, export naming, sharing controls, statement schedule, and re-issue workflow. |
 | Reminders | Partially Defined in DOC-06C | Ordinary bill/rent reminders remain separate from payment instruction action alerts. |
 | Payment Profile / Cards | Two-Tab Route Baseline Defined / Not Final Visual Design | Confirm final card styling, field density, empty-state copy, PSP tokenization return behavior, and permitted card metadata. |
-| Referral | Partially Defined | `REFERRAL-ROOT` is separate from Offers and Rewards and may be entered from the dashboard shortcut, `Me`, or referral campaign handoff. Detailed invitation, relationship, progress, and referral-status UX remains open. |
+| Referral | Route Baseline Defined / Not Final Visual Design | `REFERRAL-ROOT`, referrer entitlement list/detail/claim screens, registration attribution handoff, reusable sharing, qualification display, privacy boundary, and issued-reward handoff are defined. Confirm final styling and the open campaign parameters. |
 | More | Not Fully Defined | Define overflow, management, and admin/user shortcut configuration behavior. |
 
 ## 7. Local Open Questions
@@ -1414,7 +1458,7 @@ Material route-level signals for later DOC-18 specification include offer impres
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-06B-001 | What final Pay+ visual layout, button order, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Open |
-| OQ-06B-002 | What route-level IA should apply to Me, More, detailed Referral behavior, and Support? Offers and Rewards route boundaries are now defined. | Product / Design | Open |
+| OQ-06B-002 | What route-level IA should apply to Me, More, and Support? Referral, Offers, and Rewards route boundaries are now defined. | Product / Design | Open |
 | OQ-06B-003 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
@@ -1429,6 +1473,7 @@ Material route-level signals for later DOC-18 specification include offer impres
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.19 | 2026-07-21 | Defined the Referral route family, reusable share behavior, registration attribution handoff, qualification display, referrer entitlement list/detail/claim flow, role-sensitive reward handoff, privacy boundary, and distinction between referral entitlements and canonical issued reward instruments. |
 | 0.1.18 | 2026-07-20 | Defined the three Offers child-list baselines, clarified offer card versus payment card versus Card Offer terminology, added multi-collection membership, root duplicate suppression, stable collection-specific ordering, list states, return preservation, and DOC-09/DOC-13 checkout handoff. |
 | 0.1.17 | 2026-07-17 | Defined Offers, child collection, Rewards, and partial Referral route boundaries; added a product-level route register and source/action/destination/return transitions, section limits/layout, View More list screens, full-screen offer/reward detail behavior, redemption-state changes, cross-route handoffs, and promotion-engine ownership separation. |
 | 0.1.16 | 2026-07-14 | Defined `RECEIPTS-ROOT` search, views, role-aware list and empty-state behavior; defined direct download and shared in-app PDF preview behavior for `RECEIPT-DETAIL` and `STATEMENT-DETAIL`; kept proof as an Activity-context direct download and final PDF design open. |

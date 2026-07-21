@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.11
+version: 0.21.12
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-20
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -147,7 +147,7 @@ This matrix prevents the split from creating a false impression that all routes 
 | Offers and Rewards | DOC-06B for route shells and placement | DOC-13 for promotion, entitlement, instrument, and fulfilment logic; DOC-09 for checkout | Offers Child-List Baseline Defined / Not Final Visual Design | `OFFERS-ROOT` governs sectioned discovery; `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` use the shared child-list baseline with multi-collection membership, root duplicate suppression, and stable ordering; `OFFER-DETAIL` and `REWARD-DETAIL` are full-screen modal destinations; `REWARDS-ROOT` governs issued rewards. `BILLS-PAY` remains an external DOC-06C handoff and DOC-09 owns same-screen payment-card/profile and promotion selection. |
 | Me / Account | DOC-06B for route shell | DOC-15/DOC-19 for privacy/security detail | Not Fully Defined | Account/settings route IA remains pending. |
 | Payment Profile / Cards | DOC-06B for route shell | DOC-09/DOC-15/DOC-19 for checkout, privacy, and security detail | Route Shell Defined / Not Final UI | Shortcut opens `PAYMENT-PROFILE-ROOT`; route manages tokenized cards and saved split-card profiles, while checkout remains DOC-09. |
-| Referral | DOC-06B for route shell | DOC-13 for referral and reward logic | Partially Defined | `REFERRAL-ROOT` is separate from Offers and Rewards and may be entered from the dashboard shortcut, `Me`, or a referral campaign; detailed route UX remains pending. |
+| Referral | DOC-06B for route UX and registration handoff | DOC-13 for referral, qualification, entitlement, and reward logic | Route Baseline Defined / Not Final Visual Design | `REFERRAL-ROOT`, referrer entitlement list/detail/claim screens, reusable sharing, registration attribution handoff, qualification display, and issued-reward handoff are defined. |
 | More | DOC-06B | Destination owners for launched routes | Not Fully Defined | Shortcut overflow behavior and route content remain pending. |
 
 ---
@@ -284,7 +284,7 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | Wallet, stored balance, cashout, self-cashout, and unsupported P2P journeys are prohibited. | Confirmed |
 | Final payment processor, operating-bank setup, detailed KYC/KYB steps, fees, multi-card card-count limit, and dispute policy details remain open or to be confirmed. | Open |
 | Major functions and modules must be independently disableable. | Confirmed |
-| Promotion discovery, issued-reward management, and referral participation use separate DOC-06B routes; commercial availability remains launch-gated by DOC-13. | Working Baseline / Not Final Visual Design |
+| Promotion discovery, issued-reward management, and referral participation use separate DOC-06B routes. Referral sharing, registration attribution, qualification progress, referrer entitlement claiming, and canonical issued-reward handoff are defined; commercial availability and campaign conditions remain governed by DOC-13. | Working Baseline / Not Final Visual Design |
 | Home Dashboard is task-first and uses bottom navigation `Home`, `Bills`, `Pay+`, `Offers`, and `Me`. | Designated Layout Baseline |
 | `Pay+` is the preferred center bottom-nav action label. Working baseline actions are Pay a Bill / Fee, Pay Rent, Add Bill / Rent, Continue Payment, and Request Payment. | Working Baseline / Not Final |
 | `Add Bill / Rent` includes scan QR, upload evidence, and manual entry inside the setup flow; QR/upload is not a standalone instant-payment action. | Working Baseline |
@@ -331,6 +331,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.12 | 2026-07-21 | Aligned the parent UX map with the defined Referral route family, registration-attribution handoff, reusable sharing, qualification display, referrer entitlement claiming, and canonical issued-reward handoff. |
 | v0.21.11 | 2026-07-20 | Aligned the parent UX map with the defined Offers child-list baseline, multi-collection membership, root duplicate suppression, stable ordering, and DOC-09 same-screen payment-card/profile and promotion-selection ownership. |
 | v0.21.10 | 2026-07-17 | Aligned the parent route matrix with stable Offers destination names, child-list screens, full-screen offer/reward detail destinations, separate `REWARDS-ROOT`, partial `REFERRAL-ROOT`, and external `BILLS-PAY` handoff. |
 | v0.21.9 | 2026-07-14 | Aligned DOC-06B route-level UX ownership and the parent route status with `RECEIPTS-ROOT` search/list behavior, minimal PDF preview/direct-download behavior, and direct Activity-context proof download. |

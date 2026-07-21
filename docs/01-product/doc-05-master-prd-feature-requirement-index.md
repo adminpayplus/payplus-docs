@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.13
+version: 0.18.14
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-20
+last_updated: 2026-07-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -489,7 +489,7 @@ DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B 
 
 For split UX topics, use one primary owner. DOC-06B owns standalone route shells and human-readable route-level UX for Requests, Instructions, Payment Profile, Offers, Me, Referral, More, and global Receipts/Activity routes. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
 
-For growth UX, `OFFERS-ROOT` owns promotion discovery; its child screens `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` own the respective View More collections; `REWARDS-ROOT` owns issued-reward management; and `REFERRAL-ROOT` owns referral participation and progress. One offer may belong to multiple discovery collections, while unintended repeated display of the same Offer ID is suppressed on `OFFERS-ROOT`. Direct checkout discounts are not issued rewards. Referral campaigns may appear in Offers, but referral actions remain in the Referral route. Detailed commercial and calculation logic remains owned by DOC-13.
+For growth UX, `OFFERS-ROOT` owns promotion discovery; its child screens `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` own the respective View More collections; `REWARDS-ROOT` owns issued-reward management; and the `REFERRAL-ROOT`, `REFERRAL-REWARDS-LIST`, `REFERRAL-ENTITLEMENT-DETAIL`, and `REFERRAL-REWARD-CLAIM` route family owns referral sharing, attributed-referee qualification progress, and referrer reward claiming. One offer may belong to multiple discovery collections, while unintended repeated display of the same Offer ID is suppressed on `OFFERS-ROOT`. Direct checkout discounts are not issued rewards. Referral campaigns may appear in Offers, but referral actions remain in the Referral route; an issued referral reward uses the canonical `REWARD-DETAIL`. Detailed commercial, qualification, entitlement, and calculation logic remains owned by DOC-13.
 
 For Requests, use the DOC-06 family boundary: a request is not a payment. It is a record asking another party to review, accept, link to, or reject a bill, rent, tenancy, fee, invoice, or approved obligation context. Accepted requests link the parties to the accepted context and may support later payment readiness, but payment authorization and processing remain separate payment-domain behavior.
 
@@ -530,7 +530,7 @@ Bills-route requirements must remain role-aware:
 - review the automatically selected highest-user-value payment-method-sensitive Card Offer, separately select an eligible checkout coupon/voucher/discount, and review the recalculated promotion/payment quote in the same checkout screen or step before authorization;
 - discover approved promotions through DOC-06B `OFFERS-ROOT` and review conditions through `OFFER-DETAIL`;
 - manage issued coupons, vouchers, miles entitlements, or other supported rewards through `REWARDS-ROOT` and `REWARD-DETAIL` where enabled;
-- manage referral participation separately through `REFERRAL-ROOT` where enabled;
+- share a reusable referral link/code, view attributed-referee qualification progress, and claim eligible referrer rewards through the Referral route family where enabled; referral sharing alone does not identify a recipient or create an invitation status;
 - manage tokenized cards, set a default card for single-card checkout, and manage saved split-card payment profiles where enabled;
 - view payment status;
 - view receipts/history.
@@ -743,6 +743,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.14 | 2026-07-21 | Aligned the PRD with the defined Referral route family, reusable sharing, registration attribution, qualification progress, referrer entitlement claiming, and canonical issued-reward handoff. |
 | v0.18.13 | 2026-07-20 | Aligned the PRD with multi-collection Offers, root duplicate suppression, stable child-list ordering, automatic highest-user-value Card Offer selection per payment card/funding leg, separate coupon/voucher/discount selection, and same-screen checkout review. |
 | v0.1 | Initial Draft | Initial master PRD structure. |
 | v0.2 | 2026-05-27 | Updated MVP to include both payer-created and payee-created payment requests; added two-sided user visibility, evidence-backed linking, linked payer/payee records, and simplified structure. |

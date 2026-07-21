@@ -75,7 +75,7 @@ Required capabilities should include:
 
 ## 17. Admin Actions and Status Changes
 
-## 18. Campaign, Promotion, Coupon, Voucher, and Reward Operations
+## 18. Campaign, Promotion, Coupon, Voucher, Reward, and Referral Operations
 
 Detailed promotion-engine rules belong in DOC-13. Admin workflows should support campaign setup, offer setup, eligibility rule configuration, qualification and entitlement review, coupon/voucher issuance, miles fulfilment status, external voucher exception handling, reward reversal, and approval/audit workflow where promotions are enabled.
 
@@ -158,6 +158,25 @@ Required capabilities include:
 
 Detailed eligibility, stacking, value comparison, and benefit calculation belong in DOC-13. Same-screen checkout behavior belongs in DOC-09. Final data objects and events belong in DOC-18.
 
+### 18.6 Referral Program, Campaign, and Qualification Configuration
+
+Future full DOC-22 drafting must support the confirmed DOC-06B and DOC-13 Referral baseline without redefining referral or reward logic.
+
+Required capabilities include:
+
+- enable or disable the PayPlus Referral Program and individual campaigns;
+- support one MVP campaign and preserve support for multiple future campaigns;
+- configure separate referrer and referee offers and beneficiary-role entitlements;
+- configure qualifying conditions, source events, payment/risk finality, qualification periods, deadlines, quotas, and per-user limits;
+- keep reusable user-linked referral codes non-expiring by default while preserving optional future validity controls;
+- configure campaign availability, terms, share channels, and campaign-specific registration context;
+- review privacy-safe attribution and qualification records without exposing unnecessary bills, evidence, payments, cards, KYC data, payees, or internal risk reasons;
+- hold, release, reject, reverse, or claw back referral entitlements according to approved permissions, reason codes, and audit rules;
+- support controlled attribution correction only if later approved, with reason capture, authorization, and full audit history;
+- audit campaign changes, rule changes, qualification decisions, manual overrides, entitlement actions, claim outcomes, and reward issuance linkages.
+
+Detailed Referral route behavior belongs in DOC-06B. Referral, qualification, entitlement, and reward rules belong in DOC-13. Privacy and masking belong in DOC-15. Final objects, identifiers, statuses, events, and lineage belong in DOC-18.
+
 ## 19. Audit Logging Requirements
 
 ## 20. Notifications and Escalations
@@ -198,6 +217,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.6.0 | 2026-07-21 | Added future Referral Program, campaign, role-sensitive offer, qualification, finality, quota, validity, privacy-safe review, entitlement hold/release/reversal, attribution-correction, and audit configuration markers. |
 | 0.5.0 | 2026-07-20 | Added future admin markers for multi-collection Offers, primary root placement, duplicate suppression and override, per-collection priority, payment-method-sensitive application mode, highest-user-value comparison, and audit controls. |
 | 0.1.0 | 2026-06-17 | Added DOC-06 reminder default configuration hooks for bill/rent reminder timing, category gating, channel linkage, and audit logging. |
 | 0.2.0 | 2026-06-18 | Added future DOC-22 update markers for admin handling of DOC-06 Bills evidence detail/upload routes, evidence statuses, readiness impact, archive-not-delete behavior, prior evidence access, notifications, and audit logging. |
