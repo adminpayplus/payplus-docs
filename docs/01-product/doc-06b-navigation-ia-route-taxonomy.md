@@ -36,6 +36,21 @@ related_documents:
 
 # DOC-06B - Navigation, IA & Route Taxonomy
 
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-06B` |
+| **Title** | Navigation, IA & Route Taxonomy |
+| **Version** | `0.1.22` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Product / Founder |
+| **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
+| **Approvers** | Project Owner<br>Product Lead |
+| **Last Updated** | `2026-07-22` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
+
+---
+
 ## 1. Purpose
 
 DOC-06B governs PayPlus global app navigation, information architecture, dashboard placement, route taxonomy, screen/component/action ID standards, and route completion tracking.

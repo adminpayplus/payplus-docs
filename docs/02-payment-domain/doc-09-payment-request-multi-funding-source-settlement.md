@@ -40,6 +40,21 @@ related_documents:
 
 # DOC-09 - Payment Request, Multi-Funding Source & Settlement
 
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-09` |
+| **Title** | Payment Request, Multi-Funding Source & Settlement |
+| **Version** | `1.0.7` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Payments / Product |
+| **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
+| **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
+| **Last Updated** | `2026-07-21` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication |
+
+---
+
 ## 1. Purpose
 
 This document defines PayPlus MVP rules for payment requests, user payment instructions, card funding, multi-card funding, payer authorization, payment profiles, tokenization boundaries, payment status, and settlement readiness.

@@ -40,6 +40,21 @@ related_documents:
 
 # DOC-06 - PayPlus User Journey, UX Flow, and Service Blueprint Family
 
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-06` |
+| **Title** | User Journey, UX Flow & Service Blueprint |
+| **Version** | `0.21.15` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Product / Founder |
+| **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
+| **Approvers** | Project Owner<br>Product Lead |
+| **Last Updated** | `2026-07-22` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+
+---
+
 ## 1. Purpose
 
 This parent document governs the DOC-06 family for PayPlus user journeys, UX flow, navigation, route taxonomy, service blueprint touchpoints, and UX acceptance mapping.

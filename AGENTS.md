@@ -266,7 +266,8 @@ Avoid:
 
 Formal `DOC-XX` files should generally follow `DOC-00` governance and include:
 
-- YAML front matter where the document already uses it or where a new formal document is being created;
+- canonical YAML front matter where the document already uses it or where a new formal document is being created;
+- a human-readable `Document Control` table immediately below the H1 title that mirrors the YAML metadata;
 - document ID;
 - title;
 - version;
@@ -283,6 +284,8 @@ Formal `DOC-XX` files should generally follow `DOC-00` governance and include:
 - open questions;
 - acceptance criteria;
 - version history.
+
+YAML is the metadata source of truth. The Document Control table is a presentation mirror and must not introduce different values. Whenever metadata changes, update and verify both representations in the same edit. Empty placeholder documents are exempt until formal drafting begins; backup files must not be mechanically reformatted.
 
 When editing an existing document, preserve its established format unless the task is specifically to standardize format.
 

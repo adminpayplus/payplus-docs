@@ -37,6 +37,22 @@ affected_documents:
 
 # CR-DOC-06-MODULARIZATION-ID-ALIGNMENT - DOC-06 Modularization and ID Alignment Plan
 
+| Document Control | Details |
+| --- | --- |
+| **Change Request ID** | `CR-DOC-06-MODULARIZATION-ID-ALIGNMENT` |
+| **Title** | DOC-06 Modularization and ID Alignment Plan |
+| **Status** | Implemented |
+| **Authority** | Non-authoritative change-planning note |
+| **Owner** | Product / Founder |
+| **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
+| **Approvers** | Project Owner<br>Product Lead |
+| **Created Date** | `2026-06-25` |
+| **Last Updated** | `2026-07-17` |
+| **Classification** | Internal |
+| **Affected Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint (proposed)<br>DOC-06B Navigation, IA & Route Taxonomy (proposed)<br>DOC-06C Bills, Rent & Tenancy UX Module (proposed)<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix (proposed)<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-22 Admin Management Dashboard & Operations Workflow |
+
+---
+
 ## 1. Purpose
 
 This change request records the controlled restructuring of DOC-06 into smaller, linked companion documents.

@@ -47,6 +47,21 @@ related_documents:
 
 # DOC-13 - Promotion Engine, Coupon, Voucher, Referral & Membership Specification
 
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-13` |
+| **Title** | Promotion Engine, Coupon, Voucher, Referral & Membership Specification |
+| **Version** | `1.2.0` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Growth / Product |
+| **Reviewers** | Product Lead<br>Commercial Lead<br>Finance Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead |
+| **Approvers** | Project Owner<br>Product Lead<br>Commercial Lead<br>Finance Lead |
+| **Last Updated** | `2026-07-21` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+
+---
+
 ## 1. Purpose
 
 This document defines PayPlus promotion, coupon, voucher, discount code, card-linked offer, miles reward, referral, member-get-member, membership, and partner-offer rules.

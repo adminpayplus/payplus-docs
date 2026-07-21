@@ -23,6 +23,19 @@ related_documents:
 
 # PayPlus Data Strategy, AI Intelligence, and Privacy-Safe Marketing Research
 
+| Document Control | Details |
+| --- | --- |
+| **Title** | PayPlus Data Strategy, AI Intelligence, and Privacy-Safe Marketing Research |
+| **Version** | `0.1.0` |
+| **Status** | Draft Research Memo |
+| **Owner** | Product / Growth / Data |
+| **Reviewers** | Product Lead<br>Growth Lead<br>Data Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Legal Lead |
+| **Last Updated** | `2026-06-07` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-01 Product Overview & Positioning<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
+
+---
+
 ## 1. Purpose
 
 This memo explores how PayPlus may use data and AI in the future to support product intelligence, privacy-safe marketing, partner offers, commercial reporting, and data-driven strategic value.

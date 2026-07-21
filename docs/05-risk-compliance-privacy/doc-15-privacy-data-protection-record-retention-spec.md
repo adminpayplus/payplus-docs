@@ -46,6 +46,21 @@ related_documents:
 
 # DOC-15 - Privacy, Data Protection & Record Retention Specification
 
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-15` |
+| **Title** | Privacy, Data Protection & Record Retention Specification |
+| **Version** | `0.8.7` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Privacy / Compliance |
+| **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
+| **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
+| **Last Updated** | `2026-07-22` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
+
+---
+
 ## 1. Purpose
 
 This document defines PayPlus privacy, data protection, data classification, visibility, masking, lawful-use, consent, vendor, and record-retention requirements.

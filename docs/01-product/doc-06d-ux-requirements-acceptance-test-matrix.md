@@ -27,6 +27,21 @@ related_documents:
 
 # DOC-06D - UX Requirements, Acceptance Criteria & Test Matrix
 
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-06D` |
+| **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
+| **Version** | `0.1.10` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Product / Founder |
+| **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
+| **Approvers** | Project Owner<br>Product Lead |
+| **Last Updated** | `2026-07-22` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist |
+
+---
+
 ## 1. Purpose
 
 DOC-06D governs UX requirement IDs, acceptance criteria, route/action/state/event/test mapping, and test-readiness tracking for the DOC-06 family.

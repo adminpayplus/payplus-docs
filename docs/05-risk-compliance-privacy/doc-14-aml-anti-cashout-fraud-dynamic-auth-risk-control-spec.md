@@ -43,6 +43,21 @@ related_documents:
 
 # DOC-14 - AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
 
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-14` |
+| **Title** | AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification |
+| **Version** | `0.6.1` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Risk / Compliance |
+| **Reviewers** | Product Lead<br>Compliance Lead<br>Risk Lead<br>Payments Lead<br>Operations Lead<br>Engineering Lead<br>Data Lead<br>Security Lead |
+| **Approvers** | Project Owner<br>Compliance Lead<br>Risk Lead |
+| **Last Updated** | `2026-07-02` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+
+---
+
 ## 1. Purpose
 
 This document defines the PayPlus MVP risk-control framework for AML, sanctions, anti-cashout, fraud, credit card fraud, chargeback exposure, suspicious refund behavior, payout risk, dynamic authentication, and manual review routing.

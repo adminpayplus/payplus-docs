@@ -31,7 +31,22 @@ related_documents:
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
 ---
 
-# DOC-02 — Business Model & Unit Economics
+# DOC-02 - Business Model & Unit Economics
+
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-02` |
+| **Title** | Business Model & Unit Economics |
+| **Version** | `0.9.0` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Commercial / Finance Owner |
+| **Reviewers** | Product Lead<br>Finance Lead<br>Commercial Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead |
+| **Approvers** | Project Owner<br>Finance Lead<br>Commercial Lead |
+| **Last Updated** | `2026-06-02` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
+
+---
 
 ## 1. Purpose
 

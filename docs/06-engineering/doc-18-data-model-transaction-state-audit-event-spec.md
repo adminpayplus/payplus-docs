@@ -34,6 +34,21 @@ related_documents:
 
 # DOC-18 - Data Model, Transaction State, Audit Event & Reporting Specification
 
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-18` |
+| **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
+| **Version** | `0.4.8` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Engineering / Data |
+| **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
+| **Approvers** | Project Owner<br>Engineering Lead<br>Data Lead |
+| **Last Updated** | `2026-07-22` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-22 Admin Management Dashboard Operations Workflow |
+
+---
+
 ## 1. Purpose
 
 DOC-18 defines PayPlus data-model, transaction-state, audit-event, reporting, warehouse, lineage, analytics, and AI/model-readiness requirements at specification level.

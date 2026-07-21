@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.4
+version: 0.7.5
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,12 +12,25 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-07-20
+last_updated: 2026-07-22
 classification: Internal
 related_documents: []
 ---
 
 # DOC-00 - Documentation Governance
+
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-00` |
+| **Title** | Documentation Governance |
+| **Version** | `0.7.5` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Product / Documentation Owner |
+| **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead |
+| **Approvers** | Product Lead<br>Engineering Lead |
+| **Last Updated** | `2026-07-22` |
+| **Classification** | Internal |
+| **Related Documents** | None |
 
 ---
 
@@ -105,97 +118,127 @@ Foundation documents guide downstream drafting but do not replace detailed produ
 
 ```text
 payplus-docs/
-??? AGENTS.md
-??? docs/
-??  ??? 00-foundation/
-??  ??  ??? doc-00-documentation-governance.md
-??  ??  ??? doc-01-project-charter-product-positioning.md
-??  ??  ??? doc-02-business-model-unit-economics.md
-??  ??  ??? doc-03-regulatory-psp-acquirer-assessment.md
-??  ??  ??? doc-04-compliance-certification-roadmap-control-framework.md
-??  ??? 01-product/
-??  ??  ??? doc-05-master-prd-feature-requirement-index.md
-??  ??  ??? doc-06-user-journey-ux-flow-service-blueprint.md
-??  ??  ??? doc-06a-core-user-journeys-service-blueprint.md
-??  ??  ??? doc-06b-navigation-ia-route-taxonomy.md
-??  ??  ??? doc-06c-bills-rent-tenancy-ux-module.md
-??  ??  ??? doc-06d-ux-requirements-acceptance-test-matrix.md
-??  ??  ??? doc-07-content-disclosure-user-authorization-spec.md
-??  ??  ??? doc-08-notification-receipt-communication-spec.md
-??  ??? 02-payment-domain/
-??  ??  ??? doc-09-payment-request-multi-funding-source-settlement.md
-??  ??  ??? doc-10-payout-reconciliation.md
-??  ??  ??? doc-11-refund-cancellation-chargeback.md
-??  ??? 03-bill-verification/
-??  ??  ??? doc-12-bill-category-document-ai-ocr-payee-verification-spec.md
-??  ??? 04-growth-ecosystem/
-??  ??  ??? doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md
-??  ??? 05-risk-compliance-privacy/
-??  ??  ??? doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md
-??  ??  ??? doc-15-privacy-data-protection-record-retention-spec.md
-??  ??? 06-engineering/
-??  ??  ??? api/
-??  ??  ??  ??? openapi.yaml
-??  ??  ??? doc-16-technical-architecture-spec.md
-??  ??  ??? doc-17-api-third-party-integration-spec.md
-??  ??  ??? doc-18-data-model-transaction-state-audit-event-spec.md
-??  ??? 07-security-access-control/
-??  ??  ??? doc-19-security-tokenization-authentication-admin-control-spec.md
-??  ??? 08-qa-release-operations/
-??  ??  ??? doc-20-testing-uat-golive-checklist.md
-??  ??  ??? doc-21-monitoring-incident-response-operational-sops.md
-??  ??  ??? doc-22-admin-management-dashboard-operations-workflow.md
-??  ??? 09-ai-build-execution/
-??  ??  ??? 10-agent-context-index.md
-??  ??  ??? context/
-??  ??  ??  ??? project-continuation-context.md
-??  ??  ??? README.md
-??  ??? 99-isms-policies/
-??  ??  ??? 99-01-information-security-policy.md
-??  ??  ??? 99-02-acceptable-use-policy.md
-??  ??  ??? 99-03-access-control-policy.md
-??  ??  ??? 99-04-cryptography-policy.md
-??  ??  ??? 99-05-data-classification-handling-policy.md
-??  ??  ??? 99-06-asset-management-policy.md
-??  ??  ??? 99-07-supplier-vendor-security-policy.md
-??  ??  ??? 99-08-hr-security-policy.md
-??  ??  ??? 99-09-physical-environmental-security-policy.md
-??  ??  ??? 99-10-change-management-policy.md
-??  ??  ??? 99-11-vulnerability-management-policy.md
-??  ??  ??? 99-12-secure-development-policy.md
-??  ??  ??? 99-13-incident-management-policy.md
-??  ??  ??? 99-14-business-continuity-disaster-recovery-policy.md
-??  ??  ??? 99-15-logging-monitoring-policy.md
-??  ??  ??? 99-16-backup-restore-policy.md
-??  ??  ??? 99-17-risk-assessment-methodology.md
-??  ??  ??? 99-18-statement-of-applicability.md
-??  ??  ??? 99-19-internal-audit-programme.md
-??  ??  ??? 99-20-management-review-procedure.md
-??  ??  ??? README.md
-??  ??? backup/
-??  ??  ??? doc-05-master-prd-feature-requirement-index-backup.md
-??  ??? change-requests/
-??  ??  ??? README.md
-??  ??? changelog/
-??  ??  ??? changelog.md
-??  ??? decision-log/
-??  ??  ??? README.md
-??  ??? diagrams/
-??  ??  ??? README.md
-??  ??? glossary/
-??  ??  ??? glossary.md
-??  ??? README.md
-??  ??? templates/
-??  ??  ??? adr-template.md
-??  ??  ??? api-spec-template.md
-??  ??  ??? change-request-template.md
-??  ??  ??? core-spec-template.md
-??  ??  ??? rulebook-template.md
-??  ??  ??? test-case-template.md
-??  ??? traceability/
-??      ??? open-questions-register.md
-??      ??? requirements-traceability-matrix.md
-??? README.md
+|-- AGENTS.md
+|-- docs/
+|   |-- 00-foundation/
+|   |   |-- doc-00-documentation-governance.md
+|   |   |-- doc-01-project-charter-product-positioning.md
+|   |   |-- doc-02-business-model-unit-economics.md
+|   |   |-- doc-03-regulatory-psp-acquirer-assessment.md
+|   |   `-- doc-04-compliance-certification-roadmap-control-framework.md
+|   |-- 01-product/
+|   |   |-- doc-05-master-prd-feature-requirement-index.md
+|   |   |-- doc-06-user-journey-ux-flow-service-blueprint.md
+|   |   |-- doc-06a-core-user-journeys-service-blueprint.md
+|   |   |-- doc-06b-navigation-ia-route-taxonomy.md
+|   |   |-- doc-06c-bills-rent-tenancy-ux-module.md
+|   |   |-- doc-06d-ux-requirements-acceptance-test-matrix.md
+|   |   |-- doc-07-content-disclosure-user-authorization-spec.md
+|   |   `-- doc-08-notification-receipt-communication-spec.md
+|   |-- 02-payment-domain/
+|   |   |-- doc-09-payment-request-multi-funding-source-settlement.md
+|   |   |-- doc-10-payout-reconciliation.md
+|   |   `-- doc-11-refund-cancellation-chargeback.md
+|   |-- 03-bill-verification/
+|   |   `-- doc-12-bill-category-document-ai-ocr-payee-verification-spec.md
+|   |-- 04-growth-ecosystem/
+|   |   |-- doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md
+|   |   `-- payplus-data-strategy-ai-marketing-research.md
+|   |-- 05-risk-compliance-privacy/
+|   |   |-- doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md
+|   |   `-- doc-15-privacy-data-protection-record-retention-spec.md
+|   |-- 06-engineering/
+|   |   |-- api/
+|   |   |   `-- openapi.yaml
+|   |   |-- doc-16-technical-architecture-spec.md
+|   |   |-- doc-17-api-third-party-integration-spec.md
+|   |   `-- doc-18-data-model-transaction-state-audit-event-spec.md
+|   |-- 07-security-access-control/
+|   |   `-- doc-19-security-tokenization-authentication-admin-control-spec.md
+|   |-- 08-qa-release-operations/
+|   |   |-- doc-20-testing-uat-golive-checklist.md
+|   |   |-- doc-21-monitoring-incident-response-operational-sops.md
+|   |   `-- doc-22-admin-management-dashboard-operations-workflow.md
+|   |-- 09-ai-build-execution/
+|   |   |-- 01-structured-prd.md
+|   |   |-- 02-ui-prototype-prd.md
+|   |   |-- 03-technical-architecture-prd.md
+|   |   |-- 04-development-task-list.md
+|   |   |-- 05-agent-coding-rules.md
+|   |   |-- 06-feature-build-sequence.md
+|   |   |-- 07-definition-of-done.md
+|   |   |-- 08-test-generation-instructions.md
+|   |   |-- 09-ai-prompt-pack.md
+|   |   |-- 10-agent-context-index.md
+|   |   |-- context/
+|   |   |   |-- bill-verification-context.md
+|   |   |   |-- payment-core-context.md
+|   |   |   |-- project-continuation-context.md
+|   |   |   |-- promotion-engine-context.md
+|   |   |   |-- refund-chargeback-context.md
+|   |   |   `-- security-context.md
+|   |   |-- README.md
+|   |   `-- ui-ux-risk-notes-for-ai-builds.md
+|   |-- 99-isms-policies/
+|   |   |-- 99-01-information-security-policy.md
+|   |   |-- 99-02-acceptable-use-policy.md
+|   |   |-- 99-03-access-control-policy.md
+|   |   |-- 99-04-cryptography-policy.md
+|   |   |-- 99-05-data-classification-handling-policy.md
+|   |   |-- 99-06-asset-management-policy.md
+|   |   |-- 99-07-supplier-vendor-security-policy.md
+|   |   |-- 99-08-hr-security-policy.md
+|   |   |-- 99-09-physical-environmental-security-policy.md
+|   |   |-- 99-10-change-management-policy.md
+|   |   |-- 99-11-vulnerability-management-policy.md
+|   |   |-- 99-12-secure-development-policy.md
+|   |   |-- 99-13-incident-management-policy.md
+|   |   |-- 99-14-business-continuity-disaster-recovery-policy.md
+|   |   |-- 99-15-logging-monitoring-policy.md
+|   |   |-- 99-16-backup-restore-policy.md
+|   |   |-- 99-17-risk-assessment-methodology.md
+|   |   |-- 99-18-statement-of-applicability.md
+|   |   |-- 99-19-internal-audit-programme.md
+|   |   |-- 99-20-management-review-procedure.md
+|   |   `-- README.md
+|   |-- backup/
+|   |   `-- doc-05-master-prd-feature-requirement-index-backup.md
+|   |-- change-requests/
+|   |   |-- cr-doc-06-modularization-and-id-alignment.md
+|   |   `-- README.md
+|   |-- changelog/
+|   |   `-- changelog.md
+|   |-- decision-log/
+|   |   |-- decisionlog.md
+|   |   `-- README.md
+|   |-- diagrams/
+|   |   |-- assets/
+|   |   |-- payplus-app-route-entry-map.md
+|   |   |-- payplus-home-dashboard-mvp-wireframe.svg
+|   |   |-- payplus-promotion-engine-structure.md
+|   |   `-- README.md
+|   |-- glossary/
+|   |   `-- glossary.md
+|   |-- templates/
+|   |   |-- adr-template.md
+|   |   |-- api-spec-template.md
+|   |   |-- change-request-template.md
+|   |   |-- core-spec-template.md
+|   |   |-- rulebook-template.md
+|   |   `-- test-case-template.md
+|   |-- prototypes/
+|   |   `-- doc06-route-prototype/
+|   |-- review/
+|   |   `-- reviewpack.md
+|   |-- traceability/
+|   |   |-- open-questions-register.md
+|   |   |-- requirements-traceability-matrix.md
+|   |   `-- status-display-reference-matrix.md
+|   `-- README.md
+|-- for-neng/
+|   |-- payplus-product-charter.md
+|   `-- payplus-product-requirements.md
+`-- README.md
 ```
 
 Repository structure changes require Project Owner approval or an approved ADR.
@@ -285,7 +328,9 @@ The first approved version should normally be 1.0.0.
 
 ## 9. Metadata Standard
 
-Each formal document should include YAML front matter.
+Each formal document should include canonical YAML front matter and a human-readable `Document Control` table immediately below the H1 title.
+
+YAML is the metadata source of truth for AI agents, validation, indexing, and later specification generation. The Document Control table is a presentation mirror for human readers. It must contain the same values and must be updated in the same edit whenever metadata changes.
 
 ```yaml
 ---
@@ -304,6 +349,25 @@ related_documents:
   - DOC-00 Documentation Governance
 ---
 ```
+
+Display the same values as:
+
+```markdown
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-XX` |
+| **Title** | Document Title |
+| **Version** | `0.1.0` |
+| **Status** | Draft |
+| **Owner** | Owner Role |
+| **Reviewers** | Reviewer Role |
+| **Approvers** | Approver Role |
+| **Last Updated** | `YYYY-MM-DD` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-00 Documentation Governance |
+```
+
+The table is derived presentation, not a second metadata authority. Empty placeholders are exempt until drafting begins. Backup files should not be mechanically reformatted.
 
 Required fields:
 
@@ -346,13 +410,13 @@ Responsibilities:
 Normal approval flow:
 
 ```text
-Planned ??Draft ??Founder Working Baseline ??In Review ??Approved
+Planned -> Draft -> Founder Working Baseline -> In Review -> Approved
 ```
 
 Revision flow for approved documents:
 
 ```text
-Approved ??Needs Update ??Draft ??In Review ??Approved
+Approved -> Needs Update -> Draft -> In Review -> Approved
 ```
 
 Final named owners and approvers should be confirmed by the Project Owner.
@@ -763,6 +827,7 @@ DOC-00 must remain focused on documentation governance only.
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.7.5 | 2026-07-22 | Product Documentation Team | Kept YAML as canonical metadata, added the synchronized human-readable Document Control table requirement, aligned and repaired the repository-tree and lifecycle-arrow presentation, and exempted empty placeholders and backups from mechanical formatting. |
 | 0.7.4 | 2026-07-20 | Product Documentation Team | Added mandatory post-commit changelog and decision-log recording under the Documentation Change Integration and Commit Workflow and identified the canonical decision-log file. |
 | 0.1.0 | 2026-05-14 | Initial Author | Initial draft of DOC-00 Documentation Governance. |
 | 0.2.0 | 2026-05-26 | Product Documentation Team | Standardized metadata, aligned document register names, added foundation document role, metadata standard, stable ID guidance, foundation-to-downstream guidance, source-of-truth rules, AI context rules, and version history expectations. |

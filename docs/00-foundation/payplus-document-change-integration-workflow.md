@@ -1,6 +1,6 @@
 # PayPlus Documentation Change Integration and Commit Workflow
 
-Last updated: 2026-07-20
+Last updated: 2026-07-22
 
 ## 1. Purpose
 
@@ -153,12 +153,16 @@ Check `DOC-08` when the change creates or alters a notifiable event, deeplink de
 
 For every materially edited formal document, check:
 
+- canonical YAML front matter is present where required by DOC-00;
+- a human-readable `Document Control` table appears immediately below the H1 title and exactly mirrors the YAML metadata;
 - related-document references;
 - version and last-updated date;
 - version history;
 - document status;
 - owner, reviewer, and approver fields;
 - requirement and section IDs.
+
+Treat YAML as the metadata source of truth. Update the YAML and its Document Control mirror together, and verify that scalar values, list values, dates, status, version, owner, reviewers, approvers, classification, and related-document references do not drift. Empty placeholders are exempt until drafting begins, and backup files are excluded from mechanical presentation updates.
 
 Update metadata according to `DOC-00`. Do not mark a document `Approved`, assign an approver, or close an approval gate without founder authorization and the required evidence.
 
