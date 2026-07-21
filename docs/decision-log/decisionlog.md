@@ -26,6 +26,8 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-003` | `2026-07-20` | Card Offer Selection And Checkout Combination | Accepted | `DOC-13` | `36458da` |
 | `DEC-2026-004` | `2026-07-21` | Referral Attribution, Qualification, And Reward Claiming | Accepted | `DOC-06B` / `DOC-13` | `898d994` |
 | `DEC-2026-005` | `2026-07-21` | Referral Child-Screen And Entitlement Lifecycle | Accepted | `DOC-06B` / `DOC-13` | `9306498` |
+| `DEC-2026-006` | `2026-07-21` | My Rewards Route And Canonical Reward Instrument Lifecycle | Accepted | `DOC-06B` / `DOC-13` | `298ab49` |
+| `DEC-2026-007` | `2026-07-22` | Me Account-Control Route And Child-Destination Boundaries | Accepted | `DOC-06B` | `0586a37` |
 
 ## 4. Decision Record Template
 
@@ -307,3 +309,49 @@ Supersedes the earlier three-view Rewards baseline, working-label wording, unres
 - Final external-voucher and miles partners, credential contracts, fulfilment methods, reconciliation, and activation readiness.
 - Final DOC-18 schema, idempotency keys, canonical event/reason model, credential references, and unknown-result recovery.
 - Final My Rewards visual styling/icon and any future fixed-count usage extension.
+
+### `DEC-2026-007` - Me Account-Control Route And Child-Destination Boundaries
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-22` |
+| Status | Accepted |
+| Primary owner | `DOC-06B`, Me route |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06C`, `DOC-06D`, `DOC-08`, `DOC-10`, `DOC-12`, `DOC-15`, `DOC-18`, `DOC-22`, app route map, open-questions register, traceability matrix |
+| Substantive commit | `0586a37` |
+| Founder approval | Approved on `2026-07-22` |
+
+**Decision**
+
+`ME-ROOT` is the permanent mixed-role account and user-control destination opened by the bottom-navigation Me button. It uses a fixed, vertically grouped list and does not use payer/payee tabs, a role switch, a duplicate dashboard shortcut grid, or user-reorderable sections. Its confirmed order covers Header, compact Action Required, Account Information, Security & Privacy, Bills & Tenancies, Payments & Records, Rewards & Programs, Referral Program, Preferences & Settings, Help & Support, About PayPlus, and bottom Log Out.
+
+Account information is masked by default. Revealing sensitive information through a Me child route requires the existing PayPlus payment passcode for MVP, with additional step-up where required. `ACCOUNT-PROFILE`, `ACCOUNT-SECURITY`, and `PRIVACY-DATA-CONTROLS` remain separate destinations with distinct purposes.
+
+`ACTIVITY-ROOT` remains the single account-level payer/payee financial activity route. `RECEIVING-DETAILS` manages the approved payout destination used when the user acts as payee and is not another activity route. `ARCHIVED-EVIDENCE-LIST`, labelled Archived Documents, contains archived or previous evidence only and is not a general archive. More remains separate and governs dashboard shortcut management, reorder, restore-default, overflow, and secondary services.
+
+**Rationale**
+
+A permanent mixed-role account route preserves discoverability for users who may act as payer, payee, or both without forcing a role switch. Reusing established feature routes avoids duplicate functionality and ownership. Separating Activity from receiving configuration, and archived evidence from general records, keeps each route understandable and implementable. Keeping More separate prevents shortcut customization from being confused with account controls.
+
+**Alternatives Considered**
+
+- Payer/payee tabs or a role switch in Me were rejected because one account may perform both roles and the account controls are shared.
+- Hiding Me or core controls through ordinary admin placement was rejected because account, security, privacy, support, legal, and logout access must remain discoverable.
+- A separate receiving-activity route was rejected because `ACTIVITY-ROOT` already covers payer and payee financial activity.
+- A general Archived Records route was rejected because archived bills, requests, instructions, and activities remain with their owning routes.
+- Combining More with Me was rejected because shortcut arrangement and overflow are distinct from account information, records, settings, and preferences.
+
+**Consequences And Handoffs**
+
+DOC-06B owns route presentation, destination relationships, entry and return behavior. DOC-06C/DOC-12 own evidence behavior; DOC-08 owns notification settings and delivery; DOC-10 owns payout-destination rules; DOC-15/DOC-19 own masking, passcode, step-up, and privacy/security controls; DOC-18 must define final objects and events; DOC-22 must define admin and operations controls. Established Bills, Payment Profile, Activity, Receipts, Rewards, and Referral destinations retain their existing owners.
+
+**Supersedes / Superseded By**
+
+Supersedes the prior undefined Me route baseline and shorthand Me/account entry labels. It does not supersede the established destination behavior owned by other documents.
+
+**Remaining Open Items**
+
+- Exact child-screen fields, layouts, and visual design.
+- Final identity-verification display labels and technical status mapping.
+- Final receiving-destination workflow and Archived Documents list/detail behavior.
+- Final language/theme options, Support/About/Terms content, Membership destination, and More shortcut-management UI.

@@ -237,3 +237,52 @@ This append-only register records the documentation delivered by each substantiv
 - Final external-voucher and miles partners, credentials, fulfilment methods, reconciliation, and activation readiness.
 - Final DOC-18 schema, idempotency keys, credential model, and unknown-result recovery.
 - Final My Rewards visual styling/icon and any later approved fixed-count usage rules.
+
+### `2026-07-22` - Me Account-Control Route And Child-Destination Boundaries
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `0586a37` |
+| Primary owner | `DOC-06B`, Me route |
+| Decision record | `DEC-2026-007` |
+| Founder approval | Approved in the founder review task on `2026-07-22` |
+
+**Files Changed**
+
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/02-payment-domain/doc-10-payout-reconciliation.md`
+- `docs/03-bill-verification/doc-12-bill-category-document-ai-ocr-payee-verification-spec.md`
+- `docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/diagrams/payplus-app-route-entry-map.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+
+**Material Changes**
+
+- Defined `ME-ROOT` as the permanent mixed-role bottom-navigation account-control route with fixed section order and no payer/payee role switch.
+- Defined the Account Profile, Account Security, Privacy & Data, Receiving Details, Archived Documents, Notification Settings, Support, About, and Terms destination purposes and handoffs while leaving detailed child-screen UI open.
+- Required masking by default and the existing PayPlus payment passcode for sensitive reveal, with additional step-up where the owning rules require it.
+- Kept `ACTIVITY-ROOT` as the single mixed-role financial activity route, limited `RECEIVING-DETAILS` to payout-destination management, and limited `ARCHIVED-EVIDENCE-LIST` to archived or previous evidence.
+- Kept More separate as the dashboard shortcut-management, reorder, restore-default, overflow, and secondary-services area.
+- Aligned product requirements, acceptance coverage, notifications, payout, evidence, privacy, future data/admin requirements, traceability, open questions, and the app route map.
+
+**Checks Performed**
+
+- Verified DOC-06B remained the sole route-level UX owner and reference documents did not duplicate its behavior.
+- Searched for stale Me shorthand, undefined route wording, unapproved Membership route IDs, and conflicting Receiving Details, Activity, Archived Documents, masking, and Action Required definitions.
+- Checked metadata, version histories, route-register structure, Markdown fence balance, and Mermaid source structure.
+- Ran `git diff --cached --check` and verified the substantive commit contained only the 14 approved files.
+
+**Remaining Open Items**
+
+- Final child-screen fields and visual design.
+- Final identity-verification display labels and system mapping.
+- Final receiving-destination workflow and Archived Documents list/detail behavior.
+- Final language/theme options, Support/About/Terms content, Membership destination, and More UI.
