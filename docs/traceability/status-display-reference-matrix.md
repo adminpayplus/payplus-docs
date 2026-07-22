@@ -2,7 +2,7 @@
 
 Status: Working alignment reference  
 Owner: Product / Founder  
-Last updated: 2026-07-21
+Last updated: 2026-07-22
 Classification: Internal
 
 This matrix aligns PayPlus system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
@@ -15,6 +15,7 @@ It is not the final backend status schema. DOC-18 owns the future canonical stat
 - DOC-12: evidence, OCR/autofill, verification, and duplicate/reuse statuses.
 - DOC-13: promotion eligibility, qualification, entitlement, reward instrument, referral qualification, redemption, reversal, and clawback status meaning.
 - DOC-14: risk, AML, anti-cashout, fraud, and review statuses.
+- DOC-15: identity-verification display, privacy-request, account-closure, and privacy/data-control status meaning.
 - DOC-22: admin queue, task, permission, and operations workflow statuses.
 
 User-facing labels should be mapped from system/domain statuses. A route should not invent a different status meaning where the same underlying system status is being displayed.
@@ -82,6 +83,29 @@ Referral claim `Issued` means that an entitlement created one canonical reward i
 
 ---
 
+## Identity Verification - MVP Display Mapping
+
+External-provider and backend states must map into these four user-facing labels. Final provider-specific mapping belongs in DOC-18/DOC-22 after provider selection.
+
+| Domain | Stage / Status Type | User-Facing Label | Owning Docs | Appears In | User Action / Notes |
+| --- | --- | --- | --- | --- | --- |
+| Identity Verification | Submission incomplete or provider result pending | `Pending` | DOC-06B / DOC-15 | Account Information, Identity Verification, notification where applicable | Show `Verify Now`. Resume the current flow or show its active position; do not encourage duplicate submission. |
+| Identity Verification | Approved result remains valid | `Verified` | DOC-06B / DOC-15 | Account Information, Identity Verification | No verification action is shown. |
+| Identity Verification | Submission or verification did not pass | `Failed` | DOC-06B / DOC-15 | Account Information, Identity Verification, notification where applicable | Show `Verify Now` and a safe explanation without exposing provider or risk detail. |
+| Identity Verification | Existing verification must be refreshed or corrected | `Update Required` | DOC-06B / DOC-15 | Account Information, Identity Verification, notification where applicable | Show `Verify Now`; provider-required correction may use the same reusable flow. |
+
+## Privacy Request - MVP Display Mapping
+
+| Domain | Stage / Status Type | User-Facing Label | Owning Docs | Appears In | Notes |
+| --- | --- | --- | --- | --- | --- |
+| Privacy Request | Request recorded | `Submitted` | DOC-15 / DOC-22 | Privacy & Data, notification | Acknowledges receipt; it does not promise the requested outcome. |
+| Privacy Request | Operational processing | `In Progress` | DOC-15 / DOC-22 | Privacy & Data | Internal queue and assignee detail remain hidden. |
+| Privacy Request | User information or action needed | `Action Required` | DOC-15 / DOC-22 | Privacy & Data, notification | Show only the permitted action and safe explanation. |
+| Privacy Request | Request completed under the approved process | `Completed` | DOC-15 / DOC-22 | Privacy & Data, notification | A completed export uses protected, time-limited in-app access. |
+| Privacy Request | Request cannot be completed as requested | `Unable to Complete` | DOC-15 / DOC-22 | Privacy & Data, notification | Explain the permitted reason category without exposing restricted internal detail. |
+
+---
+
 ## Future Status Domains
 
 The following domains should be aligned later as their routes, checkout screens, admin workflows, and technical specs mature. They are not all MVP for the current Activity / Receipts route drafting step.
@@ -96,7 +120,7 @@ The following domains should be aligned later as their routes, checkout screens,
 | Promotion Eligibility and Quote Lifecycle | Eligible, selected, applied, reserved, recalculated, released, or rejected before or during checkout. Issued reward-instrument display uses the MVP mapping above. | DOC-09, DOC-13, DOC-18, DOC-22 |
 | Referral Qualification Lifecycle | `In Progress`, `Qualified`, `Not Qualified`, `Under Review`. These labels belong to attributed-referee progress in `REFERRAL-ROOT`. | DOC-06B, DOC-13, DOC-18, DOC-22 |
 | Referral Reward Presentation | `Available to Claim`, `Issued`, `Expired`, `Reversed`. Entitlement presentation does not create a referral-only issued-instrument status family. `Processing` is transient/internal. A held claim record may remain inactive in Referral History as `Under Review`, while the canonical issued instrument follows the Reward Instrument Lifecycle mapping above. | DOC-06B, DOC-13, DOC-18, DOC-22 |
-| Account / Security Lifecycle | Verification, login, device, passcode, suspended, restricted. | DOC-15, DOC-19, DOC-22 |
+| Account / Security Lifecycle | Login, device, passcode, suspended, restricted, and account-closure states not explicitly mapped above. Identity-verification and privacy-request display use the MVP mappings above. | DOC-15, DOC-19, DOC-22 |
 | Support / Case Lifecycle | Open, pending information, under review, resolved, closed. | DOC-11, DOC-14, DOC-21, DOC-22 |
 
 ---

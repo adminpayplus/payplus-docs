@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.17
+version: 0.18.18
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -48,7 +48,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.17` |
+| **Version** | `0.18.18` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -519,7 +519,9 @@ Bills-route requirements must remain role-aware:
 
 For account-control UX, `ME-ROOT` is a permanent MVP bottom-navigation route for users acting as payer, payee, or both. It provides masked Account Information, account/security/privacy child-route entry, Bills access, Payment Profile, Receiving Details, Activity, Receipts & Statements, Archived Documents, My Rewards, Referral, preferences, support, About/Terms, and logout. These rows are route handoffs and do not transfer ownership from DOC-06C, DOC-08, DOC-10, DOC-12, DOC-13, DOC-15, DOC-18, DOC-19, DOC-21, or DOC-22.
 
-Sensitive information remains masked by default. Revealing sensitive information through a Me child route requires the existing PayPlus payment passcode for MVP, with additional step-up where required. `ACTIVITY-ROOT` remains the single account-level payer/payee financial activity route; `RECEIVING-DETAILS` manages an approved payee payout destination and `ARCHIVED-EVIDENCE-LIST` provides controlled access to archived or previous evidence only.
+DOC-06B defines `ACCOUNT-PROFILE`, reusable `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, child screen `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`. The MVP includes immutable login name after setup, copyable PayPlus User ID, cross-channel phone/email change verification, four identity-verification display labels, immediate `Verify Now` handoff for non-verified states, account closure as a controlled request, password/passcode and permitted 2FA/biometric controls, trusted-device removal, optional privacy choices, governed correction/access/export/deletion requests, and protected in-app export.
+
+Sensitive information remains masked by default. Revealing approved sensitive information through a Me child route requires the existing PayPlus payment passcode for MVP, with additional step-up where required; some stored data remains unavailable for reveal. `ACTIVITY-ROOT` remains the single account-level payer/payee financial activity route; `RECEIVING-DETAILS` manages an approved payee payout destination and `ARCHIVED-EVIDENCE-LIST` provides controlled access to archived or previous evidence only.
 
 ### Payer
 
@@ -756,7 +758,7 @@ The MVP is acceptable when:
 | Dashboard shortcut grid, user shortcut preferences, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
 | DOC-06C `BILLS-PAY` and `BILLS-RECEIVE` route split is accepted as the current role-aware Bills-route baseline; checkout/payment screen behavior remains primarily governed by DOC-09. | Working Baseline / Not Final |
 | DOC-06B `PAYMENT-PROFILE-ROOT` is accepted as the current route shell for tokenized card and saved split-card profile management; checkout authorization and funding remain governed by DOC-09. | Working Baseline / Not Final |
-| DOC-06B `ME-ROOT` is accepted as the permanent mixed-role account-control route, with fixed section order, masked Account Information, passcode-gated sensitive reveal, Receiving Details, Archived Documents, established-route handoffs, preferences, support, About/Terms, logout, and a separate More shortcut-management boundary. | Working Baseline / Child Details Pending |
+| DOC-06B `ME-ROOT` and its Account Information, Identity Verification, Login & Security, Payment Passcode Settings, and Privacy & Data behavior are accepted; Receiving Details, Archived Documents, Support/About/Terms, and final visual design remain pending. | Working Baseline / Core Account Child Routes Defined |
 | PayPlus MVP should be data-engine ready by design, with structured events, field classification, source lineage, auditability, consent/preference state, approved-purpose metadata, and future model-use eligibility metadata where relevant. | Confirmed |
 | Advanced AI decisioning, external partner activation, offsite advertising, user-level data sharing, credit scoring, and insurance underwriting are not MVP scope unless separately assessed, approved, and documented. | Confirmed |
 
@@ -766,6 +768,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.18 | 2026-07-22 | Aligned the PRD with defined Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, contact-change, verification-status, account-closure, trusted-device, privacy-request, and protected-export behavior. |
 | v0.18.17 | 2026-07-22 | Aligned the PRD with permanent `ME-ROOT`, masked account display and passcode-gated reveal, account/security/privacy handoffs, Receiving Details, archived-evidence access, established feature-route entry, preferences, support, About/Terms, logout, and the separate More boundary. |
 | v0.18.16 | 2026-07-21 | Aligned the PRD with defined My Rewards Active/History management, complete reward detail/T&C, checkout-owned reward selection, launch-supported external vouchers and miles, and separate reward instrument/source/role/program/campaign/entitlement/fulfilment data dimensions. |
 | v0.18.15 | 2026-07-21 | Aligned the PRD with role-sensitive Referral Rewards child screens, two list tabs, detail-first claiming, canonical issued-reward usage, and the restricted masked-phone display boundary. |

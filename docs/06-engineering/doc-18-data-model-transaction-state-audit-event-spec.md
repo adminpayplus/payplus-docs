@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.8
+version: 0.4.9
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -38,7 +38,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `0.4.8` |
+| **Version** | `0.4.9` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
@@ -98,6 +98,7 @@ Detailed requirements belong to:
 | Offers and promotion future update | Final DOC-18 must distinguish offer UI presentation from payment-card funding data and define Offer ID, multi-collection membership, primary root placement, per-collection display priority, display snapshot, payment-card/funding-leg eligibility result, highest-user-value comparison, automatic Card Offer application, separate coupon/voucher/discount application, promotion quote, and audit-event structures required by DOC-06B, DOC-09, and DOC-13. |
 | Referral future update | Final DOC-18 must define the reusable user-linked referral code/reference, registration attribution, campaign and beneficiary-role linkage, qualification progression/outcome, entitlement, claim, issued reward reference, privacy-safe display projection, hold/reversal, and audit-event structures required by DOC-06B, DOC-13, DOC-15, and DOC-22. Sharing must remain distinct from recipient identity and attribution. |
 | Reward instrument future update | Final DOC-18 must define canonical issued-reward objects, lifecycle projections, authoritative fulfilment and idempotency, unknown-result recovery, credential references, reveal/access events, checkout selection linkage, and separate instrument-type, earning-source, participant-role, program, campaign/offer/entitlement, and fulfilment-method dimensions required by DOC-06B, DOC-09, DOC-13, DOC-15, and DOC-22. |
+| Account-control future update | Final DOC-18 must define account/profile projection, immutable login-name and stable PayPlus User ID rules, masked-contact fields, identity-verification display mapping, reusable verification-flow context, contact-change events, payment-passcode preference, trusted-device/session revocation, privacy-request lifecycle, protected-export access, and account-closure lifecycle required by DOC-06B and DOC-15. Provider payloads and sensitive values must not be copied into route analytics. |
 | Human review | Sensitive AI/model-assisted outcomes should support reason codes, reviewability, override controls, and audit trails. |
 
 ## 4. Core Object Families
@@ -151,7 +152,10 @@ DOC-18 should define logical structures for at least the following object famili
 - referral qualification record;
 - referral beneficiary-role linkage;
 - membership account;
-- account/profile preference and privacy-request record;
+- account/profile preference record;
+- identity-verification reference and user-facing status projection;
+- privacy request and protected-export access record;
+- account-closure request, blocker, cancellation, and finalization record;
 - receiving/payout-destination reference;
 - archived-evidence access reference;
 - dashboard shortcut configuration;
@@ -197,7 +201,7 @@ PayPlus should define event families before implementation.
 
 | Event Family | Examples |
 | --- | --- |
-| Account events | registration, login, logout, new-device login, dormant reauthentication, contact change, credential change, Me opened, account/security/privacy destination selected, action-required item opened, sensitive reveal attempted/completed/failed, language/theme changed, privacy request initiated/completed/failed. |
+| Account events | registration, login, logout, new-device login, dormant reauthentication, contact change initiated/verified/completed/failed, credential change, Me opened, account/security/privacy destination selected, identity-verification opened/returned/status refreshed, action-required item opened, sensitive reveal attempted/completed/failed, payment-passcode preference changed, trusted-device removed, session revoked, language/theme changed, privacy request submitted/status changed/completed/failed, protected export issued/opened/expired, account closure requested/blocked/cancelled/finalized. |
 | Evidence events | upload started, upload submitted, OCR processed, field extracted, user corrected, verification passed, mismatch found, duplicate detected, status changed, evidence snapshot finalized, evidence version created, evidence archived. |
 | Request events | draft created, creation started, existing bill/rent selected, submitted for evidence verification, evidence verified and auto-sent, sent, shared, viewed, accepted, rejected with reason, expired, cancelled, archived, restored. |
 | Participant-linking events | invitation created, app link generated, QR link generated, WhatsApp deeplink generated, invitation sent, viewed, accepted, declined, expired, linking completed, linking revoked. |
@@ -351,7 +355,7 @@ Sections 4 through 10 define the current baseline for PayPlus data objects, life
 | OQ-18-009 | What final data objects, states, events, reason codes, correlation IDs, and audit records should support DOC-06B `REQUESTS-NEW`, evidence-gated auto-send, counterparty lookup, request sharing, reminder events, and return handoffs with DOC-06C Bills routes? | Engineering / Data / Product / Privacy / Operations | High | Open |
 | OQ-18-010 | What final referral identifiers, deeplink/QR token contract, attribution idempotency, qualification event mapping, entitlement/claim linkage, masking projection, correction controls, and audit records should implement the DOC-06B/DOC-13 Referral baseline? | Engineering / Data / Product / Privacy / Growth / Risk | High | Open |
 | OQ-18-011 | What final reward-instrument schema, state mapping, credential-reference model, checkout/partner linkage, idempotency keys, unknown-result recovery, and field-level representation should implement the separate reward dimensions and lifecycle defined in DOC-13? | Engineering / Data / Product / Growth / Privacy / Operations | High | Open |
-| OQ-18-012 | What final objects, preference records, privacy-request links, route events, reveal audit events, receiving-destination references, archived-evidence access records, and retention-safe projections should implement DOC-06B `ME-ROOT` without copying sensitive values into analytics? | Engineering / Data / Product / Privacy / Security / Operations | High | Open |
+| OQ-18-012 | What final objects, provider-state mappings, preference records, verification/contact-change links, privacy-request and protected-export records, account-closure lifecycle records, route events, reveal audit events, receiving-destination references, archived-evidence access records, and retention-safe projections should implement DOC-06B `ME-ROOT` and its defined account child routes without copying sensitive values into analytics? | Engineering / Data / Product / Privacy / Security / Operations | High | Open |
 
 ## 12. Acceptance Criteria
 
@@ -382,6 +386,7 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.4.9 | 2026-07-22 | Product Documentation Team | Added future object and event requirements for Account Information, reusable Identity Verification, contact changes, Payment Passcode Settings, trusted-device/session revocation, privacy requests, protected exports, and account closure. |
 | 0.4.8 | 2026-07-22 | Product Documentation Team | Added future data/event markers for DOC-06B `ME-ROOT`, account/security/privacy navigation, payment-passcode-gated reveal auditability, preferences, Receiving Details, archived-evidence access, and logout. |
 | 0.4.7 | 2026-07-21 | Product Documentation Team | Added future canonical reward-instrument markers for separate data dimensions, lifecycle projections, checkout/partner linkage, credential events, authoritative fulfilment, idempotency, unknown-result recovery, and operational auditability. |
 | 0.4.6 | 2026-07-21 | Product Documentation Team | Added future Referral markers for entitlement-time quota reservation and terms snapshot, separate lifecycle dates, idempotent issuance and recovery, admin hold auditability, status projection, and route-scoped masked-phone visibility. |

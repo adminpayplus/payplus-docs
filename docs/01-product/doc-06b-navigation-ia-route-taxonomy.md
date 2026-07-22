@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.22
+version: 0.1.23
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -40,7 +40,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.22` |
+| **Version** | `0.1.23` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
@@ -168,7 +168,7 @@ MVP bottom navigation should use five primary destinations.
 | Bills | Bill, fee, rent, tenancy, and obligation record management area. | Opens Bills area covering saved bill/rent/tenancy records and their DOC-06C sub-routes. Requests, instructions, receipts, cards, referral, and More remain separate management routes or shortcut destinations unless explicitly embedded as contextual handoffs. | Discussion baseline |
 | Pay+ | Central payment and request action. | Opens a slide-up action sheet for payment, setup, continuation, and request-payment actions. Exact visual UI and final ordering remain to be finalized. | Working baseline |
 | Offers | Promotion and partner-offer discovery area. | Opens `OFFERS-ROOT`. Issued rewards and referral participation remain separate routes reached through contextual handoffs. | Working baseline |
-| Me | Permanent account and user-control area. | Opens `ME-ROOT` for account information, security and privacy, Bills access, payments and records, rewards, Referral, preferences, support, About PayPlus, terms, and logout. | Route shell defined / child details pending |
+| Me | Permanent account and user-control area. | Opens `ME-ROOT` for account information, security and privacy, Bills access, payments and records, rewards, Referral, preferences, support, About PayPlus, terms, and logout. | Core account child routes defined / other details pending |
 
 `Pay+` should be visually treated as the primary center action in the bottom navigation.
 
@@ -337,7 +337,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Pay+ Action Sheet Detail | Define final label order, empty states, disabled states, permission rules, and route destinations for the working baseline actions. | Working baseline / not finalized |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
 | Offers and Rewards IA | Define `OFFERS-ROOT` discovery, category collection routes, `OFFER-DETAIL`, separate issued-reward management, referral handoff, and placement behavior. | Offers child-list baseline defined / not final visual design |
-| Me Area IA | `ME-ROOT` is the permanent account-control route. Its section order, existing-route handoffs, child-destination shells, masking, reveal, state, and return boundaries are defined in Section 5.17. | Route shell defined / child details pending |
+| Me Area IA | `ME-ROOT` is the permanent account-control route. Its section order, established-route handoffs, core account child-route behavior, masking, reveal, state, and return boundaries are defined in Section 5.17. | Core account child routes defined / other details pending |
 | More Shortcuts IA | Define dashboard shortcut management, reorder/arrangement, restore-default behavior, overflow, and secondary services not shown in the first eight shortcuts. | Boundary defined / route detail pending |
 | Requests Route | Define standalone Requests route shell, creation flow, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
 | Instructions Route | Define payment instruction / 付款指示 route shell, pending versus incomplete instruction display, edit boundaries, cancellation/archive behavior, and checkout handoff. | Working baseline / not finalized |
@@ -1546,9 +1546,11 @@ The following register defines the new or newly confirmed Me destinations. Estab
 | Destination | Parent / Entry Context | Type | Purpose | Primary Route Owner | Definition Status |
 | --- | --- | --- | --- | --- | --- |
 | `ME-ROOT` | Bottom navigation | Root route | Permanent mixed-role account, records, settings, preferences, and support entry. | DOC-06B | Route shell defined; visual design pending |
-| `ACCOUNT-PROFILE` | `ME-ROOT` Account Information | Child route | View and manage permitted account/profile information, identity-verification summary, and account closure. | DOC-06B | Purpose defined; detailed UI pending |
-| `ACCOUNT-SECURITY` | `ME-ROOT` Security & Privacy | Child route | Manage login, authentication, payment-passcode, device, session, and recovery controls. | DOC-06B | Purpose defined; detailed UI pending |
-| `PRIVACY-DATA-CONTROLS` | `ME-ROOT` Security & Privacy | Child route | Manage approved privacy, consent, access, correction, export, and retention/deletion-request controls. | DOC-06B | Purpose defined; detailed UI pending |
+| `ACCOUNT-PROFILE` | `ME-ROOT` Account Information | Child route | View permitted account/profile information, identity-verification status, controlled contact changes, and account closure. | DOC-06B | Route behavior defined; final visual design pending |
+| `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE`, onboarding, notification, or approved action-required context | Reusable controlled flow | Complete, retry, or update external identity verification without creating a top-level product area. | DOC-06B | Flow and return behavior defined; provider mapping pending |
+| `ACCOUNT-SECURITY` | `ME-ROOT` Security & Privacy | Child route | Manage login password, payment-passcode entry, permitted two-step verification, biometric unlock, trusted devices, and recovery/support entry. | DOC-06B | Route behavior defined; final visual design pending |
+| `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` Payment Passcode | Child screen | Change or reset the payment passcode and manage the optional passcode-confirmation preference for card/payment-profile changes. | DOC-06B | Screen behavior defined; security mechanics pending |
+| `PRIVACY-DATA-CONTROLS` | `ME-ROOT` Security & Privacy | Child route | Manage approved privacy choices, access/export, correction, retention/deletion requests, and request history. | DOC-06B | Route behavior defined; legal/provider detail pending |
 | `RECEIVING-DETAILS` | `ME-ROOT` Payments & Records | Child route | Manage the approved payout destination used when the user acts as payee. | DOC-06B | Purpose defined; detailed UI pending |
 | `ARCHIVED-EVIDENCE-LIST` | `ME-ROOT` Payments & Records | Child list screen | Access archived or previous evidence under controlled retention and permission rules. | DOC-06B | Purpose and boundary defined; list/detail UI pending |
 | `NOTIFICATION-SETTINGS` | `ME-ROOT` Preferences & Settings | Child route | Manage permitted notification-channel and communication preferences. | DOC-06B | Purpose defined; detailed UI pending |
@@ -1562,8 +1564,13 @@ Domain rules and content remain with the reference owners named in Sections 5.17
 | --- | --- | --- | --- |
 | Bottom navigation | Tap `Me` | `ME-ROOT` | Normal bottom-navigation behavior. |
 | Account Information | Tap summary or row | `ACCOUNT-PROFILE` | Return with the masked summary refreshed and prior Me position preserved. |
+| `ACCOUNT-PROFILE` | Tap `Verify Now` | `IDENTITY-VERIFICATION` | Back or Cancel restores Account Information; completion returns with refreshed verification status. |
 | Security & Privacy | Tap `Login & Security` | `ACCOUNT-SECURITY` | Return to the same Me position. |
+| `ACCOUNT-SECURITY` | Tap `Payment Passcode` | `PAYMENT-PASSCODE-SETTINGS` | Return with the security summary and preference refreshed. |
+| `ACCOUNT-SECURITY` | Change phone or email used by a security factor | `ACCOUNT-PROFILE` | Complete the controlled contact-change flow, then return to Login & Security. |
 | Security & Privacy | Tap `Privacy & Data` | `PRIVACY-DATA-CONTROLS` | Return to the same Me position. |
+| `PRIVACY-DATA-CONTROLS` | Correct a directly editable account field or open account closure | `ACCOUNT-PROFILE` | Return to the relevant Privacy & Data context after the account action. |
+| `PRIVACY-DATA-CONTROLS` | Change notification channels | `NOTIFICATION-SETTINGS` | Return with the channel-preference summary refreshed. |
 | Bills & Tenancies | Tap row | `BILLS-ROOT` | Return to the same Me position; Bills retains its own route state. |
 | Payments & Records | Tap Payment Profile | `PAYMENT-PROFILE-ROOT` | Return with refreshed card/profile data and prior Me position preserved. |
 | Payments & Records | Tap Receiving Details | `RECEIVING-DETAILS` | Return with refreshed receiving-destination summary; DOC-10 owns destination rules. |
@@ -1583,20 +1590,97 @@ Dashboard shortcuts and `ME-ROOT` may both link to an established route. The sho
 
 #### 5.17.4 Account Information, Security, and Privacy
 
-The Account Information summary should show only:
+##### 5.17.4.1 Shared Child-Route Rules
 
-- display or login name;
-- masked phone number;
-- masked email address;
-- a high-level identity-verification summary.
+- `ACCOUNT-PROFILE`, `ACCOUNT-SECURITY`, and `PRIVACY-DATA-CONTROLS` are mixed-role account routes; they do not use payer/payee tabs.
+- Normal authenticated entry shows only permitted masked information and does not require payment-passcode entry merely to open a route.
+- Approved sensitive reveal and protected actions require the existing PayPlus payment passcode, with stronger step-up where DOC-14, DOC-15, DOC-19, or provider rules require it.
+- Payment-passcode confirmation does not make every stored field revealable. Passwords, payment passcodes, identity documents, provider payloads, secrets, raw credentials, evidence content, unrestricted audit data, and internal risk reasons remain unavailable.
+- Revealed information must re-mask on route exit, app backgrounding, session expiry, or the future configured reveal timeout.
+- Offline or stale-session mode may show approved cached masked information but must block reveal, export, profile/security changes, recovery changes, privacy-request submission, and account closure.
+- A dependent-service failure affects only the relevant section, preserves the last valid state, and provides Retry or clear unavailable behavior.
+- Material reveal, change, recovery, device, preference, privacy-request, export, and closure outcomes require audit events without sensitive values in ordinary analytics.
 
-The verification summary tells the user whether required identity verification is complete, requires action, is under review, or requires updating. Exact labels must later align with the canonical account/KYC status taxonomy. `ME-ROOT` must not show full ID numbers, identity documents, provider payloads, internal risk reasons, full bank details, payment credentials, or evidence content.
+##### 5.17.4.2 `ACCOUNT-PROFILE` - Account Information
 
-`ACCOUNT-PROFILE` is the child route for account/profile information, permitted edits, identity-verification summary, and controlled account-management actions. Account closure belongs inside this child route and is distinct from immediate data deletion or expiry of retained records.
+The user-facing title is `Account Information`. The MVP screen order is:
 
-`ACCOUNT-SECURITY` is the child route for password, payment passcode, 2FA, biometrics, trusted devices, sessions, recovery, and related security controls. `PRIVACY-DATA-CONTROLS` is the separate child route for data access, correction, export, consent, personalization, partner-data use, retention/deletion requests, and approved privacy controls.
+1. Header with Back;
+2. account Action Required banner, hidden when empty;
+3. Profile Details;
+4. Contact Details;
+5. Identity Verification;
+6. Account Management, with `Close Account` at the bottom.
 
-Masked information may be viewed in the authenticated route. Revealing sensitive information requires the existing PayPlus payment passcode for MVP; no second reveal-only passcode should be introduced. Additional step-up may still apply under DOC-14, DOC-15, DOC-19, or provider requirements. Detailed child-screen behavior remains open.
+Profile Details show the editable display name, immutable login name after first setup, and copyable PayPlus User ID. Contact Details show masked registered phone and email plus their verification states.
+
+Contact changes follow these MVP flows:
+
+- changing phone requires OTP confirmation through the registered email, followed by SMS OTP verification of the new phone;
+- changing email requires SMS OTP confirmation through the registered phone, followed by OTP or approved deeplink verification of the new email;
+- successful change notifies the old and new contact channels where available;
+- when trusted channels are unavailable, the user must enter approved support-assisted identity recovery rather than bypass verification.
+
+Identity Verification shows only one user-facing status: `Pending`, `Verified`, `Failed`, or `Update Required`. `Verified` shows no action. The other three statuses show `Verify Now`.
+
+`Verify Now` opens `IDENTITY-VERIFICATION`:
+
+- `Pending` continues an incomplete submission or shows the active provider-processing position without creating a duplicate submission;
+- `Failed` opens the permitted retry or corrective path;
+- `Update Required` opens required re-verification;
+- Back or Cancel restores the prior Account Information position;
+- completion returns with refreshed status;
+- provider failure preserves the last valid status and does not create a false rejection.
+
+The exact mapping from provider/system states to the four labels remains TBC until the external identity-verification provider and canonical status taxonomy are defined. Legal name, ID reference, identity attributes, identity documents, and provider detail are not displayed in Account Information.
+
+Account closure remains a controlled Account Information flow, not a Privacy & Data action and not immediate deletion. It must:
+
+1. explain the loss of future payment, request, and account activity and continuing record-retention duties;
+2. check unresolved instructions, payments, payouts, refunds, disputes, chargebacks, investigations, reviews, and legal/compliance holds;
+3. require payment passcode plus 2FA;
+4. create a closure request and confirmation record;
+5. allow cancellation until operational finalization begins;
+6. on completion, block new activity, terminate active sessions, notify verified channels, disable login, and retain required records.
+
+Detailed account-closure screen layout remains open. Before final closure, the user should be prompted to obtain available records; later access follows controlled Support or privacy-request handling.
+
+##### 5.17.4.3 `ACCOUNT-SECURITY` - Login & Security
+
+The user-facing title is `Login & Security`. The MVP screen order is:
+
+1. Login Password;
+2. Payment Passcode;
+3. Two-Step Verification toggle;
+4. Biometric Unlock toggle;
+5. Trusted Devices;
+6. Recovery and Security Support.
+
+Tapping Payment Passcode opens `PAYMENT-PASSCODE-SETTINGS`, containing Change Payment Passcode, Reset Payment Passcode, and the user-controlled `Require passcode for card/payment-profile changes` toggle. Existing passwords and passcodes are never displayed.
+
+The Two-Step Verification toggle controls only permitted optional routine protection. It must not disable mandatory new-device 2FA, risk-triggered step-up, contact-change verification, account-closure verification, or provider-required authentication. SMS remains the MVP primary factor and email the fallback.
+
+Biometric Unlock applies to the current device only and does not replace payment passcode or mandatory step-up. Each Trusted Devices entry provides `Remove`: removing another device revokes its trust and associated session; removing the current device requires confirmation and logs the user out. No separate Active Sessions list is required for MVP.
+
+Recovery must not provide an unverified bypass. Forgotten password/passcode, unavailable trusted channels, or suspected compromise routes to the approved recovery or Support process. Exact retry limits, lockout periods, recovery factors, session duration, and security implementation remain with DOC-19.
+
+##### 5.17.4.4 `PRIVACY-DATA-CONTROLS` - Privacy & Data
+
+The user-facing title is `Privacy & Data`. The MVP screen order is:
+
+1. Privacy Overview and notices;
+2. Optional Data-Use Choices;
+3. Request My Data;
+4. Correct My Data;
+5. Retention and Deletion;
+6. Privacy-Request History;
+7. contextual link to account closure in `ACCOUNT-PROFILE`.
+
+Only genuine optional choices may use toggles. Launch-capable categories are direct marketing, personalization, and approved partner-data use, subject to final legal/privacy wording and enablement. Required account, service, payment, security, risk, fraud, compliance, tax, audit, dispute, and retention processing is explained but is not disableable.
+
+Notification-channel selection remains in `NOTIFICATION-SETTINGS`; Privacy & Data owns the underlying consent or approved-purpose choice. Directly editable profile fields hand off to `ACCOUNT-PROFILE`. Correction of KYC, verified, historical, payment, payout, or evidence data creates a governed correction request, preserves the original audit record, and may use `IDENTITY-VERIFICATION` where re-verification is required.
+
+Privacy-request history is a route-local section, not another route. User-facing request labels are `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete`; internal states and service timelines remain TBC. Completed exports use authenticated, time-limited in-app download after reauthentication and must not be attached to ordinary email. Account closure and deletion of eligible data remain separate processes.
 
 #### 5.17.5 Payments, Receiving Details, and Archived Documents
 
@@ -1634,8 +1718,10 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 
 | Item | Owner | Status |
 | --- | --- | --- |
-| Exact Account Profile, Account Security, Privacy & Data, Receiving Details, Archived Documents, Support, About, and Terms child-screen UI | Product / Design / Privacy / Security / Operations | Open; route purposes confirmed |
-| Exact identity-verification user-facing labels and system mapping | Product / Compliance / Security / Data | Open |
+| Final visual design for Account Information, Login & Security, Privacy & Data, Receiving Details, Archived Documents, Support, About, and Terms | Product / Design / Privacy / Security / Operations | Open; first three route behaviors defined |
+| External identity-provider mapping to `Pending`, `Verified`, `Failed`, and `Update Required` | Product / Compliance / Security / Data | Open; user-facing labels confirmed |
+| Final privacy-request internal states, service timelines, export format/expiry, and legal wording | Privacy / Legal / Operations / Security | Open; route labels and protected delivery confirmed |
+| Final authentication retry, lockout, session, recovery-factor, and reveal-timeout mechanics | Security / Engineering / Risk | Open; DOC-19 owner |
 | Exact receiving-destination fields, validation, change, and review behavior | Payments / Operations / Privacy / Security | Open; DOC-10 owns rules |
 | Archived Documents list fields, search/filter behavior, and historical evidence presentation | Product / Design / Privacy / Data | Open; dedicated route confirmed |
 | Final language options, theme options, selection controls, and accessibility behavior | Product / Design / Engineering | Open |
@@ -1651,7 +1737,7 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Pay+ | Partially Defined | Confirm visual order, disabled states, eligibility copy, and final action limits. |
 | Offers and Rewards | Defined Behavior / Not Final Visual Design | Offers discovery and child-list behavior are defined. `REWARDS-ROOT` Active/History views, search, filters, ordering, cards, route states, `REWARD-DETAIL`, checkout return, and contextual fulfilment actions are defined. Confirm final styling, Offers label taxonomy, personalization, equal-priority fallback, and partner-specific activation methods. |
-| Me | Route Shell Defined / Child Details Pending | `ME-ROOT` permanent bottom-navigation behavior, section order, account/security/privacy boundaries, established-route handoffs, Receiving Details, Archived Documents, state rules, logout, and Me-versus-More boundary are defined. Confirm child-screen details and final visual design. |
+| Me | Core Account Child Routes Defined / Other Child Details Pending | `ME-ROOT`, `ACCOUNT-PROFILE`, `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS` behavior are defined. Receiving Details, Archived Documents, Support/About/Terms detail, and final visual design remain open. |
 | Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
 | Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/archive rules, and payment-profile handoff behavior. |
 | Activity | Route Shell Defined / Not Final UI | Screen order, accounting-style list behavior, expandable activity cards, amount direction, core detail sections, and download actions are defined. Confirm final visual styling, field density, search/filter behavior, grouping behavior, and empty-state copy. |
@@ -1666,7 +1752,7 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-06B-001 | What final Pay+ visual layout, button order, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Open |
-| OQ-06B-002 | What detailed UI should apply to the confirmed Me child routes, More shortcut management, and Support? `ME-ROOT` route purpose, section order, handoffs, states, and Me-versus-More boundary are defined. | Product / Design / Privacy / Security / Operations | Partially open |
+| OQ-06B-002 | What final visual design and remaining child-route UI should apply to Me, Receiving Details, Archived Documents, More shortcut management, and Support? Account Information, Identity Verification, Login & Security, Payment Passcode Settings, and Privacy & Data behavior are defined. | Product / Design / Privacy / Security / Operations | Partially open |
 | OQ-06B-003 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
@@ -1681,6 +1767,7 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.23 | 2026-07-22 | Defined `ACCOUNT-PROFILE`, reusable `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`, including status/CTA behavior, immutable login name, cross-channel contact changes, passcode/2FA/recovery boundaries, trusted-device removal, privacy requests, protected export, and account closure flow. |
 | 0.1.22 | 2026-07-22 | Defined permanent `ME-ROOT` route behavior, fixed section order, masked Account Information and passcode-gated reveal, Security & Privacy child routes, Bills and existing-route handoffs, Receiving Details, Archived Documents, Preferences, Support, About/Terms, logout, state/return rules, and the separate More shortcut-management boundary. |
 | 0.1.21 | 2026-07-21 | Defined `My Rewards` Active/History views, search and instrument filters, ordering, reward-card fields, full `REWARD-DETAIL` content and terms, contextual fulfilment actions, checkout-detail return, credential/use boundary, route states, and secure return behavior. |
 | 0.1.20 | 2026-07-21 | Defined Referral child-screen behavior for role-sensitive referrer/referee entitlements, two list tabs, reward-card fields and privacy boundary, detail and claim UI, idempotent success handling, canonical reward handoff, and exceptional admin-held `Under Review` presentation. |

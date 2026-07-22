@@ -258,7 +258,7 @@ flowchart TD
 
 ## 8. Me Route Handoff
 
-This diagram shows the permanent `ME-ROOT` account-control route and its confirmed destination relationships. It does not define the detailed UI inside child routes.
+This diagram shows the permanent `ME-ROOT` account-control route and its confirmed destination relationships. It does not define the detailed UI inside child routes. Dashboard shortcut management and More are intentionally excluded because they are separate from the Me route.
 
 ```mermaid
 flowchart TD
@@ -277,8 +277,13 @@ flowchart TD
   MROOT --> LOGOUT["Log Out<br/>Bottom button"]
 
   ACCOUNT --> APROFILE["ACCOUNT-PROFILE"]
+  APROFILE --> IDVERIFY["IDENTITY-VERIFICATION<br/>Reusable controlled flow"]
+  IDVERIFY -. "Back / Cancel / completion" .-> APROFILE
   SECURITY --> ASECURITY["ACCOUNT-SECURITY"]
+  ASECURITY --> PASSCODE["PAYMENT-PASSCODE-SETTINGS"]
+  PASSCODE -. "Back / completion" .-> ASECURITY
   SECURITY --> PRIVACY["PRIVACY-DATA-CONTROLS"]
+  PRIVACY -. "Permitted profile edit<br/>or account closure" .-> APROFILE
   BILLS --> BROOT["BILLS-ROOT"]
 
   PAYMENTS --> PPROOT["PAYMENT-PROFILE-ROOT"]
@@ -292,6 +297,7 @@ flowchart TD
   REFERRAL --> REFROOT["REFERRAL-ROOT"]
 
   PREFS --> NOTIFY["NOTIFICATION-SETTINGS"]
+  PRIVACY -. "Notification-channel settings" .-> NOTIFY
   PREFS --> SELECTORS["Language / Theme<br/>Selection sheets"]
   SUPPORT --> SUPROOT["SUPPORT-ROOT"]
   ABOUT --> ABOUTROOT["ABOUT-ROOT"]
@@ -299,5 +305,4 @@ flowchart TD
   LOGOUT --> AUTH["Pre-logon / login<br/>Protected history cleared"]
 
   RETURN["Child route closes or returns<br/>Restore Me position"] -.-> MROOT
-  HOME["Dashboard shortcut grid"] --> MORE["More<br/>Shortcut management, reorder,<br/>restore default, overflow<br/>Separate from Me"]
 ```

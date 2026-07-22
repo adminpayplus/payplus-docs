@@ -205,7 +205,15 @@ Required controls include:
 - preserve `ME-ROOT` as a permanent MVP bottom-navigation destination;
 - prevent ordinary configuration from hiding core Account Information, Security & Privacy, Help & Support, About PayPlus, Terms and Policies, or Log Out controls;
 - enable or disable optional module rows, including Membership and Receiving Details where the underlying capability is unavailable, while preserving permitted access to retained user records;
-- manage account, identity-verification, security, and receiving-setup action-required cases without exposing internal reasons on the user root;
+- manage account and identity-verification action-required cases, provider exceptions, retries, and status mapping without exposing provider payloads or internal reasons in user-facing routes or creating duplicate verification submissions;
+- support controlled recovery where a user cannot access the registered phone or email, with identity checks, reason capture, approval, notification, and audit evidence;
+- support contact-change exception handling and audit for the confirmed cross-channel phone/email verification flows;
+- manage privacy requests through controlled queues using `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete` user-facing projections, with internal reasons, service timelines, assignee, and evidence retained separately;
+- issue, revoke, expire, and audit protected in-app data exports without sending the export as an ordinary email attachment;
+- manage account-closure blockers, cancellation before finalization, operational finalization, session termination, login disablement, retained-record access, and completion notice without treating closure as immediate deletion;
+- support trusted-device removal and session revocation audit, including current-device logout behavior;
+- preserve optional direct-marketing, personalization, and approved partner-data-use choices while preventing users or administrators from disabling mandatory service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
+- manage receiving-setup action-required cases without exposing internal reasons on the user root;
 - support controlled review and approval of receiving/payout-destination changes under DOC-10, DOC-15, and DOC-19;
 - support controlled archived/previous evidence access and audit under DOC-06C, DOC-12, DOC-15, and DOC-18;
 - audit sensitive reveal, account/profile changes, privacy requests, receiving-destination changes, optional-row configuration, and account restriction or closure operations;
@@ -253,6 +261,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.10.0 | 2026-07-22 | Added future operations markers for identity-provider exceptions, support-assisted recovery, cross-channel contact changes, privacy-request queues, protected exports, account-closure blockers/finality, trusted-device revocation, and optional-versus-mandatory privacy controls. |
 | 0.9.0 | 2026-07-22 | Added future admin and operations markers for permanent `ME-ROOT`, protected core controls, optional-row enablement, account action-required handling, Receiving Details, archived-evidence access, reveal/privacy auditability, and the separate More shortcut-management boundary. |
 | 0.8.0 | 2026-07-21 | Added future Reward operations markers for launch-supported partner/miles readiness, separate data dimensions, lifecycle and exception queues, authoritative/idempotent fulfilment, expiry configuration, hold-versus-expiry follow-up, and credential access controls. |
 | 0.7.0 | 2026-07-21 | Added future Referral admin markers for entitlement-time quota reservation and terms snapshot, separate campaign/claim/use dates, idempotent claim oversight, and authorized hold/release handling for exceptional `Under Review` presentation. |

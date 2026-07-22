@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.7
+version: 0.8.8
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -50,7 +50,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.8.7` |
+| **Version** | `0.8.8` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
@@ -193,9 +193,9 @@ Material changes should be grouped by sensitivity and handled with proportionate
 
 | Change Type | Examples | Recommended Treatment |
 | --- | --- | --- |
-| Contact rebinding | Change phone, change email, add or replace login identifier. | Require password or payment passcode plus 2FA to old or trusted channel where available; notify old and new channels. |
+| Contact rebinding | Change phone or email. Login name cannot be changed after first setup. | For phone change, send OTP to the registered email and then verify the new phone by SMS OTP. For email change, send SMS OTP to the registered phone and then verify the new email by OTP or deeplink. Notify old and new channels where available. Route users without a trusted old channel to support-assisted identity recovery. |
 | Credential change | Change password, payment passcode, recovery method, or 2FA setting. | Require current password, payment passcode, or step-up verification; notify user after completion. |
-| Device trust change | New device, trusted-device addition/removal, device reset. | Require step-up verification; log device and session event. |
+| Device trust change | New device, trusted-device addition/removal, device reset. | Require step-up where applicable and log the device/session event. Removing another trusted device revokes its trust and active session; removing the current device logs the user out. |
 | Payment profile change | Add, remove/archive, update, suspend, reactivate, star/unstar, or change default card/payment profile. | Require payer confirmation by default; payment passcode confirmation may be enabled by user setting; step-up may still apply where risk, PSP/acquirer, or security rules require; never expose raw card data. |
 | Payout destination change | Add or change bank/FPS/cheque/EPS destination. | Require step-up and may require admin/risk review before payout release. |
 | Identity/KYC change | Change legal name, ID data, business owner data, landlord/payee identity, or verification record. | Require step-up and route to KYC/KYB or risk review where configured. |
@@ -203,17 +203,24 @@ Material changes should be grouped by sensitivity and handled with proportionate
 
 Material changes should create audit events and user-facing security notifications where appropriate. Detailed status, event schema, and admin workflow belong in DOC-18, DOC-19, and DOC-22.
 
+The user-facing Two-Step Verification toggle controls optional routine step-up only. It must not disable mandatory new-device, risk-triggered, contact-change, account-closure, or provider-required authentication. Payment Passcode settings may include a user-controlled preference requiring passcode confirmation for card or payment-profile changes; the default remains ordinary confirmation unless another mandatory rule applies.
+
 ### 6.2 `ME-ROOT` Account Display and Reveal
 
 DOC-06B `ME-ROOT` is the permanent mixed-role account-control route. Privacy requirements are:
 
-- the root account summary may show display/login name, masked phone, masked email, and a high-level identity-verification summary;
+- `ACCOUNT-PROFILE` may show editable display name, immutable login name, copyable PayPlus User ID, masked phone, masked email, and identity-verification status only;
+- the only identity-verification labels shown there are `Pending`, `Verified`, `Failed`, and `Update Required`; `Verified` has no action, while the other states show `Verify Now` and open the reusable `IDENTITY-VERIFICATION` flow;
+- Back or Cancel from identity verification restores `ACCOUNT-PROFILE`; completion returns with refreshed status, and a pending provider submission must not encourage duplicate submission;
 - full identity attributes, identity documents, provider payloads, payment credentials, evidence content, full payout details, and internal risk reasons must not appear on the root;
 - revealing sensitive information through a Me child route requires the existing PayPlus payment passcode for MVP; no second reveal-only passcode should be introduced;
 - additional step-up may apply where risk, security, legal, provider, or data-classification rules require it;
 - reveal attempts and outcomes should be logged without copying sensitive values into analytics or ordinary notification content;
-- `PRIVACY-DATA-CONTROLS` should support approved data access, correction, export, consent, personalization, partner-data use, retention/deletion request, and related privacy actions;
-- account closure in `ACCOUNT-PROFILE` is not immediate deletion and must preserve records subject to retention, dispute, audit, tax, security, compliance, and legal-hold requirements;
+- `PRIVACY-DATA-CONTROLS` should separate optional direct-marketing, personalization, and approved partner-data-use choices from mandatory service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
+- `PRIVACY-DATA-CONTROLS` should support approved access/export, correction, retention/deletion requests, request history, and a contextual handoff to account closure; direct account-field edits return through `ACCOUNT-PROFILE` and notification-channel choices remain in `NOTIFICATION-SETTINGS`;
+- protected data export must use time-limited in-app access rather than an ordinary email attachment;
+- account closure in `ACCOUNT-PROFILE` is a controlled request, not immediate deletion. It requires payment passcode plus 2FA, checks unresolved payment and operational blockers, remains cancellable until operational finalization, and must preserve records subject to retention, dispute, audit, tax, security, compliance, and legal-hold requirements;
+- completed closure blocks new activity, terminates sessions, disables login, and sends an approved completion notice; the user should be prompted to obtain available records before closure, with later access handled through support or the approved privacy process;
 - `RECEIVING-DETAILS` must mask payout data and apply the material-change rules in Section 6.1;
 - `ARCHIVED-EVIDENCE-LIST` may expose archived or previous evidence only through controlled, role-appropriate access and must not bypass retention, masking, or audit rules.
 
@@ -411,9 +418,12 @@ Requirements:
 
 - verify requester identity before disclosing sensitive data;
 - distinguish user-visible history from full internal audit records;
-- support correction of account, contact, and selected profile data;
+- distinguish direct editing of permitted account fields from a formal correction request; verification-record or provider-required updates use `Verify Now`, while other governed corrections use `Correct My Data` and may hand off to the same controlled verification flow;
+- present privacy-request status as `Submitted`, `In Progress`, `Action Required`, `Completed`, or `Unable to Complete`; underlying case and provider states remain internal;
+- provide completed exports through protected, time-limited in-app access and do not send ordinary email attachments containing the export;
 - preserve audit history where correction affects payment, evidence, KYC/KYB, risk, payout, refund, dispute, chargeback, or compliance records;
 - avoid disclosing another user's or payee's private data through access responses;
+- distinguish deletion of eligible data from account closure and explain that mandatory retention, legal hold, disputes, investigations, security, tax, audit, and compliance duties may limit either outcome;
 - route complex or sensitive requests to privacy, compliance, legal, support, or risk review.
 
 Detailed support workflow belongs in DOC-21 and DOC-22.
@@ -567,6 +577,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.8` | `2026-07-22` | Product Documentation Team | Aligned Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, contact-change, trusted-device, account-closure, privacy-request, and protected-export privacy requirements with DOC-06B. |
 | `0.8.7` | `2026-07-22` | Product Documentation Team | Aligned privacy requirements with DOC-06B `ME-ROOT`, including masked account summary, payment-passcode-gated sensitive reveal, Privacy & Data controls, account-closure retention boundary, Receiving Details masking, Archived Documents access, and Me preference data. |
 | `0.8.6` | `2026-07-21` | Product Documentation Team | Added explicit classification of confirmed reward dimensions and issued-reward credential/partner-fulfilment privacy controls for safe display, opaque payloads, deliberate reveal, cached read-only metadata, partner minimization, and controlled access events. |
 | `0.8.5` | `2026-07-21` | Product Documentation Team | Restricted masked referee-phone display to attributed-referee progress in `REFERRAL-ROOT` and excluded referral reward cards, entitlement detail, claim, and issued-reward screens. |

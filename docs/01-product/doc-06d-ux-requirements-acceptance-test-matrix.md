@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.10
+version: 0.1.11
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -31,7 +31,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.10` |
+| **Version** | `0.1.11` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
@@ -97,7 +97,7 @@ Example pattern:
 | Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial to strong | Two-tab `Cards` / `Profiles` baseline, card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary are testable; final styling and tokenization behavior remain open. |
 | Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
 | Offers and Rewards routes | DOC-06B / DOC-09 / DOC-13 / DOC-15 | Strong human-readable baseline | Section limits, child collection behavior, source/action/destination/return transitions, multi-collection membership, duplicate suppression, ordering, full-screen detail, checkout handoff, and issued-reward management are testable. External vouchers and miles are launch-supported; final visual design, label taxonomy, personalization, equal-priority tie-break, partner selection, fulfilment method, and operational readiness remain open. |
-| Me route | DOC-06B / DOC-06C / DOC-08 / DOC-10 / DOC-12 / DOC-15 / DOC-18 / DOC-19 / DOC-21 / DOC-22 | Partial to strong | Permanent `ME-ROOT`, fixed screen order, masked account summary, passcode-gated sensitive reveal, child-route handoffs, Receiving Details, Archived Documents, fixed core visibility, return behavior, logout, and Me-versus-More boundary are testable; child-screen detail and final visual design remain open. |
+| Me route | DOC-06B / DOC-06C / DOC-08 / DOC-10 / DOC-12 / DOC-15 / DOC-18 / DOC-19 / DOC-21 / DOC-22 | Strong for core account routes | Permanent `ME-ROOT`, Account Information, reusable Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, masking/reveal, contact changes, verification labels/actions, closure, trusted-device removal, privacy requests, protected export, return behavior, and failures are testable; provider/system mapping, technical security values, other Me children, and final visual design remain open. |
 
 ---
 
@@ -147,8 +147,16 @@ The DOC-06 user journey scope is satisfied when:
 - users can manage tokenized cards and saved split-card profiles through `PAYMENT-PROFILE-ROOT` without creating wallet, stored-value, cashout, or payment authorization behavior;
 - payer, payee, and mixed-role users can open permanent `ME-ROOT` from bottom navigation without a role switch;
 - `ME-ROOT` presents the confirmed fixed section order and treats Bills, Payment Profile, Activity, Receipts & Statements, My Rewards, and Referral as handoffs to their owning routes;
-- Account Information shows masked display/login name, phone, email, and high-level identity-verification summary without exposing identity documents, full identifiers, payment credentials, evidence, or internal risk reasons;
-- revealing sensitive information through a Me child route requires the existing PayPlus payment passcode, with additional step-up where the owning security/risk rules require it;
+- Account Information shows display name, immutable login name after setup, copyable PayPlus User ID, masked phone/email, and only `Pending`, `Verified`, `Failed`, or `Update Required` identity-verification status without exposing identity attributes, documents, provider payloads, payment credentials, evidence, or internal risk reasons;
+- `Verified` shows no verification action, while the other three labels show `Verify Now` and open reusable `IDENTITY-VERIFICATION` without duplicate submission;
+- changing phone verifies the registered email and new phone; changing email verifies the registered phone and new email; successful changes notify old and new channels where available;
+- revealing approved sensitive information through a Me child route requires the existing PayPlus payment passcode, with additional step-up where the owning security/risk rules require it, while prohibited fields remain unavailable;
+- `ACCOUNT-SECURITY` provides Login Password, Payment Passcode, permitted Two-Step Verification and Biometric Unlock toggles, Trusted Devices removal, and Recovery and Security Support without a separate MVP Active Sessions list;
+- `PAYMENT-PASSCODE-SETTINGS` supports passcode change/reset and the optional passcode-confirmation preference for card/payment-profile changes without ever displaying the existing passcode;
+- mandatory new-device, risk, contact-change, account-closure, and provider-required authentication cannot be disabled by the Two-Step Verification toggle;
+- `PRIVACY-DATA-CONTROLS` separates optional direct-marketing, personalization, and approved partner-data-use choices from mandatory processing; provides governed access, correction, export, retention/deletion requests and request history; and uses `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete` labels;
+- completed data exports require authenticated, time-limited in-app access and are not attached to ordinary email;
+- account closure requires payment passcode plus 2FA, checks unresolved cases, remains cancellable until operational finalization, disables login and terminates sessions after completion, and does not imply immediate deletion of retained records;
 - `RECEIVING-DETAILS` is available when payee/request capability is enabled and manages an approved payout destination without creating another Activity route;
 - `ARCHIVED-EVIDENCE-LIST`, labelled `Archived Documents`, exposes controlled archived/previous evidence access without becoming a general archive or hard-deleting evidence;
 - core Me account, security, privacy, support, legal, and logout controls cannot be hidden by ordinary placement configuration, while optional rows follow module and retained-record rules;
@@ -209,6 +217,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.11 | 2026-07-22 | Added acceptance coverage for Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, contact changes, status/action mapping, trusted-device removal, protected export, and account closure. |
 | 0.1.10 | 2026-07-22 | Added `ME-ROOT` acceptance coverage for permanent mixed-role entry, fixed section order, masking and passcode-gated reveal, established-route handoffs, Receiving Details, Archived Documents, core visibility, return behavior, logout, and the separate More boundary. |
 | 0.1.9 | 2026-07-21 | Added Rewards acceptance coverage for Active/History views, search/filter/order and route states, safe reward cards, complete detail/T&C, checkout selection and return, credential-versus-use behavior, canonical statuses, and separate reward-data dimensions. |
 | 0.1.8 | 2026-07-21 | Added Referral child-screen acceptance coverage for role-sensitive rewards, two tabs, card/privacy boundaries, detail-first claim, idempotent issuance, lifecycle-date separation, and exceptional admin-held History presentation. |
