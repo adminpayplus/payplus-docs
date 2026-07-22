@@ -345,3 +345,43 @@ This append-only register records the documentation delivered by each substantiv
 
 - DOC-22 remains without YAML metadata or a control table because its formal metadata has not yet been defined.
 - Empty DOC-16, DOC-17, DOC-19, DOC-20, DOC-21, AI-execution, policy, and template placeholders should receive YAML and a synchronized table when substantive drafting begins.
+
+### `2026-07-22` - Account Information, Login Security, And Privacy Data Routes
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `b5879e1` |
+| Primary owner | `DOC-06B`, Me account child routes |
+| Decision record | `DEC-2026-009` |
+| Founder approval | Approved on `2026-07-22` |
+
+**Files Changed**
+
+- `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-15`, `DOC-18`, and `DOC-22`;
+- app route-entry map;
+- status-display reference matrix;
+- open-questions register;
+- requirements traceability matrix.
+
+**Material Changes**
+
+- Defined `ACCOUNT-PROFILE`, `ACCOUNT-SECURITY`, and `PRIVACY-DATA-CONTROLS` as distinct Me child routes.
+- Defined reusable `IDENTITY-VERIFICATION` and child screen `PAYMENT-PASSCODE-SETTINGS` without creating additional root routes.
+- Confirmed identity-verification display labels, `Verify Now` behavior, immutable login name, copyable PayPlus User ID, cross-channel contact changes, trusted-device removal, security-toggle boundaries, account closure, privacy choices, privacy-request labels, and protected in-app export.
+- Aligned notifications, disclosures, privacy rules, acceptance coverage, future data/admin requirements, traceability, open questions, status mapping, and navigation visualization.
+- Removed the unrelated Dashboard shortcut/More box from the Me route handoff diagram.
+
+**Checks Performed**
+
+- Verified DOC-06B remains the sole route-level UX owner and reference documents do not redefine its screen behavior.
+- Verified YAML and Document Control metadata synchronization for all edited formal documents.
+- Checked the route register, return behavior, status-display mappings, Mermaid fence balance, stale wording, and duplicate route/status risks.
+- Ran `git diff --cached --check` and staged only the 13 approved files.
+
+**Remaining Open Items**
+
+- Final identity-provider/backend state mapping and provider-returned metadata.
+- Final DOC-19 authentication, recovery, retry, lockout, and session mechanics.
+- Detailed account-closure visual design and operational finalization.
+- Privacy-request service timelines and export format.
+- Remaining Me child-route and final visual-design work.

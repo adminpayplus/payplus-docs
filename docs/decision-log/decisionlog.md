@@ -397,3 +397,50 @@ Supersedes the YAML-only presentation convention. It does not change document au
 
 - Define DOC-22 metadata before adding its synchronized control table.
 - Apply the standard to each currently empty formal or supporting placeholder when substantive drafting begins.
+
+### `DEC-2026-009` - Me Account Information, Security, And Privacy Child Routes
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-22` |
+| Status | Accepted |
+| Primary owner | `DOC-06B`, Me account child routes |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-15`, `DOC-18`, `DOC-22`, route map, status matrix, open questions, traceability matrix |
+| Substantive commit | `b5879e1` |
+| Founder approval | Approved on `2026-07-22` |
+
+**Decision**
+
+`ACCOUNT-PROFILE`, labelled Account Information, displays permitted profile/contact information, the four user-facing identity-verification labels, controlled contact changes, and account closure. Login name is immutable after first setup; PayPlus User ID is copyable. `Pending`, `Failed`, and `Update Required` show `Verify Now`; `Verified` shows no action. `IDENTITY-VERIFICATION` is a reusable controlled flow that returns to its origin and must not create duplicate provider submissions.
+
+`ACCOUNT-SECURITY`, labelled Login & Security, owns login password, Payment Passcode entry, permitted Two-Step Verification and Biometric Unlock toggles, Trusted Devices, and recovery/support entry. `PAYMENT-PASSCODE-SETTINGS` owns passcode change/reset and the optional user preference requiring passcode confirmation for card or payment-profile changes. Optional toggles cannot disable mandatory new-device, risk, contact-change, closure, or provider-required authentication.
+
+`PRIVACY-DATA-CONTROLS`, labelled Privacy & Data, separates optional direct-marketing, personalization, and approved partner-data-use choices from mandatory processing. It owns data access/export, governed correction, retention/deletion requests, and request history using `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete`. Completed exports use protected, time-limited in-app access. Account closure remains an Account Information flow and is not immediate deletion.
+
+**Rationale**
+
+Three distinct routes match user expectations while preserving clean ownership between account information, authentication/security, and privacy rights. Reusable verification and passcode screens avoid duplicate flows. Shared status mappings and protected handoffs keep provider, security, privacy, and operational complexity out of the root UI without losing implementation requirements.
+
+**Alternatives Considered**
+
+- Combining security and privacy into one detail route was rejected because authentication controls and privacy requests have materially different purposes and data handling.
+- Placing verification updates only under Privacy & Data was rejected because users expect verification status and immediate action in Account Information.
+- Creating separate root routes for identity verification or payment-passcode settings was rejected because both are controlled child flows.
+- Showing legal name, ID reference, provider payloads, or internal reasons in Account Information was rejected in favor of status-only presentation.
+- Treating account closure as deletion was rejected because operational blockers, cancellation, finalization, and retention duties remain distinct.
+
+**Consequences And Handoffs**
+
+DOC-06B owns route behavior and return context. DOC-08 owns notifiable events and destinations; DOC-15 owns privacy, masking, retention, and protected-change boundaries; the status matrix owns user-facing alignment. DOC-18 must define final objects/events and provider-state projections, DOC-19 must define security implementation, and DOC-22 must define operations and admin controls. No wallet, open P2P, cashout, or payment-authorization behavior is introduced.
+
+**Supersedes / Superseded By**
+
+Supersedes the prior Me baseline in which the three child routes were named but their detailed behavior, identity labels, contact changes, security controls, privacy requests, and closure flow remained pending. It does not supersede established KYC/KYB, payment, payout, evidence, risk, notification, or retention ownership.
+
+**Remaining Open Items**
+
+- Final external-provider/backend mapping into the four identity-verification labels.
+- Final DOC-19 recovery factors, retry/lockout rules, session duration, and step-up implementation.
+- Detailed account-closure screen design and final operational sequencing.
+- Privacy-request service timelines, export format, and final legal/provider wording.
+- Remaining Me child routes and final visual design.
