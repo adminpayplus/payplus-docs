@@ -385,3 +385,48 @@ This append-only register records the documentation delivered by each substantiv
 - Detailed account-closure visual design and operational finalization.
 - Privacy-request service timelines and export format.
 - Remaining Me child-route and final visual-design work.
+
+### `2026-07-26` - Receiving Info, Canonical Request States, And Documentation Integration Controls
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `88c7c33` |
+| Primary owner | `DOC-06A`, request lifecycle; `DOC-06B`, Receiving Info and route UX; `DOC-10`, payout destination; `DOC-00`, documentation governance |
+| Decision record | `DEC-2026-010`, `DEC-2026-011`, `DEC-2026-012`, `DEC-2026-013` |
+| Founder approval | Decisions and final commit scope approved on `2026-07-26` |
+
+**Files Changed**
+
+- `AGENTS.md`;
+- `DOC-00` to `DOC-12` where materially affected, plus `DOC-14`, `DOC-15`, `DOC-18`, and `DOC-22`;
+- Documentation Change Integration and Prototype Design and Validation workflows;
+- documentation and diagram indexes, route-entry Mermaid map, glossary, and prototype lifecycle registry;
+- open-questions register, requirements traceability matrix, route register, and status-display reference matrix.
+
+**Material Changes**
+
+- Replaced mixed request-status definitions with the canonical request lifecycle and role-facing labels.
+- Separated request events, evidence status, obligation readiness, payment/payout status, linked-case lifecycle, and archive visibility.
+- Confirmed the direct payer-created evidence-to-obligation path and that payee-created request acceptance remains separate from payment authorization.
+- Replaced singular Receiving Details with multiple private, reusable Receiving Info profiles and immutable destination snapshots.
+- Defined Receiving Info readiness, masking, proof, versioning, archive, change, notification, and payer-authorization-freeze rules.
+- Clarified authentication for prominent sensitive-data reveal and material sensitive changes while retaining ordinary permitted document view/download without an extra prompt.
+- Added the canonical route register, expanded glossary and traceability, synchronized DOC-06 family completion status, and aligned the route map.
+- Added task-level impact-manifest, parent/family synchronization, batched validation, and prototype lifecycle controls.
+- Registered no current prototype and excluded stale or unvalidated visual artifacts from the substantive commit.
+
+**Checks Performed**
+
+- Audited all tracked and untracked workspace changes and staged only the 33 approved files.
+- Verified active request, evidence, readiness, case, payment, payout, archive, Receiving Info, and sensitive-data terminology.
+- Checked route ownership, DOC-06 parent/child status, route register, status matrix, glossary, traceability, open questions, and Mermaid handoffs.
+- Verified local Markdown links and ran `git diff --cached --check`.
+- Excluded the external `for-neng` derivative, remote attachments, stale JPG exports, stale simplified user-flow diagrams, and unvalidated prototype.
+
+**Remaining Open Items**
+
+- Final Receiving Info method fields, external validation, matching, proof, review, failure mapping, and technical/admin design.
+- Final request-state physical schema, reason codes, event payloads, and operational limits.
+- Final DOC-19 authentication, step-up, session, recovery, and security implementation.
+- `ARCHIVED-EVIDENCE-LIST`, Support/About/Terms, Home/More/Notification Inbox IDs, checkout destination IDs, and final visual design.
+- No prototype is a current validated reference; future prototype work must use the new workflow.

@@ -28,6 +28,12 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-005` | `2026-07-21` | Referral Child-Screen And Entitlement Lifecycle | Accepted | `DOC-06B` / `DOC-13` | `9306498` |
 | `DEC-2026-006` | `2026-07-21` | My Rewards Route And Canonical Reward Instrument Lifecycle | Accepted | `DOC-06B` / `DOC-13` | `298ab49` |
 | `DEC-2026-007` | `2026-07-22` | Me Account-Control Route And Child-Destination Boundaries | Accepted | `DOC-06B` | `0586a37` |
+| `DEC-2026-008` | `2026-07-22` | Canonical YAML With Human-Readable Document Control Mirror | Accepted | `DOC-00` | `53bfc19` |
+| `DEC-2026-009` | `2026-07-22` | Me Account Information, Security, And Privacy Child Routes | Accepted | `DOC-06B` | `b5879e1` |
+| `DEC-2026-010` | `2026-07-26` | Multiple Private Receiving Info Profiles And Destination Snapshots | Accepted | `DOC-06B` / `DOC-10` | `88c7c33` |
+| `DEC-2026-011` | `2026-07-26` | Canonical Request Lifecycle And State-Domain Separation | Accepted | `DOC-06A` | `88c7c33` |
+| `DEC-2026-012` | `2026-07-26` | Sensitive Reveal And Material-Change Authentication Boundary | Accepted | `DOC-15` | `88c7c33` |
+| `DEC-2026-013` | `2026-07-26` | Change Impact And Prototype Lifecycle Governance | Accepted | `DOC-00` | `88c7c33` |
 
 ## 4. Decision Record Template
 
@@ -444,3 +450,156 @@ Supersedes the prior Me baseline in which the three child routes were named but 
 - Detailed account-closure screen design and final operational sequencing.
 - Privacy-request service timelines, export format, and final legal/provider wording.
 - Remaining Me child routes and final visual design.
+
+### `DEC-2026-010` - Multiple Private Receiving Info Profiles And Destination Snapshots
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-26` |
+| Status | Accepted |
+| Primary owner | `DOC-06B`, Receiving Info route; `DOC-10`, payout destination |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06C`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-09`, `DOC-10`, `DOC-12`, `DOC-14`, `DOC-15`, `DOC-18`, `DOC-22`, route map, glossary, status matrix, traceability |
+| Substantive commit | `88c7c33` |
+| Founder approval | Receiving Info proposal, alignment, and final commit scope approved on `2026-07-26` |
+
+**Decision**
+
+`RECEIVING-INFO` is a private payee-side library of multiple reusable, user-linked, versioned receiving profiles. It is optional and is not the sole payout source of truth. Each request, obligation, payment, and payout uses a separate destination snapshot that is not mutated by later source-profile edits or archive.
+
+Profiles support masked list/detail display, optional nickname, add/edit, proof where required, readiness, retained versions, and archive instead of hard deletion. Payers cannot browse a payee's profile library. Payee-created requests require a selected destination before sending. Destination changes after payer acceptance follow the replacement rules in the owning documents; payer-selected changes notify a linked payee without creating a payee approval or payout-delay gate.
+
+**Rationale**
+
+Reusable profiles improve payee efficiency while immutable context snapshots preserve payer authorization, auditability, non-user-payee support, privacy, and payout integrity.
+
+**Alternatives Considered**
+
+- A single approved payout account was rejected because payees may manage multiple destinations.
+- Treating the current saved profile as payout truth was rejected because edits or archive could silently redirect an accepted or authorized payment.
+- Exposing a payee's library to payers was rejected for privacy and purpose-limitation reasons.
+
+**Consequences And Handoffs**
+
+DOC-06B owns route behavior; DOC-10 owns destination and payout rules; DOC-12/DOC-14 own proof and review; DOC-15 owns masking and access; DOC-18/DOC-22 must define final objects, events, review, configuration, and audit.
+
+**Supersedes / Superseded By**
+
+Supersedes singular `RECEIVING-DETAILS` as the active product model. Historical version and decision records remain unchanged.
+
+**Remaining Open Items**
+
+Final methods, fields, external validation capability, name matching, proof types, review SLA, failure mapping, conditional step-up, and technical/admin design.
+
+### `DEC-2026-011` - Canonical Request Lifecycle And State-Domain Separation
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-26` |
+| Status | Accepted |
+| Primary owner | `DOC-06A`, request lifecycle |
+| Affected documents | `DOC-01` to `DOC-12` where affected, `DOC-18`, `DOC-22`, glossary, open questions, status matrix, route register, traceability |
+| Substantive commit | `88c7c33` |
+| Founder approval | Canonical request-state model and repository alignment approved on `2026-07-26` |
+
+**Decision**
+
+The request lifecycle is `Draft`, `Pending Evidence Verification`, `Pending Receiver Action`, `Accepted`, `Rejected`, `Expired`, or `Cancelled`. While receiver action is pending, the sender sees `Reviewing` and the receiver sees `Awaiting`.
+
+Submission, delivery, sharing, viewing, reminding, acceptance, rejection, expiry, cancellation, linking, archive, and restoration are events or visibility transitions. Evidence status, obligation readiness, payment/payout status, linked case lifecycle, and archive visibility remain separate state domains. A payer-created evidence-backed obligation may proceed without a request or payee acceptance; a payee-created request requires payer acceptance before separate payment authorization.
+
+**Rationale**
+
+One canonical lifecycle avoids overloaded status fields, contradictory user labels, invalid data models, and accidental treatment of request acceptance as payment authorization.
+
+**Alternatives Considered**
+
+- One combined request/payment status family was rejected because request, evidence, obligation, payment, payout, dispute, and archive records have different lifecycles.
+- Treating sent, viewed, reminded, or archived as request states was rejected because they are events or visibility.
+- Requiring every payer-created payment to use a request was rejected because payer-created evidence-backed obligations may proceed directly.
+
+**Consequences And Handoffs**
+
+DOC-06A owns lifecycle meaning; DOC-06B owns route display; DOC-12 owns evidence; DOC-06C owns readiness; DOC-09 to DOC-11 own payment, payout, and linked cases; DOC-18/DOC-22 must implement separate objects, projections, events, reason codes, and audit records.
+
+**Supersedes / Superseded By**
+
+Supersedes mixed request states such as `Viewed`, `Approved for Payment`, payment outcomes, dispute status, or archive status appearing in the request lifecycle.
+
+**Remaining Open Items**
+
+Final physical schema, reason codes, event payloads, idempotency, detailed case actions, and operational limits.
+
+### `DEC-2026-012` - Sensitive Reveal And Material-Change Authentication Boundary
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-26` |
+| Status | Accepted |
+| Primary owner | `DOC-15`, privacy and protected-data handling |
+| Affected documents | `DOC-05`, `DOC-06B`, `DOC-06C`, `DOC-06D`, `DOC-07`, `DOC-10`, `DOC-15`, `DOC-18` |
+| Substantive commit | `88c7c33` |
+| Founder approval | Sensitive reveal and change-authentication rules approved on `2026-07-26` |
+
+**Decision**
+
+Prominent reveal of approved masked sensitive values and material changes to identity, contact, security, credential, or Receiving Info data require payment passcode or approved reauthentication before route-specific OTP, provider, review, or confirmation controls. Ordinary permitted viewing or downloading of evidence, invoices, receipts, statements, and payment proof does not require an additional prompt solely because the document is opened or downloaded.
+
+**Rationale**
+
+Prominent full-value display and material data changes create account-takeover and shoulder-surfing risk. Ordinary controlled document access has different user intent and usability consequences and remains governed by session, role, purpose, masking, and authorization controls.
+
+**Alternatives Considered**
+
+- Requiring passcode for every permitted document view/download was rejected as disproportionate.
+- Allowing sensitive material changes with confirmation only was rejected because an unattended or compromised device could alter identity or recovery-critical information.
+
+**Consequences And Handoffs**
+
+DOC-15 owns the human-readable privacy baseline. DOC-19 must define final factors, session, step-up, retry, recovery, and lockout mechanics. DOC-18 must retain audit signals without exposing sensitive values in analytics.
+
+**Supersedes / Superseded By**
+
+Clarifies `DEC-2026-009` by separating prominent sensitive reveal and material changes from ordinary permitted document access.
+
+**Remaining Open Items**
+
+Final DOC-19 implementation, risk-triggered step-up, provider requirements, session freshness, and recovery mechanics.
+
+### `DEC-2026-013` - Change Impact And Prototype Lifecycle Governance
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-26` |
+| Status | Accepted |
+| Primary owner | `DOC-00`, documentation governance |
+| Affected documents | `AGENTS.md`, `DOC-00`, documentation integration workflow, prototype workflow, documentation and diagram indexes, prototype registry, route register |
+| Substantive commit | `88c7c33` |
+| Founder approval | Workflow improvements and final audited commit scope approved on `2026-07-26` |
+
+**Decision**
+
+Material documentation changes begin with one task-level Change Impact Manifest, proceed owner-first through only materially affected files, synchronize parent/family/register/acceptance references, and end with one integrated validation pass. Prototypes are governed review aids, not sources of truth. Each must declare purpose, source baseline, status, scope, limitations, and validation; only one may be current for the same scope, and superseded artifacts are deleted or clearly archived.
+
+No current prototype is registered at this baseline. Stale JPG exports, simplified user-flow diagrams, and the unvalidated mobile prototype were excluded from the substantive commit.
+
+**Rationale**
+
+The workflow prevents missed alignment without repeatedly scanning the full repository after every small edit. Prototype lifecycle controls prevent obsolete or exploratory artifacts from being mistaken for current product requirements.
+
+**Alternatives Considered**
+
+- Repeated repository-wide checks after each file were rejected as inefficient.
+- Committing all visual artifacts because they exist locally was rejected because several predated the accepted source baseline.
+- Treating prototypes as implementation authority was rejected because formal source documents own product behavior.
+
+**Consequences And Handoffs**
+
+Future agents must use the impact manifest and integrated review. Route changes update the route register and applicable diagram. Prototype work follows the dedicated workflow and returns material discoveries to the owning documents before becoming aligned.
+
+**Supersedes / Superseded By**
+
+Supersedes ad hoc impact checking and unregistered coexisting prototypes.
+
+**Remaining Open Items**
+
+The next prototype must be corrected, validated, assigned a source commit, and explicitly registered before it becomes a current reference.
