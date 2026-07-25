@@ -1,6 +1,6 @@
 # PayPlus Documentation Change Integration and Commit Workflow
 
-Last updated: 2026-07-22
+Last updated: 2026-07-26
 
 ## 1. Purpose
 
@@ -39,6 +39,27 @@ Before editing, record:
 
 If the founder has not accepted the material product decision, return to proposal and review rather than beginning integration.
 
+Create one task-level **Change Impact Manifest** before editing. It should identify:
+
+- the primary owner and exact accepted decision;
+- superseded terms, rules, values, routes, statuses, and open questions;
+- likely affected governing, parent, product, domain, technical, acceptance, traceability, glossary, index, diagram, prototype, and derived-document files;
+- files that are explicitly excluded;
+- unresolved conflicts that require founder confirmation.
+
+Use the manifest to batch repository searches and classify impacts once at the start. Re-run broad searches only if the scope changes, validation reveals an unexpected conflict, or a new decision is introduced.
+
+Use this generic trigger guide:
+
+| Change Type | Mandatory Impact Targets |
+| --- | --- |
+| Route, screen, entry, or handoff | Primary UX owner, parent/family overview, route register, Mermaid map, acceptance/test mapping, affected notification or deeplink owner. |
+| Status or user-facing label | Domain owner, status-display matrix, affected UX/notification surfaces, DOC-18 marker, acceptance/test mapping. |
+| Decision closure or numeric limit | Primary owner, every matching open/TBC/assumption statement, parent summary, open-question register, acceptance/test mapping. |
+| Sensitive reveal or material data change | Product/UX owner, DOC-15, future DOC-19 marker, DOC-18 audit marker, acceptance/test mapping. |
+| New or materially changed term | Primary owner and glossary; references should link to the owner rather than redefine the term. |
+| Prototype-represented behavior | Current prototype registry, prototype README/source baseline, represented interaction, and prototype validation record. |
+
 ### 4.2 Update the Primary Owner
 
 Edit the document that owns the behavior first.
@@ -69,6 +90,19 @@ Classify each relevant result as:
 | Checked and unaffected | No edit is required; preserve the file. |
 | Superseded | Replace or remove the obsolete definition so it no longer appears valid. |
 | Confirmation required | Stop and return the conflict or ownership question to the founder. |
+
+### 4.3A Synchronize Parent, Family, and Registers
+
+When an accepted change is made in a child, module, or specialist document, check and update the affected:
+
+- parent overview or family governance map;
+- completion/progress status;
+- route, requirement, control, or decision register;
+- acceptance/test-readiness mapping;
+- glossary and index entries;
+- current route or architecture diagram.
+
+This is a generic rule for all modular document families. A parent must not continue to describe a child as incomplete, pending, or governed differently after the child has established a newer accepted baseline.
 
 ### 4.4 Check Governing and Domain Documents
 
@@ -168,6 +202,8 @@ Update metadata according to `DOC-00`. Do not mark a document `Approved`, assign
 
 ### 4.10 Check Visual and UX Artifacts
 
+When a prototype is created, materially changed, validated, superseded, or retired, also apply `payplus-prototype-design-validation-workflow.md`.
+
 Check designated current visual artifacts when the accepted change affects what they represent, including:
 
 - Mermaid route diagrams;
@@ -238,6 +274,8 @@ Before reporting commit readiness, verify:
 14. the actual diff matches the approved scope.
 
 Use `git diff --check` and appropriate repository searches. Add other validation when the affected artifact requires it.
+
+Perform this as one batched validation pass after the coordinated edit set. Do not repeat every repository-wide check after each file unless a failed check or changed scope justifies another pass. The pre-commit report should identify the search terms, affected files checked, validation results, and any consciously deferred alignment.
 
 ### 4.15 Prepare Changelog and Decision-Log Recording
 

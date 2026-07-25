@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.7.2
+version: 0.7.4
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-07-22
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-12` |
 | **Title** | Bill Category, Document AI/OCR & Payee Verification Specification |
-| **Version** | `0.7.2` |
+| **Version** | `0.7.4` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Risk |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Operations Lead<br>Payments Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Risk Lead<br>Compliance Lead |
-| **Last Updated** | `2026-07-22` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -126,7 +126,7 @@ Unconfirmed items should remain editable assumptions or gated requirements and s
 
 | Principle | Requirement |
 | --- | --- |
-| Evidence-backed payments | Payment requests must link to acceptable evidence unless an approved exception applies. |
+| Evidence-backed payments | Each payment or payee-created request must link to an evidence-backed obligation unless an approved exception applies. A payer-created payment does not require a request. |
 | UX assist, not blind automation | AI/OCR may autofill fields, but users must review and correct material fields before submission. |
 | Extractable does not mean displayable | Sensitive fields may be extracted and stored under controls without being shown broadly in the UI. |
 | Data layer separation | Evidence document data must be labeled as document-derived data, not as the entire user profile. |
@@ -435,7 +435,7 @@ DOC-12 verification outcomes must map cleanly to the DOC-06C user-facing evidenc
 | Evidence Replaced | New version enters the applicable status; prior version is retained and hidden from normal bill/rent UI. |
 | Evidence Expired | `Update Needed`. |
 
-DOC-06C owns the user-facing payment-readiness mapping, including `Ready to Pay`, `Action Required`, `Under Review`, `Paid` / `Received`, and `Archived`. DOC-09 consumes the mapped readiness result before quote creation, authorization, retry, settlement readiness, or payout handoff.
+DOC-06C owns the user-facing payment-readiness mapping: `Ready to Pay`, `Action Required`, and `Under Review`. `Paid` / `Received` are linked payment outcomes, `Archived` is visibility, and due-state labels are date-derived. DOC-09 consumes the mapped readiness result before quote creation, authorization, retry, settlement readiness, or payout handoff.
 
 Evidence should normally have one active evidence set per bill/rent record. Evidence updates create versions; the newest accepted version becomes active. Archived or previous evidence must not be hard-deleted and should remain available through DOC-06B `ME-ROOT` and `ARCHIVED-EVIDENCE-LIST`, subject to DOC-06C historical-evidence UX, DOC-15 access and retention controls, and DOC-18 versioning and audit requirements.
 
@@ -456,6 +456,18 @@ Rules:
 - payee-created requests should require evidence equal to or stronger than payer-created requests for the same category;
 - requests created through DOC-06B `REQUESTS-NEW` must not be delivered to the receiver until required evidence is verified or approved by exception;
 - evidence-to-payee validation, duplicate detection, and risk checks must not be treated as automatic user-to-user matching; participant linking belongs to DOC-06A/DOC-06C and DOC-18 and requires approved user or operational action.
+
+### 17.1 Receiving Info Proof and Matching
+
+DOC-06B `RECEIVING-INFO` is an optional payee-side profile library. A selected profile may supply a destination to a request or obligation, but the selected destination must be preserved as a separate context snapshot. Evidence extraction must not silently overwrite either the source profile or an accepted/authorized snapshot.
+
+The verification baseline is:
+
+- a personal-account name that matches the user's verified identity under configured normalization rules may support `Ready to Receive`, but does not prove external bank-account validity;
+- a third-party personal account, company account, ownership mismatch, or material evidence mismatch requires supporting proof and `Under Review`;
+- document AI/OCR and rules may assist extraction and matching, with human review available for low confidence, mismatch, exception, or configured categories;
+- a proof defect or destination-attributable payout failure may produce `Action Required`; a transient bank, rail, or system failure must not change the source profile status;
+- where a destination change after payer acceptance requires a new request and bill/rent context, approved evidence may be linked to the replacement context with preserved lineage and must not be treated as a duplicate solely because it supports both versions.
 
 KYC/KYB, sanctions, and fraud rules belong in DOC-14 and DOC-19. Payout destination controls belong in DOC-10. Data schema belongs in DOC-18.
 
@@ -606,6 +618,8 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.7.4` | `2026-07-26` | Product Documentation Team | Limited bill/rent payment readiness to `Ready to Pay`, `Action Required`, and `Under Review`, kept payment outcomes/archive visibility separate, and clarified that evidence links to the obligation while payer-created payment does not require a request. |
+| `0.7.3` | `2026-07-23` | Product Documentation Team | Added Receiving Info proof, identity-name matching, third-party/company review, destination-snapshot, payout-failure, and evidence-reuse lineage boundaries. |
 | `0.7.2` | `2026-07-22` | Product Documentation Team | Aligned controlled archived/previous evidence retrieval with DOC-06B `ME-ROOT` and `ARCHIVED-EVIDENCE-LIST` without changing evidence lifecycle, active-version, or archive-not-delete rules. |
 | `0.1.0` | `2026-05-30` | Product Documentation Team | Initial founder working baseline for bill category verification, document AI/OCR extraction, autofill, evidence data layers, duplicate detection, payee verification linkage, red-flag routing, and DOC-06 alignment impact. |
 | `0.2.0` | `2026-06-02` | Product Documentation Team | Clarified that DOC-14 owns risk meaning and routing framework while final thresholds, algorithms, configuration, and schemas remain with DOC-18 and DOC-22. |

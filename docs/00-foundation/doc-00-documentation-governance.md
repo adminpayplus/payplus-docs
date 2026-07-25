@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.5
+version: 0.7.6
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,7 +12,7 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-07-22
+last_updated: 2026-07-26
 classification: Internal
 related_documents: []
 ---
@@ -23,12 +23,12 @@ related_documents: []
 | --- | --- |
 | **Document ID** | `DOC-00` |
 | **Title** | Documentation Governance |
-| **Version** | `0.7.5` |
+| **Version** | `0.7.6` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Documentation Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead |
 | **Approvers** | Product Lead<br>Engineering Lead |
-| **Last Updated** | `2026-07-22` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | None |
 
@@ -227,11 +227,12 @@ payplus-docs/
 |   |   |-- rulebook-template.md
 |   |   `-- test-case-template.md
 |   |-- prototypes/
-|   |   `-- doc06-route-prototype/
+|   |   `-- README.md
 |   |-- review/
 |   |   `-- reviewpack.md
 |   |-- traceability/
 |   |   |-- open-questions-register.md
+|   |   |-- route-register.md
 |   |   |-- requirements-traceability-matrix.md
 |   |   `-- status-display-reference-matrix.md
 |   `-- README.md
@@ -575,6 +576,8 @@ The current traceability files are:
 | --- | --- |
 | requirements-traceability-matrix.md | Maps requirements, rules, controls, tests, decisions, and implementation references. |
 | open-questions-register.md | Tracks unresolved questions across the documentation set. |
+| route-register.md | Maintains the canonical product-destination inventory, parent, type, owner, and definition status. |
+| status-display-reference-matrix.md | Aligns user-facing labels with domain-owned status meaning. |
 
 The documentation system should maintain traceability between:
 
@@ -827,6 +830,7 @@ DOC-00 must remain focused on documentation governance only.
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.7.6 | 2026-07-26 | Product Documentation Team | Registered the canonical product-destination route register and established the prototype lifecycle register, single-current-prototype rule, and dated/versioned archive convention; no current prototype is registered at this baseline. |
 | 0.7.5 | 2026-07-22 | Product Documentation Team | Kept YAML as canonical metadata, added the synchronized human-readable Document Control table requirement, aligned and repaired the repository-tree and lifecycle-arrow presentation, and exempted empty placeholders and backups from mechanical formatting. |
 | 0.7.4 | 2026-07-20 | Product Documentation Team | Added mandatory post-commit changelog and decision-log recording under the Documentation Change Integration and Commit Workflow and identified the canonical decision-log file. |
 | 0.1.0 | 2026-05-14 | Initial Author | Initial draft of DOC-00 Documentation Governance. |

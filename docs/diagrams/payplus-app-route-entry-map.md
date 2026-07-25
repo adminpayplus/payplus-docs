@@ -2,13 +2,15 @@
 
 Status: Discussion reference / IA alignment aid  
 Owner: DOC-06B  
-Last updated: 2026-07-22
+Last updated: 2026-07-26
 
 These Mermaid diagrams show the current working relationship between bottom navigation, the Pay+ action sheet, the eight dashboard shortcuts, stable product destinations, and major route transitions.
 
 The map is split into layers so that navigation actions, destination hierarchy, Bills-route ownership, and Requests-route ownership are not mixed into one unreadable graph.
 
 It is not final UI design, visual design, component specification, or implementation source of truth. If this diagram conflicts with formal `DOC-XX` documents, the formal documents prevail.
+
+The canonical destination inventory and definition status are maintained in `docs/traceability/route-register.md`.
 
 ## 1. Main Navigation Map
 
@@ -63,15 +65,16 @@ flowchart TD
 
   BPAY --> BDETAIL["BILLS-DETAIL-BILL / BILLS-DETAIL-RENT"]
   BRECEIVE --> BDETAIL
-  BADD --> BEVUPLOAD["Evidence capture during setup"]
+  BADD --> BEVUPLOAD["BILLS-EVIDENCE-UPLOAD<br/>Evidence capture during setup"]
   BEVUPLOAD --> BDETAIL
 
-  BDETAIL --> BACTIVITY["BILLS-ACTIVITY"]
+  BDETAIL --> BACTIVITY["BILLS-ACTIVITY<br/>Payment-related activity only"]
   BDETAIL --> BEVIDENCE["BILLS-EVIDENCE-DETAIL"]
   BDETAIL --> BREMINDER["BILLS-REMINDER-DETAIL"]
+  BDETAIL --> BLINK["BILLS-LINKING<br/>Optional; partially defined"]
 
   BACTIVITY --> BACTIVITYDETAIL["BILLS-ACTIVITY-DETAIL"]
-  BEVIDENCE --> BEVUPLOAD2["Upload / update evidence"]
+  BEVIDENCE --> BEVUPLOAD
   BREMINDER --> BREMINDERLIST["BILLS-REMINDER-LIST"]
 ```
 
@@ -95,8 +98,15 @@ flowchart TD
   RCREATE --> BADD["BILLS-ADD"]
   BADD --> RNEWRETURN["Return to REQUESTS-NEW<br/>with created context selected"]
 
-  RSELECT --> RGATE["Evidence verification gate"]
-  RNEWRETURN --> RGATE
+  RNEW --> RDEST["Select one receiving destination<br/>for this request"]
+  RDEST --> RINFO["RECEIVING-INFO / RECEIVING-INFO-SETUP<br/>if saved profile management is needed"]
+  RINFO -. "Return with selected destination" .-> RDEST
+
+  RSELECT --> RCONTEXT["Bill / rent context ready"]
+  RNEWRETURN --> RCONTEXT
+  RDEST --> RDESTREADY["Destination snapshot ready"]
+  RCONTEXT --> RGATE["Send gate<br/>requires verified evidence and destination"]
+  RDESTREADY --> RGATE
   RGATE -->|"Verified or approved exception"| RSEND["Send request to receiver"]
   RGATE -->|"Rejected / correction needed"| RACTION["Sender action required"]
 
@@ -105,6 +115,8 @@ flowchart TD
   RDETAIL --> BDETAIL["Linked BILLS-DETAIL-BILL / BILLS-DETAIL-RENT"]
   BDETAIL --> RDETAILRETURN["Back / save returns to REQUESTS-DETAIL"]
 ```
+
+The two incoming lines to the send gate are required prerequisites, not alternative paths: the request needs both an eligible bill/rent context with verified evidence and a selected destination snapshot before delivery.
 
 ## 4. Instructions Route Handoff
 
@@ -287,7 +299,12 @@ flowchart TD
   BILLS --> BROOT["BILLS-ROOT"]
 
   PAYMENTS --> PPROOT["PAYMENT-PROFILE-ROOT"]
-  PAYMENTS --> RECEIVE["RECEIVING-DETAILS"]
+  PAYMENTS --> RECEIVE["RECEIVING-INFO<br/>Private reusable profile library"]
+  RECEIVE --> RECEIVELIST["RECEIVING-INFO-LIST<br/>Initial rendered screen"]
+  RECEIVELIST --> RECEIVEDETAIL["RECEIVING-INFO-DETAILS"]
+  RECEIVELIST --> RECEIVESETUP["RECEIVING-INFO-SETUP"]
+  RECEIVEDETAIL --> RECEIVESETUP
+  RECEIVESETUP -. "Save / Cancel / originating-context return" .-> RECEIVELIST
   PAYMENTS --> AROOT["ACTIVITY-ROOT<br/>Payer and payee activity"]
   PAYMENTS --> RROOT["RECEIPTS-ROOT"]
   PAYMENTS --> ARCHIVE["ARCHIVED-EVIDENCE-LIST<br/>Archived Documents"]

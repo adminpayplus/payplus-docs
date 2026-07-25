@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.9.4
+version: 0.9.7
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-22
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `0.9.4` |
+| **Version** | `0.9.7` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-22` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -67,7 +67,7 @@ PayPlus must explain payment requests clearly enough that payers and payees unde
 - what fees apply;
 - when payment and payout may occur;
 - what actions the user is authorizing;
-- what happens if the request is rejected, cancelled, disputed, refunded, reversed, or charged back.
+- what happens if the request is rejected or cancelled, a linked dispute case is opened, or a linked payment is refunded, reversed, or charged back.
 
 This document is a product and content specification. It is not a final legal opinion, privacy policy, terms of service, payment processing specification, or operations manual.
 
@@ -372,7 +372,7 @@ The payer must be shown:
 - that settlement-ready funded portions may be paid out while remaining amounts stay unpaid or pending under DOC-09 and DOC-10;
 - whether the payer must re-authorize after changing card split amounts.
 
-The exact card-count limit is to be confirmed and should be configurable.
+The MVP maximum is 6 cards per payment/profile. The displayed limit and any narrower partner-, risk-, or category-specific restriction should be configuration-driven where practical.
 
 ---
 
@@ -488,6 +488,12 @@ DOC-06B owns screen behavior. User-facing content must:
 - distinguish directly editable account fields, governed correction requests, deletion of eligible data, and account closure;
 - distinguish optional direct-marketing, personalization, and approved partner-data-use choices from required service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
 - explain that data export uses protected in-app access and that privacy-request service timelines and legal outcomes remain subject to the approved privacy process.
+- explain that Receiving Info is a private reusable profile library and not the sole payout source of truth;
+- distinguish `Ready to Receive` as a PayPlus profile-readiness label from bank validation or guaranteed payout;
+- explain when third-party/company account proof and review are required;
+- explain that selecting one profile for a request discloses only that destination to the payer;
+- explain that profile edit/archive does not change an accepted request or authorized payment destination;
+- warn the payer before authorization when the effective destination differs from an accepted payee-created request.
 
 ---
 
@@ -547,6 +553,8 @@ Required audit evidence includes:
 | Payment authorization | Final amount, fee, payment method summary, authorization text/version, timestamp, and result. |
 | Promotion authorization | Promotion quote, applied discount, service-fee benefit, coupon/voucher selection, reward entitlement, and related wording shown before authorization where applicable. |
 | Multi-card authorization | Card split, total charge, per-card amount, and reauthorization event where applicable. |
+| Receiving Info add/edit/archive | Profile ID/version, permitted masked summary, ownership declaration, proof requirement/status, confirmation method, outcome, and notification evidence. |
+| Destination selection/change | Destination source and version shown, request or obligation linkage, payer/payee actor, linked-payee notification where applicable, difference warning, and authorization or reauthorization evidence. |
 | Refund/dispute/chargeback case | User-facing status, case messages, evidence submitted, and admin actions. |
 
 Detailed event schema belongs in DOC-18.
@@ -615,6 +623,9 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.9.7 | 2026-07-26 | Separated request lifecycle outcomes from linked dispute cases and linked payment refund, reversal, and chargeback outcomes. |
+| 0.9.6 | 2026-07-26 | Replaced the stale card-count TBC wording with the confirmed MVP maximum of 6 cards per payment/profile while preserving narrower configurable restrictions. |
+| 0.9.5 | 2026-07-23 | Added Receiving Info library, readiness, proof, privacy, selected-destination, profile-version, linked-payee notification, changed-destination warning, and authorization-evidence content requirements. |
 | 0.9.4 | 2026-07-22 | Added account, identity-verification, security-toggle, contact-change, account-closure, privacy-choice, correction/deletion, and protected-export content boundaries for the defined Me child routes. |
 | 0.5.0 | 2026-06-02 | Clarified bill and fee MVP disclosure baseline and aligned risk/disclosure assumptions with DOC-14. |
 | 0.6.0 | 2026-06-02 | Aligned disclosure requirements with DOC-15 by adding payment passcode, account/authentication content, material-change confirmation wording, and stored-but-not-displayed data notice boundaries. |

@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.8
+version: 0.8.10
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-07-22
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.8.8` |
+| **Version** | `0.8.10` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
 | **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
-| **Last Updated** | `2026-07-22` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -155,7 +155,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | KYC / KYB Data | Provider reference, ID type, ID number, name, sex where returned, date of birth where required, nationality where required, Business Registration document, owner ID, verification outcome. | Onboarding, compliance, payee approval, risk control, dispute and chargeback evidence. |
 | Evidence and Obligation Data | Bills, invoices, tenancy agreements, contracts, OCR text, extracted fields, corrected fields, final evidence snapshot, landlord/payee details, property address, due date, amount, reference number. | Payment validation, autofill, payer review, payee verification, duplicate detection, audit, analytics. |
 | Payment and Funding Data | Request ID, amount, fees, quote, quote revalidation result, payment instruction, funding leg, deferred funding date, selected payee transfer date, authorization record, payment token reference, masked card summary, permitted masked cardholder name, card nickname, card brand, expiry, issuer/BIN metadata where available, default-card marker, saved split-card profile name, profile ratios, starred/frequent marker, profile action-required state, multi-card split, partial funding status, step-up result, PSP reference. | Payment processing, risk, reconciliation, chargeback defense, product analytics. |
-| Payout and Payee Data | Payee profile, landlord/business payee data, payout destination, bank/FPS/cheque/EPS details, payout status, payout batch, bank reference, reconciliation result. | Payout execution, payee validation, reconciliation, fraud prevention, support. |
+| Payout and Payee Data | Payee profile, landlord/business payee data, Receiving Info profile ID, owner, nickname, method, version, readiness, proof reference, archive state, request/obligation/payment destination snapshot, source reference, bank/FPS/cheque/EPS details, payout status, payout batch, bank reference, reconciliation result. | Payout execution, payee validation, reconciliation, fraud prevention, support. |
 | Participant Linking and Invitation Data | User-initiated search/input, invitation channel, deeplink/QR/app-link reference, pending participant record, linking acceptance/decline, linked participant role, and linkage audit trail. | Two-sided visibility, request delivery, support, fraud prevention, privacy-controlled communication. |
 | Risk and Compliance Data | Risk score/band, rule triggers, AML/sanctions status, duplicate evidence signals, same-party indicators, fraud flags, payout holds, admin review outcome, escalation records. | Anti-cashout, fraud prevention, compliance control, monitoring, audit. |
 | Refund, Dispute, Chargeback, and Support Data | Support tickets, user messages, dispute reason, refund case, chargeback reason code, evidence package, resolution, recovery/write-off status. | Support, dispute resolution, chargeback defense, operational learning, reporting. |
@@ -183,7 +183,7 @@ PayPlus should support the following account and authentication model:
 | Dormant-login reauthentication | Login after a configured long inactivity period should require reauthentication, such as password plus SMS OTP, email OTP, or other approved factor. |
 | Payment passcode | Payment passcode is required before proceeding with payment authorization. |
 | Password reset | Email deeplink must be single-use, short-lived, and logged. User should receive security notification after reset. |
-| Core account changes | Email, phone, password, payment passcode, login identifier, KYC/KYB data, payout destination, and payment profile changes should require password, payment passcode, 2FA, or another approved confirmation method. Review is required only where risk, compliance, payout, KYC/KYB, or fraud rules require it. |
+| Core account changes | Email, phone, password, payment passcode, immutable-identifier recovery, KYC/KYB data, and payout/Receiving Info changes require payment passcode or approved reauthentication before route-specific OTP, provider, review, or confirmation controls. Payment-profile changes retain their separately approved optional-passcode rule. Review is required only where risk, compliance, payout, KYC/KYB, or fraud rules require it. |
 
 DOC-15 defines data handling and privacy boundaries. DOC-19 owns security mechanics, authentication implementation, encryption, credential storage, device controls, and RBAC.
 
@@ -193,12 +193,13 @@ Material changes should be grouped by sensitivity and handled with proportionate
 
 | Change Type | Examples | Recommended Treatment |
 | --- | --- | --- |
-| Contact rebinding | Change phone or email. Login name cannot be changed after first setup. | For phone change, send OTP to the registered email and then verify the new phone by SMS OTP. For email change, send SMS OTP to the registered phone and then verify the new email by OTP or deeplink. Notify old and new channels where available. Route users without a trusted old channel to support-assisted identity recovery. |
+| Contact rebinding | Change phone or email. Login name cannot be changed after first setup. | Require payment passcode or approved reauthentication first. For phone change, send OTP to the registered email and then verify the new phone by SMS OTP. For email change, send SMS OTP to the registered phone and then verify the new email by OTP or deeplink. Notify old and new channels where available. Route users without a trusted old channel to support-assisted identity recovery. |
 | Credential change | Change password, payment passcode, recovery method, or 2FA setting. | Require current password, payment passcode, or step-up verification; notify user after completion. |
 | Device trust change | New device, trusted-device addition/removal, device reset. | Require step-up where applicable and log the device/session event. Removing another trusted device revokes its trust and active session; removing the current device logs the user out. |
 | Payment profile change | Add, remove/archive, update, suspend, reactivate, star/unstar, or change default card/payment profile. | Require payer confirmation by default; payment passcode confirmation may be enabled by user setting; step-up may still apply where risk, PSP/acquirer, or security rules require; never expose raw card data. |
-| Payout destination change | Add or change bank/FPS/cheque/EPS destination. | Require step-up and may require admin/risk review before payout release. |
-| Identity/KYC change | Change legal name, ID data, business owner data, landlord/payee identity, or verification record. | Require step-up and route to KYC/KYB or risk review where configured. |
+| Receiving Info profile change | Add, edit, version, reveal permitted full values, or archive a bank/FPS/cheque/EPS profile. | Require payment passcode or approved reauthentication before full-value reveal and add/edit. Archive requires confirmation. Stronger step-up may apply where risk, security, provider, or compliance rules require it. Third-party/company/ownership-mismatch profiles require proof and review. |
+| Effective payout destination change | Change the destination selected for a request, obligation, payment, or payout. | Preserve a new immutable snapshot, apply the role and acceptance rules in DOC-06B/DOC-09/DOC-10, warn the payer where the selected destination differs from accepted request context, and require payer reauthorization after payment authorization. |
+| Identity/KYC change | Change legal name, ID data, business owner data, landlord/payee identity, or verification record. | Require payment passcode or approved reauthentication, then route to KYC/KYB provider or risk review where configured. |
 | Marketing or communication preference change | Opt-in/out, WhatsApp/SMS/email preference, direct-marketing consent. | Require logged preference update; step-up only if account takeover risk is present. |
 
 Material changes should create audit events and user-facing security notifications where appropriate. Detailed status, event schema, and admin workflow belong in DOC-18, DOC-19, and DOC-22.
@@ -213,7 +214,9 @@ DOC-06B `ME-ROOT` is the permanent mixed-role account-control route. Privacy req
 - the only identity-verification labels shown there are `Pending`, `Verified`, `Failed`, and `Update Required`; `Verified` has no action, while the other states show `Verify Now` and open the reusable `IDENTITY-VERIFICATION` flow;
 - Back or Cancel from identity verification restores `ACCOUNT-PROFILE`; completion returns with refreshed status, and a pending provider submission must not encourage duplicate submission;
 - full identity attributes, identity documents, provider payloads, payment credentials, evidence content, full payout details, and internal risk reasons must not appear on the root;
-- revealing sensitive information through a Me child route requires the existing PayPlus payment passcode for MVP; no second reveal-only passcode should be introduced;
+- revealing approved masked sensitive values in a prominent account or Receiving Info surface uses the existing PayPlus payment passcode or approved reauthentication; no second reveal-only passcode should be introduced;
+- changing sensitive identity, contact, security, credential, or Receiving Info data requires payment passcode or approved reauthentication before the applicable OTP, provider, review, or confirmation flow;
+- permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading within an authenticated approved-purpose context does not require an extra passcode or step-up solely because the document is opened or downloaded;
 - additional step-up may apply where risk, security, legal, provider, or data-classification rules require it;
 - reveal attempts and outcomes should be logged without copying sensitive values into analytics or ordinary notification content;
 - `PRIVACY-DATA-CONTROLS` should separate optional direct-marketing, personalization, and approved partner-data-use choices from mandatory service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
@@ -221,7 +224,8 @@ DOC-06B `ME-ROOT` is the permanent mixed-role account-control route. Privacy req
 - protected data export must use time-limited in-app access rather than an ordinary email attachment;
 - account closure in `ACCOUNT-PROFILE` is a controlled request, not immediate deletion. It requires payment passcode plus 2FA, checks unresolved payment and operational blockers, remains cancellable until operational finalization, and must preserve records subject to retention, dispute, audit, tax, security, compliance, and legal-hold requirements;
 - completed closure blocks new activity, terminates sessions, disables login, and sends an approved completion notice; the user should be prompted to obtain available records before closure, with later access handled through support or the approved privacy process;
-- `RECEIVING-DETAILS` must mask payout data and apply the material-change rules in Section 6.1;
+- `RECEIVING-INFO` must keep the user's saved profile library private from payers. List, card, and ordinary detail views mask account/identifier data while leaving bank/provider name visible; payment-passcode or approved reauthentication is required before controlled Edit reveals permitted full current values. Archive hides the profile from ordinary selection but retains versions and audit history;
+- a payer may see only the destination selected for the relevant request, obligation, payment, or payout context. That context snapshot remains valid independently of later source-profile edit or archive;
 - `ARCHIVED-EVIDENCE-LIST` may expose archived or previous evidence only through controlled, role-appropriate access and must not bypass retention, masking, or audit rules.
 
 Detailed passcode, session, device, reauthentication, and reveal implementation belongs in DOC-19. Final event and data structures belong in DOC-18.
@@ -271,8 +275,8 @@ Visibility must reflect role, task, permission, and approved purpose.
 
 | Actor | Visibility Rule |
 | --- | --- |
-| Payer | May view own account, payment request, payment summary, evidence summary, selected payment method summary, own masked card and payment profile summaries, status, receipts, and support history. |
-| Payee | May view request and payout context needed to receive or request payment, but not payer card details, payer payment profiles, private funding data, unrelated KYC data, internal risk flags, or private payer profile data. |
+| Payer | May view own account, payment request, payment summary, evidence summary, selected payment method summary, the destination selected for the relevant payment context, own masked card and payment profile summaries, status, receipts, and support history. A payer must not browse a payee's Receiving Info library. |
+| Payee | May manage own Receiving Info profiles and view request/payout context needed to receive or request payment, but not payer card details, payer payment profiles, private funding data, unrelated KYC data, internal risk flags, or private payer profile data. |
 | Admin / Operations | May access data required for assigned queue, review, support, payout, refund, dispute, risk, or compliance task. Access must be permissioned and logged. |
 | Risk / Compliance | May access broader identity, evidence, relationship, payment, payout, refund, chargeback, promotion, and risk signals where needed for approved review. |
 | Engineering | Should not access production personal data unless approved for incident, support, debugging, migration, or security task under controlled process. |
@@ -535,6 +539,7 @@ Detailed ISO/ISMS policies belong in DOC-99 policy library. PCI and authenticati
 | OQ-15-013 | Which data classes, fields, derived features, segments, scores, and AI outputs may be used for model improvement, personalization, partner reporting, and campaign measurement? | Privacy / Data / Product | High | Open |
 | OQ-15-014 | Which data classes, fields, and derived signals are prohibited from marketing models, partner reporting, clean-room collaboration, or offsite activation? | Privacy / Legal / Risk | High | Open |
 | OQ-15-015 | What consent, opt-out, notice, partner-contract, and output-control rules are required before clean-room collaboration, pseudonymized matching, or external activation? | Legal / Privacy / Security | High | Open |
+| OQ-15-016 | Which Receiving Info fields may be revealed during controlled edit, and what final masking, proof access, step-up, and retention rules apply by receiving method and actor? | Privacy / Security / Payments | High | Open |
 
 ---
 
@@ -577,6 +582,8 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.10` | `2026-07-26` | Product Documentation Team | Required passcode or approved reauthentication for prominent sensitive reveal and material identity/contact/Receiving Info changes, while confirming that ordinary permitted evidence, receipt, statement, invoice, and proof viewing/download does not need an extra prompt. |
+| `0.8.9` | `2026-07-23` | Product Documentation Team | Added Receiving Info data classification, private-library visibility, masking, controlled-edit confirmation, version/archive retention, and context-snapshot separation from effective payout-destination changes. |
 | `0.8.8` | `2026-07-22` | Product Documentation Team | Aligned Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, contact-change, trusted-device, account-closure, privacy-request, and protected-export privacy requirements with DOC-06B. |
 | `0.8.7` | `2026-07-22` | Product Documentation Team | Aligned privacy requirements with DOC-06B `ME-ROOT`, including masked account summary, payment-passcode-gated sensitive reveal, Privacy & Data controls, account-closure retention boundary, Receiving Details masking, Archived Documents access, and Me preference data. |
 | `0.8.6` | `2026-07-21` | Product Documentation Team | Added explicit classification of confirmed reward dimensions and issued-reward credential/partner-fulfilment privacy controls for safe display, opaque payloads, deliberate reveal, cached read-only metadata, partner minimization, and controlled access events. |

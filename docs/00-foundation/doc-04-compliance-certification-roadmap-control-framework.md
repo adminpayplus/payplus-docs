@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.12.2
+version: 0.12.4
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -22,7 +22,7 @@ approvers:
   - Risk Lead
   - Payments Lead
   - Finance Lead
-last_updated: 2026-07-14
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -55,12 +55,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-04` |
 | **Title** | Compliance Control Framework |
-| **Version** | `0.12.2` |
+| **Version** | `0.12.4` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance Lead |
 | **Reviewers** | Legal Lead<br>Risk Lead<br>Security Lead<br>Privacy Lead<br>Payments Lead<br>Product Lead<br>Engineering Lead<br>Operations Lead<br>Finance Lead |
 | **Approvers** | Project Owner<br>Legal Lead<br>Compliance Lead<br>Security Lead<br>Risk Lead<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-07-14` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory Assessment<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -522,7 +522,7 @@ After launch, PayPlus must monitor the following.
 | Payment instructions | Pending instructions, expired instructions, incomplete split-card funding, reminder effectiveness, quote revalidation changes, and partial funding/payout exceptions. |
 | Payouts | Payout success rate, payout failures, delayed payouts, returned payouts. |
 | Payee onboarding | Applications, approvals, rejections, pending reviews, verification failures, payout destination failures. |
-| Payee-created requests | Sent, viewed, accepted, rejected, expired, withdrawn, paid, and linked query/dispute/support case records. |
+| Payee-created requests | Canonical request lifecycle counts; separate sent/viewed/reminded events; evidence-gate outcomes; linked query/dispute/support cases; accepted-request payment outcomes; and archive visibility. |
 | Rent requests | Landlord approvals, tenancy evidence failures, duplicate rent signals, relationship alerts, rent amount exceptions. |
 | Reconciliation | Unmatched transactions, settlement breaks, payout breaks, fee breaks, request creator type mismatches. |
 | Fraud | Rule triggers, manual review queue, blocked transactions, suspicious payees, suspicious requests. |
@@ -651,7 +651,7 @@ Exception log fields:
 | `OQ-DOC04-013` | What final payee verification, payout destination verification, and exception checks are required by payee type and risk tier? | Compliance / Risk | High | Open |
 | `OQ-DOC04-014` | What sanctions screening is legally or contractually required? | Compliance / Legal | Critical | Open |
 | `OQ-DOC04-015` | What fraud and anti-cashout rules are required at launch? | Risk | Critical | Open |
-| `OQ-DOC04-016` | What configurable maximum number of credit cards per payment should be allowed at launch, and what partner, risk, and reconciliation controls apply? | Product / Payments / Legal | Critical | Open |
+| `OQ-DOC04-016` | What partner, risk, and reconciliation controls apply to the confirmed MVP maximum of 6 cards per payment/profile? | Product / Payments / Legal | Critical | Partially open |
 | `OQ-DOC04-017` | What PCI scope applies? | Security | Critical | Open |
 | `OQ-DOC04-018` | What disclosures must be shown before authorization? | Legal / Product | Critical | Open |
 | `OQ-DOC04-019` | What privacy, deletion, masking, and legal exception rules apply beyond the 7-year tax and audit retention baseline? | Legal / Compliance / Finance | High | Open |
@@ -740,5 +740,7 @@ It should not become:
 | `0.12.0` | `2026-06-02` | Product Documentation Team | Aligned control framework with confirmed evidence-backed domestic helper, driver, and personal service MVP categories, DOC-09 user payment instruction controls, DOC-22 admin operations references, and updated category-gating open question wording. |
 | `0.12.1` | `2026-07-02` | Product Documentation Team | Aligned payee-created request controls with DOC-06B `REQUESTS-NEW` and `REQUESTS-DETAIL` by treating query/dispute handling as linked support or exception paths rather than normal request-route statuses. |
 | `0.12.2` | `2026-07-14` | Product Documentation Team | Distinguished authorization confirmation from the receipt issued after completed payment. |
+| `0.12.3` | `2026-07-26` | Product Documentation Team | Confirmed the MVP maximum of 6 cards per payment/profile and retained partner, risk, and reconciliation controls as the remaining open compliance question. |
+| `0.12.4` | `2026-07-26` | Product Documentation Team | Aligned monitoring with the canonical request lifecycle and separated request events, evidence outcomes, linked cases, payment outcomes, and archive visibility. |
 ```
 ```

@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.7
+version: 1.0.9
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-07-21
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -44,12 +44,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Request, Multi-Funding Source & Settlement |
-| **Version** | `1.0.7` |
+| **Version** | `1.0.9` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-07-21` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication |
 
@@ -169,6 +169,7 @@ A request must pass required gates before payment processing.
 | Category | Category must be approved and enabled. |
 | Evidence | Required evidence must exist, pass DOC-12 verification, or have an approved exception. |
 | Payee | Payee must be eligible for request type and payout destination where required. |
+| Effective destination | A versioned destination snapshot must be attached to the bill/rent/payment context and pass applicable recipient, evidence, risk, payout, compliance, and authorization checks. |
 | Payer | Payer must be eligible and not blocked, suspended, or restricted. |
 | Request origin | Request origin must be allowed for category and payee type. |
 | Risk | Risk, velocity, duplicate/reused evidence, same-party, and anti-cashout checks must pass or route to review. |
@@ -210,11 +211,20 @@ DOC-06B `REQUESTS-NEW` is a request creation and party-linking route, not a paym
 | Origin | Payment-Domain Rule |
 | --- | --- |
 | Payer-created | Payer may proceed to quote and authorization after eligibility gates pass. Optional payee linking/adoption is not a payment-domain gate unless a category, risk, payout, or compliance rule explicitly requires it. |
-| Payee-created | Payer must accept or otherwise choose to proceed before payment method selection and authorization. |
+| Payee-created | Payer must accept the request before payment method selection; acceptance and payment authorization remain separate recorded actions. |
 | Admin-created | Admin-created records must remain auditable and cannot bypass payer authorization for payment. |
 | System-generated | System-generated events cannot authorize or process payment by themselves. |
 
 A payee-created request must not trigger funding, capture, payout, or settlement action before payer authorization. A payer-created request may pay a valid non-user payee record or payout destination where allowed by evidence, risk, payout, and compliance gates.
+
+Destination handling follows these rules:
+
+- a payee-created request must select one destination before sending; the payer sees only that selected snapshot, not the payee's private Receiving Info library;
+- a payee may change the destination before payer acceptance;
+- after payer acceptance, a payee destination change requires a new request and new bill/rent record, with the same evidence reusable where permitted;
+- a payer may select or change a destination without payee approval; where a PayPlus payee is linked, notify the payee without making that notification a payment gate;
+- a payer-selected destination different from an accepted payee-created request must not rewrite the accepted request and must be recorded as the effective bill/payment-context destination;
+- changing a destination after payment authorization requires renewed payer authorization.
 
 ---
 
@@ -224,6 +234,7 @@ Before authorization, PayPlus must generate a payment quote containing:
 
 - request ID;
 - payee;
+- effective destination snapshot and source;
 - request origin;
 - category and obligation reference;
 - evidence verification summary and final evidence snapshot reference where applicable;
@@ -239,7 +250,7 @@ Before authorization, PayPlus must generate a payment quote containing:
 - disclosure version.
 - quote validity or expiry timestamp where applicable.
 
-If amount, fee, discount, promotion quote, reward entitlement, payment method, card split, payee, evidence, or other material terms change after review, payer reauthorization may be required.
+If amount, fee, discount, promotion quote, reward entitlement, payment method, card split, payee, effective destination, evidence, or other material terms change after review, payer reauthorization may be required.
 
 If evidence is corrected, replaced, rejected, marked duplicate, or routed to review after quote creation, the quote must be recalculated or blocked until the required verification outcome is resolved.
 
@@ -496,6 +507,7 @@ Authorization must record:
 - request ID;
 - payment ID where available;
 - payee reference;
+- effective destination snapshot/version and source;
 - amount, fee, discount, and total charge;
 - selected payment profile summary;
 - payment instruction ID where applicable;
@@ -511,7 +523,9 @@ Authorization must record:
 
 Material changes after authorization require invalidation or reauthorization.
 
-Material changes include amount, fee, promotion quote, reward entitlement, total charge, selected card, card split, payee, evidence, evidence verification outcome, deferred funding date, selected payee transfer date, material timing, or disclosure terms.
+Material changes include amount, fee, promotion quote, reward entitlement, total charge, selected card, card split, payee, effective destination, evidence, evidence verification outcome, deferred funding date, selected payee transfer date, material timing, or disclosure terms.
+
+Authorization freezes the effective destination snapshot for that payment. A later profile, request, bill/rent, or payer-entered destination change must not silently redirect the authorized payout. Where the payer selected a destination different from an accepted payee-created request, the authorization screen must clearly disclose the difference and record the payer's confirmation.
 
 ---
 
@@ -535,18 +549,21 @@ Detailed security and authentication mechanics belong in DOC-19.
 
 ---
 
-## 14. Payment Status Model
+## 14. Payment and Related State Boundaries
 
 DOC-09 owns payment-domain status meaning at product-rule level. Canonical event schema belongs in DOC-18.
 
 Evidence status naming must not diverge from DOC-06C and DOC-12. DOC-12 owns evidence verification outcomes. DOC-06C owns the user-facing evidence status and bill/rent payment-readiness mapping. DOC-09 consumes the mapped readiness result to decide whether payment quote creation, authorization, retry, settlement readiness, or payout handoff may proceed.
 
-| Status Group | Example Statuses | Purpose |
+| State Family | Canonical States or Events | Ownership and Purpose |
 | --- | --- | --- |
-| Request setup | Draft, Submitted, Sent | Request exists but is not ready for payment. |
-| Evidence verification | Evidence Processing, Pending User Correction, Pending Evidence Review, Evidence Rejected, Duplicate Suspected, Evidence Archived where relevant | Tracks DOC-12 evidence processing and maps to DOC-06C user-facing evidence status and bill/rent payment readiness before payment eligibility. |
-| Review and response | Viewed, Accepted, Rejected, Disputed, Expired, Cancelled | Recipient action or lifecycle state before payment. |
-| Payment readiness | Approved for Payment, Payment Quote Created | Request passed required gates and quote is available. |
+| Request lifecycle | Draft, Pending Evidence Verification, Pending Receiver Action, Accepted, Rejected, Expired, Cancelled | DOC-06A owns request state meaning. Payee-created payment may proceed only from an accepted request; payer-created payment does not require a request unless optional linking is initiated. |
+| Request events | Created, Updated, Submitted, Evidence Gate Entered/Passed, Auto-Sent, Sent/Delivered, Shared, Viewed, Reminded, Accepted, Rejected, Expired, Cancelled, Resent/Recreated, Parties Linked, Archived, Restored | Events and visibility transitions do not replace request lifecycle state. |
+| Evidence verification | Not Provided, Pending Review, Accepted, Correction Needed, Update Needed, Rejected, Duplicate Suspected, Archived | DOC-12 owns verification outcomes and DOC-06C owns the user-facing mapping. Evidence status is not request or payment status. |
+| Obligation payment readiness | Ready to Pay, Action Required, Under Review | DOC-06C owns readiness. Paid/Received are payment outcomes; Archived is visibility; Due Soon is date-derived. |
+| Linked case | Open, Pending Information, Under Review, Resolved, Closed | DOC-11 owns dispute/support case meaning. A linked case may apply a hold but does not become a request status. |
+| Request archive visibility | Active, Archived | Archive changes route visibility and retention handling without replacing the retained request lifecycle state. |
+| Payment quote | Quote Created, Quote Revalidated, Quote Expired or Replaced | Quote events and state are payment-domain records, not obligation readiness. |
 | Payment instruction | Pending Instruction, Pending User Action, Partially Funded, Fully Funded, Expired, Cancelled, Archived | Tracks saved payment context before and during pending, future, or incomplete funding. |
 | Authorization | Payment Authorized, Step-Up Required, Step-Up Passed, Step-Up Failed | Tracks payer authorization and extra authentication. |
 | Funding leg | Pending, Action Alert Sent, Submitted, Authorized, Failed, Settlement Pending, Settlement Ready, Paid Out, Expired, Cancelled | Tracks each card leg in single-card or split-card funding. |
@@ -556,7 +573,7 @@ Evidence status naming must not diverge from DOC-06C and DOC-12. DOC-12 owns evi
 
 Payout statuses belong in DOC-10.
 
-Refund, reversal, chargeback, cancellation, and dispute operation statuses belong in DOC-11, though DOC-09 must link those events to the original payment.
+Refund, reversal, chargeback, and cancellation operation statuses plus dispute-case lifecycle belong in DOC-11, though DOC-09 must link resulting payment events to the original payment.
 
 ---
 
@@ -729,6 +746,8 @@ DOC-09 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.9 | 2026-07-26 | Separated canonical request lifecycle, role-facing labels, request events, evidence status, obligation readiness, linked cases, quote state, payment state, and archive visibility; kept request acceptance distinct from payment authorization. |
+| 1.0.8 | 2026-07-23 | Added effective destination snapshots, Receiving Info privacy boundary, payee-request destination replacement rules, payer-selected destination behavior, linked-payee notification, checkout disclosure, and authorization-time destination freeze. |
 | 1.0.7 | 2026-07-21 | Clarified the canonical checkout sequence: payment-card/profile selection precedes offer and reward evaluation; checkout displays eligible issued rewards, supports detail-and-return without selection or consumption, revalidates before authorization, and remains the sole checkout selection owner. |
 | 1.0.6 | 2026-07-20 | Added same-screen payment-card/profile and offer handling, automatic highest-user-value Card Offer selection per funding leg, separate coupon/voucher/discount selection, and quote recalculation before authorization. |
 | 0.1.0 | 2026-05-29 | Initial founder working baseline for payment request, card funding, multi-card funding, payment profiles, tokenization boundary, payer authorization, step-up authentication, payment status, failure handling, and settlement readiness. |

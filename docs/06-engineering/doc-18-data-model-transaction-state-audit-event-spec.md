@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.9
+version: 0.4.12
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-07-22
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -38,12 +38,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `0.4.9` |
+| **Version** | `0.4.12` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Data Lead |
-| **Last Updated** | `2026-07-22` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -99,6 +99,7 @@ Detailed requirements belong to:
 | Referral future update | Final DOC-18 must define the reusable user-linked referral code/reference, registration attribution, campaign and beneficiary-role linkage, qualification progression/outcome, entitlement, claim, issued reward reference, privacy-safe display projection, hold/reversal, and audit-event structures required by DOC-06B, DOC-13, DOC-15, and DOC-22. Sharing must remain distinct from recipient identity and attribution. |
 | Reward instrument future update | Final DOC-18 must define canonical issued-reward objects, lifecycle projections, authoritative fulfilment and idempotency, unknown-result recovery, credential references, reveal/access events, checkout selection linkage, and separate instrument-type, earning-source, participant-role, program, campaign/offer/entitlement, and fulfilment-method dimensions required by DOC-06B, DOC-09, DOC-13, DOC-15, and DOC-22. |
 | Account-control future update | Final DOC-18 must define account/profile projection, immutable login-name and stable PayPlus User ID rules, masked-contact fields, identity-verification display mapping, reusable verification-flow context, contact-change events, payment-passcode preference, trusted-device/session revocation, privacy-request lifecycle, protected-export access, and account-closure lifecycle required by DOC-06B and DOC-15. Provider payloads and sensitive values must not be copied into route analytics. |
+| Receiving Info future update | Final DOC-18 must define stable user-linked Receiving Info profile IDs, multiple profiles, nickname, method-specific values, readiness, proof, version/archive history, selected request/obligation/payment/payout destination snapshots, source references, selected-disclosure projection, linked-payee notification, and payer-authorization freeze required by DOC-06B, DOC-09, DOC-10, DOC-12, DOC-14, DOC-15, and DOC-22. |
 | Human review | Sensitive AI/model-assisted outcomes should support reason codes, reviewability, override controls, and audit trails. |
 
 ## 4. Core Object Families
@@ -122,7 +123,11 @@ DOC-18 should define logical structures for at least the following object famili
 - user correction;
 - verification signal;
 - final evidence snapshot;
-- request status history;
+- request lifecycle history;
+- request event history;
+- request archive-visibility history;
+- obligation payment-readiness history;
+- linked support/dispute case;
 - payment quote;
 - tokenized card;
 - saved payment profile;
@@ -156,7 +161,8 @@ DOC-18 should define logical structures for at least the following object famili
 - identity-verification reference and user-facing status projection;
 - privacy request and protected-export access record;
 - account-closure request, blocker, cancellation, and finalization record;
-- receiving/payout-destination reference;
+- Receiving Info profile, profile version, proof reference, and readiness history;
+- request, obligation, payment, and payout destination snapshot with source reference;
 - archived-evidence access reference;
 - dashboard shortcut configuration;
 - user shortcut preference;
@@ -201,13 +207,13 @@ PayPlus should define event families before implementation.
 
 | Event Family | Examples |
 | --- | --- |
-| Account events | registration, login, logout, new-device login, dormant reauthentication, contact change initiated/verified/completed/failed, credential change, Me opened, account/security/privacy destination selected, identity-verification opened/returned/status refreshed, action-required item opened, sensitive reveal attempted/completed/failed, payment-passcode preference changed, trusted-device removed, session revoked, language/theme changed, privacy request submitted/status changed/completed/failed, protected export issued/opened/expired, account closure requested/blocked/cancelled/finalized. |
+| Account events | registration, login, logout, new-device login, dormant reauthentication, material-change reauthentication attempted/completed/failed, contact change initiated/verified/completed/failed, credential or identity change, Me opened, account/security/privacy destination selected, identity-verification opened/returned/status refreshed, sensitive reveal attempted/completed/failed, action-required item opened, payment-passcode preference changed, trusted-device removed, session revoked, language/theme changed, privacy request submitted/status changed/completed/failed, protected export issued/opened/expired, account closure requested/blocked/cancelled/finalized. |
 | Evidence events | upload started, upload submitted, OCR processed, field extracted, user corrected, verification passed, mismatch found, duplicate detected, status changed, evidence snapshot finalized, evidence version created, evidence archived. |
-| Request events | draft created, creation started, existing bill/rent selected, submitted for evidence verification, evidence verified and auto-sent, sent, shared, viewed, accepted, rejected with reason, expired, cancelled, archived, restored. |
+| Request events | draft created, updated, creation started, existing bill/rent selected, submitted, evidence gate entered, evidence gate passed, evidence verified and auto-sent, sent/delivered, shared, viewed, reminded, accepted, rejected with reason, expired, cancelled, resent/recreated, parties linked, archived, restored. |
 | Participant-linking events | invitation created, app link generated, QR link generated, WhatsApp deeplink generated, invitation sent, viewed, accepted, declined, expired, linking completed, linking revoked. |
 | Payment events | quote created, quote revalidated, instruction created, funding leg created, authorization attempted, authorized, failed, captured, payment completed. |
 | Payment profile events | card add started, tokenization returned, card nickname edited, default card changed, card removed or archived, profile created, profile edited, profile starred/unstarred, profile marked action-required, profile selected for checkout/instruction, profile issue displayed. |
-| Payout events | receiving-details action initiated/completed/failed, payout destination added/changed/held/approved, settlement received, payout ready, payout held, payout released, payout submitted, payout completed, reconciliation matched, exception opened. |
+| Payout and Receiving Info events | Receiving Info list/detail/setup opened, full-value reveal attempted/completed/failed, add/edit reauthentication completed/failed, profile added/edited/versioned/archived, proof submitted, review/status changed, profile selected, destination snapshot created, destination difference acknowledged, linked payee notified, payout destination held/approved, settlement received, payout ready, payout held, payout released, payout submitted, payout completed, reconciliation matched, destination-attributable exception opened, transient exception opened. |
 | Risk events | rule triggered, risk score assigned, step-up required, manual review opened, hold applied, block applied, override approved, escalation recorded. |
 | Promotion events | offer displayed, offer viewed, collection filtered, eligibility evaluated, competing Card Offers compared, highest-user-value Card Offer auto-selected, coupon/voucher/discount selected, promotion quote created or recalculated, benefit reserved, entitlement earned, reward issued, reward detail viewed, credential revealed/copied where permitted, partner handoff opened/returned, reward use attempted/confirmed/unknown, reward credited, reward expired, reward held/released/reversed. |
 | Referral events | share action initiated, referral link copied, QR displayed, registration code validated, attribution created, qualification progressed or decided, referral entitlement created or held, claim attempted or completed, reward issued, reward reversed or clawed back. Share events must not imply delivery, recipient identity, or attribution. |
@@ -243,6 +249,23 @@ DOC-18 should maintain linkages between:
 - admin review case;
 - audit event.
 
+Evidence proves or supports an obligation but is not itself an obligation or financial activity. A payer-created obligation may link directly to evidence without any request. Where a request is used, it references an evidence-backed proposed obligation; acceptance establishes the permitted party linkage and resulting obligation context. Payment and payout activity link to the obligation and its transaction records, not to evidence as the activity owner.
+
+User-facing `BILLS-ACTIVITY` projections must contain only payment and related payout/transfer, failure, return, refund, and reversal events for the selected obligation. Request and evidence lifecycles remain separately queryable and auditable in their owning domains.
+
+The final data model must not use one overloaded status field for request handling. It must preserve separate fields or linked records for:
+
+- request lifecycle: `Draft`, `Pending Evidence Verification`, `Pending Receiver Action`, `Accepted`, `Rejected`, `Expired`, or `Cancelled`;
+- sender/receiver role-facing label projection, with `Reviewing` for the sender and `Awaiting` for the receiver while receiver action is pending;
+- request events and timestamps, including submission, delivery, sharing, viewing, reminding, acceptance, rejection, expiry, cancellation, recreation, linking, archive, and restore;
+- evidence verification outcome and user-facing evidence status;
+- obligation payment readiness: `Ready to Pay`, `Action Required`, or `Under Review`;
+- linked support/dispute case lifecycle: `Open`, `Pending Information`, `Under Review`, `Resolved`, or `Closed`;
+- request archive visibility, separate from the retained request lifecycle state;
+- payment and payout lifecycle records linked through the obligation.
+
+Request acceptance establishes the permitted party/obligation linkage but is not payment authorization and does not by itself make the obligation ready to pay. A payer-created evidence-backed obligation may proceed without a request where all applicable gates pass.
+
 Referral linkage must preserve the sequence `referrer -> user-linked code/reference -> campaign and role-specific offer -> referee registration attribution -> qualification -> beneficiary-specific entitlement -> issued reward instrument`. Referrer and referee entitlements may use the same campaign but must remain separate records with explicit beneficiary role. Referral sharing must not create a referee, relationship, or invitation lifecycle before valid registration attribution.
 
 Reward-instrument linkage must preserve independent instrument type, earning source, participant role where applicable, program context, campaign and offer source, originating entitlement, fulfilment method, current canonical state, lifecycle projection, authoritative redemption/fulfilment result, and related checkout/payment or partner-reconciliation reference. Referral role must not be stored as an instrument type, and issued reward status must remain distinct from Referral claim-history presentation.
@@ -252,6 +275,8 @@ Future DOC-18 drafting must also specify entitlement-time quota/value reservatio
 DOC-18 must include data structures for DOC-09 user payment instruction, payment instruction funding leg, deferred funding date, selected payee transfer date, payment instruction action alert/task, partial funding status, partial payout linkage, remaining unpaid amount, payment quote revalidation, promotion quote reservation, and changed-term acknowledgement.
 
 DOC-18 must include data structures for DOC-06B/DOC-09 tokenized card and payment profile behavior, including card token/reference, permitted masked metadata, card nickname, card status, default-card marker, saved split-card profile name, card slots, stored ratios, setup/reference amount, starred/frequent marker, action-required state, soft-delete/archive metadata, checkout/instruction return context, and related audit events.
+
+DOC-18 must include data structures that keep a Receiving Info profile separate from each selected destination snapshot. The model must preserve profile owner, profile/version ID, optional nickname, method, permitted values, masked projection, proof and review references, readiness history, archive state, source context, request/obligation/payment/payout snapshot, linked-party visibility, payer acknowledgement, authorization freeze, and later source-profile changes without mutating historical snapshots.
 
 DOC-18 must include data structures linking each applied payment-method-sensitive Card Offer to the selected payment card or funding leg, the competing eligible Offer IDs, approved user-value comparison result, automatic-selection reason, affected funded amount, separate coupon/voucher/discount application, promotion quote version, and revalidation event. The same Offer ID may have multiple discovery-collection memberships but should remain one underlying offer object.
 
@@ -352,10 +377,11 @@ Sections 4 through 10 define the current baseline for PayPlus data objects, life
 | OQ-18-006 | What model registry, feature registry, monitoring, and audit-event structure should be required before AI/model-assisted decisioning? | Data / Engineering / Risk | High | Open |
 | OQ-18-007 | Which model features or derived signals are prohibited from marketing, partner reporting, insurance-related targeting, credit scoring, or external activation? | Privacy / Legal / Risk | High | Open |
 | OQ-18-008 | What final data objects, fields, events, lineage, and audit records should support DOC-06C evidence detail/upload routes, one active evidence set, evidence versioning, archive-not-delete behavior, and evidence-status-to-readiness changes? | Engineering / Data / Product / Risk | High | Open |
-| OQ-18-009 | What final data objects, states, events, reason codes, correlation IDs, and audit records should support DOC-06B `REQUESTS-NEW`, evidence-gated auto-send, counterparty lookup, request sharing, reminder events, and return handoffs with DOC-06C Bills routes? | Engineering / Data / Product / Privacy / Operations | High | Open |
+| OQ-18-009 | What final physical fields, projections, reason codes, correlation IDs, idempotency rules, and audit records should implement the confirmed separation of request lifecycle, role-facing labels, request events, evidence status, obligation readiness, linked case lifecycle, archive visibility, and payment/payout records for DOC-06A/DOC-06B/DOC-06C request flows? | Engineering / Data / Product / Privacy / Operations | High | Open |
 | OQ-18-010 | What final referral identifiers, deeplink/QR token contract, attribution idempotency, qualification event mapping, entitlement/claim linkage, masking projection, correction controls, and audit records should implement the DOC-06B/DOC-13 Referral baseline? | Engineering / Data / Product / Privacy / Growth / Risk | High | Open |
 | OQ-18-011 | What final reward-instrument schema, state mapping, credential-reference model, checkout/partner linkage, idempotency keys, unknown-result recovery, and field-level representation should implement the separate reward dimensions and lifecycle defined in DOC-13? | Engineering / Data / Product / Growth / Privacy / Operations | High | Open |
-| OQ-18-012 | What final objects, provider-state mappings, preference records, verification/contact-change links, privacy-request and protected-export records, account-closure lifecycle records, route events, reveal audit events, receiving-destination references, archived-evidence access records, and retention-safe projections should implement DOC-06B `ME-ROOT` and its defined account child routes without copying sensitive values into analytics? | Engineering / Data / Product / Privacy / Security / Operations | High | Open |
+| OQ-18-012 | What final objects, provider-state mappings, preference records, verification/contact-change links, privacy-request and protected-export records, account-closure lifecycle records, route events, reveal audit events, archived-evidence access records, and retention-safe projections should implement DOC-06B `ME-ROOT` and its defined account child routes without copying sensitive values into analytics? | Engineering / Data / Product / Privacy / Security / Operations | High | Open |
+| OQ-18-013 | What final Receiving Info profile, version, proof, readiness, destination-snapshot, source-reference, authorization-freeze, visibility-projection, failure-mapping, and audit structures implement the accepted product model without treating a saved profile as payout truth? | Engineering / Data / Payments / Product / Privacy / Risk / Operations | High | Open |
 
 ## 12. Acceptance Criteria
 
@@ -386,6 +412,9 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.4.12 | 2026-07-26 | Product Documentation Team | Added future canonical data separation for request lifecycle, role projections, request events, evidence status, obligation readiness, linked cases, archive visibility, and payment/payout linkage without one overloaded status field. |
+| 0.4.11 | 2026-07-26 | Product Documentation Team | Added material-change and Receiving Info reveal/authentication event markers, clarified evidence/request/obligation/payment linkage, and limited the user-facing Bills Activity projection to payment-related transaction events. |
+| 0.4.10 | 2026-07-23 | Product Documentation Team | Added future Receiving Info profile/version/proof/readiness, destination-snapshot, source-reference, visibility, linked-notification, authorization-freeze, failure, and audit requirements. |
 | 0.4.9 | 2026-07-22 | Product Documentation Team | Added future object and event requirements for Account Information, reusable Identity Verification, contact changes, Payment Passcode Settings, trusted-device/session revocation, privacy requests, protected exports, and account closure. |
 | 0.4.8 | 2026-07-22 | Product Documentation Team | Added future data/event markers for DOC-06B `ME-ROOT`, account/security/privacy navigation, payment-passcode-gated reveal auditability, preferences, Receiving Details, archived-evidence access, and logout. |
 | 0.4.7 | 2026-07-21 | Product Documentation Team | Added future canonical reward-instrument markers for separate data dimensions, lifecycle projections, checkout/partner linkage, credential events, authoritative fulfilment, idempotency, unknown-result recovery, and operational auditability. |

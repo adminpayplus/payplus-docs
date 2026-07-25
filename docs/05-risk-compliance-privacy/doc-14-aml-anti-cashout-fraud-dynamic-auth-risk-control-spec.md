@@ -1,7 +1,7 @@
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 0.6.1
+version: 0.6.2
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -17,7 +17,7 @@ approvers:
   - Project Owner
   - Compliance Lead
   - Risk Lead
-last_updated: 2026-07-02
+last_updated: 2026-07-23
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-14` |
 | **Title** | AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification |
-| **Version** | `0.6.1` |
+| **Version** | `0.6.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Risk / Compliance |
 | **Reviewers** | Product Lead<br>Compliance Lead<br>Risk Lead<br>Payments Lead<br>Operations Lead<br>Engineering Lead<br>Data Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Compliance Lead<br>Risk Lead |
-| **Last Updated** | `2026-07-02` |
+| **Last Updated** | `2026-07-23` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -193,6 +193,7 @@ The following controls should exist at MVP but should be configurable by categor
 | Low OCR/document confidence | Route to user correction or admin review depending on category and severity. |
 | User-corrected value differs from extracted value | Review only where mismatch is material, repeated, or risk-sensitive. |
 | New payee or first payout | Review depending on amount, category, payout rail, and payee type. |
+| Receiving Info profile | Allow multiple private payee-side profiles. A verified-identity name match may support internal readiness; third-party, company, ownership-mismatch, or proof-deficient profiles require review. |
 | New or changed payment profile | Step-up or review depending on card, amount, velocity, and PSP/acquirer signals. |
 | Multi-card use | Allow as MVP, but monitor excessive splits, repeated failures, unusual card combinations, and refund complexity. |
 | High payment velocity | Review depending on amount, category, payer/payee history, and time window. |
@@ -342,6 +343,8 @@ Payer authorization itself must never be skipped.
 
 Deferred payment instruction and partial funded-portion payout should be risk-monitored. Risk rules may warn, remind, hold payout, require step-up, route to review, or block where patterns suggest cashout, collusion, card testing, promotion quota holding, card-linked benefit testing, fraud, chargeback risk, or unsupported obligation use. Ordinary incomplete user action should not be treated as fraud by default.
 
+Receiving Info is not an open payee marketplace or a verified bank-directory service. A payer may use an eligible payer-entered destination for a non-user payee, subject to ordinary evidence, recipient, compliance, risk, payout, and authorization controls. A difference between an accepted payee-request destination and a payer-selected destination is a material warning and auditable risk signal, not an automatic block or payee-approval gate.
+
 ---
 
 ## 15. Payout Hold and Release Controls
@@ -360,6 +363,8 @@ Payout should be held when:
 - admin, compliance, risk, legal, finance, PSP/acquirer, or bank review requires hold.
 
 Payout release must require permission, reason code, evidence where applicable, and audit trail.
+
+Risk handling must distinguish the source Receiving Info profile from the destination snapshots used by a request, obligation, payment, and payout. Editing or archiving the source profile must not change an accepted or payer-authorized snapshot. A destination-attributable failure may mark the source profile `Action Required` where the user can correct it; a transient bank, rail, or system failure must not. After payment authorization, any destination change requires payer reauthorization under DOC-09.
 
 ---
 
@@ -480,6 +485,7 @@ Risk-rule changes must be permissioned, logged, and reviewable. Critical rule ch
 | OQ-14-010 | What thresholds should identify abusive deferred payment instruction patterns involving promotion reservation, quote revalidation, or card-linked benefit testing? | Risk / Growth / Payments | Medium | Open |
 | OQ-14-011 | What model governance, feature registry, monitoring, explainability, and human-review requirements must exist before AI/model-assisted risk scoring is enabled? | Risk / Data / Privacy | High | Open |
 | OQ-14-012 | Which payer-payee, evidence, payout, device, card, support, and promotion graph signals may be used for risk review, and which are prohibited from marketing or partner reporting? | Risk / Privacy / Legal | High | Open |
+| OQ-14-013 | What name-normalization, third-party/company proof, review, and destination-failure rules determine Receiving Info readiness without overstating external account validation? | Risk / Compliance / Operations | High | Open |
 
 ---
 
@@ -519,6 +525,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.6.2` | `2026-07-23` | Product Documentation Team | Added Receiving Info identity/proof risk treatment, private-library boundary, destination-difference signal, snapshot immutability, and destination-attributable versus transient payout-failure handling. |
 | `0.1.0` | `2026-06-02` | Product Documentation Team | Initial founder working baseline for AML, anti-cashout, fraud, credit card fraud, chargeback risk, dynamic authentication, payout hold, configurable review controls, and risk-governance boundaries. |
 | `0.2.0` | `2026-06-02` | Product Documentation Team | Aligned risk signals, scores, flags, review outcomes, escalation notes, and source lineage with DOC-15 data classification and DOC-18 metadata requirements. |
 | `0.3.0` | `2026-06-02` | Product Documentation Team | Aligned risk controls with DOC-09 user payment instruction by adding deferred instruction, incomplete split-card funding, partial payout, selected transfer date, and repeated incomplete pattern risk boundaries. |

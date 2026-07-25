@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.11
+version: 0.1.14
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-22
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -31,12 +31,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.11` |
+| **Version** | `0.1.14` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-22` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist |
 
@@ -78,7 +78,7 @@ Example pattern:
 | Route | ROUTE-06C-BILLS-PAY |
 | Component | COMP-06C-BILL-CARD |
 | Action | ACT-06C-PAY-001 |
-| State Dependency | STATE-06A-REQUEST-APPROVED-FOR-PAYMENT |
+| State Dependency | STATE-06C-OBLIGATION-READY-TO-PAY |
 | Event Dependency | EVT-06C-BILL-PAY-TAPPED |
 | Owning Docs | DOC-06C, DOC-09, DOC-12, DOC-14, DOC-15 |
 | Test | TC-06D-014 |
@@ -92,12 +92,18 @@ Example pattern:
 | Pay+ action sheet | DOC-06B | Partial | Needs final visual order, disabled state, and action eligibility. |
 | BILLS-PAY / BILLS-RECEIVE role separation | DOC-06C | Partial to strong | Core role distinction is testable; visual detail remains open. |
 | Bills evidence sub-flow | DOC-06C / DOC-12 | Partial | UX flow is testable; verification logic depends on DOC-12/DOC-18. |
-| Bills reminder route | DOC-06C / DOC-08 | Partial | Reminder list/detail behavior is testable; payment-instruction placement remains open. |
+| Bills activity sub-route | DOC-06C / DOC-09 / DOC-10 / DOC-11 | Partial to strong | Payment, payout/transfer, failure, return, refund, and reversal activity is testable; request and evidence lifecycle entries are explicitly excluded. |
+| Bills reminder route | DOC-06C / DOC-08 / DOC-09 | Partial to strong | Reminder list/detail behavior and separation from payment-instruction action alerts are testable; final visual design remains open. |
+| Requests route | DOC-06B / DOC-06A / DOC-06C / DOC-08 | Partial to strong | `REQUESTS-ROOT`, `REQUESTS-DETAIL`, and `REQUESTS-NEW`, canonical lifecycle states, role labels, event separation, evidence gate, linked-case boundary, and archive visibility are testable; final visual design and detailed operational limits remain open. |
+| Instructions route | DOC-06B / DOC-09 | Partial to strong | Pending versus incomplete cards/details, edit restrictions, actions, expiry, and checkout return are testable; final visual design remains open. |
 | Payment checkout handoff | DOC-06A / DOC-06C / DOC-09 | Partial | DOC-06 can test route handoff; DOC-09 owns checkout tests. |
 | Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial to strong | Two-tab `Cards` / `Profiles` baseline, card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary are testable; final styling and tokenization behavior remain open. |
+| Global Activity route | DOC-06B / DOC-09 / DOC-10 / DOC-11 | Partial to strong | Accounting-style entries, role-aware direction/status, expansion, detail, document actions, and return behavior are testable; final visual density/search/grouping remain open. |
 | Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
 | Offers and Rewards routes | DOC-06B / DOC-09 / DOC-13 / DOC-15 | Strong human-readable baseline | Section limits, child collection behavior, source/action/destination/return transitions, multi-collection membership, duplicate suppression, ordering, full-screen detail, checkout handoff, and issued-reward management are testable. External vouchers and miles are launch-supported; final visual design, label taxonomy, personalization, equal-priority tie-break, partner selection, fulfilment method, and operational readiness remain open. |
+| Referral route | DOC-06B / DOC-13 / DOC-15 | Strong human-readable baseline | Sharing, attribution, progress, role-sensitive entitlement list/detail/claim, canonical reward handoff, and privacy boundaries are testable; final visual design and campaign operations remain open. |
 | Me route | DOC-06B / DOC-06C / DOC-08 / DOC-10 / DOC-12 / DOC-15 / DOC-18 / DOC-19 / DOC-21 / DOC-22 | Strong for core account routes | Permanent `ME-ROOT`, Account Information, reusable Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, masking/reveal, contact changes, verification labels/actions, closure, trusted-device removal, privacy requests, protected export, return behavior, and failures are testable; provider/system mapping, technical security values, other Me children, and final visual design remain open. |
+| Receiving Info route | DOC-06B / DOC-10 / DOC-12 / DOC-14 / DOC-15 | Partial to strong | Multiple profiles, masked list/detail, passcode/reauthenticated full-value reveal and add/edit, proof/readiness, version/archive, destination snapshots, and origin return are testable; provider validation and final visual design remain open. |
 
 ---
 
@@ -109,7 +115,7 @@ Example pattern:
 | Evidence visibility | Payer must be able to review evidence before payment authorization. |
 | Evidence correction | Users must be able to review and correct autofilled evidence fields before submission where OCR/autofill is enabled. |
 | Sensitive field display control | UI must apply DOC-15 role-based display, masking, approved-purpose access, and controlled detail views; broader extractable data may be stored without broad display. |
-| Status transparency | Users must see clear request and linked payment status for pending, processing, completed, failed, rejected, cancelled, expired, and exception/support cases. |
+| Status transparency | Users must see request lifecycle, evidence status, obligation readiness, linked case status, payment/payout status, and archive visibility as separate labelled concepts. |
 | Permissioning | Users must only see data appropriate to their role. |
 | Auditability | Key actions must generate audit events. |
 | Error handling | Failed, blocked, or incomplete actions must show clear next steps. |
@@ -141,6 +147,10 @@ The DOC-06 user journey scope is satisfied when:
 - evidence verification outcomes can route to payment eligibility, user clarification, or admin review;
 - payer can review evidence before payment;
 - payer can accept or reject a request, with rejection reason where required;
+- request lifecycle is limited to `Draft`, `Pending Evidence Verification`, `Pending Receiver Action`, `Accepted`, `Rejected`, `Expired`, and `Cancelled`;
+- sender and receiver see the role-aware labels defined by DOC-06A and DOC-06B, while drafts and evidence-gated requests remain hidden from receivers;
+- submitted, sent/shared, viewed, reminded, archived, and restored are treated as events or visibility transitions rather than request states;
+- evidence outcomes, obligation readiness, payment/payout status, and linked case status do not overwrite the request lifecycle;
 - users can raise or respond to linked query, dispute, support, or exception cases where enabled;
 - payer can explicitly authorize payment;
 - payer must enter payment passcode before payment authorization proceeds;
@@ -150,14 +160,22 @@ The DOC-06 user journey scope is satisfied when:
 - Account Information shows display name, immutable login name after setup, copyable PayPlus User ID, masked phone/email, and only `Pending`, `Verified`, `Failed`, or `Update Required` identity-verification status without exposing identity attributes, documents, provider payloads, payment credentials, evidence, or internal risk reasons;
 - `Verified` shows no verification action, while the other three labels show `Verify Now` and open reusable `IDENTITY-VERIFICATION` without duplicate submission;
 - changing phone verifies the registered email and new phone; changing email verifies the registered phone and new email; successful changes notify old and new channels where available;
-- revealing approved sensitive information through a Me child route requires the existing PayPlus payment passcode, with additional step-up where the owning security/risk rules require it, while prohibited fields remain unavailable;
+- revealing approved masked sensitive information in a prominent account or Receiving Info surface requires payment passcode or approved reauthentication, with additional step-up where the owning security/risk rules require it, while prohibited fields remain unavailable;
+- changing sensitive identity, contact, security, credential, or Receiving Info data requires payment passcode or approved reauthentication before the route-specific OTP, provider, review, or confirmation flow;
+- ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra passcode or step-up prompt solely because the document is opened or downloaded;
 - `ACCOUNT-SECURITY` provides Login Password, Payment Passcode, permitted Two-Step Verification and Biometric Unlock toggles, Trusted Devices removal, and Recovery and Security Support without a separate MVP Active Sessions list;
 - `PAYMENT-PASSCODE-SETTINGS` supports passcode change/reset and the optional passcode-confirmation preference for card/payment-profile changes without ever displaying the existing passcode;
 - mandatory new-device, risk, contact-change, account-closure, and provider-required authentication cannot be disabled by the Two-Step Verification toggle;
 - `PRIVACY-DATA-CONTROLS` separates optional direct-marketing, personalization, and approved partner-data-use choices from mandatory processing; provides governed access, correction, export, retention/deletion requests and request history; and uses `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete` labels;
 - completed data exports require authenticated, time-limited in-app access and are not attached to ordinary email;
 - account closure requires payment passcode plus 2FA, checks unresolved cases, remains cancellable until operational finalization, disables login and terminates sessions after completion, and does not imply immediate deletion of retained records;
-- `RECEIVING-DETAILS` is available when payee/request capability is enabled and manages an approved payout destination without creating another Activity route;
+- `RECEIVING-INFO` opens its list immediately, supports multiple user-linked profiles, optional nickname, masked cards, trailing swipe `Edit` / `Archive`, detail and setup routes, retained versions, and no hard deletion;
+- other saved profiles remain private when one destination is selected for a request, bill, or rent;
+- self-identity matching may result in `Ready to Receive`, while third-party/company profiles require proof and `Under Review`; destination-attributable failures may show `Action Required`, but transient payout failures do not change profile readiness;
+- profile edit/archive does not alter existing request, obligation, payment, or payout snapshots;
+- payee destination change after request acceptance creates a new request and bill/rent record, while payer destination change does not require payee approval and notifies a linked payee;
+- payment authorization freezes the effective destination and a later change requires renewed payer authorization;
+- `RECEIVING-INFO` remains configuration and does not create another Activity route, wallet, balance, cashout feature, or payer-visible payee-profile directory;
 - `ARCHIVED-EVIDENCE-LIST`, labelled `Archived Documents`, exposes controlled archived/previous evidence access without becoming a general archive or hard-deleting evidence;
 - core Me account, security, privacy, support, legal, and logout controls cannot be hidden by ordinary placement configuration, while optional rows follow module and retained-record rules;
 - Me child-route return restores the prior Me position, while contextual entry from checkout, Instructions, notifications, or deeplinks returns to the originating context;
@@ -167,6 +185,7 @@ The DOC-06 user journey scope is satisfied when:
 - single-card checkout may preselect a default card while split-card checkout requires user selection of a payment profile;
 - payment status can be tracked;
 - payout or settlement status can be tracked where applicable;
+- `BILLS-ACTIVITY` shows payment and related payout/transfer, failure, return, refund, and reversal activity for one obligation and excludes request and evidence lifecycle entries;
 - payer-side Bills routes do not show payee-side request actions as payment actions;
 - payee-side Bills routes do not show payer-side `Pay` actions;
 - payer and payee can view the same linked request/payment context subject to permissions;
@@ -217,6 +236,9 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.14 | 2026-07-26 | Added acceptance coverage for the canonical request lifecycle, role labels, event/evidence/readiness/case/archive separation, and replaced the obsolete approved-for-payment request-state dependency. |
+| 0.1.13 | 2026-07-26 | Expanded route-family test readiness, added Bills Activity scope tests, aligned prominent sensitive reveal and material-change authentication, and confirmed ordinary permitted document viewing/download without an extra prompt. |
+| 0.1.12 | 2026-07-23 | Added acceptance coverage for multiple Receiving Info profiles, list/card/detail/setup behavior, masking and edit reveal, readiness/proof states, archive/versioning, destination snapshots, request replacement, linked-payee notification, and authorization freeze. |
 | 0.1.11 | 2026-07-22 | Added acceptance coverage for Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, contact changes, status/action mapping, trusted-device removal, protected export, and account closure. |
 | 0.1.10 | 2026-07-22 | Added `ME-ROOT` acceptance coverage for permanent mixed-role entry, fixed section order, masking and passcode-gated reveal, established-route handoffs, Receiving Details, Archived Documents, core visibility, return behavior, logout, and the separate More boundary. |
 | 0.1.9 | 2026-07-21 | Added Rewards acceptance coverage for Active/History views, search/filter/order and route states, safe reward cards, complete detail/T&C, checkout selection and return, credential-versus-use behavior, canonical statuses, and separate reward-data dimensions. |

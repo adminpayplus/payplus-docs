@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.7
+version: 0.1.9
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-21
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -41,12 +41,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.7` |
+| **Version** | `0.1.9` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-21` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -192,6 +192,7 @@ A payee must be able to:
 - enter or select payer details;
 - upload or link evidence;
 - review and correct autofilled evidence fields where applicable;
+- manage multiple private Receiving Info profiles and select one destination for a payee-created request;
 - send a request to a payer;
 - receive payer-created bill/payment records;
 - review payer-created records;
@@ -241,7 +242,7 @@ Referral attribution is not payer/payee participant linking, a Request, payment 
 
 Allows a payee to create an evidence-backed payment request and push it to a payer for review and payment.
 
-Within DOC-06A, a request is not a payment. A request asks another party to review, accept, link to, clarify, reject, or dispute a bill, tenancy, rent, invoice, fee, or approved obligation context. Acceptance links the parties to that accepted context and may support later payment readiness, but it does not authorize, process, or complete payment.
+Within DOC-06A, a request is not a payment. A request asks another party to review, accept, link to, or reject a bill, tenancy, rent, invoice, fee, or approved obligation context. A query, clarification, or dispute opens a linked case without replacing the request lifecycle state. Acceptance links the parties to that accepted context and may support later payment readiness, but it does not authorize, process, or complete payment.
 
 This is a core MVP journey.
 
@@ -272,13 +273,14 @@ This is a core MVP journey.
 7. System processes evidence using OCR/document AI where enabled.
 8. System autofills eligible fields and lets payee review or correct them.
 9. System validates required fields, evidence verification outcome, duplicate/reused evidence indicators, and risk routing.
-10. System creates a payment request record.
-11. System links evidence and final evidence snapshot to the request.
-12. System assigns request status.
-13. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
-14. System sends the request notification or invitation to the payer through the selected approved channel only after required evidence is verified or approved by exception.
-15. Payer logs in or registers.
-16. Payer reviews:
+10. Payee selects a saved Receiving Info profile or enters an approved destination for the request.
+11. System creates a `Draft` payment request record and a versioned destination snapshot that discloses only the selected destination to the payer.
+12. System links evidence and final evidence snapshot to the request.
+13. On submission, system assigns `Pending Evidence Verification`; if evidence is already accepted, it may move to `Pending Receiver Action` when delivered.
+14. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
+15. System sends the request notification or invitation to the payer through the selected approved channel only after required evidence is verified or approved by exception and a destination has been selected.
+16. Payer logs in or registers.
+17. Payer reviews:
     - payee identity/details;
     - amount;
     - due date;
@@ -288,44 +290,33 @@ This is a core MVP journey.
     - fees where applicable;
     - payment terms;
     - PayPlus disclosures where applicable.
-17. Payer selects one of:
+18. Payer selects one of:
     - accept;
     - reject with reason where required.
-18. If payer accepts, payer proceeds to payment authorization.
-19. Payer explicitly authorizes payment.
-20. System processes payment through approved payment partner or sandbox integration.
-21. Payee receives payment according to approved payout or settlement rules.
-22. Payer and payee can view the linked request/payment context.
-23. System stores receipt, status history, and audit trail.
+19. If payer accepts and remaining readiness gates pass, payer may proceed to the separate payment-authorization flow.
+20. Payer reviews the effective payment destination and explicitly authorizes payment.
+21. System freezes that destination snapshot for the authorized payment.
+22. System processes payment through approved payment partner or sandbox integration.
+23. Payee receives payment according to approved payout or settlement rules.
+24. Payer and payee can view the linked request/payment context.
+25. System stores receipt, status history, destination versions, and audit trail.
 
 ---
 
-#### Payee-Created Request Status Path
+#### Payee-Created Request Lifecycle
 
-A typical payee-created request may move through the following statuses:
+The request lifecycle is separate from evidence processing, obligation readiness, payment, payout, case handling, and archive visibility:
 
 ```text
 Draft
-Submitted
-Sent
-Viewed
-Accepted
-Approved for Payment
-Payment Authorized
-Payment Processing
-Paid
+  -> Pending Evidence Verification
+  -> Pending Receiver Action
+  -> Accepted or Rejected
 ```
 
-Alternative states may include:
+`Pending Receiver Action` may also become `Expired` or `Cancelled`. A request with already accepted evidence may move directly from `Draft` to `Pending Receiver Action` when submitted. `Accepted` links the parties to the accepted context but does not mean approved, authorized, processing, or paid.
 
-```text
-Rejected
-Additional Information Required
-Linked Support / Dispute Case
-Failed
-Cancelled
-Expired
-```
+Submission, sending, sharing, viewing, reminding, acceptance, rejection, expiry, cancellation, archiving, and restoration are events. Evidence verification uses DOC-12 outcomes and DOC-06C evidence labels. Obligation readiness uses `Ready to Pay`, `Action Required`, or `Under Review`. Payment and payout outcomes remain in DOC-09 to DOC-11.
 
 #### Required Controls
 
@@ -336,6 +327,11 @@ Expired
 | Payer review required | Payer must review the request context before payment authorization. |
 | Payer authorization required | Payee-created request must not trigger payment without payer authorization. |
 | Linked records required | Request, evidence, payer, payee, payment, status history, and audit events must be linked. |
+| Destination selected before send | A payee-created request must include one selected destination snapshot before delivery. Other saved Receiving Info profiles remain private. |
+| Payee change before acceptance | Payee may change the selected destination and send the latest request version. |
+| Payee change after acceptance | A different destination requires a new request and new bill/rent record; it may reuse the same evidence, and the prior record is not auto-archived. |
+| Payer-selected replacement | Payer may select a different destination without payee approval. It must not rewrite the accepted request, must be shown before authorization, and must notify a linked PayPlus payee. |
+| Authorization freeze | The destination effective at payer authorization is frozen for that payment. A later change requires renewed payer authorization. |
 | Admin/risk controls | Request may be subject to admin, operational, or risk review. |
 | Unsupported P2P blocked | Request must be tied to a valid evidence-backed obligation. |
 
@@ -376,49 +372,32 @@ This is a core MVP journey.
 7. System processes evidence using OCR/document AI where enabled.
 8. System autofills eligible fields and lets payer review or correct them.
 9. System validates required fields, evidence verification outcome, duplicate/reused evidence indicators, and risk routing.
-10. System creates a payment request or payment intent record.
+10. System creates an evidence-backed obligation and payment-intent context; it creates a separate linking request only when the payer initiates optional participant linking.
 11. System links evidence and final evidence snapshot to the record.
-12. System matches payee if already a PayPlus user or creates an invite/link record.
-13. System sends notification or invitation to payee where applicable.
-14. Payee logs in or registers.
-15. Payee reviews the payer-created record.
-16. Payee selects one of:
-    - accept/adopt;
-    - reject with reason where required.
-17. Admin/system reviews request and evidence according to applicable risk controls.
-18. Payer reviews final payment summary.
-19. Payer explicitly authorizes payment.
-20. System processes payment through approved payment partner or sandbox integration.
-21. Payee receives payment according to approved payout or settlement rules.
-22. Payer and payee can view the linked payment context.
-23. System stores receipt, status history, and audit trail.
+12. If the payer chooses linking, the payer initiates an approved invitation/linking flow; the system must not automatically match users.
+13. System sends a notification or invitation where applicable.
+14. A PayPlus payee may log in or register and accept or reject the optional linking request.
+15. Linking acceptance creates shared visibility and communication but is not required for the payer-created payment.
+16. Admin/system reviews the obligation, evidence, and risk controls where applicable.
+17. Payer reviews final payment summary.
+18. Payer explicitly authorizes payment.
+19. System processes payment through approved payment partner or sandbox integration.
+20. Payee receives payment according to approved payout or settlement rules.
+21. Linked users can view the shared payment context subject to permissions; an unlinked payee receives no PayPlus in-app visibility.
+22. System stores receipt, lifecycle history, and audit trail.
 
-#### Payer-Created Payment Status Path
+#### Payer-Created Obligation and Payment State Separation
 
-A typical payer-created payment may move through the following statuses:
+A payer-created obligation does not require a request lifecycle unless the payer separately initiates optional participant linking.
 
 ```text
-Draft
-Submitted
-Sent
-Viewed
-Accepted
-Approved for Payment
-Payment Authorized
-Payment Processing
-Paid
+Evidence status
+  -> Obligation readiness
+  -> Payment quote and payer authorization
+  -> Payment, settlement, and payout lifecycle
 ```
 
-Alternative states may include:
-
-```text
-Rejected
-Additional Information Required
-Linked Support / Dispute Case
-Failed
-Cancelled
-Expired
-```
+If optional linking is used, that request follows the canonical request lifecycle independently. Link acceptance or rejection changes shared visibility and communication only; it does not replace evidence, readiness, authorization, payment, or payout states.
 
 #### Required Controls
 
@@ -499,6 +478,7 @@ An obligation record may represent:
 | Payer-created payment | Payer-created obligations may proceed without payee acceptance where evidence, verification, risk, payout, and authorization gates pass. |
 | Optional payee adoption | Payee may accept/adopt payer-created obligation records for two-sided visibility, communication, and linked recordkeeping where applicable. |
 | Payer acceptance | Payer may accept payee-created requests before authorizing payment. |
+| Payer destination change | Without a linked PayPlus payee, no payee handling is required. With a linked payee, notify that user but do not require payee approval. The payer must still complete normal destination checks and authorization. |
 | No forced adoption | A recipient should not be forced to accept an inaccurate record. |
 | Rejection support | Recipient may reject an inaccurate record with a reason where required. |
 | Linked context | Once accepted/adopted, both sides should see the linked context subject to permissions. |
@@ -660,19 +640,17 @@ This journey is not the normal `REQUESTS-DETAIL` acceptance path. `REQUESTS-DETA
 2. User selects **Dispute**.
 3. User enters dispute reason.
 4. User may upload additional evidence.
-5. System updates status to **Disputed**.
+5. System creates a linked dispute case with status **Open** without changing the request lifecycle state.
 6. System notifies the other party.
 7. Admin may review the dispute where required.
 8. Other party may respond.
-9. Admin or system may move the request to:
-   - additional information required;
-   - accepted;
-   - rejected;
-   - cancelled;
-   - held;
+9. Admin or system may move the linked case through:
+   - pending information;
+   - under review;
    - resolved;
-   - approved for payment where allowed.
-10. System logs all dispute actions.
+   - closed.
+10. Any payment or payout hold is recorded as a separate operational control and event.
+11. System logs all dispute actions.
 
 #### Required Query, Dispute, and Exception Controls
 
@@ -682,7 +660,7 @@ This journey is not the normal `REQUESTS-DETAIL` acceptance path. `REQUESTS-DETA
 | Audit trail | All query, dispute, support, and exception actions must be logged. |
 | Notification | Relevant parties must be notified of material dispute, query, or exception events where enabled. |
 | Admin visibility | Admin must be able to review query, dispute, support, and exception history. |
-| Payment block | Disputed requests should not proceed to payment unless resolved under approved rules. |
+| Payment block | A request or obligation with an unresolved material dispute case must not proceed where the approved case policy applies a payment or payout block. |
 
 ---
 
@@ -722,7 +700,7 @@ Before authorization, the payer should be shown:
 
 1. Payer reviews request or payer-created payment.
 2. Payer confirms that evidence and payment details are acceptable.
-3. System displays final payment summary.
+3. System displays final payment summary, including the effective destination and a warning where it differs from an accepted payee-created request.
 4. System displays fee, promotion quote, discount, coupon/voucher impact, reward impact, and total charge where applicable.
 5. Payer selects or confirms payment method: default card may apply for single-card checkout; split-card checkout requires the payer to choose or define a payment profile under DOC-06B/DOC-09 rules.
 6. Payer chooses pay now or creates a deferred payment instruction where enabled.
@@ -895,26 +873,23 @@ Both payer and payee should be able to view:
 
 ### Request Status UX
 
-#### Core Request Statuses
+#### Canonical Request Lifecycle States
 
-The MVP UX should expose clear user-facing request states. Canonical state-machine definitions belong in DOC-09 and DOC-18.
+The MVP request lifecycle is:
 
-Request states must be distinct from payment states. A request may lead to payment readiness, but payment authorization, processing, completion, failure, payout, refund, reversal, and chargeback states belong to the payment, payout, refund, and data-state owner documents.
-
-| Status | Meaning |
+| Underlying State | Meaning |
 | --- | --- |
-| Draft | Request created but not submitted. |
-| Submitted | Request submitted for review or routing. |
-| Evidence Processing | Evidence OCR, extraction, autofill, or verification is in progress. |
-| Pending User Correction | User must review or correct extracted evidence fields. |
-| Pending Evidence Review | Evidence requires admin or risk review before payment eligibility. |
-| Sent | Request sent to payer or payee. |
-| Viewed | Recipient viewed the request. |
-| Accepted | Payer accepted the request or recipient accepted the record. |
-| Rejected | Recipient rejected the request or record. |
-| Approved for Payment | Required request, evidence, verification, risk, and acceptance checks passed so the linked payment flow may become available where applicable. |
-| Cancelled | Request cancelled. |
-| Expired | Request expired. |
+| `Draft` | Sender started the request but has not submitted it. |
+| `Pending Evidence Verification` | Submitted request is blocked from delivery until evidence passes or an approved exception applies. |
+| `Pending Receiver Action` | Request was delivered and awaits receiver acceptance or rejection. |
+| `Accepted` | Receiver accepted the evidence-backed context; this may link the parties but is not payment authorization. |
+| `Rejected` | Receiver rejected the request; retain the reason where provided. |
+| `Expired` | Request validity ended before acceptance. |
+| `Cancelled` | Sender cancelled the request where permitted. |
+
+Role-facing labels are `Draft`, `Waiting for Verification`, sender-side `Reviewing`, receiver-side `Awaiting`, `Accepted`, `Rejected`, `Expired`, and `Cancelled`. The receiver cannot see a draft or evidence-gated request.
+
+`Submitted`, `Sent`, `Shared`, `Viewed`, `Reminded`, `Archived`, and `Restored` are events or visibility transitions, not request lifecycle states. Evidence labels, obligation readiness, case statuses, payment statuses, and payout statuses remain in their owning domains.
 
 If payment status is displayed near a request, it should be labelled as linked payment status, not request status.
 
@@ -923,11 +898,11 @@ If payment status is displayed near a request, it should be labelled as linked p
 | Rule | Requirement |
 | --- | --- |
 | Payer authorization | No payment may be processed without payer authorization. |
-| Evidence gate | Request cannot move to Approved for Payment without required evidence or approved exception. |
-| Verification gate | Request cannot move to Approved for Payment while DOC-12 evidence verification requires correction, admin review, rejection handling, duplicate review, or fraud/risk escalation. |
+| Evidence gate | Request cannot move to `Pending Receiver Action` without accepted evidence or an approved exception. |
+| Verification gate | A request remains `Pending Evidence Verification` while DOC-12 requires correction, admin review, duplicate review, rejection handling, or fraud/risk escalation. |
 | Admin/risk gate | Requests may require admin or risk approval before payment. |
 | Rejection handling | Rejected requests cannot be paid unless recreated or reopened under approved rules. |
-| Dispute handling | Disputed requests should not proceed to payment unless resolved under approved rules. |
+| Dispute handling | A dispute creates a linked case and does not become a request lifecycle state. Any payment or payout block follows the case policy. |
 | Audit trail | Every status change must be logged. |
 | Two-sided consistency | Payer and payee views must reflect the same underlying status. |
 
@@ -1131,7 +1106,7 @@ A receipt or confirmation should include:
 | Traceability | User-visible history must link to the underlying request/payment context. |
 | Role permissions | History must show role-appropriate information. |
 | Audit separation | User history is not the same as full admin audit logs. |
-| Failed states | Failed, rejected, disputed, cancelled, and expired states must remain visible. |
+| Failed and exception visibility | Failed payment outcomes, rejected/cancelled/expired request states, and linked dispute/support cases must remain visible in their owning surfaces. |
 | Receipt storage | Completed payments should have receipt or confirmation records. |
 | Retention baseline | Receipt, payment, account, tax, and audit records are expected to be retained for 7 years, subject to final privacy and legal review. |
 
@@ -1206,7 +1181,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-007 | What payment methods are available to payers at MVP launch? | Payments / Product | Open |
 | OQ-06-008 | Which operating bank setup will be used for FPS, cheque, and EPS payouts? | Payments / Operations | Open |
 | OQ-06-009 | What fee disclosures must be shown before payment authorization? | Business / Legal | Open |
-| OQ-06-010 | What dispute states and resolution outcomes are required for MVP? | Operations / Legal | Open |
+| OQ-06-010 | What detailed dispute case types, action outcomes, service levels, and payment/payout hold rules are required beyond the accepted `Open`, `Pending Information`, `Under Review`, `Resolved`, and `Closed` case lifecycle? | Operations / Legal | Open |
 | OQ-06-011 | What refund or reversal journeys are supported in MVP? | Payments / Operations | Open |
 | OQ-06-012 | What routing, preferences, templates, consent rules, and fallback behavior apply across app, push, email, SMS, and WhatsApp notifications? | Product / Engineering | Open |
 | OQ-06-013 | What admin roles and permission levels are required? | Operations / Security | Open |
@@ -1236,6 +1211,8 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.9 | 2026-07-26 | Established the canonical request lifecycle and role-facing labels, separated request events, evidence, readiness, payment, dispute-case, and archive domains, and corrected payer-created payment flow so optional linking is not an acceptance prerequisite. |
+| 0.1.8 | 2026-07-23 | Added Receiving Info selection, private-profile boundary, request destination snapshots, pre/post-acceptance change rules, payer-selected replacement handling, linked-payee notification, and authorization-time destination freeze. |
 | 0.1.7 | 2026-07-21 | Added the referral registration-attribution journey, separating external sharing from attribution, qualification, payer/payee linking, requests, payment authority, and canonical reward issuance. |
 | 0.1.6 | 2026-07-14 | Clarified that receipt request ID applies only where the completed payment originated from a request. |
 | 0.1.5 | 2026-07-06 | Added lightweight journey alignment for default single-card selection and user-selected split-card payment profile handoff without moving checkout behavior out of DOC-09. |

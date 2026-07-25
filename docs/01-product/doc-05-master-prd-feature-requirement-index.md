@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.18
+version: 0.18.21
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-22
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.18` |
+| **Version** | `0.18.21` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-22` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -291,8 +291,8 @@ MVP evidence may include:
 
 | Rule | Requirement |
 |---|---|
-| Evidence required | A payment request cannot proceed to payment without evidence unless explicitly approved by admin policy. |
-| Evidence linked | Evidence must be linked to the payment request. |
+| Evidence required | A payment or payment request cannot proceed without evidence supporting the obligation unless an approved exception applies. |
+| Evidence linked | Evidence must link to the bill/rent/tenancy obligation. A request references the same evidence-backed context where a request is used. |
 | OCR/autofill support | Where enabled, system should extract evidence fields and autofill request fields for user review. |
 | User correction | Users must be able to review and correct autofilled fields before submission. |
 | Verification outcome | Evidence must have a verification outcome or approved exception before payment eligibility. |
@@ -318,7 +318,7 @@ Each completed or active payment should be linkable to:
 
 - payer user;
 - payee user or payee record;
-- payment request;
+- payment request, only where the payment originated from a request;
 - evidence record;
 - payment transaction;
 - payout or settlement record, if applicable;
@@ -338,7 +338,7 @@ Each completed or active payment should be linkable to:
 | Payer-created payment | Payer-created payments do not require payee acceptance by default if evidence, payee/payout, risk, and authorization gates pass. |
 | Payee-created request | Payee-created requests require payer acceptance before payment authorization. |
 | Duplicate detection | System should help detect duplicate requests or duplicate payments. |
-| Evidence verification linkage | OCR extraction, user corrections, verification outcomes, duplicate indicators, and review decisions must remain linked to the request. |
+| Evidence verification linkage | OCR extraction, user corrections, verification outcomes, duplicate indicators, and review decisions must remain linked to the evidence and obligation, and to the request where a request is used. |
 | Status consistency | Request status shown to payer and payee must be consistent. |
 | Exception/support tracking | Queries, disputes, requests for more information, or support cases must remain linked to the original request without becoming normal request-route actions. |
 
@@ -346,21 +346,21 @@ Each completed or active payment should be linkable to:
 
 ## 9. Request Status Model
 
-### 9.1 Core Statuses
+### 9.1 Canonical Request Lifecycle
 
-The MVP should support the following request statuses. A request is not a payment; payment authorization, processing, completion, and failure must be shown as linked payment status, not request status.
+A request is not a payment. Its lifecycle must remain separate from evidence processing, obligation readiness, payment/payout status, linked case handling, and archive visibility.
 
-| Status | Meaning |
-|---|---|
-| Draft | Request created but not submitted. |
-| Pending Evidence Verification | Request submitted but not yet sent to receiver because evidence verification or approved exception is pending. |
-| Reviewing / Awaiting | Request sent and pending receiver action; sender sees `Reviewing`, receiver sees `Awaiting`. |
-| Viewed | Recipient viewed the request. |
-| Accepted | Payer accepted the request. |
-| Rejected | Payer rejected the request. |
-| Approved for Payment | Required request, evidence, verification, risk, and acceptance checks passed so the linked payment flow may become available where applicable. |
-| Cancelled | Request cancelled. |
-| Expired | Request expired. |
+| Underlying State | Sender Label | Receiver Label | Meaning |
+|---|---|---|---|
+| `Draft` | Draft | Not visible | Sender started the request but has not submitted it. |
+| `Pending Evidence Verification` | Waiting for Verification | Not visible | Delivery is blocked until evidence passes or an approved exception applies. |
+| `Pending Receiver Action` | Reviewing | Awaiting | Request was delivered and awaits acceptance or rejection. |
+| `Accepted` | Accepted | Accepted | Receiver accepted the evidence-backed context; this may link the parties but is not payment authorization. |
+| `Rejected` | Rejected | Rejected | Receiver rejected the request; retain the reason where provided. |
+| `Expired` | Expired | Expired | Request validity ended before acceptance. |
+| `Cancelled` | Cancelled | Cancelled where previously visible | Sender cancelled the request where permitted. |
+
+Submission, sending, sharing, viewing, reminding, archiving, and restoration are events or visibility transitions, not request states.
 
 ---
 
@@ -369,10 +369,13 @@ The MVP should support the following request statuses. A request is not a paymen
 | Rule | Requirement |
 |---|---|
 | Payer authorization | No payment may be processed without payer authorization. |
-| Evidence gate | Request cannot move to Approved for Payment without required evidence or approved exception. |
-| Evidence verification gate | Request cannot move to Approved for Payment when DOC-12 verification outcome requires user clarification, admin review, rejection, or fraud/risk escalation. |
+| Evidence gate | Request cannot move to `Pending Receiver Action` without accepted evidence or an approved exception. |
+| Evidence verification gate | Request remains `Pending Evidence Verification` while DOC-12 requires clarification, review, duplicate handling, rejection handling, or fraud/risk escalation. |
 | Admin/risk gate | Requests may require admin or risk approval before payment. |
 | Rejection finality | Rejected requests cannot be paid unless recreated or reopened under approved rules. |
+| Readiness separation | `Ready to Pay`, `Action Required`, and `Under Review` describe the linked obligation, not the request lifecycle. |
+| Case separation | Query, dispute, support, and exception handling use linked case records and do not create request lifecycle states. |
+| Archive separation | Archive changes list visibility without replacing the request lifecycle state. |
 | Audit trail | Every status change must be logged. |
 | Two-sided consistency | Payer and payee views must reflect the same underlying status. |
 
@@ -517,11 +520,11 @@ Bills-route requirements must remain role-aware:
 - payee-side records must not show payer-side `Pay` actions;
 - payer-side received requests belong in `BILLS-PAY`, not `BILLS-RECEIVE`.
 
-For account-control UX, `ME-ROOT` is a permanent MVP bottom-navigation route for users acting as payer, payee, or both. It provides masked Account Information, account/security/privacy child-route entry, Bills access, Payment Profile, Receiving Details, Activity, Receipts & Statements, Archived Documents, My Rewards, Referral, preferences, support, About/Terms, and logout. These rows are route handoffs and do not transfer ownership from DOC-06C, DOC-08, DOC-10, DOC-12, DOC-13, DOC-15, DOC-18, DOC-19, DOC-21, or DOC-22.
+For account-control UX, `ME-ROOT` is a permanent MVP bottom-navigation route for users acting as payer, payee, or both. It provides masked Account Information, account/security/privacy child-route entry, Bills access, Payment Profile, Receiving Info, Activity, Receipts & Statements, Archived Documents, My Rewards, Referral, preferences, support, About/Terms, and logout. These rows are route handoffs and do not transfer ownership from DOC-06C, DOC-08, DOC-10, DOC-12, DOC-13, DOC-15, DOC-18, DOC-19, DOC-21, or DOC-22.
 
 DOC-06B defines `ACCOUNT-PROFILE`, reusable `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, child screen `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`. The MVP includes immutable login name after setup, copyable PayPlus User ID, cross-channel phone/email change verification, four identity-verification display labels, immediate `Verify Now` handoff for non-verified states, account closure as a controlled request, password/passcode and permitted 2FA/biometric controls, trusted-device removal, optional privacy choices, governed correction/access/export/deletion requests, and protected in-app export.
 
-Sensitive information remains masked by default. Revealing approved sensitive information through a Me child route requires the existing PayPlus payment passcode for MVP, with additional step-up where required; some stored data remains unavailable for reveal. `ACTIVITY-ROOT` remains the single account-level payer/payee financial activity route; `RECEIVING-DETAILS` manages an approved payee payout destination and `ARCHIVED-EVIDENCE-LIST` provides controlled access to archived or previous evidence only.
+Sensitive information remains masked by default. Prominent reveal of approved masked sensitive values, and material changes to identity, contact, security, credential, or Receiving Info data, require payment passcode or approved reauthentication under DOC-15 and future DOC-19 controls. Ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra prompt solely for opening or downloading the document. `ACTIVITY-ROOT` remains the single account-level payer/payee financial activity route; the `RECEIVING-INFO` family manages multiple private reusable receiving profiles and `ARCHIVED-EVIDENCE-LIST` provides controlled access to archived or previous evidence only.
 
 ### Payer
 
@@ -572,7 +575,9 @@ Sensitive information remains masked by default. Revealing approved sensitive in
 - view linked payments;
 - respond to clarification/dispute;
 - view payout/payment status;
-- manage the user's approved receiving/payout destination through `RECEIVING-DETAILS` where payee/request capability is enabled, subject to DOC-10 validation and change controls;
+- manage multiple private reusable receiving profiles through `RECEIVING-INFO`, including optional nickname, readiness, masked display, add/edit/version/archive, and proof where required;
+- select one destination for a payee-created request without exposing other saved profiles to the payer;
+- preserve separate request/obligation/payment destination snapshots so profile edits or archive do not alter accepted requests or authorized payouts;
 - access account-level Activity, Receipts & Statements, and controlled archived/previous evidence through the applicable `ME-ROOT` handoffs.
 
 ### Admin
@@ -758,7 +763,8 @@ The MVP is acceptable when:
 | Dashboard shortcut grid, user shortcut preferences, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
 | DOC-06C `BILLS-PAY` and `BILLS-RECEIVE` route split is accepted as the current role-aware Bills-route baseline; checkout/payment screen behavior remains primarily governed by DOC-09. | Working Baseline / Not Final |
 | DOC-06B `PAYMENT-PROFILE-ROOT` is accepted as the current route shell for tokenized card and saved split-card profile management; checkout authorization and funding remain governed by DOC-09. | Working Baseline / Not Final |
-| DOC-06B `ME-ROOT` and its Account Information, Identity Verification, Login & Security, Payment Passcode Settings, and Privacy & Data behavior are accepted; Receiving Details, Archived Documents, Support/About/Terms, and final visual design remain pending. | Working Baseline / Core Account Child Routes Defined |
+| DOC-06B `ME-ROOT`, Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, and the `RECEIVING-INFO` route family are accepted; Archived Documents, Support/About/Terms, and final visual design remain pending. | Working Baseline / Core Account and Receiving Info Routes Defined |
+| The canonical product destination inventory is maintained in `docs/traceability/route-register.md`; route owners and the DOC-06 parent must remain synchronized with it. | Confirmed |
 | PayPlus MVP should be data-engine ready by design, with structured events, field classification, source lineage, auditability, consent/preference state, approved-purpose metadata, and future model-use eligibility metadata where relevant. | Confirmed |
 | Advanced AI decisioning, external partner activation, offsite advertising, user-level data sharing, credit scoring, and insurance underwriting are not MVP scope unless separately assessed, approved, and documented. | Confirmed |
 
@@ -768,6 +774,9 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.21 | 2026-07-26 | Adopted the canonical request lifecycle, role-facing labels, event/evidence/readiness/case/archive separation, and removed mixed request-status definitions. |
+| v0.18.20 | 2026-07-26 | Clarified evidence-to-obligation linkage and optional request involvement, aligned prominent sensitive reveal and material-change authentication, retained ordinary permitted document viewing/download without extra prompt, and referenced the canonical route register. |
+| v0.18.19 | 2026-07-23 | Replaced singular Receiving Details with multiple private reusable Receiving Info profiles and aligned request selection, destination snapshots, masking/edit behavior, archive/versioning, and authorization-freeze requirements. |
 | v0.18.18 | 2026-07-22 | Aligned the PRD with defined Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, contact-change, verification-status, account-closure, trusted-device, privacy-request, and protected-export behavior. |
 | v0.18.17 | 2026-07-22 | Aligned the PRD with permanent `ME-ROOT`, masked account display and passcode-gated reveal, account/security/privacy handoffs, Receiving Details, archived-evidence access, established feature-route entry, preferences, support, About/Terms, logout, and the separate More boundary. |
 | v0.18.16 | 2026-07-21 | Aligned the PRD with defined My Rewards Active/History management, complete reward detail/T&C, checkout-owned reward selection, launch-supported external vouchers and miles, and separate reward instrument/source/role/program/campaign/entitlement/fulfilment data dimensions. |

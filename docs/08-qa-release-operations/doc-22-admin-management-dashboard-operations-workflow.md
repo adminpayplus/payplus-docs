@@ -33,12 +33,30 @@ Required items to be updated include:
 Detailed schema and event taxonomy belong in DOC-18. User-facing evidence routes belong in DOC-06. Evidence verification rules belong in DOC-12. Risk escalation rules belong in DOC-14.
 
 ### 7.4 Payment Request Review Queue
+
+Future full DOC-22 drafting must present request review without one overloaded status field.
+
+Required items to be updated include:
+
+- filter and display the canonical request lifecycle: `Draft`, `Pending Evidence Verification`, `Pending Receiver Action`, `Accepted`, `Rejected`, `Expired`, and `Cancelled`;
+- display sender/receiver role-facing projections separately from the underlying lifecycle state;
+- preserve request events, timestamps, actors, reasons, delivery/share history, reminders, party linking, archive, and restore history;
+- display evidence status, obligation readiness, linked support/dispute case, payment/payout status, and archive visibility as separate fields or linked records;
+- prevent admin overrides from silently converting an event, evidence outcome, readiness result, case status, payment outcome, or archive action into a request lifecycle state;
+- audit every permitted lifecycle correction, case/hold action, visibility change, and reason code.
+
+Detailed request state and event structures belong in DOC-18. Product lifecycle meaning belongs in DOC-06A; route display belongs in DOC-06B; evidence, readiness, case, payment, payout, and notification meaning remain in their owning documents.
+
 ### 7.5 Risk Review Queue
 ### 7.6 Duplicate Detection Queue
 ### 7.7 Dispute Queue
+
+Disputes and clarification work must use the linked case lifecycle `Open`, `Pending Information`, `Under Review`, `Resolved`, and `Closed`. Operational actions and outcomes such as approval, rejection, processing, completion, failure, escalation, or hold application must be recorded separately and must not overwrite request lifecycle state.
 ### 7.8 Clarification Queue
 ### 7.9 Failed Payment Queue
 ### 7.10 Payout Exception Queue
+
+Future full DOC-22 drafting must distinguish destination-attributable exceptions that a user or reviewer can correct from transient bank, rail, provider, or system exceptions. Only the former should make a Receiving Info profile `Action Required`; both remain visible in the appropriate payout/operations queue.
 ### 7.11 Refund/Reversal Queue
 ### 7.12 Compliance Escalation Queue
 ### 7.13 Campaign and Promotion Review Queue
@@ -196,7 +214,7 @@ Required capabilities include:
 
 Detailed reward logic and status meaning belong in DOC-13 and the status-display reference matrix. User-facing screens belong in DOC-06B, checkout selection in DOC-09, privacy in DOC-15, and final objects/events in DOC-18.
 
-### 18.8 Me Route and Account-Control Configuration
+### 18.8 Me Route, Account-Control, and Receiving Info Configuration
 
 Future full DOC-22 drafting must support the confirmed DOC-06B `ME-ROOT` baseline without turning the admin dashboard into the owner of user-facing route behavior.
 
@@ -204,7 +222,7 @@ Required controls include:
 
 - preserve `ME-ROOT` as a permanent MVP bottom-navigation destination;
 - prevent ordinary configuration from hiding core Account Information, Security & Privacy, Help & Support, About PayPlus, Terms and Policies, or Log Out controls;
-- enable or disable optional module rows, including Membership and Receiving Details where the underlying capability is unavailable, while preserving permitted access to retained user records;
+- enable or disable optional module rows, including Membership, while preserving the MVP `RECEIVING-INFO` capability and permitted access to retained user records;
 - manage account and identity-verification action-required cases, provider exceptions, retries, and status mapping without exposing provider payloads or internal reasons in user-facing routes or creating duplicate verification submissions;
 - support controlled recovery where a user cannot access the registered phone or email, with identity checks, reason capture, approval, notification, and audit evidence;
 - support contact-change exception handling and audit for the confirmed cross-channel phone/email verification flows;
@@ -213,13 +231,20 @@ Required controls include:
 - manage account-closure blockers, cancellation before finalization, operational finalization, session termination, login disablement, retained-record access, and completion notice without treating closure as immediate deletion;
 - support trusted-device removal and session revocation audit, including current-device logout behavior;
 - preserve optional direct-marketing, personalization, and approved partner-data-use choices while preventing users or administrators from disabling mandatory service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
-- manage receiving-setup action-required cases without exposing internal reasons on the user root;
-- support controlled review and approval of receiving/payout-destination changes under DOC-10, DOC-15, and DOC-19;
+- configure enabled receiving methods and method-specific fields without inventing unsupported provider validation;
+- support multiple user-linked Receiving Info profiles, optional nicknames, version/archive history, and masked operational views;
+- configure identity-name normalization and evidence requirements used to propose `Ready to Receive`, without presenting that result as external bank validation;
+- route third-party, company, ownership-mismatch, and proof-deficient profiles to controlled review with permitted approval or `Action Required` outcomes;
+- keep the private Receiving Info library separate from request, obligation, payment, and payout destination snapshots;
+- ensure source-profile edit or archive does not rewrite accepted or payer-authorized snapshots;
+- distinguish destination-attributable payout failures from transient bank, rail, provider, or system failures;
+- support linked-payee destination-change notifications and optional controlled save-to-Receiving-Info without adding payee approval or payout delay;
+- audit profile add, edit, version, archive, proof submission, review, status change, destination selection, snapshot creation, destination difference acknowledgement, linked-party notification, and payer reauthorization;
 - support controlled archived/previous evidence access and audit under DOC-06C, DOC-12, DOC-15, and DOC-18;
 - audit sensitive reveal, account/profile changes, privacy requests, receiving-destination changes, optional-row configuration, and account restriction or closure operations;
 - preserve the separate More boundary for dashboard shortcut management, reorder/arrangement, restore-default, overflow, and secondary services.
 
-Detailed `ME-ROOT` route behavior belongs in DOC-06B. Notification preferences belong in DOC-08, payout-destination rules in DOC-10, evidence in DOC-06C/DOC-12, privacy in DOC-15, and final objects/events in DOC-18.
+Detailed `ME-ROOT` and `RECEIVING-INFO` route behavior belongs in DOC-06B. Notification preferences belong in DOC-08, payout-destination rules in DOC-10, evidence in DOC-06C/DOC-12, risk in DOC-14, privacy in DOC-15, and final objects/events in DOC-18.
 
 ## 19. Audit Logging Requirements
 
@@ -261,6 +286,8 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.12.0 | 2026-07-26 | Added future admin requirements separating canonical request lifecycle, role projections, events, evidence, readiness, linked cases, payment/payout status, and archive visibility, plus the canonical linked-case lifecycle. |
+| 0.11.0 | 2026-07-23 | Added future Receiving Info method configuration, profile/proof review, readiness, version/archive, snapshot separation, payout-failure classification, linked notification, save invitation, and audit requirements. |
 | 0.10.0 | 2026-07-22 | Added future operations markers for identity-provider exceptions, support-assisted recovery, cross-channel contact changes, privacy-request queues, protected exports, account-closure blockers/finality, trusted-device revocation, and optional-versus-mandatory privacy controls. |
 | 0.9.0 | 2026-07-22 | Added future admin and operations markers for permanent `ME-ROOT`, protected core controls, optional-row enablement, account action-required handling, Receiving Details, archived-evidence access, reveal/privacy auditability, and the separate More shortcut-management boundary. |
 | 0.8.0 | 2026-07-21 | Added future Reward operations markers for launch-supported partner/miles readiness, separate data dimensions, lifecycle and exception queues, authoritative/idempotent fulfilment, expiry configuration, hold-versus-expiry follow-up, and credential access controls. |

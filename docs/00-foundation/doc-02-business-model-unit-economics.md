@@ -1,7 +1,7 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 0.9.0
+version: 0.9.1
 status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
@@ -15,7 +15,7 @@ approvers:
   - Project Owner
   - Finance Lead
   - Commercial Lead
-last_updated: 2026-06-02
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -37,12 +37,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-02` |
 | **Title** | Business Model & Unit Economics |
-| **Version** | `0.9.0` |
+| **Version** | `0.9.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Commercial / Finance Owner |
 | **Reviewers** | Product Lead<br>Finance Lead<br>Commercial Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Finance Lead<br>Commercial Lead |
-| **Last Updated** | `2026-06-02` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -315,7 +315,7 @@ For payee-created request programs:
 
 ```text
 Completed Payee-Created Request Contribution Margin
-- Cost of Rejected / Expired / Disputed Payee-Created Requests
+- Cost of Rejected / Expired Payee-Created Requests and Linked Dispute Cases
 = Net Payee-Created Request Program Margin
 ```
 
@@ -345,10 +345,10 @@ Final reporting definitions belong in `DOC-18 Data Model, Transaction State, Aud
 | Manual Review Cost | Labor cost allocated to bill, invoice, rent, payee, risk, payout, compliance, or support review. |
 | Payee Acquisition Cost | Sales, onboarding, verification, activation, incentive, and support cost required to acquire an approved payee. |
 | Payee Onboarding Cost | Cost to verify and activate a payee for payout or request creation capability. |
-| Payee-Created Request | A bill, invoice, fee, rent, or approved obligation request created by an approved payee and sent to a payer for review and authorization. |
+| Payee-Created Request | A bill, invoice, fee, rent, or approved obligation request created by an approved payee and sent to a payer for review, acceptance, and separate payment authorization. |
 | Request Creator Type | Indicator of whether a request was created by payer, payee, admin, system, partner, or migration process. |
 | Payee Type | Classification such as landlord, school, utility, biller, service provider, business, or property manager. |
-| Request Acceptance Rate | Percentage of payee-created requests accepted and authorized by payers. |
+| Request Acceptance Rate | Percentage of payee-created requests accepted by payers. |
 | Request Completion Rate | Percentage of payee-created requests accepted, funded, and paid out. |
 | Payee Profitability | Contribution margin attributable to a payee after revenue, verification, request, support, payout, risk, refund, and chargeback costs. |
 
@@ -681,7 +681,7 @@ Candidate metrics include:
 | Contribution margin rate | Contribution margin as a percentage of approved denominator. |
 | Take rate | Revenue as a percentage of GTV. |
 | Average transaction value | Average bill or payment amount. |
-| Approval rate | Percentage of payment requests approved. |
+| Payment authorization rate | Percentage of eligible checkout attempts explicitly authorized by the payer before PSP/acquirer submission. |
 | Decline rate | Percentage of card payment attempts declined. |
 | Payout failure rate | Percentage of payouts that fail. |
 | Category profitability | Margin by bill category. |
@@ -690,9 +690,9 @@ Candidate metrics include:
 | Partner profitability | Margin by partner or payment route. |
 | Campaign profitability | Margin after campaign cost. |
 | Payee-created request volume | Number and value of requests created by approved payees. |
-| Request acceptance rate | Percentage of payee-created requests accepted and authorized by payers. |
-| Request rejection/query/dispute rate | Percentage of payee-created requests rejected, queried, or disputed before authorization. |
-| Request expiration rate | Percentage of payee-created requests expiring without authorization. |
+| Request acceptance rate | Percentage of payee-created requests accepted by payers. |
+| Request rejection and linked-case rate | Percentage of payee-created requests rejected or associated with a pre-authorization query/dispute case. |
+| Request expiration rate | Percentage of payee-created requests expiring without payer acceptance. |
 | Request completion rate | Percentage of payee-created requests accepted, funded, and paid out. |
 | Payee activation rate | Percentage of onboarded payees that create at least one valid request. |
 | Payee retention rate | Percentage of payees that continue creating valid requests over time. |
@@ -923,7 +923,7 @@ This document provides a framework only and does not establish accounting or tax
 | `OQ-DOC02-016` | Which payee types can be commercially supported for request creation? | Commercial / Product / Risk | Critical | Open |
 | `OQ-DOC02-017` | Are payees charged onboarding, subscription, invoice, request, payout, platform, or transaction fees? | Commercial / Finance / Product | Critical | Open |
 | `OQ-DOC02-018` | If payee-side fees are charged, when are they charged: onboarding, request creation, request delivery, payer acceptance, funding, payout, monthly, or another trigger? | Commercial / Finance / Product | High | Open |
-| `OQ-DOC02-019` | Are payee-side fees refundable if a request is rejected, expired, disputed, cancelled, withdrawn, refunded, or charged back? | Finance / Legal / Product | High | Open |
+| `OQ-DOC02-019` | How are payee-side fees treated if a request is rejected, expired, cancelled, or withdrawn; a linked dispute case is opened; or a linked payment is refunded or charged back? | Finance / Legal / Product | High | Open |
 | `OQ-DOC02-020` | What payer acceptance rate is required for payee-created requests to be commercially viable? | Commercial / Product | High | Open |
 | `OQ-DOC02-021` | What payee onboarding cost and payee acquisition cost are acceptable by payee type? | Commercial / Finance | High | Open |
 | `OQ-DOC02-022` | What commercial model applies to landlord-created rent requests if rent is enabled? | Commercial / Legal / Risk | Critical | Open |
@@ -983,3 +983,4 @@ This document should remain a commercial framework and should not become a final
 | `0.7.0` | 2026-06-01 | Product Documentation Team | Aligned promotion economics with DOC-13 by adding qualification, entitlement, promotion quote, miles, external voucher, and partner fulfilment cost concepts while de-emphasizing payee-funded discounts as exceptional. |
 | `0.8.0` | 2026-06-02 | Product Documentation Team | Clarified MVP commercial baseline for bill, fee, rent/tenancy, invoice, and approved-obligation categories in line with DOC-14 risk-control scope. |
 | `0.9.0` | 2026-06-02 | Product Documentation Team | Added commercial impact references for DOC-09 deferred payment instruction, partial funding, quote revalidation, partial payout, and DOC-22 admin operations reporting. |
+| `0.9.1` | 2026-07-26 | Product Documentation Team | Separated request acceptance from payment authorization, and separated request lifecycle outcomes from linked query/dispute cases and linked payment refund/chargeback outcomes in commercial metrics and open questions. |

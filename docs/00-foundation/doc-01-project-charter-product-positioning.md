@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.10.0
+version: 0.10.2
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-06-08
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -35,12 +35,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-01` |
 | **Title** | Product Overview & Positioning |
-| **Version** | `0.10.0` |
+| **Version** | `0.10.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Commercial Lead |
 | **Approvers** | Product Lead<br>Project Owner |
-| **Last Updated** | `2026-06-08` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -68,8 +68,8 @@ PayPlus supports two controlled request models:
 
 | Request Model | Summary |
 | --- | --- |
-| Payer-created request | A payer creates a bill, invoice, fee, rent, or approved obligation payment request, provides details or evidence, reviews fees and disclosures, authorizes card payment, and PayPlus routes the approved payout after upstream settlement and reconciliation. |
-| Payee-created request | An approved payee creates a bill, invoice, fee, rent, or approved obligation request. The payer must review and explicitly authorize payment before any card funding or payout occurs. |
+| Payer-created payment | A payer creates an evidence-backed bill, invoice, fee, rent, or approved obligation payment context, reviews fees and disclosures, authorizes card payment, and PayPlus routes the approved payout after upstream settlement and reconciliation. Payee acceptance is not required unless the payer separately initiates optional linking. |
+| Payee-created request | An approved payee creates a bill, invoice, fee, rent, or approved obligation request. The payer must accept the request and separately authorize payment before any card funding or payout occurs. |
 
 Payee-created requests are allowed only where the payee is onboarded or approved, the request is evidence-backed, the category is supported, risk controls pass, and the payer explicitly authorizes payment.
 
@@ -197,7 +197,7 @@ PayPlus supports the following core use cases, subject to approval and downstrea
 | Use Case | Description |
 | --- | --- |
 | Payer-created payment | Payer uploads or enters bill, invoice, fee, rent, domestic helper, driver, or personal service obligation details, PayPlus verifies eligibility and payee, payer authorizes card payment, and PayPlus routes the approved payout after upstream settlement and reconciliation. |
-| Payee-created payment request | Approved payee creates an eligible bill, invoice, fee, rent, or obligation request, payer reviews and authorizes payment, and PayPlus routes the approved payout after upstream settlement and reconciliation. |
+| Payee-created payment request | Approved payee creates an eligible bill, invoice, fee, rent, or obligation request; payer accepts the request and separately authorizes payment; PayPlus then routes the approved payout after upstream settlement and reconciliation. |
 | Bill and evidence verification | PayPlus validates bill category, payee, amount, evidence, and eligibility before payout. |
 | Card-funded payment | Payer funds the approved request using a supported card funding source. |
 | Multi-card payment | Payer may split one approved bill across up to a configurable number of credit cards. The exact card count limit remains to be confirmed. |
@@ -303,7 +303,7 @@ Some MVP capabilities are confirmed as product scope but remain gated for produc
 | Rent and tenancy payments | Must meet rent-specific evidence, relationship, verification, limit, and review controls. |
 | Payee-created requests | Must be independently enableable by payee, category, and risk tier. |
 | Fees and disclosures | Must be approved before payer authorization. |
-| Multi-card payment | MVP scope; final configurable card-count limit, partner rules, risk checks, and reconciliation handling must be confirmed. |
+| Multi-card payment | MVP scope with a maximum of 6 cards per payment/profile. Partner rules, risk checks, and reconciliation handling remain subject to confirmation. |
 | Refund, dispute, and chargeback handling | Product must support admin-dashboard status options and case handling; detailed operations should follow approved policies and may be finalized in operations documentation. |
 
 ---
@@ -408,13 +408,14 @@ PayPlus should follow these principles:
 3. Payee creates an eligible bill, invoice, fee, rent, or obligation request.
 4. Payee provides required details and evidence.
 5. PayPlus checks payee permission, category, evidence, amount, payer identification, risk, and eligibility.
-6. Request is delivered to payer by approved channel, returned for correction, rejected, or routed to manual review.
-7. Payer reviews request origin, payee identity, amount, evidence summary, service fee, total charge, timing, refund/cancellation terms, and PayPlus role.
-8. Payer accepts and authorizes payment, rejects the request, raises a query, disputes the request, or lets it expire.
-9. If authorized, PSP/acquirer authorizes and captures the card payment.
-10. PayPlus receives or awaits upstream settlement and performs final payout readiness checks.
-11. PayPlus applies approved fees or margins where applicable and pays the approved amount or balance to the approved payee.
-12. PayPlus records funding, payout, reconciliation, receipt, status updates, and audit evidence.
+6. Request remains `Pending Evidence Verification` while evidence correction, rejection, duplicate/risk review, or manual review is required.
+7. Once the evidence gate passes, PayPlus delivers the request to the payer by an approved channel and moves it to `Pending Receiver Action`.
+8. Payer reviews request origin, payee identity, amount, evidence summary, service fee, total charge, timing, refund/cancellation terms, and PayPlus role.
+9. Payer accepts the request and may proceed to separate payment authorization where remaining gates pass, rejects it, raises a linked query/dispute case, or lets it expire.
+10. If authorized, PSP/acquirer authorizes and captures the card payment.
+11. PayPlus receives or awaits upstream settlement and performs final payout readiness checks.
+12. PayPlus applies approved fees or margins where applicable and pays the approved amount or balance to the approved payee.
+13. PayPlus records funding, payout, reconciliation, receipt, status updates, and audit evidence.
 
 Detailed lifecycle, state machine, settlement, refund, and chargeback rules belong in `DOC-09`, `DOC-10`, and `DOC-11`.
 
@@ -590,7 +591,7 @@ Detailed partner assessment belongs in `DOC-03 Regulatory, PSP & Acquirer Assess
 | `DEP-DOC01-009` | Content and disclosure approval. | User-facing launch. | Product / Legal / Compliance | Open |
 | `DEP-DOC01-010` | Payee onboarding and capability model. | Payee-created requests and payee payout. | Product / Compliance / Risk | Open |
 | `DEP-DOC01-011` | Payer identification and invitation mechanism. | Payee-created request delivery to payer. | Product / Engineering / Privacy | Open |
-| `DEP-DOC01-012` | Payer response and pre-authorization dispute workflow. | Payee-created request acceptance, rejection, query, and dispute. | Product / Operations / Legal | Open |
+| `DEP-DOC01-012` | Payer response and pre-authorization linked-case workflow. | Payee-created request acceptance/rejection and separate query/dispute case handling. | Product / Operations / Legal | Open |
 | `DEP-DOC01-013` | Data and AI governance model covering event taxonomy, classification, lineage, consent, model inputs, analytics use, partner reporting, and AI decision-support boundaries. | Data-engine readiness, future AI use, analytics, and partner intelligence. | Data / Privacy / Engineering | Open |
 
 ---
@@ -658,8 +659,8 @@ Candidate success criteria include:
 | Payer-created requests | Number of requests created by payers. |
 | Payee-created requests | Number of requests created by approved payees. |
 | Payee request acceptance rate | Percentage of payee-created requests accepted by payers. |
-| Payee request rejection/query/dispute rate | Percentage of payee-created requests rejected, queried, or disputed before authorization. |
-| Approved requests | Number and percentage of requests approved after verification. |
+| Payee request rejection and linked-case rate | Percentage of payee-created requests rejected or associated with a pre-authorization query/dispute case. |
+| Accepted requests | Number and percentage of payee-created requests accepted by the payer after required evidence verification. |
 | Completed payments | Number and value of successfully funded and paid bills. |
 | Payment success rate | Percentage of card payments successfully authorized and captured. |
 | Payout success rate | Percentage of payouts successfully completed to approved payees. |
@@ -715,7 +716,7 @@ Metric definitions should be finalized in `DOC-18 Data Model, Transaction State,
 | `OQ-DOC01-002` | Which MVP categories are enabled at initial launch versus held behind operational or risk gates? | Product / Compliance / Risk | Critical | Open |
 | `OQ-DOC01-003` | Which PSP/acquirer will support the intended bill payment or ordinary online card purchase treatment and appropriate MCC/classification? | Payments / Commercial | Critical | Open |
 | `OQ-DOC01-004` | Which operating bank setup will be used for FPS, cheque, and EPS payouts? | Payments / Operations | Critical | Open |
-| `OQ-DOC01-005` | What configurable maximum number of credit cards per payment should be allowed at launch? | Product / Payments / Engineering | High | Open |
+| `OQ-DOC01-005` | What partner, risk, and reconciliation controls apply to the confirmed MVP maximum of 6 cards per payment/profile? | Product / Payments / Engineering | High | Partially open |
 | `OQ-DOC01-006` | What final KYC/KYB provider, check depth, sanctions screening, exception process, and risk-tier rules apply to the baseline onboarding model? | Legal / Compliance / Risk | High | Open |
 | `OQ-DOC01-007` | What transaction limits should apply at MVP? | Risk / Compliance / Product | High | Open |
 | `OQ-DOC01-008` | What exact percentage service fee, payer/payee fee allocation, subsidy, coupon, promotion, discount, refund, and reversal treatment will be used? | Commercial / Finance | High | Open |
@@ -782,3 +783,5 @@ This document should remain a concise foundation product overview and should not
 | `0.8.0` | `2026-06-02` | Product Documentation Team | Aligned privacy wording with DOC-15 approved-purpose visibility, masking, and role-based access controls. |
 | `0.9.0` | `2026-06-02` | Product Documentation Team | Added DOC-09 user payment instruction as MVP scope and added DOC-22 admin dashboard downstream ownership. |
 | `0.10.0` | `2026-06-08` | Product Documentation Team | Added data-engine and AI-readiness positioning, trust-preserving intelligence boundaries, related assumptions, constraints, dependencies, risks, success metrics, downstream impacts, and open questions. |
+| `0.10.1` | `2026-07-26` | Product Documentation Team | Confirmed the MVP maximum of 6 cards per payment/profile and narrowed the remaining open question to partner, risk, and reconciliation controls. |
+| `0.10.2` | `2026-07-26` | Product Documentation Team | Aligned charter language with the canonical request lifecycle, distinguished payer-created payment from optional linking, separated request acceptance from payment authorization, separated evidence outcomes from request state, and treated query/dispute handling as a linked case. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 0.6.0
+version: 0.7.2
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-07-22
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,12 +43,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-10` |
 | **Title** | Payout & Reconciliation |
-| **Version** | `0.6.0` |
+| **Version** | `0.7.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Finance |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-07-22` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -138,9 +138,10 @@ A payout may proceed only when all required checks pass.
 | --- | --- |
 | Payment status | Full payment or funded portion must be completed according to DOC-09. Overall partially funded instruction must not be treated as fully completed. |
 | Settlement | Upstream settlement must be confirmed or settlement-ready for the specific funded portion under approved rules. |
-| Payee status | Payee must be approved and eligible to receive payout. |
-| Payout destination | Destination must be approved, active, and not under review hold. |
-| Request status | Request must not be rejected, cancelled, expired, unresolved, or otherwise blocked. |
+| Payee / recipient status | The payee, linked user, or valid non-user recipient record must be eligible for the applicable payout. |
+| Payout destination | The effective destination snapshot attached to the obligation/payment must pass the applicable recipient, evidence, risk, compliance, and payout checks. A source Receiving Info profile being edited or archived must not change the snapshot. |
+| Request lifecycle | Where payout originates from a payee-created request, the request must be `Accepted`; `Pending Evidence Verification`, `Pending Receiver Action`, `Rejected`, `Expired`, or `Cancelled` is not payout-eligible. A payer-created evidence-backed payment does not require a request. |
+| Linked case or hold | An open material dispute/support case or applicable operational, risk, refund, or chargeback hold may block payout under DOC-11 and DOC-14 without changing request lifecycle state. |
 | Risk status | Risk checks must pass or be manually approved. |
 | Refund/dispute/chargeback hold | Payout must be blocked where policy requires hold. |
 | Amount | Payout amount must match approved obligation, funded portion, fee, adjustment, partial payout, and ledger rules. |
@@ -153,21 +154,74 @@ Failed checks should route to pending, held, or exception status with an audit t
 
 ## 6. Payout Destination Controls
 
-Payout destination means the approved bank account, payee account, cheque recipient, or rail-specific destination used to pay the payee.
+A payout destination is the bank account, FPS identifier, cheque recipient, EPS or other approved rail-specific destination attached to an obligation, payment, or payout. It may originate from:
+
+- a payee's saved Receiving Info profile;
+- a payee-created request;
+- payer-entered information for a payer-created bill/rent;
+- evidence extraction followed by user review;
+- a controlled admin correction or approved operational source.
+
+The destination used for a payout is the context-specific destination snapshot, not the current contents or status of a reusable Receiving Info profile.
+
+### 6.1 Receiving Info Profiles
+
+DOC-06B `RECEIVING-INFO` is the user-facing private library for reusable receiving-information profiles. It is optional and is not the sole payout source of truth.
 
 Rules:
 
-- payee destination must be verified or approved before payout where required;
-- landlord, business payee, and higher-risk payee destinations may require enhanced review;
-- destination changes may trigger hold, reverification, or manual approval;
-- destination history must be retained for audit and dispute support;
-- admin users must not bypass destination controls without permission, reason, evidence, and audit log.
+- one user may store multiple profiles;
+- each profile requires a stable receiving-info ID linked to that user;
+- profiles may include an optional user-defined nickname;
+- bank/provider name may be displayed; sensitive account or receiving identifiers remain masked outside permitted edit handling;
+- edits create a retained new version;
+- `Archive` removes the profile from the active list without hard deletion;
+- a payer must not browse the payee's saved profiles;
+- only the profile selected for a request or obligation may be disclosed through that context;
+- editing or archiving a profile must not change an existing request, obligation, payment, or payout snapshot.
 
-Detailed payee verification and risk rules belong in DOC-12 and DOC-14. Data fields belong in DOC-18.
+### 6.2 Profile Readiness
 
-DOC-06B `ME-ROOT` provides the user-facing `RECEIVING-DETAILS` entry for managing the approved payout destination used when the user acts as payee. This route is configuration, not transaction history; `ACTIVITY-ROOT` remains the single account-level payer/payee financial activity route.
+| Condition | User-Facing Status | Domain Treatment |
+| --- | --- | --- |
+| Recipient name matches the user's verified identity under configured normalization and matching rules | `Ready to Receive` | The profile may be used without manual review unless another risk/control rule applies. This is internal readiness, not a claim of bank validation. |
+| Third-party personal or company account | `Under Review` | Require configured proof of ownership, authority, relationship, or business connection and route to review. |
+| Review approved | `Ready to Receive` | Profile may be selected for a new context, subject to payment-time checks. |
+| Proof missing/rejected or destination-attributable payout failure requires correction | `Action Required` | Show only the permitted correction or support action. |
+| Profile archived | `Archived` | Hide from the active list while retaining history and all snapshots that used it. |
 
-`RECEIVING-DETAILS` should be available to all users when payee/request capability is enabled because one account may act as payer, payee, or both. The route must consume, not redefine, the destination validation, approval, active/hold, change-history, masking, step-up, and audit rules in DOC-10, DOC-15, DOC-18, DOC-19, and DOC-22. Exact fields and visual behavior remain a DOC-06B/DOC-10 open item.
+AI-assisted extraction, OCR, name matching, or rule checks may support readiness but do not prove that a bank account exists or can receive funds. External validation capability remains partner-dependent.
+
+A failed payout should affect profile readiness only where the bank/rail result indicates a destination-attributable problem, such as an invalid or closed account or recipient mismatch. Transient bank, rail, file, API, cutoff, or system failures remain payout-transaction issues and must not automatically mark the profile `Action Required`.
+
+### 6.3 Destination Snapshots and Change Rules
+
+Selecting or entering a destination for a request, bill, rent, payment, or payout must create or reference an immutable versioned snapshot for that context.
+
+- A payee-created request must select a destination before it is sent.
+- Before payer acceptance, the payee may change the selected destination and send the latest request version.
+- After payer acceptance, a payee destination change requires a new request and new bill/rent record. The new record may link to the same evidence. The prior record remains and is not auto-archived.
+- A payer-created record with no linked PayPlus payee may use or change a valid destination without a request or payee handling, subject to normal checks.
+- If a payer-created record is linked to a PayPlus payee, the payer may change the destination without payee approval. The linked payee must be notified and may be offered a controlled option to review and save the destination to Receiving Info. This must not delay payout.
+- Where the payer selects a destination different from an accepted payee-created request, the accepted request snapshot remains unchanged. The payer-selected destination is recorded separately on the bill/payment context and the linked payee is notified.
+- At payment authorization, the exact effective destination snapshot is frozen for that payment.
+- A destination change after payment authorization requires renewed payer authorization and must not silently redirect the payout.
+- If an authorized snapshot becomes unusable, the payout should be held or failed according to the authoritative bank/rail result and controlled resolution rules; it must not be silently switched to another saved profile.
+
+The payer must review the effective destination before authorization. Where it differs from an accepted payee-created request, checkout should disclose that difference without exposing unrelated saved profiles.
+
+### 6.4 Validation, Review, and Audit
+
+Destination processing must:
+
+- apply recipient, evidence, category, payout, risk, anti-cashout, sanctions, and compliance checks appropriate to the source and context;
+- require proof for third-party/company profiles where configured;
+- require payment passcode or approved reauthentication before revealing permitted full destination values or adding/editing receiving information; archiving requires confirmation, with stronger step-up where risk-, provider-, or security-triggered;
+- retain profile, version, source, snapshot, selection, change, acceptance, authorization, notification, payout result, and admin-review history;
+- prevent admin bypass without permission, reason, evidence, and audit log;
+- keep internal provider, risk, match-score, and review reasons out of ordinary user display.
+
+Detailed evidence and matching rules belong in DOC-12 and DOC-14. Masking and permitted edit reveal belong in DOC-15. Final data objects and events belong in DOC-18. Review operations belong in DOC-22.
 
 ---
 
@@ -292,7 +346,7 @@ A payout batch may contain one or more payout items that are ready for payout.
 Batch rules:
 
 - include only payout-ready items;
-- exclude held, red-flag, incomplete, returned, disputed, or manually blocked items;
+- exclude held, red-flag, incomplete, returned, manually blocked, or applicable linked-dispute-case/hold items;
 - group eligible same-business-day payments for the same payer/payee/obligation where permitted;
 - assign stable batch ID and payout item IDs;
 - prevent duplicate inclusion of the same payout item;
@@ -594,6 +648,7 @@ Examples:
 | OQ-10-010 | What finance/accounting policy applies to payout payable, settlement clearing, reserves, and reconciliation breaks? | Finance | Open |
 | OQ-10-011 | Which partner-funded promotions, external vouchers, miles rewards, or campaign reimbursements require reconciliation against payout, settlement, or partner records? | Finance / Growth / Payments | Open |
 | OQ-10-012 | What payout, accounting, and payee-facing wording should apply when a DOC-09 payment instruction is partially funded and only settlement-ready funded portions are paid out? | Payments / Finance / Product | Open |
+| OQ-10-013 | What exact Receiving Info method fields, identity-name normalization, external account/FPS validation capability, third-party/company proof, review SLA, risk-based step-up, and destination-attributable failure mappings apply at launch? | Payments / Risk / Compliance / Operations / Security | Open |
 
 ---
 
@@ -622,6 +677,9 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.7.2 | 2026-07-26 | Replaced ambiguous request-status payout gating with the canonical payee-created request lifecycle and separate linked-case/hold controls, while preserving payer-created no-request payment. |
+| 0.7.1 | 2026-07-26 | Required passcode or approved reauthentication for full Receiving Info reveal and add/edit while retaining confirmation for archive and stronger risk/provider step-up where applicable. |
+| 0.7.0 | 2026-07-23 | Replaced the singular payout-destination model with multiple optional Receiving Info profiles, readiness and proof rules, versioned context snapshots, payee-request and payer-change behavior, linked-payee notifications, destination-attributable failure treatment, and authorization-time destination freeze. |
 | 0.6.0 | 2026-07-22 | Added the DOC-06B `ME-ROOT` handoff to `RECEIVING-DETAILS`, clarified its payout-configuration purpose and mixed-role availability, and kept payer/payee transaction history in `ACTIVITY-ROOT`. |
 | 0.1.0 | 2026-05-30 | Initial founder working baseline for payout readiness, payout rails, settlement calendars, split-payment grouping, payout batching, bank record ingestion, reconciliation matching, exceptions, idempotency, admin controls, and reporting. |
 | 0.2.0 | 2026-05-30 | Aligned payout wording with updated DOC-01 settlement, fee, and approved payout positioning. |

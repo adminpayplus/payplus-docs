@@ -1,9 +1,9 @@
-﻿
+
 # PayPlus Documentation Index
 
 This folder contains the PayPlus documentation set.
 
-Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance source of truth. Use `AGENTS.md` for AI assistant workflow rules. For parallel-agent or worktree-based drafting, also use [`00-foundation/payplus-parallel-agent-drafting-workflow.md`](00-foundation/payplus-parallel-agent-drafting-workflow.md). For accepted changes that require repository alignment, commit preparation, and post-commit records, use [`00-foundation/payplus-document-change-integration-workflow.md`](00-foundation/payplus-document-change-integration-workflow.md). Substantive commits are recorded in [`changelog/changelog.md`](changelog/changelog.md) and [`decision-log/decisionlog.md`](decision-log/decisionlog.md).
+Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance source of truth. Use `AGENTS.md` for AI assistant workflow rules. For parallel-agent or worktree-based drafting, also use [`00-foundation/payplus-parallel-agent-drafting-workflow.md`](00-foundation/payplus-parallel-agent-drafting-workflow.md). For prototype planning, building, validation, and lifecycle control, use [`00-foundation/payplus-prototype-design-validation-workflow.md`](00-foundation/payplus-prototype-design-validation-workflow.md). For accepted changes that require repository alignment, commit preparation, and post-commit records, use [`00-foundation/payplus-document-change-integration-workflow.md`](00-foundation/payplus-document-change-integration-workflow.md). Substantive commits are recorded in [`changelog/changelog.md`](changelog/changelog.md) and [`decision-log/decisionlog.md`](decision-log/decisionlog.md).
 
 ## Current Baseline
 
@@ -31,7 +31,10 @@ Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation
 | `99-isms-policies/` | ISMS and security policy library. |
 | `changelog/` | Append-only documentation delivery history linked to substantive commits. |
 | `decision-log/` | Append-only accepted decision records linked to owning documents and substantive commits. |
-| `traceability/` | Requirements traceability, open-question registers, and status-display alignment references. |
+| `diagrams/` | Governed route, product-structure, and user-flow visual references. |
+| `glossary/` | Controlled PayPlus terminology and source-owner references. |
+| `prototypes/` | Prototype lifecycle register. Current and archived artifacts appear only when registered under the prototype workflow. |
+| `traceability/` | Requirements traceability, route register, open-question register, and status-display alignment references. |
 
 ## Reading Order
 
@@ -43,6 +46,8 @@ Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation
 6. `DOC-16` to `DOC-22` when drafted for technical architecture, integrations, data model, security, testing, monitoring, and admin operations.
 
 For user-facing status labels across checkout, activity, receipts, statements, notifications, Bills/rent surfaces, and future admin display, also check `traceability/status-display-reference-matrix.md`. The matrix aligns display labels only; domain documents own system status meaning and DOC-18 owns the future canonical status/event taxonomy.
+
+For product destination identity, parentage, type, ownership, and definition status, use `traceability/route-register.md`. Route behavior remains owned by the applicable DOC-06 family or domain document.
 
 ## AI/Data-Engine Alignment
 

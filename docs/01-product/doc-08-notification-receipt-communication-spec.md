@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.19
+version: 1.0.21
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-22
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.19` |
+| **Version** | `1.0.21` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-22` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -218,7 +218,7 @@ For DOC-06B dashboard placements:
 | Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
 | Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
-Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, account/profile or closure action to `ACCOUNT-PROFILE`, identity action to `IDENTITY-VERIFICATION`, account-security action to `ACCOUNT-SECURITY` or `PAYMENT-PASSCODE-SETTINGS`, privacy/data action to `PRIVACY-DATA-CONTROLS`, receiving-destination action to `RECEIVING-DETAILS`, archived-evidence access to `ARCHIVED-EVIDENCE-LIST`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required. `RECEIPT-DETAIL` and `STATEMENT-DETAIL` open the selected PDF in the shared in-app preview defined by DOC-06B.
+Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, account/profile or closure action to `ACCOUNT-PROFILE`, identity action to `IDENTITY-VERIFICATION`, account-security action to `ACCOUNT-SECURITY` or `PAYMENT-PASSCODE-SETTINGS`, privacy/data action to `PRIVACY-DATA-CONTROLS`, receiving-information action to `RECEIVING-INFO`, `RECEIVING-INFO-DETAILS`, or `RECEIVING-INFO-SETUP`, archived-evidence access to `ARCHIVED-EVIDENCE-LIST`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required. `RECEIPT-DETAIL` and `STATEMENT-DETAIL` open the selected PDF in the shared in-app preview defined by DOC-06B.
 
 Promotion-discovery notifications should route to the relevant `OFFER-DETAIL`, or to `OFFERS-ROOT` only when no specific offer exists. Issued-reward notifications should route to `REWARDS-ROOT` or the relevant `REWARD-DETAIL`, using user-facing labels from the status-display reference matrix. Notifications must not contain a redeemable QR, full partner/redemption code, secret, internal reference, or internal risk reason. Referral attribution or qualification notifications should route to `REFERRAL-ROOT`; a referrer or referee entitlement-availability notification should route to `REFERRAL-REWARDS-LIST` or the relevant `REFERRAL-ENTITLEMENT-DETAIL`; an issued, reversed, or administrator-held reward notification should route to the canonical `REWARD-DETAIL` where a specific instrument exists. Notifications must not open `REFERRAL-REWARD-CLAIM` directly. Claim-deadline reminders are not required for MVP. A share-sheet action, copied link, or displayed QR is not an invitation delivery event and must not notify an unknown recipient. The notification record should preserve its source and target context without requiring a DOC-06B entry-point ID. Notification routing must not turn `BILLS-PAY` into an Offers sub-route.
 
@@ -310,12 +310,24 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-ACCT-003` | Security or account change | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-004` | New-device login or 2FA challenge | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-005` | Dormant-login reauthentication required or completed | App, email optional, SMS optional | Mandatory service |
-| `NOTIF-ACCT-006` | Material account, contact, credential, payment profile, or payout destination change | App, email, SMS optional | Mandatory service |
+| `NOTIF-ACCT-006` | Material account, contact, credential, payment profile, or Receiving Info change | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-007` | Account closure request submitted or cancelled | App, email | Mandatory service |
 | `NOTIF-ACCT-008` | Account closure requires action or cannot proceed | App, email, push optional | Mandatory service |
 | `NOTIF-ACCT-009` | Account closure completed | Email, SMS optional | Mandatory service |
 | `NOTIF-KYC-001` | KYC/KYB submission started | App | Important service |
 | `NOTIF-KYC-002` | KYC/KYB submission received | App, email optional | Important service |
+
+### 11.1A Receiving Info Events
+
+| ID | Event | Default Channels | Classification |
+| --- | --- | --- | --- |
+| `NOTIF-RCV-001` | Receiving Info profile added, updated, or archived | App, email optional | Important service |
+| `NOTIF-RCV-002` | Receiving Info profile under review, approved, or action required | App, push optional, email optional | Important service |
+| `NOTIF-RCV-003` | Effective destination changed for a linked request, bill, or rent | App, push optional | Important service |
+
+Receiving Info messages must use the approved user-facing readiness labels and must not imply bank validation. A payer sees only the destination selected for the relevant context. A linked payee notification may offer review and controlled save to `RECEIVING-INFO`, but it must not become a payee-approval gate or delay a payer-authorized payout.
+
+Where a payee changes the destination after payer acceptance, the resulting new request uses the normal request-created/received events and must not present the old accepted request as amended. A destination-attributable payout failure uses `NOTIF-POUT-004` and should notify the payer plus the linked PayPlus payee where applicable. Transient bank/rail failures must not create a Receiving Info `Action Required` notification unless the user can correct the destination.
 | `NOTIF-KYC-003` | KYC/KYB approved | App, email optional | Important service |
 | `NOTIF-KYC-004` | KYC/KYB requires action | App, push optional, email optional | Important service |
 | `NOTIF-KYC-005` | KYC/KYB rejected or suspended | App, email | Mandatory service |
@@ -328,6 +340,8 @@ KYC/KYB notifications that require user action should open `IDENTITY-VERIFICATIO
 ### 11.2 Request Events
 
 Request notifications are about request creation, delivery, viewing, acceptance, rejection, expiry, cancellation, reminders, sharing, and party-linking. A request notification is not a payment notification unless it separately references a linked payment event.
+
+Notification IDs are event-driven and do not define request lifecycle states. DOC-06A owns the canonical request lifecycle and role-facing labels; evidence, obligation readiness, linked case, payment, payout, and archive states remain in their owning domains.
 
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
@@ -434,6 +448,8 @@ Ordinary reminder events are governed by DOC-06C `BILLS-REMINDER-LIST` and `BILL
 | `NOTIF-POUT-005` | Payout held for review | App, email optional, dashboard task | Important service |
 
 Payout messages must not overpromise timing. They should align with the T+1 to T+3 upstream settlement and same-day-after-settlement payout baseline.
+
+`NOTIF-POUT-004` should route the payer to the relevant activity or bill/rent context. Where the payee is linked and the failure is destination-attributable, notify the payee and route to `RECEIVING-INFO-DETAILS` or `RECEIVING-INFO-SETUP` only when that profile requires user correction. Otherwise route to the relevant activity context.
 
 ### 11.7 Refund, Reversal, Dispute, and Chargeback Events
 
@@ -697,6 +713,8 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.21 | 2026-07-26 | Clarified that request notifications represent events and must not redefine request lifecycle, evidence, readiness, linked case, payment, payout, or archive states. |
+| 1.0.20 | 2026-07-23 | Added `RECEIVING-INFO` notification routing, profile lifecycle events, linked destination-change notification, destination-attributable payout-failure behavior, privacy limits, and no-payee-approval/no-delay boundary. |
 | 1.0.19 | 2026-07-22 | Added identity-verification, payment-passcode-settings, privacy-request, contact-change, and account-closure notification routing and events for the defined Me child routes. |
 | 1.0.18 | 2026-07-22 | Aligned account, security, privacy, receiving-destination, and archived-evidence notification destinations with DOC-06B `ME-ROOT`; defined `NOTIFICATION-SETTINGS` as the Me preference route while keeping it separate from the Inbox. |
 | 1.0.17 | 2026-07-21 | Aligned issued-reward notifications with canonical reward status labels and detail routing, and prohibited QR/code credentials, internal references, and internal risk reasons in notification content. |

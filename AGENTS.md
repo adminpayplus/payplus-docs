@@ -219,11 +219,21 @@ When the founder requests parallel agents, multi-agent drafting, a review swarm,
 
 The lead agent in the active task acts as Orchestrator / Integration Lead unless the founder appoints another owner. Do not create worktrees or begin parallel editing until the workflow's classification, ownership, baseline, and approval gates have been satisfied.
 
+### Prototype Design and Validation Workflow
+
+When the founder requests an interactive prototype, route prototype, wireframe implementation, UI proof of concept, or prototype review, read and apply `docs/00-foundation/payplus-prototype-design-validation-workflow.md`.
+
+Treat source documents as authoritative and the prototype as a visual or interaction aid. Do not introduce product behavior through prototype code alone. Return material product discoveries to the primary owning document, validate the prototype at the required functional and visual states, and obtain founder approval before committing it as a current reference.
+
 ### Documentation Change Integration and Commit Workflow
 
 For any material documentation change, read and apply `docs/00-foundation/payplus-document-change-integration-workflow.md` after the product decision and edit scope are accepted.
 
-The workflow requires the primary owner to be updated first, followed by an impact search and only necessary alignment of governing documents, product requirements, references, traceability, indexes, `AGENTS.md`, README files, and route diagrams. Complete its integrated review and pre-commit report before requesting commit approval.
+Before editing, prepare one task-level Change Impact Manifest covering the primary owner, superseded wording, potentially affected domain and parent documents, traceability, status/route registers, glossary, diagrams, prototypes, indexes, and deferred technical or AI layers. Use that manifest to perform one coordinated owner-first edit pass. Do not repeatedly rescan the whole repository after every individual file.
+
+The workflow requires the primary owner to be updated first, followed by only necessary alignment of governing documents, product requirements, references, traceability, indexes, `AGENTS.md`, README files, route diagrams, and current governed prototypes. When a child or module document changes materially, synchronize its parent overview, family status, route/requirement register, and acceptance coverage where affected. This rule applies to every modular document family, not only DOC-06.
+
+Complete one integrated validation pass and pre-commit report after the coordinated edits. Additional scans are required only when validation reveals a conflict, the scope changes, or a new founder decision is introduced.
 
 After every substantive documentation commit, update `docs/changelog/changelog.md` and `docs/decision-log/decisionlog.md` with the substantive commit identifier and actual delivered scope, then create the immediate records-only follow-up commit required by the workflow. Do not push or report completion before both commits exist. Records-only follow-up commits are exempt from self-referential recording unless they introduce another substantive decision.
 

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 0.6.2
+version: 0.6.3
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Payments Lead
   - Operations Lead
   - Finance Lead
-last_updated: 2026-07-21
+last_updated: 2026-07-26
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-11` |
 | **Title** | Refund, Cancellation & Chargeback |
-| **Version** | `0.6.2` |
+| **Version** | `0.6.3` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Operations |
 | **Reviewers** | Product Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Customer Support Lead<br>Engineering Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Operations Lead<br>Finance Lead |
-| **Last Updated** | `2026-07-21` |
+| **Last Updated** | `2026-07-26` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -184,22 +184,17 @@ DOC-11 uses the following case types:
 
 ## 7. Status Model
 
-Refund, cancellation, dispute, chargeback, and reversal cases should use clear status values.
+Refund, cancellation, dispute, chargeback, and reversal work must separate the case lifecycle from the operational action or outcome.
 
-| Status | Meaning |
+| Case Lifecycle State | Meaning |
 | --- | --- |
 | Open | Case created and awaiting initial review. |
 | Pending Information | Additional user, payee, partner, bank, or internal evidence is required. |
 | Under Review | Operations, Payments, Risk, Compliance, Finance, or Legal review is active. |
-| Approved | Case approved for cancellation, refund, reversal, payout hold, recovery, or other action. |
-| Rejected | Case rejected with reason and audit trail. |
-| Processing | Approved action submitted to PSP, bank, ledger, payout, or internal process. |
-| Completed | Confirmed by relevant system of record. |
-| Failed | Action failed and requires review or retry. |
-| Escalated | Routed to Risk, Compliance, Legal, Finance, partner, or senior operations. |
+| Resolved | A decision or required operational outcome has been reached and recorded. |
 | Closed | Case resolved with final outcome and evidence retained. |
 
-Status names may be refined in DOC-18 and DOC-22, but status meaning must remain traceable and auditable.
+Operational action or outcome states such as `Approved`, `Rejected`, `Processing`, `Completed`, `Failed`, or `Escalated` may be recorded against the relevant refund, reversal, chargeback, recovery, hold, or partner action. They must not be used as substitute case-lifecycle states. Final field and reason-code design belongs in DOC-18 and DOC-22.
 
 ---
 
@@ -208,14 +203,14 @@ Status names may be refined in DOC-18 and DOC-22, but status meaning must remain
 Before payer authorization:
 
 - payer may reject a payee-created request;
-- payer may raise a query, dispute, or support case through the approved exception path where enabled;
+- payer may raise a linked query, dispute, or support case through the approved exception path where enabled;
 - payee may withdraw a request;
 - admin may cancel, suspend, or hold a request;
 - no card payment should be processed;
 - no payout should be generated;
 - no refund should be required because funds have not moved.
 
-Pre-authorization rejection, query, dispute, support case, expiry, and withdrawal are product and support events, not payment refund events.
+Pre-authorization rejection, expiry, cancellation, withdrawal, and linked query/dispute/support-case events are not payment refund events. A linked case does not change the request lifecycle state.
 
 The request lifecycle belongs in DOC-05 and DOC-06. User-facing messages belong in DOC-07 and DOC-08.
 
@@ -234,7 +229,7 @@ Cancellation treatment depends on payment and payout status.
 
 | Stage | Rule |
 | --- | --- |
-| Before payer authorization | Request may be rejected, withdrawn, expired, disputed, or cancelled without funds movement. |
+| Before payer authorization | Request may be rejected, withdrawn, expired, or cancelled without funds movement. A query or dispute opens a linked case and may apply a separate hold. |
 | Deferred instruction before gateway submission | Pending instruction or pending funding leg may be cancelled or expire without refund, subject to audit and user notification. |
 | After authorization but before capture/completion | Cancellation may attempt void, reversal, or cancellation through PSP/acquirer where supported. |
 | After payment completion but before upstream settlement | Cancellation normally becomes refund or reversal handling, subject to PSP/acquirer capability. |
@@ -572,6 +567,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.6.3` | `2026-07-26` | Product Documentation Team | Established the canonical five-state case lifecycle, separated operational action/outcome states, and clarified that disputes and queries are linked cases rather than request lifecycle states. |
 | `0.6.2` | `2026-07-21` | Product Documentation Team | Linked authoritative reward restoration/reversal outcomes to canonical My Rewards Active/History status, including restored usable rewards returning to Active, and prohibited duplicate outcome application from uncertain or repeated callbacks. |
 | `0.3.0` | `2026-05-30` | Product Documentation Team | Aligned case handling with DOC-12 by adding evidence verification history, OCR/extracted field and user correction records, duplicate/reused evidence indicators, and verification-outcome linkage for refunds, disputes, chargebacks, payout holds, and recovery decisions. |
 | `0.4.0` | `2026-06-01` | Product Documentation Team | Aligned refund and chargeback treatment with DOC-13 by adding reward entitlement, coupon/voucher restoration, miles, membership benefit, external voucher, and promotion clawback references. |
