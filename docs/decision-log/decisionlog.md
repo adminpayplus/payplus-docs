@@ -684,3 +684,44 @@ Supersedes the single-map route documentation model.
 **Remaining Open Items**
 
 Future route families may receive detailed maps as their behavior becomes materially defined. Mermaid render automation remains optional until the repository adopts a supported validation toolchain.
+
+### `DEC-2026-016` - Pay+ Action Sheet And Request-Direction Boundary
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-27` |
+| Status | Accepted |
+| Primary owner | `DOC-06B`, Pay+ action-sheet behavior and route handoffs |
+| Affected documents | `DOC-01` to `DOC-09` where materially affected, `DOC-12`, `DOC-18`, `DOC-22`, route diagrams, route register, traceability matrix, open-questions register |
+| Substantive commit | `cd75183` |
+| Founder approval | Pay+ principles, request directions, alignment scope, and commit approved on `2026-07-27` |
+
+**Decision**
+
+`PAYPLUS-ACTION-SHEET` is a slide-up sheet, not an independent root route. Its five MVP icon-and-label actions use two rows: `Pay a Bill` and `Pay Rent` on the first row; `Add Bill / Rent`, `Continue Payment`, and `Request Payment` on the second.
+
+Pay+ `Request Payment` starts a payee-to-payer payment request through `REQUESTS-NEW`. A payer-to-payee request is a separate optional linking request initiated from an approved bill/rent detail or linking context. Acceptance may create shared visibility or communication but is not payment authorization and is not required for a direct payer-created obligation/payment.
+
+The sheet creates no business object by itself. Each action hands off to its owning route, which revalidates evidence, eligibility, risk, authorization, payment, and payout gates. Exact visual design remains open.
+
+**Rationale**
+
+The five-action arrangement reflects PayPlus's evidence-backed payment purpose while keeping common payment, setup, continuation, and payee-request actions accessible. Separating request directions prevents payer-created direct payments from being incorrectly gated by payee acceptance and prevents the Pay+ payment-request action from being mistaken for optional party linking.
+
+**Alternatives Considered**
+
+- Treating every payer-created payment as a request was rejected because a payer may create and pay an evidence-backed obligation without a linked PayPlus payee.
+- Combining payee-to-payer payment requests and payer-to-payee linking requests under one Pay+ action was rejected because their purpose and acceptance consequences differ.
+- Finalizing exact visual measurements and motion values now was deferred; only the accepted layout and interaction principles are fixed.
+
+**Consequences And Handoffs**
+
+`DOC-06C` owns Bills/rent selection and setup, `DOC-09` owns checkout and payment instructions, and `DOC-06B` owns request-route and Pay+ handoffs. `DOC-18` must define privacy-safe action-sheet events, while `DOC-22` must define controlled availability and audit behavior without changing action semantics or bypassing destination gates.
+
+**Supersedes / Superseded By**
+
+Supersedes active wording that treats a direct payer-created obligation/payment as a payer-created payment request. Historical revision records remain unchanged.
+
+**Remaining Open Items**
+
+Exact iconography, dimensions, spacing, blur strength, animation duration/easing, final styling, future added-button layout, technical event payloads, and final admin UI/permission design remain open.

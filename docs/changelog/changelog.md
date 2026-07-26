@@ -474,3 +474,41 @@ This append-only register records the documentation delivered by each substantiv
 - Final `DOC-18` schema, projection, event, lineage, and blocker-evaluation design.
 - Final `DOC-22` admin workflow, including restore-on-behalf controls and formal metadata.
 - Full Mermaid rendering was not run because Mermaid CLI is not installed locally; structural checks passed.
+
+### `2026-07-27` - Pay+ Action Sheet And Request-Direction Alignment
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `cd75183` |
+| Primary owner | `DOC-06B`, Pay+ action-sheet behavior and route handoffs |
+| Decision record | `DEC-2026-016` |
+| Founder approval | Pay+ principles, request directions, alignment scope, and commit approved on `2026-07-27` |
+
+**Files Changed**
+
+- `DOC-01` to `DOC-09` where materially affected, plus `DOC-12`, `DOC-18`, and `DOC-22`;
+- DOC-06 parent, route, Bills, and UX-acceptance family documents;
+- diagram index, app/Home/Instructions/Requests maps, and the new Pay+ action-sheet map;
+- open-questions register, requirements traceability matrix, and route register.
+
+**Material Changes**
+
+- Defined `PAYPLUS-ACTION-SHEET` as a slide-up sheet with five MVP actions arranged in two rows: `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, `Continue Payment`, and `Request Payment`.
+- Defined category-scoped Bills handoffs, readiness-aware setup completion, zero/one/many instruction routing, visible review-blocked instructions, return behavior, availability rules, duplicate prevention, reduced motion, and future admin controls.
+- Confirmed Pay+ `Request Payment` as a payee-to-payer payment-request entry.
+- Separated optional contextual payer-to-payee linking requests from payee-created payment requests and from direct payer-created obligations/payments.
+- Replaced active wording that incorrectly treated payer-created payment as a payer-created payment request.
+- Added the dedicated hierarchical Pay+ route map and aligned parent and route-family diagrams.
+
+**Checks Performed**
+
+- Staged only the 25 approved files and preserved unrelated workspace changes.
+- Verified active request-direction and payer-created-payment terminology.
+- Verified YAML and Document Control metadata parity for materially edited formal documents.
+- Checked route-register, traceability, open-question, notification, acceptance, data, and admin handoffs.
+- Ran `git diff --cached --check`; Mermaid structure passed, while full rendering remained unavailable because Mermaid CLI is not installed locally.
+
+**Remaining Open Items**
+
+- Exact Pay+ iconography, dimensions, spacing, blur strength, animation timing/easing, final styling, and future added-button layout.
+- Final DOC-18 event payloads and DOC-22 admin screen, permission, and implementation-field design.
