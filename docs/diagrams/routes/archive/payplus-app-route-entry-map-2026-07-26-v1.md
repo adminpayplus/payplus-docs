@@ -1,6 +1,8 @@
 # PayPlus App Product Destination and Navigation Transition Map
 
-Status: Discussion reference / IA alignment aid  
+> **Superseded snapshot:** This dated file preserves the former all-in-one route map for comparison only. It is non-authoritative and must not be used as the current route reference. Use the active hierarchical maps under `docs/diagrams/routes/` and the canonical `docs/traceability/route-register.md`.
+
+Status: Superseded / non-authoritative snapshot
 Owner: DOC-06B  
 Last updated: 2026-07-26
 
@@ -18,25 +20,31 @@ This diagram shows only how users enter major areas. It does not try to show eve
 
 ```mermaid
 flowchart TD
+  AUTHENTRY["AUTH-ENTRY<br/>Pre-login"]
+  AUTHENTRY --> AUTHLOGIN["AUTH-LOGIN<br/>Log In"]
+  AUTHENTRY --> AUTHREGISTER["AUTH-REGISTRATION<br/>Register"]
+  AUTHLOGIN -->|"Normal successful login"| HOME
+  AUTHREGISTER -->|"Normal completed registration"| HOME
+
   NAV["Bottom Navigation"]
 
-  NAV --> HOME["Home"]
+  NAV --> HOME["HOME-ROOT<br/>Home"]
   NAV --> BILLS["Bills"]
-  NAV --> PAYPLUS["Pay+"]
+  NAV --> PAYPLUS["PAYPLUS-ACTION-SHEET<br/>Pay+"]
   NAV --> OFFERS["Offers"]
   NAV --> ME["ME-ROOT<br/>Me"]
 
   HOME --> HNOTICE["Important Notice / Action Required"]
+  HOME --> HINBOX["NOTIFICATION-INBOX<br/>Inbox"]
   HOME --> HSHORTCUTS["Shortcut Grid<br/>8 MVP shortcuts"]
   HOME --> HFEATURED["Featured / What's New / Hot Offer"]
   HOME --> HUPCOMING["Upcoming Bills / Rent"]
   HOME --> HRECENT["Recent Activity"]
 
-  PAYPLUS --> PACTIONS["Pay+ Action Sheet"]
-  PACTIONS --> BPAY["BILLS-PAY<br/>Pay Bill / Fee or Pay Rent"]
-  PACTIONS --> BADD["BILLS-ADD<br/>Add Bill / Rent"]
-  PACTIONS --> INSTRUCTIONS["INSTRUCTIONS-ROOT<br/>Payment Instructions / Continue Payment"]
-  PACTIONS --> RNEW["REQUESTS-NEW<br/>Request Payment"]
+  PAYPLUS --> BPAY["BILLS-PAY<br/>Pay Bill / Fee or Pay Rent"]
+  PAYPLUS --> BADD["BILLS-ADD<br/>Add Bill / Rent"]
+  PAYPLUS --> INSTRUCTIONS["INSTRUCTIONS-ROOT<br/>Payment Instructions / Continue Payment"]
+  PAYPLUS --> RNEW["REQUESTS-NEW<br/>Request Payment"]
 
   HSHORTCUTS --> REQROOT["REQUESTS-ROOT<br/>Requests"]
   HSHORTCUTS --> INSTRUCTIONS
@@ -45,7 +53,7 @@ flowchart TD
   HSHORTCUTS --> REMINDERS["BILLS-REMINDER-LIST<br/>Reminders"]
   HSHORTCUTS --> PPROOT["PAYMENT-PROFILE-ROOT<br/>Cards / Payment Profile"]
   HSHORTCUTS --> REFERRAL["REFERRAL-ROOT<br/>Defined baseline"]
-  HSHORTCUTS --> MORE["More<br/>Shortcut management / overflow<br/>Route detail pending"]
+  HSHORTCUTS --> MORE["MORE-ROOT<br/>Shortcut management / overflow<br/>Route detail pending"]
 
   HRECENT --> ACTIVITYROOT["ACTIVITY-ROOT<br/>Activity"]
 
@@ -137,7 +145,7 @@ flowchart TD
   ISETUP --> BADD["BILLS-ADD<br/>if new bill/rent needed"]
   BADD --> ISETUPRETURN["Return to instruction setup<br/>with target selected"]
 
-  IDETAIL -->|"Pending: Pay Now"| CHECKOUT["DOC-09 checkout / review"]
+  IDETAIL -->|"Pending: Pay Now"| CHECKOUT["PAYMENT-CHECKOUT<br/>DOC-09 checkout / review"]
   IDETAIL -->|"Pending: Update Instruction"| ISETUP
   IDETAIL -->|"Choose / update card or profile"| PPROOT["PAYMENT-PROFILE-ROOT<br/>Payment Profile"]
   IDETAIL -->|"Pending: Cancel"| IARCHIVE["Cancelled / archived view"]
@@ -158,7 +166,7 @@ This diagram shows the Payment Profile route shell owned by DOC-06B, including t
 flowchart TD
   ENTRY1["Dashboard Cards shortcut"] --> PPROOT["PAYMENT-PROFILE-ROOT"]
   MEROOT["ME-ROOT"] --> PPROOT
-  CHECKOUT["DOC-09 checkout / review"] -->|"Add / change card or profile"| PPROOT
+  CHECKOUT["PAYMENT-CHECKOUT<br/>DOC-09 checkout / review"] -->|"Add / change card or profile"| PPROOT
   IDETAIL["INSTRUCTIONS-DETAIL"] -->|"Choose / update card or profile"| PPROOT
 
   PPROOT --> TABS["Two-tab route<br/>Cards / Profiles"]
@@ -190,7 +198,7 @@ flowchart TD
   DASHRECENT["Dashboard Recent Activity arrow"] --> AROOT["ACTIVITY-ROOT"]
   MEROOT["ME-ROOT<br/>Activity row"] --> AROOT
   ACTNOTIF["Payment / payout / refund / reversal notification"] --> ADETAIL["ACTIVITY-DETAIL"]
-  CHECKOUT["DOC-09 checkout / result"] --> ADETAIL
+  CHECKOUT["PAYMENT-CHECKOUT<br/>DOC-09 checkout / result"] --> ADETAIL
 
   AROOT --> AVIEWS["All / Paid / Received views"]
   AVIEWS --> AENTRY["Accounting-style activity entry"]
@@ -246,7 +254,7 @@ flowchart TD
   REWARDNOTIF["Reward notification"] -->|"Open referenced reward"| RDETAIL["REWARD-DETAIL<br/>Full-screen modal"]
   REWARDS -->|"Tap reward"| RDETAIL
   RDETAIL -. "Close; restore My Rewards state when origin" .-> REWARDS
-  CHECKOUT["DOC-09 checkout<br/>Card/profile then eligible rewards"] -->|"View reward details"| RDETAIL
+  CHECKOUT["PAYMENT-CHECKOUT<br/>Card/profile then eligible rewards"] -->|"View reward details"| RDETAIL
   RDETAIL -. "Close; preserve checkout without selection" .-> CHECKOUT
 
   ODETAIL -. "Referral-program action" .-> REFERRAL
@@ -260,7 +268,7 @@ flowchart TD
   REFLIST -. "View issued reward" .-> RDETAIL
   RDETAIL -. "Close; restore originating Referral context" .-> REFLIST
 
-  REFLINK["Referral deeplink / QR"] --> REGISTRATION["Registration / onboarding<br/>Code prefilled and not editable"]
+  REFLINK["Referral deeplink / QR"] --> REGISTRATION["AUTH-REGISTRATION<br/>Code prefilled and not editable"]
   REGISTRATION -. "Valid completed registration" .-> ATTRIBUTION["Referral attribution record<br/>DOC-13 / DOC-18"]
   ATTRIBUTION -. "Progress visible to referrer" .-> REFERRAL
 
@@ -307,7 +315,11 @@ flowchart TD
   RECEIVESETUP -. "Save / Cancel / originating-context return" .-> RECEIVELIST
   PAYMENTS --> AROOT["ACTIVITY-ROOT<br/>Payer and payee activity"]
   PAYMENTS --> RROOT["RECEIPTS-ROOT"]
-  PAYMENTS --> ARCHIVE["ARCHIVED-EVIDENCE-LIST<br/>Archived Documents"]
+  PAYMENTS --> ARCHIVE["ARCHIVED-ROOT<br/>Archived Records"]
+  ARCHIVE --> ARCHIVEBILLS["ARCHIVED-BILLS-LIST<br/>Archived Bills & Tenancies<br/>Detail pending"]
+  ARCHIVE --> ARCHIVEDOCS["ARCHIVED-DOCS-LIST<br/>Archived Documents"]
+  ARCHIVEDOCS --> ARCHIVEPREVIEW["Read-only document preview<br/>Route-local"]
+  ARCHIVEPREVIEW -. "View linked obligation<br/>when permitted" .-> BROOT
 
   BENEFITS --> REWARDS["REWARDS-ROOT"]
   BENEFITS -. "Hidden until defined and enabled" .-> MEMBERSHIP["Membership destination TBC"]
@@ -319,7 +331,7 @@ flowchart TD
   SUPPORT --> SUPROOT["SUPPORT-ROOT"]
   ABOUT --> ABOUTROOT["ABOUT-ROOT"]
   ABOUT --> TERMS["TERMS-ROOT"]
-  LOGOUT --> AUTH["Pre-logon / login<br/>Protected history cleared"]
+  LOGOUT --> AUTH["AUTH-ENTRY<br/>Protected history cleared"]
 
   RETURN["Child route closes or returns<br/>Restore Me position"] -.-> MROOT
 ```

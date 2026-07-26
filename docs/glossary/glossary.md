@@ -27,8 +27,9 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Bill / Fee Record | A user-facing obligation record for a bill, invoice, fee, or approved non-rent payment purpose. | DOC-06C |
 | Rent / Tenancy Record | A user-facing obligation record for rent supported by tenancy, rental, or other approved relationship evidence. | DOC-06C |
 | Evidence | A document or approved source proving or supporting an obligation. Evidence is not itself an obligation, request, or financial activity. | DOC-12 / DOC-06C |
-| Evidence Set | The active supporting evidence linked to one obligation, with retained prior versions where updates occur. | DOC-06C / DOC-12 |
+| Evidence Set | The current supporting evidence linked to one obligation, with retained prior versions where accepted updates occur. | DOC-06C / DOC-12 |
 | Evidence Status | The lifecycle or review condition of evidence, separate from bill/rent payment readiness. | DOC-12 / DOC-06C |
+| Previous Evidence Version | A retained, read-only evidence version superseded by an accepted newer version. It cannot be restored or promoted over the newer version. | DOC-06C / DOC-12 |
 | Payment Readiness | The user-facing condition showing whether an obligation is ready to pay, needs action, or remains under review. Evidence status may affect readiness but is not the same status. | DOC-06C |
 | Request | A payer-created or payee-created acceptance/linking request for an evidence-backed obligation context. A request is not a payment and does not authorize funds movement. | DOC-06A / DOC-06B |
 | Payee-Created Request | A request from a payee asking a payer to accept an evidence-backed obligation. Payer acceptance is required before payment can proceed from that request. | DOC-05 / DOC-06A |
@@ -70,7 +71,12 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Action Required | A user-facing readiness or resolution label indicating that the user must take a permitted action. It is not one universal backend status. | Relevant domain owner |
 | Under Review | A user-facing label indicating pending approved review without exposing internal risk, provider, fraud, or operational reasons. | Relevant domain owner |
 | Linked Case | A support, query, dispute, or exception case associated with a request, obligation, payment, payout, or evidence context. Its lifecycle is `Open`, `Pending Information`, `Under Review`, `Resolved`, or `Closed` and does not replace the linked object's lifecycle state. | DOC-11 |
-| Archived | A visibility/retention state that hides an item from normal active UI without hard-deleting the retained record. | Relevant domain owner / DOC-15 |
+| Archived | A visibility/history descriptor that hides an item from normal active UI without itself deciding hard deletion, retention expiry, or legal hold. | Relevant domain owner / DOC-15 |
+| Archived Records | `ARCHIVED-ROOT`, the Me route separating archived bill/fee and rent obligations from archived or previous evidence documents. | DOC-06B |
+| Archive Projection | A per-user visibility record that hides an obligation and its current linked evidence from that user's active views without changing the canonical obligation, counterparty visibility, party linkage, or completed history. | DOC-06B / DOC-06C / DOC-18 |
+| Archived Bills & Rent | `ARCHIVED-BILLS-LIST`, the mixed-role list of bill/fee and rent obligations archived by the current user. Invoice, tenancy, and rental documents remain evidence and are not duplicate obligations. | DOC-06C |
+| Archived Documents | `ARCHIVED-DOCS-LIST`, the controlled list of current evidence archived with its parent obligation and evidence versions replaced by an accepted newer version. | DOC-06B / DOC-12 |
+| Restore Eligibility | An archived-obligation rule indicating whether the parent bill/rent may return to active visibility. `Restore available` is an eligibility hint, not a lifecycle or readiness status, and restore is never offered at evidence level. | DOC-06C / DOC-18 |
 
 ## Promotion, Reward, and Referral Terms
 

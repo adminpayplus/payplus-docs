@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.14
+version: 0.1.17
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -31,7 +31,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.14` |
+| **Version** | `0.1.17` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
@@ -88,15 +88,16 @@ Example pattern:
 | Area | Source Doc | Test Readiness | Notes |
 | --- | --- | --- | --- |
 | Prohibited wallet/stored-value/cashout journeys | DOC-06 / DOC-06A | Ready for high-level blocked-flow criteria | Detailed tests later in DOC-20. |
-| Home dashboard layout | DOC-06B | Partial | Needs exact card behavior and UI detail. |
-| Pay+ action sheet | DOC-06B | Partial | Needs final visual order, disabled state, and action eligibility. |
+| Authentication entry routes | DOC-06B / DOC-15 / DOC-19 | Partial | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` plus normal/contextual success handoffs are testable; detailed screen, recovery, validation, and security behavior remains open. |
+| Home dashboard layout | DOC-06B | Partial | `HOME-ROOT` is assigned; exact card behavior and UI detail remain open. |
+| Pay+ action sheet | DOC-06B | Partial | `PAYPLUS-ACTION-SHEET` is assigned; final visual order, disabled state, and action eligibility remain open. |
 | BILLS-PAY / BILLS-RECEIVE role separation | DOC-06C | Partial to strong | Core role distinction is testable; visual detail remains open. |
 | Bills evidence sub-flow | DOC-06C / DOC-12 | Partial | UX flow is testable; verification logic depends on DOC-12/DOC-18. |
 | Bills activity sub-route | DOC-06C / DOC-09 / DOC-10 / DOC-11 | Partial to strong | Payment, payout/transfer, failure, return, refund, and reversal activity is testable; request and evidence lifecycle entries are explicitly excluded. |
 | Bills reminder route | DOC-06C / DOC-08 / DOC-09 | Partial to strong | Reminder list/detail behavior and separation from payment-instruction action alerts are testable; final visual design remains open. |
 | Requests route | DOC-06B / DOC-06A / DOC-06C / DOC-08 | Partial to strong | `REQUESTS-ROOT`, `REQUESTS-DETAIL`, and `REQUESTS-NEW`, canonical lifecycle states, role labels, event separation, evidence gate, linked-case boundary, and archive visibility are testable; final visual design and detailed operational limits remain open. |
 | Instructions route | DOC-06B / DOC-09 | Partial to strong | Pending versus incomplete cards/details, edit restrictions, actions, expiry, and checkout return are testable; final visual design remains open. |
-| Payment checkout handoff | DOC-06A / DOC-06C / DOC-09 | Partial | DOC-06 can test route handoff; DOC-09 owns checkout tests. |
+| Payment checkout handoff | DOC-06A / DOC-06C / DOC-09 | Partial | `PAYMENT-CHECKOUT` is assigned; DOC-06 can test route handoff and DOC-09 owns checkout tests. |
 | Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial to strong | Two-tab `Cards` / `Profiles` baseline, card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary are testable; final styling and tokenization behavior remain open. |
 | Global Activity route | DOC-06B / DOC-09 / DOC-10 / DOC-11 | Partial to strong | Accounting-style entries, role-aware direction/status, expansion, detail, document actions, and return behavior are testable; final visual density/search/grouping remain open. |
 | Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
@@ -104,6 +105,7 @@ Example pattern:
 | Referral route | DOC-06B / DOC-13 / DOC-15 | Strong human-readable baseline | Sharing, attribution, progress, role-sensitive entitlement list/detail/claim, canonical reward handoff, and privacy boundaries are testable; final visual design and campaign operations remain open. |
 | Me route | DOC-06B / DOC-06C / DOC-08 / DOC-10 / DOC-12 / DOC-15 / DOC-18 / DOC-19 / DOC-21 / DOC-22 | Strong for core account routes | Permanent `ME-ROOT`, Account Information, reusable Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, masking/reveal, contact changes, verification labels/actions, closure, trusted-device removal, privacy requests, protected export, return behavior, and failures are testable; provider/system mapping, technical security values, other Me children, and final visual design remain open. |
 | Receiving Info route | DOC-06B / DOC-10 / DOC-12 / DOC-14 / DOC-15 | Partial to strong | Multiple profiles, masked list/detail, passcode/reauthenticated full-value reveal and add/edit, proof/readiness, version/archive, destination snapshots, and origin return are testable; provider validation and final visual design remain open. |
+| Archived Records and Documents | DOC-06B / DOC-06C / DOC-12 / DOC-15 | Strong human-readable baseline | `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, archived read-only bill/rent detail mode, and `ARCHIVED-DOCS-LIST` route behavior are testable; final visual design and technical schema remain open. |
 
 ---
 
@@ -128,11 +130,14 @@ Example pattern:
 
 The DOC-06 user journey scope is satisfied when:
 
+- app launch without an approved session opens `AUTH-ENTRY`, where the user can choose `AUTH-LOGIN` or `AUTH-REGISTRATION`;
+- normal successful login or completed registration opens `HOME-ROOT`, while an approved protected or referral deeplink may resume its intended destination after authentication;
+- authentication failure does not expose protected route history and keeps the user in the applicable authentication flow with a permitted retry or recovery path;
 - payers can register and log in;
 - payees can register and log in;
 - phone verification, new-device 2FA, dormant-login reauthentication, and material-change confirmation touchpoints are represented;
-- payers have a dashboard;
-- payees have a dashboard;
+- payers have `HOME-ROOT` as their logged-in dashboard;
+- payees have `HOME-ROOT` as their logged-in dashboard;
 - payees can create evidence-backed payment requests;
 - payees can send payment requests to payers;
 - payers can receive and review payee-created requests;
@@ -176,11 +181,22 @@ The DOC-06 user journey scope is satisfied when:
 - payee destination change after request acceptance creates a new request and bill/rent record, while payer destination change does not require payee approval and notifies a linked payee;
 - payment authorization freezes the effective destination and a later change requires renewed payer authorization;
 - `RECEIVING-INFO` remains configuration and does not create another Activity route, wallet, balance, cashout feature, or payer-visible payee-profile directory;
-- `ARCHIVED-EVIDENCE-LIST`, labelled `Archived Documents`, exposes controlled archived/previous evidence access without becoming a general archive or hard-deleting evidence;
+- `ARCHIVED-ROOT` separates `ARCHIVED-BILLS-LIST` from `ARCHIVED-DOCS-LIST`, and the Archived Documents screen supports the defined search, filters, newest-first list, read-only preview, permitted download/link handoff, state preservation, and access/failure states;
+- `Archived` and `Previous version` remain history/visibility descriptors rather than evidence-processing statuses;
+- the sole current evidence linked to an active obligation cannot be archived independently; accepted replacement creates a non-restorable previous version;
+- `ARCHIVED-BILLS-LIST` uses one mixed-role newest-first list with Bill/Fee, Rent/Tenancy, Pay, Receive, and Restore available filters, and reuses bill/rent detail in archived read-only mode;
+- archived detail suppresses active actions, offers Restore only after current eligibility checks, and provides scoped archived-document and activity handoffs;
+- archiving a bill/rent archives its current linked evidence for the same user, while restoring an eligible obligation restores and revalidates that current evidence without restoring previous versions;
+- personal archive/restore does not alter the counterparty's view, linkage, canonical obligation, completed history, or retained snapshots;
+- unresolved reviews and active request/payment-instruction/funding/payment/payout/refund/dispute/chargeback/restriction/legal-hold dependencies block archive or restore as defined by their owners;
+- archive disables the user's linked reminders, while restore does not reactivate reminders, instructions, scheduled actions, or prior authorizations;
+- an expired obligation does not auto-archive, and an already-expired obligation manually archived by the user is non-restorable;
 - core Me account, security, privacy, support, legal, and logout controls cannot be hidden by ordinary placement configuration, while optional rows follow module and retained-record rules;
 - Me child-route return restores the prior Me position, while contextual entry from checkout, Instructions, notifications, or deeplinks returns to the originating context;
-- Log Out is the final Me action, ends the current session, clears protected route history, and returns to pre-logon/login without being treated as account closure;
-- More remains separate and governs dashboard shortcut management, reorder/arrangement, restore-default, overflow, and secondary services;
+- Log Out is the final Me action, ends the current session, clears protected route history, and returns to `AUTH-ENTRY` without being treated as account closure;
+- `MORE-ROOT` remains separate and governs dashboard shortcut management, reorder/arrangement, restore-default, overflow, and secondary services;
+- the Home Inbox icon opens `NOTIFICATION-INBOX`, while its items route to their owning destinations and notification preferences remain in `NOTIFICATION-SETTINGS`;
+- payment entry routes use `PAYMENT-CHECKOUT` for DOC-09 checkout behavior without turning Bills, Requests, Instructions, or Payment Profile into checkout owners;
 - saved split-card profiles and split-card checkout must observe the MVP maximum of 6 cards;
 - single-card checkout may preselect a default card while split-card checkout requires user selection of a payment profile;
 - payment status can be tracked;
@@ -236,6 +252,9 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.17 | 2026-07-26 | Added acceptance coverage for Archive hub/list behavior, archived read-only detail reuse, search/filters, blockers, personal visibility, restore revalidation, reminder effects, and obligation/evidence separation. |
+| 0.1.16 | 2026-07-26 | Added archive-family route, Archived Documents UI/access, evidence replacement/archive/restore, expiry, history-label, and non-restorable acceptance coverage. |
+| 0.1.15 | 2026-07-26 | Added test-readiness and acceptance coverage for `AUTH-ENTRY`, `AUTH-LOGIN`, `AUTH-REGISTRATION`, `HOME-ROOT`, `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, `NOTIFICATION-INBOX`, and `PAYMENT-CHECKOUT`. |
 | 0.1.14 | 2026-07-26 | Added acceptance coverage for the canonical request lifecycle, role labels, event/evidence/readiness/case/archive separation, and replaced the obsolete approved-for-payment request-state dependency. |
 | 0.1.13 | 2026-07-26 | Expanded route-family test readiness, added Bills Activity scope tests, aligned prominent sensitive reveal and material-change authentication, and confirmed ordinary permitted document viewing/download without an extra prompt. |
 | 0.1.12 | 2026-07-23 | Added acceptance coverage for multiple Receiving Info profiles, list/card/detail/setup behavior, masking and edit reveal, readiness/proof states, archive/versioning, destination snapshots, request replacement, linked-payee notification, and authorization freeze. |

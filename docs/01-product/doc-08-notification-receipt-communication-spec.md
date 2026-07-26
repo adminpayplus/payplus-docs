@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.21
+version: 1.0.24
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -42,7 +42,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.21` |
+| **Version** | `1.0.24` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
@@ -216,11 +216,13 @@ For DOC-06B dashboard placements:
 | --- | --- |
 | Important Notice / Action Required | May be backed by notification events, system announcements, dashboard-only tasks, or operational action items. User-facing priority, collapse, expiry, and routing rules belong in DOC-06B and DOC-22. |
 | Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
-| Inbox icon | May show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
+| Inbox icon | Opens `NOTIFICATION-INBOX`, which may show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
-Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, account/profile or closure action to `ACCOUNT-PROFILE`, identity action to `IDENTITY-VERIFICATION`, account-security action to `ACCOUNT-SECURITY` or `PAYMENT-PASSCODE-SETTINGS`, privacy/data action to `PRIVACY-DATA-CONTROLS`, receiving-information action to `RECEIVING-INFO`, `RECEIVING-INFO-DETAILS`, or `RECEIVING-INFO-SETUP`, archived-evidence access to `ARCHIVED-EVIDENCE-LIST`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required. `RECEIPT-DETAIL` and `STATEMENT-DETAIL` open the selected PDF in the shared in-app preview defined by DOC-06B.
+Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, account/profile or closure action to `ACCOUNT-PROFILE`, identity action to `IDENTITY-VERIFICATION`, account-security action to `ACCOUNT-SECURITY` or `PAYMENT-PASSCODE-SETTINGS`, privacy/data action to `PRIVACY-DATA-CONTROLS`, receiving-information action to `RECEIVING-INFO`, `RECEIVING-INFO-DETAILS`, or `RECEIVING-INFO-SETUP`, archive-area access to `ARCHIVED-ROOT`, archived-obligation access to `ARCHIVED-BILLS-LIST`, archived/previous evidence access to `ARCHIVED-DOCS-LIST`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required. `RECEIPT-DETAIL` and `STATEMENT-DETAIL` open the selected PDF in the shared in-app preview defined by DOC-06B.
 
 Promotion-discovery notifications should route to the relevant `OFFER-DETAIL`, or to `OFFERS-ROOT` only when no specific offer exists. Issued-reward notifications should route to `REWARDS-ROOT` or the relevant `REWARD-DETAIL`, using user-facing labels from the status-display reference matrix. Notifications must not contain a redeemable QR, full partner/redemption code, secret, internal reference, or internal risk reason. Referral attribution or qualification notifications should route to `REFERRAL-ROOT`; a referrer or referee entitlement-availability notification should route to `REFERRAL-REWARDS-LIST` or the relevant `REFERRAL-ENTITLEMENT-DETAIL`; an issued, reversed, or administrator-held reward notification should route to the canonical `REWARD-DETAIL` where a specific instrument exists. Notifications must not open `REFERRAL-REWARD-CLAIM` directly. Claim-deadline reminders are not required for MVP. A share-sheet action, copied link, or displayed QR is not an invitation delivery event and must not notify an unknown recipient. The notification record should preserve its source and target context without requiring a DOC-06B entry-point ID. Notification routing must not turn `BILLS-PAY` into an Offers sub-route.
+
+A user's personal archive or restore of a bill/rent is a visibility action and does not create a counterparty notification by itself. Existing payment, payout, evidence, risk, request, or legal events continue to notify only under their own event rules.
 
 DOC-06B `ACTIVITY-ROOT` may expose direct receipt/proof download actions from an expanded activity card where the file is available and the user has permission. DOC-06B `ACTIVITY-DETAIL` may also expose direct receipt/proof download actions. If receipt/proof is unavailable, the button should be hidden by default or disabled only where useful with clear, non-sensitive wording. Invoice/evidence buttons should be hidden where access is not permitted. DOC-08 owns the communication, delivery, file-availability, and receipt/proof wording rules; DOC-15 owns masking and access boundaries.
 
@@ -586,7 +588,7 @@ Notifications must avoid unnecessary sensitive data.
 
 Users should be able to manage optional notification preferences where permitted.
 
-DOC-06B `ME-ROOT` opens `NOTIFICATION-SETTINGS` for these controls. Notification Settings is separate from the Inbox: the Inbox displays messages, while `NOTIFICATION-SETTINGS` manages permitted preferences. Language and Theme are separate Me preferences and do not change notification-domain ownership.
+DOC-06B `ME-ROOT` opens `NOTIFICATION-SETTINGS` for these controls. Notification Settings is separate from `NOTIFICATION-INBOX`: the Inbox displays messages, while `NOTIFICATION-SETTINGS` manages permitted preferences. Language and Theme are separate Me preferences and do not change notification-domain ownership.
 
 Preference controls may include:
 
@@ -713,6 +715,9 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.24 | 2026-07-26 | Confirmed that personal bill/rent archive and restore do not create counterparty notifications and remain separate from domain notification events. |
+| 1.0.23 | 2026-07-26 | Replaced the obsolete archived-evidence destination with `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` routing references without adding notification events. |
+| 1.0.22 | 2026-07-26 | Assigned `NOTIFICATION-INBOX` as the stable Inbox destination while preserving DOC-08 notification-content ownership and the separate `NOTIFICATION-SETTINGS` preference route. |
 | 1.0.21 | 2026-07-26 | Clarified that request notifications represent events and must not redefine request lifecycle, evidence, readiness, linked case, payment, payout, or archive states. |
 | 1.0.20 | 2026-07-23 | Added `RECEIVING-INFO` notification routing, profile lifecycle events, linked destination-change notification, destination-attributable payout-failure behavior, privacy limits, and no-payee-approval/no-delay boundary. |
 | 1.0.19 | 2026-07-22 | Added identity-verification, payment-passcode-settings, privacy-request, contact-change, and account-closure notification routing and events for the defined Me child routes. |

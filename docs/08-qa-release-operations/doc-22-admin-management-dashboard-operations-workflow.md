@@ -24,9 +24,9 @@ Required items to be updated include:
 
 - review evidence submitted from `BILLS-EVIDENCE-UPLOAD`;
 - view the current active evidence set from `BILLS-EVIDENCE-DETAIL`;
-- assign or override evidence status, including `Pending Review`, `Accepted`, `Correction Needed`, `Update Needed`, `Rejected`, `Duplicate Suspected`, and `Archived`;
+- assign or override evidence-processing status, including `Pending Review`, `Accepted`, `Correction Needed`, `Update Needed`, `Rejected`, and `Duplicate Suspected`; archive visibility and previous-version history must remain separate;
 - capture reason codes, reviewer identity, timestamp, and affected bill/rent readiness status;
-- manage archive-not-delete behavior and controlled access to prior evidence versions;
+- manage archive-not-delete behavior, per-user archive projections, parent-obligation archive/restore eligibility and blockers, non-restorable previous versions, expired non-restorable archives, retention disposition, and controlled access to prior evidence versions without mutating the counterparty projection or canonical obligation;
 - route status changes to DOC-08 notifications or dashboard-only action items where applicable;
 - audit all evidence view, status-change, archive, override, and sensitive-field reveal actions.
 
@@ -240,7 +240,13 @@ Required controls include:
 - distinguish destination-attributable payout failures from transient bank, rail, provider, or system failures;
 - support linked-payee destination-change notifications and optional controlled save-to-Receiving-Info without adding payee approval or payout delay;
 - audit profile add, edit, version, archive, proof submission, review, status change, destination selection, snapshot creation, destination difference acknowledgement, linked-party notification, and payer reauthorization;
-- support controlled archived/previous evidence access and audit under DOC-06C, DOC-12, DOC-15, and DOC-18;
+- support `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` operational handoffs without merging obligation archive, evidence processing, payment readiness, or retention disposition;
+- prevent standalone archive of the sole current evidence linked to an active obligation;
+- preserve accepted replacement lineage, mark prior versions non-restorable, project current evidence into Archived Documents whenever its parent obligation is archived, and recheck evidence validity when an eligible archived obligation is restored;
+- distinguish obligations archived while eligible for later restore from already-expired obligations that are manually archived and non-restorable;
+- keep archive/restore user-scoped, prevent it from cancelling or releasing active request/payment/payout/refund/dispute/risk/legal processes, and audit the blocker or override reason;
+- define admin restore-on-behalf permission, reason, approval, user-notice, and audit rules in the full DOC-22 before enabling that capability; the product route baseline does not grant it implicitly;
+- support controlled archived/previous evidence access, denial, legal hold, retention, and disposition audit under DOC-06C, DOC-12, DOC-15, and DOC-18;
 - audit sensitive reveal, account/profile changes, privacy requests, receiving-destination changes, optional-row configuration, and account restriction or closure operations;
 - preserve the separate More boundary for dashboard shortcut management, reorder/arrangement, restore-default, overflow, and secondary services.
 
@@ -286,6 +292,8 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.14.0 | 2026-07-26 | Added future per-user archive-projection, archived-obligation blocker/eligibility, current-evidence cascade, canonical-record protection, and operational audit requirements; admin restore-on-behalf remains to be defined in the full DOC-22. |
+| 0.13.0 | 2026-07-26 | Added future archive-family controls, separate archive/history descriptors, sole-current-evidence protection, parent archive/restore, non-restorable expiry/history, access, retention, and audit requirements. |
 | 0.12.0 | 2026-07-26 | Added future admin requirements separating canonical request lifecycle, role projections, events, evidence, readiness, linked cases, payment/payout status, and archive visibility, plus the canonical linked-case lifecycle. |
 | 0.11.0 | 2026-07-23 | Added future Receiving Info method configuration, profile/proof review, readiness, version/archive, snapshot separation, payout-failure classification, linked notification, save invitation, and audit requirements. |
 | 0.10.0 | 2026-07-22 | Added future operations markers for identity-provider exceptions, support-assisted recovery, cross-channel contact changes, privacy-request queues, protected exports, account-closure blockers/finality, trusted-device revocation, and optional-versus-mandatory privacy controls. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 0.7.2
+version: 0.7.3
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -43,7 +43,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-10` |
 | **Title** | Payout & Reconciliation |
-| **Version** | `0.7.2` |
+| **Version** | `0.7.3` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Finance |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -147,6 +147,8 @@ A payout may proceed only when all required checks pass.
 | Amount | Payout amount must match approved obligation, funded portion, fee, adjustment, partial payout, and ledger rules. |
 | Selected transfer date | Payout must respect selected payee transfer date where set and valid. |
 | Duplicate prevention | Payout item must not have been paid already. |
+
+A user must not archive or restore an obligation while an active payout, payout hold, reconciliation exception, or unresolved payout-dependent operation materially relies on it. A later personal archive/restore must not cancel, redirect, duplicate, or rewrite payout and destination snapshots, and it must not change completed payout or reconciliation history.
 
 Failed checks should route to pending, held, or exception status with an audit trail.
 
@@ -677,6 +679,7 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.7.3 | 2026-07-26 | Confirmed payout and reconciliation blockers for obligation archive/restore and preserved payout, destination, and completed-history snapshots across personal archive visibility changes. |
 | 0.7.2 | 2026-07-26 | Replaced ambiguous request-status payout gating with the canonical payee-created request lifecycle and separate linked-case/hold controls, while preserving payer-created no-request payment. |
 | 0.7.1 | 2026-07-26 | Required passcode or approved reauthentication for full Receiving Info reveal and add/edit while retaining confirmation for archive and stronger risk/provider step-up where applicable. |
 | 0.7.0 | 2026-07-23 | Replaced the singular payout-destination model with multiple optional Receiving Info profiles, readiness and proof rules, versioned context snapshots, payee-request and payer-change behavior, linked-payee notifications, destination-attributable failure treatment, and authorization-time destination freeze. |

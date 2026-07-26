@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 0.6.3
+version: 0.6.4
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -48,7 +48,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-11` |
 | **Title** | Refund, Cancellation & Chargeback |
-| **Version** | `0.6.3` |
+| **Version** | `0.6.4` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Operations |
 | **Reviewers** | Product Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Customer Support Lead<br>Engineering Lead |
@@ -370,6 +370,8 @@ Detailed chargeback deadlines, reason-code mapping, representment workflow, and 
 
 Refund, dispute, chargeback, fraud, risk, or operational cases may require payout hold before funds are released.
 
+Where an active refund, dispute, chargeback, recovery, or linked case materially depends on an obligation, user archive or restore must be unavailable until the case resolves or the owning operational rule explicitly permits it. Archive visibility never closes the case, removes its evidence, releases a hold, or alters completed payment/payout history.
+
 Payout hold is required or recommended where:
 
 - payment is not settled or settlement-ready;
@@ -567,6 +569,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.6.4` | `2026-07-26` | Product Documentation Team | Aligned obligation archive/restore blockers with active refund, dispute, chargeback, recovery, and linked-case handling without changing case lifecycle or completed history. |
 | `0.6.3` | `2026-07-26` | Product Documentation Team | Established the canonical five-state case lifecycle, separated operational action/outcome states, and clarified that disputes and queries are linked cases rather than request lifecycle states. |
 | `0.6.2` | `2026-07-21` | Product Documentation Team | Linked authoritative reward restoration/reversal outcomes to canonical My Rewards Active/History status, including restored usable rewards returning to Active, and prohibited duplicate outcome application from uncertain or repeated callbacks. |
 | `0.3.0` | `2026-05-30` | Product Documentation Team | Aligned case handling with DOC-12 by adding evidence verification history, OCR/extracted field and user correction records, duplicate/reused evidence indicators, and verification-outcome linkage for refunds, disputes, chargebacks, payout holds, and recovery decisions. |

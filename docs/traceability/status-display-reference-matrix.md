@@ -149,7 +149,8 @@ The following domains already have human-readable status requirements or explici
 | Request Lifecycle | Canonical states and role-facing labels are defined in the Request Lifecycle mapping above. Events, evidence processing, obligation readiness, linked cases, payment/payout status, and archive visibility are separate. | DOC-06A, DOC-06B, DOC-06C, DOC-08, DOC-18 |
 | Bill / Rent Readiness | `Ready to Pay`, `Action Required`, and `Under Review`. `Paid` / `Received` are payment outcomes; `Archived` is visibility; due-state display is date-derived. | DOC-06C, DOC-12, DOC-14, DOC-18 |
 | Payment Instruction Lifecycle | Pending instruction, incomplete instruction, expired, cancelled, and archived. Payment-instruction action alerts are not ordinary bill/rent reminder records. | DOC-06B, DOC-09, DOC-18 |
-| Evidence Lifecycle | `Not Provided`, `Pending Review`, `Accepted`, `Correction Needed`, `Update Needed`, `Rejected`, `Duplicate Suspected`, and `Archived`. Evidence status may affect obligation readiness but is not payment activity. | DOC-06C, DOC-12, DOC-18, DOC-22 |
+| Evidence Lifecycle | `Not Provided`, `Pending Review`, `Accepted`, `Correction Needed`, `Update Needed`, `Rejected`, and `Duplicate Suspected`. Evidence status may affect obligation readiness but is not payment activity or archive visibility. | DOC-06C, DOC-12, DOC-18, DOC-22 |
+| Obligation Archive and Evidence History | `Archived` is an obligation/document visibility label; `Previous version` is evidence history created after accepted replacement. Neither is an evidence-processing status. Restore eligibility belongs to the archived obligation and is not offered on evidence. | DOC-06B, DOC-06C, DOC-12, DOC-15, DOC-18 |
 | Promotion Eligibility and Quote Lifecycle | Eligible, selected, applied, reserved, recalculated, released, or rejected before or during checkout. Issued reward-instrument display uses the MVP mapping above. | DOC-09, DOC-13, DOC-18, DOC-22 |
 | Referral Qualification Lifecycle | `In Progress`, `Qualified`, `Not Qualified`, `Under Review`. These labels belong to attributed-referee progress in `REFERRAL-ROOT`. | DOC-06B, DOC-13, DOC-18, DOC-22 |
 | Referral Reward Presentation | `Available to Claim`, `Issued`, `Expired`, `Reversed`. Entitlement presentation does not create a referral-only issued-instrument status family. `Processing` is transient/internal. A held claim record may remain inactive in Referral History as `Under Review`, while the canonical issued instrument follows the Reward Instrument Lifecycle mapping above. | DOC-06B, DOC-13, DOC-18, DOC-22 |
@@ -163,3 +164,16 @@ The following domains already have human-readable status requirements or explici
 Activity detail may show system lifecycle milestones, but user-facing labels must follow this matrix or the future DOC-18 canonical mapping. For example, the detail may preserve backend milestones such as payment authorization, payment completion, settlement readiness, payout completion, refund, reversal, return, or failure, but the status displayed to payer/payee must use the mapped user-facing label.
 
 `BILLS-ACTIVITY` is limited to payment and related payout/transfer, failure, return, refund, and reversal events for one obligation. Request and evidence lifecycle events must not be inserted into that activity route merely because they relate to the same bill/rent/tenancy record.
+
+## Obligation Archive and Evidence History - MVP Display Mapping
+
+| Record / Condition | User-Facing Label | Appears In | Mapping Rule |
+| --- | --- | --- | --- |
+| Bill/rent manually archived | `Archived` | `ARCHIVED-BILLS-LIST` | A per-user visibility label. The current linked evidence, where one exists, appears in the same user's `ARCHIVED-DOCS-LIST`; counterparty visibility and canonical records remain unchanged. |
+| Current evidence replaced by an accepted newer version | `Previous version` | `ARCHIVED-DOCS-LIST` | Historical and non-restorable; it cannot replace the newer accepted version. |
+| Evidence inherited from an archived obligation | `Archived` | `ARCHIVED-DOCS-LIST` | Visibility/history descriptor only; preserve the retained verification outcome separately. |
+| Archived obligation eligible for restore from its archive-time class and not blocked by a current operational condition | `Restore available` | `ARCHIVED-BILLS-LIST` and archived detail | Eligibility hint, not a lifecycle or readiness status. Later evidence expiry does not remove the hint; revalidation after restore may produce `Action Required` or `Under Review`. Where restore is unavailable, show a neutral reason only in detail rather than a `Cannot be restored` label. |
+| Eligible archived obligation restored | No archive label in active Bills views | Bills detail / readiness surface | Restore its last current evidence and re-evaluate validity, expiry, verification, recipient, compliance, and risk before projecting readiness. |
+| Already-expired obligation manually archived | `Archived` | `ARCHIVED-BILLS-LIST`; linked evidence in `ARCHIVED-DOCS-LIST` | Non-restorable. Expiry alone does not auto-archive an obligation. |
+
+The sole current evidence linked to an active bill/rent cannot be archived independently. Missing, pending, rejected, expired, or update-required evidence uses the evidence-processing and obligation-readiness mappings rather than an archive label.

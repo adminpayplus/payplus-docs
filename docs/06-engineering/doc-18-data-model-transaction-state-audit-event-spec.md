@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.12
+version: 0.4.14
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -38,7 +38,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `0.4.12` |
+| **Version** | `0.4.14` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
@@ -163,7 +163,7 @@ DOC-18 should define logical structures for at least the following object famili
 - account-closure request, blocker, cancellation, and finalization record;
 - Receiving Info profile, profile version, proof reference, and readiness history;
 - request, obligation, payment, and payout destination snapshot with source reference;
-- archived-evidence access reference;
+- canonical obligation and evidence records separate from per-user archive visibility projections, including archive record, actor/user, role context, archive reason/origin, restore eligibility and blocker reason, archived-obligation reference, current-evidence archive projection, evidence-version history, and archived-document access reference;
 - dashboard shortcut configuration;
 - user shortcut preference;
 - dashboard placement exposure;
@@ -208,7 +208,7 @@ PayPlus should define event families before implementation.
 | Event Family | Examples |
 | --- | --- |
 | Account events | registration, login, logout, new-device login, dormant reauthentication, material-change reauthentication attempted/completed/failed, contact change initiated/verified/completed/failed, credential or identity change, Me opened, account/security/privacy destination selected, identity-verification opened/returned/status refreshed, sensitive reveal attempted/completed/failed, action-required item opened, payment-passcode preference changed, trusted-device removed, session revoked, language/theme changed, privacy request submitted/status changed/completed/failed, protected export issued/opened/expired, account closure requested/blocked/cancelled/finalized. |
-| Evidence events | upload started, upload submitted, OCR processed, field extracted, user corrected, verification passed, mismatch found, duplicate detected, status changed, evidence snapshot finalized, evidence version created, evidence archived. |
+| Evidence and archive events | upload started, upload submitted, OCR processed, field extracted, user corrected, verification passed, mismatch found, duplicate detected, status changed, evidence snapshot finalized, replacement submitted/accepted/rejected, evidence version created, previous version recorded, archive eligibility checked, obligation archive attempted/completed/blocked, per-user archive projection created, current evidence projected into archive, restore attempted/completed/blocked, current evidence revalidated, archived-root/list opened/searched/filtered, archived detail opened, version viewed/downloaded/denied/unavailable. |
 | Request events | draft created, updated, creation started, existing bill/rent selected, submitted, evidence gate entered, evidence gate passed, evidence verified and auto-sent, sent/delivered, shared, viewed, reminded, accepted, rejected with reason, expired, cancelled, resent/recreated, parties linked, archived, restored. |
 | Participant-linking events | invitation created, app link generated, QR link generated, WhatsApp deeplink generated, invitation sent, viewed, accepted, declined, expired, linking completed, linking revoked. |
 | Payment events | quote created, quote revalidated, instruction created, funding leg created, authorization attempted, authorized, failed, captured, payment completed. |
@@ -376,7 +376,7 @@ Sections 4 through 10 define the current baseline for PayPlus data objects, life
 | OQ-18-005 | What aggregation thresholds and output controls are required before partner reporting or clean-room collaboration? | Data / Privacy / Legal | High | Open |
 | OQ-18-006 | What model registry, feature registry, monitoring, and audit-event structure should be required before AI/model-assisted decisioning? | Data / Engineering / Risk | High | Open |
 | OQ-18-007 | Which model features or derived signals are prohibited from marketing, partner reporting, insurance-related targeting, credit scoring, or external activation? | Privacy / Legal / Risk | High | Open |
-| OQ-18-008 | What final data objects, fields, events, lineage, and audit records should support DOC-06C evidence detail/upload routes, one active evidence set, evidence versioning, archive-not-delete behavior, and evidence-status-to-readiness changes? | Engineering / Data / Product / Risk | High | Open |
+| OQ-18-008 | What final objects, fields, version lineage, per-user archive projection, role context, archive reason/origin, restore-eligibility/blocker rule, access projection, events, and audit records should support one current evidence set, accepted replacement, non-restorable previous versions, parent-obligation archive/restore, expired non-restorable archives, `ARCHIVED-BILLS-LIST`, `ARCHIVED-DOCS-LIST`, and evidence-to-readiness changes without mutating the canonical obligation or counterparty projection? | Engineering / Data / Product / Risk / Privacy | High | Open |
 | OQ-18-009 | What final physical fields, projections, reason codes, correlation IDs, idempotency rules, and audit records should implement the confirmed separation of request lifecycle, role-facing labels, request events, evidence status, obligation readiness, linked case lifecycle, archive visibility, and payment/payout records for DOC-06A/DOC-06B/DOC-06C request flows? | Engineering / Data / Product / Privacy / Operations | High | Open |
 | OQ-18-010 | What final referral identifiers, deeplink/QR token contract, attribution idempotency, qualification event mapping, entitlement/claim linkage, masking projection, correction controls, and audit records should implement the DOC-06B/DOC-13 Referral baseline? | Engineering / Data / Product / Privacy / Growth / Risk | High | Open |
 | OQ-18-011 | What final reward-instrument schema, state mapping, credential-reference model, checkout/partner linkage, idempotency keys, unknown-result recovery, and field-level representation should implement the separate reward dimensions and lifecycle defined in DOC-13? | Engineering / Data / Product / Growth / Privacy / Operations | High | Open |
@@ -412,6 +412,8 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.4.14 | 2026-07-26 | Product Documentation Team | Added canonical-obligation versus per-user archive-projection separation, archived-list/detail/eligibility events, blocker reasons, current-evidence projection, and counterparty-safe restore requirements. |
+| 0.4.13 | 2026-07-26 | Product Documentation Team | Added future archive-family, evidence-version lineage, archive-origin/restore-eligibility, parent archive/restore, access recheck, and archived-document audit requirements. |
 | 0.4.12 | 2026-07-26 | Product Documentation Team | Added future canonical data separation for request lifecycle, role projections, request events, evidence status, obligation readiness, linked cases, archive visibility, and payment/payout linkage without one overloaded status field. |
 | 0.4.11 | 2026-07-26 | Product Documentation Team | Added material-change and Receiving Info reveal/authentication event markers, clarified evidence/request/obligation/payment linkage, and limited the user-facing Bills Activity projection to payment-related transaction events. |
 | 0.4.10 | 2026-07-23 | Product Documentation Team | Added future Receiving Info profile/version/proof/readiness, destination-snapshot, source-reference, visibility, linked-notification, authorization-freeze, failure, and audit requirements. |

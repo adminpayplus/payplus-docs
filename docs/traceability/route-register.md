@@ -19,6 +19,14 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 
 | Destination | Parent | Type | Purpose | Primary Owner | Status |
 | --- | --- | --- | --- | --- | --- |
+| `AUTH-ENTRY` | App launch / logout | Unauthenticated root screen | Provide the pre-login choice to Log In or Register. | DOC-06B | Partially defined |
+| `AUTH-LOGIN` | `AUTH-ENTRY` / protected deeplink | Child authentication flow | Authenticate an existing user and establish an approved session. | DOC-06B / DOC-19 | Partially defined |
+| `AUTH-REGISTRATION` | `AUTH-ENTRY` / referral or approved deeplink | Child registration/onboarding flow | Create an account and complete required registration gates. | DOC-06B / DOC-15 | Partially defined |
+| `HOME-ROOT` | Successful authentication / bottom navigation: Home | Root screen | Open the task-first logged-in dashboard. | DOC-06B | Partially defined |
+| `PAYPLUS-ACTION-SHEET` | Bottom navigation: Pay+ | Sheet / modal | Start or continue approved PayPlus payment, setup, instruction, or request journeys. | DOC-06B | Partially defined |
+| `MORE-ROOT` | Dashboard shortcut: More | Root screen | Manage dashboard shortcuts and access approved secondary services. | DOC-06B | Partially defined |
+| `NOTIFICATION-INBOX` | Home header / approved notification context | Utility route | List notification-backed messages, announcements, support replies, and action items. | DOC-06B / DOC-08 | Partially defined |
+| `PAYMENT-CHECKOUT` | Bills, Instructions, Requests, or approved payment entry | Flow / screen group | Review payment method, eligible benefits, quote, authorization, and submission. | DOC-09 | Partially defined |
 | `BILLS-ROOT` | Bottom navigation: Bills | Root screen | Open the Bills area and its payer/payee views. | DOC-06C | Defined baseline |
 | `BILLS-PAY` | `BILLS-ROOT` | Tab / view | Manage obligations the user needs or expects to pay. | DOC-06C | Defined baseline |
 | `BILLS-RECEIVE` | `BILLS-ROOT` | Tab / view | Manage payee-created obligations and requests the user expects to receive. | DOC-06C | Defined baseline |
@@ -70,21 +78,17 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `RECEIVING-INFO-LIST` | `RECEIVING-INFO` | Initial screen | List saved receiving-information profiles. | DOC-06B | Defined baseline |
 | `RECEIVING-INFO-DETAILS` | `RECEIVING-INFO-LIST` | Child screen | View one masked profile and its readiness/actions. | DOC-06B | Defined baseline |
 | `RECEIVING-INFO-SETUP` | Receiving Info / request context | Child flow | Add or edit one receiving-information profile. | DOC-06B | Defined baseline |
-| `ARCHIVED-EVIDENCE-LIST` | `ME-ROOT` | Child route | Access archived and previous evidence under controlled permissions. | DOC-06B | Partially defined |
+| `ARCHIVED-ROOT` | `ME-ROOT` | Child root route | Enter Archived Bills & Rent or Archived Documents. | DOC-06B | Defined baseline |
+| `ARCHIVED-BILLS-LIST` | `ARCHIVED-ROOT` | Child list screen | Search, filter, and review the user's archived bill/fee and rent obligations, then open archived read-only bill/rent detail. | DOC-06C | Defined baseline |
+| `ARCHIVED-DOCS-LIST` | `ARCHIVED-ROOT` | Child list screen | Search, filter, preview, and download permitted archived or previous evidence documents. | DOC-06B | Defined baseline |
 | `NOTIFICATION-SETTINGS` | `ME-ROOT` | Child route | Manage permitted communication preferences. | DOC-08 | Partially defined |
 | `SUPPORT-ROOT` | `ME-ROOT` / contextual failures | Root route | Access support and issue-specific assistance. | DOC-06B / DOC-21 | Partially defined |
 | `ABOUT-ROOT` | `ME-ROOT` | Child route | Show PayPlus product and app information. | DOC-06B | Partially defined |
 | `TERMS-ROOT` | `ME-ROOT` | Child route | Access applicable terms and policies. | DOC-06B / DOC-07 | Partially defined |
 
-## Visible Product Areas Without Final Destination IDs
+## Assigned Destinations Requiring Further Definition
 
-| Area | Current Classification | Owner | Status / Required Work |
-| --- | --- | --- | --- |
-| Home dashboard | Bottom-navigation destination / screen | DOC-06B | Route ID open; dashboard content baseline defined. |
-| Pay+ | Bottom-navigation action opening a sheet, not a root route | DOC-06B | Sheet ID and final behavior detail open. |
-| More | Shortcut-management and secondary-services area | DOC-06B | Stable destination type/ID and detailed UI open. |
-| Notification Inbox | Header utility destination | DOC-06B / DOC-08 | Stable route ID and list/detail behavior open. |
-| Checkout / Payment | Payment flow owned outside the DOC-06 route family | DOC-09 | Stable product destination IDs and detailed UI remain to be defined in DOC-09 with DOC-06 handoff alignment. |
+All currently identified product areas now have stable destination IDs. `AUTH-ENTRY`, `AUTH-LOGIN`, `AUTH-REGISTRATION`, `HOME-ROOT`, `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, `NOTIFICATION-INBOX`, and `PAYMENT-CHECKOUT` remain partially defined and must receive detailed route or screen behavior before their applicable acceptance scope is complete. The Archive route family has a defined human-readable behavior baseline; final visual design and technical implementation remain open.
 
 ## Maintenance Rules
 

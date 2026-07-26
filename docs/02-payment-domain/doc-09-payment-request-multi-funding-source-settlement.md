@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.9
+version: 1.0.12
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -44,7 +44,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Request, Multi-Funding Source & Settlement |
-| **Version** | `1.0.9` |
+| **Version** | `1.0.12` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
@@ -100,6 +100,14 @@ DOC-09 does not define:
 | PSP/acquirer and tokenization APIs | DOC-17 |
 | Data model, ledger, and audit event schema | DOC-18 |
 | PCI, token vault, authentication, and security mechanics | DOC-19 |
+
+### 2.1 Payment Checkout Destination
+
+`PAYMENT-CHECKOUT` is the stable product destination ID for the payment checkout flow and screen group governed by DOC-09. It may be opened from an eligible Bills context, an accepted request, `INSTRUCTIONS-DETAIL`, or another approved payment entry point.
+
+`PAYMENT-CHECKOUT` owns payment-method or profile selection, eligible offer/reward presentation, quote recalculation, payer review, authorization, submission, and payment-result handoff. It is not a Bills list, request route, Payment Profile management route, payment instruction list, or payout route.
+
+Normal successful payment submission proceeds to the applicable Activity or result context. Cancellation, failure, interruption, or a return from Payment Profile must preserve the originating bill/rent/instruction context where allowed. Detailed screen order, validation copy, failure states, and implementation-level child destinations remain open; the stable parent destination ID must be used meanwhile for route and traceability references.
 
 ---
 
@@ -559,7 +567,8 @@ Evidence status naming must not diverge from DOC-06C and DOC-12. DOC-12 owns evi
 | --- | --- | --- |
 | Request lifecycle | Draft, Pending Evidence Verification, Pending Receiver Action, Accepted, Rejected, Expired, Cancelled | DOC-06A owns request state meaning. Payee-created payment may proceed only from an accepted request; payer-created payment does not require a request unless optional linking is initiated. |
 | Request events | Created, Updated, Submitted, Evidence Gate Entered/Passed, Auto-Sent, Sent/Delivered, Shared, Viewed, Reminded, Accepted, Rejected, Expired, Cancelled, Resent/Recreated, Parties Linked, Archived, Restored | Events and visibility transitions do not replace request lifecycle state. |
-| Evidence verification | Not Provided, Pending Review, Accepted, Correction Needed, Update Needed, Rejected, Duplicate Suspected, Archived | DOC-12 owns verification outcomes and DOC-06C owns the user-facing mapping. Evidence status is not request or payment status. |
+| Evidence verification | Not Provided, Pending Review, Accepted, Correction Needed, Update Needed, Rejected, Duplicate Suspected | DOC-12 owns verification outcomes and DOC-06C owns the user-facing mapping. Evidence status is not request, payment, archive-visibility, or evidence-history status. |
+| Obligation archive and evidence history | Archived, Previous version, restore eligibility | DOC-06B/DOC-06C own route behavior and user-facing archive handling. DOC-12 owns evidence version meaning. `Restore available` is an eligibility hint; a non-restorable reason is explanatory detail, not a status. These descriptors and restore rules do not replace evidence verification, obligation readiness, request, or payment state. |
 | Obligation payment readiness | Ready to Pay, Action Required, Under Review | DOC-06C owns readiness. Paid/Received are payment outcomes; Archived is visibility; Due Soon is date-derived. |
 | Linked case | Open, Pending Information, Under Review, Resolved, Closed | DOC-11 owns dispute/support case meaning. A linked case may apply a hold but does not become a request status. |
 | Request archive visibility | Active, Archived | Archive changes route visibility and retention handling without replacing the retained request lifecycle state. |
@@ -568,6 +577,8 @@ Evidence status naming must not diverge from DOC-06C and DOC-12. DOC-12 owns evi
 | Authorization | Payment Authorized, Step-Up Required, Step-Up Passed, Step-Up Failed | Tracks payer authorization and extra authentication. |
 | Funding leg | Pending, Action Alert Sent, Submitted, Authorized, Failed, Settlement Pending, Settlement Ready, Paid Out, Expired, Cancelled | Tracks each card leg in single-card or split-card funding. |
 | Processing | Payment Processing, Payment Completed, Payment Failed, Partially Funded | Tracks PSP/acquirer payment outcome without treating partial funding as complete. |
+
+An obligation must not be archived while an active payment instruction, submitted funding leg, authorization, payment, or other unresolved payment process materially depends on it. Archiving or restoring the obligation does not cancel, revive, resubmit, or reauthorize a payment instruction or payment; DOC-06C owns the user-facing archive action and DOC-09 remains the payment-state authority.
 | Review or hold | Held for Review | Payment requires admin, risk, or partner review. |
 | Settlement readiness | Settlement Pending, Settlement Confirmed | Tracks upstream settlement state before payout readiness. |
 
@@ -746,6 +757,9 @@ DOC-09 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.12 | 2026-07-26 | Aligned payment-state ownership with obligation archive blockers, removed non-restorable as a user-facing archive status, and confirmed that archive/restore does not cancel or revive payment processes. |
+| 1.0.11 | 2026-07-26 | Removed `Archived` from evidence verification and aligned payment gating with the separate obligation-archive, evidence-history, and restore-eligibility domain. |
+| 1.0.10 | 2026-07-26 | Assigned `PAYMENT-CHECKOUT` as the stable checkout flow/screen-group destination while preserving DOC-09 ownership and existing Bills, Requests, Instructions, Payment Profile, authorization, and result handoffs. |
 | 1.0.9 | 2026-07-26 | Separated canonical request lifecycle, role-facing labels, request events, evidence status, obligation readiness, linked cases, quote state, payment state, and archive visibility; kept request acceptance distinct from payment authorization. |
 | 1.0.8 | 2026-07-23 | Added effective destination snapshots, Receiving Info privacy boundary, payee-request destination replacement rules, payer-selected destination behavior, linked-payee notification, checkout disclosure, and authorization-time destination freeze. |
 | 1.0.7 | 2026-07-21 | Clarified the canonical checkout sequence: payment-card/profile selection precedes offer and reward evaluation; checkout displays eligible issued rewards, supports detail-and-return without selection or consumption, revalidates before authorization, and remains the sole checkout selection owner. |

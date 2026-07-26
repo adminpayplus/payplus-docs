@@ -55,4 +55,4 @@ Each general-promotion, referral, or membership context may contain multiple cam
 
 For each payment card or split-payment funding leg, only one eligible payment-method-sensitive Card Offer applies. PayPlus automatically selects the Card Offer with the highest user value and displays it in checkout. A separate eligible checkout coupon, voucher, or discount may also be selected before the promotion quote is finalized.
 
-This is a business-structure diagram, not an app navigation map. DOC-06B and `payplus-app-route-entry-map.md` separately govern how users discover offers, manage issued rewards, and enter referral functions.
+This is a business-structure diagram, not an app navigation map. DOC-06B and `routes/payplus-offers-rewards-referral-route-map.md` separately govern how users discover offers, manage issued rewards, and enter referral functions.

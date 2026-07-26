@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.10
+version: 0.8.12
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -50,7 +50,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.8.10` |
+| **Version** | `0.8.12` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
@@ -226,7 +226,7 @@ DOC-06B `ME-ROOT` is the permanent mixed-role account-control route. Privacy req
 - completed closure blocks new activity, terminates sessions, disables login, and sends an approved completion notice; the user should be prompted to obtain available records before closure, with later access handled through support or the approved privacy process;
 - `RECEIVING-INFO` must keep the user's saved profile library private from payers. List, card, and ordinary detail views mask account/identifier data while leaving bank/provider name visible; payment-passcode or approved reauthentication is required before controlled Edit reveals permitted full current values. Archive hides the profile from ordinary selection but retains versions and audit history;
 - a payer may see only the destination selected for the relevant request, obligation, payment, or payout context. That context snapshot remains valid independently of later source-profile edit or archive;
-- `ARCHIVED-EVIDENCE-LIST` may expose archived or previous evidence only through controlled, role-appropriate access and must not bypass retention, masking, or audit rules.
+- `ARCHIVED-ROOT` separates archived obligations from archived/previous evidence. Archive is a per-user visibility projection and must not change the counterparty's visibility, party linkage, canonical obligation/evidence, completed history, or retained snapshots. `ARCHIVED-DOCS-LIST` may expose only permitted archived or previous evidence through controlled, role-appropriate access and must not bypass retention, masking, disposition, or audit rules.
 
 Detailed passcode, session, device, reauthentication, and reveal implementation belongs in DOC-19. Final event and data structures belong in DOC-18.
 
@@ -264,6 +264,13 @@ Rules:
 - duplicate/reused evidence warnings must not disclose another user's private information;
 - evidence data may support analytics, OCR quality improvement, risk intelligence, commercial reporting, and product improvement where permitted;
 - evidence access, review, correction, download, export, replacement, and deletion actions should be logged where material.
+- archive and retention are separate: archive changes user-facing visibility, while approved retention, legal hold, deletion, or disposition rules continue independently;
+- user-facing archive and archived-detail actions must not offer ad hoc hard deletion; lawful scheduled deletion, de-identification, or other disposition may still occur under approved retention, legal-hold, privacy, tax, audit, dispute, security, and compliance rules;
+- an archived-document preview or download must recheck the current session, ownership, role/linkage, approved purpose, privacy restrictions, retention restrictions, and legal restrictions;
+- ordinary permitted archived-document view/download does not require an additional passcode solely for opening the document;
+- search and filters in `ARCHIVED-DOCS-LIST` may use permitted displayed metadata but must not expose restricted OCR text, identity values, account data, or hidden extracted fields;
+- legal hold or required retention may preserve evidence but must not expand user visibility;
+- archive, restore, and previous-version history must preserve auditability without treating archived evidence as permanently retained beyond the approved schedule.
 
 DOC-12 owns evidence field sets and verification flow. DOC-18 owns final evidence data model.
 
@@ -582,6 +589,8 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.12` | `2026-07-26` | Product Documentation Team | Defined archive as a per-user visibility projection, preserved counterparty/canonical records and snapshots, and distinguished prohibited ad hoc hard deletion from lawful retention disposition. |
+| `0.8.11` | `2026-07-26` | Product Documentation Team | Aligned privacy, search, access recheck, retention/disposition, and audit rules with `ARCHIVED-ROOT` and `ARCHIVED-DOCS-LIST`. |
 | `0.8.10` | `2026-07-26` | Product Documentation Team | Required passcode or approved reauthentication for prominent sensitive reveal and material identity/contact/Receiving Info changes, while confirming that ordinary permitted evidence, receipt, statement, invoice, and proof viewing/download does not need an extra prompt. |
 | `0.8.9` | `2026-07-23` | Product Documentation Team | Added Receiving Info data classification, private-library visibility, masking, controlled-edit confirmation, version/archive retention, and context-snapshot separation from effective payout-destination changes. |
 | `0.8.8` | `2026-07-22` | Product Documentation Team | Aligned Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, contact-change, trusted-device, account-closure, privacy-request, and protected-export privacy requirements with DOC-06B. |

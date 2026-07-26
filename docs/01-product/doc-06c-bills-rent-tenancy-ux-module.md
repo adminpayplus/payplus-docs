@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.14
+version: 0.1.16
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -39,7 +39,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06C` |
 | **Title** | Bills, Rent & Tenancy UX Module |
-| **Version** | `0.1.14` |
+| **Version** | `0.1.16` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -54,11 +54,11 @@ related_documents:
 
 DOC-06C governs the PayPlus Bills, rent, tenancy, fee, obligation, reminder, activity, evidence, and role-aware Bills-route UX module.
 
-It is the owning document for BILLS-PAY, BILLS-RECEIVE, BILLS-ACTIVITY, BILLS-ACTIVITY-DETAIL, BILLS-ADD, BILLS-EVIDENCE-DETAIL, BILLS-EVIDENCE-UPLOAD, BILLS-REMINDER-LIST, and BILLS-REMINDER-DETAIL at the human-readable UX level.
+It is the owning document for BILLS-PAY, BILLS-RECEIVE, BILLS-ACTIVITY, BILLS-ACTIVITY-DETAIL, BILLS-ADD, BILLS-EVIDENCE-DETAIL, BILLS-EVIDENCE-UPLOAD, BILLS-REMINDER-LIST, BILLS-REMINDER-DETAIL, and ARCHIVED-BILLS-LIST at the human-readable UX level.
 
 ## 2. Scope Boundary
 
-DOC-06C owns the user-facing Bills module route behavior, card/detail actions, role separation, evidence sub-flow, reminder management, activity timeline, and route handoffs.
+DOC-06C owns the user-facing Bills module route behavior, card/detail actions, role separation, evidence sub-flow, reminder management, activity timeline, archived-obligation list/detail behavior, and route handoffs.
 
 DOC-06C does not own detailed checkout/payment processing, evidence verification algorithms, final data schema, final event taxonomy, privacy masking rules, notification templates, risk thresholds, or admin queue design. Those remain with DOC-08, DOC-09, DOC-12, DOC-14, DOC-15, DOC-18, DOC-19, and DOC-22 as applicable.
 
@@ -72,6 +72,7 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | Activity sub-route | Working baseline | Payment activity and limited milestones defined; global Activity and Receipts & Statements routes remain separate under DOC-06B. |
 | Add Bill / Rent flow | Working baseline | Evidence capture methods and required fields defined; source selection UX remains open. |
 | Evidence sub-route | Working baseline | Evidence detail/upload behavior and status mapping defined; data model remains DOC-18. |
+| Archived Bills & Rent | Working baseline | Mixed-role archived-obligation list, read-only detail mode, archive eligibility, restore, evidence cascade, and blocker behavior are defined; final visual design remains open. |
 | Reminder list/detail route | Working baseline | Linked reminders, defaults, custom override, toggle, and soft-delete defined; payment-instruction action alerts remain outside Bills reminder management. |
 | User-to-user linking | Partially defined | Automatic matching is not allowed; invitation/linking mechanism remains open. |
 
@@ -89,6 +90,7 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | BILLS-EVIDENCE-UPLOAD | ROUTE-06C-BILLS-EVIDENCE-UPLOAD |
 | BILLS-REMINDER-LIST | ROUTE-06C-BILLS-REMINDER-LIST |
 | BILLS-REMINDER-DETAIL | ROUTE-06C-BILLS-REMINDER-DETAIL |
+| ARCHIVED-BILLS-LIST | N/A - stable destination added after modularization |
 
 The product destination IDs in the first column are the stable route names for human documents, diagrams, and later AI build-execution conversion. The DOC-06C-prefixed aliases are retained only as legacy traceability references and must not replace the product destination names or be extended as a separate route taxonomy.
 
@@ -133,7 +135,6 @@ Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER
 | `BILLS-REMINDER-LIST` | Screen | Reminder management | Dashboard shortcut `Reminders` | Alarm-style reminder management screen for reminders linked to bill, fee, rent, tenancy, or obligation records. |
 | `BILLS-REMINDER-DETAIL` | Sheet or screen | Reminder setup/edit | `Set Reminder`, `Edit Reminder`, or `+ Add Reminder` | Create or edit one reminder linked to a specific bill, fee, rent, tenancy, or obligation. |
 | `BILLS-LINKING` | Flow / sheet | Participant linking/invitation | Optional link/invite action where enabled | User-initiated or user-accepted payer/payee linking. Must not perform automatic user-to-user matching. |
-| `BILLS-ARCHIVED` | Filtered view | Archived records | `Archived` filter | Archived bill/rent records only; archive is the normal user-facing removal action, not delete. |
 
 Initial route ownership:
 
@@ -155,7 +156,7 @@ Initial route ownership:
 | Tap contextual `View` evidence action | Evidence status area inside bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` for the selected bill/rent record. |
 | Tap `Upload` / `Update` evidence | `BILLS-EVIDENCE-DETAIL` or evidence step in `BILLS-ADD` | Opens `BILLS-EVIDENCE-UPLOAD`. |
 | Tap evidence action-required prompt | Bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD` depending on whether evidence exists. |
-| Tap `Archive` | Detail page | Archives the record and returns to the relevant Bills list/filter. |
+| Tap `Archive` | Detail page | Applies the archive eligibility rules below, removes the obligation from this user's active Bills views, and returns to the relevant active Bills list. The retained obligation is later accessible through DOC-06B `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST`. |
 | Tap optional `Invite / Link Payee` or `Invite / Link Payer` | Detail page or request context where enabled | Opens `BILLS-LINKING`; linking requires approved user or operational action. |
 
 Payment/checkout ownership rule:
@@ -188,8 +189,8 @@ The detail route may remain `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT`, but its 
 
 | View | MVP Filters | Rule |
 | --- | --- | --- |
-| `To Pay` | All, Action Required, Due Soon, Paid, Archived | `All` excludes archived records. `Archived` shows only archived records. |
-| `To Receive` | All, Action Required, Due Soon, Received, Archived | `All` excludes archived records. `Archived` shows only archived records. |
+| `To Pay` | All, Action Required, Due Soon, Paid | Archived records are excluded and belong to `ARCHIVED-BILLS-LIST`. |
+| `To Receive` | All, Action Required, Due Soon, Received | Archived records are excluded and belong to `ARCHIVED-BILLS-LIST`. |
 
 Action-required items should be visible through a filter and through status badges on the relevant card.
 
@@ -478,7 +479,7 @@ Evidence buttons:
 
 | Evidence State | Buttons |
 | --- | --- |
-| Evidence exists | `View`, `Update`, `Archive`. |
+| Evidence exists | `View`, `Update`. |
 | Evidence does not exist | `Upload`. |
 
 `BILLS-EVIDENCE-UPLOAD` should support:
@@ -501,12 +502,20 @@ Upload/update flow:
 
 Permitted evidence viewing and downloading within an authenticated session does not require an extra payment-passcode or step-up prompt solely because the document is opened or downloaded. Role, approved-purpose, masking, stale-session, and access-control rules still apply under DOC-15 and DOC-19.
 
-Evidence archive behavior:
+Evidence replacement, archive, and restoration behavior:
 
-- archive hides evidence from normal bill/rent UI;
-- archive must not hard-delete evidence from the database;
-- archived evidence remains retained under DOC-15 and DOC-18;
-- archived/previous evidence is retrievable from DOC-06B `ME-ROOT` through `ARCHIVED-EVIDENCE-LIST`, labelled `Archived Documents`; this route contains archived/previous evidence only and must not become a general archive for Bills, requests, instructions, or activities.
+- the sole current evidence set linked to an active bill/rent cannot be archived independently, regardless of verification outcome;
+- where evidence is missing, pending, rejected, expired, or update-required, the bill/rent uses the applicable `Action Required` or `Under Review` handling and the user must upload, update, or replace evidence; this is not an archived-evidence flow;
+- while a replacement is being reviewed, the existing accepted evidence remains current unless it is already invalid;
+- when the replacement is accepted, it becomes current and the replaced version is retained as `Previous version` in DOC-06B `ARCHIVED-DOCS-LIST`;
+- archiving a bill/rent also moves its current linked evidence, where one exists, into this user's archived-document projection; the obligation appears in `ARCHIVED-BILLS-LIST` and its evidence appears in `ARCHIVED-DOCS-LIST`, including when the obligation itself is non-restorable;
+- an eligible archived bill/rent may later be restored only through the archived obligation flow; its last current evidence returns with it and is rechecked for current validity, expiry, verification, and risk requirements;
+- if restored evidence remains valid and accepted, readiness may return to `Ready to Pay`; otherwise the restored bill/rent becomes `Action Required` or `Under Review` as applicable;
+- previous evidence versions cannot be restored or promoted over a newer accepted version;
+- an expired bill/rent does not auto-archive and instead remains visible with the applicable expired/action-required handling so the user can update details or provide new evidence;
+- a bill/rent that was already expired when manually archived is non-restorable;
+- archive and restoration do not rewrite completed payment, payout, receipt, or activity history;
+- archived and previous evidence remains retained under DOC-15 and DOC-18 and is available only through controlled access.
 
 Evidence statuses:
 
@@ -516,10 +525,9 @@ Evidence statuses:
 | `Pending Review` | Evidence uploaded, review not complete. |
 | `Accepted` | Evidence accepted for current bill/rent purpose. |
 | `Correction Needed` | User must correct extracted or entered fields. |
-| `Update Needed` | Evidence expired, outdated, replaced, or insufficient. |
+| `Update Needed` | Current evidence is expired, outdated, insufficient, or requires replacement. |
 | `Rejected` | Evidence cannot support the bill/rent. |
 | `Duplicate Suspected` | Evidence may be reused/duplicate and needs review. |
-| `Archived` | Hidden from normal UI, retained in records/history. |
 
 Bill/rent payment readiness statuses:
 
@@ -529,7 +537,7 @@ Bill/rent payment readiness statuses:
 | `Action Required` | User must fix evidence, details, payment setup, or another required item. |
 | `Under Review` | System, admin, or risk review is pending. |
 
-`Paid` / `Received` are payment-activity outcomes, not readiness states. `Archived` is obligation visibility, and `Due Soon` is a date-derived filter or label. None of these changes the request lifecycle.
+`Paid` / `Received` are payment-activity outcomes, not readiness states. `Archived` and `Previous version` are visibility/history descriptors, while `Due Soon` is a date-derived filter or label. None is an evidence-processing status or request lifecycle state.
 
 Evidence-to-readiness mapping:
 
@@ -542,11 +550,82 @@ Evidence-to-readiness mapping:
 | `Update Needed` | `Action Required`. |
 | `Rejected` | `Action Required`. |
 | `Duplicate Suspected` | `Under Review` or `Action Required`, depending review rule. |
-| `Archived` | `Action Required`, unless another active accepted evidence version exists. |
 
 Evidence status and bill/rent readiness must be managed through system automation, AI/OCR classification, rules engine checks, admin/manual review, user correction, and lifecycle events. DOC-12 owns extraction, verification, duplicate/reused evidence, and evidence review logic. DOC-14 owns risk triggers. DOC-15 owns privacy, masking, retention, and access boundaries. DOC-18 owns final data objects, status taxonomy, audit events, and analytics. DOC-22 owns admin review and configuration workflow.
 
-### 5.11 Reminder Route
+### 5.11 Archived Bills & Rent
+
+`ARCHIVED-BILLS-LIST` is the mixed-role list of obligations the current user archived from active Bills views. It is not another payer/payee account, evidence list, payment history, or request archive.
+
+Screen order:
+
+1. header with Back, title `Archived Bills & Rent`, search icon, and filter icon;
+2. applied-filter summary where applicable;
+3. newest-archive-first obligation list;
+4. empty, no-result, loading, unavailable, offline, or error state.
+
+Search may match permitted displayed metadata such as bill/rent name, masked counterparty, category, amount, due date or rent period, and archive date. Filters are:
+
+- `Bill / Fee`;
+- `Rent / Tenancy`;
+- `Pay`;
+- `Receive`;
+- `Restore available`.
+
+The list remains one mixed-role list. `Pay` and `Receive` are filters, not separate routes or tabs. Do not show a `Cannot be restored` filter or status.
+
+Each archived-obligation card should show:
+
+- category and bill/rent name;
+- `Archived`;
+- role context: `Pay` or `Receive`;
+- permitted masked counterparty;
+- amount;
+- due date or rent period;
+- archive date;
+- `Restore available` only when current restore eligibility is true.
+
+Tapping a card opens the existing `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` in archived read-only mode. This is not a new detail route. Archived detail may show the retained obligation summary, permitted counterparty and destination snapshot, readiness/evidence snapshot at archive time, archive date, and a neutral explanation where restore is unavailable.
+
+Allowed archived-detail actions are:
+
+- `Back`;
+- `View Activities`;
+- `View Archived Documents`, opening `ARCHIVED-DOCS-LIST` scoped to the obligation and preserving return context;
+- `Restore`, only when current restore eligibility passes.
+
+Archived detail must suppress `Pay`, `Request`, `Remind`, `Edit`, `Upload`, `Link`, `Archive`, `Share`, and ad hoc hard-delete actions.
+
+Archive eligibility:
+
+| Condition at Archive Time | Archive | Restore Handling |
+| --- | --- | --- |
+| Active obligation with current evidence status `Accepted`, evidence still valid, and no blocker | Allowed | Restore may be offered after current eligibility recheck. |
+| Active recurring obligation with completed history and current eligible evidence | Allowed | Restore may be offered; completed history remains unchanged. |
+| Evidence missing, rejected, expired, `Correction Needed`, or `Update Needed` | Whole obligation may be archived | Non-restorable; replacing evidence while active is the normal correction path. |
+| Obligation already expired | Allowed | Non-restorable. Expiry alone does not auto-archive. |
+| Completed one-off obligation | Allowed | Non-restorable. |
+| Evidence, identity, recipient, compliance, manual, or risk review is unresolved | Archive unavailable until the review resolves. | No restore action. |
+| Active request, payment instruction, submitted funding leg, payment, payout, refund, dispute, chargeback, restriction, or legal hold materially depends on the obligation | Archive unavailable until the owning process resolves or explicitly permits archive. | Restore remains blocked while the condition applies. |
+
+Restore eligibility is assigned from the archive-time obligation class and then rechecked for current operational blockers. If an obligation was restore-eligible when archived but its evidence later expires or becomes outdated, Restore remains available; after restore, evidence revalidation makes the obligation `Action Required` or `Under Review` until corrected.
+
+Restore behavior:
+
+1. User taps `Restore` in archived detail.
+2. Show a confirmation and perform a fresh online eligibility check.
+3. Restore the user's obligation projection and its last current evidence; previous evidence versions remain in `ARCHIVED-DOCS-LIST`.
+4. Revalidate evidence validity, expiry, verification, recipient, risk, compliance, and other readiness gates.
+5. Remove the obligation from `ARCHIVED-BILLS-LIST`.
+6. Open the active bill/rent detail in its original `Pay` or `Receive` context.
+
+No payment passcode is required solely to restore an eligible obligation, and restore is not payment authorization. If the restored evidence is no longer `Accepted` and valid, the obligation returns as `Action Required` or `Under Review`, not `Ready to Pay`.
+
+Archive disables this user's linked reminders. Restore does not reactivate reminders, instructions, scheduled actions, prior authorizations, or prior payment attempts. The user must recreate or re-enable those items where allowed.
+
+Archive and restore are user-scoped visibility actions. They do not affect the counterparty's active view, party linkage, the canonical shared obligation, destination/payment snapshots, completed activities, receipts, or payout history, and they do not create a counterparty notification solely for the visibility change.
+
+### 5.12 Reminder Route
 
 Reminder routes must use specific route IDs:
 
@@ -625,7 +704,7 @@ Due soon, overdue, evidence rejected, and payment-readiness action states belong
 
 DOC-08 owns notification IDs, channel matrix, templates, user preferences, retry behavior, and delivery logging. DOC-06B owns `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` route shells. DOC-09 owns payment instruction mechanics and return-to-checkout behavior. DOC-15 owns sensitive-data display and masking. DOC-18 owns final schema, event taxonomy, lineage, and analytics definitions.
 
-### 5.12 Evidence Structure and UX
+### 5.13 Evidence Structure and UX
 
 Evidence handling must distinguish the obligation, the relationship/contract, and the source evidence.
 
@@ -647,7 +726,7 @@ For rent, tenancy evidence usually supports a contract or relationship. Rent obl
 
 The Bills route should therefore support evidence source detection or selection inside `BILLS-EVIDENCE-UPLOAD` when the category or document type is not obvious, instead of assuming every rent flow equals tenancy agreement and every bill flow equals invoice.
 
-### 5.13 Payer-Created and Payee-Created Logic
+### 5.14 Payer-Created and Payee-Created Logic
 
 | Scenario | UX Rule | Linking Rule |
 | --- | --- | --- |
@@ -672,7 +751,7 @@ Destination rules:
 
 When a user opens `BILLS-ADD` from DOC-06B `REQUESTS-NEW`, `BILLS-ADD` owns the bill/rent/evidence setup steps and must preserve the request-creation context. Successful setup returns the created context to `REQUESTS-NEW`; cancellation returns without creating or selecting a new context. If a user opens `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` from `REQUESTS-DETAIL`, save/back behavior should return to `REQUESTS-DETAIL` and refresh the linked request summary. If a user opens linked bill/rent detail from `REQUESTS-NEW` review, save/back behavior should return to `REQUESTS-NEW`.
 
-### 5.14 Action-Required UX
+### 5.15 Action-Required UX
 
 Action-required states must be visible before the user attempts payment where possible.
 
@@ -691,7 +770,7 @@ Examples:
 
 The card should show the payment readiness badge and a clear next action. Evidence-specific actions should appear inside the bill/rent detail evidence section, not as multiple evidence buttons on the card. The detail page should show the affected section, the rejected or missing field where appropriate, an `Upload`, `Update`, or `Fix` evidence action, and cautious helper text below the affected field. Exact user-facing wording belongs in DOC-07 and DOC-08.
 
-### 5.15 Data and Intelligence Signals
+### 5.16 Data and Intelligence Signals
 
 Bills route interactions should produce structured events or signals for later DOC-18 specification, including:
 
@@ -705,7 +784,8 @@ Bills route interactions should produce structured events or signals for later D
 - evidence upload or update started;
 - evidence submitted;
 - evidence status changed;
-- evidence archived;
+- evidence version replaced or archived through its parent obligation;
+- archived obligation restored with evidence validity rechecked;
 - evidence verification outcome displayed;
 - bill/rent readiness changed due to evidence;
 - action-required state displayed;
@@ -743,6 +823,8 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.16 | 2026-07-26 | Defined `ARCHIVED-BILLS-LIST`, archived read-only bill/rent detail mode, mixed-role search/filters, archive eligibility and blockers, personal archive projection, restore behavior, evidence cascade, reminder effects, and non-restorable handling. |
+| 0.1.15 | 2026-07-26 | Moved archived obligations out of Bills filters into the `ARCHIVED-ROOT` family, removed standalone current-evidence archive, and defined replacement, parent archive, restore, expiry, and previous-version rules. |
 | 0.1.14 | 2026-07-26 | Limited obligation readiness to `Ready to Pay`, `Action Required`, and `Under Review`; separated payment outcomes, archive visibility, due-state labels, request lifecycle, and linked dispute cases from Bills Activity. |
 | 0.1.13 | 2026-07-26 | Limited `BILLS-ACTIVITY` to payment and related payout/failure/return/refund/reversal activity, removed request/evidence milestones, clarified evidence-request-obligation relationships and payer-created direct linkage, and aligned document viewing/download authentication behavior. |
 | 0.1.12 | 2026-07-23 | Aligned bill/rent setup and linked-context behavior with private multiple Receiving Info profiles, destination snapshots, payee-request replacement rules, payer destination changes, linked-payee notifications, and authorization freeze. |

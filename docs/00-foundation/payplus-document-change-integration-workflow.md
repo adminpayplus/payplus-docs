@@ -254,6 +254,16 @@ Do not update the route diagram for wording, backend logic, notification content
 
 The Mermaid diagram is a visual consistency check and proof of the documented route concept. It is not an independent source of truth and must not introduce behavior absent from the owning documents.
 
+Use hierarchical route diagrams:
+
+1. Keep the app-level diagram limited to primary navigation destinations and direct global entry points.
+2. Give each material route family its own detailed diagram for parent/child destinations, material cross-route handoffs, and return behavior.
+3. Stop parent diagrams at the direct child or handoff. Do not repeat the child's full route tree in the parent.
+4. Do not create a separate diagram for every trivial leaf screen; create one where navigation ownership, return behavior, or cross-route interaction is material.
+5. Treat `docs/traceability/route-register.md` as the canonical destination inventory and definition-status source. Diagrams are visual projections of that register and the owning documents.
+6. When a governed diagram is replaced, preserve the prior version under a dated archive/snapshot path, mark it superseded and non-authoritative, identify its replacement diagrams, and update the diagram index.
+7. Regenerate governed exports from the active Mermaid source where applicable. Old exports must be marked superseded or kept outside the current-reference index.
+
 ### 4.14 Perform Final Integrated Review
 
 Before reporting commit readiness, verify:

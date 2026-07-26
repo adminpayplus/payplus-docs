@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.7.4
+version: 0.7.6
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -47,7 +47,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-12` |
 | **Title** | Bill Category, Document AI/OCR & Payee Verification Specification |
-| **Version** | `0.7.4` |
+| **Version** | `0.7.6` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Risk |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Operations Lead<br>Payments Lead |
@@ -413,7 +413,7 @@ Evidence verification should produce one of the following outcomes:
 | Rejected by Admin | Evidence is invalid, unsupported, insufficient, or prohibited. |
 | Duplicate Suspected | Evidence appears duplicate or reused and requires review or approved exception. |
 | Fraud/Risk Escalated | Evidence or relationship pattern is escalated to risk/compliance review. |
-| Evidence Replaced | User replaces prior evidence; replacement history is retained. |
+| Evidence Replaced | An accepted replacement becomes current; the prior accepted version is retained as a non-restorable previous version. |
 | Evidence Expired | Evidence is too old or no longer valid under category rules. |
 
 Payment eligibility gates in DOC-09 must consume the final verification outcome.
@@ -437,7 +437,9 @@ DOC-12 verification outcomes must map cleanly to the DOC-06C user-facing evidenc
 
 DOC-06C owns the user-facing payment-readiness mapping: `Ready to Pay`, `Action Required`, and `Under Review`. `Paid` / `Received` are linked payment outcomes, `Archived` is visibility, and due-state labels are date-derived. DOC-09 consumes the mapped readiness result before quote creation, authorization, retry, settlement readiness, or payout handoff.
 
-Evidence should normally have one active evidence set per bill/rent record. Evidence updates create versions; the newest accepted version becomes active. Archived or previous evidence must not be hard-deleted and should remain available through DOC-06B `ME-ROOT` and `ARCHIVED-EVIDENCE-LIST`, subject to DOC-06C historical-evidence UX, DOC-15 access and retention controls, and DOC-18 versioning and audit requirements.
+Evidence should normally have one current evidence set per active bill/rent record. The sole current set cannot be archived independently. While a replacement is reviewed, the existing accepted evidence remains current unless already invalid; once the replacement is accepted, it becomes current and the prior version becomes non-restorable `Previous version` history.
+
+Archiving a bill/rent archives its current linked evidence, where one exists, through the same user's parent-obligation archive projection. This applies whether the obligation is later restorable or non-restorable. Restoring an eligible obligation restores only its last current evidence and rechecks current validity, expiry, verification, recipient, compliance, and risk requirements. If evidence expires after an otherwise restore-eligible archive, the obligation may still be restored but returns as `Action Required` or `Under Review` until evidence requirements pass. Previous versions cannot be restored. An expired obligation does not auto-archive; if already expired when manually archived, it is non-restorable. Archived or previous evidence must not be subject to ad hoc hard deletion and remains available through DOC-06B `ARCHIVED-DOCS-LIST`, subject to DOC-06C obligation behavior, DOC-15 lawful retention/disposition, and DOC-18 versioning and audit requirements.
 
 Extracted fields approved for display should populate the bill/rent detail record in DOC-06C. Evidence detail screens should avoid duplicating those fields except where needed for evidence review, correction, or status explanation.
 
@@ -554,7 +556,7 @@ DOC-06C now defines the user-facing Bills evidence sub-route model. Future DOC-1
 - pending user clarification;
 - pending admin review;
 - payer review of final evidence summary before authorization;
-- one active evidence set, evidence versioning, archive-not-delete behavior, and controlled access to previous evidence.
+- one current evidence set, accepted replacement and non-restorable previous versions, parent-obligation archive/restore behavior, archive-not-delete treatment, and controlled access through `ARCHIVED-DOCS-LIST`.
 
 DOC-06 remains the parent UX source map; DOC-06C should remain a user-facing Bills UX document. It should not copy all DOC-12 field tables or data-layer rules.
 
@@ -618,6 +620,8 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.7.6` | `2026-07-26` | Product Documentation Team | Clarified that parent archive projects current evidence into Archived Documents for both restorable and non-restorable obligations, while restore remains obligation-level and previous versions remain non-restorable. |
+| `0.7.5` | `2026-07-26` | Product Documentation Team | Defined sole-current-evidence protection, accepted replacement and previous-version behavior, parent-obligation archive/restore, expiry handling, and `ARCHIVED-DOCS-LIST` access. |
 | `0.7.4` | `2026-07-26` | Product Documentation Team | Limited bill/rent payment readiness to `Ready to Pay`, `Action Required`, and `Under Review`, kept payment outcomes/archive visibility separate, and clarified that evidence links to the obligation while payer-created payment does not require a request. |
 | `0.7.3` | `2026-07-23` | Product Documentation Team | Added Receiving Info proof, identity-name matching, third-party/company review, destination-snapshot, payout-failure, and evidence-reuse lineage boundaries. |
 | `0.7.2` | `2026-07-22` | Product Documentation Team | Aligned controlled archived/previous evidence retrieval with DOC-06B `ME-ROOT` and `ARCHIVED-EVIDENCE-LIST` without changing evidence lifecycle, active-version, or archive-not-delete rules. |

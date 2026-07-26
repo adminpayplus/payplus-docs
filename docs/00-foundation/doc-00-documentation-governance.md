@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.6
+version: 0.7.7
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -23,7 +23,7 @@ related_documents: []
 | --- | --- |
 | **Document ID** | `DOC-00` |
 | **Title** | Documentation Governance |
-| **Version** | `0.7.6` |
+| **Version** | `0.7.7` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Documentation Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead |
@@ -213,9 +213,12 @@ payplus-docs/
 |   |   `-- README.md
 |   |-- diagrams/
 |   |   |-- assets/
-|   |   |-- payplus-app-route-entry-map.md
 |   |   |-- payplus-home-dashboard-mvp-wireframe.svg
 |   |   |-- payplus-promotion-engine-structure.md
+|   |   |-- routes/
+|   |   |   |-- archive/
+|   |   |   |-- payplus-app-route-map.md
+|   |   |   `-- payplus-*-route-map.md
 |   |   `-- README.md
 |   |-- glossary/
 |   |   `-- glossary.md
@@ -830,6 +833,7 @@ DOC-00 must remain focused on documentation governance only.
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.7.7 | 2026-07-26 | Product Documentation Team | Aligned the governed repository tree with hierarchical route maps and dated superseded route-map snapshots. |
 | 0.7.6 | 2026-07-26 | Product Documentation Team | Registered the canonical product-destination route register and established the prototype lifecycle register, single-current-prototype rule, and dated/versioned archive convention; no current prototype is registered at this baseline. |
 | 0.7.5 | 2026-07-22 | Product Documentation Team | Kept YAML as canonical metadata, added the synchronized human-readable Document Control table requirement, aligned and repaired the repository-tree and lifecycle-arrow presentation, and exempted empty placeholders and backups from mechanical formatting. |
 | 0.7.4 | 2026-07-20 | Product Documentation Team | Added mandatory post-commit changelog and decision-log recording under the Documentation Change Integration and Commit Workflow and identified the canonical decision-log file. |

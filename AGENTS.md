@@ -165,6 +165,18 @@ Product route and destination IDs must describe the product area and remain inde
 - Maintain a route register with each destination's parent, type, purpose, owning document, and definition status so undefined intermediate screens remain visible.
 - Leave backend event names, analytics events, deeplink contracts, and implementation paths to their technical owning documents; they must map back to the product destinations without renaming them.
 
+### Hierarchical Route-Diagram Rule
+
+Use hierarchical Mermaid maps for route visualization:
+
+- the app-level map stops at primary navigation destinations and direct global entry points;
+- each material route family owns its detailed parent/child, handoff, and return map;
+- a parent diagram should link to a child route family but must not duplicate that child's full tree;
+- trivial leaf screens do not require separate diagrams unless their navigation is material or easy to misunderstand;
+- `docs/traceability/route-register.md` remains the canonical destination inventory and definition-status source;
+- route diagrams are visual alignment aids and must not introduce destinations or behavior absent from the owning documents;
+- when replacing a current map, preserve the prior governed map as a dated, clearly superseded, non-authoritative snapshot and update `docs/diagrams/README.md`.
+
 ### PayPlus Boundary Check
 
 Every proposed feature, route, flow, data rule, promotion, notification, or admin control must preserve PayPlus boundaries:
@@ -231,7 +243,7 @@ For any material documentation change, read and apply `docs/00-foundation/payplu
 
 Before editing, prepare one task-level Change Impact Manifest covering the primary owner, superseded wording, potentially affected domain and parent documents, traceability, status/route registers, glossary, diagrams, prototypes, indexes, and deferred technical or AI layers. Use that manifest to perform one coordinated owner-first edit pass. Do not repeatedly rescan the whole repository after every individual file.
 
-The workflow requires the primary owner to be updated first, followed by only necessary alignment of governing documents, product requirements, references, traceability, indexes, `AGENTS.md`, README files, route diagrams, and current governed prototypes. When a child or module document changes materially, synchronize its parent overview, family status, route/requirement register, and acceptance coverage where affected. This rule applies to every modular document family, not only DOC-06.
+The workflow requires the primary owner to be updated first, followed by only necessary alignment of governing documents, product requirements, references, traceability, indexes, `AGENTS.md`, README files, hierarchical route diagrams, and current governed prototypes. When a child or module document changes materially, synchronize its parent overview, family status, route/requirement register, and acceptance coverage where affected. This rule applies to every modular document family, not only DOC-06.
 
 Complete one integrated validation pass and pre-commit report after the coordinated edits. Additional scans are required only when validation reveals a conflict, the scope changes, or a new founder decision is introduced.
 
