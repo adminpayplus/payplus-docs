@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.24
+version: 0.18.25
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.24` |
+| **Version** | `0.18.25` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -101,7 +101,8 @@ The MVP includes:
 
 - payer account registration and login;
 - payee account registration and login;
-- payer-created payment requests;
+- payer-created evidence-backed obligations and payments;
+- optional payer-created linking requests;
 - payee-created payment requests;
 - evidence-backed bill, invoice, fee, tenancy, rent, domestic service, or document upload;
 - AI/OCR-assisted evidence capture, autofill, user correction, verification, and review routing where enabled;
@@ -134,6 +135,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Multi-card funding | MVP scope; support up to 6 credit cards per payment/profile, with related controls configurable where applicable. |
 | Tokenized cards and saved payment profiles | MVP scope; DOC-06B defines the user route shell, DOC-09 defines checkout use, and DOC-19 defines tokenization/security mechanics. |
 | User payment instruction | MVP scope for pending pay-later setup and incomplete payment continuation where DOC-06B route shell, DOC-09 funding rules, action-alert routing, partial funding, and payout controls are ready. |
+| Pay+ action sheet | Five MVP actions are `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, `Continue Payment`, and `Request Payment`; each action remains independently availability-controlled and must preserve its owning route's gates. |
 | Data and AI readiness | Require structured events, field classification, lineage, auditability, consent/preference state, approved-purpose metadata, and model-use eligibility metadata where relevant; advanced model automation and external activation remain future-gated. |
 
 Current launch assumptions:
@@ -149,7 +151,8 @@ Current launch assumptions:
 - business KYB is expected to require a Business Registration document and owner ID;
 - candidate notification channels are app notifications, push notifications, email, SMS, and WhatsApp;
 - request delivery may use in-app message, app link, WhatsApp deeplink, QR code, or other approved channel;
-- Pay+ `Request Payment` and the Requests `+ Create Request` action route to DOC-06B `REQUESTS-NEW`, which must link to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation before sending;
+- Pay+ `Request Payment` is the payee-to-payer request entry and routes to DOC-06B `REQUESTS-NEW`, which must link to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation before sending;
+- an optional payer-to-payee linking request starts from an approved bill/rent/linking context and does not authorize payment or block a direct payer-created obligation/payment by default;
 - receipt, payment, account, tax, and audit record retention is expected to be 7 years, subject to final privacy and legal review;
 - exact fee rates, fee allocation, promotion, coupon, voucher, reward, entitlement, refund, and reversal treatment remain to be confirmed and should be admin-configurable where applicable; multi-card card-count cap is 6 for MVP.
 
@@ -509,6 +512,8 @@ For split UX topics, use one primary owner. DOC-06B owns standalone route shells
 
 Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `AUTH-ENTRY` is the pre-login choice screen; `AUTH-LOGIN` and `AUTH-REGISTRATION` are the required authentication destinations; normal successful entry proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, and `NOTIFICATION-INBOX` identify the Pay+, More, and Inbox destinations. DOC-09 `PAYMENT-CHECKOUT` identifies the payment checkout flow/screen group without transferring checkout ownership to DOC-06.
 
+`PAYPLUS-ACTION-SHEET` uses the confirmed five-action order and role boundaries from DOC-06B. `Pay a Bill` and `Pay Rent` open temporary category-scoped `BILLS-PAY` selection without changing saved Bills filters; `Add Bill / Rent` opens `BILLS-ADD`; `Continue Payment` resolves to disabled, one instruction detail, or the instruction list according to active instruction count; and `Request Payment` means payee-to-payer request creation. Exact visual measurements, iconography, and motion timing remain design-open.
+
 For growth UX, `OFFERS-ROOT` owns promotion discovery; its child screens `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` own the respective View More collections; `REWARDS-ROOT` owns issued-reward management through Active and History views; and the `REFERRAL-ROOT`, `REFERRAL-REWARDS-LIST`, `REFERRAL-ENTITLEMENT-DETAIL`, and `REFERRAL-REWARD-CLAIM` route family owns referral sharing, attributed-referee qualification progress, and role-sensitive referrer/referee reward claiming. `REWARD-DETAIL` owns full reward information and terms but is not a second checkout route; checkout reward selection remains in DOC-09 after card/profile selection. The Referral Rewards list uses `Available to Claim` and `History` route-local tabs; claimed reward use remains in canonical Rewards. One offer may belong to multiple discovery collections, while unintended repeated display of the same Offer ID is suppressed on `OFFERS-ROOT`. Direct checkout discounts are not issued rewards. Referral campaigns may appear in Offers, but referral actions remain in the Referral route; an issued referral reward uses the canonical `REWARD-DETAIL`. Detailed commercial, qualification, entitlement, lifecycle, fulfilment, and calculation logic remains owned by DOC-13.
 
 For Requests, use the DOC-06 family boundary: a request is not a payment. It is a record asking another party to review, accept, link to, or reject a bill, rent, tenancy, fee, invoice, or approved obligation context. Accepted requests link the parties to the accepted context and may support later payment readiness, but payment authorization and processing remain separate payment-domain behavior.
@@ -671,7 +676,8 @@ The MVP is acceptable when:
 
 - payers can register and log in;
 - payees can register and log in;
-- payer-created payment requests can be created;
+- payer-created evidence-backed obligations and payments can be created without a request or payee acceptance by default;
+- optional payer-created linking requests can be created without being treated as payment authorization;
 - payee-created payment requests can be created;
 - evidence can be attached to requests;
 - OCR/document AI can extract and autofill evidence fields where enabled;
@@ -709,7 +715,7 @@ The MVP is acceptable when:
 | OQ-05-013 | Which OCR/document AI provider, confidence thresholds, and launch categories should be enabled first? | Product / Engineering / Risk | Open |
 | OQ-05-014 | Which extracted fields are displayable, masked, or restricted by role and evidence category? | Product / Privacy / Security | Open |
 | OQ-05-015 | What exact dashboard shortcut cap, default ordering, user reorder UI, restore-default behavior, and More shortcut behavior should apply? | Product / Design / Operations | Open |
-| OQ-05-016 | What exact Pay+ action sheet actions, labels, ordering, and eligibility rules should apply? | Product / Design / Payments | Open |
+| OQ-05-016 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should apply within the confirmed five-action behavior? | Product / Design / Payments | Partially open; action set, order, direction, and handoffs confirmed |
 | OQ-05-017 | What admin controls are required for Important Notice / Action Required, Featured / What's New / Hot Offer carousel, and dashboard placement targeting? | Product / Growth / Operations | Open |
 | OQ-05-018 | Which MVP events and data objects must be captured for product analytics, risk analytics, commercial reporting, and future approved AI/model improvement? | Product / Data / Engineering | Open |
 | OQ-05-019 | What user consent and preference categories are required for personalization, partner offers, marketing communication, and model improvement? | Product / Privacy / Legal | Open |
@@ -752,7 +758,8 @@ The MVP is acceptable when:
 
 | Decision | Status |
 |---|---|
-| Payer-created payment requests are MVP scope. | Confirmed |
+| Payer-created evidence-backed obligations and payments are MVP scope and do not require a request or payee acceptance by default. | Confirmed |
+| Optional payer-created linking requests may connect a payee to an obligation for shared visibility or communication but do not authorize payment. | Confirmed |
 | Payee-created payment requests are MVP scope. | Confirmed |
 | Tenancy and rent payments are MVP scope. | Confirmed |
 | Payers can log in. | Confirmed |
@@ -766,7 +773,7 @@ The MVP is acceptable when:
 | Future docs should use concise product-spec structure. | Confirmed |
 | Promotion engine capabilities are framework scope but launch-gated by DOC-13 rules and admin configuration. | Confirmed |
 | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` are required acceptance-scope destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Detailed UI Pending |
-| `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, `NOTIFICATION-INBOX`, and DOC-09 `PAYMENT-CHECKOUT` are the stable destination IDs for their respective product areas. | Working Baseline / Detailed UI Pending |
+| `PAYPLUS-ACTION-SHEET` has a defined five-action behavior baseline and route handoffs; `MORE-ROOT`, `NOTIFICATION-INBOX`, and DOC-09 `PAYMENT-CHECKOUT` remain the stable destination IDs for their respective areas. | Working Baseline / Final Pay+ Visual Design Pending |
 | DOC-06B designated Home Dashboard flow and layout baseline is accepted for MVP discussion, but final UI design and exact component specification remain open. | Confirmed |
 | Dashboard shortcut grid, user shortcut preferences, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
 | DOC-06C `BILLS-PAY` and `BILLS-RECEIVE` route split is accepted as the current role-aware Bills-route baseline; checkout/payment screen behavior remains primarily governed by DOC-09. | Working Baseline / Not Final |
@@ -782,6 +789,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.25 | 2026-07-27 | Distinguished direct payer-created obligations/payments from optional payer-created linking requests, defined Pay+ Request Payment as payee-to-payer, and aligned the confirmed five-action Pay+ behavior while leaving exact visual design open. |
 | v0.18.24 | 2026-07-26 | Defined the archived-obligation product baseline, mixed-role filters, read-only detail reuse, eligibility/blocker and restore rules, personal archive projection, and obligation/evidence separation. |
 | v0.18.23 | 2026-07-26 | Added the `ARCHIVED-ROOT` family and confirmed evidence replacement, parent archive, restoration, expiry, non-restorable history, and Archived Documents behavior. |
 | v0.18.22 | 2026-07-26 | Added stable authentication, Home, Pay+, More, Notification Inbox, and Payment Checkout destination IDs and the pre-login Login/Register handoff baseline. |

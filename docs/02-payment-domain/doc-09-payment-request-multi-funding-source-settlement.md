@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.12
+version: 1.0.13
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -44,12 +44,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Request, Multi-Funding Source & Settlement |
-| **Version** | `1.0.12` |
+| **Version** | `1.0.13` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication |
 
@@ -69,7 +69,7 @@ This document is not a PSP integration guide, PCI policy, data schema, payout ma
 
 DOC-09 covers:
 
-- payer-created and payee-created payment requests;
+- direct payer-created obligations/payments, optional payer-to-payee linking requests, and payee-created payment requests;
 - eligibility gates before payment;
 - evidence verification outcome consumption;
 - promotion quote consumption;
@@ -117,8 +117,9 @@ Normal successful payment submission proceeds to the applicable Activity or resu
 | --- | --- |
 | Launch jurisdiction | Hong Kong. |
 | Transaction classification | Expected bill payment or ordinary online card purchase; final PSP/acquirer, MCC, and classification remain to be confirmed. |
-| Payer-created requests | MVP scope. |
-| Payee-created requests | MVP scope. |
+| Payer-created obligations and payments | MVP scope; no request or payee acceptance is required by default. |
+| Payer-created linking requests | MVP scope where optional party linking is enabled; they do not authorize payment. |
+| Payee-created payment requests | MVP scope; payer acceptance is required before payment from the request. |
 | Bill and fee payments | MVP scope, subject to payment eligibility, evidence, payee, payout, and risk controls. |
 | Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
 | Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
@@ -135,11 +136,11 @@ Unconfirmed items should remain editable assumptions or gated requirements and s
 
 ---
 
-## 4. Payment Request Model
+## 4. Payment Context and Request Model
 
-PayPlus supports evidence-backed payment requests funded by card.
+PayPlus supports evidence-backed payer-created obligations/payments and payee-created payment requests funded by card.
 
-Each payment request must link:
+Each payment context, including one created from an accepted payee-created payment request, must link:
 
 - payer;
 - approved payee or payee record;
@@ -148,21 +149,23 @@ Each payment request must link:
 - evidence verification outcome and final evidence snapshot where applicable;
 - promotion quote and reward entitlement references where applicable;
 - amount;
-- request origin;
+- context origin and request reference where applicable;
 - payment quote;
 - user payment instruction where created;
 - payer authorization record;
 - payment status history;
 - audit trail.
 
-Request origins:
+Payment-context origins:
 
 | Origin | Rule |
 | --- | --- |
-| Payer-created | Payer creates the request and may proceed after evidence, payee/payout, risk, payment, and authorization gates pass. Payee acceptance is not required by default. |
-| Payee-created | Approved payee creates the request; payer must review and authorize before funding. |
+| Payer-created obligation/payment | Payer creates the evidence-backed obligation/payment context and may proceed after evidence, payee/payout, risk, payment, and authorization gates pass. No request or payee acceptance is required by default. |
+| Accepted payee-created payment request | Approved payee creates and sends the request; payer must accept it before payment-method selection and must separately authorize funding. |
 | Admin-created | Internal user creates or corrects a record under approved process; payment still requires payer authorization. |
 | System-generated | System creates status, reminder, or derived event; cannot authorize payment. |
+
+An optional payer-created linking request is a separate request-domain record. If accepted, it may link the payee to the obligation for shared visibility or communication, but it does not create or replace payer authorization and is not required for direct payer-created payment by default.
 
 PayPlus must not support wallet balance, stored value, arbitrary P2P transfer, self-cashout, card-to-bank cashout, or payment unrelated to an approved evidence-backed obligation.
 
@@ -170,7 +173,7 @@ PayPlus must not support wallet balance, stored value, arbitrary P2P transfer, s
 
 ## 5. Eligibility Gates
 
-A request must pass required gates before payment processing.
+An obligation/payment context, and any required request, must pass the applicable gates before payment processing.
 
 | Gate | Requirement |
 | --- | --- |
@@ -179,7 +182,7 @@ A request must pass required gates before payment processing.
 | Payee | Payee must be eligible for request type and payout destination where required. |
 | Effective destination | A versioned destination snapshot must be attached to the bill/rent/payment context and pass applicable recipient, evidence, risk, payout, compliance, and authorization checks. |
 | Payer | Payer must be eligible and not blocked, suspended, or restricted. |
-| Request origin | Request origin must be allowed for category and payee type. |
+| Context/request origin | The context origin and any request type must be allowed for the category and payee type. |
 | Risk | Risk, velocity, duplicate/reused evidence, same-party, and anti-cashout checks must pass or route to review. |
 | Fee | Fee, promotion, discount, and total charge must be calculated before authorization. |
 | Promotion | Promotion quote, entitlement, coupon/voucher selection, and card-linked eligibility must be resolved before authorization where applicable. |
@@ -194,13 +197,13 @@ Failed gates should create a clear status and, where appropriate, admin review o
 
 DOC-06A owns core user journeys and service blueprint steps; DOC-06B owns navigation and route taxonomy; DOC-06C owns Bills-route entry and handoff behavior.
 
-DOC-09 owns the payment-domain lifecycle after a request exists or is ready for payment evaluation.
+DOC-09 owns the payment-domain lifecycle after an eligible obligation/payment context exists or an accepted payee-created request is ready for payment evaluation.
 
 DOC-06B `REQUESTS-NEW` is a request creation and party-linking route, not a payment/checkout route. A request created through `REQUESTS-NEW` must not reach payment quote, payment method selection, authorization, funding, capture, settlement readiness, or payout handoff until the required evidence gate, request acceptance gate where applicable, and all payment eligibility gates pass.
 
 ### 6.1 Common Payment Lifecycle
 
-1. Request is created through an approved payer-created, payee-created, admin-created, or system-generated path.
+1. An obligation/payment context is established from a payer-created obligation, an accepted payee-created payment request, or an approved auditable admin process. A system event cannot create payment authority.
 2. Evidence is uploaded, processed, corrected, and verified where required by DOC-12.
 3. System applies eligibility gates.
 4. System prepares the obligation amount, normal service fee, and preliminary payment context.
@@ -218,12 +221,12 @@ DOC-06B `REQUESTS-NEW` is a request creation and party-linking route, not a paym
 
 | Origin | Payment-Domain Rule |
 | --- | --- |
-| Payer-created | Payer may proceed to quote and authorization after eligibility gates pass. Optional payee linking/adoption is not a payment-domain gate unless a category, risk, payout, or compliance rule explicitly requires it. |
-| Payee-created | Payer must accept the request before payment method selection; acceptance and payment authorization remain separate recorded actions. |
+| Payer-created obligation/payment | Payer may proceed to quote and authorization after eligibility gates pass. Optional payer-to-payee linking is not a payment-domain gate unless a category, risk, payout, or compliance rule explicitly requires it. |
+| Payee-created payment request | Payer must accept the request before payment-method selection; acceptance and payment authorization remain separate recorded actions. |
 | Admin-created | Admin-created records must remain auditable and cannot bypass payer authorization for payment. |
 | System-generated | System-generated events cannot authorize or process payment by themselves. |
 
-A payee-created request must not trigger funding, capture, payout, or settlement action before payer authorization. A payer-created request may pay a valid non-user payee record or payout destination where allowed by evidence, risk, payout, and compliance gates.
+A payee-created payment request must not trigger funding, capture, payout, or settlement action before payer acceptance and authorization. A payer-created obligation/payment may use a valid non-user payee record or payout destination where allowed by evidence, risk, payout, and compliance gates.
 
 Destination handling follows these rules:
 
@@ -240,10 +243,10 @@ Destination handling follows these rules:
 
 Before authorization, PayPlus must generate a payment quote containing:
 
-- request ID;
+- request ID where the payment originated from a request;
 - payee;
 - effective destination snapshot and source;
-- request origin;
+- context origin and request origin where applicable;
 - category and obligation reference;
 - evidence verification summary and final evidence snapshot reference where applicable;
 - payment amount;
@@ -548,7 +551,7 @@ Step-up authentication means an additional challenge beyond normal payer confirm
 | Step-up conditional | Extra authentication may be skipped below a configurable amount if allowed by partner, risk, compliance, and security rules. |
 | Configurable threshold | Threshold must be configurable. |
 | Risk override | Step-up may still be required below threshold when risk is elevated. |
-| Policy variation | Thresholds may vary by user, card, category, payee type, request origin, amount, velocity, risk score, or partner rule. |
+| Policy variation | Thresholds may vary by user, card, category, payee type, context/request origin, amount, velocity, risk score, or partner rule. |
 | Logging | Step-up required, skipped, passed, failed, and expired decisions must be logged. |
 | Failure handling | Failed or expired step-up must not result in payment completion or payout readiness. |
 | Deferred instruction | Saved deferred instruction must not rely on stale PSP/acquirer authorization or 2FA validity beyond allowed partner/security windows. |
@@ -684,7 +687,7 @@ DOC-18 defines detailed data model, ledger, reporting, and event schema.
 
 DOC-09 requires traceability for:
 
-- request origin;
+- context origin and request origin where applicable;
 - payer;
 - payee;
 - obligation and evidence;
@@ -731,7 +734,7 @@ DOC-09 requires traceability for:
 
 DOC-09 is acceptable when:
 
-- payer-created and payee-created payment request flows are defined;
+- payer-created obligation/payment and payee-created payment-request flows are defined;
 - payment eligibility gates are clear;
 - DOC-12 evidence verification outcomes are consumed before payment quote and authorization where required;
 - payment quote requirements are defined;
@@ -757,6 +760,7 @@ DOC-09 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.13 | 2026-07-27 | Replaced obsolete payer-created payment-request terminology with payer-created obligation/payment context, preserved optional payer-created linking requests as separate non-authorization records, and aligned eligibility, lifecycle, quote, and acceptance language. |
 | 1.0.12 | 2026-07-26 | Aligned payment-state ownership with obligation archive blockers, removed non-restorable as a user-facing archive status, and confirmed that archive/restore does not cancel or revive payment processes. |
 | 1.0.11 | 2026-07-26 | Removed `Archived` from evidence verification and aligned payment gating with the separate obligation-archive, evidence-history, and restore-eligibility domain. |
 | 1.0.10 | 2026-07-26 | Assigned `PAYMENT-CHECKOUT` as the stable checkout flow/screen-group destination while preserving DOC-09 ownership and existing Bills, Requests, Instructions, Payment Profile, authorization, and result handoffs. |

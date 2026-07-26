@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.9
+version: 0.1.10
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -41,12 +41,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.9` |
+| **Version** | `0.1.10` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -1192,7 +1192,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-018 | What dormant-login inactivity threshold and user-facing reauthentication path should be used? | Product / Security | Open |
 | OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
 | OQ-06-020 | What exact payment-instruction screen labels, call-to-action wording, and partial-funded visual treatment should be used? | Product / Design / Legal | Open |
-| OQ-06-021 | What exact Pay+ action sheet visual layout, button order, empty states, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Partially answered |
+| OQ-06-021 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should be used within the confirmed five-action order and behavior? | Product / Design / Payments | Partially open; behavior defined in DOC-06B |
 | OQ-06-022 | What route-level IA remains to be defined in DOC-06B for Me, More, and Support entry points? Offers, Rewards, and Referral route boundaries are defined. | Product / Design | Open |
 | OQ-06-023 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06-024 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
@@ -1211,6 +1211,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.10 | 2026-07-27 | Narrowed the Pay+ open question to exact visual and motion specification after DOC-06B defined the five-action order, route handoffs, role direction, and availability behavior. |
 | 0.1.9 | 2026-07-26 | Established the canonical request lifecycle and role-facing labels, separated request events, evidence, readiness, payment, dispute-case, and archive domains, and corrected payer-created payment flow so optional linking is not an acceptance prerequisite. |
 | 0.1.8 | 2026-07-23 | Added Receiving Info selection, private-profile boundary, request destination snapshots, pre/post-acceptance change rules, payer-selected replacement handling, linked-payee notification, and authorization-time destination freeze. |
 | 0.1.7 | 2026-07-21 | Added the referral registration-attribution journey, separating external sharing from attribution, qualification, payer/payee linking, requests, payment authority, and canonical reward issuance. |

@@ -3,7 +3,7 @@
 Status: Current discussion reference
 Level: 0 - app navigation
 Owner: DOC-06B
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
 This map shows only primary app entry and direct global destinations. Detailed route trees belong to the route-family maps in this folder. The canonical destination inventory is `docs/traceability/route-register.md`.
 
@@ -22,7 +22,7 @@ flowchart TD
 
   HOME -. "See Home route map" .-> HOMEFAMILY["Home and shortcuts"]
   BILLS -. "See Bills route map" .-> BILLSFAMILY["Bills route family"]
-  PAYPLUS -. "See Home route map" .-> PAYPLUSHANDOFFS["Pay+ action handoffs"]
+  PAYPLUS -. "See Pay+ route map" .-> PAYPLUSHANDOFFS["Pay+ action handoffs"]
   OFFERS -. "See Offers route map" .-> OFFERSFAMILY["Offers, Rewards, Referral"]
   ME -. "See Me route map" .-> MEFAMILY["Me direct children"]
 ```

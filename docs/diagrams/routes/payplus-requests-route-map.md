@@ -2,13 +2,13 @@
 
 Status: Current discussion reference
 Owner: DOC-06B
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
 ```mermaid
 flowchart TD
   SHORTCUT["Dashboard Requests shortcut"] --> ROOT["REQUESTS-ROOT"]
   NOTIFY["Inbox / notification / app link"] --> DETAIL["REQUESTS-DETAIL"]
-  PAYPLUS["Pay+ Request Payment"] --> NEW["REQUESTS-NEW"]
+  PAYPLUS["Pay+ Request Payment<br/>payee to payer"] --> NEW["REQUESTS-NEW"]
 
   ROOT --> DETAIL
   ROOT --> NEW

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.29
+version: 0.1.30
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -40,12 +40,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.29` |
+| **Version** | `0.1.30` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -68,9 +68,9 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 | Area | Status | Notes |
 | --- | --- | --- |
 | Authentication entry | Partially defined | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` are assigned; detailed screens and flow remain open. |
-| Bottom navigation | Partially defined | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline exists. |
+| Bottom navigation | Working baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline exists; final visual design remains open. |
 | Home dashboard | Partially defined | `HOME-ROOT` and section order exist; final card and visual details remain open. |
-| Pay+ action sheet | Partially defined | `PAYPLUS-ACTION-SHEET` and its working action set exist; exact order and disabled states remain open. |
+| Pay+ action sheet | Defined baseline | `PAYPLUS-ACTION-SHEET`, its five MVP actions, role direction, destination handoffs, availability behavior, and motion principles are defined; exact visual specification remains open. |
 | Shortcut grid | Partially defined | Eight MVP shortcuts exist; detailed More/overflow UX remains open. |
 | Route taxonomy and ID standard | Working baseline | Stable product destination rules are defined; the canonical destination inventory is maintained in `docs/traceability/route-register.md`. |
 | Non-Bills route registry | Working baseline | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, Me core child routes, Receiving Info, and the Archive hub/document route have route-level baselines; undefined destinations remain visible in the route register. |
@@ -199,7 +199,7 @@ MVP bottom navigation should use five primary destinations.
 | --- | --- | --- | --- |
 | Home | Default task-first dashboard. | Opens `HOME-ROOT`. | Discussion baseline |
 | Bills | Bill, fee, rent, tenancy, and obligation record management area. | Opens Bills area covering saved bill/rent/tenancy records and their DOC-06C sub-routes. Requests, instructions, receipts, cards, referral, and More remain separate management routes or shortcut destinations unless explicitly embedded as contextual handoffs. | Discussion baseline |
-| Pay+ | Central payment and request action. | Opens `PAYPLUS-ACTION-SHEET` for payment, setup, continuation, and request-payment actions. Exact visual UI and final ordering remain to be finalized. | Working baseline |
+| Pay+ | Central payment and request action. | Opens `PAYPLUS-ACTION-SHEET` for payment, setup, continuation, and payee-to-payer request-payment actions. | Defined behavior / final visual design open |
 | Offers | Promotion and partner-offer discovery area. | Opens `OFFERS-ROOT`. Issued rewards and referral participation remain separate routes reached through contextual handoffs. | Working baseline |
 | Me | Permanent account and user-control area. | Opens `ME-ROOT` for account information, security and privacy, Bills access, payments and records, rewards, Referral, preferences, support, About PayPlus, terms, and logout. | Core account child routes defined / other details pending |
 
@@ -211,27 +211,52 @@ MVP bottom navigation should use five primary destinations.
 
 Tapping `Pay+` should open `PAYPLUS-ACTION-SHEET`, a slide-up action sheet rather than an independent root route.
 
-The Pay+ action sheet should contain user-friendly actions for starting or continuing the core PayPlus journey. It should not expose internal implementation terms such as capture layer, funding leg, or verification layer to users. User-facing labels such as `Payment Instructions` or `付款指示` may be used where the product means a pending or future payment action.
+The sheet contains user-friendly entry actions only. It creates no request, obligation, instruction, payment, or payout by itself and must not expose internal implementation terms.
 
-Working baseline Pay+ actions:
+#### 5.3.1 MVP Layout and Motion Principles
 
-- Pay a Bill / Fee;
-- Pay Rent;
-- Add Bill / Rent;
-- Continue Payment;
-- Request Payment.
+The designated baseline is:
 
-`Request Payment` should appear by default for all users, unless the request feature/module is disabled or the account is restricted. A user may be both payer and payee, such as a landlord who is also a renter elsewhere. `Request Payment` opens `REQUESTS-NEW` and must link to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation before sending.
+1. the sheet animates upward over the current screen;
+2. the background is dimmed and blurred to focus attention while preserving context;
+3. five icon-and-label actions use a two-row grid:
+   - first row: `Pay a Bill`, `Pay Rent`;
+   - second row: `Add Bill / Rent`, `Continue Payment`, `Request Payment`;
+4. action icons and labels enter with the sheet animation;
+5. the center `Pay+` button toggles the sheet open and closed;
+6. closing reverses the opening motion.
 
-`Add Bill / Rent` should include scan QR, upload bill/invoice/tenancy/evidence, and manual entry as input methods inside the setup flow. QR or upload should not be a standalone Pay+ payment action because PayPlus must remain evidence-backed and must not behave as generic QR instant payment.
+The design must support reduced-motion accessibility and future additional action rows without changing the five MVP action meanings. Exact iconography, measurements, spacing, blur strength, motion duration, easing, and final styling remain open.
 
-`Continue Payment` should cover pending payment instructions, unfinished split-card payments, failed or retry payment legs, and interrupted checkout only where an eligible saved or incomplete payment instruction exists.
+#### 5.3.2 Action and Destination Rules
 
-The Pay+ action sheet must avoid creating wallet, stored-value, cashout, unsupported P2P, or automatic recurring-payment behavior.
+| Action | Destination | Required Behavior |
+| --- | --- | --- |
+| `Pay a Bill` | `BILLS-PAY` | Open a temporary Bill/Fee/non-rent selection scope. Do not overwrite the user's saved Bills filters. A payment-ready selection may continue to DOC-09 `PAYMENT-CHECKOUT`; a non-ready selection opens the applicable detail or resolution context. |
+| `Pay Rent` | `BILLS-PAY` | Open a temporary Rent/Tenancy selection scope with the same saved-filter and readiness rules. |
+| `Add Bill / Rent` | `BILLS-ADD` | Start evidence-backed setup. QR scan, file/photo upload, and manual entry remain inside this flow and are not standalone Pay+ payment actions. |
+| `Continue Payment` | `INSTRUCTIONS-DETAIL` or `INSTRUCTIONS-ROOT` | Count active pending and incomplete instructions, including visible review-blocked instructions. With none, show the action disabled; with one, open its detail; with more than one, open the instruction list. Review-blocked instructions remain visible but cannot continue until the blocking condition is resolved. |
+| `Request Payment` | `REQUESTS-NEW` | Start a payee-to-payer payment request linked to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation. This action is available by default to all users because one account may act as payer and payee. |
 
-Pay+ actions may start or continue a user journey, but must not bypass evidence capture, bill/rent setup, payee validation, risk checks, authorization, fee calculation, or payment instruction rules.
+`Request Payment` in this sheet does not start a payer-to-payee linking request. A payer may create a separate optional linking request from the relevant bill/rent detail, `BILLS-LINKING`, or another approved contextual request action. That request may create shared visibility or communication after acceptance, but it is not payment authorization and is not required for a payer-created direct obligation or payment.
 
-Exact visual layout, button order, empty states, disabled states, eligibility copy, and final action limits remain open.
+#### 5.3.3 Completion, Availability, and Return Rules
+
+- Standalone Pay+ `BILLS-ADD` completion should show a success state with `Pay Now` when the new obligation is payment-ready and `Back to Home`. If it is not payment-ready, show the current verification/readiness state and do not enable `Pay Now`.
+- If `BILLS-ADD` was opened from `REQUESTS-NEW`, preserve the request-creation return behavior instead of showing the standalone Pay+ completion state.
+- Completed, cancelled, archived, and terminally expired instructions are excluded from `Continue Payment` eligibility.
+- A globally unavailable or unlaunched action may be hidden. A user-specific, temporary, or review restriction should leave the action visible but disabled with a safe explanation that does not expose internal risk logic.
+- Selecting an action closes the sheet and hands control to the owning route. Cancelling or closing the sheet returns to the unchanged originating screen and must not reopen the sheet.
+- Opening the sheet must not silently discard unsaved work or interrupt external authorization. The app should block opening or require a leave confirmation where needed.
+- The sheet and destination routes must prevent duplicate activation, and every destination must revalidate evidence, eligibility, risk, authorization, payment, and payout gates owned by the relevant documents.
+
+The Pay+ action sheet must not create wallet, stored-value, cashout, unsupported P2P, generic QR payment, or automatic recurring-payment behavior.
+
+#### 5.3.4 Configuration and Data Handoffs
+
+DOC-22 may enable or disable actions by module, category, market, launch phase, or approved user segment and must audit configuration changes. Admin controls must not rename, reorder, or redirect the confirmed action semantics or bypass destination gates.
+
+Material privacy-safe signals for later DOC-18 specification include sheet opened, sheet dismissed, action availability evaluated, action selected, blocked-reason category, and destination-handoff result. These signals must not contain sensitive evidence, identity, card, bank, request, or payment values.
 
 ---
 
@@ -367,8 +392,8 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Area | Purpose of Future DOC-06 Family Detail | Current Status |
 | --- | --- | --- |
 | Authentication Entry Routes | Define detailed screen behavior for `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION`, including validation, recovery, failure, and contextual-return behavior. | IDs and handoff baseline defined / detailed UI pending |
-| Bottom Navigation Route Map | Define how `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me relate to top-level routes and deep links. | IDs assigned / detail not finalized |
-| Pay+ Action Sheet Detail | Define final label order, empty states, disabled states, permission rules, and route destinations for `PAYPLUS-ACTION-SHEET`. | Working baseline / not finalized |
+| Bottom Navigation Route Map | Define how `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me relate to top-level routes and deep links. | Working baseline; final visual design open |
+| Pay+ Action Sheet Detail | Maintain the confirmed five-action behavior, destinations, availability, completion, return, and configuration boundaries; finalize only the remaining exact visual specification. | Defined behavior / final visual design open |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
 | Offers and Rewards IA | Define `OFFERS-ROOT` discovery, category collection routes, `OFFER-DETAIL`, separate issued-reward management, referral handoff, and placement behavior. | Offers child-list baseline defined / not final visual design |
 | Me Area IA | `ME-ROOT` is the permanent account-control route. Its section order, established-route handoffs, core account child-route behavior, masking, reveal, state, and return boundaries are defined in Section 5.17. | Core account child routes defined / other details pending |
@@ -445,7 +470,7 @@ The canonical request lifecycle and user-facing labels are:
 | Header Inbox icon | Opens Inbox first; request-related inbox items may route to `REQUESTS-ROOT`, `REQUESTS-DETAIL`, or linked Bills/rent context depending on item type. |
 | Request notification | Routes to `REQUESTS-DETAIL` by default when a specific request exists. It may route to `REQUESTS-ROOT`, `BILLS-PAY`, `BILLS-RECEIVE`, or linked bill/rent detail only where DOC-08 routing rules require it. |
 | `+ Create Request` in `REQUESTS-ROOT` | Opens `REQUESTS-NEW`. |
-| Pay+ `Request Payment` | Opens `REQUESTS-NEW`. It must not create an open money request or bypass evidence-backed context setup. |
+| Pay+ `Request Payment` | Opens `REQUESTS-NEW` for a payee-to-payer payment request. It must not create an open money request, start a payer-to-payee linking request, or bypass evidence-backed context setup. |
 | `Request` action on Bills/rent card or detail | Creates, sends, resends, or updates a request record for the selected verified context. It does not open `REQUESTS-ROOT` by default. |
 | `Remind Payer` action on Bills/rent card or detail | Creates or sends a request reminder event against the existing request; it does not create a payment action or a new request. |
 | App link, WhatsApp deeplink, QR code, or approved channel | Opens onboarding/login first where required, then routes to `REQUESTS-DETAIL` for the relevant request context. |
@@ -528,7 +553,7 @@ Request activity may show system-visible request events such as created, submitt
 
 #### 5.11.8 `REQUESTS-NEW` Creation Flow
 
-`REQUESTS-NEW` is the controlled request creation flow. It may be opened from the `+ Create Request` action in `REQUESTS-ROOT`, Pay+ `Request Payment`, or an approved Bills/rent request action.
+`REQUESTS-NEW` is the controlled request creation flow. It may be opened from the `+ Create Request` action in `REQUESTS-ROOT`, Pay+ `Request Payment` for payee-to-payer payment requests, or an approved contextual Bills/rent request action. Payer-to-payee linking begins contextually and must not be mistaken for the Pay+ action.
 
 The flow must not create an open money request. It must link to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation before sending. It must not perform payment quote, checkout, authorization, funding, settlement, payout, or refund actions.
 
@@ -681,7 +706,7 @@ Payment instruction must not be created merely because a user pays immediately a
 | Entry Point | Route Behavior |
 | --- | --- |
 | Dashboard shortcut `Instructions` | Opens `INSTRUCTIONS-ROOT`. |
-| Pay+ `Continue Payment` | Opens `INSTRUCTIONS-ROOT`, or may deep-link to `INSTRUCTIONS-DETAIL` where there is one urgent instruction. |
+| Pay+ `Continue Payment` | Disabled when no active pending/incomplete instruction exists; opens `INSTRUCTIONS-DETAIL` for exactly one or `INSTRUCTIONS-ROOT` for more than one. Review-blocked instructions remain visible but cannot continue. |
 | Important Notice / Action Required card | Opens the relevant `INSTRUCTIONS-DETAIL` where a specific instruction exists. |
 | Payment instruction notification | Opens `INSTRUCTIONS-DETAIL` by default for context; its primary action may continue to DOC-09 checkout/review where payment submission is required. |
 | Checkout/payment flow | May create or update a payment instruction where user chooses pay later, split-card remains incomplete, or payment remains pending action. |
@@ -1943,7 +1968,7 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 | Authentication Entry | Route IDs and Handoff Baseline Defined / Detailed UI Pending | Define `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` screen content, validation, recovery, failure, and contextual-return behavior. |
 | Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Confirm card-level UI, notice priority, carousel behavior, dashboard activity cap, and empty states. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
-| Pay+ | `PAYPLUS-ACTION-SHEET` Assigned / Partially Defined | Confirm visual order, disabled states, eligibility copy, and final action limits. |
+| Pay+ | `PAYPLUS-ACTION-SHEET` Defined Baseline / Not Final Visual Design | Five MVP actions, role direction, route handoffs, availability behavior, completion rules, and motion principles are defined. Confirm exact iconography, measurements, spacing, blur, motion timing/easing, and future added-button layout. |
 | Offers and Rewards | Defined Behavior / Not Final Visual Design | Offers discovery and child-list behavior are defined. `REWARDS-ROOT` Active/History views, search, filters, ordering, cards, route states, `REWARD-DETAIL`, checkout return, and contextual fulfilment actions are defined. Confirm final styling, Offers label taxonomy, personalization, equal-priority fallback, and partner-specific activation methods. |
 | Me | Core Account, Receiving Info, and Archive Family Defined / Other Child Details Pending | `ME-ROOT`, account/security/privacy routes, the `RECEIVING-INFO` family, `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` are defined. Support/About/Terms detail and final visual design remain open. |
 | Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
@@ -1960,7 +1985,7 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
-| OQ-06B-001 | What final Pay+ visual layout, button order, disabled states, eligibility copy, and final action limits should be used? | Product / Design / Payments | Open |
+| OQ-06B-001 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should be used within the confirmed two-row five-action baseline? | Product / Design / Payments | Partially open; behavior and action order defined |
 | OQ-06B-002 | What final visual design and remaining child-route UI should apply to Me, Receiving Info, Archived Records, More shortcut management, and Support? Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, Receiving Info, and the Archive family behavior are defined. | Product / Design / Privacy / Security / Operations | Partially open |
 | OQ-06B-003 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
@@ -1977,6 +2002,7 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.30 | 2026-07-27 | Defined the Pay+ action-sheet five-action layout principle, animation and accessibility baseline, category-scoped Bills handoffs, Add/Continue completion logic, payee-to-payer Request Payment meaning, contextual payer-to-payee linking boundary, availability rules, return behavior, configuration limits, and data-signal handoff. |
 | 0.1.29 | 2026-07-26 | Defined `ARCHIVED-ROOT`, aligned the `Archived Bills & Rent` label, clarified obligation-versus-evidence placement, personal archive visibility, document-to-obligation handoff, DOC-06C ownership, and hierarchical route-map references. |
 | 0.1.28 | 2026-07-26 | Replaced `ARCHIVED-EVIDENCE-LIST` with the `ARCHIVED-ROOT` family, defined `ARCHIVED-DOCS-LIST` screen behavior and access boundary, and registered `ARCHIVED-BILLS-LIST` for later drafting. |
 | 0.1.27 | 2026-07-26 | Assigned stable destination IDs for authentication entry, Home, Pay+, More, Notification Inbox, and checkout handoff; defined the pre-login Login/Register baseline and normal/contextual post-authentication routing while leaving detailed UI pending. |

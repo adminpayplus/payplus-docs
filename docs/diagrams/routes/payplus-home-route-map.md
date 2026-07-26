@@ -2,9 +2,9 @@
 
 Status: Current discussion reference
 Owner: DOC-06B
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
-This map owns Home sections, the eight MVP shortcuts, and Pay+ action-sheet handoffs. Destination internals belong to their route-family maps.
+This map owns Home sections and the eight MVP shortcuts. Pay+ action-sheet handoffs and destination internals belong to their route-family maps.
 
 ```mermaid
 flowchart TD
@@ -29,8 +29,5 @@ flowchart TD
   UPCOMING --> BILLS
 
   HOME --> PAYPLUS["PAYPLUS-ACTION-SHEET"]
-  PAYPLUS --> PAY["BILLS-PAY<br/>Pay Bill / Fee or Rent"]
-  PAYPLUS --> ADD["BILLS-ADD<br/>Add Bill / Rent"]
-  PAYPLUS --> CONTINUE["INSTRUCTIONS-ROOT<br/>Continue Payment"]
-  PAYPLUS --> NEWREQUEST["REQUESTS-NEW<br/>Request Payment"]
+  PAYPLUS -. "See Pay+ route map" .-> PAYPLUSHANDOFFS["Pay+ action handoffs"]
 ```

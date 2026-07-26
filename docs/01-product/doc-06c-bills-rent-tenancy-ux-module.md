@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.16
+version: 0.1.17
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -39,12 +39,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06C` |
 | **Title** | Bills, Rent & Tenancy UX Module |
-| **Version** | `0.1.16` |
+| **Version** | `0.1.17` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -120,7 +120,7 @@ Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER
 | ID | Type | Route / Section | Opened By | Definition |
 | --- | --- | --- | --- | --- |
 | `BILLS-ROOT` | Screen | Bills route | Bottom nav `Bills` | Top-level Bills tab screen. |
-| `BILLS-PAY` | Tab / view | To Pay view | `To Pay` tab inside `BILLS-ROOT`, Pay+ `Pay a Bill / Fee`, Pay+ `Pay Rent`, dashboard items, reminders, or action-required notifications | Payer-oriented selection and management route for bills, fees, rent, and requests the user needs or expects to pay. This replaces the earlier informal "To Pay view" description. It is not the checkout/payment route. |
+| `BILLS-PAY` | Tab / view | To Pay view | `To Pay` tab inside `BILLS-ROOT`, Pay+ `Pay a Bill`, Pay+ `Pay Rent`, dashboard items, reminders, or action-required notifications | Payer-oriented selection and management route for bills, fees, rent, and requests the user needs or expects to pay. Pay+ may open a temporary Bill/Fee or Rent/Tenancy selection scope without changing saved Bills filters. This replaces the earlier informal "To Pay view" description. It is not the checkout/payment route. |
 | `BILLS-RECEIVE` | Tab / view | To Receive view | `To Receive` tab inside `BILLS-ROOT`, payee-side request status, dashboard items, or action-required notifications | Payee-oriented request and receive-management route for bills, fees, rent, and requests the user expects to receive. It must not show payer-side `Pay` actions. |
 | `BILLS-CARD-BILL` | Card component | Bill / fee card | Rendered inside `BILLS-PAY` or `BILLS-RECEIVE` | Summary card for a bill, invoice, fee, or approved non-rent obligation. |
 | `BILLS-CARD-RENT` | Card component | Rent / tenancy card | Rendered inside `BILLS-PAY` or `BILLS-RECEIVE` | Summary card for rent or tenancy-linked obligation. |
@@ -143,6 +143,7 @@ Initial route ownership:
 | Tap `Bills` bottom nav | App bottom navigation | Opens `BILLS-ROOT`, defaulting to the last used or system-default `To Pay` / `To Receive` view. |
 | Tap `To Pay` | `BILLS-ROOT` | Opens `BILLS-PAY`. |
 | Tap `To Receive` | `BILLS-ROOT` | Opens `BILLS-RECEIVE`. |
+| Tap `Pay a Bill` / `Pay Rent` | `PAYPLUS-ACTION-SHEET` | Opens `BILLS-PAY` with the applicable temporary category scope. A payment-ready selection may continue to DOC-09 `PAYMENT-CHECKOUT`; a non-ready selection opens the applicable bill/rent detail or resolution context. |
 | Tap `Add Bill / Rent` | `BILLS-ROOT`, Pay+ action sheet, or `REQUESTS-NEW` create-new path | Opens `BILLS-ADD`. If opened from `REQUESTS-NEW`, successful completion must return to `REQUESTS-NEW` with the created bill/rent context selected; cancellation returns to `REQUESTS-NEW` without changing the selected context. |
 | Tap `Pay` on a payer-side card/detail | `BILLS-PAY`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. DOC-06C owns the entry point and route handoff only. |
 | Tap `Request` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Creates, sends, resends, or opens request-delivery action for a verified bill/rent/tenancy context before counterparty acceptance. The action creates or updates a request record that may appear in `REQUESTS-ROOT` and be managed in `REQUESTS-DETAIL`; it does not open `REQUESTS-ROOT` by default. Where the user must select receiver, delivery method, or share channel, route through DOC-06B `REQUESTS-NEW`. A request must not be delivered before required evidence is verified or approved by exception. Exact request delivery method and notification behavior must follow DOC-08 and later DOC-22 controls. |
@@ -164,6 +165,8 @@ Payment/checkout ownership rule:
 - DOC-06C owns the user-facing entry point, route handoff, back/return behavior expectation, and the fact that payer-side `Pay` opens checkout.
 - DOC-09 owns the payment/checkout screen content and behavior, including payment quote, fee display, promotion quote, card or payment profile selection, split-card allocation, authorization, 2FA/passcode gates, deferred payment instruction, revalidation, error handling, and payment-state outcomes. DOC-06B `PAYMENT-PROFILE-ROOT` owns reusable card/profile management when checkout or instruction flows need a card/profile management handoff.
 - DOC-07 owns required user-facing wording and disclosures; DOC-08 owns checkout-related notifications and receipts; DOC-13 owns promotion/coupon/voucher checkout treatment; DOC-15 owns masking and data visibility; DOC-19 owns authentication/security controls; DOC-18 owns route events and data signals.
+
+Standalone `BILLS-ADD` started from Pay+ should end on a success state with `Pay Now` only when the new obligation is payment-ready and `Back to Home`. If it is not payment-ready, show the current verification/readiness state and no active `Pay Now`. This does not replace the existing `REQUESTS-NEW` return behavior when setup originated from request creation.
 
 ### 5.2 Top-Level Views
 
@@ -823,6 +826,7 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.17 | 2026-07-27 | Aligned `BILLS-PAY` with temporary Pay+ Bill/Fee and Rent/Tenancy selection scopes and defined standalone Pay+ `BILLS-ADD` success/readiness behavior without changing Bills ownership or checkout logic. |
 | 0.1.16 | 2026-07-26 | Defined `ARCHIVED-BILLS-LIST`, archived read-only bill/rent detail mode, mixed-role search/filters, archive eligibility and blockers, personal archive projection, restore behavior, evidence cascade, reminder effects, and non-restorable handling. |
 | 0.1.15 | 2026-07-26 | Moved archived obligations out of Bills filters into the `ARCHIVED-ROOT` family, removed standalone current-evidence archive, and defined replacement, parent archive, restore, expiry, and previous-version rules. |
 | 0.1.14 | 2026-07-26 | Limited obligation readiness to `Ready to Pay`, `Action Required`, and `Under Review`; separated payment outcomes, archive visibility, due-state labels, request lifecycle, and linked dispute cases from Bills Activity. |

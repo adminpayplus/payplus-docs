@@ -2,7 +2,7 @@
 
 Status: Working alignment reference
 Owner: Product / Founder
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 Classification: Internal
 
 This register is the canonical inventory of PayPlus product destinations. Owning documents define behavior; this register tracks identity, parentage, type, ownership, and definition status without restating detailed requirements.
@@ -23,7 +23,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `AUTH-LOGIN` | `AUTH-ENTRY` / protected deeplink | Child authentication flow | Authenticate an existing user and establish an approved session. | DOC-06B / DOC-19 | Partially defined |
 | `AUTH-REGISTRATION` | `AUTH-ENTRY` / referral or approved deeplink | Child registration/onboarding flow | Create an account and complete required registration gates. | DOC-06B / DOC-15 | Partially defined |
 | `HOME-ROOT` | Successful authentication / bottom navigation: Home | Root screen | Open the task-first logged-in dashboard. | DOC-06B | Partially defined |
-| `PAYPLUS-ACTION-SHEET` | Bottom navigation: Pay+ | Sheet / modal | Start or continue approved PayPlus payment, setup, instruction, or request journeys. | DOC-06B | Partially defined |
+| `PAYPLUS-ACTION-SHEET` | Bottom navigation: Pay+ | Sheet / modal | Start approved Bill/Rent payment selection, bill/rent setup, payment continuation, or payee-to-payer request creation through the five defined actions. | DOC-06B | Defined baseline |
 | `MORE-ROOT` | Dashboard shortcut: More | Root screen | Manage dashboard shortcuts and access approved secondary services. | DOC-06B | Partially defined |
 | `NOTIFICATION-INBOX` | Home header / approved notification context | Utility route | List notification-backed messages, announcements, support replies, and action items. | DOC-06B / DOC-08 | Partially defined |
 | `PAYMENT-CHECKOUT` | Bills, Instructions, Requests, or approved payment entry | Flow / screen group | Review payment method, eligible benefits, quote, authorization, and submission. | DOC-09 | Partially defined |
@@ -88,7 +88,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 
 ## Assigned Destinations Requiring Further Definition
 
-All currently identified product areas now have stable destination IDs. `AUTH-ENTRY`, `AUTH-LOGIN`, `AUTH-REGISTRATION`, `HOME-ROOT`, `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, `NOTIFICATION-INBOX`, and `PAYMENT-CHECKOUT` remain partially defined and must receive detailed route or screen behavior before their applicable acceptance scope is complete. The Archive route family has a defined human-readable behavior baseline; final visual design and technical implementation remain open.
+All currently identified product areas now have stable destination IDs. `AUTH-ENTRY`, `AUTH-LOGIN`, `AUTH-REGISTRATION`, `HOME-ROOT`, `MORE-ROOT`, `NOTIFICATION-INBOX`, and `PAYMENT-CHECKOUT` remain partially defined and must receive detailed route or screen behavior before their applicable acceptance scope is complete. `PAYPLUS-ACTION-SHEET` and the Archive route family have defined human-readable behavior baselines; final visual design and technical implementation remain open.
 
 ## Maintenance Rules
 

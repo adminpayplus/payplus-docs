@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.10.2
+version: 0.10.3
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -35,12 +35,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-01` |
 | **Title** | Product Overview & Positioning |
-| **Version** | `0.10.2` |
+| **Version** | `0.10.3` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Commercial Lead |
 | **Approvers** | Product Lead<br>Project Owner |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -85,8 +85,9 @@ The founding-stage MVP baseline includes:
 
 | Decision | Baseline |
 | --- | --- |
-| Payer-created requests | MVP scope. |
-| Payee-created requests | MVP scope. |
+| Payer-created obligations and payments | MVP scope. A direct payer-created payment does not require a request or payee acceptance by default. |
+| Payer-created linking requests | MVP scope where optional party linking is enabled; acceptance creates shared visibility or communication, not payment authorization. |
+| Payee-created payment requests | MVP scope; payer acceptance is required before payment from the request. |
 | Bill and fee payments | MVP scope, subject to evidence, payee, payment, payout, and risk controls. |
 | Tenancy and rent payments | MVP scope, subject to tenancy or lease evidence and rent-specific controls. |
 | Domestic helper, driver, and personal service payments | MVP scope where tied to evidence-backed salary, fee, invoice, contract, or approved obligation records. |
@@ -319,8 +320,9 @@ Candidate in-scope capabilities include:
 - payee onboarding and payee profile creation;
 - payee type and capability permissioning;
 - bill, invoice, fee, rent, or obligation request creation;
-- payer-created requests;
-- approved payee-created requests;
+- payer-created obligations and payments;
+- optional payer-created linking requests;
+- approved payee-created payment requests;
 - request delivery or invitation to payer;
 - request delivery by in-app message, app link, WhatsApp deeplink, QR code, or other approved channel;
 - payer review, acceptance, rejection, query, or dispute before authorization;
@@ -373,12 +375,12 @@ PayPlus should follow these principles:
 | Verified obligation first | Payment should be tied to a valid bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved payment obligation. |
 | Approved payee only | Payout should go only to a verified or approved payee. |
 | Payer authorization required | No payee-created request should result in funding or payout without explicit payer authorization. |
-| Evidence parity | Payee-created requests should meet the same evidence standard as payer-created requests. |
-| Request-origin clarity | Product should clearly show whether a request was payer-created, payee-created, admin-created, or system-created. |
+| Evidence parity | Payee-created payment requests should meet the same evidence standard as payer-created obligations/payments for the same category. |
+| Request-origin clarity | Product should distinguish a payee-created payment request from an optional payer-created linking request and from a payer-created direct obligation/payment. |
 | Permissioned payee capability | Payees should only create request types and categories they are approved to create. |
 | No unrestricted cashout | Product must not enable card-funded cash withdrawal or unrestricted transfer. |
 | Transparent pricing | Payers should see service fees and total cost before payment confirmation. |
-| Traceable lifecycle | Each request should be traceable from creation through funding, payout, reconciliation, and receipt. |
+| Traceable lifecycle | Each request must have its own traceable lifecycle; any resulting obligation, payment, payout, reconciliation, and receipt must remain linked but separately traceable. |
 | Risk-based controls | Higher-risk categories or behavior should trigger stronger review and limits. |
 | Privacy-bound visibility | Payers and payees should only see information appropriate to their role and authorization level. |
 | Data-engine readiness by design | Material product actions should create structured, classified, auditable, and purpose-linked data so PayPlus can support service operation, risk controls, analytics, reporting, and future approved AI use. |
@@ -388,10 +390,10 @@ PayPlus should follow these principles:
 
 ## 11. High-Level Transaction Lifecycle
 
-### 11.1 Payer-Created Request
+### 11.1 Payer-Created Obligation and Payment
 
 1. Payer signs in.
-2. Payer creates a bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved obligation payment request.
+2. Payer creates a bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved obligation/payment context.
 3. Payer enters details and/or uploads evidence.
 4. PayPlus checks category, payee, evidence, limits, risk, and eligibility.
 5. Payer reviews quote, fee, disclosures, timing, and terms.
@@ -467,7 +469,7 @@ PayPlus must be assessed before launch against applicable legal, regulatory, car
 Key compliance and risk positioning assumptions:
 
 - PayPlus is intended as a bill payment facilitation service.
-- PayPlus may support payer-created and approved payee-created payment requests only where assessed and approved.
+- PayPlus may support direct payer-created obligations/payments, optional payer-to-payee linking requests, and approved payee-created payment requests only where assessed and approved.
 - PayPlus must avoid wallet and stored-value behavior unless separately approved.
 - PayPlus must avoid unrestricted money transmission behavior unless licensed, exempt, sponsored, or otherwise approved.
 - PayPlus must not enable card-funded cashout.
@@ -656,7 +658,8 @@ Candidate success criteria include:
 | Activated users | Users who complete registration and become eligible to submit or pay bill payments. |
 | Onboarded payees | Payees approved to receive payouts or create requests where enabled. |
 | Submitted requests | Number of bill payment or payment obligation requests created. |
-| Payer-created requests | Number of requests created by payers. |
+| Payer-created obligations/payments | Number of direct evidence-backed obligations or payment contexts created by payers. |
+| Payer-created linking requests | Number of optional linking requests sent by payers. |
 | Payee-created requests | Number of requests created by approved payees. |
 | Payee request acceptance rate | Percentage of payee-created requests accepted by payers. |
 | Payee request rejection and linked-case rate | Percentage of payee-created requests rejected or associated with a pre-authorization query/dispute case. |
@@ -751,7 +754,7 @@ Metric definitions should be finalized in `DOC-18 Data Model, Transaction State,
 - product boundaries;
 - product principles;
 - data and AI positioning boundaries;
-- high-level payer-created request lifecycle;
+- high-level payer-created obligation/payment lifecycle;
 - high-level payee-created request lifecycle;
 - commercial model summary;
 - compliance and risk positioning;
@@ -773,6 +776,7 @@ This document should remain a concise foundation product overview and should not
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.10.3` | `2026-07-27` | Product Documentation Team | Replaced obsolete payer-created payment-request wording with direct payer-created obligation/payment terminology, preserved optional payer-to-payee linking requests as a separate concept, and aligned evidence, lifecycle, traceability, and metric language. |
 | `0.1.0` | `2026-05-14` | Initial Author | Initial draft of `DOC-01` Project Charter & Product Positioning. |
 | `0.2.0` | `2026-05-26` | Product Documentation Team | Reframed as foundation charter, clarified product positioning, added product boundaries, candidate MVP scope, assumptions, constraints, dependencies, risks, launch readiness themes, downstream document impact, and standardized metadata and version history. |
 | `0.3.0` | `2026-05-27` | Product Documentation Team | Updated charter to include controlled payee-created bill, invoice, fee, and rent payment request capability. Added payee onboarding, payer acceptance and authorization, evidence parity, landlord/rent evidence controls, request-origin positioning, additional risks, dependencies, success metrics, launch readiness themes, and downstream document impacts aligned to `DOC-05 v0.2.0`. |

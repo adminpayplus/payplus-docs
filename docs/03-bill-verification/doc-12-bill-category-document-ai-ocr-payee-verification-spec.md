@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.7.6
+version: 0.7.7
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-12` |
 | **Title** | Bill Category, Document AI/OCR & Payee Verification Specification |
-| **Version** | `0.7.6` |
+| **Version** | `0.7.7` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Risk |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Operations Lead<br>Payments Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Risk Lead<br>Compliance Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -126,7 +126,7 @@ Unconfirmed items should remain editable assumptions or gated requirements and s
 
 | Principle | Requirement |
 | --- | --- |
-| Evidence-backed payments | Each payment or payee-created request must link to an evidence-backed obligation unless an approved exception applies. A payer-created payment does not require a request. |
+| Evidence-backed payments | Each payment or payee-created payment request must link to an evidence-backed obligation unless an approved exception applies. A payer-created payment does not require a request. |
 | UX assist, not blind automation | AI/OCR may autofill fields, but users must review and correct material fields before submission. |
 | Extractable does not mean displayable | Sensitive fields may be extracted and stored under controls without being shown broadly in the UI. |
 | Data layer separation | Evidence document data must be labeled as document-derived data, not as the entire user profile. |
@@ -455,7 +455,7 @@ Rules:
 - extracted payment destination data should support payout destination review where shown;
 - landlord, property manager, business payee, institution, and higher-risk payees may require enhanced review;
 - mismatch between extracted payee and selected payee should route to review unless approved category rules allow it;
-- payee-created requests should require evidence equal to or stronger than payer-created requests for the same category;
+- payee-created payment requests should require evidence equal to or stronger than payer-created obligations/payments for the same category;
 - requests created through DOC-06B `REQUESTS-NEW` must not be delivered to the receiver until required evidence is verified or approved by exception;
 - evidence-to-payee validation, duplicate detection, and risk checks must not be treated as automatic user-to-user matching; participant linking belongs to DOC-06A/DOC-06C and DOC-18 and requires approved user or operational action.
 
@@ -620,6 +620,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.7.7` | `2026-07-27` | Product Documentation Team | Aligned evidence-parity wording by distinguishing payee-created payment requests from direct payer-created obligations/payments. |
 | `0.7.6` | `2026-07-26` | Product Documentation Team | Clarified that parent archive projects current evidence into Archived Documents for both restorable and non-restorable obligations, while restore remains obligation-level and previous versions remain non-restorable. |
 | `0.7.5` | `2026-07-26` | Product Documentation Team | Defined sole-current-evidence protection, accepted replacement and previous-version behavior, parent-obligation archive/restore, expiry handling, and `ARCHIVED-DOCS-LIST` access. |
 | `0.7.4` | `2026-07-26` | Product Documentation Team | Limited bill/rent payment readiness to `Ready to Pay`, `Action Required`, and `Under Review`, kept payment outcomes/archive visibility separate, and clarified that evidence links to the obligation while payer-created payment does not require a request. |

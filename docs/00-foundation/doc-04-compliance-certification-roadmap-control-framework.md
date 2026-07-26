@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.12.4
+version: 0.12.5
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -22,7 +22,7 @@ approvers:
   - Risk Lead
   - Payments Lead
   - Finance Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -55,12 +55,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-04` |
 | **Title** | Compliance Control Framework |
-| **Version** | `0.12.4` |
+| **Version** | `0.12.5` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance Lead |
 | **Reviewers** | Legal Lead<br>Risk Lead<br>Security Lead<br>Privacy Lead<br>Payments Lead<br>Product Lead<br>Engineering Lead<br>Operations Lead<br>Finance Lead |
 | **Approvers** | Project Owner<br>Legal Lead<br>Compliance Lead<br>Security Lead<br>Risk Lead<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory Assessment<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -83,7 +83,8 @@ This document determines:
 
 This document applies to:
 
-- payer-created payment requests;
+- payer-created obligations and payments;
+- optional payer-created linking requests;
 - payee-created payment requests;
 - payee onboarding;
 - bill, invoice, fee, and rent payment flows;
@@ -199,7 +200,7 @@ Payee-created requests, bill payments, fee payments, rent/tenancy payments, dome
 | `CTRL-DOC04-EVD-004` | `T1` | Prevent request submission if required evidence fields are missing. | Product / Engineering | Validation logs |
 | `CTRL-DOC04-EVD-005` | `T1` | Detect duplicate evidence, duplicate invoices, duplicate rent requests, or repeated payment requests where feasible. | Risk / Engineering | Duplicate detection alerts |
 | `CTRL-DOC04-EVD-006` | `T1` | Route unclear, incomplete, suspicious, or high-risk evidence to admin review. | Risk / Operations | Review case logs |
-| `CTRL-DOC04-EVD-007` | `T1` | Require payee-created requests to include evidence equal to or stronger than payer-created request evidence for the same category. | Product / Compliance / Risk | Evidence requirements matrix |
+| `CTRL-DOC04-EVD-007` | `T1` | Require payee-created payment requests to include evidence equal to or stronger than payer-created obligation/payment evidence for the same category. | Product / Compliance / Risk | Evidence requirements matrix |
 | `CTRL-DOC04-EVD-008` | `T1` | Require rent evidence, such as lease, rent schedule, property reference, tenancy confirmation, or approved equivalent. | Product / Compliance / Risk | Rent evidence record |
 | `CTRL-DOC04-EVD-009` | `T1 if invoice enabled` | Require invoice evidence, business-payee details, service description, amount, due date, and payee identity information. | Product / Compliance / Risk | Invoice evidence record |
 | `CTRL-DOC04-EVD-010` | `T1 if domestic helper, driver, or personal service enabled` | Require acceptable employment, service, invoice, salary, contract, or obligation evidence before payment and payout. | Product / Compliance / Risk | Service-obligation evidence record |
@@ -726,6 +727,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.12.5` | `2026-07-27` | Product Documentation Team | Distinguished direct payer-created obligations/payments from optional payer-created linking requests and aligned evidence-parity terminology without changing compliance controls. |
 | `0.1.0` | `2026-05-14` | Initial Author | Initial draft of `DOC-04 Compliance Certification Roadmap & Control Framework`. |
 | `0.2.0` | `2026-05-26` | Product Documentation Team | Expanded into broad compliance roadmap and control framework with control domains, starter matrix, launch gates, evidence requirements, testing, remediation, governance, assumptions, constraints, dependencies, risks, downstream impact, and acceptance criteria. |
 | `0.3.0` | `2026-05-26` | Product Documentation Team | Reframed as PayPlus-specific compliance certification framework with certification definition, MVP compliance posture, control tiering, non-waivable launch blockers, risk acceptance authority, MVP minimum control baseline, evidence system mapping, scope-specific launch gates, and stronger DOC-03/DOC-20 linkage. |

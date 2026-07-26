@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.24
+version: 1.0.25
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.24` |
+| **Version** | `1.0.25` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -347,8 +347,8 @@ Notification IDs are event-driven and do not define request lifecycle states. DO
 
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
-| `NOTIF-REQ-001` | Payer-created request created | App | Important service |
-| `NOTIF-REQ-002` | Payee-created request created | App | Important service |
+| `NOTIF-REQ-001` | Payer-created linking request created | App | Important service |
+| `NOTIF-REQ-002` | Payee-created payment request created | App | Important service |
 | `NOTIF-REQ-003` | Request received | App, push optional, email optional, WhatsApp optional | Important service |
 | `NOTIF-REQ-004` | Request viewed | App or disabled | Optional service |
 | `NOTIF-REQ-005` | Request submitted for evidence verification | App | Important service |
@@ -362,6 +362,8 @@ Notification IDs are event-driven and do not define request lifecycle states. DO
 | `NOTIF-REQ-013` | Payer-created record available for optional payee linking | App or disabled external channels | Optional service |
 
 Payer-created payment may proceed without payee acceptance where DOC-06A/DOC-06C and DOC-09 gates allow it. Optional payee linking notifications must not imply the payer is blocked from payment unless a specific category, risk, payout, or compliance gate requires payee action.
+
+Pay+ `Request Payment` is a payee-to-payer payment-request entry. Payer-to-payee linking requests are contextual linking actions and must use linking language; they must not be presented as payment authorization or as a required gate for a direct payer-created obligation/payment.
 
 Payee-side `Request` and `Remind Payer` actions in DOC-06C `BILLS-RECEIVE` should use the `REQ` notification domain unless a later document defines a more specific request-reminder event. These actions should create or update request records and route recipients to `REQUESTS-DETAIL` by default when a specific request exists. They may route to `REQUESTS-ROOT`, payer-side Bills context, or linked bill/rent detail only where the notification type requires a broader list, payment-readiness handoff, or linked-context destination. Resend limits, cooldowns, escalation wording, and channel eligibility remain open for DOC-06C, DOC-08, and DOC-22 alignment.
 
@@ -715,6 +717,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.25 | 2026-07-27 | Distinguished payer-created linking-request notifications from payee-created payment-request notifications and aligned Pay+ Request Payment direction without changing channel or delivery rules. |
 | 1.0.24 | 2026-07-26 | Confirmed that personal bill/rent archive and restore do not create counterparty notifications and remain separate from domain notification events. |
 | 1.0.23 | 2026-07-26 | Replaced the obsolete archived-evidence destination with `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` routing references without adding notification events. |
 | 1.0.22 | 2026-07-26 | Assigned `NOTIFICATION-INBOX` as the stable Inbox destination while preserving DOC-08 notification-content ownership and the separate `NOTIFICATION-SETTINGS` preference route. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 0.9.1
+version: 0.9.2
 status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
@@ -15,7 +15,7 @@ approvers:
   - Project Owner
   - Finance Lead
   - Commercial Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -37,12 +37,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-02` |
 | **Title** | Business Model & Unit Economics |
-| **Version** | `0.9.1` |
+| **Version** | `0.9.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Commercial / Finance Owner |
 | **Reviewers** | Product Lead<br>Finance Lead<br>Commercial Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Finance Lead<br>Commercial Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -129,7 +129,7 @@ PayPlus may use one or more approved business model components.
 
 | Model Component | Description | Candidate Use |
 | --- | --- | --- |
-| Payer-paid service fee | Payer pays a fee when funding a payer-created or payee-created request. | Core candidate model. |
+| Payer-paid service fee | Payer pays a fee when funding a direct payer-created payment or an accepted payee-created payment request. | Core candidate model. |
 | Percentage fee | Fee calculated as a percentage of bill amount or funded amount. | Candidate core fee model. |
 | Fixed fee | Flat fee per request, transaction, payout, or other approved event. | Candidate supplemental model. |
 | Minimum fee | Fee floor to avoid negative economics on small transactions. | Candidate margin protection. |
@@ -157,7 +157,7 @@ Candidate revenue streams include:
 | Revenue Stream | Description | Notes |
 | --- | --- | --- |
 | Service fee | Fee charged to user or payer per transaction. | Must be disclosed before payment confirmation. |
-| Payer service fee | Fee charged when payer authorizes payment. | May apply to payer-created or payee-created requests. |
+| Payer service fee | Fee charged when payer authorizes payment. | May apply to a direct payer-created payment or an accepted payee-created payment request. |
 | Payee onboarding fee | Fee charged to payee for onboarding, verification, or activation. | Requires legal, tax, and commercial review. |
 | Payee subscription or platform fee | Recurring fee for payee portal, reporting, request creation, or support tools. | Requires billing and cancellation rules. |
 | Payee request fee | Fee charged per request created, sent, accepted, funded, paid, or completed. | Trigger point must be defined. |
@@ -456,7 +456,7 @@ Each promotion must define:
 
 - funding source;
 - whether it applies to payer, payee, or both;
-- whether eligibility differs for payer-created and payee-created requests;
+- whether eligibility differs for direct payer-created payments, optional payer-to-payee linking requests, and payee-created payment requests;
 - budget;
 - eligibility;
 - qualification and entitlement rules;
@@ -686,7 +686,7 @@ Candidate metrics include:
 | Payout failure rate | Percentage of payouts that fail. |
 | Category profitability | Margin by bill category. |
 | Payee profitability | Margin by payee or payee type. |
-| Request-origin profitability | Margin by payer-created versus payee-created request. |
+| Origin-model profitability | Margin by direct payer-created payment versus accepted payee-created payment request, with optional linking tracked separately where applicable. |
 | Partner profitability | Margin by partner or payment route. |
 | Campaign profitability | Margin after campaign cost. |
 | Payee-created request volume | Number and value of requests created by approved payees. |
@@ -763,7 +763,7 @@ Detailed data model and ledger design belong in `DOC-18`.
 Finance and Legal/Tax must determine:
 
 - whether PayPlus acts as principal or agent in each flow;
-- whether treatment differs for payer-created and payee-created requests;
+- whether treatment differs for direct payer-created payments, optional payer-to-payee linking requests, and payee-created payment requests;
 - how onboarded payees are classified for accounting and tax purposes;
 - whether fees are recognized gross or net;
 - when payer-side revenue is recognized;
@@ -984,3 +984,4 @@ This document should remain a commercial framework and should not become a final
 | `0.8.0` | 2026-06-02 | Product Documentation Team | Clarified MVP commercial baseline for bill, fee, rent/tenancy, invoice, and approved-obligation categories in line with DOC-14 risk-control scope. |
 | `0.9.0` | 2026-06-02 | Product Documentation Team | Added commercial impact references for DOC-09 deferred payment instruction, partial funding, quote revalidation, partial payout, and DOC-22 admin operations reporting. |
 | `0.9.1` | 2026-07-26 | Product Documentation Team | Separated request acceptance from payment authorization, and separated request lifecycle outcomes from linked query/dispute cases and linked payment refund/chargeback outcomes in commercial metrics and open questions. |
+| `0.9.2` | 2026-07-27 | Product Documentation Team | Distinguished direct payer-created payments, optional payer-to-payee linking requests, and payee-created payment requests across fee, promotion, profitability, and accounting treatment. |

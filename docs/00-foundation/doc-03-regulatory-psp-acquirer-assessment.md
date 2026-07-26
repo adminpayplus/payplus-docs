@@ -1,7 +1,7 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 0.10.1
+version: 0.10.2
 status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Legal Lead
   - Compliance Lead
   - Payments Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-03` |
 | **Title** | Regulatory Assessment |
-| **Version** | `0.10.1` |
+| **Version** | `0.10.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance / Payments Owner |
 | **Reviewers** | Legal Lead<br>Compliance Lead<br>Payments Lead<br>Risk Lead<br>Finance Lead<br>Product Lead |
 | **Approvers** | Project Owner<br>Legal Lead<br>Compliance Lead<br>Payments Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook |
 
@@ -324,7 +324,7 @@ Before launch, PayPlus should obtain written confirmation for:
 - supported product use case;
 - supported jurisdictions;
 - supported funds flow;
-- payer-created and payee-created request support;
+- direct payer-created payment, optional payer-to-payee linking request, and payee-created payment-request support;
 - merchant of record, PayFac, marketplace, platform, agent, or sub-merchant implications;
 - approved bill categories;
 - approved payee types;
@@ -711,3 +711,4 @@ This document must remain an assessment framework and must not become:
 | `0.9.0` | 2026-06-02 | Product Documentation Team | Aligned regulatory privacy references with DOC-15 data classification, role-based visibility, masking, and approved-purpose access wording. |
 | `0.10.0` | 2026-06-02 | Product Documentation Team | Aligned regulatory baseline with confirmed evidence-backed MVP categories, clarified user payment instruction is not recurring payment or stored value, softened rent enablement wording to category-gated launch controls, and added DOC-22 downstream reference. |
 | `0.10.1` | 2026-07-26 | Product Documentation Team | Distinguished payer-created payment from optional linking and separated payee-created request acceptance from payment authorization. |
+| `0.10.2` | 2026-07-27 | Product Documentation Team | Clarified partner assessment for direct payer-created payments, optional payer-to-payee linking requests, and payee-created payment requests as separate supported-flow questions. |

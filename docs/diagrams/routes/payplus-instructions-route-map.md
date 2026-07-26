@@ -2,12 +2,13 @@
 
 Status: Current discussion reference
 Owner: DOC-06B / DOC-09
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
 ```mermaid
 flowchart TD
   SHORTCUT["Dashboard Instructions shortcut"] --> ROOT["INSTRUCTIONS-ROOT"]
-  PAYPLUS["Pay+ Continue Payment"] --> ROOT
+  PAYPLUS["PAYPLUS-ACTION-SHEET<br/>see Pay+ route map"] -. "more than one active instruction" .-> ROOT
+  PAYPLUS -. "exactly one active instruction" .-> DETAIL
   ALERT["Instruction action alert"] --> DETAIL["INSTRUCTIONS-DETAIL"]
   ROOT --> DETAIL
   ROOT --> SETUP["Instruction setup"]

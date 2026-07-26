@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.22
+version: 0.21.23
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -44,12 +44,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `0.21.22` |
+| **Version** | `0.21.23` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -152,8 +152,8 @@ This matrix prevents the split from creating a false impression that all routes 
 | --- | --- | --- | --- | --- |
 | Authentication Entry | DOC-06B | DOC-06A for journey; DOC-07/DOC-15/DOC-19 for disclosure, privacy, and security | Route IDs and Handoff Baseline Defined / Detailed UI Pending | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` are assigned. Normal success enters `HOME-ROOT`; approved deeplinks may resume their intended destination. |
 | Home Dashboard | DOC-06B | DOC-06A for journey touchpoints; DOC-13/DOC-15/DOC-22 where relevant | `HOME-ROOT` Assigned / Partially Defined | Section order, shortcut baseline, Featured carousel, Important Notice, and Recent Activity summary are defined; exact UI and card rules remain open. |
-| Bottom Navigation | DOC-06B | Child route owners for destination behavior | Partially Defined | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline is defined; sub-route detail remains open. |
-| Pay+ Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | `PAYPLUS-ACTION-SHEET` Assigned / Partially Defined | Working action set is defined but final visual order, disabled states, and eligibility copy remain open. |
+| Bottom Navigation | DOC-06B | Child route owners for destination behavior | Working Baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline is defined; final visuals and remaining child-route detail remain open. |
+| Pay+ Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | Defined Behavior / Not Final Visual Design | Five-action order, role direction, destination handoffs, availability, completion, return, configuration limits, and motion principles are defined. |
 | Bills / Rent / Tenancy | DOC-06C | DOC-06B for route entry/archive family; DOC-06A for lifecycle; DOC-09/DOC-12 for payment/evidence detail | Partially Defined | BILLS-PAY, BILLS-RECEIVE, BILLS-ACTIVITY, BILLS-EVIDENCE, BILLS-REMINDER, and `ARCHIVED-BILLS-LIST` have working baseline rules. |
 | Payment / Checkout | DOC-09 | DOC-06A/DOC-06C for entry, return, and high-level handoff only | `PAYMENT-CHECKOUT` Assigned / Partially Defined | DOC-09 owns checkout behavior; DOC-06 family should not duplicate checkout screen detail. |
 | Requests | DOC-06B | DOC-06A for request lifecycle; DOC-06C for Bills/rent request implementation; DOC-08 for notification routing | Core Route and Lifecycle Behavior Defined / Not Final Visual Design | `REQUESTS-ROOT`, `REQUESTS-DETAIL`, and `REQUESTS-NEW` are defined. The canonical request lifecycle, role labels, events, evidence gate, obligation-readiness, case, and archive boundaries are confirmed. |
@@ -304,9 +304,10 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | Major functions and modules must be independently disableable. | Confirmed |
 | Promotion discovery, issued-reward management, and referral participation use separate DOC-06B routes. Referral sharing, registration attribution, qualification progress, role-sensitive entitlement claiming, two-tab Referral Rewards behavior, and canonical issued-reward handoff are defined; commercial availability and campaign conditions remain governed by DOC-13. | Working Baseline / Not Final Visual Design |
 | `HOME-ROOT` is task-first and uses bottom navigation `Home`, `Bills`, `Pay+`, `Offers`, and `Me`. | Designated Layout Baseline |
-| `Pay+` is the preferred center bottom-nav action label and opens `PAYPLUS-ACTION-SHEET`. Working baseline actions are Pay a Bill / Fee, Pay Rent, Add Bill / Rent, Continue Payment, and Request Payment. | Working Baseline / Not Final |
+| `Pay+` is the preferred center bottom-nav action label and opens `PAYPLUS-ACTION-SHEET`. Its confirmed two-row order is Pay a Bill and Pay Rent, then Add Bill / Rent, Continue Payment, and Request Payment; exact visual specification remains open. | Defined Behavior / Not Final Visual Design |
 | `Add Bill / Rent` includes scan QR, upload evidence, and manual entry inside the setup flow; QR/upload is not a standalone instant-payment action. | Working Baseline |
-| `Request Payment` should appear by default for all users unless the feature/module is disabled or the account is restricted. | Working Baseline |
+| Pay+ `Request Payment` is a payee-to-payer payment-request entry available by default unless unavailable or restricted. Optional payer-to-payee linking starts contextually from the linked bill/rent flow and is not payment authorization. | Confirmed |
+| Pay+ `Continue Payment` is disabled with no active pending/incomplete instruction, opens one `INSTRUCTIONS-DETAIL` when exactly one exists, and opens `INSTRUCTIONS-ROOT` when more than one exists; review-blocked instructions remain visible but cannot continue. | Confirmed |
 | MVP dashboard shortcuts are Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More. | Designated Layout Baseline |
 | Dashboard shortcuts must be admin-configurable and user-reorderable, with user settings overriding system default and restore-default support. | Confirmed |
 | Important Notice / Action Required is a combined swipeable section, collapsible by user, hidden when empty. | Confirmed |
@@ -348,6 +349,7 @@ The DOC-06 parent is acceptable when:
 - stable IDs are introduced progressively without forcing unfinished route detail;
 - authentication acceptance includes `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION`, with normal successful entry to `HOME-ROOT` and approved contextual return where applicable;
 - all currently identified global product areas have stable destination IDs, including `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, `NOTIFICATION-INBOX`, and DOC-09 `PAYMENT-CHECKOUT`;
+- `PAYPLUS-ACTION-SHEET` acceptance covers the five-action order, payee-to-payer Request Payment direction, category-scoped Bills handoff, instruction-count routing, completion/return behavior, availability treatment, and no-side-effect boundary while final visual design remains open;
 - the archive family identifies `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST`, with detailed behavior kept in its owning module and final visual design marked open;
 - existing product decisions are preserved in parent or child docs;
 - prohibited PayPlus journey boundaries remain visible;
@@ -360,6 +362,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.23 | 2026-07-27 | Synchronized the parent with the defined Pay+ five-action behavior, payee-to-payer Request Payment direction, contextual payer-linking boundary, category-scoped Bills handoff, instruction-count routing, and remaining visual-design scope. |
 | v0.21.22 | 2026-07-26 | Synchronized the parent with defined Archive-family behavior, personal archive projection, archived-detail reuse, eligibility/blocker and restore rules, and obligation/evidence separation. |
 | v0.21.21 | 2026-07-26 | Synchronized the parent with the `ARCHIVED-ROOT` family, defined Archived Documents behavior, archived-obligation handoff, and accepted evidence replacement/archive/restore rules. |
 | v0.21.20 | 2026-07-26 | Synchronized the parent with assigned authentication, Home, Pay+, More, Notification Inbox, and Payment Checkout destination IDs and the pre-login Login/Register handoff baseline. |

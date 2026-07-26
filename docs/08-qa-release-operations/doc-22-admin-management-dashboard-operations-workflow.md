@@ -115,6 +115,18 @@ Required capabilities should include:
 
 Detailed final admin screens, permission matrix, approval workflow, and implementation fields will be drafted in full DOC-22 and DOC-18.
 
+#### 18.1.1 Pay+ Action Availability Configuration
+
+Future full DOC-22 drafting must support controlled availability for the five DOC-06B `PAYPLUS-ACTION-SHEET` actions:
+
+- enable or disable an action by module, category, market, launch phase, or approved user segment;
+- distinguish globally unavailable/unlaunched actions, which may be hidden, from user-specific, temporary, or review restrictions, which should remain visible but disabled with safe user-facing explanation;
+- preserve the confirmed meanings, order, and destinations for `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, `Continue Payment`, and payee-to-payer `Request Payment`;
+- prevent admin users from renaming, reordering, or redirecting those action semantics or bypassing destination evidence, eligibility, risk, authorization, payment, or payout gates;
+- record configuration version, actor, reason, effective scope, timestamp, and rollback/audit information.
+
+Exact admin screen, permission, approval, and implementation-field design remains for full DOC-22 drafting.
+
 ### 18.2 Reminder Default Configuration
 
 Admin dashboard must support configuration hooks for DOC-06C bill/rent reminder defaults where enabled.
@@ -292,6 +304,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.15.0 | 2026-07-27 | Added future Pay+ action availability configuration, hidden-versus-disabled rules, fixed semantic boundaries, destination-gate protection, and audit requirements. |
 | 0.14.0 | 2026-07-26 | Added future per-user archive-projection, archived-obligation blocker/eligibility, current-evidence cascade, canonical-record protection, and operational audit requirements; admin restore-on-behalf remains to be defined in the full DOC-22. |
 | 0.13.0 | 2026-07-26 | Added future archive-family controls, separate archive/history descriptors, sole-current-evidence protection, parent archive/restore, non-restorable expiry/history, access, retention, and audit requirements. |
 | 0.12.0 | 2026-07-26 | Added future admin requirements separating canonical request lifecycle, role projections, events, evidence, readiness, linked cases, payment/payout status, and archive visibility, plus the canonical linked-case lifecycle. |
