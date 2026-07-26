@@ -34,6 +34,8 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-011` | `2026-07-26` | Canonical Request Lifecycle And State-Domain Separation | Accepted | `DOC-06A` | `88c7c33` |
 | `DEC-2026-012` | `2026-07-26` | Sensitive Reveal And Material-Change Authentication Boundary | Accepted | `DOC-15` | `88c7c33` |
 | `DEC-2026-013` | `2026-07-26` | Change Impact And Prototype Lifecycle Governance | Accepted | `DOC-00` | `88c7c33` |
+| `DEC-2026-014` | `2026-07-26` | Personal Archive Projection And Controlled Obligation Restore | Accepted | `DOC-06B` / `DOC-06C` | `9dc8015` |
+| `DEC-2026-015` | `2026-07-26` | Hierarchical Route-Diagram Governance | Accepted | `DOC-00` | `9dc8015` |
 
 ## 4. Decision Record Template
 
@@ -603,3 +605,82 @@ Supersedes ad hoc impact checking and unregistered coexisting prototypes.
 **Remaining Open Items**
 
 The next prototype must be corrected, validated, assigned a source commit, and explicitly registered before it becomes a current reference.
+
+### `DEC-2026-014` - Personal Archive Projection And Controlled Obligation Restore
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-26` |
+| Status | Accepted |
+| Primary owner | `DOC-06B`, archive navigation; `DOC-06C`, Bills/rent archive and restore behavior |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06C`, `DOC-06D`, `DOC-08` to `DOC-12`, `DOC-14`, `DOC-15`, `DOC-18`, `DOC-22`, glossary, traceability registers, route maps |
+| Substantive commit | `9dc8015` |
+| Founder approval | Archive hierarchy, eligibility, evidence treatment, restoration, and status rules approved on `2026-07-26` |
+
+**Decision**
+
+PayPlus uses `ARCHIVED-ROOT` as the archive hub, with `ARCHIVED-BILLS-LIST` for archived bill, fee, rent, and tenancy obligations and `ARCHIVED-DOCS-LIST` for evidence archived with its parent and superseded evidence versions. Archive is a per-user visibility projection; it does not change the canonical obligation, counterparty visibility, party linkage, completed transaction history, or retained snapshots.
+
+The sole current evidence of an active obligation cannot be archived independently. Replacing accepted evidence preserves the prior version as non-restorable. Archiving an obligation also archives its current evidence in that user's projection. An obligation may be restored only when its archive-time class is restore-eligible and current operational blockers permit restoration. Restore revalidates current evidence, recipient, compliance, and risk conditions and does not reactivate reminders, instructions, schedules, or prior payment authorization.
+
+**Rationale**
+
+Separating archived obligations from archived evidence preserves the distinction between an evidence-backed obligation and the documents that support it. Per-user projection avoids one party's housekeeping action changing another party's records or operational payment truth. Controlled restore prevents archived records from bypassing current evidence, identity, recipient, compliance, risk, payment, payout, refund, or dispute controls.
+
+**Alternatives Considered**
+
+- One combined archive list was rejected because obligations and evidence have different meaning, ownership, and restore behavior.
+- Allowing the sole current evidence to be archived alone was rejected because an active obligation would become intentionally evidence-free.
+- Treating `Cannot be restored` as a lifecycle status was rejected; restore eligibility is a contextual capability and explanation.
+- Automatically archiving expired obligations was rejected; expiry changes status but does not change user visibility.
+
+**Consequences And Handoffs**
+
+`DOC-18` must define the canonical data model, projection records, audit events, version lineage, and blocker evaluation. `DOC-22` must define future admin review and restore-on-behalf controls. Prototype work must represent this route family only after alignment with the approved source documents.
+
+**Supersedes / Superseded By**
+
+Supersedes the singular `ARCHIVED-EVIDENCE-LIST` destination and any implication that archive changes counterparty or canonical operational state.
+
+**Remaining Open Items**
+
+Final visual design, technical schema and event contracts, admin workflow detail, and implementation acceptance tests remain to be completed in their owning layers.
+
+### `DEC-2026-015` - Hierarchical Route-Diagram Governance
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-26` |
+| Status | Accepted |
+| Primary owner | `DOC-00`, documentation governance |
+| Affected documents | `AGENTS.md`, Documentation Change Integration Workflow, diagram index, route register, DOC-06 family, route-family diagrams |
+| Substantive commit | `9dc8015` |
+| Founder approval | Hierarchical Mermaid approach and preservation of the prior map approved on `2026-07-26` |
+
+**Decision**
+
+PayPlus route diagrams use a hierarchy. The app-level map stops at direct global destinations. Each material route family owns a detailed map. Parent maps stop at child-route or documented handoff boundaries and must not duplicate another family's internal flow. The route register remains the canonical route inventory; Mermaid diagrams are visual navigation aids.
+
+The former all-in-one route map is retained as a dated, superseded, non-authoritative snapshot. Trivial leaf screens do not require separate diagrams unless their behavior becomes materially complex.
+
+**Rationale**
+
+Hierarchical maps keep navigation understandable as the product grows, expose missing child destinations without creating a single unreadable graph, and preserve one canonical route inventory.
+
+**Alternatives Considered**
+
+- Continuing one all-in-one route map was rejected because overlapping route families and repeated handoffs obscured ownership.
+- Deleting the prior map was rejected because a dated snapshot is useful for comparison and audit history.
+- Creating a separate map for every leaf screen was rejected as unnecessary documentation overhead.
+
+**Consequences And Handoffs**
+
+Future route changes must update the route register and only the affected diagram level. New route-family maps must identify status, owner, scope, handoffs, and source documents. Superseded maps must remain clearly non-authoritative.
+
+**Supersedes / Superseded By**
+
+Supersedes the single-map route documentation model.
+
+**Remaining Open Items**
+
+Future route families may receive detailed maps as their behavior becomes materially defined. Mermaid render automation remains optional until the repository adopts a supported validation toolchain.

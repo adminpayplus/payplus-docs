@@ -430,3 +430,47 @@ This append-only register records the documentation delivered by each substantiv
 - Final DOC-19 authentication, step-up, session, recovery, and security implementation.
 - `ARCHIVED-EVIDENCE-LIST`, Support/About/Terms, Home/More/Notification Inbox IDs, checkout destination IDs, and final visual design.
 - No prototype is a current validated reference; future prototype work must use the new workflow.
+
+### `2026-07-26` - Archive Route Family And Hierarchical Route Maps
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `9dc8015` |
+| Primary owner | `DOC-06B`, archive navigation; `DOC-06C`, Bills/rent archive behavior; `DOC-00`, diagram governance |
+| Decision record | `DEC-2026-014`, `DEC-2026-015` |
+| Founder approval | Archive model, restore rules, and hierarchical diagram approach approved on `2026-07-26` |
+
+**Files Changed**
+
+- `AGENTS.md`, `DOC-00`, and the Documentation Change Integration Workflow;
+- `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06C`, `DOC-06D`, and `DOC-08`;
+- `DOC-09`, `DOC-10`, `DOC-11`, `DOC-12`, `DOC-14`, `DOC-15`, `DOC-18`, and `DOC-22`;
+- diagram and supporting README files, ten current route-family maps, and one archived prior route map;
+- glossary, open-questions register, requirements traceability matrix, route register, and status-display reference matrix.
+
+**Material Changes**
+
+- Defined `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and their relationship with `ARCHIVED-DOCS-LIST`.
+- Defined archive list behavior, search, filters, cards, archived read-only detail, archive eligibility, restore eligibility, blockers, reminder effects, and evidence restoration.
+- Established archive as a per-user projection that does not alter canonical obligations, counterparty records, party linkage, completed history, or operational snapshots.
+- Prevented independent archive of the sole current evidence and retained replaced evidence as non-restorable previous versions.
+- Aligned notification, payment, payout, refund, dispute, risk, evidence, privacy, data, and admin boundaries.
+- Replaced the all-in-one route map with an app-level map and route-family maps while preserving the former map as a dated superseded snapshot.
+- Added hierarchical route-diagram rules to repository guidance and integration workflow.
+- Updated the route register, status-display reference, requirements traceability, glossary, and open-question disposition.
+
+**Checks Performed**
+
+- Staged only the 37 approved files and preserved unrelated workspace changes.
+- Verified YAML and Document Control version parity for edited formal documents.
+- Verified archive route IDs against the route register and DOC-06 owning documents.
+- Checked active route-map Mermaid fences and stale active-route references.
+- Ran `git diff --cached --check`.
+- Confirmed the prototype remains a non-authoritative review draft requiring archive-family alignment.
+
+**Remaining Open Items**
+
+- Final archive visual design and a source-aligned interactive prototype.
+- Final `DOC-18` schema, projection, event, lineage, and blocker-evaluation design.
+- Final `DOC-22` admin workflow, including restore-on-behalf controls and formal metadata.
+- Full Mermaid rendering was not run because Mermaid CLI is not installed locally; structural checks passed.
