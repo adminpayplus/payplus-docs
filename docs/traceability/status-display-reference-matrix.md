@@ -2,7 +2,7 @@
 
 Status: Working alignment reference  
 Owner: Product / Founder  
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 Classification: Internal
 
 This matrix aligns PayPlus system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
@@ -108,6 +108,8 @@ External-provider and backend states must map into these four user-facing labels
 | Identity Verification | Approved result remains valid | `Verified` | DOC-06B / DOC-15 | Account Information, Identity Verification | No verification action is shown. |
 | Identity Verification | Submission or verification did not pass | `Failed` | DOC-06B / DOC-15 | Account Information, Identity Verification, notification where applicable | Show `Verify Now` and a safe explanation without exposing provider or risk detail. |
 | Identity Verification | Existing verification must be refreshed or corrected | `Update Required` | DOC-06B / DOC-15 | Account Information, Identity Verification, notification where applicable | Show `Verify Now`; provider-required correction may use the same reusable flow. |
+
+`Suspended` is not an approved user-facing Identity Verification label. A provider, risk, compliance, or operational suspension must remain internal and map to `Failed` when verification did not pass, or `Update Required` when the user may correct, refresh, or re-verify. The owning domain decides the mapping; DOC-08 and UI routes must not introduce a fifth label.
 
 ## Privacy Request - MVP Display Mapping
 

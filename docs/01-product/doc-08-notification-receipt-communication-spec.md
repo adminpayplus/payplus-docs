@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.28
+version: 1.0.29
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -42,7 +42,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.28` |
+| **Version** | `1.0.29` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
@@ -361,12 +361,12 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-KYC-002` | KYC/KYB submission received | App, email optional | Important service |
 | `NOTIF-KYC-003` | KYC/KYB approved | App, email optional | Important service |
 | `NOTIF-KYC-004` | KYC/KYB requires action | App, push optional, email optional | Important service |
-| `NOTIF-KYC-005` | KYC/KYB rejected or suspended | App, email | Mandatory service |
+| `NOTIF-KYC-005` | Identity/KYC/KYB status is `Failed` or `Update Required` | App, email | Mandatory service |
 | `NOTIF-PRIV-001` | Privacy request submitted | App, email optional | Important service |
 | `NOTIF-PRIV-002` | Privacy request requires action | App, push optional, email | Important service |
 | `NOTIF-PRIV-003` | Privacy request completed or unable to complete | App, email | Important service |
 
-KYC/KYB notifications that require user action should open `IDENTITY-VERIFICATION`; approved or informational status messages may open `ACCOUNT-PROFILE`. Privacy-request messages open `PRIVACY-DATA-CONTROLS`. Account-closure messages open `ACCOUNT-PROFILE`, except the final completion message where login has been disabled and the notification must use an approved external channel or pre-logon destination. Contact-change messages under `NOTIF-ACCT-006` must notify the old and new channels where available without exposing OTP or recovery detail.
+KYC/KYB notifications that require user action should open `IDENTITY-VERIFICATION`; approved or informational status messages may open `ACCOUNT-PROFILE`. User-facing identity status must use only `Pending`, `Verified`, `Failed`, or `Update Required`. Internal provider or operational suspension must map to `Failed` or `Update Required` according to the owning domain meaning and must not appear as a fifth user-facing identity label. Privacy-request messages open `PRIVACY-DATA-CONTROLS`. Account-closure messages open `ACCOUNT-PROFILE`, except the final completion message where login has been disabled and the notification must use an approved external channel or pre-logon destination. Contact-change messages under `NOTIF-ACCT-006` must notify the old and new channels where available without exposing OTP or recovery detail.
 
 First password setup, password change, and Google/Apple login-method link or unlink use `NOTIF-ACCT-006`; they do not require separate notification IDs. A temporary registration attempt is not an account and creates no Inbox record. Pre-account prompts, OTPs, provider errors, and other in-flow authentication outcomes use the mandatory DOC-07 outcome/message mechanism rather than notification IDs. `NOTIF-ACCT-001` applies only after restricted-account creation and should open `ACCOUNT-ACTIVATION` where action remains. `NOTIF-ACCT-002` applies after phone, identity, and payment-passcode requirements complete.
 
@@ -788,6 +788,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.29 | 2026-07-28 | Replaced user-facing identity suspension wording with the approved `Failed` / `Update Required` labels and required internal suspension conditions to map through the canonical status-display matrix. |
 | 1.0.28 | 2026-07-28 | Aligned account notifications with non-account registration attempts, restricted-account creation, full registration through `ACCOUNT-ACTIVATION`, and the DOC-07 in-flow authentication outcome/message boundary. |
 | 1.0.27 | 2026-07-27 | Aligned account notifications with explicit email/Google/Apple login methods, first-password setup, provider link/unlink changes, and the restricted-account boundary for registration-started Inbox records. |
 | 1.0.26 | 2026-07-27 | Defined the Notification route-family handoff, Inbox signal separation, SYS/SUP event domains, recipient-message and batch/source traceability, Settings/consent boundaries, cross-device preference behavior, and working-classification validation while preserving domain status ownership. |

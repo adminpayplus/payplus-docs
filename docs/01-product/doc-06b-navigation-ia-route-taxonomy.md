@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.35
+version: 0.1.36
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -40,7 +40,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.35` |
+| **Version** | `0.1.36` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
@@ -164,6 +164,8 @@ When this document or another route owner defines, renames, replaces, or materia
 | `AUTH-REGISTRATION` | Child registration flow | Complete Google, Apple, or email account creation and create a restricted account only after all account-creation gates pass. | Screen and account-creation baseline defined |
 | `ACCOUNT-ACTIVATION` | Reusable orchestration flow | Coordinate the remaining phone, identity, and payment-passcode requirements for full registration. | Route and banner handoff defined; child route details pending |
 | `PHONE-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Verify the account phone number through the approved method; Account Activation may invoke it contextually. | Route ID assigned; detailed behavior pending |
+| `IDENTITY-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Complete first-time verification or a later retry, correction, update, or re-verification; Account Activation may invoke it contextually. | Route ID, status labels, and return behavior defined; detailed screen/provider behavior pending |
+| `PAYMENT-PASSCODE-SETTINGS` | Reusable `ACCOUNT-SECURITY` child screen | Set, change, or reset the six-digit payment passcode; Account Activation may invoke Set contextually. | Route ID, modes, and return behavior defined; detailed screen/security behavior pending |
 | `HOME-ROOT` | Logged-in root screen | Provide the task-first dashboard after successful login or restricted-account creation. | Dashboard baseline defined; final UI pending |
 
 #### 5.0.1 `ENTRANCE-ROOT`
@@ -1692,7 +1694,7 @@ The following register defines the new or newly confirmed Me destinations. Estab
 | `PHONE-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Verify the account's primary phone number; Account Activation may invoke the same flow contextually. | DOC-06B | Route ID and ownership defined; detailed behavior pending |
 | `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Complete, retry, or update external identity verification; Account Activation may invoke the same flow contextually. | DOC-06B | Flow and return behavior defined; provider mapping pending |
 | `ACCOUNT-SECURITY` | `ME-ROOT` Security & Privacy | Child route | Manage enabled login methods, password setup/change, payment-passcode entry, permitted two-step verification, biometric unlock, trusted devices, and recovery/support entry. | DOC-06B | Route behavior defined; final visual design pending |
-| `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` Payment Passcode | Reusable child screen | Set, change, or reset the payment passcode and manage the optional passcode-confirmation preference for card/payment-profile changes; Account Activation may invoke Set contextually. | DOC-06B | Screen behavior defined; security mechanics pending |
+| `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` Payment Passcode | Reusable child screen | Set, change, or reset the payment passcode and manage the optional passcode-confirmation preference for card/payment-profile changes; Account Activation may invoke Set contextually. | DOC-06B | Route modes and handoffs defined; detailed screen and security mechanics pending |
 | `PRIVACY-DATA-CONTROLS` | `ME-ROOT` Security & Privacy | Child route | Manage approved privacy choices, access/export, correction, retention/deletion requests, and request history. | DOC-06B | Route behavior defined; legal/provider detail pending |
 | `RECEIVING-INFO` | `ME-ROOT` Payments & Records | Child route / route family | Manage the user's private reusable receiving-information profiles. | DOC-06B | Route behavior defined; final visual design pending |
 | `RECEIVING-INFO-LIST` | `RECEIVING-INFO` | Initial list screen | Display saved receiving-information cards and entry to add another profile. It renders immediately when the route opens and is not an additional navigation hop. | DOC-06B | Screen behavior defined; final visual design pending |
@@ -1754,7 +1756,7 @@ Dashboard shortcuts and `ME-ROOT` may both link to an established route. The sho
 - `ACCOUNT-PROFILE`, `ACCOUNT-SECURITY`, and `PRIVACY-DATA-CONTROLS` are mixed-role account routes; they do not use payer/payee tabs.
 - Normal authenticated entry shows only permitted masked information and does not require payment-passcode entry merely to open a route.
 - Revealing approved masked sensitive values in a prominent account or Receiving Info surface requires the existing PayPlus payment passcode or approved reauthentication, with stronger step-up where DOC-14, DOC-15, DOC-19, or provider rules require it.
-- Changing sensitive identity, contact, security, credential, or receiving information requires payment passcode or approved reauthentication before the route-specific OTP, provider, review, or confirmation steps.
+- Changing existing sensitive identity, contact, security, credential, or receiving information requires payment passcode or approved reauthentication before the route-specific OTP, provider, review, or confirmation steps. First-time identity verification invoked during `ACCOUNT-ACTIVATION` does not require a payment passcode that the user may not yet have created.
 - Ordinary evidence, invoice, receipt, statement, and payment-proof viewing or downloading within an authenticated permitted context does not require an extra passcode or step-up solely because the document is opened or downloaded.
 - Payment-passcode confirmation does not make every stored field revealable. Passwords, payment passcodes, identity documents, provider payloads, secrets, raw credentials, evidence content, unrestricted audit data, and internal risk reasons remain unavailable.
 - Revealed information must re-mask on route exit, app backgrounding, session expiry, or the future configured reveal timeout.
@@ -1793,7 +1795,7 @@ Identity Verification shows only one user-facing status: `Pending`, `Verified`, 
 - completion returns with refreshed status;
 - provider failure preserves the last valid status and does not create a false rejection.
 
-Submitting or changing verified identity information requires payment passcode or approved reauthentication before provider submission. Provider-specific verification, correction, and review controls still apply.
+First-time identity verification opened from `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. The user must still be in the authenticated restricted-account context and complete the provider's required verification controls. A later correction, update, retry that changes submitted identity data, or re-verification of an existing identity record requires payment passcode or approved reauthentication before provider submission. Provider-specific verification, correction, and review controls still apply.
 
 The exact mapping from provider/system states to the four labels remains TBC until the external identity-verification provider and canonical status taxonomy are defined. Legal name, ID reference, identity attributes, identity documents, and provider detail are not displayed in Account Information.
 
@@ -1831,7 +1833,7 @@ Login Methods follows these rules:
 
 No separate MVP root is created for login-method management. Set/Change Password and provider Link/Unlink are focused flows under `ACCOUNT-SECURITY`. Exact provider integration, account-recovery mechanics, retry limits, and final screen design remain with the full authentication drafting and DOC-19.
 
-Tapping Payment Passcode opens `PAYMENT-PASSCODE-SETTINGS`. The route must support initial Set from `ACCOUNT-ACTIVATION` and later Change or Reset from `ACCOUNT-SECURITY`, plus the user-controlled `Require passcode for card/payment-profile changes` toggle. Detailed Set/Change/Reset UI will be defined in the dedicated child-route drafting. Existing passwords and passcodes are never displayed.
+Tapping Payment Passcode opens `PAYMENT-PASSCODE-SETTINGS`. The route must support initial Set from `ACCOUNT-ACTIVATION` and later Change or Reset from `ACCOUNT-SECURITY`, plus the user-controlled `Require passcode for card/payment-profile changes` toggle. Only these modes, ownership, and handoffs are defined at this stage; the detailed Set/Change/Reset screen order, validation, failure handling, and security mechanics remain for dedicated child-route drafting and DOC-19. Existing passwords and passcodes are never displayed.
 
 The Two-Step Verification toggle controls only permitted optional routine protection. It must not disable mandatory new-device 2FA, risk-triggered step-up, contact-change verification, account-closure verification, or provider-required authentication. SMS remains the MVP primary factor and email the fallback.
 
@@ -2283,13 +2285,14 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
 | OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Pay+ and Partner Offer label taxonomy, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed. | Product / Design / Growth / Privacy / Commercial | Partially open |
 | OQ-06B-012 | What final Entrance carousel capacity, rotation, targeting, ordering, visual design, content classes, and permitted action destinations should apply? What final visual design and technical security mechanics should apply to the defined Entrance and Authentication route family? | Product / Design / Growth / Security / Privacy / Operations | Partially open; route behavior and account-access rules defined |
-| OQ-06B-013 | What final screen behavior, provider mapping, retry/lockout, recovery, and technical security controls should apply to `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` within the confirmed `ACCOUNT-ACTIVATION` handoff? | Product / Design / Security / Privacy / Compliance / Operations | Open; route IDs, six-digit passcode, and activation handoff defined |
+| OQ-06B-013 | What final screen behavior, provider mapping, OTP controls, retry/lockout, recovery, passcode Set/Change/Reset mechanics, and technical security controls should apply to `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` within the confirmed `ACCOUNT-ACTIVATION` handoff? DOC-19 must define the security controls and DOC-20 must derive acceptance tests from the completed route behavior. | Product / Design / Security / Privacy / Compliance / QA / Operations | Open; route IDs, route modes, four identity labels, first-time identity-passcode exception, six-digit passcode, and activation handoff defined |
 | OQ-06B-014 | What exact Authentication Outcome IDs, Message IDs, approved user-facing messages, CTA mappings, disclosure levels, and technical outcome/event mappings should populate the mandatory DOC-07 Authentication Outcome and Message Matrix? | Product / Content / Design / Security / Privacy / Support | Open; matrix mechanism and required fields defined |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.36 | 2026-07-28 | Corrected the first-time identity-verification passcode rule, synchronized all three Account Activation child-route references, and marked Payment Passcode Settings screen/security details plus DOC-19/DOC-20 handoffs as pending. |
 | 0.1.35 | 2026-07-28 | Clarified Account Activation as an orchestration route, established Account Profile and Account Security as the canonical parents of reusable verification/passcode routes, aligned origin-aware return behavior, and simplified the hierarchical Authentication, Account Activation, and Me route-map handoffs. |
 | 0.1.34 | 2026-07-28 | Replaced `AUTH-ENTRY` with `ENTRANCE-ROOT`; defined public Entrance content, Fast/Full Login, Recovery, registration attempts, restricted-account creation, Account Activation, persistent banner mapping, protected return, login-name removal, and the mandatory-but-open authentication outcome/message handoff. |
 | 0.1.33 | 2026-07-27 | Preserved the accepted unique-primary-email and multiple-login-method model, restricted-account handoff, deferred financial activation, and Account Security Set/Change Password and Google/Apple link/unlink behavior while keeping full authentication-route UI pending. |

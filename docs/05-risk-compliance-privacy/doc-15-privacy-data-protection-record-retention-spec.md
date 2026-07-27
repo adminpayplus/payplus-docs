@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.16
+version: 0.8.17
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -50,7 +50,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.8.16` |
+| **Version** | `0.8.17` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
@@ -190,7 +190,7 @@ PayPlus should support the following account and authentication model:
 | Dormant-login reauthentication | Login after a configured long inactivity period should require reauthentication, such as password plus SMS OTP, email OTP, or other approved factor. |
 | Payment passcode | Payment passcode is required before proceeding with payment authorization. |
 | Password reset | Email deeplink must be single-use, short-lived, and logged. User should receive security notification after reset. |
-| Core account changes | Email, phone, password, payment passcode, immutable-identifier recovery, KYC/KYB data, and payout/Receiving Info changes require payment passcode or approved reauthentication before route-specific OTP, provider, review, or confirmation controls. Payment-profile changes retain their separately approved optional-passcode rule. Review is required only where risk, compliance, payout, KYC/KYB, or fraud rules require it. |
+| Core account changes | Changes to an existing email, phone, password, payment passcode, immutable identifier, KYC/KYB record, or payout/Receiving Info profile require payment passcode or approved reauthentication before route-specific OTP, provider, review, or confirmation controls. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. Payment-profile changes retain their separately approved optional-passcode rule. Review is required only where risk, compliance, payout, KYC/KYB, or fraud rules require it. |
 
 DOC-15 defines data handling and privacy boundaries. DOC-19 owns security mechanics, authentication implementation, encryption, credential storage, device controls, and RBAC.
 
@@ -206,7 +206,7 @@ Material changes should be grouped by sensitivity and handled with proportionate
 | Payment profile change | Add, remove/archive, update, suspend, reactivate, star/unstar, or change default card/payment profile. | Require payer confirmation by default; payment passcode confirmation may be enabled by user setting; step-up may still apply where risk, PSP/acquirer, or security rules require; never expose raw card data. |
 | Receiving Info profile change | Add, edit, version, reveal permitted full values, or archive a bank/FPS/cheque/EPS profile. | Require payment passcode or approved reauthentication before full-value reveal and add/edit. Archive requires confirmation. Stronger step-up may apply where risk, security, provider, or compliance rules require it. Third-party/company/ownership-mismatch profiles require proof and review. |
 | Effective payout destination change | Change the destination selected for a request, obligation, payment, or payout. | Preserve a new immutable snapshot, apply the role and acceptance rules in DOC-06B/DOC-09/DOC-10, warn the payer where the selected destination differs from accepted request context, and require payer reauthorization after payment authorization. |
-| Identity/KYC change | Change legal name, ID data, business owner data, landlord/payee identity, or verification record. | Require payment passcode or approved reauthentication, then route to KYC/KYB provider or risk review where configured. |
+| Identity/KYC change | Correct, update, or re-verify an existing legal name, ID record, business owner record, landlord/payee identity, or verification record. | Require payment passcode or approved reauthentication, then route to KYC/KYB provider or risk review where configured. First-time individual identity verification follows the separate Account Activation exception. |
 | Marketing or communication preference change | Opt-in/out, WhatsApp/SMS/email preference, direct-marketing consent. | Require logged preference update; step-up only if account takeover risk is present. |
 
 Material changes should create audit events and user-facing security notifications where appropriate. Detailed status, event schema, and admin workflow belong in DOC-18, DOC-19, and DOC-22.
@@ -223,7 +223,7 @@ DOC-06B `ME-ROOT` is the permanent mixed-role account-control route. Privacy req
 - Back or Cancel from identity verification restores `ACCOUNT-PROFILE`; completion returns with refreshed status, and a pending provider submission must not encourage duplicate submission;
 - full identity attributes, identity documents, provider payloads, payment credentials, evidence content, full payout details, and internal risk reasons must not appear on the root;
 - revealing approved masked sensitive values in a prominent account or Receiving Info surface uses the existing PayPlus payment passcode or approved reauthentication; no second reveal-only passcode should be introduced;
-- changing sensitive identity, contact, security, credential, or Receiving Info data requires payment passcode or approved reauthentication before the applicable OTP, provider, review, or confirmation flow;
+- changing existing sensitive identity, contact, security, credential, or Receiving Info data requires payment passcode or approved reauthentication before the applicable OTP, provider, review, or confirmation flow; first-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode;
 - permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading within an authenticated approved-purpose context does not require an extra passcode or step-up solely because the document is opened or downloaded;
 - additional step-up may apply where risk, security, legal, provider, or data-classification rules require it;
 - reveal attempts and outcomes should be logged without copying sensitive values into analytics or ordinary notification content;
@@ -597,6 +597,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.17` | `2026-07-28` | Product Documentation Team | Distinguished first-time identity verification from later sensitive identity changes: Account Activation does not require a pre-existing passcode, while correction, update, and re-verification require passcode or approved reauthentication. |
 | `0.8.16` | `2026-07-28` | Product Documentation Team | Added non-account registration attempts with unreserved identifiers, Account Activation, one-month Fast Login, biometric/password boundaries, unique phone/identity conflict handling, nickname/display-name separation, and authentication outcome/correlation data requirements. |
 | `0.8.15` | `2026-07-27` | Product Documentation Team | Defined one-account/multiple-login-method handling, unique verified primary email, explicit Google/Apple linking, social-account password setup in Account Security, deferred phone/identity/passcode completion, and financial-activation gates. |
 | `0.8.14` | `2026-07-27` | Product Documentation Team | Aligned notification data classification with recipient messages, batches, source lineage, category, read/archive presentation, status/action snapshots, route targets, per-channel attempts, and cross-device Inbox preference handling. |
