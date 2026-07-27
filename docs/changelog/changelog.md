@@ -701,3 +701,49 @@ This append-only register records the documentation delivered by each substantiv
 **Remaining Open Items**
 
 Detailed Phone Verification, Identity Verification, and Payment Passcode Settings screen behavior, provider handling, security mechanics, failure states, data/event mapping, admin operations, and acceptance coverage remain for separate drafting.
+
+### `2026-07-28` - Activation Verification And Passcode Boundary Alignment
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `4f781c7` |
+| Primary owner | `DOC-06B` and `DOC-15` |
+| Decision record | `DEC-2026-022` |
+| Founder approval | Authentication child-route alignment corrections and commit approved on `2026-07-28` |
+
+**Files Changed**
+
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/glossary/glossary.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+- `docs/traceability/status-display-reference-matrix.md`
+
+**Material Changes**
+
+- Confirmed that first-time Identity Verification during Account Activation does not require a pre-existing payment passcode.
+- Preserved payment passcode or approved reauthentication for later identity correction, update, and re-verification.
+- Synchronized `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` ownership, modes, parent summaries, PRD references, and acceptance status.
+- Corrected Payment Passcode Settings from screen-defined to route-mode and handoff-defined, with detailed UI and security mechanics pending.
+- Restricted user-facing identity status to `Pending`, `Verified`, `Failed`, and `Update Required`; internal suspension maps to an approved label.
+- Added durable DOC-19 security, DOC-20 testing, and DOC-18 data/event handoffs without drafting the empty technical placeholders.
+
+**Checks Performed**
+
+- Verified formal-document YAML and Document Control version parity.
+- Checked active human, privacy, notification, glossary, status, traceability, and engineering documents for stale passcode and identity-status wording.
+- Confirmed DOC-06A, DOC-07, the route register, DOC-22, indexes, and route diagrams required no content change.
+- Ran `git diff --cached --check`; no whitespace errors were found.
+
+**Remaining Open Items**
+
+- Detailed Phone Verification, Identity Verification, and Payment Passcode Settings screen order, elements, actions, errors, return behavior, and accessibility.
+- Final identity-provider mapping and technical OTP, retry, lockout, reset, credential, session, and reauthentication controls in DOC-19.
+- Derived positive, negative, interruption, recovery, accessibility, and security acceptance tests in DOC-20.
+- Exact authentication Outcome Type IDs, Message IDs, approved copy, disclosure levels, and CTA mappings in DOC-07.

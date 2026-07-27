@@ -42,6 +42,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-019` | `2026-07-27` | Authentication And Account-Access Model | Accepted | `DOC-15` / `DOC-06B` | `3d8d9ec` |
 | `DEC-2026-020` | `2026-07-28` | Entrance, Authentication, Registration, And Account Activation | Accepted | `DOC-06B` / `DOC-07` | `6f2bd4b` |
 | `DEC-2026-021` | `2026-07-28` | Authentication And Account-Control Route Hierarchy | Accepted | `DOC-06B` | `27583d7` |
+| `DEC-2026-022` | `2026-07-28` | Identity Verification Passcode Boundary And Child-Route Readiness | Accepted | `DOC-06B` / `DOC-15` | `4f781c7` |
 
 ## 4. Decision Record Template
 
@@ -943,3 +944,47 @@ Supersedes route-register and diagram wording that represented Account Activatio
 **Remaining Open Items**
 
 Detailed screen behavior, failure handling, provider mapping, retry/lockout, recovery, notification, security, data/event, admin, and acceptance requirements for the three reusable child routes remain open.
+
+### `DEC-2026-022` - Identity Verification Passcode Boundary And Child-Route Readiness
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-28` |
+| Status | Accepted |
+| Primary owners | `DOC-06B` route behavior and `DOC-15` sensitive-change boundary |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06D`, `DOC-08`, `DOC-15`, `DOC-18`, glossary, status-display matrix, requirements traceability matrix, open-questions register |
+| Substantive commit | `4f781c7` |
+| Founder approval | First-time identity-verification exception, alignment corrections, and commit approved on `2026-07-28` |
+
+**Decision**
+
+First-time `IDENTITY-VERIFICATION` invoked during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. The user remains in an authenticated restricted-account context and must complete provider-required verification controls.
+
+Later correction, update, or re-verification of an existing identity record requires payment passcode or approved reauthentication before provider submission. The material-sensitive-change rule applies to changes to existing records, not first-time activation.
+
+Identity Verification uses only `Pending`, `Verified`, `Failed`, and `Update Required` as user-facing labels. Internal provider, risk, compliance, or operational suspension must map to `Failed` or `Update Required` according to domain meaning and must not create a fifth label.
+
+`PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` have confirmed route ownership, modes, and return handoffs. Their detailed screen behavior remains pending. Payment Passcode Settings must not be described as fully screen-defined until Set, Change, Reset, validation, failure, and security behavior is approved.
+
+**Rationale**
+
+A user completing first-time identity verification may not yet have created a payment passcode. Requiring that passcode would create a circular activation dependency. Later changes affect an established sensitive identity record and therefore require stronger confirmation. A four-label projection prevents provider and internal states from leaking into inconsistent user-facing terminology.
+
+**Alternatives Considered**
+
+- Requiring payment passcode before every identity-provider submission was rejected because it blocks valid first-time activation before passcode setup.
+- Allowing identity correction or re-verification without passcode or approved reauthentication was rejected because it weakens protection for an established sensitive identity record.
+- Adding `Suspended` as a user-facing identity label was rejected because the approved four labels already express failed verification or required user correction without exposing internal operational state.
+- Treating Payment Passcode Settings as screen-complete was rejected because its detailed UI and security mechanics have not yet been drafted.
+
+**Consequences And Handoffs**
+
+DOC-19 must define OTP, provider, credential, retry, lockout, reset, session, storage, and reauthentication controls without adding a passcode prerequisite to first-time identity verification. DOC-20 must derive positive, negative, interruption, recovery, accessibility, and security acceptance tests. DOC-18 must preserve first-time-versus-later verification context, provider-processing deduplication, the four-label projection, and passcode Set/Change/Reset events without storing secrets in analytics.
+
+**Supersedes / Superseded By**
+
+Narrows `DEC-2026-012` only where its general material identity-change wording could be read to include first-time identity verification. Its rules for prominent sensitive reveal and changes to existing sensitive records remain accepted.
+
+**Remaining Open Items**
+
+Detailed Phone Verification, Identity Verification, and Payment Passcode Settings screen order, fields, actions, provider mapping, retry/lockout behavior, recovery, exact messages, technical security controls, admin operations, and acceptance tests remain open.
