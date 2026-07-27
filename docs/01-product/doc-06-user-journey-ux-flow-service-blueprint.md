@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.26
+version: 0.21.27
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-27
+last_updated: 2026-07-28
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -44,12 +44,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `0.21.26` |
+| **Version** | `0.21.27` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-27` |
+| **Last Updated** | `2026-07-28` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -150,7 +150,7 @@ This matrix prevents the split from creating a false impression that all routes 
 
 | Route / Area | Primary Owning Doc | Reference / Handoff Docs | Status | Notes |
 | --- | --- | --- | --- | --- |
-| Authentication Entry | DOC-06B | DOC-06A for journey; DOC-07/DOC-15/DOC-19 for disclosure, privacy, and security | Account-Access Model and Handoff Baseline Defined / Detailed UI Pending | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` are assigned. One unique verified primary email and explicit email/password, Google, or Apple login methods support restricted account creation; phone, identity, and payment-passcode completion gate financial activation. Normal success enters `HOME-ROOT`; approved deeplinks may resume their intended destination. |
+| Entrance and Authentication | DOC-06B | DOC-06A for journey; DOC-07/DOC-15/DOC-19 for disclosure, privacy, and security | Defined Behavior Baseline / Final Design and Child Mechanics Pending | `ENTRANCE-ROOT` is the public root; `AUTH-LOGIN` resolves to Fast/Full Login; Recovery, Registration, Account Activation, and Phone Verification destinations are assigned. Registration attempts reserve no identifiers; restricted account creation precedes phone, identity, and six-digit passcode completion through `ACCOUNT-ACTIVATION`. Normal success enters `HOME-ROOT`; approved deeplinks may resume their intended destination. |
 | Home Dashboard | DOC-06B | DOC-06A for journey touchpoints; DOC-13/DOC-15/DOC-22 where relevant | `HOME-ROOT` Assigned / Partially Defined | Section order, shortcut baseline, Featured carousel, Important Notice, and Recent Activity summary are defined; exact UI and card rules remain open. |
 | Bottom Navigation | DOC-06B | Child route owners for destination behavior | Working Baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline is defined; final visuals and remaining child-route detail remain open. |
 | Pay+ Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | Defined Behavior / Not Final Visual Design | Five-action order, role direction, destination handoffs, availability, completion, return, configuration limits, and motion principles are defined. |
@@ -282,8 +282,8 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 
 | Decision | Status |
 | --- | --- |
-| `AUTH-ENTRY` is the unauthenticated entry screen, with `AUTH-LOGIN` and `AUTH-REGISTRATION` as the required Login and Register destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Detailed UI Pending |
-| Restricted account creation requires one unique verified primary email and one explicitly enabled login method. Email/password, Google, and Apple may access the same account only through explicit linking; social accounts may set a password later; phone, identity, and payment-passcode completion remain mandatory before financial activation. | Confirmed |
+| `ENTRANCE-ROOT` is the unauthenticated entry screen; the `AUTH-LOGIN` family and `AUTH-REGISTRATION` own Login and Create Account. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Behavior Defined |
+| Restricted account creation requires one unique verified primary email and one explicitly enabled login method. Registration attempts reserve no identifiers. Email/password, Google, and Apple may access the same account only through explicit linking; social accounts may set a password later; phone, identity, and six-digit payment-passcode completion remain mandatory through `ACCOUNT-ACTIVATION` before full registration. | Confirmed |
 | Payer registration and login are MVP scope. | Confirmed |
 | Payee registration and login are MVP scope. | Confirmed |
 | Payer dashboard is MVP scope. | Confirmed |
@@ -348,7 +348,7 @@ The DOC-06 parent is acceptable when:
 - each child document clearly states what it governs and what it does not govern;
 - incomplete routes and deferred details are visibly marked;
 - stable IDs are introduced progressively without forcing unfinished route detail;
-- authentication acceptance includes `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION`, with normal successful entry to `HOME-ROOT` and approved contextual return where applicable;
+- authentication acceptance includes `ENTRANCE-ROOT`, the `AUTH-LOGIN` family, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, and `ACCOUNT-ACTIVATION`, with normal successful entry to `HOME-ROOT` and approved contextual return where applicable;
 - all currently identified global product areas have stable destination IDs, including `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, the `NOTIFICATION-ROOT` family, and DOC-09 `PAYMENT-CHECKOUT`;
 - `PAYPLUS-ACTION-SHEET` acceptance covers the five-action order, payee-to-payer Request Payment direction, category-scoped Bills handoff, instruction-count routing, completion/return behavior, availability treatment, and no-side-effect boundary while final visual design remains open;
 - `MORE-ROOT` acceptance covers one root with Normal and Manage modes, a default and maximum of 8 Home shortcuts including protected More, account-level preference override, accessible add/remove/reorder behavior, current-default restore, unsaved-change handling, availability precedence, and secondary-service handoffs;
@@ -365,6 +365,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.27 | 2026-07-28 | Synchronized the DOC-06 family with the defined Entrance, Fast/Full Login, Recovery, registration-attempt, restricted-account, Account Activation, and authentication outcome/message handoffs. |
 | v0.21.26 | 2026-07-27 | Synchronized the parent with the unique-primary-email and explicit multiple-login-method model, restricted account creation, deferred financial activation, and Account Security Set/Change Password and provider-linking behavior. |
 | v0.21.25 | 2026-07-27 | Synchronized the parent with the defined Notifications route family, Home/Me entries, Inbox/Detail/Settings behavior, signal separation, contextual handoffs, and remaining visual/provider scope. |
 | v0.21.24 | 2026-07-27 | Synchronized the parent with defined `MORE-ROOT` modes, shortcut capacity, protected More access, account-level preference override, current-default restore, availability precedence, accessibility, and secondary-service handoffs. |

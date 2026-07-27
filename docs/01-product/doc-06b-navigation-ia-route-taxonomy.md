@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.33
+version: 0.1.34
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-27
+last_updated: 2026-07-28
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -40,12 +40,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.33` |
+| **Version** | `0.1.34` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-27` |
+| **Last Updated** | `2026-07-28` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -67,7 +67,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 
 | Area | Status | Notes |
 | --- | --- | --- |
-| Authentication entry | Partially defined | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` are assigned; detailed screens and flow remain open. |
+| Entrance and authentication | Defined behavior baseline | `ENTRANCE-ROOT`, the Login family, Registration, Recovery, and Account Activation handoffs are defined; final visual design, Entrance carousel configuration, and technical security mechanics remain open. |
 | Bottom navigation | Working baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline exists; final visual design remains open. |
 | Home dashboard | Partially defined | `HOME-ROOT` and section order exist; final card and visual details remain open. |
 | Pay+ action sheet | Defined baseline | `PAYPLUS-ACTION-SHEET`, its five MVP actions, role direction, destination handoffs, availability behavior, and motion principles are defined; exact visual specification remains open. |
@@ -149,41 +149,108 @@ When this document or another route owner defines, renames, replaces, or materia
 
 ## 5. Authentication Entry, Logged-in Home Dashboard and Navigation IA
 
-### 5.0 Authentication Entry Routes
+### 5.0 Entrance and Authentication Route Family
 
-The following route IDs establish the required unauthenticated entry and authentication handoff. They are acceptance-scope destinations, but their detailed screen content, field behavior, validation copy, recovery behavior, and visual design remain to be drafted.
+`ENTRANCE-ROOT` is the only unauthenticated app root. Log In and Create Account are actions within `ENTRANCE-ROOT`, not a second route. `ENTRANCE-CAROUSEL` is a screen component, not a route; tapping one of its approved public items opens the separately navigable `ENTRANCE-PROMOTION-DETAIL`.
 
 | Destination | Type | Purpose | Definition Status |
 | --- | --- | --- | --- |
-| `AUTH-ENTRY` | Unauthenticated root screen | Provide the pre-login choice to Log In or Register. | Route and handoff baseline defined; detailed UI pending |
-| `AUTH-LOGIN` | Child authentication flow | Authenticate an existing user and establish an approved session. | Route and handoff baseline defined; detailed UI pending |
-| `AUTH-REGISTRATION` | Child registration/onboarding flow | Create a user account and complete required registration gates. | Route and handoff baseline defined; detailed UI pending |
-| `HOME-ROOT` | Logged-in root screen | Provide the default task-first dashboard after normal successful authentication or registration. | Route ID and dashboard baseline defined; final UI pending |
+| `ENTRANCE-ROOT` | Unauthenticated root screen | Present public PayPlus entry content and the Log In / Create Account actions. | Behavior baseline defined; visual design and carousel configuration open |
+| `ENTRANCE-PROMOTION-DETAIL` | Public child screen | Display one approved public promotion, offer, announcement, or feature item and its permitted action. | Screen baseline defined; content/action configuration open |
+| `AUTH-LOGIN` | Route family / entry resolver | Resolve an existing-user login into Fast or Full Login according to the current device and account context. | Resolver rules defined |
+| `AUTH-LOGIN-FAST` | Child login screen | Reauthenticate a remembered eligible account through user-enabled device biometrics or password fallback. | Screen behavior defined; technical mechanics open |
+| `AUTH-LOGIN-FULL` | Child login screen | Offer Google, Apple, or email/password login where Fast Login is unavailable or another account is selected. | Screen behavior defined; technical mechanics open |
+| `AUTH-RECOVERY` | Reusable child flow | Recover or reset email/password access through an approved controlled flow. | Product boundary defined; detailed security mechanics open |
+| `AUTH-REGISTRATION` | Child registration flow | Complete Google, Apple, or email account creation and create a restricted account only after all account-creation gates pass. | Screen and account-creation baseline defined |
+| `ACCOUNT-ACTIVATION` | Reusable logged-in flow | Complete the remaining phone, identity, and payment-passcode requirements for full registration. | Route and banner handoff defined; child route details pending |
+| `PHONE-VERIFICATION` | Reusable child flow | Verify the account phone number through the approved method. | Route ID assigned; detailed behavior pending |
+| `HOME-ROOT` | Logged-in root screen | Provide the task-first dashboard after successful login or restricted-account creation. | Dashboard baseline defined; final UI pending |
 
-The accepted account-access baseline is:
+#### 5.0.1 `ENTRANCE-ROOT`
 
-- restricted account creation requires one unique verified primary email, accepted Terms and Privacy notices, and at least one usable login method;
-- one account may use email/password plus explicitly linked Google and Apple login methods;
-- Google/Apple identity is linked by stable provider identifier and never by email match alone;
-- a social-authenticated account may set its first PayPlus password later through `ACCOUNT-SECURITY`;
-- verified phone, identity verification, and payment-passcode setup may remain incomplete when the restricted account first reaches `HOME-ROOT`, but must complete before payment or another financially restricted action.
+The screen order is:
 
-This preserves the accepted model without finalizing provider-button layout, field order, validation copy, recovery, protected-deeplink handling, or post-authentication return behavior.
+1. header with PayPlus logo, language action, and public Support and Terms actions;
+2. `ENTRANCE-CAROUSEL`, showing only approved public and non-personalized content;
+3. `Log In` and `Create Account`.
 
-The baseline navigation is:
+Language selection is a sheet or modal, not a route. Support and Terms handoffs must permit an anonymous-safe view. Carousel selection opens `ENTRANCE-PROMOTION-DETAIL`, which shows Back, title, approved image/content, applicable public terms, and one configured action. The action may open an approved public destination, `AUTH-LOGIN`, or `AUTH-REGISTRATION`; it must not expose personalized eligibility, claim a user-specific benefit, or reveal account information before authentication. Back restores the prior Entrance carousel position.
 
-| Source | User action or outcome | Destination | Return / continuation rule |
-| --- | --- | --- | --- |
-| App launch without an approved session | Open PayPlus | `AUTH-ENTRY` | No protected route history is exposed. |
-| `AUTH-ENTRY` | Tap `Log In` | `AUTH-LOGIN` | Back returns to `AUTH-ENTRY`. |
-| `AUTH-ENTRY` | Tap `Register` | `AUTH-REGISTRATION` | Back returns to `AUTH-ENTRY` unless an approved deeplink requires confirmation before exit. |
-| `AUTH-LOGIN` | Authentication succeeds through normal entry | `HOME-ROOT` | Start the logged-in session. |
-| `AUTH-REGISTRATION` | Restricted account-creation gates complete through normal entry | `HOME-ROOT` | Start the restricted logged-in session; unresolved phone, identity, payment-passcode, or eligibility requirements appear through the approved Action Required treatment and restrict controlled actions. |
-| Approved protected deeplink | Authentication or registration is required | `AUTH-LOGIN` or `AUTH-REGISTRATION` | After success, resume the approved intended destination rather than discarding the deeplink context. |
-| Referral deeplink or QR | Register with valid campaign/code context | `AUTH-REGISTRATION` | Preserve the confirmed referral attribution behavior and continue according to the approved post-registration destination. |
-| Log Out | Session ends | `AUTH-ENTRY` | Clear protected route history. |
+The exact Entrance carousel capacity, rotation, targeting, ordering, visual design, content classes, and permitted action configuration remain open. Future admin management belongs to DOC-22; promotion and offer meaning remains with DOC-13.
 
-Authentication route assignment does not decide the final registration form, KYC/KYB sequence, provider handoff, password recovery, step-up method, or session rules. DOC-06A owns the journey sequence, DOC-07 owns disclosures, DOC-13 owns referral attribution, DOC-15 owns account/privacy handling, and DOC-19 owns authentication and security mechanics.
+#### 5.0.2 Login Route Family
+
+Tapping Log In invokes `AUTH-LOGIN`:
+
+- resolve to `AUTH-LOGIN-FAST` when the device has a remembered account, the account has an eligible login method, and user-enabled biometric or password fast-login conditions remain valid;
+- resolve to `AUTH-LOGIN-FULL` when Fast Login is unavailable, expired, revoked, or the user selects another account;
+- bypass both child screens when an approved session can be resumed securely.
+
+Fast-login eligibility lasts one month and is renewed by each successful login. Risk, device, credential, account, or security changes may revoke it earlier. PayPlus may remember the verified email identifier and approved device/session credential, but must never remember or store the plaintext password. The remembered email is masked on the pre-login screen.
+
+On an eligible device, `AUTH-LOGIN-FAST` automatically presents the operating-system biometric prompt only where the user previously enabled biometric login. Cancellation, failure, or unavailability opens a slide-up sheet over a dimmed and blurred background containing:
+
+1. masked remembered email;
+2. password field with Forgot Password action;
+3. device-appropriate `Use Fingerprint` or `Use Face ID` action;
+4. `Log In`;
+5. `Log In With Another Account`;
+6. `Cancel`.
+
+`Log In With Another Account` requires confirmation, revokes the current device session and refresh token, clears remembered account context, fast-login credential, and protected route history, then opens `AUTH-LOGIN-FULL`. It does not unlink account login methods. Cancel returns to `ENTRANCE-ROOT`.
+
+`AUTH-LOGIN-FULL` shows Back, title, Continue with Google, Continue with Apple, and Continue with Email. Its Email view contains email, password, Forgot Password, Log In, and Cancel. The Email form is a view inside `AUTH-LOGIN-FULL`, not another route. Forgot Password opens `AUTH-RECOVERY`.
+
+Provider identities use the stable provider-specific identifier. Matching email never creates, merges, transfers, or links an account. A linked provider may proceed through normal login and required step-up. An unlinked provider offers Create Account or Try Another Method without automatic email-based linking. Before the user proves control of an identifier, login and recovery errors must avoid confirming whether an account exists.
+
+#### 5.0.3 Registration Attempt and Account Creation
+
+`AUTH-REGISTRATION` offers Google, Apple, and Email paths:
+
+- Google/Apple authenticates the provider, checks the stable provider identifier, uses a provider-confirmed verified email or verifies another entered email by OTP, checks primary-email uniqueness, captures referral context where applicable, records Terms/Privacy acceptance, and creates the restricted account;
+- Email verifies the email by OTP, creates and confirms a password, captures referral context where applicable, records Terms/Privacy acceptance, and creates the restricted account.
+
+A provider identity already linked to an account offers Continue to Log In. An unlinked provider whose proposed primary email already belongs to an account must stop account creation and direct the user to Login or Recovery; it must not link by email.
+
+Before restricted-account creation, PayPlus records a temporary registration attempt, not an account:
+
+- the attempt has its own attempt identifier and may retain temporary provider, email, phone, referral, consent, OTP, abuse-control, and audit context;
+- it creates no account ID, dashboard, Inbox, user profile, referral attribution, login right, or financial permission;
+- proposed email, phone, provider identity, and other login identifiers remain immediately available and are not reserved or occupied;
+- killing or abandoning the app does not block an immediate new attempt using the same identifier;
+- an old attempt may remain for up to 30 minutes of inactivity for cleanup and security purposes, without reserving an identifier; a new attempt may invalidate an earlier OTP and remains subject to rate limits;
+- final restricted-account creation atomically rechecks verified primary-email and provider-identity uniqueness, required verification, Terms/Privacy acceptance, and attempt validity;
+- only the successful creation transaction claims the identifiers and creates referral attribution where applicable.
+
+Referral deeplink or QR context remains prefilled and non-editable. Manual referral code entry remains optional and may be retried or cleared before account creation. DOC-13 owns attribution and qualification meaning.
+
+After account creation, show `Complete Your PayPlus Setup` with `Complete Now` and `Do It Later`. Complete Now opens `ACCOUNT-ACTIVATION`; Do It Later opens `HOME-ROOT` with the applicable persistent Action Required banner.
+
+#### 5.0.4 `ACCOUNT-ACTIVATION`
+
+`ACCOUNT-ACTIVATION` completes full registration; it is not labelled payment setup. It may open after restricted-account creation, from the Home Action Required banner, or when a financially restricted action detects an incomplete requirement. It presents only the missing requirements and routes to `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, or `PAYMENT-PASSCODE-SETTINGS`.
+
+| Missing requirement | Banner | Action |
+| --- | --- | --- |
+| Two or more | `Complete your PayPlus setup` | `Complete Now` |
+| Phone only | `Verify your phone number` | `Verify Now` |
+| Identity only | `Verify your identity` | `Verify Now` |
+| Passcode only | `Set up Passcode` | `Set Up Now` |
+| Nothing missing | Banner hidden | None |
+
+All banner actions enter `ACCOUNT-ACTIVATION`, which focuses the applicable incomplete step. Completion removes the registration-level restriction and returns to the originating permitted context: Home remains on Home; an interrupted payment or controlled action returns to that action after revalidation. Completion does not bypass evidence, role, payment, provider, risk, compliance, or other feature-specific gates.
+
+One verified primary email, one verified phone number, and one verified individual identity may each belong to only one active individual account. A phone or identity conflict discovered after restricted-account creation blocks activation and routes to Login, Recovery, or controlled Support handling without automatic account merging.
+
+Detailed `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` screen behavior will be drafted separately. The payment passcode is six digits for MVP; final retry, lockout, storage, reset, and security mechanics belong to DOC-19.
+
+#### 5.0.5 Return, Failure, and Ownership Rules
+
+Normal successful login opens `HOME-ROOT`. An approved protected deeplink resumes its intended destination only after authentication and current access revalidation; invalid, expired, consumed, or unauthorized destinations fall back to the safest owning root or Home without exposing protected content. Logout returns to `ENTRANCE-ROOT` and clears protected route history.
+
+DOC-07 owns the future canonical Authentication Outcome and Message Matrix. The mechanism and required matrix fields are mandatory, but exact outcome IDs, message IDs, approved copy, and mappings remain open. DOC-06B owns the route, action, destination, and return behavior that consume those mappings. In-flow authentication messages are not Inbox notifications unless DOC-08 separately defines a notifiable event.
+
+DOC-06A owns journey sequence, DOC-07 owns user-facing content and disclosure, DOC-13 owns referral attribution, DOC-15 owns account/privacy handling, DOC-18 owns attempt/event/correlation data, DOC-19 owns security mechanics, DOC-20 owns detailed test implementation, and DOC-22 owns admin/support handling and Entrance content configuration.
 
 ### 5.1 Design Intent
 
@@ -399,7 +466,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 
 | Area | Purpose of Future DOC-06 Family Detail | Current Status |
 | --- | --- | --- |
-| Authentication Entry Routes | Define detailed screen behavior for `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION`, including validation, recovery, failure, and contextual-return behavior. | IDs and handoff baseline defined / detailed UI pending |
+| Entrance and Authentication Routes | Maintain the defined `ENTRANCE-ROOT`, Login family, Registration, Recovery, and Account Activation behavior; finalize Entrance carousel configuration and the Phone Verification, Identity Verification, Payment Passcode, security, and outcome-message details. | Behavior baseline defined / child mechanics and final design pending |
 | Bottom Navigation Route Map | Define how `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me relate to top-level routes and deep links. | Working baseline; final visual design open |
 | Pay+ Action Sheet Detail | Maintain the confirmed five-action behavior, destinations, availability, completion, return, and configuration boundaries; finalize only the remaining exact visual specification. | Defined behavior / final visual design open |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
@@ -1672,7 +1739,7 @@ Domain rules and content remain with the reference owners named in Sections 5.17
 | Help & Support | Tap row | `SUPPORT-ROOT` | Return to the same Me position. |
 | About PayPlus | Tap About | `ABOUT-ROOT` | Return to the same Me position. |
 | About PayPlus | Tap Terms and Policies | `TERMS-ROOT` | Return to the same Me position. |
-| Log Out | Tap and confirm | End the current session and return to `AUTH-ENTRY` | Protected route history must not remain accessible after logout. |
+| Log Out | Tap and confirm | End the current session and return to `ENTRANCE-ROOT` | Protected route history must not remain accessible after logout. |
 
 Dashboard shortcuts and `ME-ROOT` may both link to an established route. The shortcut is a fast entry point; Me provides permanent account-level discoverability. The destination owner continues to govern its behavior.
 
@@ -1702,7 +1769,7 @@ The user-facing title is `Account Information`. The MVP screen order is:
 5. Identity Verification;
 6. Account Management, with `Close Account` at the bottom.
 
-Profile Details show the editable display name, immutable login name after first setup, and copyable PayPlus User ID. Contact Details show masked registered phone and email plus their verification states.
+Profile Details show the editable nickname/display name and copyable PayPlus User ID. The nickname/display name is not a login identifier. Contact Details show masked registered phone and email plus their verification states.
 
 Contact changes follow these MVP flows:
 
@@ -1760,11 +1827,11 @@ Login Methods follows these rules:
 
 No separate MVP root is created for login-method management. Set/Change Password and provider Link/Unlink are focused flows under `ACCOUNT-SECURITY`. Exact provider integration, account-recovery mechanics, retry limits, and final screen design remain with the full authentication drafting and DOC-19.
 
-Tapping Payment Passcode opens `PAYMENT-PASSCODE-SETTINGS`, containing Change Payment Passcode, Reset Payment Passcode, and the user-controlled `Require passcode for card/payment-profile changes` toggle. Existing passwords and passcodes are never displayed.
+Tapping Payment Passcode opens `PAYMENT-PASSCODE-SETTINGS`. The route must support initial Set from `ACCOUNT-ACTIVATION` and later Change or Reset from `ACCOUNT-SECURITY`, plus the user-controlled `Require passcode for card/payment-profile changes` toggle. Detailed Set/Change/Reset UI will be defined in the dedicated child-route drafting. Existing passwords and passcodes are never displayed.
 
 The Two-Step Verification toggle controls only permitted optional routine protection. It must not disable mandatory new-device 2FA, risk-triggered step-up, contact-change verification, account-closure verification, or provider-required authentication. SMS remains the MVP primary factor and email the fallback.
 
-Biometric Unlock applies to the current device only and does not replace payment passcode or mandatory step-up. Each Trusted Devices entry provides `Remove`: removing another device revokes its trust and associated session; removing the current device requires confirmation and logs the user out. No separate Active Sessions list is required for MVP.
+Biometric Unlock applies to the current device only, must be enabled by the user, and does not replace payment passcode or mandatory step-up. Where Fast Login is eligible, the operating-system biometric prompt may be presented automatically under Section 5.0.2. Each Trusted Devices entry provides `Remove`: removing another device revokes its trust and associated session; removing the current device requires confirmation and logs the user out. No separate Active Sessions list is required for MVP.
 
 Recovery must not provide an unverified bypass. Forgotten password/passcode, unavailable trusted channels, or suspected compromise routes to the approved recovery or Support process. Exact retry limits, lockout periods, recovery factors, session duration, and security implementation remain with DOC-19.
 
@@ -2180,7 +2247,7 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 
 | Route / Area | Status | Next Required Work |
 | --- | --- | --- |
-| Authentication Entry | Account-Access Model and Handoff Baseline Defined / Detailed UI Pending | Define `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` screen content, provider choices, validation, recovery, failure, protected-deeplink, and contextual-return behavior. |
+| Entrance and Authentication | Defined Behavior Baseline / Final Design and Child Mechanics Pending | `ENTRANCE-ROOT`, Entrance promotion detail, Fast/Full Login, Recovery, Registration, registration-attempt handling, Account Activation, banner mapping, protected return, and route ownership are defined. Confirm Entrance carousel configuration and draft the Phone Verification, Identity Verification, and Payment Passcode child-screen details. |
 | Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Confirm card-level UI, notice priority, carousel behavior, dashboard activity cap, and empty states. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Pay+ | `PAYPLUS-ACTION-SHEET` Defined Baseline / Not Final Visual Design | Five MVP actions, role direction, route handoffs, availability behavior, completion rules, and motion principles are defined. Confirm exact iconography, measurements, spacing, blur, motion timing/easing, and future added-button layout. |
@@ -2211,12 +2278,15 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 | OQ-06B-009 | What exact Activity visual styling, field density, search/filter behavior, grouping behavior, empty-state copy, lifecycle timeline wording, and transaction-detail display should be used? Screen order, expandable entry behavior, amount direction, and core actions are defined. | Product / Design / Payments / Operations | Partially open |
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
 | OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Pay+ and Partner Offer label taxonomy, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed. | Product / Design / Growth / Privacy / Commercial | Partially open |
-| OQ-06B-012 | What detailed UI, validation, recovery, failure, accessibility, protected-deeplink, and contextual-return behavior should apply to `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` within the confirmed unique-email, multiple-login-method, restricted-account, and deferred-financial-activation baseline? What final visual styling, search matching, archive retention, and provider-operation details should apply to the defined Notifications route family? | Product / Design / Security / Privacy / Operations | Partially open; account-access model and Notifications behavior defined |
+| OQ-06B-012 | What final Entrance carousel capacity, rotation, targeting, ordering, visual design, content classes, and permitted action destinations should apply? What final visual design and technical security mechanics should apply to the defined Entrance and Authentication route family? | Product / Design / Growth / Security / Privacy / Operations | Partially open; route behavior and account-access rules defined |
+| OQ-06B-013 | What final screen behavior, provider mapping, retry/lockout, recovery, and technical security controls should apply to `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` within the confirmed `ACCOUNT-ACTIVATION` handoff? | Product / Design / Security / Privacy / Compliance / Operations | Open; route IDs, six-digit passcode, and activation handoff defined |
+| OQ-06B-014 | What exact Authentication Outcome IDs, Message IDs, approved user-facing messages, CTA mappings, disclosure levels, and technical outcome/event mappings should populate the mandatory DOC-07 Authentication Outcome and Message Matrix? | Product / Content / Design / Security / Privacy / Support | Open; matrix mechanism and required fields defined |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.34 | 2026-07-28 | Replaced `AUTH-ENTRY` with `ENTRANCE-ROOT`; defined public Entrance content, Fast/Full Login, Recovery, registration attempts, restricted-account creation, Account Activation, persistent banner mapping, protected return, login-name removal, and the mandatory-but-open authentication outcome/message handoff. |
 | 0.1.33 | 2026-07-27 | Preserved the accepted unique-primary-email and multiple-login-method model, restricted-account handoff, deferred financial activation, and Account Security Set/Change Password and Google/Apple link/unlink behavior while keeping full authentication-route UI pending. |
 | 0.1.32 | 2026-07-27 | Defined the `NOTIFICATION-ROOT` family, Inbox/Detail/Settings behavior, Home and Me entries, source-aware returns, filters, card/detail rules, read/archive handling, badge semantics, settings, signal separation, and data/admin handoffs. |
 | 0.1.31 | 2026-07-27 | Defined `MORE-ROOT` Normal and Manage Shortcuts modes, the 8-slot maximum with protected More, account-level user preference override, accessible reorder/add/remove controls, current-default restore, availability precedence, secondary-service handoffs, save/return/failure behavior, and data/admin boundaries. |

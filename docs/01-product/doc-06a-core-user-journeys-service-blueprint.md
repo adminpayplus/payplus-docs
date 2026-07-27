@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.12
+version: 0.1.13
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-27
+last_updated: 2026-07-28
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -41,12 +41,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.12` |
+| **Version** | `0.1.13` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-27` |
+| **Last Updated** | `2026-07-28` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -125,16 +125,18 @@ The MVP must support the following essential journeys:
 
 Payer and payee registration use one mixed-role account model:
 
-1. authenticate or begin registration through email, Google, or Apple under the partially defined DOC-06B authentication routes;
+1. enter through `ENTRANCE-ROOT`, then use email, Google, or Apple through the defined DOC-06B Login or Registration routes;
 2. establish one unique verified primary email and at least one usable login method;
 3. accept the required Terms and Privacy notices;
 4. create a restricted PayPlus account and enter `HOME-ROOT`;
-5. complete phone verification, identity verification, and payment-passcode setup before payment or another financially restricted action;
+5. complete full registration through `ACCOUNT-ACTIVATION`, covering phone verification, identity verification, and six-digit payment-passcode setup;
 6. preserve the originating permitted context so successful completion can return the user to the interrupted action where applicable.
 
 Google/Apple identities are linked by stable provider identifier only through explicit account creation or authenticated `ACCOUNT-SECURITY` linking. Email equality never creates an automatic account merge or provider link. Social-authenticated users may set a PayPlus password later through `ACCOUNT-SECURITY`.
 
-The detailed `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` screens, recovery, protected-deeplink, and post-authentication return behavior remain for the next authentication-route drafting stage.
+Before account creation, a temporary registration attempt may preserve verified in-flow context and security records but creates no account and reserves no email, phone, provider identity, or other proposed identifier. Account creation atomically rechecks uniqueness. Referral attribution begins only when restricted-account creation succeeds.
+
+The `AUTH-LOGIN` family resolves remembered eligible users to `AUTH-LOGIN-FAST` and other users to `AUTH-LOGIN-FULL`. Each successful login renews the one-month Fast Login period; approved risk, device, credential, account, or security changes may revoke it earlier. `AUTH-RECOVERY` owns password recovery. DOC-06B owns detailed route and return behavior.
 
 ---
 
@@ -151,7 +153,7 @@ Allows a payer to access PayPlus, create payments, review requests, authorize pa
 A payer must be able to:
 
 - register;
-- create a restricted account with a unique verified primary email and complete phone verification before financial activation;
+- create a restricted account with a unique verified primary email and complete `ACCOUNT-ACTIVATION` before full registration;
 - log in;
 - complete new-device 2FA and dormant-login reauthentication where required;
 - confirm material account, credential, payment profile, or contact changes using password, payment passcode, 2FA, or approved confirmation;
@@ -197,7 +199,7 @@ Allows a payee to access PayPlus, create requests, upload evidence, send request
 A payee must be able to:
 
 - register;
-- create a restricted account with a unique verified primary email and complete phone verification before financial activation;
+- create a restricted account with a unique verified primary email and complete `ACCOUNT-ACTIVATION` before full registration;
 - log in;
 - complete new-device 2FA and dormant-login reauthentication where required;
 - confirm material account, credential, payout destination, or contact changes using password, payment passcode, 2FA, or approved confirmation;
@@ -1204,7 +1206,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-015 | What duplicate detection signals are required for MVP? | Risk / Engineering | Open |
 | OQ-06-016 | What OCR/autofill review UI is required for each evidence category? | Product / Design | Open |
 | OQ-06-017 | What duplicate/reused evidence warning can be shown without over-disclosing sensitive information? | Product / Legal / Privacy | Open |
-| OQ-06-018 | What dormant-login inactivity threshold and user-facing reauthentication path should be used? | Product / Security | Open |
+| OQ-06-018 | What separate dormant-account reauthentication threshold, if any, should apply beyond the confirmed rolling one-month Fast Login eligibility period? | Product / Security | Partially open; Fast Login period defined |
 | OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
 | OQ-06-020 | What exact payment-instruction screen labels, call-to-action wording, and partial-funded visual treatment should be used? | Product / Design / Legal | Open |
 | OQ-06-021 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should be used within the confirmed five-action order and behavior? | Product / Design / Payments | Partially open; behavior defined in DOC-06B |
@@ -1226,6 +1228,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.13 | 2026-07-28 | Defined the journey handoff for `ENTRANCE-ROOT`, Fast/Full Login, Recovery, non-reserving registration attempts, restricted-account creation, Account Activation, rolling one-month Fast Login eligibility, and protected contextual return. |
 | 0.1.12 | 2026-07-27 | Added the progressive restricted-account and financial-activation journey, unique primary email, explicit email/password and provider login methods, deferred phone/identity/passcode completion, and Account Security linking handoff. |
 | 0.1.11 | 2026-07-27 | Closed the material More/shortcut IA questions after DOC-06B defined capacity, protected access, preference, reorder, restore, availability, and secondary-service behavior; retained final styling and optional Undo as open. |
 | 0.1.10 | 2026-07-27 | Narrowed the Pay+ open question to exact visual and motion specification after DOC-06B defined the five-action order, route handoffs, role direction, and availability behavior. |

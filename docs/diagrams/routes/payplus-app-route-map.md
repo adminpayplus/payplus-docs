@@ -3,16 +3,17 @@
 Status: Current discussion reference
 Level: 0 - app navigation
 Owner: DOC-06B
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
 This map shows only primary app entry and direct global destinations. Detailed route trees belong to the route-family maps in this folder. The canonical destination inventory is `docs/traceability/route-register.md`.
 
 ```mermaid
 flowchart TD
-  AUTH["AUTH-ENTRY"] --> LOGIN["AUTH-LOGIN"]
-  AUTH --> REGISTER["AUTH-REGISTRATION"]
+  ENTRANCE["ENTRANCE-ROOT"] --> LOGIN["AUTH-LOGIN"]
+  ENTRANCE --> REGISTER["AUTH-REGISTRATION"]
   LOGIN --> HOME["HOME-ROOT"]
   REGISTER --> HOME
+  ENTRANCE -. "See Authentication route map" .-> AUTHFAMILY["Entrance and Authentication route family"]
 
   NAV["Bottom navigation"] --> HOME
   NAV --> BILLS["BILLS-ROOT"]

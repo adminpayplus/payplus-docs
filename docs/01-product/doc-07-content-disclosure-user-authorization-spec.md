@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.9.9
+version: 0.9.10
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-27
+last_updated: 2026-07-28
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `0.9.9` |
+| **Version** | `0.9.10` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-27` |
+| **Last Updated** | `2026-07-28` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -480,7 +480,7 @@ Where evidence, tenancy, KYC/KYB, payment profile, payout, or risk data is store
 
 DOC-06B owns screen behavior. User-facing content must:
 
-- explain that the login name cannot be changed after setup;
+- use the verified primary email for email/password login and keep any nickname/display name separate from authentication;
 - explain that one verified primary email belongs to one PayPlus account and that Google, Apple, and email/password are explicitly linked login methods rather than separate accounts;
 - distinguish `Set Password` from `Change Password`, because a user who registered through Google or Apple may not yet have a PayPlus password;
 - explain that matching email addresses do not automatically link, merge, or transfer accounts and that provider linking or unlinking requires an authenticated Account Security action;
@@ -499,6 +499,42 @@ DOC-06B owns screen behavior. User-facing content must:
 - explain that selecting one profile for a request discloses only that destination to the payer;
 - explain that profile edit/archive does not change an accepted request or authorized payment destination;
 - warn the payer before authorization when the effective destination differs from an accepted payee-created request.
+
+### 15.2 Authentication Outcome and Message Matrix
+
+PayPlus must maintain one canonical Authentication Outcome and Message Matrix for `ENTRANCE-ROOT`, `AUTH-LOGIN-FAST`, `AUTH-LOGIN-FULL`, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, `ACCOUNT-ACTIVATION`, and their approved child flows.
+
+The mechanism is a confirmed requirement. Exact Outcome IDs, Message IDs, approved user-facing messages, and final mappings remain open and must not be invented during implementation. Until those decisions are approved, route documents should reference this required matrix rather than create competing error copy.
+
+The matrix must distinguish:
+
+- an **Outcome Type ID**, identifying a reusable failure, cancellation, expiry, conflict, restriction, or unavailable condition;
+- a **Message ID**, identifying the approved user-facing message and CTA treatment;
+- an **Occurrence or Correlation ID**, identifying one actual attempt, incident, or support/audit record.
+
+Multiple internal outcomes may map to one approved user-facing message where separate wording would expose whether an account, identifier, credential, provider link, or security restriction exists.
+
+The matrix must contain:
+
+| Field | Requirement |
+| --- | --- |
+| Outcome Type ID | Stable identifier for the reusable outcome class. |
+| Outcome Classification | Failure, cancellation, expiry, conflict, restriction, or unavailable. |
+| Originating Route | Route or child flow where the outcome may occur. |
+| User Action / Step | Action or step that produced the outcome. |
+| Internal Condition | Controlled description of the underlying condition; internal-only detail must not be copied into user text. |
+| Disclosure Level | What may be disclosed before and after the user proves control of the identifier or login method. |
+| Message ID | Stable identifier for the approved user-facing wording. |
+| Approved Message | Exact message displayed to the user after content approval. |
+| Primary and Secondary Actions | Permitted CTA labels, including Retry, Recovery, Login, Create Account, Try Another Method, Support, or Cancel where applicable. |
+| Destination | Route or safe fallback opened by each action. |
+| Return Behavior | Prior context, safe root, or protected destination restored after resolution. |
+| Retry / Restriction Rule | Permitted retry, cooldown, expiry, or lockout treatment without exposing security-sensitive values. |
+| Event / Audit Mapping | DOC-18 event and occurrence/correlation linkage required for the outcome. |
+| Notification Requirement | Whether DOC-08 defines a separate external or Inbox notification; ordinary in-flow messages are not notifications. |
+| Admin / Support Visibility | Permitted operational visibility, reason category, and correlation lookup under DOC-22. |
+
+DOC-07 owns Message IDs, approved user-facing wording, disclosure level, and CTA wording. DOC-06B owns route placement, destination, and return behavior. DOC-18 owns occurrence/correlation records and event mapping. DOC-19 owns technical authentication outcome codes, retry, lockout, session, provider, biometric, and security handling. DOC-20 owns test coverage, and DOC-22 owns permitted admin/support handling.
 
 ---
 
@@ -551,6 +587,7 @@ Required audit evidence includes:
 | Event | Evidence |
 | --- | --- |
 | Account registration | Terms/privacy version where applicable. |
+| Authentication outcome | Outcome Type ID, Message ID, originating route/action, occurrence/correlation ID, disclosure level, CTA/destination, timestamp, and permitted technical reason category without secrets. |
 | eKYC/KYB submission | Consent, provider handoff, submission event, and status. |
 | Request creation | Request creator, content version, category, evidence, and confirmation statement. |
 | Evidence verification | OCR/autofill notice, extracted-field review, user correction, duplicate warning, verification outcome, and review status where applicable. |
@@ -598,6 +635,7 @@ This document does not interpret those sources as final legal advice.
 | OQ-07-011 | What wording should explain SMS OTP, new-device 2FA, dormant-login reauthentication, payment passcode, material-change confirmation, and security notifications? | Product / Security / Legal | Open |
 | OQ-07-012 | What exact wording should explain deferred payment instruction, pending funding legs, partial funding, partial payout, remaining unpaid amount, and payment completion boundary? | Product / Legal / Payments | Open |
 | OQ-07-013 | What wording should explain quote expiry, promotion reservation, recalculation, and changed checkout terms when a payer returns to a deferred payment instruction? | Product / Legal / Growth | Open |
+| OQ-07-014 | What exact Outcome Type IDs, Message IDs, approved messages, disclosure levels, CTA labels, destinations, and technical/event mappings should populate the mandatory Authentication Outcome and Message Matrix? | Product / Content / Design / Security / Privacy / Support | Open; mechanism and required fields confirmed |
 
 ---
 
@@ -619,6 +657,7 @@ DOC-07 is acceptable when:
 - payment, settlement, and payout timing wording is cautious and accurate;
 - refund, cancellation, dispute, chargeback, and reversal disclosure touchpoints are defined;
 - privacy and data collection notice touchpoints are identified;
+- the mandatory Authentication Outcome and Message Matrix mechanism, fields, ownership, and open exact-copy/ID boundary are defined;
 - content audit evidence is defined;
 - open questions are clear and do not block continued drafting.
 
@@ -628,6 +667,7 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.9.10 | 2026-07-28 | Defined the mandatory Authentication Outcome and Message Matrix fields, ownership, disclosure and many-to-one mapping rules while leaving exact IDs and approved messages open; removed login-name content requirements. |
 | 0.9.9 | 2026-07-27 | Added user-facing content boundaries for one unique primary email, explicit email/Google/Apple login methods, Set versus Change Password, no automatic email-based account linking, and final-login-method protection. |
 | 0.9.8 | 2026-07-27 | Distinguished direct payer-created obligations/payments from payer-created linking requests and payee-created payment requests, and aligned user-facing origin labels without changing authorization rules. |
 | 0.9.7 | 2026-07-26 | Separated request lifecycle outcomes from linked dispute cases and linked payment refund, reversal, and chargeback outcomes. |

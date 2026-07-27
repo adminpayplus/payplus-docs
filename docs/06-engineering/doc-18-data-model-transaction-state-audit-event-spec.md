@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.18
+version: 0.4.19
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-07-27
+last_updated: 2026-07-28
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -38,12 +38,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `0.4.18` |
+| **Version** | `0.4.19` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Data Lead |
-| **Last Updated** | `2026-07-27` |
+| **Last Updated** | `2026-07-28` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -98,7 +98,7 @@ Detailed requirements belong to:
 | Offers and promotion future update | Final DOC-18 must distinguish offer UI presentation from payment-card funding data and define Offer ID, multi-collection membership, primary root placement, per-collection display priority, display snapshot, payment-card/funding-leg eligibility result, highest-user-value comparison, automatic Card Offer application, separate coupon/voucher/discount application, promotion quote, and audit-event structures required by DOC-06B, DOC-09, and DOC-13. |
 | Referral future update | Final DOC-18 must define the reusable user-linked referral code/reference, registration attribution, campaign and beneficiary-role linkage, qualification progression/outcome, entitlement, claim, issued reward reference, privacy-safe display projection, hold/reversal, and audit-event structures required by DOC-06B, DOC-13, DOC-15, and DOC-22. Sharing must remain distinct from recipient identity and attribution. |
 | Reward instrument future update | Final DOC-18 must define canonical issued-reward objects, lifecycle projections, authoritative fulfilment and idempotency, unknown-result recovery, credential references, reveal/access events, checkout selection linkage, and separate instrument-type, earning-source, participant-role, program, campaign/offer/entitlement, and fulfilment-method dimensions required by DOC-06B, DOC-09, DOC-13, DOC-15, and DOC-22. |
-| Account-control future update | Final DOC-18 must define account/profile projection, unique primary-email constraint, immutable login-name and stable PayPlus User ID rules, explicit account login methods, stable external-provider identity links, password-set state, restricted-account and financial-activation gates, masked-contact fields, identity-verification display mapping, reusable verification-flow context, contact-change events, payment-passcode preference, trusted-device/session revocation, privacy-request lifecycle, protected-export access, and account-closure lifecycle required by DOC-06B and DOC-15. Provider payloads and sensitive values must not be copied into route analytics. |
+| Authentication and account-control future update | Final DOC-18 must define temporary registration attempts, atomic account creation and identifier claiming, unique verified primary-email/phone/identity constraints, stable PayPlus User ID and optional nickname, explicit login methods, stable external-provider identity links, password-set state, restricted-account and Account Activation gates, Fast Login eligibility, device/session revocation, masked-contact fields, identity-verification display mapping, reusable verification-flow context, contact-change events, payment-passcode preference, privacy-request lifecycle, protected-export access, and account-closure lifecycle required by DOC-06B, DOC-07, and DOC-15. Provider payloads, credentials, OTPs, passcodes, and sensitive values must not be copied into route analytics. |
 | Receiving Info future update | Final DOC-18 must define stable user-linked Receiving Info profile IDs, multiple profiles, nickname, method-specific values, readiness, proof, version/archive history, selected request/obligation/payment/payout destination snapshots, source references, selected-disclosure projection, linked-payee notification, and payer-authorization freeze required by DOC-06B, DOC-09, DOC-10, DOC-12, DOC-14, DOC-15, and DOC-22. |
 | More and shortcut future update | Final DOC-18 must distinguish the approved shortcut catalog, versioned current eligible admin default, account-level user preference, effective resolved Home set, protected `More` rule, availability reason category, save/restore attempt, and destination-handoff event required by DOC-06B, DOC-15, and DOC-22. It must not copy sensitive destination data or internal risk/compliance reasons into analytics. |
 | Notification future update | Final DOC-18 must define stable notification event types, recipient-specific Inbox/message records, optional batches, source event/object lineage, recipient role projection, category, read/archive presentation, status/action-at-send snapshots, current-domain resolution, templates, route targets, correlation/causation/deduplication, per-channel delivery attempts, preferences, and audit events required by DOC-06B, DOC-08, DOC-15, and DOC-22. |
@@ -109,11 +109,15 @@ Detailed requirements belong to:
 DOC-18 should define logical structures for at least the following object families:
 
 - user account;
+- temporary registration attempt;
 - primary account email and uniqueness record;
+- primary phone and individual-identity uniqueness record;
 - account login method;
 - external login-provider identity link;
 - password-set state;
-- restricted-account and financial-activation gate;
+- Fast Login eligibility and remembered-device/session reference;
+- restricted-account and Account Activation gate;
+- authentication outcome-to-message mapping;
 - payer profile;
 - payee profile;
 - KYC/KYB verification reference;
@@ -214,7 +218,7 @@ PayPlus should define event families before implementation.
 
 | Event Family | Examples |
 | --- | --- |
-| Account events | registration started/completed, restricted account created, financial-activation gate evaluated/completed, login/logout, login method linked/unlinked/blocked, first password set, password changed, provider authentication returned, account-link conflict detected, new-device login, dormant reauthentication, material-change reauthentication attempted/completed/failed, contact change initiated/verified/completed/failed, credential or identity change, Me opened, account/security/privacy destination selected, identity-verification opened/returned/status refreshed, sensitive reveal attempted/completed/failed, action-required item opened, payment-passcode preference changed, trusted-device removed, session revoked, language/theme changed, privacy request submitted/status changed/completed/failed, protected export issued/opened/expired, account closure requested/blocked/cancelled/finalized. |
+| Account and authentication events | registration attempt created/progressed/abandoned/expired/invalidated, identifier uniqueness rechecked, restricted account created, Account Activation evaluated/completed, login resolver invoked, Fast Login eligibility renewed/revoked, Full Login selected, login succeeded/failed, logout, Log In With Another Account confirmed, current-device session revoked, login method linked/unlinked/blocked, first password set, password changed, provider authentication returned, account-link conflict detected, new-device login, dormant reauthentication, material-change reauthentication attempted/completed/failed, authentication outcome recorded, approved message selected, contact change initiated/verified/completed/failed, credential or identity change, Me opened, account/security/privacy destination selected, identity-verification opened/returned/status refreshed, sensitive reveal attempted/completed/failed, action-required item opened, payment-passcode preference changed, trusted-device removed, session revoked, language/theme changed, privacy request submitted/status changed/completed/failed, protected export issued/opened/expired, account closure requested/blocked/cancelled/finalized. |
 | Evidence and archive events | upload started, upload submitted, OCR processed, field extracted, user corrected, verification passed, mismatch found, duplicate detected, status changed, evidence snapshot finalized, replacement submitted/accepted/rejected, evidence version created, previous version recorded, archive eligibility checked, obligation archive attempted/completed/blocked, per-user archive projection created, current evidence projected into archive, restore attempted/completed/blocked, current evidence revalidated, archived-root/list opened/searched/filtered, archived detail opened, version viewed/downloaded/denied/unavailable. |
 | Request events | draft created, updated, creation started, existing bill/rent selected, submitted, evidence gate entered, evidence gate passed, evidence verified and auto-sent, sent/delivered, shared, viewed, reminded, accepted, rejected with reason, expired, cancelled, resent/recreated, parties linked, archived, restored. |
 | Route/navigation events | Pay+ action sheet opened/dismissed and action handoff; More opened/searched; shortcut manage mode entered; shortcut added, removed, reordered, saved, restored to current default, or save/restore failed; unavailable entry encountered; destination opened/handoff succeeded or failed. Route events may record only safe availability/reason categories and must not carry sensitive evidence, identity, card, bank, request, payment, destination-content, or internal risk/compliance values. |
@@ -230,6 +234,15 @@ PayPlus should define event families before implementation.
 | Analytics/model events | aggregate created, model feature refreshed, model run executed, AI-assisted recommendation shown, human review outcome recorded where approved. |
 
 Each event should capture event ID, event type, actor, role, timestamp, source object, affected object, previous state where applicable, new state where applicable, reason code where applicable, correlation ID, request ID or case ID where applicable, and audit classification.
+
+Authentication events must distinguish:
+
+- the stable internal outcome type;
+- the approved user-facing Message ID selected under DOC-07;
+- the unique occurrence/event ID and correlation ID used for one attempt or related flow;
+- the originating route, user action, disclosure level, permitted destination, return context, retry/restriction result, and admin/support visibility.
+
+Multiple internal outcomes may map to one approved public message. Exact outcome identifiers, Message IDs, message copy, and mappings remain open under DOC-07 and must not be inferred by DOC-18.
 
 ## 7. Transaction State and Linkage
 
@@ -291,6 +304,8 @@ DOC-18 must include data structures linking each applied payment-method-sensitiv
 DOC-18 must also define the notification model as linked but distinct records: a stable event definition; one recipient-specific Inbox/message record; an optional batch/manual/campaign/support/scheduled-job grouping; source event and source object references; recipient and role projection; approved category; `Unread` / `Read` / `Archived` presentation; status/action-at-send snapshots; current-domain resolution reference; template version; registered route target; correlation, causation, and deduplication references; and separate channel-delivery attempts. Category, presentation state, domain status, and Action Required must not be collapsed into one status field. Message read/archive changes must not mutate the owning domain object.
 
 DOC-18 must also include data structures for DOC-06C ordinary bill/rent reminders, including reminder ID, linked obligation ID, reminder source type, cycle, offset or custom date/time, active/inactive/expired/deleted status, custom override marker, soft-delete/audit metadata, notification linkage, and events for reminder creation, edit, disable, deletion, firing, opening, dismissal, and payment-start attribution.
+
+DOC-18 must also define the temporary registration-attempt object required by DOC-06B and DOC-15. It should use a stable attempt ID and may hold proposed provider, email, phone, referral, consent, OTP-state, security, rate-limit, correlation, created, last-active, and expiry references. It must not create an account ID, reserve a proposed identifier, create referral attribution, grant login or financial rights, or expose account-only routes. Final restricted-account creation must atomically recheck uniqueness, verified-email state, Terms/Privacy acceptance, and attempt validity before claiming identifiers and creating account-linked records.
 
 DOC-18 must also distinguish:
 
@@ -390,7 +405,7 @@ Sections 4 through 10 define the current baseline for PayPlus data objects, life
 | OQ-18-009 | What final physical fields, projections, reason codes, correlation IDs, idempotency rules, and audit records should implement the confirmed separation of request lifecycle, role-facing labels, request events, evidence status, obligation readiness, linked case lifecycle, archive visibility, and payment/payout records for DOC-06A/DOC-06B/DOC-06C request flows? | Engineering / Data / Product / Privacy / Operations | High | Open |
 | OQ-18-010 | What final referral identifiers, deeplink/QR token contract, attribution idempotency, qualification event mapping, entitlement/claim linkage, masking projection, correction controls, and audit records should implement the DOC-06B/DOC-13 Referral baseline? | Engineering / Data / Product / Privacy / Growth / Risk | High | Open |
 | OQ-18-011 | What final reward-instrument schema, state mapping, credential-reference model, checkout/partner linkage, idempotency keys, unknown-result recovery, and field-level representation should implement the separate reward dimensions and lifecycle defined in DOC-13? | Engineering / Data / Product / Growth / Privacy / Operations | High | Open |
-| OQ-18-012 | What final primary-email uniqueness, login-method, external-provider identity-link, password-set, restricted-account, financial-activation, provider-state, preference, verification/contact-change, privacy-request, protected-export, account-closure, route-event, reveal-audit, archived-evidence-access, and retention-safe structures should implement DOC-06B `ME-ROOT` and the accepted authentication/account-control model without copying sensitive values into analytics or auto-linking accounts by email? | Engineering / Data / Product / Privacy / Security / Operations | High | Open |
+| OQ-18-012 | What final registration-attempt, atomic identifier-claim, account uniqueness, login-method, provider-identity, Fast Login eligibility, password-set, restricted-account, Account Activation, authentication outcome/message/correlation, provider-state, preference, verification/contact-change, privacy-request, protected-export, account-closure, route-event, reveal-audit, archived-evidence-access, and retention-safe structures should implement DOC-06B `ME-ROOT` and the accepted authentication/account-control model without reserving identifiers before account creation, copying sensitive values into analytics, or auto-linking accounts by email? | Engineering / Data / Product / Privacy / Security / Operations | High | Open |
 | OQ-18-013 | What final Receiving Info profile, version, proof, readiness, destination-snapshot, source-reference, authorization-freeze, visibility-projection, failure-mapping, and audit structures implement the accepted product model without treating a saved profile as payout truth? | Engineering / Data / Payments / Product / Privacy / Risk / Operations | High | Open |
 | OQ-18-014 | What final catalog/default/preference/effective-set structures, configuration version links, availability categories, cross-device synchronization, protected-entry constraints, and privacy-safe events implement the DOC-06B `MORE-ROOT` baseline? | Engineering / Data / Product / Privacy / Operations | Medium | Open |
 | OQ-18-015 | What final notification event/message/batch/source/template/route/correlation/delivery-attempt schema, state projection, deduplication, retention, and admin lookup model implements the DOC-06B/DOC-08 Notifications baseline? | Engineering / Data / Product / Privacy / Operations | High | Open |
@@ -424,6 +439,7 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.4.19 | 2026-07-28 | Product Documentation Team | Aligned future authentication data and event requirements with Entrance, Fast/Full Login, temporary non-reserving registration attempts, atomic restricted-account creation, Account Activation, session revocation, and the mandatory DOC-07 authentication outcome/message/correlation mapping mechanism. |
 | 0.4.18 | 2026-07-27 | Product Documentation Team | Added future structures and events for unique primary email, explicit email/Google/Apple login methods, stable provider identity links, first-password setup, restricted-account creation, and financial-activation gates. |
 | 0.4.17 | 2026-07-27 | Product Documentation Team | Added future notification event/message/batch/source lineage, category/presentation/domain/action separation, route targeting, delivery-attempt, preference, correlation, and audit requirements for the defined Notifications route family. |
 | 0.4.16 | 2026-07-27 | Product Documentation Team | Added future object and privacy-safe event requirements for `MORE-ROOT`, approved shortcut catalog, current eligible default, account-level preferences, protected More, effective resolution, save/restore, availability, and destination handoffs. |

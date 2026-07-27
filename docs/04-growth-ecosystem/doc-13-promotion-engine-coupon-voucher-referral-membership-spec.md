@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.2.0
+version: 1.2.1
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-07-21
+last_updated: 2026-07-28
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -51,12 +51,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-13` |
 | **Title** | Promotion Engine, Coupon, Voucher, Referral & Membership Specification |
-| **Version** | `1.2.0` |
+| **Version** | `1.2.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Growth / Product |
 | **Reviewers** | Product Lead<br>Commercial Lead<br>Finance Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Commercial Lead<br>Finance Lead |
-| **Last Updated** | `2026-07-21` |
+| **Last Updated** | `2026-07-28` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -120,6 +120,7 @@ DOC-13 does not own:
 | External vouchers | Launch-supported reward type; each partner method must be configured and operationally ready before activation. QR, deeplink, code, API, file, webhook, or manual fulfilment may be supported. |
 | Stacking | Configurable by offer and campaign, with conservative defaults. |
 | Dashboard placement | Featured / What's New / Hot Offer is a DOC-06B dashboard carousel placement. DOC-13 owns campaign, offer, eligibility, entitlement, budget, and reversal logic; DOC-22 owns admin placement controls. |
+| Public Entrance placement | `ENTRANCE-CAROUSEL` may show approved public, non-personalized promotion, offer, announcement, or feature content. DOC-06B owns placement and `ENTRANCE-PROMOTION-DETAIL`; DOC-13 owns any campaign/offer meaning; DOC-22 owns future admin placement controls. No personalized eligibility or user-specific claim may be exposed before authentication. |
 | Promotion intelligence | Promotion analytics, offer ranking, campaign measurement, and partner reporting must follow DOC-15 data-use tiers and DOC-18 event, lineage, and model-readiness rules. |
 
 ---
@@ -923,7 +924,7 @@ Referral/MGM is separate from membership/tier:
 - ordinary registration provides an optional manual referral-code field; an invalid code may be re-entered or cleared, but successful attribution is not editable through the normal user UI after registration completes;
 - the MVP has one campaign; when multiple campaigns are later enabled, manual code entry requires campaign selection before code entry;
 - external sharing does not create a known invitation, recipient, or invitation status;
-- referral attribution begins only when an eligible new user completes registration using a valid code/link;
+- referral attribution begins only when an eligible new user's restricted PayPlus account is successfully created using a valid code/link; a temporary registration attempt creates no attribution and reserves no identifier;
 - referral qualification tracks the configured campaign conditions after attribution;
 - referrer and referee entitlements are separate linked records and preserve beneficiary role;
 - corresponding referrer and referee rewards may be claimed through DOC-06B Referral entitlement screens; beneficiary role remains preserved, while issued instruments use the same canonical reward records and statuses as `REWARDS-ROOT` and `REWARD-DETAIL`;
@@ -1055,7 +1056,7 @@ If future AI or model-assisted ranking is used for offers or placements, DOC-13 
 | OQ-13-011 | What membership tier formula, conversion ratio, downgrade rule, and grace period apply? | Product / Growth / Commercial | Open |
 | OQ-13-012 | What partner reimbursement, tax, and accounting treatment applies to partner-funded offers? | Finance / Legal / Commercial | Open |
 | OQ-13-013 | Which promotion types may be hard-reserved for DOC-09 deferred payment instructions, and what expiry, budget-release, and user-notice rules apply? | Product / Growth / Finance | Open |
-| OQ-13-014 | Which promotion, partner, announcement, referral, or feature items may appear in the DOC-06B Featured / What's New / Hot Offer carousel, and what approval, targeting, and consent rules apply? | Product / Growth / Privacy | Open |
+| OQ-13-014 | Which promotion, partner, announcement, referral, or feature items may appear in the DOC-06B Home or public Entrance carousels, and what approval, targeting, consent, public-content, and action-destination rules apply? | Product / Growth / Privacy | Open |
 | OQ-13-015 | What data may be used for offer ranking, placement personalization, campaign lift measurement, and partner-funded offer reporting? | Product / Growth / Privacy | Open |
 | OQ-13-016 | What aggregation, de-identification, report approval, and partner-contract controls are required before campaign performance data is shared externally? | Growth / Privacy / Legal | Open |
 | OQ-13-017 | When a reward is held, does expiry continue, pause, extend, or lead to reversal, and what user notice and admin authority apply? | Product / Growth / Risk / Operations | Open |
@@ -1093,6 +1094,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.1 | 2026-07-28 | Defined the public non-personalized Entrance placement boundary and clarified that referral attribution begins at successful restricted-account creation, not during a temporary registration attempt. |
 | 1.2.0 | 2026-07-21 | Defined canonical issued-reward lifecycle and display projections, single-use default, authoritative/idempotent fulfilment, checkout-selection boundary, launch support for external vouchers and miles, and separate instrument, source, role, program, campaign/offer, entitlement, and fulfilment data dimensions; retained hold-versus-expiry as open. |
 | 1.1.1 | 2026-07-21 | Defined role-sensitive Referral reward claiming for referrers and referees, entitlement-time quota reservation and terms snapshot, separate campaign/claim/usage dates, idempotent one-entitlement-to-one-instrument issuance, and exceptional admin-held reward presentation. |
 | 1.1.0 | 2026-07-21 | Defined the PayPlus Referral Program, reusable code/link and registration-attribution rules, single-campaign MVP and future campaign selection, event-driven qualification, role-sensitive referrer/referee entitlements, referrer claim flow, and canonical issued-reward handoff; removed invitation code from reward-instrument types. |

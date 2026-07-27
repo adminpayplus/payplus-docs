@@ -61,6 +61,21 @@ Future full DOC-22 drafting must distinguish destination-attributable exceptions
 ### 7.12 Compliance Escalation Queue
 ### 7.13 Campaign and Promotion Review Queue
 ### 7.14 Reward Entitlement and Voucher Exception Queue
+### 7.15 Authentication and Account Activation Review
+
+Future full DOC-22 drafting must support controlled authentication and Account Activation operations without exposing credentials, OTPs, passcodes, raw provider payloads, or unnecessary identity data.
+
+Required capabilities should include:
+
+- locate permitted registration-attempt, authentication, session, and Account Activation events by user/account reference, attempt ID, occurrence/event ID, or correlation ID;
+- show approved operational outcome classifications and reason categories separately from user-facing message text;
+- use the DOC-07 Authentication Outcome and Message Matrix for Message ID, disclosure, action, and destination alignment;
+- support authorized review of primary-email, phone, identity, provider-link, and account-creation uniqueness conflicts without automatically merging or linking accounts;
+- inspect Fast Login eligibility renewal/revocation and current-device session revocation without storing or revealing plaintext passwords or protected device secrets;
+- configure and monitor registration-attempt expiry, OTP invalidation, rate limits, abuse controls, and cleanup while ensuring temporary attempts do not reserve identifiers or grant account rights;
+- preserve full audit history for permitted support, security, review, and override actions.
+
+The exact authentication Outcome Type IDs, Message IDs, user-facing messages, and mappings remain open in DOC-07. DOC-22 must preserve the lookup and operational-control mechanism but must not invent or override those decisions.
 
 ## 8. Admin Review Workflows
 
@@ -118,6 +133,19 @@ Required capabilities should include:
 - record admin changes to shortcut defaults, dashboard placements, carousel configuration, and notice/action items.
 
 Detailed final admin screens, permission matrix, approval workflow, and implementation fields will be drafted in full DOC-22 and DOC-18.
+
+#### 18.1.0 Public Entrance Content Configuration
+
+Future full DOC-22 drafting must support controlled public content for `ENTRANCE-ROOT` and `ENTRANCE-PROMOTION-DETAIL`.
+
+Required capabilities should include:
+
+- configure public, non-personalized carousel content, publication status, start/end dates, priority, language, image, approved action, and route or external target;
+- prevent pre-login targeting from using protected account, payment, identity, evidence, card, receiving, risk, or behavioral data;
+- require approval, version history, rollback, and audit records for public Entrance content and target changes;
+- keep Log In, Create Account, language, Support, and Terms access outside campaign suppression or commercial targeting controls.
+
+Exact carousel capacity, rotation, targeting, and supported action types remain open in DOC-06B and must be configurable only after the product decision is finalized.
 
 #### 18.1.1 Pay+ Action Availability Configuration
 
@@ -244,7 +272,7 @@ Required controls include:
 - support contact-change exception handling and audit for the confirmed cross-channel phone/email verification flows;
 - resolve duplicate-primary-email and external-provider-link conflicts through controlled support or security workflows without automatically merging accounts by email;
 - support audited Google/Apple login-method link and unlink exceptions, first-password setup state, and the safeguard that prevents removal of an account's final usable login method;
-- expose restricted-account and financial-activation gate outcomes for authorized support and operations roles without allowing admin configuration to bypass payer verification or authorization requirements;
+- expose restricted-account and Account Activation gate outcomes for authorized support and operations roles without allowing admin configuration to bypass phone, identity, passcode, payer-verification, or authorization requirements;
 - manage privacy requests through controlled queues using `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete` user-facing projections, with internal reasons, service timelines, assignee, and evidence retained separately;
 - issue, revoke, expire, and audit protected in-app data exports without sending the export as an ordinary email attachment;
 - manage account-closure blockers, cancellation before finalization, operational finalization, session termination, login disablement, retained-record access, and completion notice without treating closure as immediate deletion;
@@ -332,6 +360,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.19.0 | 2026-07-28 | Added future operational controls for temporary registration attempts, authentication outcome/message/correlation lookup, account-activation conflicts, Fast Login/session handling, and approved public Entrance content while preserving DOC-07 ownership of exact IDs and messages. |
 | 0.18.0 | 2026-07-27 | Added future admin and support markers for unique-primary-email conflicts, explicit provider login-method links, first-password state, final-login-method protection, and restricted-account financial-activation gates. |
 | 0.17.0 | 2026-07-27 | Added future admin requirements for notification event/message/batch/source traceability, category and signal separation, lookup, templates, channels, preferences, delivery attempts, current-state actions, retention, and audit. |
 | 0.16.0 | 2026-07-27 | Aligned future admin controls with defined `MORE-ROOT` catalog/default management, 8-slot maximum, protected More access, eligibility precedence, account-level preferences, current-default restore, configuration versioning, and destination-boundary protection. |

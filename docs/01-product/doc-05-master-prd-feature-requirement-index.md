@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.28
+version: 0.18.29
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-27
+last_updated: 2026-07-28
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.28` |
+| **Version** | `0.18.29` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-27` |
+| **Last Updated** | `2026-07-28` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -512,9 +512,9 @@ DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B 
 
 For split UX topics, use one primary owner. DOC-06B owns standalone route shells and human-readable route-level UX for Requests, Instructions, Payment Profile, Offers, Me, Referral, More, and global Receipts/Activity routes. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
 
-Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `AUTH-ENTRY` is the pre-login choice screen; `AUTH-LOGIN` and `AUTH-REGISTRATION` are the required authentication destinations; normal successful entry proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET` and `MORE-ROOT` identify the Pay+ and More destinations. `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings, with `NOTIFICATION-INBOX` as its default child. DOC-09 `PAYMENT-CHECKOUT` identifies the payment checkout flow/screen group without transferring checkout ownership to DOC-06.
+Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `ENTRANCE-ROOT` is the unauthenticated app root; `AUTH-LOGIN` resolves to `AUTH-LOGIN-FAST` or `AUTH-LOGIN-FULL`; `AUTH-RECOVERY` owns password recovery; and `AUTH-REGISTRATION` owns restricted-account creation. `ACCOUNT-ACTIVATION` completes phone, identity, and payment-passcode requirements through their reusable child flows. Normal successful login proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET` and `MORE-ROOT` identify the Pay+ and More destinations. `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings, with `NOTIFICATION-INBOX` as its default child. DOC-09 `PAYMENT-CHECKOUT` identifies the payment checkout flow/screen group without transferring checkout ownership to DOC-06.
 
-PayPlus uses one account with one unique verified primary email and one or more explicitly enabled login methods. Email/password, Google, and Apple may access the same account only after the provider identity is explicitly linked; matching email addresses never merge or link accounts automatically. Social-authenticated users may set a PayPlus password later through `ACCOUNT-SECURITY`. Restricted account creation may reach `HOME-ROOT` before phone verification, identity verification, and payment-passcode setup, but those gates are mandatory before payment or another financially restricted action.
+PayPlus uses one account with one unique verified primary email and one or more explicitly enabled login methods. Email/password, Google, and Apple may access the same account only after the provider identity is explicitly linked; matching email addresses never merge or link accounts automatically. Social-authenticated users may set a PayPlus password later through `ACCOUNT-SECURITY`. Before account creation, a temporary registration attempt creates no account and reserves no proposed identifier. Restricted account creation may reach `HOME-ROOT` before phone verification, identity verification, and six-digit payment-passcode setup; `ACCOUNT-ACTIVATION` must complete those gates before the registration-level restriction is removed or a financially restricted action proceeds.
 
 `PAYPLUS-ACTION-SHEET` uses the confirmed five-action order and role boundaries from DOC-06B. `Pay a Bill` and `Pay Rent` open temporary category-scoped `BILLS-PAY` selection without changing saved Bills filters; `Add Bill / Rent` opens `BILLS-ADD`; `Continue Payment` resolves to disabled, one instruction detail, or the instruction list according to active instruction count; and `Request Payment` means payee-to-payer request creation. Exact visual measurements, iconography, and motion timing remain design-open.
 
@@ -535,7 +535,7 @@ Bills-route requirements must remain role-aware:
 
 For account-control UX, `ME-ROOT` is a permanent MVP bottom-navigation route for users acting as payer, payee, or both. It provides masked Account Information, account/security/privacy child-route entry, Bills access, Payment Profile, Receiving Info, Activity, Receipts & Statements, Archived Records, My Rewards, Referral, preferences, support, About/Terms, and logout. These rows are route handoffs and do not transfer ownership from DOC-06C, DOC-08, DOC-10, DOC-12, DOC-13, DOC-15, DOC-18, DOC-19, DOC-21, or DOC-22.
 
-DOC-06B defines `ACCOUNT-PROFILE`, reusable `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, child screen `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`. The MVP includes immutable login name after setup, copyable PayPlus User ID, cross-channel phone/email change verification, four identity-verification display labels, immediate `Verify Now` handoff for non-verified states, account closure as a controlled request, login-method and Set/Change Password controls, payment passcode and permitted 2FA/biometric controls, trusted-device removal, optional privacy choices, governed correction/access/export/deletion requests, and protected in-app export.
+DOC-06B defines `ACCOUNT-PROFILE`, reusable `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, child screen `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`. The MVP includes editable nickname/display name that is not a login identifier, copyable PayPlus User ID, cross-channel phone/email change verification, four identity-verification display labels, immediate `Verify Now` handoff for non-verified states, account closure as a controlled request, login-method and Set/Change Password controls, payment passcode and permitted 2FA/biometric controls, trusted-device removal, optional privacy choices, governed correction/access/export/deletion requests, and protected in-app export.
 
 Sensitive information remains masked by default. Prominent reveal of approved masked sensitive values, and material changes to identity, contact, security, credential, or Receiving Info data, require payment passcode or approved reauthentication under DOC-15 and future DOC-19 controls. Ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra prompt solely for opening or downloading the document. `ACTIVITY-ROOT` remains the single account-level payer/payee financial activity route. `RECEIVING-INFO` manages private reusable receiving profiles. `ARCHIVED-ROOT` separates archived obligations in `ARCHIVED-BILLS-LIST` from archived/previous evidence in `ARCHIVED-DOCS-LIST`.
 
@@ -545,8 +545,8 @@ Archive is a per-user visibility action. It must not change the counterparty's a
 
 ### Payer
 
-- enter through `AUTH-ENTRY` and use `AUTH-LOGIN` or `AUTH-REGISTRATION`;
-- create a restricted account with a unique verified primary email and complete phone verification before financial activation;
+- enter through `ENTRANCE-ROOT` and use the `AUTH-LOGIN` family or `AUTH-REGISTRATION`;
+- create a restricted account with a unique verified primary email, then complete `ACCOUNT-ACTIVATION` before full registration;
 - complete new-device 2FA and dormant-login reauthentication where required;
 - confirm core account, payment profile, or credential changes using password, payment passcode, 2FA, or approved confirmation method;
 - dashboard through `HOME-ROOT`;
@@ -579,8 +579,8 @@ Archive is a per-user visibility action. It must not change the counterparty's a
 
 ### Payee
 
-- enter through `AUTH-ENTRY` and use `AUTH-LOGIN` or `AUTH-REGISTRATION`;
-- create a restricted account with a unique verified primary email and complete phone verification before financial activation;
+- enter through `ENTRANCE-ROOT` and use the `AUTH-LOGIN` family or `AUTH-REGISTRATION`;
+- create a restricted account with a unique verified primary email, then complete `ACCOUNT-ACTIVATION` before full registration;
 - complete new-device 2FA and dormant-login reauthentication where required;
 - dashboard through `HOME-ROOT`;
 - create payment request;
@@ -778,8 +778,8 @@ The MVP is acceptable when:
 | Major functions and modules must be independently disableable. | Confirmed |
 | Future docs should use concise product-spec structure. | Confirmed |
 | Promotion engine capabilities are framework scope but launch-gated by DOC-13 rules and admin configuration. | Confirmed |
-| `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` are required acceptance-scope destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Detailed UI Pending |
-| One account uses one unique verified primary email and may explicitly enable email/password, Google, and Apple login methods. Social accounts may set a password later; matching emails never auto-link accounts; phone, identity, and payment-passcode completion gate financial activation rather than restricted dashboard access. | Confirmed |
+| `ENTRANCE-ROOT`, the `AUTH-LOGIN` family, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, and `ACCOUNT-ACTIVATION` are required acceptance-scope destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Behavior Defined |
+| One account uses one unique verified primary email and may explicitly enable email/password, Google, and Apple login methods. Social accounts may set a password later; matching emails never auto-link accounts; a registration attempt reserves no identifier; phone, identity, and six-digit payment-passcode completion remove the registration-level restriction through `ACCOUNT-ACTIVATION`. | Confirmed |
 | `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, and the `NOTIFICATION-ROOT` family have defined behavior baselines and route handoffs. DOC-09 `PAYMENT-CHECKOUT` remains a stable destination with further detail pending. | Working Baseline / Final Visual Design Pending |
 | DOC-06B designated Home Dashboard flow and layout baseline is accepted for MVP discussion, but final UI design and exact component specification remain open. | Confirmed |
 | Dashboard shortcut grid, account-level user shortcut preferences, protected `More`, current-default restore, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
@@ -796,6 +796,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.29 | 2026-07-28 | Aligned the PRD with `ENTRANCE-ROOT`, Fast/Full Login, Recovery, non-reserving registration attempts, Account Activation, six-digit passcode requirement, uniqueness conflicts, display-name boundary, and authentication outcome/message ownership. |
 | v0.18.28 | 2026-07-27 | Added the accepted unique-primary-email, explicit multiple-login-method, social-account password-setup, restricted-account, and deferred-financial-activation product baseline. |
 | v0.18.27 | 2026-07-27 | Aligned the PRD with the defined `NOTIFICATION-ROOT` family, Home/Me entries, Inbox/Detail/Settings separation, domain-status and Action Required boundaries, and current-state contextual routing. |
 | v0.18.26 | 2026-07-27 | Aligned the PRD with defined `MORE-ROOT` Normal/Manage behavior, 8-slot maximum, protected More entry, account-level shortcut preferences, current-default restore, availability precedence, and secondary-service boundary. |

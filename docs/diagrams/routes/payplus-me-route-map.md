@@ -2,7 +2,7 @@
 
 Status: Current discussion reference
 Owner: DOC-06B
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
 This parent map stops at direct Me child destinations. It intentionally does not duplicate each child's internal tree.
 
@@ -28,5 +28,5 @@ flowchart TD
 
   ARCHIVE -. "See Archive route map" .-> ARCHIVEFAMILY["Archive route family"]
   NOTIFY -. "See Notifications route map" .-> NOTIFICATIONFAMILY["Notifications route family"]
-  LOGOUT --> AUTH["AUTH-ENTRY"]
+  LOGOUT --> ENTRANCE["ENTRANCE-ROOT"]
 ```

@@ -4,7 +4,7 @@ Status: Working alignment reference
 
 Owner: Product / Documentation Owner
 
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 Classification: Internal
 
 This glossary defines approved PayPlus terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
@@ -111,10 +111,18 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
 | Primary Account Email | The unique verified email assigned to one PayPlus account for account communication and supported authentication. The same primary email cannot belong to another PayPlus account. | DOC-15 |
+| Entrance Root | `ENTRANCE-ROOT`, the sole unauthenticated app root providing approved public content plus Log In and Create Account entry actions. | DOC-06B |
+| Login Route Family | `AUTH-LOGIN`, the authentication entry resolver that opens Fast Login for an eligible remembered account and Full Login otherwise. | DOC-06B |
+| Fast Login | `AUTH-LOGIN-FAST`, the eligible remembered-account login experience using enabled OS biometric authentication or password fallback. Eligibility rolls for one month from each successful login and may end earlier for approved risk, device, credential, account, or security reasons. | DOC-06B / DOC-15 |
 | Login Method | An explicitly enabled way to authenticate to one PayPlus account: email/password, Google, or Apple. Login methods do not create separate product accounts. | DOC-06B / DOC-15 |
 | External Login Provider Identity | The stable provider-specific Google or Apple identity linked to one PayPlus account after explicit provider authentication. Matching email alone never creates or transfers this link. | DOC-15 / DOC-18 |
-| Restricted Account | A PayPlus account with a unique verified primary email, at least one usable login method, and accepted Terms/Privacy, but without all financial-activation gates completed. | DOC-05 / DOC-15 |
-| Financial Activation | Completion of the required phone verification, identity verification, and payment-passcode setup before payment or another financially restricted action may proceed. | DOC-05 / DOC-15 |
+| Registration Attempt | A temporary pre-account record used to complete registration checks. It creates no PayPlus account, does not reserve proposed identifiers, grants no login or financial rights, and creates no referral attribution. | DOC-06B / DOC-15 / DOC-18 |
+| Restricted Account | A PayPlus account created after successful atomic registration checks, with a unique verified primary email, at least one usable login method, and accepted Terms/Privacy, but with one or more Account Activation gates still incomplete. | DOC-05 / DOC-15 |
+| Account Activation | The reusable flow for completing required phone verification, identity verification, and six-digit payment-passcode setup before payment or another financially restricted action may proceed. | DOC-06B / DOC-15 |
+| Authentication Outcome Type | A stable internal classification for an authentication or registration result. It is separate from the user-facing message and one occurrence of the result. | DOC-07 / DOC-18 |
+| Authentication Message ID | The stable identifier for approved user-facing authentication copy, disclosure level, actions, and destination behavior. Multiple internal outcomes may map to the same Message ID. | DOC-07 |
+| Authentication Occurrence / Correlation ID | The unique event and flow references used to trace one authentication occurrence and related operations without exposing credentials or sensitive values. | DOC-18 |
+| Nickname / Display Name | Optional editable account-profile text used for user-facing recognition. It is not a login identifier and does not change an authentication method. | DOC-06B / DOC-15 |
 | Masked Display | A permitted projection that conceals sensitive values while retaining enough context for recognition. | DOC-15 |
 | Sensitive Reveal | Temporary display of an approved masked sensitive value after payment passcode or approved reauthentication. Prohibited fields remain unavailable. | DOC-15 / DOC-19 |
 | Material Sensitive Change | A change to identity, contact, security, credential, or Receiving Info data requiring payment passcode or approved reauthentication before route-specific controls. | DOC-15 / DOC-19 |

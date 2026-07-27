@@ -11,6 +11,7 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 | --- | --- | --- |
 | `payplus-home-dashboard-mvp-wireframe.svg` | Visual reference for the DOC-06B designated Home Dashboard flow and layout baseline. It is not finalized UI design, visual design, component specification, or exact route-level screen specification. | DOC-06B |
 | `routes/payplus-app-route-map.md` | Level 0 app navigation map. It stops at direct global destinations and route-family handoffs. | DOC-06B |
+| `routes/payplus-authentication-route-map.md` | Entrance, Fast/Full Login, Registration, Recovery, Account Activation, verification/passcode handoffs, and protected-context return. | DOC-06B / DOC-07 / DOC-15 |
 | `routes/payplus-home-route-map.md` | Home, dashboard shortcuts, and direct dashboard-section handoffs. | DOC-06B |
 | `routes/payplus-action-sheet-route-map.md` | Pay+ action-sheet actions, availability decisions, and destination handoffs. It does not define final visual design. | DOC-06B |
 | `routes/payplus-bills-route-map.md` | Bills, rent, evidence, activity, reminder, linking, checkout, and Archive-family handoffs. | DOC-06C |
