@@ -38,6 +38,10 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-015` | `2026-07-26` | Hierarchical Route-Diagram Governance | Accepted | `DOC-00` | `9dc8015` |
 | `DEC-2026-016` | `2026-07-27` | Pay+ Action Sheet And Request-Direction Boundary | Accepted | `DOC-06B` | `cd75183` |
 | `DEC-2026-017` | `2026-07-27` | More Shortcut Management And Route Boundary | Accepted | `DOC-06B` | `4aa7d02` |
+| `DEC-2026-018` | `2026-07-27` | Notification Route Family And Signal Separation | Accepted | `DOC-06B` / `DOC-08` | `846c13d` |
+| `DEC-2026-019` | `2026-07-27` | Authentication And Account-Access Model | Accepted | `DOC-15` / `DOC-06B` | `3d8d9ec` |
+| `DEC-2026-020` | `2026-07-28` | Entrance, Authentication, Registration, And Account Activation | Accepted | `DOC-06B` / `DOC-07` | `6f2bd4b` |
+| `DEC-2026-021` | `2026-07-28` | Authentication And Account-Control Route Hierarchy | Accepted | `DOC-06B` | `27583d7` |
 
 ## 4. Decision Record Template
 
@@ -898,3 +902,44 @@ Supersedes active use of `AUTH-ENTRY`, login-name-based access, financial-activa
 **Remaining Open Items**
 
 Entrance carousel configuration; exact authentication outcome and message catalogue; provider-specific behavior; Recovery, Phone Verification, Identity Verification, and Payment Passcode Settings details; and final security, data, testing, and admin implementation remain open under their identified owners.
+
+### `DEC-2026-021` - Authentication And Account-Control Route Hierarchy
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-28` |
+| Status | Accepted |
+| Primary owner | `DOC-06B` |
+| Affected documents | `DOC-06B`, route register, diagram index, Authentication route map, Account Activation route map, Me route map |
+| Substantive commit | `27583d7` |
+| Founder approval | Authentication, Account Activation, and Me route-map hierarchy approved on `2026-07-28` |
+
+**Decision**
+
+`ACCOUNT-ACTIVATION` is an orchestration route that invokes only incomplete account-setup requirements. It is not the canonical parent of the reusable account-control routes.
+
+`PHONE-VERIFICATION` and `IDENTITY-VERIFICATION` are canonically under `ACCOUNT-PROFILE`. `PAYMENT-PASSCODE-SETTINGS` is canonically under `ACCOUNT-SECURITY`. Account Activation may invoke those routes contextually; an activation-originated child returns to Account Activation with refreshed completion state, while a child opened from its canonical parent returns to that parent.
+
+The Authentication map stops at the Account Activation handoff. A separate Account Activation map shows its contextual orchestration, and the Me map retains all existing Me branches while adding the three account-control child handoffs.
+
+**Rationale**
+
+One canonical parent per reusable route prevents duplicate ownership and makes later route drafting and AI implementation easier to trace. Separating the diagrams keeps the authentication overview readable without hiding the activation and account-management relationships.
+
+**Alternatives Considered**
+
+- Keeping Phone Verification, Identity Verification, and Payment Passcode Settings under Account Activation was rejected because the same controls must remain manageable later through Account Profile or Account Security.
+- Showing the full activation child tree inside the Authentication map was rejected because it duplicated the child hierarchy and made the route map difficult to read.
+- Replacing the Me map with an activation-focused map was rejected because the existing Me destinations remain valid and must be preserved.
+
+**Consequences And Handoffs**
+
+The route register records canonical parentage only. Contextual entry points and source-aware returns belong in DOC-06B transition rules and route-family diagrams. Detailed child-screen behavior remains subject to separate founder review.
+
+**Supersedes / Superseded By**
+
+Supersedes route-register and diagram wording that represented Account Activation as an additional parent of Phone Verification, Identity Verification, or Payment Passcode Settings.
+
+**Remaining Open Items**
+
+Detailed screen behavior, failure handling, provider mapping, retry/lockout, recovery, notification, security, data/event, admin, and acceptance requirements for the three reusable child routes remain open.

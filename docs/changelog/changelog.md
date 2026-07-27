@@ -666,3 +666,38 @@ This append-only register records the documentation delivered by each substantiv
 - Exact authentication Outcome Type IDs, Message IDs, approved messages, disclosure and CTA mappings.
 - Detailed Recovery, Phone Verification, Identity Verification, and Payment Passcode Settings screens.
 - Provider-specific errors, retry/lockout, session/device, 2FA, technical security, physical data, test, and admin implementation.
+
+### `2026-07-28` - Authentication And Account-Control Route Hierarchy
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `27583d7` |
+| Primary owner | `DOC-06B` |
+| Decision record | `DEC-2026-021` |
+| Founder approval | Authentication, Account Activation, and Me route-map hierarchy and commit approved on `2026-07-28` |
+
+**Files Changed**
+
+- `DOC-06B`;
+- route register and diagram index;
+- Authentication, Account Activation, and Me route maps.
+
+**Material Changes**
+
+- Clarified `ACCOUNT-ACTIVATION` as a contextual orchestration route rather than the canonical parent of reusable account controls.
+- Established `ACCOUNT-PROFILE` as the canonical parent of `PHONE-VERIFICATION` and `IDENTITY-VERIFICATION`.
+- Established `ACCOUNT-SECURITY` as the canonical parent of `PAYMENT-PASSCODE-SETTINGS`.
+- Defined source-aware return behavior for activation-originated and canonical-parent-originated child flows.
+- Simplified the Authentication map, added a dedicated Account Activation map, and extended the existing Me map without removing its established branches.
+- Added a route-register maintenance rule separating canonical parentage from contextual entry points.
+
+**Checks Performed**
+
+- Staged and committed only the six approved hierarchy files.
+- Verified DOC-06B YAML and Document Control version parity.
+- Checked route-ID parentage and contextual handoff wording across DOC-06B, the route register, and the three maps.
+- Ran `git diff --cached --check`; no whitespace errors were found.
+
+**Remaining Open Items**
+
+Detailed Phone Verification, Identity Verification, and Payment Passcode Settings screen behavior, provider handling, security mechanics, failure states, data/event mapping, admin operations, and acceptance coverage remain for separate drafting.
