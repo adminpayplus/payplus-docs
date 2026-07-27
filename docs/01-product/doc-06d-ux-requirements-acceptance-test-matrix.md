@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.20
+version: 0.1.21
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -31,7 +31,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.20` |
+| **Version** | `0.1.21` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
@@ -88,7 +88,7 @@ Example pattern:
 | Area | Source Doc | Test Readiness | Notes |
 | --- | --- | --- | --- |
 | Prohibited wallet/stored-value/cashout journeys | DOC-06 / DOC-06A | Ready for high-level blocked-flow criteria | Detailed tests later in DOC-20. |
-| Authentication entry routes | DOC-06B / DOC-15 / DOC-19 | Partial | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` plus normal/contextual success handoffs are testable; detailed screen, recovery, validation, and security behavior remains open. |
+| Authentication entry routes | DOC-06B / DOC-15 / DOC-19 | Partial | Route IDs, normal/contextual success handoffs, unique primary email, explicit email/password and Google/Apple login methods, no email-based automatic linking, restricted account creation, deferred financial activation, and Account Security Set/Change Password and link/unlink rules are testable; detailed screens, recovery, protected-deeplink, validation, and security mechanics remain open. |
 | Home dashboard layout | DOC-06B | Partial | `HOME-ROOT` is assigned; exact card behavior and UI detail remain open. |
 | Pay+ action sheet | DOC-06B / DOC-06C / DOC-09 | Partial to strong | Five-action order, payee-to-payer request direction, category-scoped Bills handoffs, Add/Continue behavior, availability, return, configuration limits, and no-side-effect boundary are testable; exact visual specification remains open. |
 | More and shortcut management | DOC-06B / DOC-15 / DOC-18 / DOC-22 | Partial to strong | `MORE-ROOT` Normal/Manage modes, 8-slot maximum, protected More entry, account-level preferences, accessible add/remove/reorder, current-default restore, availability precedence, unsaved-change handling, and secondary-service handoffs are testable; final visual styling and optional replacement Undo remain open. |
@@ -134,6 +134,11 @@ The DOC-06 user journey scope is satisfied when:
 
 - app launch without an approved session opens `AUTH-ENTRY`, where the user can choose `AUTH-LOGIN` or `AUTH-REGISTRATION`;
 - normal successful login or completed registration opens `HOME-ROOT`, while an approved protected or referral deeplink may resume its intended destination after authentication;
+- restricted account creation requires one unique verified primary email, accepted Terms and Privacy notices, and one usable login method;
+- email/password, Google, and Apple may access the same account only after explicit setup or linking, with stable provider identity and no automatic link or merge based only on matching email;
+- social-authenticated users may set their first PayPlus password through `ACCOUNT-SECURITY`, after which the action changes from `Set Password` to `Change Password`;
+- provider linking and unlinking require fresh approved reauthentication, explicit confirmation, audit, and security notification, and the final usable login method cannot be removed;
+- a restricted account may enter `HOME-ROOT` before phone, identity, and payment-passcode completion, but payment and other financially restricted actions remain blocked until the applicable gates complete;
 - authentication failure does not expose protected route history and keeps the user in the applicable authentication flow with a permitted retry or recovery path;
 - payers can register and log in;
 - payees can register and log in;
@@ -175,7 +180,7 @@ The DOC-06 user journey scope is satisfied when:
 - revealing approved masked sensitive information in a prominent account or Receiving Info surface requires payment passcode or approved reauthentication, with additional step-up where the owning security/risk rules require it, while prohibited fields remain unavailable;
 - changing sensitive identity, contact, security, credential, or Receiving Info data requires payment passcode or approved reauthentication before the route-specific OTP, provider, review, or confirmation flow;
 - ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra passcode or step-up prompt solely because the document is opened or downloaded;
-- `ACCOUNT-SECURITY` provides Login Password, Payment Passcode, permitted Two-Step Verification and Biometric Unlock toggles, Trusted Devices removal, and Recovery and Security Support without a separate MVP Active Sessions list;
+- `ACCOUNT-SECURITY` provides Login Methods with Set/Change Password and Google/Apple Link/Unlink state, Payment Passcode, permitted Two-Step Verification and Biometric Unlock toggles, Trusted Devices removal, and Recovery and Security Support without a separate MVP Active Sessions list;
 - `PAYMENT-PASSCODE-SETTINGS` supports passcode change/reset and the optional passcode-confirmation preference for card/payment-profile changes without ever displaying the existing passcode;
 - mandatory new-device, risk, contact-change, account-closure, and provider-required authentication cannot be disabled by the Two-Step Verification toggle;
 - `PRIVACY-DATA-CONTROLS` separates optional direct-marketing, personalization, and approved partner-data-use choices from mandatory processing; provides governed access, correction, export, retention/deletion requests and request history; and uses `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete` labels;
@@ -271,6 +276,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.21 | 2026-07-27 | Added acceptance coverage for unique primary email, explicit multiple login methods, no automatic email-based linking, social-account password setup, restricted account creation, deferred financial activation, and Account Security link/unlink safeguards. |
 | 0.1.20 | 2026-07-27 | Added test-readiness and acceptance coverage for the Notifications route family, entry/return behavior, filters, unread badge, read/archive separation, detail revalidation, Settings behavior, cross-device state, and owning-domain signal boundaries. |
 | 0.1.19 | 2026-07-27 | Added test-readiness and acceptance coverage for `MORE-ROOT` modes, shortcut capacity, protected More access, account-level preferences, accessible management, current-default restore, availability precedence, replacement behavior, unsaved changes, failures, and destination boundaries. |
 | 0.1.18 | 2026-07-27 | Added test-readiness and acceptance coverage for the Pay+ five-action order, request direction, Bills scopes, Add/Continue decisions, visibility rules, return behavior, duplicate prevention, and reduced-motion baseline. |

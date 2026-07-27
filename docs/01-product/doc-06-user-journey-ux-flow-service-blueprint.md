@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.25
+version: 0.21.26
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -44,7 +44,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `0.21.25` |
+| **Version** | `0.21.26` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -150,7 +150,7 @@ This matrix prevents the split from creating a false impression that all routes 
 
 | Route / Area | Primary Owning Doc | Reference / Handoff Docs | Status | Notes |
 | --- | --- | --- | --- | --- |
-| Authentication Entry | DOC-06B | DOC-06A for journey; DOC-07/DOC-15/DOC-19 for disclosure, privacy, and security | Route IDs and Handoff Baseline Defined / Detailed UI Pending | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` are assigned. Normal success enters `HOME-ROOT`; approved deeplinks may resume their intended destination. |
+| Authentication Entry | DOC-06B | DOC-06A for journey; DOC-07/DOC-15/DOC-19 for disclosure, privacy, and security | Account-Access Model and Handoff Baseline Defined / Detailed UI Pending | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` are assigned. One unique verified primary email and explicit email/password, Google, or Apple login methods support restricted account creation; phone, identity, and payment-passcode completion gate financial activation. Normal success enters `HOME-ROOT`; approved deeplinks may resume their intended destination. |
 | Home Dashboard | DOC-06B | DOC-06A for journey touchpoints; DOC-13/DOC-15/DOC-22 where relevant | `HOME-ROOT` Assigned / Partially Defined | Section order, shortcut baseline, Featured carousel, Important Notice, and Recent Activity summary are defined; exact UI and card rules remain open. |
 | Bottom Navigation | DOC-06B | Child route owners for destination behavior | Working Baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline is defined; final visuals and remaining child-route detail remain open. |
 | Pay+ Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | Defined Behavior / Not Final Visual Design | Five-action order, role direction, destination handoffs, availability, completion, return, configuration limits, and motion principles are defined. |
@@ -161,7 +161,7 @@ This matrix prevents the split from creating a false impression that all routes 
 | Activity and Receipts & Statements | DOC-06B for global route shells | DOC-06A for receipt/history touchpoints; DOC-06C for bill/rent-specific activity; DOC-08 for receipts/statements; DOC-09/DOC-10/DOC-11 for payment/payout/refund facts | Working Baseline / Not Final Visual Design | Global Activity and Receipts & Statements remain separate. `RECEIPTS-ROOT` owns search and the document list; `RECEIPT-DETAIL` / `STATEMENT-DETAIL` open the shared in-app PDF preview, while list-level `Download` acts directly. |
 | Reminders | DOC-06C for bill/rent reminders | DOC-06B for shortcut/route shell; DOC-08 for notifications; DOC-09 for payment-instruction alerts | Working Baseline / Not Final Visual Design | Bill/rent reminder list/detail behavior is defined. Payment-instruction alerts remain owned by the instruction/payment flow and do not become reminder records. |
 | Offers and Rewards | DOC-06B for route shells and placement | DOC-13 for promotion, entitlement, instrument, lifecycle, and fulfilment logic; DOC-09 for checkout | Offers Child Lists and Rewards Defined / Not Final Visual Design | `OFFERS-ROOT` governs sectioned discovery; its child lists use multi-collection membership, root duplicate suppression, and stable ordering. `REWARDS-ROOT` governs issued rewards through Active and History views; `REWARD-DETAIL` shows full details and terms but does not create a second checkout path. `BILLS-PAY` remains an external DOC-06C handoff and DOC-09 owns same-screen payment-card/profile, eligible-reward selection, quote recalculation, and authorization review. |
-| Me / Account | DOC-06B for route UX | DOC-06C/DOC-08/DOC-10/DOC-12/DOC-15/DOC-18/DOC-19/DOC-21/DOC-22 for domain handoffs | Core Account, Receiving Info, and Archive Family Defined / Other Details Pending | `ME-ROOT`, account/security/privacy routes, `RECEIVING-INFO`, `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` are defined. Support/About/Terms and final visual design remain pending. |
+| Me / Account | DOC-06B for route UX | DOC-06C/DOC-08/DOC-10/DOC-12/DOC-15/DOC-18/DOC-19/DOC-21/DOC-22 for domain handoffs | Core Account, Receiving Info, and Archive Family Defined / Other Details Pending | `ME-ROOT`, account/security/privacy routes, explicit login-method and Set/Change Password controls, `RECEIVING-INFO`, `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` are defined. Support/About/Terms and final visual design remain pending. |
 | Payment Profile / Cards | DOC-06B for route UX | DOC-09/DOC-15/DOC-19 for checkout, privacy, and security detail | Core Route Behavior Defined / Not Final Visual Design | `PAYMENT-PROFILE-ROOT` and its Cards/Profiles child screens manage tokenized cards and saved split-card profiles with a confirmed maximum of 6 cards; checkout remains DOC-09. |
 | Referral | DOC-06B for route UX and registration handoff | DOC-13 for referral, qualification, entitlement, and reward logic | Child-Screen Behavior Defined / Not Final Visual Design | `REFERRAL-ROOT`, role-sensitive referrer/referee entitlement list/detail/claim screens, reusable sharing, registration attribution handoff, qualification display, and issued-reward handoff are defined. |
 | Notifications | DOC-06B / DOC-08 | Notification and domain destination owners | Defined Behavior / Not Final Visual Design | `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings. Home opens Inbox, Me opens Settings, and notification actions hand off to the owning domain after current-state checks. |
@@ -283,6 +283,7 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | Decision | Status |
 | --- | --- |
 | `AUTH-ENTRY` is the unauthenticated entry screen, with `AUTH-LOGIN` and `AUTH-REGISTRATION` as the required Login and Register destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Detailed UI Pending |
+| Restricted account creation requires one unique verified primary email and one explicitly enabled login method. Email/password, Google, and Apple may access the same account only through explicit linking; social accounts may set a password later; phone, identity, and payment-passcode completion remain mandatory before financial activation. | Confirmed |
 | Payer registration and login are MVP scope. | Confirmed |
 | Payee registration and login are MVP scope. | Confirmed |
 | Payer dashboard is MVP scope. | Confirmed |
@@ -364,6 +365,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.26 | 2026-07-27 | Synchronized the parent with the unique-primary-email and explicit multiple-login-method model, restricted account creation, deferred financial activation, and Account Security Set/Change Password and provider-linking behavior. |
 | v0.21.25 | 2026-07-27 | Synchronized the parent with the defined Notifications route family, Home/Me entries, Inbox/Detail/Settings behavior, signal separation, contextual handoffs, and remaining visual/provider scope. |
 | v0.21.24 | 2026-07-27 | Synchronized the parent with defined `MORE-ROOT` modes, shortcut capacity, protected More access, account-level preference override, current-default restore, availability precedence, accessibility, and secondary-service handoffs. |
 | v0.21.23 | 2026-07-27 | Synchronized the parent with the defined Pay+ five-action behavior, payee-to-payer Request Payment direction, contextual payer-linking boundary, category-scoped Bills handoff, instruction-count routing, and remaining visual-design scope. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.9.8
+version: 0.9.9
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -42,7 +42,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `0.9.8` |
+| **Version** | `0.9.9` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
@@ -481,6 +481,10 @@ Where evidence, tenancy, KYC/KYB, payment profile, payout, or risk data is store
 DOC-06B owns screen behavior. User-facing content must:
 
 - explain that the login name cannot be changed after setup;
+- explain that one verified primary email belongs to one PayPlus account and that Google, Apple, and email/password are explicitly linked login methods rather than separate accounts;
+- distinguish `Set Password` from `Change Password`, because a user who registered through Google or Apple may not yet have a PayPlus password;
+- explain that matching email addresses do not automatically link, merge, or transfer accounts and that provider linking or unlinking requires an authenticated Account Security action;
+- warn before unlinking a login method and prevent removal of the account's final usable login method;
 - explain cross-channel verification before phone or email change without exposing OTP or recovery logic;
 - present only `Pending`, `Verified`, `Failed`, or `Update Required` identity-verification labels and show `Verify Now` for all except `Verified`;
 - distinguish an incomplete, failed, or update-required verification action from provider processing and prevent wording that encourages duplicate submission;
@@ -624,6 +628,7 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.9.9 | 2026-07-27 | Added user-facing content boundaries for one unique primary email, explicit email/Google/Apple login methods, Set versus Change Password, no automatic email-based account linking, and final-login-method protection. |
 | 0.9.8 | 2026-07-27 | Distinguished direct payer-created obligations/payments from payer-created linking requests and payee-created payment requests, and aligned user-facing origin labels without changing authorization rules. |
 | 0.9.7 | 2026-07-26 | Separated request lifecycle outcomes from linked dispute cases and linked payment refund, reversal, and chargeback outcomes. |
 | 0.9.6 | 2026-07-26 | Replaced the stale card-count TBC wording with the confirmed MVP maximum of 6 cards per payment/profile while preserving narrower configurable restrictions. |

@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.26
+version: 1.0.27
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -42,7 +42,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.26` |
+| **Version** | `1.0.27` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
@@ -353,7 +353,7 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-ACCT-003` | Security or account change | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-004` | New-device login or 2FA challenge | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-005` | Dormant-login reauthentication required or completed | App, email optional, SMS optional | Mandatory service |
-| `NOTIF-ACCT-006` | Material account, contact, credential, payment profile, or Receiving Info change | App, email, SMS optional | Mandatory service |
+| `NOTIF-ACCT-006` | Material account, contact, login-method/credential, payment profile, or Receiving Info change | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-007` | Account closure request submitted or cancelled | App, email | Mandatory service |
 | `NOTIF-ACCT-008` | Account closure requires action or cannot proceed | App, email, push optional | Mandatory service |
 | `NOTIF-ACCT-009` | Account closure completed | Email, SMS optional | Mandatory service |
@@ -367,6 +367,8 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-PRIV-003` | Privacy request completed or unable to complete | App, email | Important service |
 
 KYC/KYB notifications that require user action should open `IDENTITY-VERIFICATION`; approved or informational status messages may open `ACCOUNT-PROFILE`. Privacy-request messages open `PRIVACY-DATA-CONTROLS`. Account-closure messages open `ACCOUNT-PROFILE`, except the final completion message where login has been disabled and the notification must use an approved external channel or pre-logon destination. Contact-change messages under `NOTIF-ACCT-006` must notify the old and new channels where available without exposing OTP or recovery detail.
+
+First password setup, password change, and Google/Apple login-method link or unlink use `NOTIF-ACCT-006`; they do not require separate notification IDs. Pre-account registration prompts and OTPs are in-flow communications rather than Inbox records. `NOTIF-ACCT-001` applies only after a resumable registration or restricted account exists and an approved verified delivery channel is available.
 
 ### 11.1A Receiving Info Events
 
@@ -786,6 +788,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.27 | 2026-07-27 | Aligned account notifications with explicit email/Google/Apple login methods, first-password setup, provider link/unlink changes, and the restricted-account boundary for registration-started Inbox records. |
 | 1.0.26 | 2026-07-27 | Defined the Notification route-family handoff, Inbox signal separation, SYS/SUP event domains, recipient-message and batch/source traceability, Settings/consent boundaries, cross-device preference behavior, and working-classification validation while preserving domain status ownership. |
 | 1.0.25 | 2026-07-27 | Distinguished payer-created linking-request notifications from payee-created payment-request notifications and aligned Pay+ Request Payment direction without changing channel or delivery rules. |
 | 1.0.24 | 2026-07-26 | Confirmed that personal bill/rent archive and restore do not create counterparty notifications and remain separate from domain notification events. |

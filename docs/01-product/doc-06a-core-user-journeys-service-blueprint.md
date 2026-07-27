@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.11
+version: 0.1.12
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -41,7 +41,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.11` |
+| **Version** | `0.1.12` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -121,6 +121,21 @@ The MVP must support the following essential journeys:
 
 ---
 
+### Progressive Account Creation and Financial Activation
+
+Payer and payee registration use one mixed-role account model:
+
+1. authenticate or begin registration through email, Google, or Apple under the partially defined DOC-06B authentication routes;
+2. establish one unique verified primary email and at least one usable login method;
+3. accept the required Terms and Privacy notices;
+4. create a restricted PayPlus account and enter `HOME-ROOT`;
+5. complete phone verification, identity verification, and payment-passcode setup before payment or another financially restricted action;
+6. preserve the originating permitted context so successful completion can return the user to the interrupted action where applicable.
+
+Google/Apple identities are linked by stable provider identifier only through explicit account creation or authenticated `ACCOUNT-SECURITY` linking. Email equality never creates an automatic account merge or provider link. Social-authenticated users may set a PayPlus password later through `ACCOUNT-SECURITY`.
+
+The detailed `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` screens, recovery, protected-deeplink, and post-authentication return behavior remain for the next authentication-route drafting stage.
+
 ---
 
 ### Common Account Journey
@@ -136,7 +151,7 @@ Allows a payer to access PayPlus, create payments, review requests, authorize pa
 A payer must be able to:
 
 - register;
-- verify phone by SMS OTP during registration;
+- create a restricted account with a unique verified primary email and complete phone verification before financial activation;
 - log in;
 - complete new-device 2FA and dormant-login reauthentication where required;
 - confirm material account, credential, payment profile, or contact changes using password, payment passcode, 2FA, or approved confirmation;
@@ -182,7 +197,7 @@ Allows a payee to access PayPlus, create requests, upload evidence, send request
 A payee must be able to:
 
 - register;
-- verify phone by SMS OTP during registration;
+- create a restricted account with a unique verified primary email and complete phone verification before financial activation;
 - log in;
 - complete new-device 2FA and dormant-login reauthentication where required;
 - confirm material account, credential, payout destination, or contact changes using password, payment passcode, 2FA, or approved confirmation;
@@ -1211,6 +1226,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.12 | 2026-07-27 | Added the progressive restricted-account and financial-activation journey, unique primary email, explicit email/password and provider login methods, deferred phone/identity/passcode completion, and Account Security linking handoff. |
 | 0.1.11 | 2026-07-27 | Closed the material More/shortcut IA questions after DOC-06B defined capacity, protected access, preference, reorder, restore, availability, and secondary-service behavior; retained final styling and optional Undo as open. |
 | 0.1.10 | 2026-07-27 | Narrowed the Pay+ open question to exact visual and motion specification after DOC-06B defined the five-action order, route handoffs, role direction, and availability behavior. |
 | 0.1.9 | 2026-07-26 | Established the canonical request lifecycle and role-facing labels, separated request events, evidence, readiness, payment, dispute-case, and archive domains, and corrected payer-created payment flow so optional linking is not an acceptance prerequisite. |

@@ -110,6 +110,11 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
+| Primary Account Email | The unique verified email assigned to one PayPlus account for account communication and supported authentication. The same primary email cannot belong to another PayPlus account. | DOC-15 |
+| Login Method | An explicitly enabled way to authenticate to one PayPlus account: email/password, Google, or Apple. Login methods do not create separate product accounts. | DOC-06B / DOC-15 |
+| External Login Provider Identity | The stable provider-specific Google or Apple identity linked to one PayPlus account after explicit provider authentication. Matching email alone never creates or transfers this link. | DOC-15 / DOC-18 |
+| Restricted Account | A PayPlus account with a unique verified primary email, at least one usable login method, and accepted Terms/Privacy, but without all financial-activation gates completed. | DOC-05 / DOC-15 |
+| Financial Activation | Completion of the required phone verification, identity verification, and payment-passcode setup before payment or another financially restricted action may proceed. | DOC-05 / DOC-15 |
 | Masked Display | A permitted projection that conceals sensitive values while retaining enough context for recognition. | DOC-15 |
 | Sensitive Reveal | Temporary display of an approved masked sensitive value after payment passcode or approved reauthentication. Prohibited fields remain unavailable. | DOC-15 / DOC-19 |
 | Material Sensitive Change | A change to identity, contact, security, credential, or Receiving Info data requiring payment passcode or approved reauthentication before route-specific controls. | DOC-15 / DOC-19 |

@@ -20,8 +20,8 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | Destination | Parent | Type | Purpose | Primary Owner | Status |
 | --- | --- | --- | --- | --- | --- |
 | `AUTH-ENTRY` | App launch / logout | Unauthenticated root screen | Provide the pre-login choice to Log In or Register. | DOC-06B | Partially defined |
-| `AUTH-LOGIN` | `AUTH-ENTRY` / protected deeplink | Child authentication flow | Authenticate an existing user and establish an approved session. | DOC-06B / DOC-19 | Partially defined |
-| `AUTH-REGISTRATION` | `AUTH-ENTRY` / referral or approved deeplink | Child registration/onboarding flow | Create an account and complete required registration gates. | DOC-06B / DOC-15 | Partially defined |
+| `AUTH-LOGIN` | `AUTH-ENTRY` / protected deeplink | Child authentication flow | Authenticate an existing user through an explicitly linked email/password, Google, or Apple login method and establish an approved session. | DOC-06B | Partially defined |
+| `AUTH-REGISTRATION` | `AUTH-ENTRY` / referral or approved deeplink | Child registration/onboarding flow | Create a restricted account with one unique verified primary email, at least one usable login method, and accepted Terms/Privacy before later financial activation. | DOC-06B | Partially defined |
 | `HOME-ROOT` | Successful authentication / bottom navigation: Home | Root screen | Open the task-first logged-in dashboard. | DOC-06B | Partially defined |
 | `PAYPLUS-ACTION-SHEET` | Bottom navigation: Pay+ | Sheet / modal | Start approved Bill/Rent payment selection, bill/rent setup, payment continuation, or payee-to-payer request creation through the five defined actions. | DOC-06B | Defined baseline |
 | `MORE-ROOT` | Dashboard shortcut: More | Root screen | Manage up to 7 configurable Home shortcuts plus protected More, restore the current eligible default, and access approved secondary services. | DOC-06B | Defined baseline |
@@ -74,7 +74,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `ME-ROOT` | Bottom navigation: Me | Root screen | Provide permanent account, security, privacy, records, program, and support access. | DOC-06B | Defined baseline |
 | `ACCOUNT-PROFILE` | `ME-ROOT` | Child route | Manage account information, verification handoff, and closure entry. | DOC-06B | Defined baseline |
 | `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE` / approved contexts | Reusable child flow | Submit, continue, retry, or update identity verification. | DOC-06B | Defined baseline |
-| `ACCOUNT-SECURITY` | `ME-ROOT` | Child route | Manage password, passcode, 2FA, biometric, devices, and recovery. | DOC-06B | Defined baseline |
+| `ACCOUNT-SECURITY` | `ME-ROOT` | Child route | Manage Set/Change Password, explicitly linked Google/Apple login methods, passcode, 2FA, biometric, devices, and recovery. | DOC-06B | Defined baseline |
 | `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` | Child screen | Change/reset passcode and manage permitted confirmation preference. | DOC-06B | Defined baseline |
 | `PRIVACY-DATA-CONTROLS` | `ME-ROOT` | Child route | Manage optional data-use choices and governed privacy requests. | DOC-06B | Defined baseline |
 | `RECEIVING-INFO` | `ME-ROOT` / approved context | Root route family | Manage private reusable receiving-information profiles. | DOC-06B | Defined baseline |

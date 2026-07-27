@@ -242,6 +242,9 @@ Required controls include:
 - manage account and identity-verification action-required cases, provider exceptions, retries, and status mapping without exposing provider payloads or internal reasons in user-facing routes or creating duplicate verification submissions;
 - support controlled recovery where a user cannot access the registered phone or email, with identity checks, reason capture, approval, notification, and audit evidence;
 - support contact-change exception handling and audit for the confirmed cross-channel phone/email verification flows;
+- resolve duplicate-primary-email and external-provider-link conflicts through controlled support or security workflows without automatically merging accounts by email;
+- support audited Google/Apple login-method link and unlink exceptions, first-password setup state, and the safeguard that prevents removal of an account's final usable login method;
+- expose restricted-account and financial-activation gate outcomes for authorized support and operations roles without allowing admin configuration to bypass payer verification or authorization requirements;
 - manage privacy requests through controlled queues using `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete` user-facing projections, with internal reasons, service timelines, assignee, and evidence retained separately;
 - issue, revoke, expire, and audit protected in-app data exports without sending the export as an ordinary email attachment;
 - manage account-closure blockers, cancellation before finalization, operational finalization, session termination, login disablement, retained-record access, and completion notice without treating closure as immediate deletion;
@@ -329,6 +332,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.18.0 | 2026-07-27 | Added future admin and support markers for unique-primary-email conflicts, explicit provider login-method links, first-password state, final-login-method protection, and restricted-account financial-activation gates. |
 | 0.17.0 | 2026-07-27 | Added future admin requirements for notification event/message/batch/source traceability, category and signal separation, lookup, templates, channels, preferences, delivery attempts, current-state actions, retention, and audit. |
 | 0.16.0 | 2026-07-27 | Aligned future admin controls with defined `MORE-ROOT` catalog/default management, 8-slot maximum, protected More access, eligibility precedence, account-level preferences, current-default restore, configuration versioning, and destination-boundary protection. |
 | 0.15.0 | 2026-07-27 | Added future Pay+ action availability configuration, hidden-versus-disabled rules, fixed semantic boundaries, destination-gate protection, and audit requirements. |
