@@ -551,3 +551,41 @@ This append-only register records the documentation delivered by each substantiv
 - Final `MORE-ROOT` visual styling, exact motion and interaction design, and optional post-replacement Undo behavior.
 - Final DOC-18 object/event implementation and DOC-22 admin UI, permission, and audit detail.
 - Full Mermaid rendering remains unavailable because Mermaid CLI is not installed locally; structural checks passed.
+
+### `2026-07-27` - Notification Route Family And Message Traceability
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `846c13d` |
+| Primary owners | `DOC-06B` route behavior and `DOC-08` notification content, delivery, and preference rules |
+| Decision record | `DEC-2026-018` |
+| Founder approval | Notification route hierarchy, Inbox, Detail, Settings, signal boundaries, identifier model, alignment scope, and commit approved on `2026-07-27` |
+
+**Files Changed**
+
+- `DOC-05`, parent `DOC-06`, `DOC-06B`, `DOC-06D`, and `DOC-08`;
+- `DOC-15`, `DOC-18`, and `DOC-22`;
+- glossary, route register, status-display matrix, requirements traceability matrix, and open-questions register;
+- diagram index, Home and Me route maps, and the new Notification route-family map.
+
+**Material Changes**
+
+- Defined `NOTIFICATION-ROOT` with `NOTIFICATION-INBOX`, `NOTIFICATION-DETAIL`, and `NOTIFICATION-SETTINGS`; kept notification list and card as components and Archived as an Inbox filter.
+- Defined Home-to-Inbox and Me-to-Settings entries, reciprocal Inbox/Settings navigation, source-aware return, and current-state validation before a Detail action hands off to its owning domain.
+- Defined Inbox search, category filters, unread badge, read/unread, Mark All Read, archive/restore, and no-hard-delete behavior.
+- Separated notification category, recipient presentation state, owning-domain status, Action Required, and channel-delivery status.
+- Added recipient-message, event, optional batch, source, template, route, correlation, deduplication, and per-channel delivery-attempt traceability requirements.
+- Marked DOC-18 physical model/event work and DOC-22 configuration, operational, permission, and audit work for later detailed specification.
+
+**Checks Performed**
+
+- Staged only the 17 approved Notification-related files and preserved unrelated workspace changes.
+- Verified formal-document YAML and Document Control version/date parity.
+- Confirmed 68 route-register IDs are unique and removed stale Notification pending or incorrect ownership wording.
+- Ran `git diff --cached --check` and statically validated the new Mermaid structure and route nodes.
+
+**Remaining Open Items**
+
+- Final visual styling, search matching, archive retention and disposition, provider capabilities, templates, legally validated communication classifications, quiet hours, and retry/fallback thresholds.
+- Final DOC-18 physical schema/event taxonomy and DOC-22 admin UI, permissions, provider operations, and audit detail.
+- Full Mermaid rendering was unavailable because npm registry/cache access was denied; static syntax and structure checks passed.

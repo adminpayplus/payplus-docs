@@ -766,3 +766,46 @@ Supersedes active wording that described More detail as pending and any diagram 
 **Remaining Open Items**
 
 Final visual styling, exact motion and interaction design, and optional post-replacement Undo behavior remain open. Final DOC-18 implementation structures and DOC-22 admin UI and permission details remain deferred to their owning technical layers.
+
+### `DEC-2026-018` - Notification Route Family And Signal Separation
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-27` |
+| Status | Accepted |
+| Primary owners | `DOC-06B` route behavior and `DOC-08` notification content, delivery, and preference rules |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06D`, `DOC-08`, `DOC-15`, `DOC-18`, `DOC-22`, glossary, route diagrams, route register, status-display matrix, requirements traceability matrix, open-questions register |
+| Substantive commit | `846c13d` |
+| Founder approval | Notification route hierarchy, screen behavior, signal boundaries, identifier model, alignment scope, and commit approved on `2026-07-27` |
+
+**Decision**
+
+`NOTIFICATION-ROOT` is the parent route for `NOTIFICATION-INBOX`, `NOTIFICATION-DETAIL`, and `NOTIFICATION-SETTINGS`. Generic entry defaults to Inbox; the Home Inbox icon opens Inbox and Me Notification Settings opens Settings. Inbox and Settings cross-link without repeated route-stack loops and preserve a safe source-aware return. `NOTIFICATION-LIST` and `NOTIFICATION-CARD` are screen components, while Archived is an Inbox filter rather than a route.
+
+Every notification card opens Detail before a material action. Detail displays permitted content and mapped context, then revalidates current domain state, user permission, route target, and action availability before handing off to the owning product destination. Read, unread, archive, restore, and Mark All Read change only the recipient-specific Inbox presentation and must not resolve Action Required or mutate the source domain.
+
+Notification category (`System`, `Service`, `Transaction`, or `Promotion`), recipient presentation (`Unread`, `Read`, or `Archived`), owning-domain status, owning-domain Action Required, and per-channel delivery status are separate concepts. Each recipient message requires a unique message identifier and must remain traceable to its event, optional batch, source event/object, recipient and role, template version, registered route target, correlation/causation/deduplication references, timestamps, and channel-delivery attempts.
+
+**Rationale**
+
+A parent route with three child screens gives Inbox and Settings reciprocal access without placing notification ownership under Home or Me. Separating presentation, domain, and delivery states prevents reading or archiving a message from changing payment, request, evidence, payout, reward, privacy, support, or other business state. Recipient-level identifiers and source lineage support auditability, operations, delivery troubleshooting, and later implementation without exposing internal technical states to users.
+
+**Alternatives Considered**
+
+- Treating Archived as a separate route was rejected because it renders the same Inbox records under different selection criteria.
+- Treating notification list and card as routes was rejected because they are components of Inbox.
+- Executing material domain actions directly from a card was rejected because current state and permission must be revalidated in Detail.
+- Storing category, read/archive, Action Required, domain status, and delivery outcome in one status field was rejected because they have different owners and lifecycles.
+- Making Me the owner of Notification Settings was rejected; Me is a direct entry point while the screen remains a child of `NOTIFICATION-ROOT`.
+
+**Consequences And Handoffs**
+
+`DOC-06B` owns route-level behavior, entry, return, filters, and screen interaction. `DOC-08` owns event/message eligibility, category, channel, template, preference, retention, and delivery rules. `DOC-15` governs personal-data treatment and the underlying marketing, personalization, and partner-data-use choices. `DOC-18` must define the physical notification/event/message/batch/delivery-attempt model and mappings. `DOC-22` must define controlled templates, manual or campaign sends, provider operations, lookup, permissions, configuration, and audit controls.
+
+**Supersedes / Superseded By**
+
+Supersedes active wording that described Notification Inbox or detailed notification IA as pending, placed Notification Settings under Me ownership, or did not separate Inbox presentation from owning-domain status and delivery state.
+
+**Remaining Open Items**
+
+Final visual styling, search matching, archive retention and disposition, provider capabilities, templates, legally validated service classifications, quiet hours, retry/fallback thresholds, physical schema, and detailed admin workflow remain open under their identified owners.
