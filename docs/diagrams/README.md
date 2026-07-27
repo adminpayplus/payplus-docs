@@ -11,7 +11,8 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 | --- | --- | --- |
 | `payplus-home-dashboard-mvp-wireframe.svg` | Visual reference for the DOC-06B designated Home Dashboard flow and layout baseline. It is not finalized UI design, visual design, component specification, or exact route-level screen specification. | DOC-06B |
 | `routes/payplus-app-route-map.md` | Level 0 app navigation map. It stops at direct global destinations and route-family handoffs. | DOC-06B |
-| `routes/payplus-authentication-route-map.md` | Entrance, Fast/Full Login, Registration, Recovery, Account Activation, verification/passcode handoffs, and protected-context return. | DOC-06B / DOC-07 / DOC-15 |
+| `routes/payplus-authentication-route-map.md` | Entrance, Fast/Full Login, Registration, Recovery, protected-context return, and the Account Activation handoff. | DOC-06B / DOC-07 / DOC-15 |
+| `routes/payplus-account-activation-route-map.md` | Account Activation entry contexts, contextual verification/passcode handoffs, and origin-aware return. | DOC-06B / DOC-15 / DOC-19 |
 | `routes/payplus-home-route-map.md` | Home, dashboard shortcuts, and direct dashboard-section handoffs. | DOC-06B |
 | `routes/payplus-action-sheet-route-map.md` | Pay+ action-sheet actions, availability decisions, and destination handoffs. It does not define final visual design. | DOC-06B |
 | `routes/payplus-bills-route-map.md` | Bills, rent, evidence, activity, reminder, linking, checkout, and Archive-family handoffs. | DOC-06C |
@@ -20,7 +21,7 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 | `routes/payplus-payment-profile-route-map.md` | Cards/Profile tabs, child screens, tokenization, and contextual return. | DOC-06B / DOC-09 |
 | `routes/payplus-activity-receipts-route-map.md` | Account Activity, Receipts & Statements, and contextual Bills Activity handoffs. | DOC-06B / DOC-06C |
 | `routes/payplus-offers-rewards-referral-route-map.md` | Offers discovery, Rewards, Referral, registration attribution, and checkout handoffs. | DOC-06B / DOC-13 |
-| `routes/payplus-me-route-map.md` | `ME-ROOT` direct child destinations only. Child families own their internal maps. | DOC-06B |
+| `routes/payplus-me-route-map.md` | `ME-ROOT` direct child destinations plus Account Profile and Account Security handoffs to phone, identity, and payment-passcode controls. | DOC-06B |
 | `routes/payplus-more-route-map.md` | Compact `MORE-ROOT` route boundary, Normal/Manage modes, and generic handoff to independently owned destinations. Detailed shortcut behavior remains in DOC-06B. | DOC-06B |
 | `routes/payplus-archive-route-map.md` | `ARCHIVED-ROOT`, Archived Bills & Rent, Archived Documents, archived detail, and restore handoffs. | DOC-06B / DOC-06C |
 | `routes/payplus-notification-route-map.md` | Notifications parent, Inbox, Detail, Settings, Home/Me entries, and owning-destination handoff. | DOC-06B / DOC-08 |

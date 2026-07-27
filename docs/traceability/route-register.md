@@ -26,8 +26,8 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `AUTH-LOGIN-FULL` | `AUTH-LOGIN` / Log In With Another Account | Child authentication screen | Authenticate an existing user through an explicitly linked email/password, Google, or Apple login method. | DOC-06B | Defined baseline |
 | `AUTH-RECOVERY` | `AUTH-LOGIN-FAST` / `AUTH-LOGIN-FULL` | Reusable child flow | Recover account access through approved identity and security controls. | DOC-06B / DOC-15 | Partially defined |
 | `AUTH-REGISTRATION` | `ENTRANCE-ROOT` / referral or approved deeplink | Child registration/onboarding flow | Complete a temporary non-account registration attempt and atomically create a restricted account after required email, login-method, and Terms/Privacy checks. | DOC-06B | Defined baseline |
-| `ACCOUNT-ACTIVATION` | Post-account setup / Home banner / blocked financial action | Reusable route flow | Complete missing phone verification, identity verification, or six-digit payment-passcode setup and return to the originating context. | DOC-06B | Defined baseline |
-| `PHONE-VERIFICATION` | `ACCOUNT-ACTIVATION` / approved account context | Reusable child flow | Verify the account's required primary phone number. | DOC-06B / DOC-15 | Partially defined |
+| `ACCOUNT-ACTIVATION` | Post-account setup / Home banner / blocked financial action | Orchestration route flow | Coordinate only the missing phone verification, identity verification, or six-digit payment-passcode setup and return to the originating context. | DOC-06B | Defined baseline |
+| `PHONE-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable child flow | Verify the account's required primary phone number; may be invoked contextually by `ACCOUNT-ACTIVATION`. | DOC-06B / DOC-15 | Partially defined |
 | `HOME-ROOT` | Successful authentication / bottom navigation: Home | Root screen | Open the task-first logged-in dashboard. | DOC-06B | Partially defined |
 | `PAYPLUS-ACTION-SHEET` | Bottom navigation: Pay+ | Sheet / modal | Start approved Bill/Rent payment selection, bill/rent setup, payment continuation, or payee-to-payer request creation through the five defined actions. | DOC-06B | Defined baseline |
 | `MORE-ROOT` | Dashboard shortcut: More | Root screen | Manage up to 7 configurable Home shortcuts plus protected More, restore the current eligible default, and access approved secondary services. | DOC-06B | Defined baseline |
@@ -79,9 +79,9 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `REFERRAL-REWARD-CLAIM` | Referral entitlement detail | Child confirmation screen | Confirm claim and hand issued reward to My Rewards. | DOC-06B | Defined baseline |
 | `ME-ROOT` | Bottom navigation: Me | Root screen | Provide permanent account, security, privacy, records, program, and support access. | DOC-06B | Defined baseline |
 | `ACCOUNT-PROFILE` | `ME-ROOT` | Child route | Manage account information, verification handoff, and closure entry. | DOC-06B | Defined baseline |
-| `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE` / `ACCOUNT-ACTIVATION` / approved contexts | Reusable child flow | Submit, continue, retry, or update identity verification. | DOC-06B | Partially defined |
+| `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable child flow | Submit, continue, retry, or update identity verification; may be invoked contextually by `ACCOUNT-ACTIVATION`. | DOC-06B | Partially defined |
 | `ACCOUNT-SECURITY` | `ME-ROOT` | Child route | Manage Set/Change Password, explicitly linked Google/Apple login methods, passcode, 2FA, biometric, devices, and recovery. | DOC-06B | Defined baseline |
-| `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` / `ACCOUNT-ACTIVATION` | Reusable child screen | Set, change, or reset the six-digit payment passcode and manage permitted confirmation preference. | DOC-06B | Partially defined |
+| `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` | Reusable child screen | Set, change, or reset the six-digit payment passcode and manage permitted confirmation preference; may be invoked contextually by `ACCOUNT-ACTIVATION`. | DOC-06B | Partially defined |
 | `PRIVACY-DATA-CONTROLS` | `ME-ROOT` | Child route | Manage optional data-use choices and governed privacy requests. | DOC-06B | Defined baseline |
 | `RECEIVING-INFO` | `ME-ROOT` / approved context | Root route family | Manage private reusable receiving-information profiles. | DOC-06B | Defined baseline |
 | `RECEIVING-INFO-LIST` | `RECEIVING-INFO` | Initial screen | List saved receiving-information profiles. | DOC-06B | Defined baseline |
@@ -101,6 +101,7 @@ All currently identified product areas now have stable destination IDs. The Entr
 ## Maintenance Rules
 
 - Update the owning document first, then this register.
+- The Parent column records the canonical route hierarchy. Contextual or alternative entry points belong in owning transition tables and route-family diagrams; they do not create a second parent.
 - Do not add cards, filters, tabs, ordinary buttons, events, or status labels as routes.
 - When a destination changes, check the DOC-06 parent status, DOC-06D, route Mermaid, requirements traceability, and affected notification/deeplink destinations.
 - Unresolved items remain visible; do not invent an ID merely to make the register appear complete.

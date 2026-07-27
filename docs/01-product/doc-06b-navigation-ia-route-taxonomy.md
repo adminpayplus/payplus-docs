@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.34
+version: 0.1.35
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -40,7 +40,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.34` |
+| **Version** | `0.1.35` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
@@ -162,8 +162,8 @@ When this document or another route owner defines, renames, replaces, or materia
 | `AUTH-LOGIN-FULL` | Child login screen | Offer Google, Apple, or email/password login where Fast Login is unavailable or another account is selected. | Screen behavior defined; technical mechanics open |
 | `AUTH-RECOVERY` | Reusable child flow | Recover or reset email/password access through an approved controlled flow. | Product boundary defined; detailed security mechanics open |
 | `AUTH-REGISTRATION` | Child registration flow | Complete Google, Apple, or email account creation and create a restricted account only after all account-creation gates pass. | Screen and account-creation baseline defined |
-| `ACCOUNT-ACTIVATION` | Reusable logged-in flow | Complete the remaining phone, identity, and payment-passcode requirements for full registration. | Route and banner handoff defined; child route details pending |
-| `PHONE-VERIFICATION` | Reusable child flow | Verify the account phone number through the approved method. | Route ID assigned; detailed behavior pending |
+| `ACCOUNT-ACTIVATION` | Reusable orchestration flow | Coordinate the remaining phone, identity, and payment-passcode requirements for full registration. | Route and banner handoff defined; child route details pending |
+| `PHONE-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Verify the account phone number through the approved method; Account Activation may invoke it contextually. | Route ID assigned; detailed behavior pending |
 | `HOME-ROOT` | Logged-in root screen | Provide the task-first dashboard after successful login or restricted-account creation. | Dashboard baseline defined; final UI pending |
 
 #### 5.0.1 `ENTRANCE-ROOT`
@@ -229,6 +229,8 @@ After account creation, show `Complete Your PayPlus Setup` with `Complete Now` a
 #### 5.0.4 `ACCOUNT-ACTIVATION`
 
 `ACCOUNT-ACTIVATION` completes full registration; it is not labelled payment setup. It may open after restricted-account creation, from the Home Action Required banner, or when a financially restricted action detects an incomplete requirement. It presents only the missing requirements and routes to `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, or `PAYMENT-PASSCODE-SETTINGS`.
+
+Account Activation orchestrates these handoffs but does not own or duplicate the reusable child routes. `PHONE-VERIFICATION` and `IDENTITY-VERIFICATION` are canonically under `ACCOUNT-PROFILE`; `PAYMENT-PASSCODE-SETTINGS` is canonically under `ACCOUNT-SECURITY`. When Account Activation invokes a child, completion or cancellation returns to `ACCOUNT-ACTIVATION` with refreshed completion state. A child opened from its canonical parent returns to that parent.
 
 | Missing requirement | Banner | Action |
 | --- | --- | --- |
@@ -1687,9 +1689,10 @@ The following register defines the new or newly confirmed Me destinations. Estab
 | --- | --- | --- | --- | --- | --- |
 | `ME-ROOT` | Bottom navigation | Root route | Permanent mixed-role account, records, settings, preferences, and support entry. | DOC-06B | Route shell defined; visual design pending |
 | `ACCOUNT-PROFILE` | `ME-ROOT` Account Information | Child route | View permitted account/profile information, identity-verification status, controlled contact changes, and account closure. | DOC-06B | Route behavior defined; final visual design pending |
-| `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE`, onboarding, notification, or approved action-required context | Reusable controlled flow | Complete, retry, or update external identity verification without creating a top-level product area. | DOC-06B | Flow and return behavior defined; provider mapping pending |
+| `PHONE-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Verify the account's primary phone number; Account Activation may invoke the same flow contextually. | DOC-06B | Route ID and ownership defined; detailed behavior pending |
+| `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Complete, retry, or update external identity verification; Account Activation may invoke the same flow contextually. | DOC-06B | Flow and return behavior defined; provider mapping pending |
 | `ACCOUNT-SECURITY` | `ME-ROOT` Security & Privacy | Child route | Manage enabled login methods, password setup/change, payment-passcode entry, permitted two-step verification, biometric unlock, trusted devices, and recovery/support entry. | DOC-06B | Route behavior defined; final visual design pending |
-| `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` Payment Passcode | Child screen | Change or reset the payment passcode and manage the optional passcode-confirmation preference for card/payment-profile changes. | DOC-06B | Screen behavior defined; security mechanics pending |
+| `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` Payment Passcode | Reusable child screen | Set, change, or reset the payment passcode and manage the optional passcode-confirmation preference for card/payment-profile changes; Account Activation may invoke Set contextually. | DOC-06B | Screen behavior defined; security mechanics pending |
 | `PRIVACY-DATA-CONTROLS` | `ME-ROOT` Security & Privacy | Child route | Manage approved privacy choices, access/export, correction, retention/deletion requests, and request history. | DOC-06B | Route behavior defined; legal/provider detail pending |
 | `RECEIVING-INFO` | `ME-ROOT` Payments & Records | Child route / route family | Manage the user's private reusable receiving-information profiles. | DOC-06B | Route behavior defined; final visual design pending |
 | `RECEIVING-INFO-LIST` | `RECEIVING-INFO` | Initial list screen | Display saved receiving-information cards and entry to add another profile. It renders immediately when the route opens and is not an additional navigation hop. | DOC-06B | Screen behavior defined; final visual design pending |
@@ -1709,6 +1712,7 @@ Domain rules and content remain with the reference owners named in Sections 5.17
 | --- | --- | --- | --- |
 | Bottom navigation | Tap `Me` | `ME-ROOT` | Normal bottom-navigation behavior. |
 | Account Information | Tap summary or row | `ACCOUNT-PROFILE` | Return with the masked summary refreshed and prior Me position preserved. |
+| `ACCOUNT-PROFILE` | Tap phone-verification action | `PHONE-VERIFICATION` | Back or Cancel restores Account Information; completion returns with refreshed phone-verification status. |
 | `ACCOUNT-PROFILE` | Tap `Verify Now` | `IDENTITY-VERIFICATION` | Back or Cancel restores Account Information; completion returns with refreshed verification status. |
 | Security & Privacy | Tap `Login & Security` | `ACCOUNT-SECURITY` | Return to the same Me position. |
 | `ACCOUNT-SECURITY` | Set or change password, or link or unlink Google/Apple | Complete the route-local credential/provider flow | Success returns with login-method state refreshed; Cancel preserves the prior configuration. |
@@ -2286,6 +2290,7 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.35 | 2026-07-28 | Clarified Account Activation as an orchestration route, established Account Profile and Account Security as the canonical parents of reusable verification/passcode routes, aligned origin-aware return behavior, and simplified the hierarchical Authentication, Account Activation, and Me route-map handoffs. |
 | 0.1.34 | 2026-07-28 | Replaced `AUTH-ENTRY` with `ENTRANCE-ROOT`; defined public Entrance content, Fast/Full Login, Recovery, registration attempts, restricted-account creation, Account Activation, persistent banner mapping, protected return, login-name removal, and the mandatory-but-open authentication outcome/message handoff. |
 | 0.1.33 | 2026-07-27 | Preserved the accepted unique-primary-email and multiple-login-method model, restricted-account handoff, deferred financial activation, and Account Security Set/Change Password and Google/Apple link/unlink behavior while keeping full authentication-route UI pending. |
 | 0.1.32 | 2026-07-27 | Defined the `NOTIFICATION-ROOT` family, Inbox/Detail/Settings behavior, Home and Me entries, source-aware returns, filters, card/detail rules, read/archive handling, badge semantics, settings, signal separation, and data/admin handoffs. |
