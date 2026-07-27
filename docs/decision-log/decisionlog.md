@@ -809,3 +809,45 @@ Supersedes active wording that described Notification Inbox or detailed notifica
 **Remaining Open Items**
 
 Final visual styling, search matching, archive retention and disposition, provider capabilities, templates, legally validated service classifications, quiet hours, retry/fallback thresholds, physical schema, and detailed admin workflow remain open under their identified owners.
+
+### `DEC-2026-019` - Authentication And Account-Access Model
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-27` |
+| Status | Accepted |
+| Primary owners | `DOC-15` account/privacy rules and `DOC-06B` route behavior |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06A`, `DOC-06B`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-15`, `DOC-18`, `DOC-22`, glossary, route register, requirements traceability matrix, open-questions register |
+| Substantive commit | `3d8d9ec` |
+| Founder approval | Authentication/account-access model, alignment scope, and commit approved on `2026-07-27` |
+
+**Decision**
+
+One PayPlus account has one unique verified primary email and may use explicitly enabled email/password, Google, and Apple login methods. External provider identities are linked by stable provider identifier; matching email alone never creates, links, merges, or transfers an account. A provider identity belongs to one PayPlus account.
+
+Google/Apple registration may create a restricted account without an initial PayPlus password. The user may later select `Set Password` in `ACCOUNT-SECURITY`; after setup, the action becomes `Change Password`. Linking or unlinking Google/Apple requires an authenticated session, fresh approved reauthentication, successful provider authentication where applicable, explicit confirmation, audit, and security notification. The final usable login method cannot be removed.
+
+A restricted account requires a unique verified primary email, at least one usable login method, and acceptance of Terms and Privacy notices. It may enter `HOME-ROOT` before phone verification, identity verification, and payment-passcode setup. Those controls remain mandatory before payment or another financially restricted action.
+
+**Rationale**
+
+This model reduces initial registration friction while preserving one-account identity, explicit ownership of external login methods, and strong payment activation controls. It avoids unsafe email-based account merging and allows users to add convenient login methods later without creating duplicate PayPlus accounts.
+
+**Alternatives Considered**
+
+- Requiring password, phone, identity verification, and payment passcode before any dashboard access was rejected because it creates unnecessary registration abandonment before a financial action.
+- Treating matching provider and PayPlus emails as permission to auto-link accounts was rejected because email equality is not proof of intended account linkage.
+- Requiring every social-authenticated user to set a password during registration was rejected because the provider login is already a usable authentication method.
+- Allowing removal of the final login method was rejected because it could leave the account inaccessible.
+
+**Consequences And Handoffs**
+
+`DOC-06B` owns the route-level account-access and Account Security behavior. `DOC-15` owns unique-email, account-linking, data classification, privacy, and material-change requirements. `DOC-07` owns user-facing explanation, `DOC-08` owns security notifications, `DOC-18` must define the future objects and events, `DOC-19` must define security implementation, and `DOC-22` must define authorized support/admin handling.
+
+**Supersedes / Superseded By**
+
+Supersedes active wording that required a PayPlus password and SMS phone verification during initial registration for every account, treated phone/login name as general login methods, or left provider linking to email equality.
+
+**Remaining Open Items**
+
+Detailed `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` UI and failure behavior; provider-specific conflicts; recovery; retry and lockout; session/device and 2FA mechanics; protected-deeplink and post-authentication return behavior; and final technical/admin implementation remain open under their identified owners.

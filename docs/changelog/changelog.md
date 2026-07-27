@@ -589,3 +589,40 @@ This append-only register records the documentation delivered by each substantiv
 - Final visual styling, search matching, archive retention and disposition, provider capabilities, templates, legally validated communication classifications, quiet hours, and retry/fallback thresholds.
 - Final DOC-18 physical schema/event taxonomy and DOC-22 admin UI, permissions, provider operations, and audit detail.
 - Full Mermaid rendering was unavailable because npm registry/cache access was denied; static syntax and structure checks passed.
+
+### `2026-07-27` - Authentication And Account-Access Model
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `3d8d9ec` |
+| Primary owners | `DOC-15` account/privacy rules and `DOC-06B` route behavior |
+| Decision record | `DEC-2026-019` |
+| Founder approval | Unique-primary-email, explicit login methods, restricted-account, deferred financial-activation, Account Security, alignment scope, and commit approved on `2026-07-27` |
+
+**Files Changed**
+
+- `DOC-05`, parent `DOC-06`, `DOC-06A`, `DOC-06B`, and `DOC-06D`;
+- `DOC-07`, `DOC-08`, `DOC-15`, `DOC-18`, and `DOC-22`;
+- glossary, route register, requirements traceability matrix, and open-questions register.
+
+**Material Changes**
+
+- Defined one unique verified primary email per PayPlus account and explicit email/password, Google, and Apple login methods.
+- Prohibited automatic account linking or merging based only on matching email; external identities use stable provider identifiers.
+- Allowed social-authenticated restricted-account creation without an initial PayPlus password and added later `Set Password` / `Change Password` handling in `ACCOUNT-SECURITY`.
+- Required fresh approved authentication, provider authentication, confirmation, audit, and security notification for provider link/unlink, while preventing removal of the final usable login method.
+- Allowed restricted dashboard access before phone, identity, and payment-passcode completion while preserving those controls as mandatory financial-activation gates.
+- Added aligned disclosure, notification, future data/event/admin, traceability, route-owner, acceptance, and glossary references.
+
+**Checks Performed**
+
+- Staged only the 14 approved authentication/account-access files and preserved unrelated workspace changes.
+- Verified formal-document YAML and Document Control version parity.
+- Checked for superseded universal-password, phone-during-registration, and obsolete route-owner wording.
+- Ran `git diff --cached --check`; no whitespace errors were found.
+
+**Remaining Open Items**
+
+- Detailed `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` screen behavior.
+- Provider-specific errors and account conflicts, recovery, retry/lockout, session/device, 2FA, protected-deeplink, and post-authentication return rules.
+- Final DOC-18 physical account/login-method model, DOC-19 security implementation, and DOC-22 operational UI and permissions.
