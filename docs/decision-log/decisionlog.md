@@ -851,3 +851,50 @@ Supersedes active wording that required a PayPlus password and SMS phone verific
 **Remaining Open Items**
 
 Detailed `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` UI and failure behavior; provider-specific conflicts; recovery; retry and lockout; session/device and 2FA mechanics; protected-deeplink and post-authentication return behavior; and final technical/admin implementation remain open under their identified owners.
+
+### `DEC-2026-020` - Entrance, Authentication, Registration, And Account Activation
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-28` |
+| Status | Accepted |
+| Primary owners | `DOC-06B` route behavior and `DOC-07` authentication outcome/message presentation |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06A`, `DOC-06B`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-13`, `DOC-15`, `DOC-18`, `DOC-22`, glossary, route register, requirements traceability matrix, open-questions register, route diagrams |
+| Substantive commit | `6f2bd4b` |
+| Founder approval | Authentication-route proposal, outcome-message mechanism, alignment scope, commit, and push approved on `2026-07-28` |
+
+**Decision**
+
+`ENTRANCE-ROOT` is the sole unauthenticated app root. It provides approved public non-personalized content, language and public Support/Terms access, and Log In / Create Account actions. `ENTRANCE-CAROUSEL` is a component; a selected item may open `ENTRANCE-PROMOTION-DETAIL`.
+
+`AUTH-LOGIN` resolves an eligible remembered account to `AUTH-LOGIN-FAST` and otherwise opens `AUTH-LOGIN-FULL`. Every successful login renews Fast Login eligibility for one month, while approved risk, device, credential, account, or security changes may end it earlier. User-enabled OS biometric authentication may be presented automatically; password remains the fallback. Log In With Another Account requires confirmation, revokes the current-device session and protected local context, and opens Full Login without unlinking account methods.
+
+Registration uses a temporary registration-attempt record before account creation. The attempt grants no account, login, dashboard, referral-attribution, or financial rights and does not reserve proposed identifiers. Final restricted-account creation atomically rechecks uniqueness, verified email, accepted Terms/Privacy, and attempt validity before claiming identifiers. Killing or leaving the app permits an immediate new attempt; an older attempt may remain for up to 30 minutes of inactivity for cleanup and security without blocking the new attempt.
+
+A restricted account may enter `HOME-ROOT`, but full registration requires `ACCOUNT-ACTIVATION` to complete phone verification, identity verification, and six-digit payment-passcode setup. The route is entered from the post-account setup choice, persistent Home setup banner, or a blocked financial action and returns to the originating context after revalidation.
+
+PayPlus must preserve one canonical Authentication Outcome and Message Matrix. It separates a stable internal Outcome Type ID, an approved user-facing Message ID, and one occurrence/event and correlation reference. Multiple internal outcomes may map to one public message. Exact IDs, approved messages, disclosure levels, CTA mappings, and technical mappings remain open and must not be invented.
+
+**Rationale**
+
+The model reduces account-entry friction without treating a temporary attempt as a customer account or weakening payment readiness. Separating Fast and Full Login keeps routine access simple while preserving controlled fallback and revocation. A canonical outcome/message mapping prevents route-specific wording drift, information leakage, and untraceable support failures.
+
+**Alternatives Considered**
+
+- Treating the public entrance as `AUTH-ENTRY` was rejected because the screen also owns public content, language, Support, and Terms access.
+- Reserving email, phone, or provider identifiers during a partial attempt was rejected because an incomplete attempt must not block immediate restart or another valid registration.
+- Treating every login as one screen was rejected because remembered-account Fast Login and full method selection have materially different behavior.
+- Allowing each route to invent authentication errors was rejected because message disclosure, recovery actions, and operational correlation require one governed matrix.
+- Completing all phone, identity, and passcode steps before any dashboard access was rejected in favor of restricted-account access plus persistent, enforceable Account Activation.
+
+**Consequences And Handoffs**
+
+`DOC-06B` owns routes, screen behavior, entry, return, and banner placement. `DOC-07` owns Message IDs, approved wording, disclosure, and CTA presentation. `DOC-15` owns account, identifier, privacy, and sensitive-data rules. `DOC-18` must define registration-attempt, account, session, outcome, message, event, and correlation structures. `DOC-19` must define provider, credential, biometric, retry, lockout, device, and session security. `DOC-20` must define test coverage, and `DOC-22` must define permitted support/admin lookup and controls.
+
+**Supersedes / Superseded By**
+
+Supersedes active use of `AUTH-ENTRY`, login-name-based access, financial-activation terminology, resumable identifier-reserving partial registration, and route-local authentication error definitions.
+
+**Remaining Open Items**
+
+Entrance carousel configuration; exact authentication outcome and message catalogue; provider-specific behavior; Recovery, Phone Verification, Identity Verification, and Payment Passcode Settings details; and final security, data, testing, and admin implementation remain open under their identified owners.

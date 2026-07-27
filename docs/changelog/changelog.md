@@ -626,3 +626,43 @@ This append-only register records the documentation delivered by each substantiv
 - Detailed `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` screen behavior.
 - Provider-specific errors and account conflicts, recovery, retry/lockout, session/device, 2FA, protected-deeplink, and post-authentication return rules.
 - Final DOC-18 physical account/login-method model, DOC-19 security implementation, and DOC-22 operational UI and permissions.
+
+### `2026-07-28` - Entrance, Authentication, Registration, And Account Activation
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `6f2bd4b` |
+| Primary owners | `DOC-06B` route behavior and `DOC-07` authentication outcome/message presentation |
+| Decision record | `DEC-2026-020` |
+| Founder approval | Entrance, Fast/Full Login, registration-attempt, Account Activation, outcome/message-matrix, alignment scope, commit, and push approved on `2026-07-28` |
+
+**Files Changed**
+
+- `DOC-05`, parent `DOC-06`, `DOC-06A`, `DOC-06B`, and `DOC-06D`;
+- `DOC-07`, `DOC-08`, `DOC-13`, `DOC-15`, `DOC-18`, and `DOC-22`;
+- glossary, route register, requirements traceability matrix, and open-questions register;
+- diagram index, app and Me maps, and the new Authentication route-family map.
+
+**Material Changes**
+
+- Defined `ENTRANCE-ROOT`, public Entrance promotion detail, the `AUTH-LOGIN` resolver, Fast Login, Full Login, Recovery, Registration, and Account Activation handoffs.
+- Defined rolling one-month Fast Login eligibility, user-enabled biometric presentation, password fallback, and confirmed another-account session clearing.
+- Defined temporary registration attempts as non-account records that do not reserve identifiers or create referral attribution, followed by atomic restricted-account creation.
+- Defined the persistent setup-banner mapping and Account Activation handoff for phone verification, identity verification, and six-digit payment-passcode setup.
+- Removed active login-name and financial-activation terminology in favor of optional nickname/display name and Account Activation.
+- Added a mandatory DOC-07 Authentication Outcome and Message Matrix mechanism separating internal outcome type, approved Message ID, and occurrence/correlation ID while leaving exact IDs, copy, and mappings open.
+- Added aligned future data/event, admin/support, acceptance, traceability, glossary, and route-diagram requirements.
+
+**Checks Performed**
+
+- Staged only the 19 approved authentication-related files and preserved unrelated workspace changes.
+- Verified formal-document YAML and Document Control version/date parity.
+- Checked active documentation for superseded `AUTH-ENTRY`, immutable-login-name, and financial-activation definitions; remaining occurrences are historical version records only.
+- Verified route-register and diagram alignment and ran `git diff --cached --check`.
+
+**Remaining Open Items**
+
+- Entrance carousel capacity, rotation, targeting, and supported actions.
+- Exact authentication Outcome Type IDs, Message IDs, approved messages, disclosure and CTA mappings.
+- Detailed Recovery, Phone Verification, Identity Verification, and Payment Passcode Settings screens.
+- Provider-specific errors, retry/lockout, session/device, 2FA, technical security, physical data, test, and admin implementation.
