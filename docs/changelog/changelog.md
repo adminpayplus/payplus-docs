@@ -512,3 +512,42 @@ This append-only register records the documentation delivered by each substantiv
 
 - Exact Pay+ iconography, dimensions, spacing, blur strength, animation timing/easing, final styling, and future added-button layout.
 - Final DOC-18 event payloads and DOC-22 admin screen, permission, and implementation-field design.
+
+### `2026-07-27` - More Shortcut Management And Route Boundary
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `4aa7d02` |
+| Primary owner | `DOC-06B`, More route behavior and shortcut-management UX |
+| Decision record | `DEC-2026-017` |
+| Founder approval | More behavior, shortcut rules, compact route/mode map, alignment scope, and commit approved on `2026-07-27` |
+
+**Files Changed**
+
+- `DOC-05`, parent `DOC-06`, `DOC-06A`, `DOC-06B`, and `DOC-06D`;
+- `DOC-15`, `DOC-18`, and `DOC-22`;
+- diagram index, Home route map, and the new More route and mode map;
+- open-questions register, requirements traceability matrix, and route register.
+
+**Material Changes**
+
+- Defined `MORE-ROOT` as one route with Normal and Manage Shortcuts modes rather than a route family.
+- Set the Home default and maximum at 8 shortcuts: up to 7 configurable entries plus protected final `More`.
+- Defined account-level add, remove, reorder, save, current-default restore, unsaved-change, failed-save, accessibility, availability-precedence, and cross-device behavior.
+- Kept `Home Shortcuts` and `Other Shortcuts & Services` as dynamic screen sections rather than routes or permanent product categories.
+- Preserved independent destination ownership and separated More from `ME-ROOT`.
+- Replaced the over-detailed Mermaid with a compact route/mode map and aligned the Home map.
+
+**Checks Performed**
+
+- Staged only the 14 approved More-related files and preserved unrelated workspace changes.
+- Verified YAML and Document Control version parity for edited formal documents.
+- Checked active More completion wording, route ownership, parent/family status, route register, traceability, open questions, privacy, data, admin, and acceptance handoffs.
+- Confirmed the only stale More-pending wording is in the dated, superseded route-map archive.
+- Ran `git diff --cached --check` and statically checked the Mermaid source.
+
+**Remaining Open Items**
+
+- Final `MORE-ROOT` visual styling, exact motion and interaction design, and optional post-replacement Undo behavior.
+- Final DOC-18 object/event implementation and DOC-22 admin UI, permission, and audit detail.
+- Full Mermaid rendering remains unavailable because Mermaid CLI is not installed locally; structural checks passed.

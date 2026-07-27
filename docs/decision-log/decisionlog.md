@@ -36,6 +36,8 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-013` | `2026-07-26` | Change Impact And Prototype Lifecycle Governance | Accepted | `DOC-00` | `88c7c33` |
 | `DEC-2026-014` | `2026-07-26` | Personal Archive Projection And Controlled Obligation Restore | Accepted | `DOC-06B` / `DOC-06C` | `9dc8015` |
 | `DEC-2026-015` | `2026-07-26` | Hierarchical Route-Diagram Governance | Accepted | `DOC-00` | `9dc8015` |
+| `DEC-2026-016` | `2026-07-27` | Pay+ Action Sheet And Request-Direction Boundary | Accepted | `DOC-06B` | `cd75183` |
+| `DEC-2026-017` | `2026-07-27` | More Shortcut Management And Route Boundary | Accepted | `DOC-06B` | `4aa7d02` |
 
 ## 4. Decision Record Template
 
@@ -725,3 +727,42 @@ Supersedes active wording that treats a direct payer-created obligation/payment 
 **Remaining Open Items**
 
 Exact iconography, dimensions, spacing, blur strength, animation duration/easing, final styling, future added-button layout, technical event payloads, and final admin UI/permission design remain open.
+
+### `DEC-2026-017` - More Shortcut Management And Route Boundary
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-27` |
+| Status | Accepted |
+| Primary owner | `DOC-06B`, More route behavior and shortcut-management UX |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06A`, `DOC-06B`, `DOC-06D`, `DOC-15`, `DOC-18`, `DOC-22`, route diagrams, route register, traceability matrix, open-questions register |
+| Substantive commit | `4aa7d02` |
+| Founder approval | More behavior, shortcut rules, route boundary, compact diagram, alignment scope, and commit approved on `2026-07-27` |
+
+**Decision**
+
+`MORE-ROOT` is one route with Normal and Manage Shortcuts modes; the modes and their screen sections are not child routes. Home supports a default and maximum of 8 shortcuts: up to 7 user-configurable entries plus protected `More`, which remains visible as the final shortcut. Users may keep fewer configurable entries, reorder or remove eligible shortcuts, add approved entries, save account-level preferences, and restore the current eligible admin default.
+
+Normal mode contains dynamic `Home Shortcuts` and `Other Shortcuts & Services` sections. Entries may move between those sections as Home placement changes. Tapping an entry hands off to its independently owned destination; More does not own destination behavior, replace `ME-ROOT`, or change route permissions or business rules.
+
+**Rationale**
+
+One route with two internal modes keeps shortcut discovery and management understandable without creating artificial child routes. Protected More access ensures users can recover and manage shortcuts even when they keep fewer than 7 configurable entries. Dynamic sections avoid treating Home placement as a permanent product category.
+
+**Alternatives Considered**
+
+- Treating Normal mode, Manage mode, shortcut sections, save, restore, and prompts as separate route nodes was rejected because those items are internal UI states or actions.
+- Allowing `More` to be removed or displaced was rejected because it would remove the user's recovery and shortcut-management entry.
+- Treating secondary destinations as features owned by More was rejected because each destination retains its established owner and controls.
+
+**Consequences And Handoffs**
+
+`DOC-15` owns shortcut-preference privacy treatment, `DOC-18` owns future data objects and privacy-safe events, and `DOC-22` owns the approved catalog, current default, availability rules, configuration versioning, and admin audit controls. The compact Mermaid presents only the route boundary, two internal modes, and generic destination handoff; detailed UI behavior remains in DOC-06B.
+
+**Supersedes / Superseded By**
+
+Supersedes active wording that described More detail as pending and any diagram treatment that elevated internal More actions or sections into routes.
+
+**Remaining Open Items**
+
+Final visual styling, exact motion and interaction design, and optional post-replacement Undo behavior remain open. Final DOC-18 implementation structures and DOC-22 admin UI and permission details remain deferred to their owning technical layers.
