@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.15
+version: 0.4.16
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -38,7 +38,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `0.4.15` |
+| **Version** | `0.4.16` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
@@ -100,6 +100,7 @@ Detailed requirements belong to:
 | Reward instrument future update | Final DOC-18 must define canonical issued-reward objects, lifecycle projections, authoritative fulfilment and idempotency, unknown-result recovery, credential references, reveal/access events, checkout selection linkage, and separate instrument-type, earning-source, participant-role, program, campaign/offer/entitlement, and fulfilment-method dimensions required by DOC-06B, DOC-09, DOC-13, DOC-15, and DOC-22. |
 | Account-control future update | Final DOC-18 must define account/profile projection, immutable login-name and stable PayPlus User ID rules, masked-contact fields, identity-verification display mapping, reusable verification-flow context, contact-change events, payment-passcode preference, trusted-device/session revocation, privacy-request lifecycle, protected-export access, and account-closure lifecycle required by DOC-06B and DOC-15. Provider payloads and sensitive values must not be copied into route analytics. |
 | Receiving Info future update | Final DOC-18 must define stable user-linked Receiving Info profile IDs, multiple profiles, nickname, method-specific values, readiness, proof, version/archive history, selected request/obligation/payment/payout destination snapshots, source references, selected-disclosure projection, linked-payee notification, and payer-authorization freeze required by DOC-06B, DOC-09, DOC-10, DOC-12, DOC-14, DOC-15, and DOC-22. |
+| More and shortcut future update | Final DOC-18 must distinguish the approved shortcut catalog, versioned current eligible admin default, account-level user preference, effective resolved Home set, protected `More` rule, availability reason category, save/restore attempt, and destination-handoff event required by DOC-06B, DOC-15, and DOC-22. It must not copy sensitive destination data or internal risk/compliance reasons into analytics. |
 | Human review | Sensitive AI/model-assisted outcomes should support reason codes, reviewability, override controls, and audit trails. |
 
 ## 4. Core Object Families
@@ -210,7 +211,7 @@ PayPlus should define event families before implementation.
 | Account events | registration, login, logout, new-device login, dormant reauthentication, material-change reauthentication attempted/completed/failed, contact change initiated/verified/completed/failed, credential or identity change, Me opened, account/security/privacy destination selected, identity-verification opened/returned/status refreshed, sensitive reveal attempted/completed/failed, action-required item opened, payment-passcode preference changed, trusted-device removed, session revoked, language/theme changed, privacy request submitted/status changed/completed/failed, protected export issued/opened/expired, account closure requested/blocked/cancelled/finalized. |
 | Evidence and archive events | upload started, upload submitted, OCR processed, field extracted, user corrected, verification passed, mismatch found, duplicate detected, status changed, evidence snapshot finalized, replacement submitted/accepted/rejected, evidence version created, previous version recorded, archive eligibility checked, obligation archive attempted/completed/blocked, per-user archive projection created, current evidence projected into archive, restore attempted/completed/blocked, current evidence revalidated, archived-root/list opened/searched/filtered, archived detail opened, version viewed/downloaded/denied/unavailable. |
 | Request events | draft created, updated, creation started, existing bill/rent selected, submitted, evidence gate entered, evidence gate passed, evidence verified and auto-sent, sent/delivered, shared, viewed, reminded, accepted, rejected with reason, expired, cancelled, resent/recreated, parties linked, archived, restored. |
-| Route/navigation events | Pay+ action sheet opened/dismissed, action availability evaluated, action selected, safe blocked-reason category recorded, and destination handoff succeeded/failed; route events must not carry sensitive evidence, identity, card, bank, request, or payment values. |
+| Route/navigation events | Pay+ action sheet opened/dismissed and action handoff; More opened/searched; shortcut manage mode entered; shortcut added, removed, reordered, saved, restored to current default, or save/restore failed; unavailable entry encountered; destination opened/handoff succeeded or failed. Route events may record only safe availability/reason categories and must not carry sensitive evidence, identity, card, bank, request, payment, destination-content, or internal risk/compliance values. |
 | Participant-linking events | invitation created, app link generated, QR link generated, WhatsApp deeplink generated, invitation sent, viewed, accepted, declined, expired, linking completed, linking revoked. |
 | Payment events | quote created, quote revalidated, instruction created, funding leg created, authorization attempted, authorized, failed, captured, payment completed. |
 | Payment profile events | card add started, tokenization returned, card nickname edited, default card changed, card removed or archived, profile created, profile edited, profile starred/unstarred, profile marked action-required, profile selected for checkout/instruction, profile issue displayed. |
@@ -383,6 +384,7 @@ Sections 4 through 10 define the current baseline for PayPlus data objects, life
 | OQ-18-011 | What final reward-instrument schema, state mapping, credential-reference model, checkout/partner linkage, idempotency keys, unknown-result recovery, and field-level representation should implement the separate reward dimensions and lifecycle defined in DOC-13? | Engineering / Data / Product / Growth / Privacy / Operations | High | Open |
 | OQ-18-012 | What final objects, provider-state mappings, preference records, verification/contact-change links, privacy-request and protected-export records, account-closure lifecycle records, route events, reveal audit events, archived-evidence access records, and retention-safe projections should implement DOC-06B `ME-ROOT` and its defined account child routes without copying sensitive values into analytics? | Engineering / Data / Product / Privacy / Security / Operations | High | Open |
 | OQ-18-013 | What final Receiving Info profile, version, proof, readiness, destination-snapshot, source-reference, authorization-freeze, visibility-projection, failure-mapping, and audit structures implement the accepted product model without treating a saved profile as payout truth? | Engineering / Data / Payments / Product / Privacy / Risk / Operations | High | Open |
+| OQ-18-014 | What final catalog/default/preference/effective-set structures, configuration version links, availability categories, cross-device synchronization, protected-entry constraints, and privacy-safe events implement the DOC-06B `MORE-ROOT` baseline? | Engineering / Data / Product / Privacy / Operations | Medium | Open |
 
 ## 12. Acceptance Criteria
 
@@ -413,6 +415,7 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.4.16 | 2026-07-27 | Product Documentation Team | Added future object and privacy-safe event requirements for `MORE-ROOT`, approved shortcut catalog, current eligible default, account-level preferences, protected More, effective resolution, save/restore, availability, and destination handoffs. |
 | 0.4.15 | 2026-07-27 | Product Documentation Team | Added future privacy-safe Pay+ action-sheet availability, selection, blocked-reason, and destination-handoff event requirements without defining technical payloads. |
 | 0.4.14 | 2026-07-26 | Product Documentation Team | Added canonical-obligation versus per-user archive-projection separation, archived-list/detail/eligibility events, blocker reasons, current-evidence projection, and counterparty-safe restore requirements. |
 | 0.4.13 | 2026-07-26 | Product Documentation Team | Added future archive-family, evidence-version lineage, archive-origin/restore-eligibility, parent archive/restore, access recheck, and archived-document audit requirements. |

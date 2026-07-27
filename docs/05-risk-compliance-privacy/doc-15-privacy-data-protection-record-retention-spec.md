@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.12
+version: 0.8.13
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.8.12` |
+| **Version** | `0.8.13` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
 | **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -161,7 +161,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Refund, Dispute, Chargeback, and Support Data | Support tickets, user messages, dispute reason, refund case, chargeback reason code, evidence package, resolution, recovery/write-off status. | Support, dispute resolution, chargeback defense, operational learning, reporting. |
 | Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument type, earning source, program context, campaign/offer/entitlement source, fulfilment method, reward entitlement, opaque user-linked referral code/reference, registration attribution, masked referee phone, qualification progress/outcome, beneficiary role, entitlement-to-instrument link, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, attribution, abuse detection. |
 | Communication and Notification Data | Notification preferences, delivery channel, message ID, template ID, delivery/read status, bill/rent reminder ID, linked obligation ID, reminder timing, custom override, active/inactive/deleted status, payment instruction action-alert status, WhatsApp/SMS/email/push logs. | Service communication, audit, support, communication performance. |
-| UI Preference and Personalization Data | Dashboard shortcut order, shortcut visibility, restore-default action, dashboard placement exposure, carousel impression/action, inbox interaction, Me destination use, notification preference, language, theme, and other user-selected display preferences. | User experience personalization, product operation, consented marketing/promotion display, analytics, audit where required. |
+| UI Preference and Personalization Data | Approved shortcut-catalog/default version, account-level shortcut order and visibility, effective availability, restore-current-default action, dashboard placement exposure, carousel impression/action, inbox interaction, Me destination use, notification preference, language, theme, and other user-selected display preferences. | Product operation, cross-device user preference, consented marketing/promotion display, analytics, and audit where required. |
 | Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, category usage, correction behavior, conversion, drop-off, retry behavior, spend behavior, payer/payee relationship patterns, dashboard shortcut usage, reminder opened/ignored/actioned behavior, and placement performance. | Product improvement, risk intelligence, commercial analytics, segmentation. |
 | Derived and Aggregated Data | Risk indicators, user segments, category economics, OCR quality metrics, fraud trends, campaign performance, anonymized or aggregated insights, model features where approved. | Analytics, approved model improvement, business intelligence, strategic decisions. |
 
@@ -387,7 +387,7 @@ PayPlus may use collected and derived data to support:
 
 Derived or aggregated data should retain lineage to source data class, permitted purpose, and access controls. Sensitive personal data should not be exposed in dashboards unless required for approved review or operations.
 
-Dashboard personalization, shortcut ordering, placement targeting, and Featured / What's New / Hot Offer exposure must follow consent, preference, approved-purpose, and role-appropriate visibility rules. User-selected shortcut settings may override system defaults as defined in DOC-06B, but must remain subject to feature eligibility, risk restrictions, and disabled-module controls.
+Dashboard shortcut ordering is an account-level product-operation preference and does not by itself require marketing consent. Placement targeting and Featured / What's New / Hot Offer exposure remain subject to applicable consent, preference, approved-purpose, and role-appropriate visibility rules. User-selected shortcut settings may override the current eligible admin default as defined in DOC-06B, but remain subject to protected access, launch/module availability, account eligibility, risk restrictions, compliance controls, and disabled-module rules. Preference analytics must not expose sensitive route content or internal restriction reasons.
 
 Model features, segments, scores, and AI-generated outputs should retain lineage to source data, approved purpose, sensitivity level, permitted use, retention expectation, access roles, and monitoring requirements. Sensitive identity, raw evidence, medical details, child/family-sensitive education details, precise tenancy/property details, domestic helper employment details, raw support narratives, sanctions/AML results, internal risk notes, and vulnerability or hardship indicators should not be used for marketing models or partner reporting unless separately assessed and approved by legal, privacy, compliance, risk, and the Project Owner.
 
@@ -542,7 +542,7 @@ Detailed ISO/ISMS policies belong in DOC-99 policy library. PCI and authenticati
 | OQ-15-009 | What inactivity period triggers dormant-login reauthentication, and which factor should be required? | Security / Product / Risk | Medium | Open |
 | OQ-15-010 | What exact PCI DSS scope, SAQ/ROC path, QSA/acquirer expectations, and responsibility matrix apply before production launch? | Security / Payments / Compliance | High | Open |
 | OQ-15-011 | What ISO/IEC 27001 control evidence should DOC-15 privacy and data handling controls produce for the ISMS? | Security / Compliance / Privacy | Medium | Open |
-| OQ-15-012 | What consent, preference, retention, and analytics rules apply to dashboard shortcut preferences, placement exposure, carousel impressions, and personalized offer targeting? | Product / Privacy / Growth | Medium | Open |
+| OQ-15-012 | What final retention and analytics rules apply to account-level shortcut preferences, and what consent, preference, retention, and analytics rules apply to placement exposure, carousel impressions, and personalized offer targeting? Functional shortcut management does not itself require marketing consent. | Product / Privacy / Growth | Medium | Partially open |
 | OQ-15-013 | Which data classes, fields, derived features, segments, scores, and AI outputs may be used for model improvement, personalization, partner reporting, and campaign measurement? | Privacy / Data / Product | High | Open |
 | OQ-15-014 | Which data classes, fields, and derived signals are prohibited from marketing models, partner reporting, clean-room collaboration, or offsite activation? | Privacy / Legal / Risk | High | Open |
 | OQ-15-015 | What consent, opt-out, notice, partner-contract, and output-control rules are required before clean-room collaboration, pseudonymized matching, or external activation? | Legal / Privacy / Security | High | Open |
@@ -589,6 +589,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.13` | `2026-07-27` | Product Documentation Team | Aligned account-level `MORE-ROOT` shortcut preferences, current-default restore, protected availability precedence, cross-device use, and privacy-safe analytics while separating functional shortcut settings from marketing consent. |
 | `0.8.12` | `2026-07-26` | Product Documentation Team | Defined archive as a per-user visibility projection, preserved counterparty/canonical records and snapshots, and distinguished prohibited ad hoc hard deletion from lawful retention disposition. |
 | `0.8.11` | `2026-07-26` | Product Documentation Team | Aligned privacy, search, access recheck, retention/disposition, and audit rules with `ARCHIVED-ROOT` and `ARCHIVED-DOCS-LIST`. |
 | `0.8.10` | `2026-07-26` | Product Documentation Team | Required passcode or approved reauthentication for prominent sensitive reveal and material identity/contact/Receiving Info changes, while confirming that ordinary permitted evidence, receipt, statement, invoice, and proof viewing/download does not need an extra prompt. |

@@ -103,11 +103,15 @@ Admin dashboard must support configuration hooks for the DOC-06B designated Home
 
 Required capabilities should include:
 
-- configure default dashboard shortcut set;
-- configure default dashboard shortcut order;
-- add, disable, hide, or restore shortcuts by feature, module, category, user type, eligibility, or launch phase;
-- preserve user-managed shortcut order and visibility preferences where allowed;
-- allow user restore-to-default behavior;
+- maintain an approved shortcut and secondary-service catalog without creating, renaming, or redirecting product destinations;
+- configure the current default Home set and order up to the 8-slot maximum, including protected `More`;
+- keep `More` enabled, present, and final so users retain access to shortcut management;
+- enable, disable, hide, or gate catalog entries by feature, module, category, market, account/role eligibility, risk/compliance restriction, or launch phase;
+- preserve account-level user order and visibility preferences where still eligible;
+- resolve the effective Home set in DOC-06B precedence order: protected rules, eligibility/availability, approved catalog, current default, then user preference;
+- support restore to the current eligible default rather than an obsolete historical default;
+- version default/catalog changes and preserve privacy-safe handling when a previously selected entry becomes unavailable;
+- prevent admin configuration from bypassing destination permissions, feature gates, or PayPlus product boundaries;
 - configure Important Notice / Action Required items, including priority, expiry, collapse behavior, route target, audience, approval status, and audit log;
 - configure Featured / What's New / Hot Offer carousel placements, including priority, start/end date, targeting, offer or announcement linkage, route target, approval status, enable/disable, and audit log;
 - distinguish dashboard placement from notification delivery, inbox entry, campaign eligibility, and promotion entitlement;
@@ -304,6 +308,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.16.0 | 2026-07-27 | Aligned future admin controls with defined `MORE-ROOT` catalog/default management, 8-slot maximum, protected More access, eligibility precedence, account-level preferences, current-default restore, configuration versioning, and destination-boundary protection. |
 | 0.15.0 | 2026-07-27 | Added future Pay+ action availability configuration, hidden-versus-disabled rules, fixed semantic boundaries, destination-gate protection, and audit requirements. |
 | 0.14.0 | 2026-07-26 | Added future per-user archive-projection, archived-obligation blocker/eligibility, current-evidence cascade, canonical-record protection, and operational audit requirements; admin restore-on-behalf remains to be defined in the full DOC-22. |
 | 0.13.0 | 2026-07-26 | Added future archive-family controls, separate archive/history descriptors, sole-current-evidence protection, parent archive/restore, non-restorable expiry/history, access, retention, and audit requirements. |

@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.25
+version: 0.18.26
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -48,7 +48,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.25` |
+| **Version** | `0.18.26` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -491,7 +491,7 @@ The MVP should support data structures for the following object families. Detail
 - bill/rent reminder record, including linked obligation ID, timing, status, custom override, and deletion/disable state where enabled;
 - payout/settlement record;
 - campaign, offer, promotion quote, promotion quote reservation, benefit entitlement, reward instrument, and redemption/fulfilment records where promotions are enabled; issued rewards must separately preserve instrument type, earning source, participant role where applicable, program context, campaign/offer/entitlement source, and fulfilment method;
-- dashboard shortcut configuration, user shortcut preference, restore-default action, dashboard placement exposure, and carousel impression/action records where applicable;
+- dashboard shortcut catalog/default configuration, account-level user shortcut preference, effective availability, restore-current-default action, dashboard placement exposure, and carousel impression/action records where applicable;
 - dispute or clarification thread;
 - notification;
 - reminder or user action task;
@@ -513,6 +513,8 @@ For split UX topics, use one primary owner. DOC-06B owns standalone route shells
 Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `AUTH-ENTRY` is the pre-login choice screen; `AUTH-LOGIN` and `AUTH-REGISTRATION` are the required authentication destinations; normal successful entry proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, and `NOTIFICATION-INBOX` identify the Pay+, More, and Inbox destinations. DOC-09 `PAYMENT-CHECKOUT` identifies the payment checkout flow/screen group without transferring checkout ownership to DOC-06.
 
 `PAYPLUS-ACTION-SHEET` uses the confirmed five-action order and role boundaries from DOC-06B. `Pay a Bill` and `Pay Rent` open temporary category-scoped `BILLS-PAY` selection without changing saved Bills filters; `Add Bill / Rent` opens `BILLS-ADD`; `Continue Payment` resolves to disabled, one instruction detail, or the instruction list according to active instruction count; and `Request Payment` means payee-to-payer request creation. Exact visual measurements, iconography, and motion timing remain design-open.
+
+`MORE-ROOT` is one route with Normal and Manage Shortcuts modes. Home has a default and maximum of 8 shortcuts: up to 7 user-configurable entries plus protected `More`, which remains visible as the final shortcut. Users may keep fewer configurable shortcuts, reorder or remove eligible entries, add approved entries, save account-level preferences, and restore the current eligible admin default. More may also open approved secondary services but does not own them or replace `ME-ROOT`.
 
 For growth UX, `OFFERS-ROOT` owns promotion discovery; its child screens `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` own the respective View More collections; `REWARDS-ROOT` owns issued-reward management through Active and History views; and the `REFERRAL-ROOT`, `REFERRAL-REWARDS-LIST`, `REFERRAL-ENTITLEMENT-DETAIL`, and `REFERRAL-REWARD-CLAIM` route family owns referral sharing, attributed-referee qualification progress, and role-sensitive referrer/referee reward claiming. `REWARD-DETAIL` owns full reward information and terms but is not a second checkout route; checkout reward selection remains in DOC-09 after card/profile selection. The Referral Rewards list uses `Available to Claim` and `History` route-local tabs; claimed reward use remains in canonical Rewards. One offer may belong to multiple discovery collections, while unintended repeated display of the same Offer ID is suppressed on `OFFERS-ROOT`. Direct checkout discounts are not issued rewards. Referral campaigns may appear in Offers, but referral actions remain in the Referral route; an issued referral reward uses the canonical `REWARD-DETAIL`. Detailed commercial, qualification, entitlement, lifecycle, fulfilment, and calculation logic remains owned by DOC-13.
 
@@ -714,7 +716,7 @@ The MVP is acceptable when:
 | OQ-05-012 | What maximum number of credit cards per payment/profile should be allowed at launch? | Product / Payments | Answered: 6 |
 | OQ-05-013 | Which OCR/document AI provider, confidence thresholds, and launch categories should be enabled first? | Product / Engineering / Risk | Open |
 | OQ-05-014 | Which extracted fields are displayable, masked, or restricted by role and evidence category? | Product / Privacy / Security | Open |
-| OQ-05-015 | What exact dashboard shortcut cap, default ordering, user reorder UI, restore-default behavior, and More shortcut behavior should apply? | Product / Design / Operations | Open |
+| OQ-05-015 | What final styling and optional post-replacement Undo behavior should apply to `MORE-ROOT`? The 8-slot maximum, protected More entry, user reorder/remove/add behavior, account-level preference, current-default restore, availability precedence, and secondary-service boundary are defined. | Product / Design / Operations | Partially open |
 | OQ-05-016 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should apply within the confirmed five-action behavior? | Product / Design / Payments | Partially open; action set, order, direction, and handoffs confirmed |
 | OQ-05-017 | What admin controls are required for Important Notice / Action Required, Featured / What's New / Hot Offer carousel, and dashboard placement targeting? | Product / Growth / Operations | Open |
 | OQ-05-018 | Which MVP events and data objects must be captured for product analytics, risk analytics, commercial reporting, and future approved AI/model improvement? | Product / Data / Engineering | Open |
@@ -773,9 +775,9 @@ The MVP is acceptable when:
 | Future docs should use concise product-spec structure. | Confirmed |
 | Promotion engine capabilities are framework scope but launch-gated by DOC-13 rules and admin configuration. | Confirmed |
 | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` are required acceptance-scope destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Detailed UI Pending |
-| `PAYPLUS-ACTION-SHEET` has a defined five-action behavior baseline and route handoffs; `MORE-ROOT`, `NOTIFICATION-INBOX`, and DOC-09 `PAYMENT-CHECKOUT` remain the stable destination IDs for their respective areas. | Working Baseline / Final Pay+ Visual Design Pending |
+| `PAYPLUS-ACTION-SHEET` has a defined five-action behavior baseline and route handoffs. `MORE-ROOT` has a defined shortcut-management and secondary-service-entry baseline. `NOTIFICATION-INBOX` and DOC-09 `PAYMENT-CHECKOUT` remain stable destinations with further detail pending. | Working Baseline / Final Visual Design Pending |
 | DOC-06B designated Home Dashboard flow and layout baseline is accepted for MVP discussion, but final UI design and exact component specification remain open. | Confirmed |
-| Dashboard shortcut grid, user shortcut preferences, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
+| Dashboard shortcut grid, account-level user shortcut preferences, protected `More`, current-default restore, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
 | DOC-06C `BILLS-PAY` and `BILLS-RECEIVE` route split is accepted as the current role-aware Bills-route baseline; checkout/payment screen behavior remains primarily governed by DOC-09. | Working Baseline / Not Final |
 | DOC-06B `PAYMENT-PROFILE-ROOT` is accepted as the current route shell for tokenized card and saved split-card profile management; checkout authorization and funding remain governed by DOC-09. | Working Baseline / Not Final |
 | DOC-06B `ME-ROOT`, Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, `RECEIVING-INFO`, and the `ARCHIVED-ROOT` family are accepted; Support/About/Terms and final visual design remain pending. | Working Baseline / Core Account, Receiving Info, and Archive Family Defined |
@@ -789,6 +791,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.26 | 2026-07-27 | Aligned the PRD with defined `MORE-ROOT` Normal/Manage behavior, 8-slot maximum, protected More entry, account-level shortcut preferences, current-default restore, availability precedence, and secondary-service boundary. |
 | v0.18.25 | 2026-07-27 | Distinguished direct payer-created obligations/payments from optional payer-created linking requests, defined Pay+ Request Payment as payee-to-payer, and aligned the confirmed five-action Pay+ behavior while leaving exact visual design open. |
 | v0.18.24 | 2026-07-26 | Defined the archived-obligation product baseline, mixed-role filters, read-only detail reuse, eligibility/blocker and restore rules, personal archive projection, and obligation/evidence separation. |
 | v0.18.23 | 2026-07-26 | Added the `ARCHIVED-ROOT` family and confirmed evidence replacement, parent archive, restoration, expiry, non-restorable history, and Archived Documents behavior. |

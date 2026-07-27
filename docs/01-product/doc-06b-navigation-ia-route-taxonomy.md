@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.30
+version: 0.1.31
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -40,7 +40,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.30` |
+| **Version** | `0.1.31` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
@@ -71,7 +71,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 | Bottom navigation | Working baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline exists; final visual design remains open. |
 | Home dashboard | Partially defined | `HOME-ROOT` and section order exist; final card and visual details remain open. |
 | Pay+ action sheet | Defined baseline | `PAYPLUS-ACTION-SHEET`, its five MVP actions, role direction, destination handoffs, availability behavior, and motion principles are defined; exact visual specification remains open. |
-| Shortcut grid | Partially defined | Eight MVP shortcuts exist; detailed More/overflow UX remains open. |
+| Shortcut grid and More | Defined baseline | Home supports a default and maximum of 8 shortcuts including protected `More`; `MORE-ROOT` manages account-level shortcut preferences and approved secondary-service entry. Final visual design remains open. |
 | Route taxonomy and ID standard | Working baseline | Stable product destination rules are defined; the canonical destination inventory is maintained in `docs/traceability/route-register.md`. |
 | Non-Bills route registry | Working baseline | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, Me core child routes, Receiving Info, and the Archive hub/document route have route-level baselines; undefined destinations remain visible in the route register. |
 
@@ -268,7 +268,7 @@ The Home Dashboard should use the following MVP section order.
 | ---: | --- | --- | --- | --- |
 | 1 | Header | Greets the user and provides quick access to high-priority utilities. | Always shown. | Inbox and coupon/rewards icons route to their respective screens. |
 | 2 | Important Notice / Action Required | Combined swipeable section for urgent actions, account messages, system messages, announcements, late handling from payer/payee, expiring tenancies, and other important updates. | Disappears if empty. User may collapse with a close button. Eligible item types are initially defined here and may be expanded later. | Each card routes to the relevant task, detail, or message route. |
-| 3 | Shortcut Grid | Operational shortcuts for common management tasks. Must not duplicate Pay+ direct payment-start actions. | MVP displays 8 shortcuts. Shortcut set, default order, visibility, and enablement must be configurable. | Each shortcut routes to its related management area. |
+| 3 | Shortcut Grid | Operational shortcuts for common management tasks. Must not duplicate Pay+ direct payment-start actions. | MVP default and maximum is 8 shortcuts including protected `More`. Users may keep fewer than 7 configurable shortcuts, but `More` remains present. | Each shortcut routes to its related management area. |
 | 4 | Featured / What's New / Hot Offer | One combined carousel for approved PayPlus announcements, partner campaigns, feature updates, hot offers, and service events. | Must be admin-controllable. Use one combined carousel at this stage. | Routes to `OFFERS-ROOT`, `OFFER-DETAIL`, announcement detail, or the relevant feature route. |
 | 5 | Upcoming Bills / Rent | Summary of upcoming bills, fees, rent, tenancy obligations, due reminders, and related next actions. | Show when active or saved obligations exist. Detailed card fields may be refined later. | Routes to Bills area or the specific bill/tenancy detail. |
 | 6 | Recent Activity | Limited list of recent transactions and status records. | Show recent items only, capped by dashboard display rules. | Arrow or View More routes to Recent Activity detail page. |
@@ -310,17 +310,14 @@ Support should not be part of the initial eight dashboard shortcuts. Support rem
 
 Shortcut display must support:
 
-- admin-managed default shortcut set;
-- admin-managed default order;
-- adding shortcuts;
-- disabling shortcuts;
-- hiding shortcuts by feature, module, category, user type, eligibility, or launch phase;
-- user-managed shortcut display order;
-- user-managed shortcut visibility where allowed;
-- user setting overriding the system default;
-- restore-to-default behavior.
+- an admin-managed approved catalog, default set, default order, and availability rules;
+- a maximum of 7 user-configurable Home shortcuts plus protected `More`;
+- fewer than 7 configurable shortcuts where the user prefers;
+- account-level user order and visibility preferences overriding the eligible admin default;
+- `More` remaining present as the final shortcut and recovery entry;
+- restore to the current eligible admin default.
 
-Detailed admin configuration workflow belongs in DOC-22. User preference, visibility, and privacy/data handling belong in DOC-15 and DOC-18.
+Detailed user behavior is defined in Section 5.18. Admin configuration belongs in DOC-22. User preference, visibility, and privacy/data handling belong in DOC-15 and DOC-18.
 
 ---
 
@@ -397,7 +394,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
 | Offers and Rewards IA | Define `OFFERS-ROOT` discovery, category collection routes, `OFFER-DETAIL`, separate issued-reward management, referral handoff, and placement behavior. | Offers child-list baseline defined / not final visual design |
 | Me Area IA | `ME-ROOT` is the permanent account-control route. Its section order, established-route handoffs, core account child-route behavior, masking, reveal, state, and return boundaries are defined in Section 5.17. | Core account child routes defined / other details pending |
-| More Shortcuts IA | Define `MORE-ROOT` shortcut management, reorder/arrangement, restore-default behavior, overflow, and secondary services not shown in the first eight shortcuts. | Route ID assigned / detail pending |
+| More Shortcuts IA | Maintain `MORE-ROOT` shortcut management, reorder/arrangement, restore-default behavior, approved secondary-service entry, and protected access to More. | Defined baseline / final visual design open |
 | Requests Route | Define standalone Requests route shell, creation flow, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
 | Instructions Route | Define payment instruction / 付款指示 route shell, pending versus incomplete instruction display, edit boundaries, cancellation/archive behavior, and checkout handoff. | Working baseline / not finalized |
 | Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
@@ -1936,7 +1933,7 @@ DOC-06C owns `ARCHIVED-BILLS-LIST`, archived-detail mode, archive eligibility, r
 - Offline behavior may show approved cached masked summaries but must block sensitive reveal, export, material changes, or other actions requiring current validation.
 - Child routes opened from Me return to Me with position preserved. The same routes opened from checkout, Instructions, notification, deeplink, or another contextual flow return to that originating context instead.
 
-`More` remains separate from Me. Me governs account information, records, settings, preferences, and support. More governs dashboard shortcut management, reorder/arrangement, restore-default behavior, overflow, and secondary services; its detailed route remains open.
+`More` remains separate from Me. Me governs account information, records, settings, preferences, and support. More governs dashboard shortcut management, reorder/arrangement, restore-default behavior, approved secondary-service entry, and protected access to shortcut management. Detailed behavior is defined in Section 5.18.
 
 #### 5.17.7 Notification, Data, and Admin Handoffs
 
@@ -1961,6 +1958,96 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 | Final Membership route and launch behavior | Product / Growth | Open; hidden until defined and enabled |
 | Final visual styling, icons, density, action copy, and confirmation copy | Product / Design | Open |
 
+### 5.18 More Route
+
+#### 5.18.1 Route Definition and Boundary
+
+| Item | Requirement |
+| --- | --- |
+| Route label | More |
+| Product destination | `MORE-ROOT` |
+| Purpose | Manage Home shortcuts and open approved secondary services or route entries that are not currently shown on Home. |
+| Entry point | Protected `More` shortcut on `HOME-ROOT`. |
+| Structure | One root route with Normal and Manage Shortcuts modes. Manage mode is not a separate route. |
+| Boundary | More is an entry and preference-management surface. It does not own the destination features, replace `ME-ROOT`, or change route permissions, eligibility, or business rules. |
+
+`Home Shortcuts` and `Other Shortcuts & Services` are dynamic sections within `MORE-ROOT`, not child routes or permanent destination categories. Entries may move between these sections as Home placement changes, while every opened destination remains owned by its governing route family.
+
+The Home default and maximum capacity is 8 shortcuts: up to 7 configurable shortcuts plus protected `More`. A user may keep fewer than 7 configurable shortcuts. `More` must remain visible as the final Home shortcut and cannot be removed, displaced, disabled, or reordered by the user.
+
+| Source | User action | Destination / result | Return behavior |
+| --- | --- | --- | --- |
+| `HOME-ROOT` | Tap protected `More` | Open `MORE-ROOT` in Normal mode. | Back returns to Home with prior context preserved. |
+| `MORE-ROOT` Normal mode | Tap `Edit` | Enter Manage Shortcuts mode in the same route. | Save or discard returns to Normal mode. |
+| `MORE-ROOT` Normal mode | Tap an approved entry | Open the entry's owning destination. | Back returns to More with prior scroll/search context where practical. |
+| Manage Shortcuts mode | Tap `Save` | Apply the effective account-level shortcut preference and return to Normal mode. | A later Back returns to Home, where the refreshed shortcut grid is visible. |
+| Manage Shortcuts mode | Tap `Restore Default` | Load the current eligible admin default into the editable arrangement. | The restored arrangement is not applied until `Save`. |
+
+#### 5.18.2 Normal Mode
+
+The screen order is:
+
+1. header with Back, title `More`, and Search;
+2. `Home Shortcuts` section showing the user's current configurable Home shortcuts, with an `Edit` action;
+3. `Other Shortcuts & Services` section listing approved route entries not currently shown on Home and approved secondary services.
+
+Search should find approved entries by user-facing label or approved keyword without changing Home preferences. Tapping an entry opens its owning route. The default Other list excludes entries already on Home; if search returns one, it should be identified as `On Home` rather than presented as another addable object.
+
+Initial approved secondary-service entries may include Activity, My Rewards, Receiving Info, Archived Records, and Support where enabled. Their owning routes remain authoritative.
+
+#### 5.18.3 Manage Shortcuts Mode
+
+Tapping `Edit` changes the screen to shortcut-management mode:
+
+1. header with Back, title `Home Shortcuts`, and `Save`;
+2. current configurable shortcuts with a corner remove control and drag-and-drop reordering;
+3. other approved entries, with dashboard-eligible entries available to add;
+4. `Restore Default` at the bottom.
+
+Users may:
+
+- remove a configurable shortcut from Home;
+- reorder configurable shortcuts;
+- add an eligible shortcut by dragging it into `Home Shortcuts`;
+- use accessible `Add`, `Remove`, `Move Up`, and `Move Down` controls instead of drag-and-drop;
+- save fewer than 7 configurable shortcuts;
+- restore the current eligible admin default.
+
+If all 7 configurable positions are occupied and the user adds another shortcut, the last configurable shortcut returns to `Other Shortcuts & Services`. Protected `More` is never displaced. Exact replacement animation and an optional post-replacement Undo remain open visual/product decisions.
+
+An entry that is visible in More but unavailable for Home must not appear actionable merely through reduced opacity. It should also show a clear unavailable or locked indicator and must not be draggable or addable.
+
+#### 5.18.4 Save, Restore, and Return Behavior
+
+- Changes take effect only after `Save`.
+- Back with no unsaved changes returns to the prior context.
+- Back with unsaved changes prompts `Save Changes`, `Discard Changes`, or `Continue Editing`.
+- `Restore Default` loads the current admin default after filtering for launched, enabled, account-eligible, and permitted entries. It does not load an obsolete historical default and remains pending until `Save`.
+- Successful save returns to Normal mode, refreshes the Home shortcut grid, and keeps `More` as the final shortcut.
+- Shortcut preferences are account-level and should follow the user across approved devices.
+- Opening a destination from More and returning should restore the More scroll and search context where practical.
+- A failed save or restore must preserve the unsaved arrangement and allow retry.
+
+Routine shortcut preference changes require no payment passcode or notification. Authentication, feature access, risk, privacy, and route-specific controls still apply when the user opens the destination.
+
+#### 5.18.5 Availability and Precedence
+
+The effective shortcut set is resolved in this order:
+
+1. protected PayPlus access and product-boundary rules;
+2. launch, module, account, role, market, eligibility, risk, and compliance availability;
+3. the admin-approved shortcut catalog;
+4. the current eligible admin default set and order;
+5. the user's saved order and visibility preferences.
+
+User preferences cannot expose a disabled, unlaunched, ineligible, or prohibited route. When a previously selected shortcut becomes unavailable, Home removes it from the effective set while preserving a privacy-safe preference reference where appropriate. More should explain unavailability without exposing internal risk or compliance logic.
+
+#### 5.18.6 Data, Admin, and Acceptance Handoffs
+
+Material privacy-safe signals for later DOC-18 specification include More opened, search used, manage mode entered, shortcut added/removed/reordered, save attempted/completed/failed, default restored, unavailable entry encountered, and destination opened. Events must not include sensitive destination data or internal risk reasons.
+
+DOC-22 owns the approved catalog, current default, availability rules, configuration versioning, rollback, audit, and protection of `More`. DOC-15 owns preference-data classification, approved-purpose use, and cross-device privacy. DOC-06D owns acceptance coverage. Exact layout measurements, iconography, animation, density, and styling remain open.
+
 ## 6. Route Completion Status
 
 | Route / Area | Status | Next Required Work |
@@ -1979,15 +2066,15 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 | Payment Profile / Cards | Two-Tab Route Baseline Defined / Not Final Visual Design | Confirm final card styling, field density, empty-state copy, PSP tokenization return behavior, and permitted card metadata. |
 | Referral | Child-Screen Behavior Defined / Not Final Visual Design | `REFERRAL-ROOT`, role-sensitive entitlement list/detail/claim screens, registration attribution handoff, reusable sharing, qualification display, privacy boundary, two-tab reward list, exceptional admin hold presentation, and canonical issued-reward handoff are defined. Confirm final styling and open campaign parameters. |
 | Notification Inbox | `NOTIFICATION-INBOX` Assigned / Route Detail Pending | Define message-list/detail behavior, filtering, unread state, item routing, and return behavior with DOC-08. |
-| More | `MORE-ROOT` Assigned / Route Detail Pending | Define shortcut-management, reorder/arrangement, restore-default, overflow, and secondary-service UI without replacing `ME-ROOT`. |
+| More | Defined Baseline / Not Final Visual Design | `MORE-ROOT` Normal and Manage modes, 8-slot maximum, protected More entry, account-level preferences, current-default restore, availability precedence, secondary-service handoffs, accessibility, and save/return behavior are defined. Confirm final styling and optional replacement Undo. |
 
 ## 7. Local Open Questions
 
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-06B-001 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should be used within the confirmed two-row five-action baseline? | Product / Design / Payments | Partially open; behavior and action order defined |
-| OQ-06B-002 | What final visual design and remaining child-route UI should apply to Me, Receiving Info, Archived Records, More shortcut management, and Support? Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, Receiving Info, and the Archive family behavior are defined. | Product / Design / Privacy / Security / Operations | Partially open |
-| OQ-06B-003 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
+| OQ-06B-002 | What final visual design and remaining child-route UI should apply to Me, Receiving Info, Archived Records, More shortcut management, and Support? More behavior, Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, Receiving Info, and the Archive family behavior are defined. | Product / Design / Privacy / Security / Operations | Partially open |
+| OQ-06B-003 | What final styling and optional post-replacement Undo behavior should apply to the defined `MORE-ROOT` shortcut-management experience? | Product / Design / Operations | Partially open; capacity, protected More, reorder, save, restore, and admin-default behavior defined |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
 | OQ-06B-006 | What exact visual styling, card density, field-level copy, resend/reminder limit, share-button placement, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
@@ -1996,12 +2083,13 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 | OQ-06B-009 | What exact Activity visual styling, field density, search/filter behavior, grouping behavior, empty-state copy, lifecycle timeline wording, and transaction-detail display should be used? Screen order, expandable entry behavior, amount direction, and core actions are defined. | Product / Design / Payments / Operations | Partially open |
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
 | OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Pay+ and Partner Offer label taxonomy, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed. | Product / Design / Growth / Privacy / Commercial | Partially open |
-| OQ-06B-012 | What detailed UI, validation, recovery, failure, accessibility, and contextual-return behavior should apply to `AUTH-ENTRY`, `AUTH-LOGIN`, `AUTH-REGISTRATION`, `NOTIFICATION-INBOX`, and `MORE-ROOT`? | Product / Design / Security / Privacy / Operations | Open |
+| OQ-06B-012 | What detailed UI, validation, recovery, failure, accessibility, and contextual-return behavior should apply to `AUTH-ENTRY`, `AUTH-LOGIN`, `AUTH-REGISTRATION`, and `NOTIFICATION-INBOX`? `MORE-ROOT` behavior is defined subject to final visual design. | Product / Design / Security / Privacy / Operations | Open |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.31 | 2026-07-27 | Defined `MORE-ROOT` Normal and Manage Shortcuts modes, the 8-slot maximum with protected More, account-level user preference override, accessible reorder/add/remove controls, current-default restore, availability precedence, secondary-service handoffs, save/return/failure behavior, and data/admin boundaries. |
 | 0.1.30 | 2026-07-27 | Defined the Pay+ action-sheet five-action layout principle, animation and accessibility baseline, category-scoped Bills handoffs, Add/Continue completion logic, payee-to-payer Request Payment meaning, contextual payer-to-payee linking boundary, availability rules, return behavior, configuration limits, and data-signal handoff. |
 | 0.1.29 | 2026-07-26 | Defined `ARCHIVED-ROOT`, aligned the `Archived Bills & Rent` label, clarified obligation-versus-evidence placement, personal archive visibility, document-to-obligation handoff, DOC-06C ownership, and hierarchical route-map references. |
 | 0.1.28 | 2026-07-26 | Replaced `ARCHIVED-EVIDENCE-LIST` with the `ARCHIVED-ROOT` family, defined `ARCHIVED-DOCS-LIST` screen behavior and access boundary, and registered `ARCHIVED-BILLS-LIST` for later drafting. |

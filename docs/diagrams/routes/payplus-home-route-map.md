@@ -4,13 +4,13 @@ Status: Current discussion reference
 Owner: DOC-06B
 Last updated: 2026-07-27
 
-This map owns Home sections and the eight MVP shortcuts. Pay+ action-sheet handoffs and destination internals belong to their route-family maps.
+This map owns Home sections and the shortcut entry handoffs. Home has a default and maximum of 8 shortcuts, with up to 7 configurable entries plus protected `More`; the effective set may contain fewer configurable entries. Pay+ and destination internals belong to their route-family maps.
 
 ```mermaid
 flowchart TD
   HOME["HOME-ROOT"] --> NOTICE["Important Notice / Action Required"]
   HOME --> INBOX["NOTIFICATION-INBOX"]
-  HOME --> SHORTCUTS["Shortcut grid<br/>8 MVP shortcuts"]
+  HOME --> SHORTCUTS["Shortcut grid<br/>1-8 effective entries<br/>More protected and final"]
   HOME --> FEATURED["Featured / What's New / Hot Offer"]
   HOME --> UPCOMING["Upcoming Bills / Rent"]
   HOME --> RECENT["Recent Activity"]

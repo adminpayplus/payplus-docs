@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.18
+version: 0.1.19
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -31,7 +31,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.18` |
+| **Version** | `0.1.19` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
@@ -91,6 +91,7 @@ Example pattern:
 | Authentication entry routes | DOC-06B / DOC-15 / DOC-19 | Partial | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` plus normal/contextual success handoffs are testable; detailed screen, recovery, validation, and security behavior remains open. |
 | Home dashboard layout | DOC-06B | Partial | `HOME-ROOT` is assigned; exact card behavior and UI detail remain open. |
 | Pay+ action sheet | DOC-06B / DOC-06C / DOC-09 | Partial to strong | Five-action order, payee-to-payer request direction, category-scoped Bills handoffs, Add/Continue behavior, availability, return, configuration limits, and no-side-effect boundary are testable; exact visual specification remains open. |
+| More and shortcut management | DOC-06B / DOC-15 / DOC-18 / DOC-22 | Partial to strong | `MORE-ROOT` Normal/Manage modes, 8-slot maximum, protected More entry, account-level preferences, accessible add/remove/reorder, current-default restore, availability precedence, unsaved-change handling, and secondary-service handoffs are testable; final visual styling and optional replacement Undo remain open. |
 | BILLS-PAY / BILLS-RECEIVE role separation | DOC-06C | Partial to strong | Core role distinction is testable; visual detail remains open. |
 | Bills evidence sub-flow | DOC-06C / DOC-12 | Partial | UX flow is testable; verification logic depends on DOC-12/DOC-18. |
 | Bills activity sub-route | DOC-06C / DOC-09 / DOC-10 / DOC-11 | Partial to strong | Payment, payout/transfer, failure, return, refund, and reversal activity is testable; request and evidence lifecycle entries are explicitly excluded. |
@@ -199,7 +200,15 @@ The DOC-06 user journey scope is satisfied when:
 - core Me account, security, privacy, support, legal, and logout controls cannot be hidden by ordinary placement configuration, while optional rows follow module and retained-record rules;
 - Me child-route return restores the prior Me position, while contextual entry from checkout, Instructions, notifications, or deeplinks returns to the originating context;
 - Log Out is the final Me action, ends the current session, clears protected route history, and returns to `AUTH-ENTRY` without being treated as account closure;
-- `MORE-ROOT` remains separate and governs dashboard shortcut management, reorder/arrangement, restore-default, overflow, and secondary services;
+- `MORE-ROOT` remains separate from Me and uses one root with Normal and Manage Shortcuts modes;
+- Home supports a default and maximum of 8 shortcuts, comprising up to 7 configurable entries plus protected `More`, while users may keep fewer configurable shortcuts;
+- protected `More` remains the final Home shortcut and cannot be removed, disabled, displaced, or user-reordered;
+- users can search More entries, add/remove/reorder eligible shortcuts, use non-drag accessibility controls, save account-level preferences, and restore the current eligible admin default;
+- adding an eighth configurable candidate when 7 configurable positions are full returns the last configurable shortcut to Other Shortcuts & Services without displacing `More`;
+- entries unavailable for Home show an explicit unavailable/locked indicator and cannot be added, while destination-specific access controls remain enforced by the owning route;
+- Back with unsaved shortcut changes offers Save Changes, Discard Changes, or Continue Editing; failed save/restore preserves the pending arrangement for retry;
+- shortcut resolution follows protected product boundaries, eligibility/availability, approved catalog, current admin default, then user preference; user preference cannot expose an unavailable or prohibited route;
+- More may open approved secondary services but does not own them, replace `ME-ROOT`, or bypass their controls;
 - the Home Inbox icon opens `NOTIFICATION-INBOX`, while its items route to their owning destinations and notification preferences remain in `NOTIFICATION-SETTINGS`;
 - payment entry routes use `PAYMENT-CHECKOUT` for DOC-09 checkout behavior without turning Bills, Requests, Instructions, or Payment Profile into checkout owners;
 - saved split-card profiles and split-card checkout must observe the MVP maximum of 6 cards;
@@ -257,6 +266,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.19 | 2026-07-27 | Added test-readiness and acceptance coverage for `MORE-ROOT` modes, shortcut capacity, protected More access, account-level preferences, accessible management, current-default restore, availability precedence, replacement behavior, unsaved changes, failures, and destination boundaries. |
 | 0.1.18 | 2026-07-27 | Added test-readiness and acceptance coverage for the Pay+ five-action order, request direction, Bills scopes, Add/Continue decisions, visibility rules, return behavior, duplicate prevention, and reduced-motion baseline. |
 | 0.1.17 | 2026-07-26 | Added acceptance coverage for Archive hub/list behavior, archived read-only detail reuse, search/filters, blockers, personal visibility, restore revalidation, reminder effects, and obligation/evidence separation. |
 | 0.1.16 | 2026-07-26 | Added archive-family route, Archived Documents UI/access, evidence replacement/archive/restore, expiry, history-label, and non-restorable acceptance coverage. |

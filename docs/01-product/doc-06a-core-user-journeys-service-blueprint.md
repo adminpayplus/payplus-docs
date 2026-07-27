@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.10
+version: 0.1.11
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -41,7 +41,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.10` |
+| **Version** | `0.1.11` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -1193,8 +1193,8 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
 | OQ-06-020 | What exact payment-instruction screen labels, call-to-action wording, and partial-funded visual treatment should be used? | Product / Design / Legal | Open |
 | OQ-06-021 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should be used within the confirmed five-action order and behavior? | Product / Design / Payments | Partially open; behavior defined in DOC-06B |
-| OQ-06-022 | What route-level IA remains to be defined in DOC-06B for Me, More, and Support entry points? Offers, Rewards, and Referral route boundaries are defined. | Product / Design | Open |
-| OQ-06-023 | What dashboard shortcut display cap, user reorder UI, restore-default behavior, and admin default mechanism should be used? | Product / Design / Operations | Open |
+| OQ-06-022 | What route-level IA remains to be defined in DOC-06B for Support and other incomplete secondary routes? Me, More, Offers, Rewards, and Referral route boundaries are defined. | Product / Design | Open |
+| OQ-06-023 | What final styling and optional post-replacement Undo should apply to the defined `MORE-ROOT` behavior? The shortcut maximum, protected More entry, reorder/remove/add behavior, account-level preference, current-default restore, and admin-default mechanism are decided. | Product / Design / Operations | Partially open |
 | OQ-06-024 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06-025 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
 | OQ-06-026 | What final user-initiated payee linking or invitation mechanism should be used: user ID, phone search, app link, WhatsApp deeplink, QR code, or another approved flow? | Product / Privacy / Engineering | Open |
@@ -1211,6 +1211,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.11 | 2026-07-27 | Closed the material More/shortcut IA questions after DOC-06B defined capacity, protected access, preference, reorder, restore, availability, and secondary-service behavior; retained final styling and optional Undo as open. |
 | 0.1.10 | 2026-07-27 | Narrowed the Pay+ open question to exact visual and motion specification after DOC-06B defined the five-action order, route handoffs, role direction, and availability behavior. |
 | 0.1.9 | 2026-07-26 | Established the canonical request lifecycle and role-facing labels, separated request events, evidence, readiness, payment, dispute-case, and archive domains, and corrected payer-created payment flow so optional linking is not an acceptance prerequisite. |
 | 0.1.8 | 2026-07-23 | Added Receiving Info selection, private-profile boundary, request destination snapshots, pre/post-acceptance change rules, payer-selected replacement handling, linked-payee notification, and authorization-time destination freeze. |

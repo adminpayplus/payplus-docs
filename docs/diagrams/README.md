@@ -20,6 +20,7 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 | `routes/payplus-activity-receipts-route-map.md` | Account Activity, Receipts & Statements, and contextual Bills Activity handoffs. | DOC-06B / DOC-06C |
 | `routes/payplus-offers-rewards-referral-route-map.md` | Offers discovery, Rewards, Referral, registration attribution, and checkout handoffs. | DOC-06B / DOC-13 |
 | `routes/payplus-me-route-map.md` | `ME-ROOT` direct child destinations only. Child families own their internal maps. | DOC-06B |
+| `routes/payplus-more-route-map.md` | Compact `MORE-ROOT` route boundary, Normal/Manage modes, and generic handoff to independently owned destinations. Detailed shortcut behavior remains in DOC-06B. | DOC-06B |
 | `routes/payplus-archive-route-map.md` | `ARCHIVED-ROOT`, Archived Bills & Rent, Archived Documents, archived detail, and restore handoffs. | DOC-06B / DOC-06C |
 | `payplus-promotion-engine-structure.md` | Mermaid business-structure reference for the unified promotion engine, program contexts, campaigns, offers, rule evaluation, and benefit-delivery paths. DOC-13 remains authoritative. | DOC-13 |
 

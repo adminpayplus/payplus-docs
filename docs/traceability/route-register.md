@@ -24,7 +24,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `AUTH-REGISTRATION` | `AUTH-ENTRY` / referral or approved deeplink | Child registration/onboarding flow | Create an account and complete required registration gates. | DOC-06B / DOC-15 | Partially defined |
 | `HOME-ROOT` | Successful authentication / bottom navigation: Home | Root screen | Open the task-first logged-in dashboard. | DOC-06B | Partially defined |
 | `PAYPLUS-ACTION-SHEET` | Bottom navigation: Pay+ | Sheet / modal | Start approved Bill/Rent payment selection, bill/rent setup, payment continuation, or payee-to-payer request creation through the five defined actions. | DOC-06B | Defined baseline |
-| `MORE-ROOT` | Dashboard shortcut: More | Root screen | Manage dashboard shortcuts and access approved secondary services. | DOC-06B | Partially defined |
+| `MORE-ROOT` | Dashboard shortcut: More | Root screen | Manage up to 7 configurable Home shortcuts plus protected More, restore the current eligible default, and access approved secondary services. | DOC-06B | Defined baseline |
 | `NOTIFICATION-INBOX` | Home header / approved notification context | Utility route | List notification-backed messages, announcements, support replies, and action items. | DOC-06B / DOC-08 | Partially defined |
 | `PAYMENT-CHECKOUT` | Bills, Instructions, Requests, or approved payment entry | Flow / screen group | Review payment method, eligible benefits, quote, authorization, and submission. | DOC-09 | Partially defined |
 | `BILLS-ROOT` | Bottom navigation: Bills | Root screen | Open the Bills area and its payer/payee views. | DOC-06C | Defined baseline |
@@ -88,7 +88,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 
 ## Assigned Destinations Requiring Further Definition
 
-All currently identified product areas now have stable destination IDs. `AUTH-ENTRY`, `AUTH-LOGIN`, `AUTH-REGISTRATION`, `HOME-ROOT`, `MORE-ROOT`, `NOTIFICATION-INBOX`, and `PAYMENT-CHECKOUT` remain partially defined and must receive detailed route or screen behavior before their applicable acceptance scope is complete. `PAYPLUS-ACTION-SHEET` and the Archive route family have defined human-readable behavior baselines; final visual design and technical implementation remain open.
+All currently identified product areas now have stable destination IDs. `AUTH-ENTRY`, `AUTH-LOGIN`, `AUTH-REGISTRATION`, `HOME-ROOT`, `NOTIFICATION-INBOX`, and `PAYMENT-CHECKOUT` remain partially defined and must receive detailed route or screen behavior before their applicable acceptance scope is complete. `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, and the Archive route family have defined human-readable behavior baselines; final visual design and technical implementation remain open.
 
 ## Maintenance Rules
 

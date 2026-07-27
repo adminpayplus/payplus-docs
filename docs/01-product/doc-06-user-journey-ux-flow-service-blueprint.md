@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.23
+version: 0.21.24
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -44,7 +44,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `0.21.23` |
+| **Version** | `0.21.24` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -121,7 +121,7 @@ The DOC-06 family covers payer, payee, admin, and system UX/service surfaces at 
 | --- | --- | --- | --- |
 | DOC-06 | Parent UX/service-blueprint overview, family map, scope boundaries, prohibited journey controls, family decision summary, dependencies, and split governance. | Detailed route specs, detailed component behavior, full acceptance matrix. | Active parent baseline. |
 | DOC-06A | Core payer, payee, admin, system, evidence, review, authorization, status, visibility, notification, receipt, failure, and exception service journeys. | Global app navigation taxonomy or detailed Bills route UI. | Working baseline; service-blueprint refinement still needed. |
-| DOC-06B | Navigation IA, dashboard structure, bottom navigation, Pay+ action sheet, route/screen/component/action standards, route registry, and route completion status. | Deep Bills/rent/tenancy behavior or payment checkout logic. | Working baseline; Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, Me core child routes, and Receiving Info are defined at human-readable route level. More and several secondary child routes remain incomplete. |
+| DOC-06B | Navigation IA, dashboard structure, bottom navigation, Pay+ action sheet, route/screen/component/action standards, route registry, and route completion status. | Deep Bills/rent/tenancy behavior or payment checkout logic. | Working baseline; Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, Me core child routes, Receiving Info, Archive, and More are defined at human-readable route level. Several secondary routes remain incomplete. |
 | DOC-06C | Bills, fees, rent, tenancy, To Pay, To Receive, cards, detail pages, activity, reminders, evidence UX, linking, role-aware actions, and Bills-route handoffs. | Checkout processing, full evidence verification logic, final data model, or admin queue design. | Partially defined; Bills module has strong baseline but not final UI. |
 | DOC-06D | UX requirement IDs, acceptance criteria, route/action/state/event/test mapping, and UX test-readiness tracking. | Business policy decisions or implementation tickets. | Working acceptance and test-readiness baseline; route-family coverage exists, while detailed executable test cases remain for DOC-20 and the AI execution layer. |
 
@@ -165,7 +165,7 @@ This matrix prevents the split from creating a false impression that all routes 
 | Payment Profile / Cards | DOC-06B for route UX | DOC-09/DOC-15/DOC-19 for checkout, privacy, and security detail | Core Route Behavior Defined / Not Final Visual Design | `PAYMENT-PROFILE-ROOT` and its Cards/Profiles child screens manage tokenized cards and saved split-card profiles with a confirmed maximum of 6 cards; checkout remains DOC-09. |
 | Referral | DOC-06B for route UX and registration handoff | DOC-13 for referral, qualification, entitlement, and reward logic | Child-Screen Behavior Defined / Not Final Visual Design | `REFERRAL-ROOT`, role-sensitive referrer/referee entitlement list/detail/claim screens, reusable sharing, registration attribution handoff, qualification display, and issued-reward handoff are defined. |
 | Notification Inbox | DOC-06B / DOC-08 | Notification and domain destination owners | `NOTIFICATION-INBOX` Assigned / Route Detail Pending | The header Inbox has a stable destination; list/detail behavior remains open. |
-| More | DOC-06B | Destination owners for launched routes | `MORE-ROOT` Assigned / Route Detail Pending | More manages dashboard shortcut arrangement, reorder, restore-default behavior, overflow, and secondary services; it does not replace Me. |
+| More | DOC-06B | DOC-15 for preference/privacy; DOC-18 for data/events; DOC-22 for admin defaults and availability; destination owners for launched routes | Defined Baseline / Not Final Visual Design | `MORE-ROOT` uses Normal and Manage modes, supports up to 7 configurable shortcuts plus protected More, account-level preference override, current-default restore, accessible management controls, and approved secondary-service handoffs without replacing Me or owning destination behavior. |
 
 ---
 
@@ -350,6 +350,7 @@ The DOC-06 parent is acceptable when:
 - authentication acceptance includes `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION`, with normal successful entry to `HOME-ROOT` and approved contextual return where applicable;
 - all currently identified global product areas have stable destination IDs, including `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, `NOTIFICATION-INBOX`, and DOC-09 `PAYMENT-CHECKOUT`;
 - `PAYPLUS-ACTION-SHEET` acceptance covers the five-action order, payee-to-payer Request Payment direction, category-scoped Bills handoff, instruction-count routing, completion/return behavior, availability treatment, and no-side-effect boundary while final visual design remains open;
+- `MORE-ROOT` acceptance covers one root with Normal and Manage modes, a default and maximum of 8 Home shortcuts including protected More, account-level preference override, accessible add/remove/reorder behavior, current-default restore, unsaved-change handling, availability precedence, and secondary-service handoffs;
 - the archive family identifies `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST`, with detailed behavior kept in its owning module and final visual design marked open;
 - existing product decisions are preserved in parent or child docs;
 - prohibited PayPlus journey boundaries remain visible;
@@ -362,6 +363,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.24 | 2026-07-27 | Synchronized the parent with defined `MORE-ROOT` modes, shortcut capacity, protected More access, account-level preference override, current-default restore, availability precedence, accessibility, and secondary-service handoffs. |
 | v0.21.23 | 2026-07-27 | Synchronized the parent with the defined Pay+ five-action behavior, payee-to-payer Request Payment direction, contextual payer-linking boundary, category-scoped Bills handoff, instruction-count routing, and remaining visual-design scope. |
 | v0.21.22 | 2026-07-26 | Synchronized the parent with defined Archive-family behavior, personal archive projection, archived-detail reuse, eligibility/blocker and restore rules, and obligation/evidence separation. |
 | v0.21.21 | 2026-07-26 | Synchronized the parent with the `ARCHIVED-ROOT` family, defined Archived Documents behavior, archived-obligation handoff, and accepted evidence replacement/archive/restore rules. |
