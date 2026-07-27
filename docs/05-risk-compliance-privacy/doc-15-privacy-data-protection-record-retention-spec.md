@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.13
+version: 0.8.14
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -50,7 +50,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.8.13` |
+| **Version** | `0.8.14` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
@@ -160,8 +160,8 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Risk and Compliance Data | Risk score/band, rule triggers, AML/sanctions status, duplicate evidence signals, same-party indicators, fraud flags, payout holds, admin review outcome, escalation records. | Anti-cashout, fraud prevention, compliance control, monitoring, audit. |
 | Refund, Dispute, Chargeback, and Support Data | Support tickets, user messages, dispute reason, refund case, chargeback reason code, evidence package, resolution, recovery/write-off status. | Support, dispute resolution, chargeback defense, operational learning, reporting. |
 | Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument type, earning source, program context, campaign/offer/entitlement source, fulfilment method, reward entitlement, opaque user-linked referral code/reference, registration attribution, masked referee phone, qualification progress/outcome, beneficiary role, entitlement-to-instrument link, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, attribution, abuse detection. |
-| Communication and Notification Data | Notification preferences, delivery channel, message ID, template ID, delivery/read status, bill/rent reminder ID, linked obligation ID, reminder timing, custom override, active/inactive/deleted status, payment instruction action-alert status, WhatsApp/SMS/email/push logs. | Service communication, audit, support, communication performance. |
-| UI Preference and Personalization Data | Approved shortcut-catalog/default version, account-level shortcut order and visibility, effective availability, restore-current-default action, dashboard placement exposure, carousel impression/action, inbox interaction, Me destination use, notification preference, language, theme, and other user-selected display preferences. | Product operation, cross-device user preference, consented marketing/promotion display, analytics, and audit where required. |
+| Communication and Notification Data | Notification event ID, recipient-specific message ID, optional batch ID, category, source event/object, recipient role, template version, target route/object, read/archive state, status/action-at-send snapshot, channel preference, per-channel delivery attempt, provider reference, timestamps, reminder linkage, and WhatsApp/SMS/email/push logs. | Service communication, consent/preference operation, audit, support, communication performance. |
+| UI Preference and Personalization Data | Approved shortcut-catalog/default version, account-level shortcut order and visibility, effective availability, restore-current-default action, dashboard placement exposure, carousel impression/action, Inbox read/archive interaction, Me destination use, notification preference, language, theme, and other user-selected display preferences. | Product operation, cross-device user preference, consented marketing/promotion display, analytics, and audit where required. |
 | Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, category usage, correction behavior, conversion, drop-off, retry behavior, spend behavior, payer/payee relationship patterns, dashboard shortcut usage, reminder opened/ignored/actioned behavior, and placement performance. | Product improvement, risk intelligence, commercial analytics, segmentation. |
 | Derived and Aggregated Data | Risk indicators, user segments, category economics, OCR quality metrics, fraud trends, campaign performance, anonymized or aggregated insights, model features where approved. | Analytics, approved model improvement, business intelligence, strategic decisions. |
 
@@ -589,6 +589,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.14` | `2026-07-27` | Product Documentation Team | Aligned notification data classification with recipient messages, batches, source lineage, category, read/archive presentation, status/action snapshots, route targets, per-channel attempts, and cross-device Inbox preference handling. |
 | `0.8.13` | `2026-07-27` | Product Documentation Team | Aligned account-level `MORE-ROOT` shortcut preferences, current-default restore, protected availability precedence, cross-device use, and privacy-safe analytics while separating functional shortcut settings from marketing consent. |
 | `0.8.12` | `2026-07-26` | Product Documentation Team | Defined archive as a per-user visibility projection, preserved counterparty/canonical records and snapshots, and distinguished prohibited ad hoc hard deletion from lawful retention disposition. |
 | `0.8.11` | `2026-07-26` | Product Documentation Team | Aligned privacy, search, access recheck, retention/disposition, and audit rules with `ARCHIVED-ROOT` and `ARCHIVED-DOCS-LIST`. |

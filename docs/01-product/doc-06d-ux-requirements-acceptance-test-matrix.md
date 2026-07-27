@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.19
+version: 0.1.20
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -31,7 +31,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.19` |
+| **Version** | `0.1.20` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
@@ -92,6 +92,7 @@ Example pattern:
 | Home dashboard layout | DOC-06B | Partial | `HOME-ROOT` is assigned; exact card behavior and UI detail remain open. |
 | Pay+ action sheet | DOC-06B / DOC-06C / DOC-09 | Partial to strong | Five-action order, payee-to-payer request direction, category-scoped Bills handoffs, Add/Continue behavior, availability, return, configuration limits, and no-side-effect boundary are testable; exact visual specification remains open. |
 | More and shortcut management | DOC-06B / DOC-15 / DOC-18 / DOC-22 | Partial to strong | `MORE-ROOT` Normal/Manage modes, 8-slot maximum, protected More entry, account-level preferences, accessible add/remove/reorder, current-default restore, availability precedence, unsaved-change handling, and secondary-service handoffs are testable; final visual styling and optional replacement Undo remain open. |
+| Notifications route family | DOC-06B / DOC-08 / DOC-15 | Partial to strong | Root/Inbox/Detail/Settings hierarchy, Home/Me entry, reciprocal navigation, filters, read/archive behavior, badge semantics, current-state contextual handoff, preference failure recovery, and signal separation are testable; final styling, provider operations, and template wording remain open. |
 | BILLS-PAY / BILLS-RECEIVE role separation | DOC-06C | Partial to strong | Core role distinction is testable; visual detail remains open. |
 | Bills evidence sub-flow | DOC-06C / DOC-12 | Partial | UX flow is testable; verification logic depends on DOC-12/DOC-18. |
 | Bills activity sub-route | DOC-06C / DOC-09 / DOC-10 / DOC-11 | Partial to strong | Payment, payout/transfer, failure, return, refund, and reversal activity is testable; request and evidence lifecycle entries are explicitly excluded. |
@@ -210,6 +211,10 @@ The DOC-06 user journey scope is satisfied when:
 - shortcut resolution follows protected product boundaries, eligibility/availability, approved catalog, current admin default, then user preference; user preference cannot expose an unavailable or prohibited route;
 - More may open approved secondary services but does not own them, replace `ME-ROOT`, or bypass their controls;
 - the Home Inbox icon opens `NOTIFICATION-INBOX`, while its items route to their owning destinations and notification preferences remain in `NOTIFICATION-SETTINGS`;
+- `NOTIFICATION-ROOT` defaults to Inbox; Home enters Inbox, Me enters Settings, Inbox and Settings cross-link without route-stack loops, and external notification entry preserves or safely resolves return context;
+- Inbox `All` excludes Archived, the badge counts unread Inbox records only, read/archive actions do not alter owning-domain state, and `Action Required` comes from the owning domain;
+- every notification card opens `NOTIFICATION-DETAIL`, which revalidates current status, permission, target, and action availability before any domain handoff;
+- required communications are not shown as disableable toggles, optional preference changes save immediately, failed changes restore the prior effective value, account preferences/read/archive state synchronize across approved devices, and device push permission remains device-specific;
 - payment entry routes use `PAYMENT-CHECKOUT` for DOC-09 checkout behavior without turning Bills, Requests, Instructions, or Payment Profile into checkout owners;
 - saved split-card profiles and split-card checkout must observe the MVP maximum of 6 cards;
 - single-card checkout may preselect a default card while split-card checkout requires user selection of a payment profile;
@@ -266,6 +271,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.20 | 2026-07-27 | Added test-readiness and acceptance coverage for the Notifications route family, entry/return behavior, filters, unread badge, read/archive separation, detail revalidation, Settings behavior, cross-device state, and owning-domain signal boundaries. |
 | 0.1.19 | 2026-07-27 | Added test-readiness and acceptance coverage for `MORE-ROOT` modes, shortcut capacity, protected More access, account-level preferences, accessible management, current-default restore, availability precedence, replacement behavior, unsaved changes, failures, and destination boundaries. |
 | 0.1.18 | 2026-07-27 | Added test-readiness and acceptance coverage for the Pay+ five-action order, request direction, Bills scopes, Add/Continue decisions, visibility rules, return behavior, duplicate prevention, and reduced-motion baseline. |
 | 0.1.17 | 2026-07-26 | Added acceptance coverage for Archive hub/list behavior, archived read-only detail reuse, search/filters, blockers, personal visibility, restore revalidation, reminder effects, and obligation/evidence separation. |

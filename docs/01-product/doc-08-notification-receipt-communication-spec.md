@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.25
+version: 1.0.26
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -42,7 +42,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.25` |
+| **Version** | `1.0.26` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
@@ -62,6 +62,7 @@ It ensures users, payees, and admins receive clear, timely, role-appropriate com
 DOC-08 owns:
 
 - notification event IDs;
+- notification category, message eligibility, and Inbox-record rules;
 - default channel rules;
 - channel enablement and disablement;
 - user notification preferences;
@@ -160,6 +161,9 @@ DOC-08 should reference these documents instead of duplicating their detailed ru
 | System event | Internal event or state change that must be recorded. |
 | Notification event | Configurable message trigger linked to a system event. |
 | Notification ID | Stable identifier for a notification event. |
+| Notification message | One recipient-specific communication record created from a notification event. |
+| Notification category | Approved Inbox presentation grouping: `System`, `Service`, `Transaction`, or `Promotion`. It is not a domain status. |
+| Inbox presentation state | Recipient-specific `Unread`, `Read`, or `Archived` state. It does not change the owning domain object. |
 | Channel rule | Configuration defining which channels are used for a notification event. |
 | Template | Channel-specific message content and variables. |
 | Delivery log | Record of attempted delivery, result, timestamp, recipient, channel, and template version. |
@@ -218,6 +222,8 @@ For DOC-06B dashboard placements:
 | Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
 | Inbox icon | Opens `NOTIFICATION-INBOX`, which may show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
+The user-facing notification family is `NOTIFICATION-ROOT`, with `NOTIFICATION-INBOX` as its default child screen, `NOTIFICATION-DETAIL` for one message, and `NOTIFICATION-SETTINGS` for preferences. `NOTIFICATION-LIST` and `NOTIFICATION-CARD` are components, and Archived is an Inbox filter rather than a separate route. DOC-06B owns screen behavior, entry points, and return rules; DOC-08 owns which records exist and how they are categorized, delivered, retained, and controlled.
+
 Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, account/profile or closure action to `ACCOUNT-PROFILE`, identity action to `IDENTITY-VERIFICATION`, account-security action to `ACCOUNT-SECURITY` or `PAYMENT-PASSCODE-SETTINGS`, privacy/data action to `PRIVACY-DATA-CONTROLS`, receiving-information action to `RECEIVING-INFO`, `RECEIVING-INFO-DETAILS`, or `RECEIVING-INFO-SETUP`, archive-area access to `ARCHIVED-ROOT`, archived-obligation access to `ARCHIVED-BILLS-LIST`, archived/previous evidence access to `ARCHIVED-DOCS-LIST`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required. `RECEIPT-DETAIL` and `STATEMENT-DETAIL` open the selected PDF in the shared in-app preview defined by DOC-06B.
 
 Promotion-discovery notifications should route to the relevant `OFFER-DETAIL`, or to `OFFERS-ROOT` only when no specific offer exists. Issued-reward notifications should route to `REWARDS-ROOT` or the relevant `REWARD-DETAIL`, using user-facing labels from the status-display reference matrix. Notifications must not contain a redeemable QR, full partner/redemption code, secret, internal reference, or internal risk reason. Referral attribution or qualification notifications should route to `REFERRAL-ROOT`; a referrer or referee entitlement-availability notification should route to `REFERRAL-REWARDS-LIST` or the relevant `REFERRAL-ENTITLEMENT-DETAIL`; an issued, reversed, or administrator-held reward notification should route to the canonical `REWARD-DETAIL` where a specific instrument exists. Notifications must not open `REFERRAL-REWARD-CLAIM` directly. Claim-deadline reminders are not required for MVP. A share-sheet action, copied link, or displayed QR is not an invitation delivery event and must not notify an unknown recipient. The notification record should preserve its source and target context without requiring a DOC-06B entry-point ID. Notification routing must not turn `BILLS-PAY` into an Offers sub-route.
@@ -225,6 +231,19 @@ Promotion-discovery notifications should route to the relevant `OFFER-DETAIL`, o
 A user's personal archive or restore of a bill/rent is a visibility action and does not create a counterparty notification by itself. Existing payment, payout, evidence, risk, request, or legal events continue to notify only under their own event rules.
 
 DOC-06B `ACTIVITY-ROOT` may expose direct receipt/proof download actions from an expanded activity card where the file is available and the user has permission. DOC-06B `ACTIVITY-DETAIL` may also expose direct receipt/proof download actions. If receipt/proof is unavailable, the button should be hidden by default or disabled only where useful with clear, non-sensitive wording. Invoice/evidence buttons should be hidden where access is not permitted. DOC-08 owns the communication, delivery, file-availability, and receipt/proof wording rules; DOC-15 owns masking and access boundaries.
+
+### 7.1 Inbox Signal Separation
+
+Every Inbox record must keep these concepts separate:
+
+| Signal | Rule |
+| --- | --- |
+| Category | Use the approved `System`, `Service`, `Transaction`, or `Promotion` presentation group associated with the notification event. |
+| Presentation state | Store recipient-specific `Unread`, `Read`, or `Archived`; `All` excludes Archived. |
+| Domain status | Resolve the current user-facing label from the owning domain and `status-display-reference-matrix.md`. |
+| Action Required | Derive from the owning domain's current user task or resolution need. Inbox must not invent or clear it. |
+
+Opening a notification must revalidate the target, permission, domain status, and action availability. The message may retain status/action-at-send snapshots for audit, while the current UI uses the latest authorized state. Marking a message read or archived changes only the recipient's Inbox presentation.
 
 ---
 
@@ -240,6 +259,8 @@ Domains:
 
 | Domain | Meaning |
 | --- | --- |
+| `SYS` | System announcements, service availability, and general platform notices. |
+| `SUP` | General support messages and replies that are not formal dispute/case lifecycle events. |
 | `ACCT` | Account, registration, login, security, and profile. |
 | `KYC` | KYC, KYB, verification, and onboarding. |
 | `EVD` | Evidence upload, OCR/autofill, evidence correction, and verification. |
@@ -256,6 +277,26 @@ Domains:
 
 IDs should remain stable once used in production.
 
+### 8.1 Message and Trace Identifiers
+
+`NOTIF-[DOMAIN]-[NUMBER]` identifies a stable notification event type; it is not the unique ID of a message sent to one user. The final data model must distinguish:
+
+| Identifier / Reference | Requirement |
+| --- | --- |
+| `notification_event_id` | Stable event type, such as `NOTIF-PAY-003`. |
+| `notification_message_id` | Unique recipient-specific Inbox/message record. |
+| `notification_batch_id` | Optional batch, campaign, manual-send, scheduled-job, or support-send grouping. |
+| Source event | Source type plus source event ID. |
+| Source object | Source object type and ID, such as payment, request, payout, reward, or support case. |
+| Recipient | User ID and role projection used for the message. |
+| Template | Template ID and version. |
+| Destination | Registered route and permitted target object. |
+| Correlation controls | Correlation, causation, and deduplication references where applicable. |
+| Timestamps | Created, scheduled, sent, read, and archived timestamps as applicable. |
+| Delivery attempts | Separate per-channel attempt ID, provider reference, status, timestamp, retry, and failure outcome. |
+
+System-triggered, scheduled, campaign, manual, and support messages should use this common model. DOC-18 owns the final schema and lineage; DOC-22 owns operational lookup, approved manual/batch actions, and audit workflow.
+
 ---
 
 ## 9. Channel Rules
@@ -264,7 +305,7 @@ IDs should remain stable once used in production.
 
 | Channel | Intended Use | Sensitive Data Rule |
 | --- | --- | --- |
-| App notification | In-app status, history, and task alerts. | May show more detail if authenticated. |
+| App / Inbox notification | Authenticated Inbox record, in-app status, history, or task alert. Distinct from device push. | May show more detail if authenticated and permitted. |
 | Push notification | Short alert to return to app. | Avoid sensitive details. |
 | Email | Receipts, statements, account notices, and longer messages. | Use appropriate masking and access links. |
 | SMS | Short service alert or fallback. | Avoid detailed payment/evidence/card data. |
@@ -318,6 +359,14 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-ACCT-009` | Account closure completed | Email, SMS optional | Mandatory service |
 | `NOTIF-KYC-001` | KYC/KYB submission started | App | Important service |
 | `NOTIF-KYC-002` | KYC/KYB submission received | App, email optional | Important service |
+| `NOTIF-KYC-003` | KYC/KYB approved | App, email optional | Important service |
+| `NOTIF-KYC-004` | KYC/KYB requires action | App, push optional, email optional | Important service |
+| `NOTIF-KYC-005` | KYC/KYB rejected or suspended | App, email | Mandatory service |
+| `NOTIF-PRIV-001` | Privacy request submitted | App, email optional | Important service |
+| `NOTIF-PRIV-002` | Privacy request requires action | App, push optional, email | Important service |
+| `NOTIF-PRIV-003` | Privacy request completed or unable to complete | App, email | Important service |
+
+KYC/KYB notifications that require user action should open `IDENTITY-VERIFICATION`; approved or informational status messages may open `ACCOUNT-PROFILE`. Privacy-request messages open `PRIVACY-DATA-CONTROLS`. Account-closure messages open `ACCOUNT-PROFILE`, except the final completion message where login has been disabled and the notification must use an approved external channel or pre-logon destination. Contact-change messages under `NOTIF-ACCT-006` must notify the old and new channels where available without exposing OTP or recovery detail.
 
 ### 11.1A Receiving Info Events
 
@@ -330,14 +379,6 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 Receiving Info messages must use the approved user-facing readiness labels and must not imply bank validation. A payer sees only the destination selected for the relevant context. A linked payee notification may offer review and controlled save to `RECEIVING-INFO`, but it must not become a payee-approval gate or delay a payer-authorized payout.
 
 Where a payee changes the destination after payer acceptance, the resulting new request uses the normal request-created/received events and must not present the old accepted request as amended. A destination-attributable payout failure uses `NOTIF-POUT-004` and should notify the payer plus the linked PayPlus payee where applicable. Transient bank/rail failures must not create a Receiving Info `Action Required` notification unless the user can correct the destination.
-| `NOTIF-KYC-003` | KYC/KYB approved | App, email optional | Important service |
-| `NOTIF-KYC-004` | KYC/KYB requires action | App, push optional, email optional | Important service |
-| `NOTIF-KYC-005` | KYC/KYB rejected or suspended | App, email | Mandatory service |
-| `NOTIF-PRIV-001` | Privacy request submitted | App, email optional | Important service |
-| `NOTIF-PRIV-002` | Privacy request requires action | App, push optional, email | Important service |
-| `NOTIF-PRIV-003` | Privacy request completed or unable to complete | App, email | Important service |
-
-KYC/KYB notifications that require user action should open `IDENTITY-VERIFICATION`; approved or informational status messages may open `ACCOUNT-PROFILE`. Privacy-request messages open `PRIVACY-DATA-CONTROLS`. Account-closure messages open `ACCOUNT-PROFILE`, except the final completion message where login has been disabled and the notification must use an approved external channel or pre-logon destination. Contact-change messages under `NOTIF-ACCT-006` must notify the old and new channels where available without exposing OTP or recovery detail.
 
 ### 11.2 Request Events
 
@@ -499,6 +540,19 @@ Detailed policy and operational handling belong in DOC-11 and DOC-21.
 | `NOTIF-ADM-011` | Duplicate or reused evidence review required | Dashboard task | Admin-only |
 | `NOTIF-ADM-012` | Campaign, reward, or promotion exception review required | Dashboard task | Admin-only |
 
+### 11.10 System and Support Events
+
+| ID | Event | Default Channels | Classification |
+| --- | --- | --- | --- |
+| `NOTIF-SYS-001` | General system announcement published | App; push optional | Important service or Optional service according to approved purpose |
+| `NOTIF-SYS-002` | Planned maintenance or material service availability update | App; push/email optional | Important service |
+| `NOTIF-SYS-003` | System notice requires user action | App; push/email optional | Important service |
+| `NOTIF-SUP-001` | General support reply available | App; push/email optional | Important service |
+| `NOTIF-SUP-002` | General support message requires user response | App; push/email optional | Important service |
+| `NOTIF-SUP-003` | General support matter updated or closed | App; email optional | Important service |
+
+`SYS` is for platform-wide or service-level notices that do not belong to a more specific domain. `SUP` is for general support communication. Formal clarification, dispute, refund, chargeback, risk, payment, payout, request, and privacy case messages must continue to use their owning domains rather than being reclassified as generic support.
+
 ---
 
 ## 12. Receipt Rules
@@ -590,7 +644,7 @@ Notifications must avoid unnecessary sensitive data.
 
 Users should be able to manage optional notification preferences where permitted.
 
-DOC-06B `ME-ROOT` opens `NOTIFICATION-SETTINGS` for these controls. Notification Settings is separate from `NOTIFICATION-INBOX`: the Inbox displays messages, while `NOTIFICATION-SETTINGS` manages permitted preferences. Language and Theme are separate Me preferences and do not change notification-domain ownership.
+DOC-06B `ME-ROOT` opens `NOTIFICATION-SETTINGS` directly for these controls. Inbox and Settings are sibling children under `NOTIFICATION-ROOT` and provide reciprocal navigation without repeated route-stack loops. Language and Theme are separate Me preferences and do not change notification-domain ownership.
 
 Preference controls may include:
 
@@ -598,12 +652,16 @@ Preference controls may include:
 - email enabled or disabled for optional messages;
 - SMS enabled or disabled for optional messages;
 - WhatsApp enabled or disabled where consented;
-- marketing messages enabled or disabled;
-- language preference where supported.
+- optional reminders and service updates;
+- rewards, referral, offers, product updates, and other optional messages.
 
 Mandatory service messages may remain enabled even if optional channels are disabled.
 
 WhatsApp, SMS, email, and marketing communications must follow consent, privacy, direct marketing, and provider requirements.
+
+Required communication groups must be labelled `Required` and must not use misleading disableable toggles. Preference changes save immediately. On failure, restore the prior effective value and offer Retry. Account-level preferences and Inbox read/archive state should synchronize across approved devices; operating-system push permission remains device-specific.
+
+`PRIVACY-DATA-CONTROLS` owns the underlying direct-marketing, personalization, and approved partner-data-use choice. `NOTIFICATION-SETTINGS` controls permitted delivery for communications supported by that choice; it must not create a second consent source of truth.
 
 ---
 
@@ -649,15 +707,22 @@ Admin changes to legal, payment, privacy, fee, refund, chargeback, or payout tim
 
 PayPlus should log:
 
-- notification ID;
-- system event ID where available;
+- notification event ID;
+- unique recipient-specific notification message ID;
+- notification batch ID where applicable;
+- source type and source event ID;
+- source object type and ID;
 - recipient user or role;
 - channel;
 - template ID and version;
-- message category;
-- delivery status;
+- approved category;
+- recipient-specific read/archive state;
+- status/action-at-send snapshot where applicable;
+- target route and object;
+- correlation, causation, and deduplication references where applicable;
+- per-channel delivery attempt ID and status;
 - provider reference where available;
-- sent timestamp;
+- created, scheduled, sent, read, and archived timestamps where applicable;
 - failure reason where available;
 - retry count;
 - related request, payment, payout, receipt, dispute, or account ID.
@@ -675,7 +740,7 @@ Detailed schema belongs in DOC-18.
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-08-001 | Which notification provider will be used for email, SMS, push, and WhatsApp? | Engineering / Product | Open |
-| OQ-08-002 | Which notification events are mandatory service messages and cannot be fully disabled? | Legal / Product / Compliance | Open |
+| OQ-08-002 | Do Legal, Product, and Compliance validate or amend the working mandatory, important, optional, admin-only, and disabled classifications in the event registry before launch? | Legal / Product / Compliance | Open; working classifications defined |
 | OQ-08-003 | What exact templates are required for each notification event and channel? | Product / Design / Legal | Open |
 | OQ-08-004 | What WhatsApp consent and opt-out flow is required? | Legal / Product | Open |
 | OQ-08-005 | What SMS consent, fallback, and cost controls are required? | Product / Operations | Open |
@@ -697,6 +762,10 @@ DOC-08 is acceptable when:
 
 - notification events are separated from system statuses;
 - every notification event has a stable ID;
+- recipient messages, batches, source events/objects, templates, destinations, and delivery attempts are separately traceable;
+- Inbox category, presentation state, domain status, and action-required signals remain separate;
+- `NOTIFICATION-ROOT`, Inbox, Detail, and Settings ownership and handoffs align with DOC-06B;
+- read/archive actions do not change owning-domain state and contextual actions revalidate current state;
 - default channels are defined without forcing every status to notify users;
 - admin configurability is defined;
 - mandatory, optional, disabled, and admin-only messages are distinguished;
@@ -717,6 +786,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.26 | 2026-07-27 | Defined the Notification route-family handoff, Inbox signal separation, SYS/SUP event domains, recipient-message and batch/source traceability, Settings/consent boundaries, cross-device preference behavior, and working-classification validation while preserving domain status ownership. |
 | 1.0.25 | 2026-07-27 | Distinguished payer-created linking-request notifications from payee-created payment-request notifications and aligned Pay+ Request Payment direction without changing channel or delivery rules. |
 | 1.0.24 | 2026-07-26 | Confirmed that personal bill/rent archive and restore do not create counterparty notifications and remain separate from domain notification events. |
 | 1.0.23 | 2026-07-26 | Replaced the obsolete archived-evidence destination with `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` routing references without adding notification events. |

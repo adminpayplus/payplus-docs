@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.16
+version: 0.4.17
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -38,7 +38,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `0.4.16` |
+| **Version** | `0.4.17` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
@@ -101,6 +101,7 @@ Detailed requirements belong to:
 | Account-control future update | Final DOC-18 must define account/profile projection, immutable login-name and stable PayPlus User ID rules, masked-contact fields, identity-verification display mapping, reusable verification-flow context, contact-change events, payment-passcode preference, trusted-device/session revocation, privacy-request lifecycle, protected-export access, and account-closure lifecycle required by DOC-06B and DOC-15. Provider payloads and sensitive values must not be copied into route analytics. |
 | Receiving Info future update | Final DOC-18 must define stable user-linked Receiving Info profile IDs, multiple profiles, nickname, method-specific values, readiness, proof, version/archive history, selected request/obligation/payment/payout destination snapshots, source references, selected-disclosure projection, linked-payee notification, and payer-authorization freeze required by DOC-06B, DOC-09, DOC-10, DOC-12, DOC-14, DOC-15, and DOC-22. |
 | More and shortcut future update | Final DOC-18 must distinguish the approved shortcut catalog, versioned current eligible admin default, account-level user preference, effective resolved Home set, protected `More` rule, availability reason category, save/restore attempt, and destination-handoff event required by DOC-06B, DOC-15, and DOC-22. It must not copy sensitive destination data or internal risk/compliance reasons into analytics. |
+| Notification future update | Final DOC-18 must define stable notification event types, recipient-specific Inbox/message records, optional batches, source event/object lineage, recipient role projection, category, read/archive presentation, status/action-at-send snapshots, current-domain resolution, templates, route targets, correlation/causation/deduplication, per-channel delivery attempts, preferences, and audit events required by DOC-06B, DOC-08, DOC-15, and DOC-22. |
 | Human review | Sensitive AI/model-assisted outcomes should support reason codes, reviewability, override controls, and audit trails. |
 
 ## 4. Core Object Families
@@ -219,7 +220,7 @@ PayPlus should define event families before implementation.
 | Risk events | rule triggered, risk score assigned, step-up required, manual review opened, hold applied, block applied, override approved, escalation recorded. |
 | Promotion events | offer displayed, offer viewed, collection filtered, eligibility evaluated, competing Card Offers compared, highest-user-value Card Offer auto-selected, coupon/voucher/discount selected, promotion quote created or recalculated, benefit reserved, entitlement earned, reward issued, reward detail viewed, credential revealed/copied where permitted, partner handoff opened/returned, reward use attempted/confirmed/unknown, reward credited, reward expired, reward held/released/reversed. |
 | Referral events | share action initiated, referral link copied, QR displayed, registration code validated, attribution created, qualification progressed or decided, referral entitlement created or held, claim attempted or completed, reward issued, reward reversed or clawed back. Share events must not imply delivery, recipient identity, or attribution. |
-| Communication events | notification queued, sent, delivered, read, failed, opted in, opted out, template version applied. |
+| Communication events | notification event qualified/suppressed, recipient message created, batch linked, queued, scheduled, sent, delivered, failed, retried, read, marked unread, archived, restored, Mark All Read applied, contextual target opened/unavailable, preference changed/failed, and template version applied. |
 | Admin events | queue assigned, evidence viewed, action taken, export requested, sensitive field revealed, override reason captured. |
 | Analytics/model events | aggregate created, model feature refreshed, model run executed, AI-assisted recommendation shown, human review outcome recorded where approved. |
 
@@ -281,6 +282,8 @@ DOC-18 must include data structures for DOC-06B/DOC-09 tokenized card and paymen
 DOC-18 must include data structures that keep a Receiving Info profile separate from each selected destination snapshot. The model must preserve profile owner, profile/version ID, optional nickname, method, permitted values, masked projection, proof and review references, readiness history, archive state, source context, request/obligation/payment/payout snapshot, linked-party visibility, payer acknowledgement, authorization freeze, and later source-profile changes without mutating historical snapshots.
 
 DOC-18 must include data structures linking each applied payment-method-sensitive Card Offer to the selected payment card or funding leg, the competing eligible Offer IDs, approved user-value comparison result, automatic-selection reason, affected funded amount, separate coupon/voucher/discount application, promotion quote version, and revalidation event. The same Offer ID may have multiple discovery-collection memberships but should remain one underlying offer object.
+
+DOC-18 must also define the notification model as linked but distinct records: a stable event definition; one recipient-specific Inbox/message record; an optional batch/manual/campaign/support/scheduled-job grouping; source event and source object references; recipient and role projection; approved category; `Unread` / `Read` / `Archived` presentation; status/action-at-send snapshots; current-domain resolution reference; template version; registered route target; correlation, causation, and deduplication references; and separate channel-delivery attempts. Category, presentation state, domain status, and Action Required must not be collapsed into one status field. Message read/archive changes must not mutate the owning domain object.
 
 DOC-18 must also include data structures for DOC-06C ordinary bill/rent reminders, including reminder ID, linked obligation ID, reminder source type, cycle, offset or custom date/time, active/inactive/expired/deleted status, custom override marker, soft-delete/audit metadata, notification linkage, and events for reminder creation, edit, disable, deletion, firing, opening, dismissal, and payment-start attribution.
 
@@ -385,6 +388,7 @@ Sections 4 through 10 define the current baseline for PayPlus data objects, life
 | OQ-18-012 | What final objects, provider-state mappings, preference records, verification/contact-change links, privacy-request and protected-export records, account-closure lifecycle records, route events, reveal audit events, archived-evidence access records, and retention-safe projections should implement DOC-06B `ME-ROOT` and its defined account child routes without copying sensitive values into analytics? | Engineering / Data / Product / Privacy / Security / Operations | High | Open |
 | OQ-18-013 | What final Receiving Info profile, version, proof, readiness, destination-snapshot, source-reference, authorization-freeze, visibility-projection, failure-mapping, and audit structures implement the accepted product model without treating a saved profile as payout truth? | Engineering / Data / Payments / Product / Privacy / Risk / Operations | High | Open |
 | OQ-18-014 | What final catalog/default/preference/effective-set structures, configuration version links, availability categories, cross-device synchronization, protected-entry constraints, and privacy-safe events implement the DOC-06B `MORE-ROOT` baseline? | Engineering / Data / Product / Privacy / Operations | Medium | Open |
+| OQ-18-015 | What final notification event/message/batch/source/template/route/correlation/delivery-attempt schema, state projection, deduplication, retention, and admin lookup model implements the DOC-06B/DOC-08 Notifications baseline? | Engineering / Data / Product / Privacy / Operations | High | Open |
 
 ## 12. Acceptance Criteria
 
@@ -415,6 +419,7 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.4.17 | 2026-07-27 | Product Documentation Team | Added future notification event/message/batch/source lineage, category/presentation/domain/action separation, route targeting, delivery-attempt, preference, correlation, and audit requirements for the defined Notifications route family. |
 | 0.4.16 | 2026-07-27 | Product Documentation Team | Added future object and privacy-safe event requirements for `MORE-ROOT`, approved shortcut catalog, current eligible default, account-level preferences, protected More, effective resolution, save/restore, availability, and destination handoffs. |
 | 0.4.15 | 2026-07-27 | Product Documentation Team | Added future privacy-safe Pay+ action-sheet availability, selection, blocked-reason, and destination-handoff event requirements without defining technical payloads. |
 | 0.4.14 | 2026-07-26 | Product Documentation Team | Added canonical-obligation versus per-user archive-projection separation, archived-list/detail/eligibility events, blocker reasons, current-evidence projection, and counterparty-safe restore requirements. |

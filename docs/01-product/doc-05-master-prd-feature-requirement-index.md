@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.26
+version: 0.18.27
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -48,7 +48,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.26` |
+| **Version** | `0.18.27` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -464,6 +464,8 @@ The MVP should support basic notifications for:
 
 Candidate notification channels include app notifications, push notifications, email, SMS, and WhatsApp. Final channel routing, user preferences, templates, retry behavior, consent rules, and audit requirements belong in DOC-08.
 
+The MVP Notifications route family separates Inbox category, recipient read/archive state, owning-domain status, and owning-domain `Action Required`. Home opens `NOTIFICATION-INBOX`; Me opens `NOTIFICATION-SETTINGS`; each Inbox card opens `NOTIFICATION-DETAIL`, whose contextual action routes to the owning product destination after current-state and permission checks. Read/archive actions must not change the underlying request, payment, payout, evidence, reward, support, privacy, or other domain state.
+
 ---
 
 ## 14. Data Requirements
@@ -510,7 +512,7 @@ DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B 
 
 For split UX topics, use one primary owner. DOC-06B owns standalone route shells and human-readable route-level UX for Requests, Instructions, Payment Profile, Offers, Me, Referral, More, and global Receipts/Activity routes. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
 
-Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `AUTH-ENTRY` is the pre-login choice screen; `AUTH-LOGIN` and `AUTH-REGISTRATION` are the required authentication destinations; normal successful entry proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, and `NOTIFICATION-INBOX` identify the Pay+, More, and Inbox destinations. DOC-09 `PAYMENT-CHECKOUT` identifies the payment checkout flow/screen group without transferring checkout ownership to DOC-06.
+Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `AUTH-ENTRY` is the pre-login choice screen; `AUTH-LOGIN` and `AUTH-REGISTRATION` are the required authentication destinations; normal successful entry proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET` and `MORE-ROOT` identify the Pay+ and More destinations. `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings, with `NOTIFICATION-INBOX` as its default child. DOC-09 `PAYMENT-CHECKOUT` identifies the payment checkout flow/screen group without transferring checkout ownership to DOC-06.
 
 `PAYPLUS-ACTION-SHEET` uses the confirmed five-action order and role boundaries from DOC-06B. `Pay a Bill` and `Pay Rent` open temporary category-scoped `BILLS-PAY` selection without changing saved Bills filters; `Add Bill / Rent` opens `BILLS-ADD`; `Continue Payment` resolves to disabled, one instruction detail, or the instruction list according to active instruction count; and `Request Payment` means payee-to-payer request creation. Exact visual measurements, iconography, and motion timing remain design-open.
 
@@ -775,7 +777,7 @@ The MVP is acceptable when:
 | Future docs should use concise product-spec structure. | Confirmed |
 | Promotion engine capabilities are framework scope but launch-gated by DOC-13 rules and admin configuration. | Confirmed |
 | `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION` are required acceptance-scope destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Detailed UI Pending |
-| `PAYPLUS-ACTION-SHEET` has a defined five-action behavior baseline and route handoffs. `MORE-ROOT` has a defined shortcut-management and secondary-service-entry baseline. `NOTIFICATION-INBOX` and DOC-09 `PAYMENT-CHECKOUT` remain stable destinations with further detail pending. | Working Baseline / Final Visual Design Pending |
+| `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, and the `NOTIFICATION-ROOT` family have defined behavior baselines and route handoffs. DOC-09 `PAYMENT-CHECKOUT` remains a stable destination with further detail pending. | Working Baseline / Final Visual Design Pending |
 | DOC-06B designated Home Dashboard flow and layout baseline is accepted for MVP discussion, but final UI design and exact component specification remain open. | Confirmed |
 | Dashboard shortcut grid, account-level user shortcut preferences, protected `More`, current-default restore, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
 | DOC-06C `BILLS-PAY` and `BILLS-RECEIVE` route split is accepted as the current role-aware Bills-route baseline; checkout/payment screen behavior remains primarily governed by DOC-09. | Working Baseline / Not Final |
@@ -791,6 +793,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.27 | 2026-07-27 | Aligned the PRD with the defined `NOTIFICATION-ROOT` family, Home/Me entries, Inbox/Detail/Settings separation, domain-status and Action Required boundaries, and current-state contextual routing. |
 | v0.18.26 | 2026-07-27 | Aligned the PRD with defined `MORE-ROOT` Normal/Manage behavior, 8-slot maximum, protected More entry, account-level shortcut preferences, current-default restore, availability precedence, and secondary-service boundary. |
 | v0.18.25 | 2026-07-27 | Distinguished direct payer-created obligations/payments from optional payer-created linking requests, defined Pay+ Request Payment as payee-to-payer, and aligned the confirmed five-action Pay+ behavior while leaving exact visual design open. |
 | v0.18.24 | 2026-07-26 | Defined the archived-obligation product baseline, mixed-role filters, read-only detail reuse, eligibility/blocker and restore rules, personal archive projection, and obligation/evidence separation. |

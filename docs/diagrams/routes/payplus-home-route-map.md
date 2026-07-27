@@ -30,4 +30,5 @@ flowchart TD
 
   HOME --> PAYPLUS["PAYPLUS-ACTION-SHEET"]
   PAYPLUS -. "See Pay+ route map" .-> PAYPLUSHANDOFFS["Pay+ action handoffs"]
+  INBOX -. "See Notifications route map" .-> NOTIFICATIONFAMILY["Notifications route family"]
 ```

@@ -268,6 +268,27 @@ Required controls include:
 
 Detailed `ME-ROOT` and `RECEIVING-INFO` route behavior belongs in DOC-06B. Notification preferences belong in DOC-08, payout-destination rules in DOC-10, evidence in DOC-06C/DOC-12, risk in DOC-14, privacy in DOC-15, and final objects/events in DOC-18.
 
+### 18.9 Notification Configuration and Operations
+
+Future full DOC-22 drafting must support the DOC-06B/DOC-08 Notifications baseline without making the admin dashboard the owner of domain status or user-route behavior.
+
+Required capabilities include:
+
+- maintain stable notification event definitions and approved `System`, `Service`, `Transaction`, or `Promotion` category assignment;
+- map each recipient-specific message to its event type, source event/object, recipient and role, template version, registered route target, correlation/causation/deduplication references, and optional batch/campaign/manual/support/scheduled-job reference;
+- search by notification message ID, event ID, batch ID, source reference, recipient, template, route target, channel attempt, provider reference, and permitted time range;
+- distinguish recipient Inbox `Unread` / `Read` / `Archived` presentation from delivery status, owning-domain status, and owning-domain Action Required;
+- prevent manual/admin actions from inventing or clearing a domain status or Action Required condition;
+- configure event enablement, channel availability, working service classification, fallback/retry, quiet hours, scheduling, rate limits, duplicate suppression, and retention subject to DOC-08/DOC-15;
+- label mandatory service communications as required and prevent preference/admin configuration from disabling them contrary to approved policy;
+- keep direct-marketing, personalization, and approved partner-data-use consent in `PRIVACY-DATA-CONTROLS`, while notification settings govern permitted delivery;
+- support approved templates, versioning, preview, legal/compliance approval, rollback, and audit;
+- log each channel attempt and outcome separately from the Inbox message record;
+- support safe unavailable-target handling and current-state revalidation before a user-facing action remains available;
+- preserve read/archive history, message snapshots, provider outcomes, and admin actions according to approved retention and access rules.
+
+DOC-08 owns event eligibility, user communication rules, channels, templates, and preferences. DOC-06B owns user-facing routes and return behavior. Domain owners and the status-display reference matrix govern displayed status meaning. DOC-18 owns final schema, lineage, and event taxonomy. Final provider selection, permission matrix, scheduling UI, operational SLA, and retention/disposition workflow remain open for full DOC-22 drafting.
+
 ## 19. Audit Logging Requirements
 
 ## 20. Notifications and Escalations
@@ -308,6 +329,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.17.0 | 2026-07-27 | Added future admin requirements for notification event/message/batch/source traceability, category and signal separation, lookup, templates, channels, preferences, delivery attempts, current-state actions, retention, and audit. |
 | 0.16.0 | 2026-07-27 | Aligned future admin controls with defined `MORE-ROOT` catalog/default management, 8-slot maximum, protected More access, eligibility precedence, account-level preferences, current-default restore, configuration versioning, and destination-boundary protection. |
 | 0.15.0 | 2026-07-27 | Added future Pay+ action availability configuration, hidden-versus-disabled rules, fixed semantic boundaries, destination-gate protection, and audit requirements. |
 | 0.14.0 | 2026-07-26 | Added future per-user archive-projection, archived-obligation blocker/eligibility, current-evidence cascade, canonical-record protection, and operational audit requirements; admin restore-on-behalf remains to be defined in the full DOC-22. |

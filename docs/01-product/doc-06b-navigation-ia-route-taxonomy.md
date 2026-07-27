@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.31
+version: 0.1.32
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -40,7 +40,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.31` |
+| **Version** | `0.1.32` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
@@ -74,6 +74,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 | Shortcut grid and More | Defined baseline | Home supports a default and maximum of 8 shortcuts including protected `More`; `MORE-ROOT` manages account-level shortcut preferences and approved secondary-service entry. Final visual design remains open. |
 | Route taxonomy and ID standard | Working baseline | Stable product destination rules are defined; the canonical destination inventory is maintained in `docs/traceability/route-register.md`. |
 | Non-Bills route registry | Working baseline | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, Me core child routes, Receiving Info, and the Archive hub/document route have route-level baselines; undefined destinations remain visible in the route register. |
+| Notifications | Defined baseline | `NOTIFICATION-ROOT`, Inbox, Detail, and Settings behavior, entry/return rules, filters, archive visibility, and owning-domain handoffs are defined. Final visual styling remains open. |
 
 ---
 
@@ -1620,7 +1621,7 @@ The following register defines the new or newly confirmed Me destinations. Estab
 | `ARCHIVED-ROOT` | `ME-ROOT` Payments & Records | Child root route | Enter the account archive area for archived obligations and archived/previous evidence documents. | DOC-06B | Defined baseline; final visual design pending |
 | `ARCHIVED-BILLS-LIST` | `ARCHIVED-ROOT` | Child list screen | Search, filter, and review the user's archived bill/fee and rent obligations. | DOC-06C | Defined baseline; final visual design pending |
 | `ARCHIVED-DOCS-LIST` | `ARCHIVED-ROOT` | Child list screen | Search, filter, and review archived or previous evidence documents under controlled access. | DOC-06B | Defined baseline; final visual design pending |
-| `NOTIFICATION-SETTINGS` | `ME-ROOT` Preferences & Settings | Child route | Manage permitted notification-channel and communication preferences. | DOC-06B | Purpose defined; detailed UI pending |
+| `NOTIFICATION-SETTINGS` | `NOTIFICATION-ROOT`; direct entry from `ME-ROOT` Preferences & Settings | Child route | Manage permitted notification-channel and communication preferences. | DOC-06B / DOC-08 | Defined baseline; final visual design pending |
 | `SUPPORT-ROOT` | `ME-ROOT` Help & Support | Root route | Enter the user support area. | DOC-06B | Purpose defined; detailed UI pending |
 | `ABOUT-ROOT` | `ME-ROOT` About PayPlus | Root route | View PayPlus and app information. | DOC-06B | Purpose defined; content and detailed UI pending |
 | `TERMS-ROOT` | `ME-ROOT` About PayPlus | Root route | View applicable terms, policies, and legal documents. | DOC-06B | Purpose defined; content and detailed UI pending |
@@ -1937,7 +1938,7 @@ DOC-06C owns `ARCHIVED-BILLS-LIST`, archived-detail mode, archive eligibility, r
 
 #### 5.17.7 Notification, Data, and Admin Handoffs
 
-`NOTIFICATION-SETTINGS` manages optional channel and communication preferences under DOC-08. It is not the Inbox and must not allow mandatory service, security, payment, receipt, risk, compliance, or legal messages to be universally disabled.
+`NOTIFICATION-SETTINGS` manages permitted channel and communication preferences under DOC-08 and is a child of `NOTIFICATION-ROOT`. `ME-ROOT` is a direct entry point to Settings; it does not change route ownership. Settings is not the Inbox and must not allow mandatory service, security, payment, receipt, risk, compliance, or legal messages to be universally disabled.
 
 Material route-level signals for later DOC-18 specification include Me opened, destination selected, account-action item opened, sensitive reveal attempted/completed/failed, preference changed, Receiving Info list/detail/setup opened, profile added/edited/archived, proof submitted, profile status changed, destination selected for a request or obligation, archived-document access, and logout completed. These signals must not copy sensitive values into analytics events. DOC-18 owns final event IDs, schema, lineage, audit classification, and model-use metadata.
 
@@ -2048,6 +2049,110 @@ Material privacy-safe signals for later DOC-18 specification include More opened
 
 DOC-22 owns the approved catalog, current default, availability rules, configuration versioning, rollback, audit, and protection of `More`. DOC-15 owns preference-data classification, approved-purpose use, and cross-device privacy. DOC-06D owns acceptance coverage. Exact layout measurements, iconography, animation, density, and styling remain open.
 
+### 5.19 Notifications Route
+
+#### 5.19.1 Route Structure and Boundary
+
+| Destination / Element | Type | Purpose | Primary Owner |
+| --- | --- | --- | --- |
+| `NOTIFICATION-ROOT` | Parent route shell | Group Inbox, notification detail, and notification settings. A generic root entry opens Inbox by default. | DOC-06B / DOC-08 |
+| `NOTIFICATION-INBOX` | Default child screen | Search, filter, read, and archive user-visible notification records. | DOC-06B / DOC-08 |
+| `NOTIFICATION-DETAIL` | Child screen | Show one notification's permitted full content, mapped domain context, and current valid action. | DOC-06B / DOC-08 |
+| `NOTIFICATION-SETTINGS` | Child screen | Manage permitted notification channels and communication preferences. | DOC-06B / DOC-08 |
+| `NOTIFICATION-LIST` | Component | Render the ordered notification collection inside Inbox. | DOC-06B |
+| `NOTIFICATION-CARD` | Component | Summarize one notification and open its detail. | DOC-06B |
+
+Archived notifications are a filter/view within Inbox, not another route. A notification is a communication record, not a domain status, request, payment, reminder, dashboard task, or action-required state. Detailed event eligibility, IDs, channels, templates, consent, delivery, and retention belong to DOC-08.
+
+#### 5.19.2 Entry, Handoff, and Return Rules
+
+| Source | User Action | Destination | Return Behavior |
+| --- | --- | --- | --- |
+| `HOME-ROOT` header | Tap Inbox icon | `NOTIFICATION-INBOX` | Back returns to Home with prior context preserved. |
+| `ME-ROOT` Preferences & Settings | Tap Notification Settings | `NOTIFICATION-SETTINGS` | Back returns to the prior Me position. |
+| `NOTIFICATION-INBOX` | Tap Settings | `NOTIFICATION-SETTINGS` | Back returns to Inbox with search, filter, and scroll state preserved. |
+| `NOTIFICATION-SETTINGS` | Tap Inbox | `NOTIFICATION-INBOX` | Back returns to Settings without creating repeated route-stack loops. |
+| `NOTIFICATION-CARD` | Tap card | `NOTIFICATION-DETAIL` | Back returns to the originating Inbox state. |
+| `NOTIFICATION-DETAIL` | Tap contextual action | Owning product destination | Back returns to Detail, then to the original Inbox or external entry context. |
+| Push, email, SMS, WhatsApp, deeplink, or approved app context | Open a specific notification | `NOTIFICATION-DETAIL` after authentication and access checks | Back returns to the prior app context where available; otherwise Inbox. |
+
+Opening a notification must revalidate the current owning-domain state, permissions, and target availability. A stale message may retain its historical content while its action is removed or replaced with a safe current-state explanation.
+
+#### 5.19.3 `NOTIFICATION-INBOX` Screen
+
+The MVP screen order is:
+
+1. header with Back, title `Notifications`, Search, and Settings;
+2. horizontally scrollable filters: `All`, `Unread`, `Action Required`, `System`, `Service`, `Transaction`, `Promotion`, and `Archived`;
+3. newest-first `NOTIFICATION-LIST`;
+4. the applicable empty, no-match, loading, offline, failure, or unavailable-target state.
+
+`All` excludes archived records. The Home Inbox badge counts unread Inbox records only; it is not a count of unresolved tasks, unread external-channel deliveries, or domain objects.
+
+Each `NOTIFICATION-CARD` shows:
+
+- category label;
+- title;
+- concise preview;
+- date and time;
+- unread indicator;
+- `Action Required` only where the owning domain currently requires user action.
+
+Every card opens `NOTIFICATION-DETAIL`; material Accept, Reject, Pay, Verify, or other domain actions should not execute directly from the card. Marking a card read does not resolve an action or change the underlying domain status. The Inbox supports read/unread handling, `Mark All Read`, Archive, and Restore from Archived. It does not offer user hard deletion.
+
+#### 5.19.4 `NOTIFICATION-DETAIL` Screen
+
+The detail screen shows:
+
+1. Back;
+2. title and date/time;
+3. category label;
+4. full permitted message content;
+5. mapped user-facing domain status where relevant;
+6. permitted contextual reference;
+7. one current contextual action where available;
+8. Archive, or Restore when opened from Archived.
+
+The UI must not display duplicate generic fields named `state`, `label`, and `status`. Category, Inbox presentation, domain status, and action requirement remain separate:
+
+| Signal | Meaning | Source |
+| --- | --- | --- |
+| Category | `System`, `Service`, `Transaction`, or `Promotion` presentation grouping. | DOC-08 approved event definition |
+| Presentation state | `Unread`, `Read`, or `Archived` for this recipient's Inbox record. | Notification Inbox record |
+| Domain status | Current user-facing status mapped from the owning domain. | Owning domain and status-display reference matrix |
+| Action Required | Current user task or resolution need. | Owning domain/task; never invented by Inbox |
+
+The notification record may preserve status and action-at-send snapshots for audit, but current display and action availability must use the latest authorized domain state.
+
+#### 5.19.5 `NOTIFICATION-SETTINGS` Screen
+
+The MVP screen order is:
+
+1. header with Back, title `Notification Settings`, and Inbox;
+2. channel availability and device push-permission state;
+3. required communications, visibly labelled `Required` and not shown as disableable toggles;
+4. optional reminders and service updates;
+5. rewards, referral, offers, and product updates;
+6. channel controls for launched, verified, consented, and permitted push, email, SMS, and WhatsApp;
+7. handoff to `PRIVACY-DATA-CONTROLS` for underlying direct-marketing, personalization, or partner-data-use choices.
+
+Preferences save immediately. A failed change restores the prior effective setting and offers Retry; there is no route-level Save button. Account-level preferences and Inbox read/archive state synchronize across approved devices. Device push permission remains device-specific. Language and Theme remain separate Me preferences.
+
+Mandatory service Inbox records remain available even where optional channels are disabled. A channel toggle controls permitted delivery, not the underlying event, record retention, domain state, legal obligation, or privacy purpose.
+
+#### 5.19.6 Data, Status, and Admin Handoffs
+
+Material notification signals include root/inbox/detail/settings opened, search/filter used, message read/unread/archived/restored, Mark All Read, setting-change success/failure, contextual action opened, unavailable target encountered, and external entry resolved. These signals must reference the notification record and owning object without copying sensitive message content into ordinary analytics.
+
+DOC-08 owns event IDs, category assignment, message eligibility, channels, templates, preference policy, message/batch/source identifiers, delivery attempts, and retention. The status-display reference matrix governs user-facing domain labels; the owning domain remains authoritative for status and action-required meaning. DOC-15 owns consent, masking, approved-purpose use, and retention boundaries. DOC-18 must define the final object, event, lineage, correlation, recipient projection, and delivery-attempt model. DOC-22 must define admin lookup, batch/campaign/support traceability, template/configuration approval, audit, scheduling, and delivery operations.
+
+#### 5.19.7 Open Items
+
+- final visual styling, density, iconography, preview length, and filter-chip behavior;
+- exact search matching, archive retention/disposition, and offline cache policy;
+- final provider capabilities, quiet hours, retry/fallback thresholds, and admin workflow;
+- final template content and legally validated mandatory-service classifications.
+
 ## 6. Route Completion Status
 
 | Route / Area | Status | Next Required Work |
@@ -2065,7 +2170,7 @@ DOC-22 owns the approved catalog, current default, availability rules, configura
 | Reminders | Partially Defined in DOC-06C | Ordinary bill/rent reminders remain separate from payment instruction action alerts. |
 | Payment Profile / Cards | Two-Tab Route Baseline Defined / Not Final Visual Design | Confirm final card styling, field density, empty-state copy, PSP tokenization return behavior, and permitted card metadata. |
 | Referral | Child-Screen Behavior Defined / Not Final Visual Design | `REFERRAL-ROOT`, role-sensitive entitlement list/detail/claim screens, registration attribution handoff, reusable sharing, qualification display, privacy boundary, two-tab reward list, exceptional admin hold presentation, and canonical issued-reward handoff are defined. Confirm final styling and open campaign parameters. |
-| Notification Inbox | `NOTIFICATION-INBOX` Assigned / Route Detail Pending | Define message-list/detail behavior, filtering, unread state, item routing, and return behavior with DOC-08. |
+| Notifications | Defined Baseline / Not Final Visual Design | `NOTIFICATION-ROOT`, Inbox, Detail, Settings, entry/return behavior, filters, cards, read/archive behavior, signal separation, and domain handoffs are defined. Confirm final styling, search matching, archive retention, provider operations, and templates. |
 | More | Defined Baseline / Not Final Visual Design | `MORE-ROOT` Normal and Manage modes, 8-slot maximum, protected More entry, account-level preferences, current-default restore, availability precedence, secondary-service handoffs, accessibility, and save/return behavior are defined. Confirm final styling and optional replacement Undo. |
 
 ## 7. Local Open Questions
@@ -2083,12 +2188,13 @@ DOC-22 owns the approved catalog, current default, availability rules, configura
 | OQ-06B-009 | What exact Activity visual styling, field density, search/filter behavior, grouping behavior, empty-state copy, lifecycle timeline wording, and transaction-detail display should be used? Screen order, expandable entry behavior, amount direction, and core actions are defined. | Product / Design / Payments / Operations | Partially open |
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
 | OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Pay+ and Partner Offer label taxonomy, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed. | Product / Design / Growth / Privacy / Commercial | Partially open |
-| OQ-06B-012 | What detailed UI, validation, recovery, failure, accessibility, and contextual-return behavior should apply to `AUTH-ENTRY`, `AUTH-LOGIN`, `AUTH-REGISTRATION`, and `NOTIFICATION-INBOX`? `MORE-ROOT` behavior is defined subject to final visual design. | Product / Design / Security / Privacy / Operations | Open |
+| OQ-06B-012 | What detailed UI, validation, recovery, failure, accessibility, and contextual-return behavior should apply to `AUTH-ENTRY`, `AUTH-LOGIN`, and `AUTH-REGISTRATION`? What final visual styling, search matching, archive retention, and provider-operation details should apply to the defined Notifications route family? | Product / Design / Security / Privacy / Operations | Partially open; Notifications behavior defined |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.32 | 2026-07-27 | Defined the `NOTIFICATION-ROOT` family, Inbox/Detail/Settings behavior, Home and Me entries, source-aware returns, filters, card/detail rules, read/archive handling, badge semantics, settings, signal separation, and data/admin handoffs. |
 | 0.1.31 | 2026-07-27 | Defined `MORE-ROOT` Normal and Manage Shortcuts modes, the 8-slot maximum with protected More, account-level user preference override, accessible reorder/add/remove controls, current-default restore, availability precedence, secondary-service handoffs, save/return/failure behavior, and data/admin boundaries. |
 | 0.1.30 | 2026-07-27 | Defined the Pay+ action-sheet five-action layout principle, animation and accessibility baseline, category-scoped Bills handoffs, Add/Continue completion logic, payee-to-payer Request Payment meaning, contextual payer-to-payee linking boundary, availability rules, return behavior, configuration limits, and data-signal handoff. |
 | 0.1.29 | 2026-07-26 | Defined `ARCHIVED-ROOT`, aligned the `Archived Bills & Rent` label, clarified obligation-versus-evidence placement, personal archive visibility, document-to-obligation handoff, DOC-06C ownership, and hierarchical route-map references. |

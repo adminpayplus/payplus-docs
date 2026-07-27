@@ -4,7 +4,7 @@ Status: Working alignment reference
 
 Owner: Product / Documentation Owner
 
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 Classification: Internal
 
 This glossary defines approved PayPlus terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
@@ -77,6 +77,19 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Archived Bills & Rent | `ARCHIVED-BILLS-LIST`, the mixed-role list of bill/fee and rent obligations archived by the current user. Invoice, tenancy, and rental documents remain evidence and are not duplicate obligations. | DOC-06C |
 | Archived Documents | `ARCHIVED-DOCS-LIST`, the controlled list of current evidence archived with its parent obligation and evidence versions replaced by an accepted newer version. | DOC-06B / DOC-12 |
 | Restore Eligibility | An archived-obligation rule indicating whether the parent bill/rent may return to active visibility. `Restore available` is an eligibility hint, not a lifecycle or readiness status, and restore is never offered at evidence level. | DOC-06C / DOC-18 |
+
+## Notification and Communication Terms
+
+| Term | Canonical Definition | Primary Owner |
+| --- | --- | --- |
+| Notification Event | A stable configurable communication trigger linked to a system or domain event. It does not replace the source event or domain status. | DOC-08 |
+| Notification Message | One recipient-specific communication/Inbox record created from a notification event. | DOC-08 / DOC-18 |
+| Notification Batch | Optional grouping for campaign, scheduled, manual, support, or other approved multi-message activity. | DOC-08 / DOC-18 / DOC-22 |
+| Notification Category | Inbox presentation grouping: `System`, `Service`, `Transaction`, or `Promotion`. It is not a lifecycle status. | DOC-08 |
+| Inbox Presentation State | Recipient-specific `Unread`, `Read`, or `Archived` state. It does not change the owning domain object or resolve Action Required. | DOC-06B / DOC-08 |
+| Notification Inbox | `NOTIFICATION-INBOX`, the default child screen under `NOTIFICATION-ROOT` for searching, filtering, reading, and archiving notification records. | DOC-06B / DOC-08 |
+| Notification Detail | `NOTIFICATION-DETAIL`, the child screen for one permitted message, mapped domain context, and current valid action. | DOC-06B / DOC-08 |
+| Notification Settings | `NOTIFICATION-SETTINGS`, the child screen for permitted channel and communication preferences. Privacy & Data remains the source for underlying consent/data-use choices. | DOC-06B / DOC-08 / DOC-15 |
 
 ## Promotion, Reward, and Referral Terms
 

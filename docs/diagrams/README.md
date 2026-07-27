@@ -22,6 +22,7 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 | `routes/payplus-me-route-map.md` | `ME-ROOT` direct child destinations only. Child families own their internal maps. | DOC-06B |
 | `routes/payplus-more-route-map.md` | Compact `MORE-ROOT` route boundary, Normal/Manage modes, and generic handoff to independently owned destinations. Detailed shortcut behavior remains in DOC-06B. | DOC-06B |
 | `routes/payplus-archive-route-map.md` | `ARCHIVED-ROOT`, Archived Bills & Rent, Archived Documents, archived detail, and restore handoffs. | DOC-06B / DOC-06C |
+| `routes/payplus-notification-route-map.md` | Notifications parent, Inbox, Detail, Settings, Home/Me entries, and owning-destination handoff. | DOC-06B / DOC-08 |
 | `payplus-promotion-engine-structure.md` | Mermaid business-structure reference for the unified promotion engine, program contexts, campaigns, offers, rule evaluation, and benefit-delivery paths. DOC-13 remains authoritative. | DOC-13 |
 
 ## Superseded Snapshots

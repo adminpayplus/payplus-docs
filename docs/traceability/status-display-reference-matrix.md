@@ -2,7 +2,7 @@
 
 Status: Working alignment reference  
 Owner: Product / Founder  
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 Classification: Internal
 
 This matrix aligns PayPlus system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
@@ -29,6 +29,21 @@ User-facing labels should be mapped from system/domain statuses. A route should 
 | Activity | Event or lifecycle view of what happened in the user account. |
 | Receipt | Transaction confirmation record for a completed transaction. It may be viewed, downloaded, shared where allowed, or re-issued/replaced according to DOC-08 rules. |
 | Statement | Periodic or account-level summary record. It may include payer and payee-side financial activity for the same user account, but should not include unrelated system events. |
+
+---
+
+## Notification Display Boundary
+
+Notification UI must keep four signal families separate:
+
+| Signal Family | Permitted Display | Source of Truth | Rule |
+| --- | --- | --- | --- |
+| Category | `System`, `Service`, `Transaction`, `Promotion` | DOC-08 notification event definition | Presentation grouping only; not a domain status. |
+| Inbox presentation | `Unread`, `Read`, `Archived` | Recipient-specific notification record | Read/archive does not alter the owning domain object or resolve user action. |
+| Domain status | Label mapped elsewhere in this matrix | Owning domain | Notification detail must not invent a new status or use delivery/read status as a substitute. |
+| Action Required | `Action Required` only where the owning domain currently requires user action | Owning domain/task | Revalidate current state before displaying an active action. |
+
+Message delivery outcomes such as queued, sent, delivered, failed, or retried belong to notification operations. They are not payment, request, evidence, reward, privacy-request, or other product-domain statuses.
 
 ---
 
