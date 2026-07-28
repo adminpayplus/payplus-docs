@@ -102,6 +102,39 @@ For a route or reusable-flow review, present each material flow as: modes or inv
 
 Do not dump raw agent responses into the Founder Review Pack. Preserve material evidence and disagreement while removing repetition and non-decision commentary.
 
+#### 6.2.1 Optional Decision-Complete Behavior Pattern
+
+Use the following pattern where material route, screen, state, exception, or failure behavior would become ambiguous if reduced to topic-only bullets. It is a drafting aid, not a mandatory format for every task. Simple policy decisions, narrow wording changes, metadata updates, reference corrections, or other work that remains clear without this structure should use the shortest suitable presentation.
+
+When applicable, describe enough behavior for a professional reviewer or later AI agent to understand the decision without relying on chat history. Cover:
+
+1. what the situation or screen means;
+2. what the user sees;
+3. what actions are available;
+4. where each action leads;
+5. what materially changes in the system;
+6. what must remain unchanged;
+7. cancellation, interruption, failure, and return behavior;
+8. the primary owning document and relevant handoff documents.
+
+A compact table may be used:
+
+| Situation / screen | Meaning | User-facing behavior | Actions and destination | System effect / boundary |
+| --- | --- | --- | --- | --- |
+| Material case | Concise domain meaning | Information and state presented to the user | Available actions, destinations, and return behavior | Material state effect, preserved boundary, or owning-document handoff |
+
+Do not move exact technical values, schemas, event payloads, security constants, approved message copy, or admin procedures into a human-readable product document when another document owns them. Mark the detail `TBC` or deferred, name the owner, and include enough local context to keep the current document understandable.
+
+Before using this pattern in a Founder Review Pack or canonical draft, check that:
+
+- no confirmed decision has been reduced to an ambiguous summary;
+- no material screen, exception, action, destination, or return rule is missing;
+- user-facing outcomes remain separate from backend states, events, and notifications;
+- concepts with separate ownership remain distinct;
+- each decision has one source of truth and reference documents do not redefine it.
+
+The Orchestrator decides whether this pattern materially improves the task. Do not apply it mechanically, repeat the same behavior across documents, or expand a simple change merely to satisfy the table structure.
+
 ### 6.3 Canonical Editing Stage
 
 1. One canonical writer edits the primary owning document after founder confirmation.
