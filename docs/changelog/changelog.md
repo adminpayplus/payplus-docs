@@ -747,3 +747,46 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 - Final identity-provider mapping and technical OTP, retry, lockout, reset, credential, session, and reauthentication controls in DOC-19.
 - Derived positive, negative, interruption, recovery, accessibility, and security acceptance tests in DOC-20.
 - Exact authentication Outcome Type IDs, Message IDs, approved copy, disclosure levels, and CTA mappings in DOC-07.
+
+### `2026-07-28` - Verification, Passcode, And Step-Up Behavior Baseline
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `b120c6e` |
+| Primary owner | `DOC-06B` |
+| Decision record | `DEC-2026-023` |
+| Founder approval | Phone Verification, five-state Identity Verification, Payment Passcode Settings, admin controls, and step-up alignment approved on `2026-07-28` |
+
+**Files Changed**
+
+- `AGENTS.md`
+- `docs/00-foundation/payplus-parallel-agent-drafting-workflow.md`
+- `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-09`, `DOC-14`, `DOC-15`, `DOC-18`, and `DOC-22`
+- Account Activation and Me route maps
+- glossary, route register, status-display matrix, requirements traceability matrix, and open-questions register
+
+**Material Changes**
+
+- Defined Hong Kong Phone Verification and replacement behavior, including SMS OTP, uniqueness, safe conflict wording, and source-aware return.
+- Replaced the four-label identity model with `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`.
+- Prohibited voluntary re-verification after `Verified`; authorized admins may require an update or reset status but cannot directly set `Verified`.
+- Required dual approval for an admin change from `Verified` to `Not Verified`.
+- Defined six-digit Payment Passcode Set, Change, and Reset behavior, including fresh login reauthentication plus registered-phone OTP for Reset.
+- Set HK$3,000 or above as the admin-configurable baseline for additional external/risk step-up while preserving mandatory payment passcode, payer authorization, partner, network, regulatory, and risk controls.
+- Defined required authentication outcome categories while leaving exact Outcome IDs, Message IDs, and approved copy open.
+- Added the reusable route-proposal presentation standard to repository workflow guidance.
+
+**Checks Performed**
+
+- Staged and committed only the 20 approved files.
+- Verified formal-document YAML and Document Control parity.
+- Checked active source, domain, traceability, glossary, and route-map wording for superseded identity, ownership, readiness, and threshold definitions.
+- Ran `git diff --cached --check`; no whitespace errors were found.
+
+**Remaining Open Items**
+
+- Final OTP constants, weak-code, retry, lockout, credential-storage, and session controls in DOC-19.
+- Final selected-provider callback and result mapping in DOC-17, DOC-18, and DOC-22.
+- Support-assisted passcode-recovery proof and waiting period in DOC-19 and DOC-22.
+- Exact DOC-07 authentication Outcome IDs, Message IDs, approved messages, actions, and destinations.
+- Derived implementation and acceptance tests in DOC-20.

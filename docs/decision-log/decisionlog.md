@@ -988,3 +988,53 @@ Narrows `DEC-2026-012` only where its general material identity-change wording c
 **Remaining Open Items**
 
 Detailed Phone Verification, Identity Verification, and Payment Passcode Settings screen order, fields, actions, provider mapping, retry/lockout behavior, recovery, exact messages, technical security controls, admin operations, and acceptance tests remain open.
+
+### `DEC-2026-023` - Verification, Passcode, And Additional Step-Up Baseline
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-28` |
+| Status | Accepted |
+| Primary owner | `DOC-06B` |
+| Affected documents | `AGENTS.md`, parallel drafting workflow, `DOC-05`, `DOC-06`, `DOC-06B`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-09`, `DOC-14`, `DOC-15`, `DOC-18`, `DOC-22`, route maps, glossary, and traceability registers |
+| Substantive commit | `b120c6e` |
+| Founder approval | Consolidated authentication-child proposal and cross-document alignment approved on `2026-07-28` |
+
+**Decision**
+
+`PHONE-VERIFICATION` is a reusable `ACCOUNT-PROFILE` child flow and may be invoked contextually by `ACCOUNT-ACTIVATION`. Hong Kong `+852` numbers are the only launch-supported numbers. Initial verification uses SMS OTP without requiring an existing payment passcode. Replacement requires payment passcode or approved reauthentication, registered-email OTP, and new-phone SMS OTP; the old phone remains authoritative until completion.
+
+Identity Verification uses five user-facing states: `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`. Provider return means `Processing`, not successful verification. An authoritative provider result plus PayPlus policy checks determines final status. Duplicate identity is a PayPlus policy failure. A verified user cannot voluntarily re-verify.
+
+An authorized administrator may set identity status to `Not Verified` or `Update Required` but cannot directly set `Verified`. Changing `Verified` to `Not Verified` requires dual approval and full audit evidence.
+
+`PAYMENT-PASSCODE-SETTINGS` is a reusable `ACCOUNT-SECURITY` child flow. Set and Change require two matching six-digit entries. Reset requires fresh login reauthentication through password or a linked provider, OTP to the registered verified phone, two matching new entries, invalidation of sensitive pending authorization state, and mandatory security notification. Email OTP alone is insufficient.
+
+Payment passcode and payer authorization remain mandatory for payment. Additional external or risk step-up uses an admin-configurable HK$3,000-or-above baseline. Risk, PSP/acquirer, card-network, regulatory, or other mandatory controls may require step-up below that amount and cannot be weakened by the threshold.
+
+**Rationale**
+
+The model separates user-facing identity state from provider and admin workflow state, prevents duplicate submissions and unsafe voluntary identity changes, and gives passcode recovery stronger protection than a single email factor. A configurable step-up threshold provides a clear MVP baseline without overriding mandatory partner or risk controls.
+
+**Alternatives Considered**
+
+- Retaining `Pending` for both incomplete capture and provider processing was rejected because it obscures whether submission occurred.
+- Allowing voluntary re-verification after `Verified` was rejected because changes to an established verified identity require governed admin handling.
+- Allowing email OTP alone for payment-passcode reset was rejected as insufficient for a payment-authorizing secret.
+- Treating HK$3,000 as a universal exemption was rejected because partner, network, regulatory, and risk controls may still require step-up.
+
+**Consequences And Handoffs**
+
+DOC-17 must define the selected provider contract and callbacks. DOC-18 must define provider-state, policy-decision, event, correlation, and audit structures. DOC-19 must define OTP values, retry, lockout, passcode storage, recovery, and session controls. DOC-20 must derive implementation tests. DOC-22 must implement the prohibited admin actions, dual approval, threshold configuration, and support-assisted recovery controls. DOC-07 must assign exact authentication Outcome and Message IDs before AI implementation.
+
+**Supersedes / Superseded By**
+
+Supersedes the four-label identity projection, user-initiated later correction/re-verification behavior, and pending child-flow readiness in `DEC-2026-022`. The first-time identity-verification passcode exception and other non-conflicting protections from that decision remain accepted.
+
+**Remaining Open Items**
+
+- OTP length, validity, resend interval, attempts, cooldown, and velocity limits.
+- Final identity-provider result and failure-reason mapping.
+- Support-assisted passcode-recovery proof and waiting period.
+- Exact authentication Outcome IDs, Message IDs, approved copy, actions, and destinations.
+- Implementation-level positive, negative, interruption, recovery, security, and accessibility tests.
