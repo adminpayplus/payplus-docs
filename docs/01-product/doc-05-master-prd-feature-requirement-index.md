@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.30
+version: 0.18.31
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -48,7 +48,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.30` |
+| **Version** | `0.18.31` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -535,7 +535,7 @@ Bills-route requirements must remain role-aware:
 
 For account-control UX, `ME-ROOT` is a permanent MVP bottom-navigation route for users acting as payer, payee, or both. It provides masked Account Information, account/security/privacy child-route entry, Bills access, Payment Profile, Receiving Info, Activity, Receipts & Statements, Archived Records, My Rewards, Referral, preferences, support, About/Terms, and logout. These rows are route handoffs and do not transfer ownership from DOC-06C, DOC-08, DOC-10, DOC-12, DOC-13, DOC-15, DOC-18, DOC-19, DOC-21, or DOC-22.
 
-DOC-06B defines `ACCOUNT-PROFILE`, reusable `PHONE-VERIFICATION` and `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, child screen `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`. The MVP includes editable nickname/display name that is not a login identifier, copyable PayPlus User ID, cross-channel phone/email change verification, four identity-verification display labels, immediate `Verify Now` handoff for non-verified states, account closure as a controlled request, login-method and Set/Change Password controls, payment passcode and permitted 2FA/biometric controls, trusted-device removal, optional privacy choices, governed correction/access/export/deletion requests, and protected in-app export. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode; later identity correction, update, or re-verification requires payment passcode or approved reauthentication.
+DOC-06B defines `ACCOUNT-PROFILE`, reusable `PHONE-VERIFICATION` and `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, reusable `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`. The MVP includes editable nickname/display name that is not a login identifier, copyable PayPlus User ID, cross-channel phone/email change verification, the five identity-verification labels `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`, account closure as a controlled request, login-method and Set/Change Password controls, payment-passcode Set/Change/Reset and permitted 2FA/biometric controls, trusted-device removal, optional privacy choices, governed correction/access/export/deletion requests, and protected in-app export. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. Once verified, users cannot voluntarily re-verify; retries follow `Failed`, and an authorized admin may require an update without directly setting `Verified`.
 
 Sensitive information remains masked by default. Prominent reveal of approved masked sensitive values, and material changes to existing identity, contact, security, credential, or Receiving Info data, require payment passcode or approved reauthentication under DOC-15 and future DOC-19 controls. This material-change rule does not create a passcode prerequisite for first-time identity verification during Account Activation. Ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra prompt solely for opening or downloading the document. `ACTIVITY-ROOT` remains the single account-level payer/payee financial activity route. `RECEIVING-INFO` manages private reusable receiving profiles. `ARCHIVED-ROOT` separates archived obligations in `ARCHIVED-BILLS-LIST` from archived/previous evidence in `ARCHIVED-DOCS-LIST`.
 
@@ -796,6 +796,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.31 | 2026-07-28 | Aligned the PRD with the defined Phone Verification, five-state Identity Verification, no voluntary re-verification after Verified, and six-digit Payment Passcode Set/Change/Reset behavior. |
 | v0.18.30 | 2026-07-28 | Aligned the PRD with separate Phone and Identity Verification routes, the first-time identity-verification passcode exception, and the pending detailed Payment Passcode Settings definition. |
 | v0.18.29 | 2026-07-28 | Aligned the PRD with `ENTRANCE-ROOT`, Fast/Full Login, Recovery, non-reserving registration attempts, Account Activation, six-digit passcode requirement, uniqueness conflicts, display-name boundary, and authentication outcome/message ownership. |
 | v0.18.28 | 2026-07-27 | Added the accepted unique-primary-email, explicit multiple-login-method, social-account password-setup, restricted-account, and deferred-financial-activation product baseline. |

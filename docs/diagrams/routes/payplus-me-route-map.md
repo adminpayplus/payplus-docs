@@ -34,3 +34,5 @@ flowchart TD
   NOTIFY -. "See Notifications route map" .-> NOTIFICATIONFAMILY["Notifications route family"]
   LOGOUT --> ENTRANCE["ENTRANCE-ROOT"]
 ```
+
+Phone-verification modes, identity capture/processing/result states, and payment-passcode Set/Change/Reset modes remain inside their reusable child flows. They are not separate route nodes.

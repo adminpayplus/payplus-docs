@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.9.10
+version: 0.9.11
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -42,7 +42,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `0.9.10` |
+| **Version** | `0.9.11` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
@@ -486,8 +486,8 @@ DOC-06B owns screen behavior. User-facing content must:
 - explain that matching email addresses do not automatically link, merge, or transfer accounts and that provider linking or unlinking requires an authenticated Account Security action;
 - warn before unlinking a login method and prevent removal of the account's final usable login method;
 - explain cross-channel verification before phone or email change without exposing OTP or recovery logic;
-- present only `Pending`, `Verified`, `Failed`, or `Update Required` identity-verification labels and show `Verify Now` for all except `Verified`;
-- distinguish an incomplete, failed, or update-required verification action from provider processing and prevent wording that encourages duplicate submission;
+- present only `Not Verified`, `Processing`, `Verified`, `Failed`, or `Update Required` identity-verification labels with the context-aware actions defined in DOC-06B and the status-display matrix;
+- distinguish incomplete capture from submitted provider processing, show no voluntary re-verification action after `Verified`, and prevent wording that encourages duplicate submission;
 - explain that Two-Step Verification and Biometric Unlock toggles do not disable mandatory new-device, risk, contact-change, closure, or provider-required authentication;
 - explain account-closure blockers, cancellation before finalization, login termination after completion, and continuing record retention without implying immediate deletion;
 - distinguish directly editable account fields, governed correction requests, deletion of eligible data, and account closure;
@@ -533,6 +533,18 @@ The matrix must contain:
 | Event / Audit Mapping | DOC-18 event and occurrence/correlation linkage required for the outcome. |
 | Notification Requirement | Whether DOC-08 defines a separate external or Inbox notification; ordinary in-flow messages are not notifications. |
 | Admin / Support Visibility | Permitted operational visibility, reason category, and correlation lookup under DOC-22. |
+
+The matrix must cover, at minimum:
+
+- registration attempt interruption, expiry, identifier conflict, and atomic account-creation failure;
+- provider-login unavailable, unlinked, conflict, cancellation, and authentication failure;
+- password-login failure, recovery-link expiry, and recovery failure;
+- phone format, occupied-number, OTP delivery, resend, expiry, incorrect-code, attempt-limit, and replacement failure;
+- identity capture interruption, processing, provider failure, PayPlus-policy failure including duplicate identity, and admin-required update;
+- payment-passcode Set mismatch/failure, Change authentication/failure, Reset reauthentication/phone-OTP/recovery failure, and unknown save result;
+- protected-return invalid, expired, consumed, unauthorized, or unavailable outcomes.
+
+Exact Outcome Type IDs, Message IDs, and approved copy remain open. DOC-07 must assign them before AI implementation; route or domain documents must not invent competing message identifiers.
 
 DOC-07 owns Message IDs, approved user-facing wording, disclosure level, and CTA wording. DOC-06B owns route placement, destination, and return behavior. DOC-18 owns occurrence/correlation records and event mapping. DOC-19 owns technical authentication outcome codes, retry, lockout, session, provider, biometric, and security handling. DOC-20 owns test coverage, and DOC-22 owns permitted admin/support handling.
 
@@ -667,6 +679,7 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.9.11 | 2026-07-28 | Aligned identity wording with the five approved labels and context-aware actions, prohibited voluntary re-verification after Verified, and defined the mandatory authentication outcome categories while keeping exact IDs and copy open. |
 | 0.9.10 | 2026-07-28 | Defined the mandatory Authentication Outcome and Message Matrix fields, ownership, disclosure and many-to-one mapping rules while leaving exact IDs and approved messages open; removed login-name content requirements. |
 | 0.9.9 | 2026-07-27 | Added user-facing content boundaries for one unique primary email, explicit email/Google/Apple login methods, Set versus Change Password, no automatic email-based account linking, and final-login-method protection. |
 | 0.9.8 | 2026-07-27 | Distinguished direct payer-created obligations/payments from payer-created linking requests and payee-created payment requests, and aligned user-facing origin labels without changing authorization rules. |

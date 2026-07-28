@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.36
+version: 0.1.37
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -40,7 +40,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.36` |
+| **Version** | `0.1.37` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
@@ -162,10 +162,10 @@ When this document or another route owner defines, renames, replaces, or materia
 | `AUTH-LOGIN-FULL` | Child login screen | Offer Google, Apple, or email/password login where Fast Login is unavailable or another account is selected. | Screen behavior defined; technical mechanics open |
 | `AUTH-RECOVERY` | Reusable child flow | Recover or reset email/password access through an approved controlled flow. | Product boundary defined; detailed security mechanics open |
 | `AUTH-REGISTRATION` | Child registration flow | Complete Google, Apple, or email account creation and create a restricted account only after all account-creation gates pass. | Screen and account-creation baseline defined |
-| `ACCOUNT-ACTIVATION` | Reusable orchestration flow | Coordinate the remaining phone, identity, and payment-passcode requirements for full registration. | Route and banner handoff defined; child route details pending |
-| `PHONE-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Verify the account phone number through the approved method; Account Activation may invoke it contextually. | Route ID assigned; detailed behavior pending |
-| `IDENTITY-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Complete first-time verification or a later retry, correction, update, or re-verification; Account Activation may invoke it contextually. | Route ID, status labels, and return behavior defined; detailed screen/provider behavior pending |
-| `PAYMENT-PASSCODE-SETTINGS` | Reusable `ACCOUNT-SECURITY` child screen | Set, change, or reset the six-digit payment passcode; Account Activation may invoke Set contextually. | Route ID, modes, and return behavior defined; detailed screen/security behavior pending |
+| `ACCOUNT-ACTIVATION` | Reusable orchestration flow | Coordinate the remaining phone, identity, and payment-passcode requirements for full registration. | Route, banner, and child handoffs defined |
+| `PHONE-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Verify or replace the account phone number through the approved method; Account Activation may invoke initial verification contextually. | Defined behavior baseline; security constants remain with DOC-19 |
+| `IDENTITY-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Complete first-time verification, resume processing, retry a failed attempt, or respond to an admin-required update; Account Activation may invoke it contextually. | Defined behavior baseline; provider mapping remains TBC |
+| `PAYMENT-PASSCODE-SETTINGS` | Reusable `ACCOUNT-SECURITY` child flow | Set, change, or reset the six-digit payment passcode and manage the permitted card/profile confirmation preference; Account Activation may invoke Set contextually. | Defined behavior baseline; technical controls remain with DOC-19 |
 | `HOME-ROOT` | Logged-in root screen | Provide the task-first dashboard after successful login or restricted-account creation. | Dashboard baseline defined; final UI pending |
 
 #### 5.0.1 `ENTRANCE-ROOT`
@@ -246,7 +246,7 @@ All banner actions enter `ACCOUNT-ACTIVATION`, which focuses the applicable inco
 
 One verified primary email, one verified phone number, and one verified individual identity may each belong to only one active individual account. A phone or identity conflict discovered after restricted-account creation blocks activation and routes to Login, Recovery, or controlled Support handling without automatic account merging.
 
-Detailed `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` screen behavior will be drafted separately. The payment passcode is six digits for MVP; final retry, lockout, storage, reset, and security mechanics belong to DOC-19.
+The reusable child-flow behavior is defined in Sections 5.17.4.2 and 5.17.4.3. Account Activation must consume those flows without duplicating their screens or statuses. Final OTP constants, provider contracts, credential storage, retry/lockout controls, support-assisted recovery proof, and other technical security mechanics remain with DOC-17, DOC-19, and DOC-22 as stated below.
 
 #### 5.0.5 Return, Failure, and Ownership Rules
 
@@ -470,7 +470,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 
 | Area | Purpose of Future DOC-06 Family Detail | Current Status |
 | --- | --- | --- |
-| Entrance and Authentication Routes | Maintain the defined `ENTRANCE-ROOT`, Login family, Registration, Recovery, and Account Activation behavior; finalize Entrance carousel configuration and the Phone Verification, Identity Verification, Payment Passcode, security, and outcome-message details. | Behavior baseline defined / child mechanics and final design pending |
+| Entrance and Authentication Routes | Maintain the defined `ENTRANCE-ROOT`, Login family, Registration, Recovery boundary, Account Activation, Phone Verification, Identity Verification, and Payment Passcode behavior; finalize Entrance carousel configuration, provider mapping, technical security controls, tests, and outcome-message IDs/copy. | Behavior baseline defined / technical controls and final design pending |
 | Bottom Navigation Route Map | Define how `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me relate to top-level routes and deep links. | Working baseline; final visual design open |
 | Pay+ Action Sheet Detail | Maintain the confirmed five-action behavior, destinations, availability, completion, return, and configuration boundaries; finalize only the remaining exact visual specification. | Defined behavior / final visual design open |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
@@ -1691,10 +1691,10 @@ The following register defines the new or newly confirmed Me destinations. Estab
 | --- | --- | --- | --- | --- | --- |
 | `ME-ROOT` | Bottom navigation | Root route | Permanent mixed-role account, records, settings, preferences, and support entry. | DOC-06B | Route shell defined; visual design pending |
 | `ACCOUNT-PROFILE` | `ME-ROOT` Account Information | Child route | View permitted account/profile information, identity-verification status, controlled contact changes, and account closure. | DOC-06B | Route behavior defined; final visual design pending |
-| `PHONE-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Verify the account's primary phone number; Account Activation may invoke the same flow contextually. | DOC-06B | Route ID and ownership defined; detailed behavior pending |
-| `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Complete, retry, or update external identity verification; Account Activation may invoke the same flow contextually. | DOC-06B | Flow and return behavior defined; provider mapping pending |
+| `PHONE-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Verify or replace the account's primary phone number; Account Activation may invoke initial verification contextually. | DOC-06B | Defined behavior baseline; technical security constants pending |
+| `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Complete first-time verification, resume processing, retry after failure, or respond to an admin-required update; Account Activation may invoke the same flow contextually. | DOC-06B | Defined behavior baseline; provider mapping pending |
 | `ACCOUNT-SECURITY` | `ME-ROOT` Security & Privacy | Child route | Manage enabled login methods, password setup/change, payment-passcode entry, permitted two-step verification, biometric unlock, trusted devices, and recovery/support entry. | DOC-06B | Route behavior defined; final visual design pending |
-| `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` Payment Passcode | Reusable child screen | Set, change, or reset the payment passcode and manage the optional passcode-confirmation preference for card/payment-profile changes; Account Activation may invoke Set contextually. | DOC-06B | Route modes and handoffs defined; detailed screen and security mechanics pending |
+| `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` Payment Passcode | Reusable child flow | Set, change, or reset the payment passcode and manage the optional passcode-confirmation preference for card/payment-profile changes; Account Activation may invoke Set contextually. | DOC-06B | Defined behavior baseline; technical security controls pending |
 | `PRIVACY-DATA-CONTROLS` | `ME-ROOT` Security & Privacy | Child route | Manage approved privacy choices, access/export, correction, retention/deletion requests, and request history. | DOC-06B | Route behavior defined; legal/provider detail pending |
 | `RECEIVING-INFO` | `ME-ROOT` Payments & Records | Child route / route family | Manage the user's private reusable receiving-information profiles. | DOC-06B | Route behavior defined; final visual design pending |
 | `RECEIVING-INFO-LIST` | `RECEIVING-INFO` | Initial list screen | Display saved receiving-information cards and entry to add another profile. It renders immediately when the route opens and is not an additional navigation hop. | DOC-06B | Screen behavior defined; final visual design pending |
@@ -1715,7 +1715,7 @@ Domain rules and content remain with the reference owners named in Sections 5.17
 | Bottom navigation | Tap `Me` | `ME-ROOT` | Normal bottom-navigation behavior. |
 | Account Information | Tap summary or row | `ACCOUNT-PROFILE` | Return with the masked summary refreshed and prior Me position preserved. |
 | `ACCOUNT-PROFILE` | Tap phone-verification action | `PHONE-VERIFICATION` | Back or Cancel restores Account Information; completion returns with refreshed phone-verification status. |
-| `ACCOUNT-PROFILE` | Tap `Verify Now` | `IDENTITY-VERIFICATION` | Back or Cancel restores Account Information; completion returns with refreshed verification status. |
+| `ACCOUNT-PROFILE` | Tap the applicable identity action: Verify/Continue, View Status, Verify Again, Get Help, or Update Verification | `IDENTITY-VERIFICATION` or controlled Support where applicable | Back or Cancel restores Account Information; completion or provider result returns with refreshed verification status. |
 | Security & Privacy | Tap `Login & Security` | `ACCOUNT-SECURITY` | Return to the same Me position. |
 | `ACCOUNT-SECURITY` | Set or change password, or link or unlink Google/Apple | Complete the route-local credential/provider flow | Success returns with login-method state refreshed; Cancel preserves the prior configuration. |
 | `ACCOUNT-SECURITY` | Tap `Payment Passcode` | `PAYMENT-PASSCODE-SETTINGS` | Return with the security summary and preference refreshed. |
@@ -1784,20 +1784,46 @@ Contact changes follow these MVP flows:
 - successful change notifies the old and new contact channels where available;
 - when trusted channels are unavailable, the user must enter approved support-assisted identity recovery rather than bypass verification.
 
-Identity Verification shows only one user-facing status: `Pending`, `Verified`, `Failed`, or `Update Required`. `Verified` shows no action. The other three statuses show `Verify Now`.
+###### `PHONE-VERIFICATION`
 
-`Verify Now` opens `IDENTITY-VERIFICATION`:
+The flow is reusable from Account Information and Account Activation. Its modes are initial verification, replacement of an existing verified phone, resumption of an unexpired OTP attempt, and retry after expiry, delivery failure, or interruption. Hong Kong `+852` phone numbers are the only launch-supported numbers.
 
-- `Pending` continues an incomplete submission or shows the active provider-processing position without creating a duplicate submission;
-- `Failed` opens the permitted retry or corrective path;
-- `Update Required` opens required re-verification;
-- Back or Cancel restores the prior Account Information position;
-- completion returns with refreshed status;
-- provider failure preserves the last valid status and does not create a false rejection.
+| Screen | Required elements | Behavior |
+| --- | --- | --- |
+| Phone entry | Back, title, reason for collection, `+852`, phone input, Continue, Cancel | Validate the supported format and uniqueness without identifying another account holder. |
+| OTP verification | Masked number, OTP input, Verify, Resend, countdown, Change Number | Resend invalidates the prior OTP but does not reset abuse counters. |
+| Completion | Verified masked number, confirmation, Continue or Done | Return to the invoking parent with refreshed status. |
+| Failure | Safe explanation and applicable Retry, Resend, Change Number, or Support action | Use the DOC-07 outcome/message mapping and preserve the last authoritative account state. |
 
-First-time identity verification opened from `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. The user must still be in the authenticated restricted-account context and complete the provider's required verification controls. A later correction, update, retry that changes submitted identity data, or re-verification of an existing identity record requires payment passcode or approved reauthentication before provider submission. Provider-specific verification, correction, and review controls still apply.
+Initial verification requires an authenticated restricted account and SMS OTP but no existing payment passcode. Device token, push token, device attestation, or biometric capability may support abuse detection but does not prove phone possession. One verified phone may belong to only one active individual account; conflict copy may say the number is already occupied but must not identify who uses it.
 
-The exact mapping from provider/system states to the four labels remains TBC until the external identity-verification provider and canonical status taxonomy are defined. Legal name, ID reference, identity attributes, identity documents, and provider detail are not displayed in Account Information.
+For phone replacement, the old phone remains authoritative until the full sequence succeeds: payment passcode or approved reauthentication, OTP through the registered email, then SMS OTP to the new phone. Cancelling leaves the old phone unchanged. `ACCOUNT-PROFILE` shows only `Verified` or `Not Verified`; `Code Sent`, `Expired`, `Incorrect Code`, and `Delivery Failed` are route outcomes, not persistent account statuses. OTP length, validity, resend interval, attempt limits, cooldown, and velocity thresholds remain TBC for DOC-19.
+
+###### `IDENTITY-VERIFICATION`
+
+The flow supports first-time verification, resuming incomplete provider capture, provider processing, retry after `Failed`, an admin-required `Update Required` response, and read-only status confirmation when `Verified`.
+
+| Screen | Required elements | Behavior |
+| --- | --- | --- |
+| Status and introduction | Back, title, current approved status, purpose, provider disclosure, privacy link, preparation requirements | Present only approved user-facing status and safe guidance. |
+| Review and consent | Information categories, provider handoff explanation, consent or acknowledgement | Record required consent/acknowledgement before external capture. |
+| Provider handoff | Approved Jumio or equivalent capture flow | Preserve origin, attempt, and correlation references without copying raw provider payload into route analytics. |
+| Processing return | `Processing`, safe Close, View Status | Returning from the provider means submitted/processing, not successful verification; prevent duplicate submission. |
+| Result | Approved status, safe explanation, applicable action | Use the mapping below and return to the invoking parent with refreshed state. |
+
+| User-facing status | System meaning | User action |
+| --- | --- | --- |
+| `Not Verified` | Verification has not started, capture is incomplete, or an authorized admin reset the status. | `Verify Now` or `Continue Verification`. |
+| `Processing` | Submission was acquired and the authoritative provider result or PayPlus policy decision is pending. | `View Status`; no duplicate submission. |
+| `Verified` | Authoritative provider result and PayPlus policy checks passed. | No verification action. |
+| `Failed` | Provider verification or a PayPlus policy check failed, including duplicate identity. | `Verify Again` and `Get Help`, subject to retry controls. |
+| `Update Required` | An authorized admin review requires updated information. | `Update Verification`. |
+
+First-time verification from Account Activation requires an authenticated restricted account but no pre-existing payment passcode. Returning from the provider does not prove success: an authoritative callback or retrieval plus PayPlus policy checks sets the final state. A duplicate identity fails PayPlus policy even if it is not a provider failure; safe copy may state that the identity is registered with another PayPlus account without exposing account details.
+
+Once `Verified`, a user cannot voluntarily correct or repeat identity verification. An authorized administrator may set the status to `Not Verified` or `Update Required` under DOC-22 controls but cannot directly set `Verified`; `Verified` to `Not Verified` requires dual approval for MVP. Admin-required update may require payment passcode or approved reauthentication before new provider capture.
+
+While processing, Home shows a dismissible banner below the header with `View Status`. A successful result shows a dismissible completion banner. `Failed` or `Update Required` shows an Action Required banner. Dismissal changes presentation only, not the underlying state or activation gate. Exact provider-result-to-PayPlus mapping remains TBC until provider selection and is owned by DOC-17, DOC-18, and DOC-22. Account Information never shows legal name, ID reference, identity attributes, identity documents, provider payloads, or internal risk reasons.
 
 Account closure remains a controlled Account Information flow, not a Privacy & Data action and not immediate deletion. It must:
 
@@ -1833,7 +1859,19 @@ Login Methods follows these rules:
 
 No separate MVP root is created for login-method management. Set/Change Password and provider Link/Unlink are focused flows under `ACCOUNT-SECURITY`. Exact provider integration, account-recovery mechanics, retry limits, and final screen design remain with the full authentication drafting and DOC-19.
 
-Tapping Payment Passcode opens `PAYMENT-PASSCODE-SETTINGS`. The route must support initial Set from `ACCOUNT-ACTIVATION` and later Change or Reset from `ACCOUNT-SECURITY`, plus the user-controlled `Require passcode for card/payment-profile changes` toggle. Only these modes, ownership, and handoffs are defined at this stage; the detailed Set/Change/Reset screen order, validation, failure handling, and security mechanics remain for dedicated child-route drafting and DOC-19. Existing passwords and passcodes are never displayed.
+Tapping Payment Passcode opens `PAYMENT-PASSCODE-SETTINGS`. Account Activation opens Set mode. Account Security opens the settings overview and shows Set when absent or Change, Reset, and the permitted card/payment-profile confirmation preference when a passcode exists.
+
+| Mode | Screen sequence and required behavior |
+| --- | --- |
+| Set | Introduction; enter a six-digit passcode; enter the same passcode again; enable Confirm only when both entries are complete and match; show success and return. |
+| Change | Verify the current passcode or complete approved fresh reauthentication; enter the new six-digit passcode twice; confirm; show success and return. |
+| Reset | Select Forgot Passcode; complete fresh login reauthentication through password, linked Google, or linked Apple; verify an OTP sent to the registered verified Hong Kong phone; enter the new six-digit passcode twice; confirm; invalidate sensitive pending authorization state; notify available verified channels; return. |
+
+The passcode is a masked six-digit numeric secret. Entries clear when the app backgrounds, the session expires, or the route closes. A mismatch saves neither entry. Cancel Set leaves activation incomplete; Cancel Change or Reset preserves the current passcode. Existing passcodes are never displayed or recoverable. Unknown save results must be reconciled before another attempt.
+
+Email OTP alone is insufficient to reset a payment-authorizing passcode. If the registered phone is unavailable, the user enters controlled support-assisted recovery; its final proof and waiting-period rules remain TBC for DOC-19 and DOC-22. An administrator cannot read, select, retrieve, or reset a user's passcode.
+
+The card/payment-profile passcode preference defaults to ordinary confirmation. Enabling it may use ordinary confirmation; disabling it requires the current passcode or approved reauthentication. Setting a passcode does not authorize payment. DOC-09 still requires a fresh payment passcode before payment authorization. Successful Change and Reset generate mandatory security notifications under DOC-08. Weak-code rules, retries, lockout, hashing, storage, recovery factors, and session revocation remain with DOC-19.
 
 The Two-Step Verification toggle controls only permitted optional routine protection. It must not disable mandatory new-device 2FA, risk-triggered step-up, contact-change verification, account-closure verification, or provider-required authentication. SMS remains the MVP primary factor and email the fallback.
 
@@ -1855,7 +1893,7 @@ The user-facing title is `Privacy & Data`. The MVP screen order is:
 
 Only genuine optional choices may use toggles. Launch-capable categories are direct marketing, personalization, and approved partner-data use, subject to final legal/privacy wording and enablement. Required account, service, payment, security, risk, fraud, compliance, tax, audit, dispute, and retention processing is explained but is not disableable.
 
-Notification-channel selection remains in `NOTIFICATION-SETTINGS`; Privacy & Data owns the underlying consent or approved-purpose choice. Directly editable profile fields hand off to `ACCOUNT-PROFILE`. Correction of KYC, verified, historical, payment, payout, or evidence data creates a governed correction request, preserves the original audit record, and may use `IDENTITY-VERIFICATION` where re-verification is required.
+Notification-channel selection remains in `NOTIFICATION-SETTINGS`; Privacy & Data owns the underlying consent or approved-purpose choice. Directly editable profile fields hand off to `ACCOUNT-PROFILE`. Correction of KYC, verified, historical, payment, payout, or evidence data creates a governed correction request and preserves the original audit record. A verified identity may reopen `IDENTITY-VERIFICATION` only after an authorized admin sets `Update Required` or `Not Verified`; the user cannot initiate voluntary re-verification.
 
 Privacy-request history is a route-local section, not another route. User-facing request labels are `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete`; internal states and service timelines remain TBC. Completed exports use authenticated, time-limited in-app download after reauthentication and must not be attached to ordinary email. Account closure and deletion of eligible data remain separate processes.
 
@@ -2045,7 +2083,7 @@ DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or t
 | Item | Owner | Status |
 | --- | --- | --- |
 | Final visual design for Account Information, Login & Security, Privacy & Data, Receiving Info, Archived Records/Documents, Support, About, and Terms | Product / Design / Privacy / Security / Operations | Open; route behavior defined where stated |
-| External identity-provider mapping to `Pending`, `Verified`, `Failed`, and `Update Required` | Product / Compliance / Security / Data | Open; user-facing labels confirmed |
+| External provider results and PayPlus policy outcomes mapped to `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required` | Product / Compliance / Security / Data | Open pending provider selection; five user-facing labels confirmed |
 | Final privacy-request internal states, service timelines, export format/expiry, and legal wording | Privacy / Legal / Operations / Security | Open; route labels and protected delivery confirmed |
 | Final authentication retry, lockout, session, recovery-factor, and reveal-timeout mechanics | Security / Engineering / Risk | Open; DOC-19 owner |
 | Exact method-specific Receiving Info fields, external validation capability, identity-name normalization, third-party/company proof requirements, risk-based step-up rules, and review SLA | Payments / Operations / Privacy / Security | Open; route and core behavior defined |
@@ -2253,7 +2291,7 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 
 | Route / Area | Status | Next Required Work |
 | --- | --- | --- |
-| Entrance and Authentication | Defined Behavior Baseline / Final Design and Child Mechanics Pending | `ENTRANCE-ROOT`, Entrance promotion detail, Fast/Full Login, Recovery, Registration, registration-attempt handling, Account Activation, banner mapping, protected return, and route ownership are defined. Confirm Entrance carousel configuration and draft the Phone Verification, Identity Verification, and Payment Passcode child-screen details. |
+| Entrance and Authentication | Defined Behavior Baseline / Final Design and Technical Controls Pending | `ENTRANCE-ROOT`, Login, Recovery boundary, Registration, Account Activation, Phone Verification, Identity Verification, Payment Passcode Settings, banners, protected return, and route ownership are defined. Confirm Entrance carousel configuration, final visual design, provider mapping, and DOC-19/DOC-20 technical and test controls. |
 | Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Confirm card-level UI, notice priority, carousel behavior, dashboard activity cap, and empty states. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Pay+ | `PAYPLUS-ACTION-SHEET` Defined Baseline / Not Final Visual Design | Five MVP actions, role direction, route handoffs, availability behavior, completion rules, and motion principles are defined. Confirm exact iconography, measurements, spacing, blur, motion timing/easing, and future added-button layout. |
@@ -2285,13 +2323,14 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
 | OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Pay+ and Partner Offer label taxonomy, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed. | Product / Design / Growth / Privacy / Commercial | Partially open |
 | OQ-06B-012 | What final Entrance carousel capacity, rotation, targeting, ordering, visual design, content classes, and permitted action destinations should apply? What final visual design and technical security mechanics should apply to the defined Entrance and Authentication route family? | Product / Design / Growth / Security / Privacy / Operations | Partially open; route behavior and account-access rules defined |
-| OQ-06B-013 | What final screen behavior, provider mapping, OTP controls, retry/lockout, recovery, passcode Set/Change/Reset mechanics, and technical security controls should apply to `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` within the confirmed `ACCOUNT-ACTIVATION` handoff? DOC-19 must define the security controls and DOC-20 must derive acceptance tests from the completed route behavior. | Product / Design / Security / Privacy / Compliance / QA / Operations | Open; route IDs, route modes, four identity labels, first-time identity-passcode exception, six-digit passcode, and activation handoff defined |
+| OQ-06B-013 | What final OTP constants, provider-result mapping, weak-code/retry/lockout rules, support-assisted passcode-recovery proof and waiting period, credential storage, session-revocation mechanics, and final visual design apply to the defined `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` flows? DOC-17/DOC-19/DOC-22 own those technical and operational decisions; DOC-20 must derive implementation tests. | Security / Engineering / Compliance / QA / Operations | Partially open; product behavior, five identity labels, HK-only phone baseline, six-digit passcode flows, and return behavior confirmed |
 | OQ-06B-014 | What exact Authentication Outcome IDs, Message IDs, approved user-facing messages, CTA mappings, disclosure levels, and technical outcome/event mappings should populate the mandatory DOC-07 Authentication Outcome and Message Matrix? | Product / Content / Design / Security / Privacy / Support | Open; matrix mechanism and required fields defined |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.37 | 2026-07-28 | Defined Phone Verification, five-state Identity Verification, processing/dashboard banners, six-digit Payment Passcode Set/Change/Reset, phone-based reset recovery, return behavior, admin reset boundaries, and technical-owner TBCs; removed superseded four-label and voluntary re-verification wording. |
 | 0.1.36 | 2026-07-28 | Corrected the first-time identity-verification passcode rule, synchronized all three Account Activation child-route references, and marked Payment Passcode Settings screen/security details plus DOC-19/DOC-20 handoffs as pending. |
 | 0.1.35 | 2026-07-28 | Clarified Account Activation as an orchestration route, established Account Profile and Account Security as the canonical parents of reusable verification/passcode routes, aligned origin-aware return behavior, and simplified the hierarchical Authentication, Account Activation, and Me route-map handoffs. |
 | 0.1.34 | 2026-07-28 | Replaced `AUTH-ENTRY` with `ENTRANCE-ROOT`; defined public Entrance content, Fast/Full Login, Recovery, registration attempts, restricted-account creation, Account Activation, persistent banner mapping, protected return, login-name removal, and the mandatory-but-open authentication outcome/message handoff. |

@@ -98,6 +98,8 @@ Include, as applicable:
 12. **Open questions and deferred details:** decisions required now, items that may remain `TBC`, and details deferred to technical, admin, visual-design, or AI execution layers.
 13. **Founder approval checklist:** each material proposal ID with a clear accept, amend, reject, or defer decision point.
 
+For a route or reusable-flow review, present each material flow as: modes or invocation contexts; a screen-sequence table with reviewable screen detail; rules; status/action mapping; failure and return behavior; and owning/reference documents. Do not compress a multi-screen flow into one row or create route IDs for internal modes and screen states.
+
 Do not dump raw agent responses into the Founder Review Pack. Preserve material evidence and disagreement while removing repetition and non-decision commentary.
 
 ### 6.3 Canonical Editing Stage

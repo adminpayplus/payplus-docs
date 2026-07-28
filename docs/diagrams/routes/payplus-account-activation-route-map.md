@@ -22,3 +22,5 @@ Activation entry contexts are post-registration setup, the Home setup banner, an
 `PHONE-VERIFICATION` and `IDENTITY-VERIFICATION` are canonically under `ACCOUNT-PROFILE`. `PAYMENT-PASSCODE-SETTINGS` is canonically under `ACCOUNT-SECURITY`.
 
 When opened from Account Activation, each child returns to `ACCOUNT-ACTIVATION` with refreshed completion state. When opened from its canonical parent, it returns to that parent. After all activation requirements pass, PayPlus returns to `HOME-ROOT` or to the revalidated originating financial route.
+
+Set, Retry, Processing, Update, Change, and Reset are internal modes or screen states within the three reusable child flows. They are not additional destinations and therefore do not add nodes to this map.

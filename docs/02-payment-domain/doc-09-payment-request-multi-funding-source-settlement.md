@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-09
 title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.13
+version: 1.0.14
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-07-27
+last_updated: 2026-07-28
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -44,12 +44,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Request, Multi-Funding Source & Settlement |
-| **Version** | `1.0.13` |
+| **Version** | `1.0.14` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-07-27` |
+| **Last Updated** | `2026-07-28` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication |
 
@@ -548,10 +548,10 @@ Step-up authentication means an additional challenge beyond normal payer confirm
 | --- | --- |
 | Payer authorization always required | User confirmation is never skipped. |
 | Payment passcode always required | Payment passcode is required before payment authorization proceeds, subject to final DOC-19 security design. |
-| Step-up conditional | Extra authentication may be skipped below a configurable amount if allowed by partner, risk, compliance, and security rules. |
-| Configurable threshold | Threshold must be configurable. |
+| Step-up conditional | The MVP baseline requires additional external or risk step-up at HK$3,000 or above. Below HK$3,000, it may be skipped only where partner, network, regulatory, risk, compliance, and security rules allow. |
+| Configurable threshold | HK$3,000 is the launch baseline and must be adjustable in the admin management dashboard. |
 | Risk override | Step-up may still be required below threshold when risk is elevated. |
-| Policy variation | Thresholds may vary by user, card, category, payee type, context/request origin, amount, velocity, risk score, or partner rule. |
+| Mandatory override | PSP/acquirer, card-network, regulatory, or other mandatory authentication requirements always apply and cannot be weakened by the PayPlus threshold. |
 | Logging | Step-up required, skipped, passed, failed, and expired decisions must be logged. |
 | Failure handling | Failed or expired step-up must not result in payment completion or payout readiness. |
 | Deferred instruction | Saved deferred instruction must not rely on stale PSP/acquirer authorization or 2FA validity beyond allowed partner/security windows. |
@@ -713,7 +713,7 @@ DOC-09 requires traceability for:
 | OQ-09-001 | Which PSP/acquirer will support the intended bill payment or ordinary online card purchase treatment? | Payments / Commercial | Open |
 | OQ-09-002 | What MCC/classification will the selected acquirer assign? | Payments / Legal | Open |
 | OQ-09-003 | What maximum number of credit cards per payment/profile should be allowed at launch? | Product / Payments | Answered: 6 |
-| OQ-09-004 | What configurable amount threshold allows step-up authentication to be skipped? | Risk / Security / Payments | Open |
+| OQ-09-004 | What amount threshold applies to additional external or risk step-up? | Risk / Security / Payments | Answered for MVP: HK$3,000 or above, admin-configurable; mandatory partner/network/regulatory and risk overrides remain |
 | OQ-09-005 | Which risk factors force step-up authentication even below the amount threshold? | Risk / Security | Open |
 | OQ-09-006 | What retry limits apply by user, card, request, payee, category, and time window? | Risk / Payments | Open |
 | OQ-09-007 | What authorization expiry period applies before payer reauthorization is required? | Payments / Product | Open |
@@ -748,7 +748,7 @@ DOC-09 is acceptable when:
 - settlement-ready funded portions can be routed to DOC-10 without falsely completing the overall payment;
 - payer authorization is mandatory and auditable;
 - payment passcode is recorded as a baseline confirmation before authorization proceeds;
-- step-up authentication can be conditionally skipped below configurable threshold where allowed;
+- additional external or risk step-up uses an admin-configurable HK$3,000 launch baseline and may be skipped below it only where mandatory and risk rules allow;
 - payment status and failure handling are defined at product-rule level;
 - settlement readiness is distinguished from payout execution;
 - admin controls are defined without exposing raw card data;
@@ -760,6 +760,7 @@ DOC-09 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.14 | 2026-07-28 | Set the admin-configurable HK$3,000 MVP threshold for additional external/risk step-up while preserving mandatory PSP, network, regulatory, and risk overrides and the separate always-required payment passcode. |
 | 1.0.13 | 2026-07-27 | Replaced obsolete payer-created payment-request terminology with payer-created obligation/payment context, preserved optional payer-created linking requests as separate non-authorization records, and aligned eligibility, lifecycle, quote, and acceptance language. |
 | 1.0.12 | 2026-07-26 | Aligned payment-state ownership with obligation archive blockers, removed non-restorable as a user-facing archive status, and confirmed that archive/restore does not cancel or revive payment processes. |
 | 1.0.11 | 2026-07-26 | Removed `Archived` from evidence verification and aligned payment gating with the separate obligation-archive, evidence-history, and restore-eligibility domain. |

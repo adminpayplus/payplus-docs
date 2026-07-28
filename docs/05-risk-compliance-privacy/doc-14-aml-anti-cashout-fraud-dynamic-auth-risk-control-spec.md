@@ -1,7 +1,7 @@
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 0.6.3
+version: 0.6.4
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -17,7 +17,7 @@ approvers:
   - Project Owner
   - Compliance Lead
   - Risk Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-28
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-14` |
 | **Title** | AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification |
-| **Version** | `0.6.3` |
+| **Version** | `0.6.4` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Risk / Compliance |
 | **Reviewers** | Product Lead<br>Compliance Lead<br>Risk Lead<br>Payments Lead<br>Operations Lead<br>Engineering Lead<br>Data Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Compliance Lead<br>Risk Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-28` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -324,7 +324,9 @@ DOC-05 owns MVP scope. DOC-12 owns evidence fields and verification. DOC-22 owns
 
 DOC-09 owns payment authorization and step-up authentication rules. DOC-14 defines risk triggers that may require step-up.
 
-Step-up may be required when:
+The MVP baseline requires additional external or risk step-up at HK$3,000 or above. The threshold must be adjustable in the admin management dashboard. Below HK$3,000, extra step-up may be skipped only where PSP/acquirer, card-network, regulatory, security, compliance, and risk rules allow. The payment passcode and payer authorization remain mandatory at every payment amount.
+
+Step-up may also be required below the threshold when:
 
 - payment amount exceeds configured threshold;
 - risk score or rule result is elevated;
@@ -339,9 +341,7 @@ Step-up may be required when:
 - user attempts retry after repeated failure;
 - promotion, coupon, referral, or reward abuse is suspected.
 
-Extra authentication may be skipped below a configurable amount only when partner, security, compliance, and risk rules allow.
-
-Payer authorization itself must never be skipped.
+Partner, network, regulatory, or risk rules may require stronger authentication regardless of amount and cannot be overridden by the PayPlus threshold.
 
 Deferred payment instruction and partial funded-portion payout should be risk-monitored. Risk rules may warn, remind, hold payout, require step-up, route to review, or block where patterns suggest cashout, collusion, card testing, promotion quota holding, card-linked benefit testing, fraud, chargeback risk, or unsupported obligation use. Ordinary incomplete user action should not be treated as fraud by default.
 
@@ -476,7 +476,7 @@ Risk-rule changes must be permissioned, logged, and reviewable. Critical rule ch
 | ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
 | OQ-14-001 | What final KYC/KYB, sanctions, and screening provider scope applies to payer, payee, landlord, business payee, and business owner checks? | Compliance / Legal / Risk | High | Open |
-| OQ-14-002 | What transaction amount thresholds trigger step-up, manual review, payout hold, or enhanced review by category? | Risk / Payments | High | Open |
+| OQ-14-002 | What thresholds trigger manual review, payout hold, or enhanced review by category beyond the confirmed HK$3,000 additional-step-up baseline? | Risk / Payments | High | Partially open; step-up baseline confirmed and admin-configurable |
 | OQ-14-003 | Which same-party or related-party patterns are hard blocks versus manual-review triggers? | Risk / Compliance / Product | High | Open |
 | OQ-14-004 | What chargeback rate, refund rate, decline rate, and dispute concentration thresholds trigger restriction or suspension? | Risk / Payments / Operations | High | Open |
 | OQ-14-005 | What exact duplicate/reused evidence strictness applies to rent, bill, fee, invoice, and other approved categories? | Risk / Product / Operations | Medium | Open |
@@ -527,6 +527,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.6.4` | `2026-07-28` | Product Documentation Team | Set the admin-configurable HK$3,000 MVP baseline for additional external/risk step-up while preserving always-required payer authorization/passcode and mandatory partner, network, regulatory, and risk overrides. |
 | `0.6.3` | `2026-07-26` | Product Documentation Team | Added obligation archive/restore blockers for unresolved risk, compliance, identity, recipient, evidence, and manual review without changing underlying risk states or holds. |
 | `0.6.2` | `2026-07-23` | Product Documentation Team | Added Receiving Info identity/proof risk treatment, private-library boundary, destination-difference signal, snapshot immutability, and destination-attributable versus transient payout-failure handling. |
 | `0.1.0` | `2026-06-02` | Product Documentation Team | Initial founder working baseline for AML, anti-cashout, fraud, credit card fraud, chargeback risk, dynamic authentication, payout hold, configurable review controls, and risk-governance boundaries. |

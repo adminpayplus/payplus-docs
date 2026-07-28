@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.23
+version: 0.1.24
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -31,7 +31,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.23` |
+| **Version** | `0.1.24` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
@@ -105,7 +105,7 @@ Example pattern:
 | Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
 | Offers and Rewards routes | DOC-06B / DOC-09 / DOC-13 / DOC-15 | Strong human-readable baseline | Section limits, child collection behavior, source/action/destination/return transitions, multi-collection membership, duplicate suppression, ordering, full-screen detail, checkout handoff, and issued-reward management are testable. External vouchers and miles are launch-supported; final visual design, label taxonomy, personalization, equal-priority tie-break, partner selection, fulfilment method, and operational readiness remain open. |
 | Referral route | DOC-06B / DOC-13 / DOC-15 | Strong human-readable baseline | Sharing, attribution, progress, role-sensitive entitlement list/detail/claim, canonical reward handoff, and privacy boundaries are testable; final visual design and campaign operations remain open. |
-| Me route | DOC-06B / DOC-06C / DOC-08 / DOC-10 / DOC-12 / DOC-15 / DOC-18 / DOC-19 / DOC-21 / DOC-22 | Strong route/ownership baseline; child mechanics pending | Permanent `ME-ROOT`, Account Information, Phone Verification and Identity Verification ownership, Login & Security, Payment Passcode Settings modes/handoffs, Privacy & Data, masking/reveal, contact changes, verification labels/actions, closure, trusted-device removal, privacy requests, protected export, and return behavior are testable at baseline level. Detailed Phone Verification, Identity Verification, Payment Passcode Settings, provider/system mapping, technical security values, other Me children, and final visual design remain open. |
+| Me route | DOC-06B / DOC-06C / DOC-08 / DOC-10 / DOC-12 / DOC-15 / DOC-18 / DOC-19 / DOC-21 / DOC-22 | Strong route and child-flow behavior baseline | Permanent `ME-ROOT`, Account Information, Phone Verification, five-state Identity Verification, Login & Security, Payment Passcode Set/Change/Reset, Privacy & Data, masking/reveal, contact changes, closure, trusted-device removal, privacy requests, protected export, and return behavior are testable. Provider mapping, technical security values, other Me children, and final visual design remain open. |
 | Receiving Info route | DOC-06B / DOC-10 / DOC-12 / DOC-14 / DOC-15 | Partial to strong | Multiple profiles, masked list/detail, passcode/reauthenticated full-value reveal and add/edit, proof/readiness, version/archive, destination snapshots, and origin return are testable; provider validation and final visual design remain open. |
 | Archived Records and Documents | DOC-06B / DOC-06C / DOC-12 / DOC-15 | Strong human-readable baseline | `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, archived read-only bill/rent detail mode, and `ARCHIVED-DOCS-LIST` route behavior are testable; final visual design and technical schema remain open. |
 
@@ -182,15 +182,16 @@ The DOC-06 user journey scope is satisfied when:
 - users can manage tokenized cards and saved split-card profiles through `PAYMENT-PROFILE-ROOT` without creating wallet, stored-value, cashout, or payment authorization behavior;
 - payer, payee, and mixed-role users can open permanent `ME-ROOT` from bottom navigation without a role switch;
 - `ME-ROOT` presents the confirmed fixed section order and treats Bills, Payment Profile, Activity, Receipts & Statements, My Rewards, and Referral as handoffs to their owning routes;
-- Account Information shows editable nickname/display name that is not a login identifier, copyable PayPlus User ID, masked phone/email, and only `Pending`, `Verified`, `Failed`, or `Update Required` identity-verification status without exposing identity attributes, documents, provider payloads, payment credentials, evidence, or internal risk reasons;
-- `Verified` shows no verification action, while the other three labels show `Verify Now` and open reusable `IDENTITY-VERIFICATION` without duplicate submission;
-- first-time `IDENTITY-VERIFICATION` opened during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode, while later identity correction, update, or re-verification requires payment passcode or approved reauthentication before provider submission;
+- Account Information shows editable nickname/display name that is not a login identifier, copyable PayPlus User ID, masked phone/email, and only `Not Verified`, `Processing`, `Verified`, `Failed`, or `Update Required` identity-verification status without exposing identity attributes, documents, provider payloads, payment credentials, evidence, or internal risk reasons;
+- `Not Verified` offers Verify/Continue, `Processing` offers View Status without duplicate submission, `Verified` offers no verification action, `Failed` offers Verify Again/Get Help subject to retry controls, and `Update Required` offers Update Verification;
+- first-time `IDENTITY-VERIFICATION` opened during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode; a `Verified` user cannot voluntarily re-verify, while an admin-required update may require passcode or approved reauthentication before new capture;
+- `PHONE-VERIFICATION` accepts Hong Kong `+852` numbers for launch, verifies possession by SMS OTP, keeps the old phone authoritative until replacement completes, and uses registered-email OTP plus new-phone SMS OTP after passcode or approved reauthentication for replacement;
 - changing phone verifies the registered email and new phone; changing email verifies the registered phone and new email; successful changes notify old and new channels where available;
 - revealing approved masked sensitive information in a prominent account or Receiving Info surface requires payment passcode or approved reauthentication, with additional step-up where the owning security/risk rules require it, while prohibited fields remain unavailable;
 - changing existing sensitive identity, contact, security, credential, or Receiving Info data requires payment passcode or approved reauthentication before the route-specific OTP, provider, review, or confirmation flow;
 - ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra passcode or step-up prompt solely because the document is opened or downloaded;
 - `ACCOUNT-SECURITY` provides Login Methods with Set/Change Password and Google/Apple Link/Unlink state, Payment Passcode, permitted Two-Step Verification and Biometric Unlock toggles, Trusted Devices removal, and Recovery and Security Support without a separate MVP Active Sessions list;
-- `PAYMENT-PASSCODE-SETTINGS` supports initial Set handoff from `ACCOUNT-ACTIVATION`, later Change/Reset, and the optional passcode-confirmation preference for card/payment-profile changes without ever displaying the existing passcode; only route modes and handoffs are testable now, while detailed screen behavior, validation, failure handling, and security mechanics remain for dedicated drafting, DOC-19, and DOC-20;
+- `PAYMENT-PASSCODE-SETTINGS` requires two matching six-digit entries for Set and Change; Reset requires fresh password/Google/Apple reauthentication plus OTP to the registered verified phone, invalidates sensitive pending authorization state, and sends mandatory security notifications; unavailable phone uses controlled support recovery;
 - mandatory new-device, risk, contact-change, account-closure, and provider-required authentication cannot be disabled by the Two-Step Verification toggle;
 - `PRIVACY-DATA-CONTROLS` separates optional direct-marketing, personalization, and approved partner-data-use choices from mandatory processing; provides governed access, correction, export, retention/deletion requests and request history; and uses `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete` labels;
 - completed data exports require authenticated, time-limited in-app access and are not attached to ordinary email;
@@ -285,6 +286,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.24 | 2026-07-28 | Added acceptance coverage for HK-only Phone Verification, five-state Identity Verification and banners, no voluntary re-verification after Verified, and the defined six-digit Payment Passcode Set/Change/Reset flows. |
 | 0.1.23 | 2026-07-28 | Corrected first-time identity-verification acceptance, added Phone Verification ownership coverage, and marked detailed verification/passcode screen and security behavior as pending DOC-19/DOC-20 work. |
 | 0.1.22 | 2026-07-28 | Added acceptance coverage for Entrance, Fast/Full Login, Recovery, non-reserving registration attempts, Account Activation and banners, one-month Fast Login, uniqueness conflicts, display-name boundary, protected return, and the mandatory-but-open authentication outcome/message mechanism. |
 | 0.1.21 | 2026-07-27 | Added acceptance coverage for unique primary email, explicit multiple login methods, no automatic email-based linking, social-account password setup, restricted account creation, deferred financial activation, and Account Security link/unlink safeguards. |

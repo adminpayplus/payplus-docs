@@ -223,6 +223,17 @@ For any new feature, route, workflow, policy, status model, or cross-document ch
 6. affected documents;
 7. open questions or `TBC` items.
 
+For route or reusable-flow proposals, use this presentation where applicable:
+
+1. modes or invocation contexts;
+2. a screen-sequence table with enough detail to review each screen;
+3. product and security rules;
+4. status-to-action mapping;
+5. failure, interruption, and return behavior;
+6. owning and reference documents.
+
+Do not compress an entire multi-screen flow into one table row. Modes and screen states must not be promoted into new routes unless they are independently navigable destinations.
+
 ## Agent Workflow Rules
 
 ### Parallel-Agent Documentation Workflow

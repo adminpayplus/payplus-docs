@@ -73,6 +73,12 @@ Required capabilities should include:
 - support authorized review of primary-email, phone, identity, provider-link, and account-creation uniqueness conflicts without automatically merging or linking accounts;
 - inspect Fast Login eligibility renewal/revocation and current-device session revocation without storing or revealing plaintext passwords or protected device secrets;
 - configure and monitor registration-attempt expiry, OTP invalidation, rate limits, abuse controls, and cleanup while ensuring temporary attempts do not reserve identifiers or grant account rights;
+- apply the five user-facing identity projections `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required` without presenting raw provider states as product statuses;
+- prohibit administrators from directly setting identity status to `Verified`, bypassing Account Activation, reading OTPs/passcodes, selecting a replacement passcode, or marking phone verification complete without the approved verification result;
+- permit an authorized administrator to set identity status to `Not Verified` or `Update Required`; changing `Verified` to `Not Verified` requires dual approval for MVP;
+- record requester, approver, prior status, new status, reason, timestamp, and case/provider reference for every identity-status reset or required-update decision;
+- configure the HK$3,000 additional external/risk step-up baseline without weakening mandatory payment-passcode, payer-authorization, PSP/acquirer, card-network, regulatory, or risk controls;
+- preserve controlled support-assisted payment-passcode recovery for unavailable registered phones; exact proof and waiting-period rules remain TBC for the full DOC-19/DOC-22 drafting;
 - preserve full audit history for permitted support, security, review, and override actions.
 
 The exact authentication Outcome Type IDs, Message IDs, user-facing messages, and mappings remain open in DOC-07. DOC-22 must preserve the lookup and operational-control mechanism but must not invent or override those decisions.
@@ -267,7 +273,7 @@ Required controls include:
 - preserve `ME-ROOT` as a permanent MVP bottom-navigation destination;
 - prevent ordinary configuration from hiding core Account Information, Security & Privacy, Help & Support, About PayPlus, Terms and Policies, or Log Out controls;
 - enable or disable optional module rows, including Membership, while preserving the MVP `RECEIVING-INFO` capability and permitted access to retained user records;
-- manage account and identity-verification action-required cases, provider exceptions, retries, and status mapping without exposing provider payloads or internal reasons in user-facing routes or creating duplicate verification submissions;
+- manage account and identity-verification action-required cases, provider exceptions, retries, and the five-state mapping without exposing provider payloads or internal reasons in user-facing routes or creating duplicate verification submissions;
 - support controlled recovery where a user cannot access the registered phone or email, with identity checks, reason capture, approval, notification, and audit evidence;
 - support contact-change exception handling and audit for the confirmed cross-channel phone/email verification flows;
 - resolve duplicate-primary-email and external-provider-link conflicts through controlled support or security workflows without automatically merging accounts by email;
@@ -360,6 +366,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.20.0 | 2026-07-28 | Added future admin controls for the five-state identity model, prohibited direct verification/passcode bypass, required dual approval for Verified-to-Not-Verified reset, recorded reset audit fields, preserved support-assisted passcode-recovery TBCs, and added the configurable HK$3,000 step-up baseline. |
 | 0.19.0 | 2026-07-28 | Added future operational controls for temporary registration attempts, authentication outcome/message/correlation lookup, account-activation conflicts, Fast Login/session handling, and approved public Entrance content while preserving DOC-07 ownership of exact IDs and messages. |
 | 0.18.0 | 2026-07-27 | Added future admin and support markers for unique-primary-email conflicts, explicit provider login-method links, first-password state, final-login-method protection, and restricted-account financial-activation gates. |
 | 0.17.0 | 2026-07-27 | Added future admin requirements for notification event/message/batch/source traceability, category and signal separation, lookup, templates, channels, preferences, delivery attempts, current-state actions, retention, and audit. |

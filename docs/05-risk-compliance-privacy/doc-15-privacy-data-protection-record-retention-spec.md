@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.17
+version: 0.8.18
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -50,7 +50,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.8.17` |
+| **Version** | `0.8.18` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
@@ -206,7 +206,7 @@ Material changes should be grouped by sensitivity and handled with proportionate
 | Payment profile change | Add, remove/archive, update, suspend, reactivate, star/unstar, or change default card/payment profile. | Require payer confirmation by default; payment passcode confirmation may be enabled by user setting; step-up may still apply where risk, PSP/acquirer, or security rules require; never expose raw card data. |
 | Receiving Info profile change | Add, edit, version, reveal permitted full values, or archive a bank/FPS/cheque/EPS profile. | Require payment passcode or approved reauthentication before full-value reveal and add/edit. Archive requires confirmation. Stronger step-up may apply where risk, security, provider, or compliance rules require it. Third-party/company/ownership-mismatch profiles require proof and review. |
 | Effective payout destination change | Change the destination selected for a request, obligation, payment, or payout. | Preserve a new immutable snapshot, apply the role and acceptance rules in DOC-06B/DOC-09/DOC-10, warn the payer where the selected destination differs from accepted request context, and require payer reauthorization after payment authorization. |
-| Identity/KYC change | Correct, update, or re-verify an existing legal name, ID record, business owner record, landlord/payee identity, or verification record. | Require payment passcode or approved reauthentication, then route to KYC/KYB provider or risk review where configured. First-time individual identity verification follows the separate Account Activation exception. |
+| Identity/KYC change | Correct a governed record or respond to an admin-required identity update. A user cannot voluntarily repeat verification after `Verified`. | Preserve the verified record and audit history. An authorized admin may set `Not Verified` or `Update Required`; new provider capture may require payment passcode or approved reauthentication. First-time verification follows the Account Activation exception. |
 | Marketing or communication preference change | Opt-in/out, WhatsApp/SMS/email preference, direct-marketing consent. | Require logged preference update; step-up only if account takeover risk is present. |
 
 Material changes should create audit events and user-facing security notifications where appropriate. Detailed status, event schema, and admin workflow belong in DOC-18, DOC-19, and DOC-22.
@@ -219,8 +219,8 @@ DOC-06B `ME-ROOT` is the permanent mixed-role account-control route. Privacy req
 
 - `ACCOUNT-PROFILE` may show editable nickname/display name, copyable PayPlus User ID, masked phone, masked email, and identity-verification status only; nickname/display name is not a login identifier;
 - `ACCOUNT-SECURITY` must present the account's usable login methods, use `Set Password` where no PayPlus password exists and `Change Password` after one is set, and support explicit Google/Apple link or unlink without email-based automatic merging;
-- the only identity-verification labels shown there are `Pending`, `Verified`, `Failed`, and `Update Required`; `Verified` has no action, while the other states show `Verify Now` and open the reusable `IDENTITY-VERIFICATION` flow;
-- Back or Cancel from identity verification restores `ACCOUNT-PROFILE`; completion returns with refreshed status, and a pending provider submission must not encourage duplicate submission;
+- the only identity-verification labels shown there are `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`; actions follow DOC-06B and the status-display matrix;
+- Back or Cancel from identity verification restores `ACCOUNT-PROFILE`; completion returns with refreshed status, `Processing` must not encourage duplicate submission, and `Verified` offers no voluntary re-verification;
 - full identity attributes, identity documents, provider payloads, payment credentials, evidence content, full payout details, and internal risk reasons must not appear on the root;
 - revealing approved masked sensitive values in a prominent account or Receiving Info surface uses the existing PayPlus payment passcode or approved reauthentication; no second reveal-only passcode should be introduced;
 - changing existing sensitive identity, contact, security, credential, or Receiving Info data requires payment passcode or approved reauthentication before the applicable OTP, provider, review, or confirmation flow; first-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode;
@@ -437,7 +437,7 @@ Requirements:
 
 - verify requester identity before disclosing sensitive data;
 - distinguish user-visible history from full internal audit records;
-- distinguish direct editing of permitted account fields from a formal correction request; verification-record or provider-required updates use `Verify Now`, while other governed corrections use `Correct My Data` and may hand off to the same controlled verification flow;
+- distinguish direct editing of permitted account fields from a formal correction request; a verified identity record is not directly editable and only an admin-required `Update Required` decision may reopen provider capture, while other governed corrections use `Correct My Data`;
 - present privacy-request status as `Submitted`, `In Progress`, `Action Required`, `Completed`, or `Unable to Complete`; underlying case and provider states remain internal;
 - provide completed exports through protected, time-limited in-app access and do not send ordinary email attachments containing the export;
 - preserve audit history where correction affects payment, evidence, KYC/KYB, risk, payout, refund, dispute, chargeback, or compliance records;
@@ -597,6 +597,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.18` | `2026-07-28` | Product Documentation Team | Aligned privacy and account-control rules with HK Phone Verification, the five-state Identity Verification projection, no voluntary re-verification after Verified, admin-required update boundaries, and defined Payment Passcode recovery controls. |
 | `0.8.17` | `2026-07-28` | Product Documentation Team | Distinguished first-time identity verification from later sensitive identity changes: Account Activation does not require a pre-existing passcode, while correction, update, and re-verification require passcode or approved reauthentication. |
 | `0.8.16` | `2026-07-28` | Product Documentation Team | Added non-account registration attempts with unreserved identifiers, Account Activation, one-month Fast Login, biometric/password boundaries, unique phone/identity conflict handling, nickname/display-name separation, and authentication outcome/correlation data requirements. |
 | `0.8.15` | `2026-07-27` | Product Documentation Team | Defined one-account/multiple-login-method handling, unique verified primary email, explicit Google/Apple linking, social-account password setup in Account Security, deferred phone/identity/passcode completion, and financial-activation gates. |

@@ -100,16 +100,17 @@ Referral claim `Issued` means that an entitlement created one canonical reward i
 
 ## Identity Verification - MVP Display Mapping
 
-External-provider and backend states must map into these four user-facing labels. Final provider-specific mapping belongs in DOC-18/DOC-22 after provider selection.
+External-provider results and PayPlus policy outcomes must map into these five user-facing labels. Final provider-specific mapping belongs in DOC-17, DOC-18, and DOC-22 after provider selection.
 
 | Domain | Stage / Status Type | User-Facing Label | Owning Docs | Appears In | User Action / Notes |
 | --- | --- | --- | --- | --- | --- |
-| Identity Verification | Submission incomplete or provider result pending | `Pending` | DOC-06B / DOC-15 | Account Information, Identity Verification, notification where applicable | Show `Verify Now`. Resume the current flow or show its active position; do not encourage duplicate submission. |
-| Identity Verification | Approved result remains valid | `Verified` | DOC-06B / DOC-15 | Account Information, Identity Verification | No verification action is shown. |
-| Identity Verification | Submission or verification did not pass | `Failed` | DOC-06B / DOC-15 | Account Information, Identity Verification, notification where applicable | Show `Verify Now` and a safe explanation without exposing provider or risk detail. |
-| Identity Verification | Existing verification must be refreshed or corrected | `Update Required` | DOC-06B / DOC-15 | Account Information, Identity Verification, notification where applicable | Show `Verify Now`; provider-required correction may use the same reusable flow. |
+| Identity Verification | Not started, incomplete capture, or authorized admin reset | `Not Verified` | DOC-06B / DOC-15 | Account Information, Identity Verification, activation banner where applicable | Show `Verify Now` or `Continue Verification`. |
+| Identity Verification | Submitted; authoritative provider result or PayPlus policy decision pending | `Processing` | DOC-06B / DOC-15 | Account Information, Identity Verification, Home banner, notification where applicable | Show `View Status`; do not permit duplicate submission. |
+| Identity Verification | Authoritative provider result and PayPlus policy checks passed | `Verified` | DOC-06B / DOC-15 | Account Information, Identity Verification, dismissible completion banner | No verification action; user cannot voluntarily re-verify. |
+| Identity Verification | Provider verification or PayPlus policy check failed, including duplicate identity | `Failed` | DOC-06B / DOC-15 | Account Information, Identity Verification, Action Required banner, notification where applicable | Show `Verify Again` and `Get Help`, subject to retry controls and safe reason disclosure. |
+| Identity Verification | Authorized admin review requires updated information | `Update Required` | DOC-06B / DOC-15 / DOC-22 | Account Information, Identity Verification, Action Required banner, notification where applicable | Show `Update Verification`; admin cannot directly set `Verified`. |
 
-`Suspended` is not an approved user-facing Identity Verification label. A provider, risk, compliance, or operational suspension must remain internal and map to `Failed` when verification did not pass, or `Update Required` when the user may correct, refresh, or re-verify. The owning domain decides the mapping; DOC-08 and UI routes must not introduce a fifth label.
+Provider-specific states, internal review states, suspension, retry restrictions, duplicate checks, and admin workflow states are not additional user-facing labels. They must map to the five labels above according to the owning domain meaning. `Verified` to `Not Verified` requires dual admin approval for MVP.
 
 ## Privacy Request - MVP Display Mapping
 
