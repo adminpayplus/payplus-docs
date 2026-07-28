@@ -43,6 +43,8 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-020` | `2026-07-28` | Entrance, Authentication, Registration, And Account Activation | Accepted | `DOC-06B` / `DOC-07` | `6f2bd4b` |
 | `DEC-2026-021` | `2026-07-28` | Authentication And Account-Control Route Hierarchy | Accepted | `DOC-06B` | `27583d7` |
 | `DEC-2026-022` | `2026-07-28` | Identity Verification Passcode Boundary And Child-Route Readiness | Accepted | `DOC-06B` / `DOC-15` | `4f781c7` |
+| `DEC-2026-023` | `2026-07-28` | Verification, Passcode, And Additional Step-Up Baseline | Accepted | `DOC-06B` | `b120c6e` |
+| `DEC-2026-024` | `2026-07-28` | Optional Decision-Complete Behavior Pattern | Accepted | Parallel-agent drafting workflow | `d2a9bfd` |
 
 ## 4. Decision Record Template
 
@@ -1038,3 +1040,43 @@ Supersedes the four-label identity projection, user-initiated later correction/r
 - Support-assisted passcode-recovery proof and waiting period.
 - Exact authentication Outcome IDs, Message IDs, approved copy, actions, and destinations.
 - Implementation-level positive, negative, interruption, recovery, security, and accessibility tests.
+
+### `DEC-2026-024` - Optional Decision-Complete Behavior Pattern
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-28` |
+| Status | Accepted |
+| Primary owner | `docs/00-foundation/payplus-parallel-agent-drafting-workflow.md` |
+| Affected documents | Parallel-agent drafting workflow |
+| Substantive commit | `d2a9bfd` |
+| Founder approval | Optional decision-complete drafting pattern approved on `2026-07-28` |
+
+**Decision**
+
+The parallel-agent workflow includes an optional decision-complete behavior pattern for material routes, screens, states, exceptions, and failure behavior that would become ambiguous if reduced to topic-only bullets.
+
+When useful, the pattern records meaning, user-visible behavior, available actions, destinations, material system effects, preserved boundaries, interruption/failure/return behavior, and document ownership. The Orchestrator decides whether the pattern improves the task.
+
+The pattern is not a mandatory format. Simple policy decisions, narrow wording changes, metadata updates, reference corrections, and other work that remains clear without the structure should use the shortest suitable presentation.
+
+**Rationale**
+
+Human-readable source documents must remain compact while preserving enough behavior for professional and AI review without relying on chat history. Making the pattern optional prevents the workflow from expanding simple changes or mechanically duplicating behavior across documents.
+
+**Alternatives Considered**
+
+- Keeping only topic-level bullets was rejected where material behavior could become ambiguous or incomplete.
+- Requiring the full pattern for every task was rejected because many changes do not need screen, action, destination, failure, and return analysis.
+
+**Consequences And Handoffs**
+
+The pattern may be used in Founder Review Packs and canonical drafts where applicable. Existing source-ownership and documentation-layering rules continue to determine where exact technical values, schemas, message copy, security constants, and admin procedures belong.
+
+**Supersedes / Superseded By**
+
+Adds optional detail guidance without superseding the existing compact-but-decision-complete Founder Review Pack requirement.
+
+**Remaining Open Items**
+
+None.

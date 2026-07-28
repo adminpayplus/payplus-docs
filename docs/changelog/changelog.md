@@ -790,3 +790,33 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 - Support-assisted passcode-recovery proof and waiting period in DOC-19 and DOC-22.
 - Exact DOC-07 authentication Outcome IDs, Message IDs, approved messages, actions, and destinations.
 - Derived implementation and acceptance tests in DOC-20.
+
+### `2026-07-28` - Optional Decision-Complete Drafting Pattern
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `d2a9bfd` |
+| Primary owner | Parallel-agent drafting workflow |
+| Decision record | `DEC-2026-024` |
+| Founder approval | Optional drafting pattern approved on `2026-07-28` |
+
+**Files Changed**
+
+- `docs/00-foundation/payplus-parallel-agent-drafting-workflow.md`
+
+**Material Changes**
+
+- Added an optional behavior-drafting pattern for cases where topic-only bullets would make routes, screens, states, exceptions, or failures ambiguous.
+- Defined an optional compact table covering meaning, user-facing behavior, actions and destinations, and material system effects or boundaries.
+- Required sufficient local context while preserving technical, security, message, schema, and admin ownership in the appropriate documents.
+- Explicitly prohibited mechanical application, unnecessary expansion of simple changes, and cross-document duplication.
+
+**Checks Performed**
+
+- Confirmed the new section is optional and does not replace the existing Founder Review Pack requirements.
+- Verified the workflow file with `git diff --check`.
+- Staged and committed only the workflow file in the substantive commit.
+
+**Remaining Open Items**
+
+- None.
