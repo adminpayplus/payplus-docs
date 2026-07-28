@@ -6,7 +6,7 @@ Last updated: 2026-07-29
 
 This framework defines the repository-wide architecture for translating a PayPlus business rule into a system result, user-facing communication, follow-up action, external notification, audit evidence, acceptance coverage, and implementation.
 
-It is the authoritative supporting framework for DOC-07 and for every future PayPlus specification that defines or consumes user-visible outcomes. DOC-07 remains the formal product owner of user-facing outcome, message, disclosure, and CTA mappings. DOC-08 remains the formal owner of notification events, channels, delivery rules, preferences, and notification templates.
+It is the detailed canonical owner of the Outcome → Resolution Strategy → Message/CTA → Notification architecture and the supporting traceability chain for DOC-07 and every future PayPlus specification that defines or consumes user-visible outcomes. Platform Design Principles owns the durable separation doctrine. DOC-07 remains the formal product owner of user-facing outcome, message, disclosure, and CTA mappings. DOC-08 remains the formal owner of notification events, channels, delivery rules, preferences, and notification templates.
 
 This framework supplements DOC-00 and `AGENTS.md`. It does not replace formal product, domain, privacy, security, data, testing, support, or admin requirements.
 
@@ -361,7 +361,7 @@ This example defines structure only. DOC-07, DOC-18, DOC-20, and the owning rout
 
 ## 15. Change and Maintenance Rules
 
-Changes to this framework are governance-sensitive. Apply the PayPlus Documentation Change Integration and Commit Workflow.
+Changes to this framework are governance-sensitive. Apply the PayPlus Documentation Development Workflow.
 
 When a canonical mapping changes:
 

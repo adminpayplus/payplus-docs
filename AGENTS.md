@@ -1,100 +1,128 @@
 # AGENTS.md
 
-## Purpose
+## 1. Purpose and Authority
 
-This file gives AI assistants working in this repository a shared operating guide.
+This file is the PayPlus repository Operating Contract and Routing Layer for AI assistants.
 
-PayPlus documentation must be developed in layers:
+It defines durable repository boundaries, source precedence, concept and document ownership, task routing, approval boundaries, and safe operating rules. It tells an agent which authority, workflow, procedure, framework, guide, and domain owner to use.
 
-1. Human-readable source-of-truth documentation.
-2. Technical and operational specifications derived from the human docs.
-3. AI-coding-friendly execution documentation derived from the human and technical specs.
-4. Implementation code, tests, migrations, configuration, and release evidence.
+This file is not a Documentation Lifecycle and must not define or duplicate lifecycle stages, gates, or procedures. The sole canonical owner of the Documentation Lifecycle is:
 
-Do not reverse this order unless the founder explicitly approves it.
+`docs/00-foundation/payplus-documentation-development-workflow.md`
 
-## Repository Context
+All documentation work must be routed through that Documentation Development Workflow. Parallel work and specialist guides extend the canonical workflow only when their triggers apply.
+
+## 2. PayPlus Repository Context and Product Boundary
 
 PayPlus is a controlled bill, fee, rent, and approved-payee payment application.
 
-The product is intended to support eligible real-world bills or approved payment obligations, with evidence, payer authorization, payee verification, risk controls, auditability, reconciliation, and operational oversight.
+The product supports eligible real-world bills and approved payment obligations with evidence, payer authorization, payee verification, risk controls, auditability, reconciliation, and operational oversight.
 
-PayPlus must not be casually described or designed as:
+PayPlus must not be casually described, specified, prototyped, or implemented as:
 
-- a wallet;
-- a stored-value account;
-- an unrestricted peer-to-peer transfer app;
-- a cashout product;
-- a remittance product;
-- a lending product;
-- a cash advance product;
+- a wallet or stored-value account;
+- an unrestricted peer-to-peer transfer product;
+- a cashout or remittance product;
+- a lending or cash-advance product;
 - an open money-request marketplace.
 
-If any future feature appears to move PayPlus toward one of those models, flag it as a risk or open question instead of treating it as approved scope.
+Any feature that may move PayPlus toward one of these models must be treated as a risk or unresolved decision. An agent must not convert it into accepted scope without the required Founder decision and source-document update through the canonical workflow.
 
-## Source of Truth
+## 3. Source-of-Truth Authority
 
-Use `docs/00-foundation/doc-00-documentation-governance.md` as the primary documentation governance guide.
+`docs/00-foundation/doc-00-documentation-governance.md` is the sole owner of the ranked source-of-truth hierarchy. Apply the hierarchy defined in DOC-00 whenever sources conflict; this operating contract does not restate or independently rank those sources.
 
-When sources conflict, follow the source-of-truth hierarchy in `DOC-00`.
+Operationally:
 
-In general:
+- use each current formal document for the concept it owns;
+- treat Founder Working Baselines according to the status and limited authority assigned by DOC-00;
+- use technical, traceability, diagram, prototype, AI-execution, supporting, backup, and chat material only at the authority level assigned by DOC-00;
+- do not let a derived or supporting artifact override its formal owner.
 
-1. Approved formal `DOC-XX` documents win.
-2. Draft formal documents guide discussion but are not final authority.
-3. AI build-execution files support implementation but must not override human source documents.
-4. Backup files are not authoritative.
-5. Chat history is useful context but must not override repository documents.
+An explicit current Founder instruction controls the task scope and authorization boundary. Material product or governance decisions must still be returned to and recorded by the correct formal owner through the canonical workflow.
 
-## Current Documentation Strategy
+## 4. Documentation Layers
 
-The intended documentation flow is:
+PayPlus documentation must be developed in this order:
 
 ```text
-Human source docs -> technical specs -> AI execution docs -> implementation tasks -> code/tests/evidence -> traceability updates
+Human source documents
+-> technical and operational specifications
+-> AI build-execution documents
+-> implementation tasks
+-> code, tests, migrations, configuration, and release evidence
+-> traceability updates
 ```
 
-Use these repository areas as follows:
+Do not reverse this order unless the Founder explicitly authorizes the exception.
 
-- `docs/00-foundation/`: governance, product positioning, business model, regulatory and compliance foundation.
-- `docs/01-product/`: product requirements, user journeys, disclosures, notifications, and user-facing behavior.
-- `docs/02-payment-domain/`: payment, funding, payout, reconciliation, refund, cancellation, and chargeback behavior.
-- `docs/03-bill-verification/`: bill categories, evidence, document AI/OCR, and payee verification.
-- `docs/04-growth-ecosystem/`: promotions, coupons, referrals, memberships, and growth features.
-- `docs/05-risk-compliance-privacy/`: AML, anti-cashout, fraud, privacy, data classification, masking, approved-purpose access, and retention.
-- `docs/06-engineering/`: architecture, APIs, data model, field metadata, lineage, transaction states, and audit events.
-- `docs/07-security-access-control/`: security, tokenization, authentication, access control, and admin controls.
-- `docs/08-qa-release-operations/`: testing, UAT, go-live, monitoring, incidents, and operations.
-- `docs/09-ai-build-execution/`: AI build-execution materials derived from human docs.
-- `docs/99-isms-policies/`: ISMS and security policy library.
-- `docs/traceability/`: requirements, controls, tests, decisions, and open-question linkage.
+- `DOC-00` to `DOC-15` and related domain documents form the active human-readable product and control baseline.
+- `DOC-16` to `DOC-22` define technical architecture, integrations, data, security, testing, operations, and admin specifications when drafted.
+- Placeholder technical documents do not authorize an agent to infer missing implementation detail.
+- AI execution material may be generated only when the human and technical source set is sufficiently accepted for conversion.
 
-## Documentation Layering
+## 5. Workflow Routing Matrix
 
-Human source documents should remain readable, decisive, and reviewable by the founder and professional advisers. Do not overload foundation, product, payment-domain, risk, compliance, or growth documents with full database schemas, API contracts, implementation tickets, or code-level tasks unless the founder explicitly asks.
+The Documentation Development Workflow is the canonical lifecycle owner for every row below. The other entries are conditional authorities or specialist extensions, not competing workflows.
 
-Use the layers as follows:
+| Task category or trigger | Canonical owner | Required or conditional specialist reference |
+| --- | --- | --- |
+| Any documentation review, proposal, drafting, restructuring, alignment, validation, approval request, Git action, records treatment, or completion report | Documentation Development Workflow | `DOC-00` plus the primary owning document |
+| Parallel agents, a review swarm, multiple workstreams, or worktrees are explicitly requested | Documentation Development Workflow | Parallel-Agent Documentation Procedure |
+| Interactive prototype, route prototype, wireframe, UI proof of concept, prototype review, or prototype-status change | Documentation Development Workflow | Prototype Design and Validation Specialist Guide |
+| DOC-07 Outcome, Resolution, Message, disclosure, copy, or CTA authoring | Documentation Development Workflow | DOC-07 Design Specification Specialist Guide plus Outcome Framework |
+| Material decision, outcome, recovery/unavailable path, protected continuation, message/CTA relationship, or notification relationship | Owning route/domain document through the Documentation Development Workflow | Platform Design Principles plus Outcome Framework |
+| Product route, destination, screen, entry point, return behavior, or route-family structure | Applicable product/UX owner | Route register, transition tables, and governed hierarchical diagrams |
+| Bills, rent, tenancy, evidence UI, reminder UI, or bill-specific activity | Applicable DOC-06 family owner, normally DOC-06C | Relevant payment, evidence, privacy, notification, and acceptance owners |
+| Payment request, checkout, funding, authorization, or payment instruction | DOC-09 | DOC-06 route owner plus applicable payout, evidence, risk, privacy, notification, and acceptance owners |
+| Notification ID, recipient, channel, template, preference, delivery, retry, or notification evidence | DOC-08 | Outcome Framework; DOC-07 only for owned user-facing mapping |
+| Evidence, OCR, extraction, bill verification, or payee verification | DOC-12 | Applicable UX, payment, risk, privacy, data, and acceptance owners |
+| Promotion, coupon, voucher, referral, membership, or offer logic | DOC-13 | Applicable UX, checkout, accounting, risk, notification, and acceptance owners |
+| AML, anti-cashout, fraud, or dynamic risk control | DOC-14 | DOC-03/DOC-04 foundation context plus applicable product, payment, privacy, security, admin, and testing owners |
+| Privacy classification, masking, retention, visibility, or approved-purpose access | DOC-15 | The directly affected product/domain owner must also be updated |
+| Status, event taxonomy, audit, lineage, reporting, or AI-ready signal | DOC-18 when drafted; current domain owner remains authoritative meanwhile | Status-display matrix and affected UX/notification owners |
+| Authentication, token, session, rate limit, access, or security control | DOC-19 when drafted; current security owner remains authoritative meanwhile | Applicable route, privacy, outcome, operations, and testing owners |
+| Acceptance, UAT, go-live, monitoring, incident, support, or admin operations | DOC-20, DOC-21, or DOC-22 according to concern | Owning human requirement and relevant traceability |
+| Formal-document metadata, status, version, ownership, review, approval, numbering, or source hierarchy | DOC-00 | Formal document owner |
+| Conversion into AI coding/execution material | Owning human and technical documents through the Documentation Development Workflow | `docs/09-ai-build-execution/` only after conversion is authorized |
 
-1. `DOC-00` to `DOC-15` and related domain documents define business intent, product rules, payment behavior, compliance boundaries, user journeys, risk boundaries, and human-readable source requirements.
-2. `DOC-16` to `DOC-22` define technical architecture, API and partner integration, data model, transaction states, audit events, security, testing, monitoring, and admin operations.
-3. `docs/09-ai-build-execution/` contains AI-agent execution materials generated from the human and technical specifications.
-4. Code, migrations, tests, and implementation artifacts must trace back to the source documents and technical specs.
+### Routing Rules
 
-When drafting early human docs, include enough structure for later specification work, but leave detailed schema, endpoint, test-case, and implementation-ticket detail to the technical and AI execution layers.
+- Start every documentation task with the Documentation Development Workflow and the primary owning document.
+- Load only the specialist references whose triggers are present.
+- The Parallel Procedure controls distribution and consolidation only.
+- The Prototype Guide controls prototype-specific methods and checks only.
+- The DOC-07 Guide controls DOC-07-specific authoring and checks only.
+- Platform Design Principles provide cross-platform design doctrine; they do not own product requirements or lifecycle rules.
+- The Outcome Framework provides the Outcome/Resolution/Message/CTA/Notification/Event separation and traceability model; it does not own route rules, approved copy, notification delivery, status taxonomy, or lifecycle rules.
+- A specialist finding that changes product meaning must return to the applicable owner through the canonical workflow.
+- If routing or ownership remains unclear, stop expansion and identify the likely owner, conflicting sources, and required Founder decision.
 
-At the current founding-stage baseline, `DOC-00` to `DOC-15` are the active human source baseline and `DOC-16` to `DOC-22` may be planned, placeholder, or partial until drafted. Do not infer missing technical detail from placeholders.
+## 6. Foundation Document Ownership Matrix
 
-DOC-15 owns the cross-document privacy, data classification, masking, retention, role-based visibility, and approved-purpose access baseline. When DOC-15 affects a product, payment, risk, evidence, promotion, engineering, security, or operations requirement, update the owning document directly instead of only adding a note in DOC-15.
+This matrix covers every Markdown document currently located in `docs/00-foundation/`.
 
-Legacy files under `docs/09-ai-build-execution/context/`, including `project-continuation-context.md`, are non-authoritative unless explicitly refreshed from current formal documents.
+| Foundation document | Purpose and responsibility | Owns | MUST NOT own |
+| --- | --- | --- | --- |
+| `doc-00-documentation-governance.md` | Documentation governance authority | Source hierarchy; document status; metadata; ownership/review/approval model; change control; IDs; templates; traceability governance | Product behavior; domain requirements; specialist authoring methods; Documentation Lifecycle execution |
+| `doc-01-project-charter-product-positioning.md` | Product charter, overview, positioning, actors, MVP intent, and high-level boundaries | PayPlus product identity; market problem; target users; MVP framing; prohibited-product positioning | Detailed payment/evidence/risk behavior; technical design; specialist procedures; lifecycle rules |
+| `doc-02-business-model-unit-economics.md` | Commercial model, fee principles, costs, unit economics, subsidies, reserves, and viability | Commercial intent and economic assumptions; pricing and viability governance at business level | Detailed transaction implementation; final regulatory conclusions; accounting schemas; lifecycle rules |
+| `doc-03-regulatory-psp-acquirer-assessment.md` | Regulatory, PSP, acquirer, partner-model assessment and open professional-review items | Product-model assessment; regulatory boundaries and risks; required external assessment questions | Final legal advice; invented partner approval; detailed product mechanics owned elsewhere; lifecycle rules |
+| `doc-04-compliance-certification-roadmap-control-framework.md` | Foundation compliance-control objectives, tiers, categories, and readiness roadmap | Cross-domain compliance-control baseline and launch-readiness control expectations | Detailed domain implementation; final certification claims; technical control design owned elsewhere; lifecycle rules |
+| `payplus-platform-design-principles.md` | Durable cross-platform product and system design doctrine | Navigation-context protection; revalidation; explicit resolution; security-first usability; modular capability gating; idempotency; auditability; traceability principles | Documentation governance; lifecycle stages/gates; detailed domain requirements; APIs, schemas, or code architecture |
+| `payplus-outcome-message-notification-framework.md` | Cross-frontend/backend result and signal architecture | Separation and traceability of Business Rule, Decision, Outcome, Resolution, Message, CTA, Notification, Event/Audit, and Acceptance | Route/domain business rules; approved DOC-07 copy; DOC-08 delivery policy; DOC-18 status/event schema; lifecycle stages/gates |
+| `payplus-documentation-development-workflow.md` | Sole canonical Documentation Development Workflow | Entire Documentation Lifecycle and all lifecycle stages, roles, gates, validation authority, Git/records treatment, and completion rules | Product/domain requirements; specialist prototype methods; DOC-07 content method; parallel execution mechanics |
+| `payplus-parallel-agent-documentation-procedure.md` | Optional Parallel-Agent Documentation Procedure | Orchestration; task decomposition; work packets; parallel roles; worktree isolation; consolidation; execution conflicts; parallel review | Lifecycle stages/gates; product decisions; general validation authority; commit/records/push/completion authority |
+| `payplus-prototype-design-validation-specialist-guide.md` | Prototype Design and Validation Specialist Guide | Prototype classification/status; planning inputs; build method; interaction matrix; functional, visual, responsive, product, and accessibility checks; artifact handoff evidence | Product source requirements; lifecycle stages/gates; general approval/validation; commit/records/push/completion authority |
+| `payplus-doc-07-design-specification-specialist-guide.md` | DOC-07 Design Specification Specialist Guide | DOC-07 slice inputs; mandatory matrix; Outcome/Resolution/Message/CTA authoring; disclosure and risk review; specialist validation and maintenance | Source route/domain rules; notification delivery; status/event schema; lifecycle stages/gates; Git or completion authority |
 
-## PayPlus Product Drafting Method
+When a new foundation document is introduced, update this matrix in the same accepted change so its unique responsibility and prohibited ownership remain explicit.
 
-When drafting, reviewing, or restructuring any PayPlus document, apply this product-thinking method before proposing structure or edits.
+## 7. Durable Product-Thinking Rules
 
-### Concept Classification
+### 7.1 Classify Before Designing
 
-Classify the subject before designing it. Be explicit about whether the item is a:
+Classify the subject before creating structure. Distinguish at minimum:
 
 - route;
 - screen;
@@ -102,7 +130,10 @@ Classify the subject before designing it. Be explicit about whether the item is 
 - sheet or modal;
 - card or component;
 - button or user action;
-- status or user-facing status label;
+- persistent status;
+- user-facing status label;
+- operation outcome;
+- resolution strategy;
 - backend event or audit signal;
 - data object;
 - policy rule;
@@ -110,300 +141,110 @@ Classify the subject before designing it. Be explicit about whether the item is 
 - notification;
 - report or reconciliation artifact.
 
-Do not create a new route, module, status, data object, or document section when the item is only a view, filter, state, entry point, or contextual action.
+Do not create a new route, module, status, data object, or document section when the subject is only a view, filter, state, entry point, or contextual action.
 
-### Concept Separation
+### 7.2 Preserve Concept Separation
 
-Keep similar concepts separate unless the source documents clearly combine them. In particular:
+- A request is not a payment.
+- A shortcut is an entry point, not a feature owner.
+- A route is not a view, filter, tab, or internal mode.
+- A bill or rent record is not evidence.
+- Evidence status is not payment readiness.
+- A notification is not a status or domain event.
+- A user-facing label is not necessarily the system state.
+- An outcome is not a persistent status.
+- A resolution strategy is not an outcome, message, CTA, route, or status.
+- A reminder is not automatically a deferred payment instruction.
+- A user action is not a backend event or audit record.
 
-- a request is not a payment;
-- a shortcut is an entry point, not a feature owner;
-- a route is not the same as a view, filter, or tab;
-- a bill/rent record is not the same as evidence;
-- evidence status is not the same as payment readiness, although it may affect readiness;
-- a notification is not the same as a status;
-- a user-facing label is not always the same as the underlying system state;
-- an outcome is not the same as a persistent status;
-- a resolution strategy is not the same as an outcome, message, CTA, route, or status;
-- a Pay+ action is not automatically a standalone route;
-- a reminder is not automatically a deferred payment instruction;
-- a user action is not the same as a backend event or audit record.
+For status-display work, use `docs/traceability/status-display-reference-matrix.md` as the display-alignment reference while preserving the underlying domain owner.
 
-When drafting or editing user-facing status labels, activity labels, checkout/result status, receipt or statement wording, notification wording, or admin status display, check `docs/traceability/status-display-reference-matrix.md`. That matrix is the status-display alignment reference; domain documents still own the underlying system status meaning and DOC-18 remains the future canonical status/event taxonomy owner.
+### 7.3 Keep One Primary Owner
 
-### Outcome and Resolution Rule
+Assign one primary owner for each material concept. Reference and handoff documents must link to that owner rather than reproduce its detailed rule.
 
-For material user-facing results and controlled handling, apply:
+Common ownership:
 
-```text
-Business Intent and Source Rule
-  -> Decision or Evaluation
-  -> Outcome
-  -> Resolution Strategy
-  -> Message and CTA
-  -> Notification, when required
-  -> Audit Event
-  -> Acceptance Test
-  -> Code and Automated Test
-```
-
-Read `docs/00-foundation/payplus-platform-design-principles.md` and `docs/00-foundation/payplus-outcome-message-notification-framework.md` when a task defines or changes a material decision, outcome, unavailable path, recovery path, message, CTA, notification relationship, or protected continuation.
-
-The route or domain owner defines the Outcome meaning and permitted Resolution Strategies. DOC-07 owns approved user-facing Outcome/Message/CTA mappings and disclosure. DOC-08 owns notification behavior. DOC-18 owns event/audit/status data, and specialist owners define security, operations, testing, and admin controls.
-
-Resolution must be capability-aware but disclosure-safe. It may continue, restart, redirect, wait, invoke controlled Support, or stop. It must not create a new persistent status, reveal unavailable capabilities, bypass a gate, silently authorize a protected action, or imply that every account or process can be recovered.
-
-### User-First Flow Check
-
-Before recommending a flow or editing a UX/product document, answer the practical user questions:
-
-1. Who is the user: payer, payee, landlord, business payee, admin, or system?
-2. What does the user want to do?
-3. What does the user see first?
-4. What button or action can the user take?
-5. Where does the action route?
-6. What happens after the action?
-7. How can the user return to the prior context?
-8. What is hidden, masked, or admin-only?
-9. What happens if the counterparty is not a PayPlus user or is not linked?
-10. What happens if evidence, verification, risk, payout, privacy, or authorization gates fail?
-
-### Simplicity and Structure Rule
-
-Prefer the simplest structure that preserves product control, compliance boundaries, future implementation clarity, and user understanding.
-
-- If several items render the same list with different selection criteria, treat them as views or filters unless a materially different screen is required.
-- If a button only opens another area, treat it as an entry point, not a new feature owner.
-- If detailed behavior belongs in another document, reference that owner instead of duplicating the rule.
-- If the user experience would be confusing because of internal terminology, use user-facing wording and keep internal terms for technical docs.
-- If a future admin, data, API, or operations detail is needed, mark the future owning document instead of overloading the human source document.
-
-### Route and Destination Naming Rule
-
-Product route and destination IDs must describe the product area and remain independent of the document that currently owns them. Do not add `DOC-XX`, `06B`, or another document number to a product destination solely because that document defines it.
-
-- Reserve `*-ROOT` for the main screen of an independent product area, such as `OFFERS-ROOT`, `REWARDS-ROOT`, or `REFERRAL-ROOT`.
-- Use a clear child-screen suffix for subordinate destinations, such as `OFFERS-CARD-LIST` or `OFFER-DETAIL`.
-- Keep requirement, acceptance, control, and test IDs document-scoped where needed for traceability.
-- Record ordinary navigation through a transition table containing source, user action, destination, and return behavior. Do not create a permanent entry-point ID for every button, card, notification, or deeplink.
-- Maintain a route register with each destination's parent, type, purpose, owning document, and definition status so undefined intermediate screens remain visible.
-- Leave backend event names, analytics events, deeplink contracts, and implementation paths to their technical owning documents; they must map back to the product destinations without renaming them.
-
-### Hierarchical Route-Diagram Rule
-
-Use hierarchical Mermaid maps for route visualization:
-
-- the app-level map stops at primary navigation destinations and direct global entry points;
-- each material route family owns its detailed parent/child, handoff, and return map;
-- a parent diagram should link to a child route family but must not duplicate that child's full tree;
-- trivial leaf screens do not require separate diagrams unless their navigation is material or easy to misunderstand;
-- `docs/traceability/route-register.md` remains the canonical destination inventory and definition-status source;
-- route diagrams are visual alignment aids and must not introduce destinations or behavior absent from the owning documents;
-- when replacing a current map, preserve the prior governed map as a dated, clearly superseded, non-authoritative snapshot and update `docs/diagrams/README.md`.
-
-### PayPlus Boundary Check
-
-Every proposed feature, route, flow, data rule, promotion, notification, or admin control must preserve PayPlus boundaries:
-
-- evidence-backed bill, fee, rent, tenancy, or approved obligation context;
-- payer authorization remains central;
-- payee-created requests require payer acceptance before payment authorization;
-- payer-created payments may proceed without payee acceptance where evidence, verification, risk, payout, compliance, and authorization gates pass;
-- optional party linking creates shared visibility or communication, not payment authorization;
-- no open money request marketplace;
-- no wallet, stored-value, cashout, remittance, lending, cash advance, or unrestricted P2P behavior;
-- no automatic user-to-user matching unless later approved with privacy, security, and compliance controls.
-
-### Source Ownership Rule
-
-Assign one primary owner before drafting. Other documents may reference or hand off, but should not redefine the same behavior.
-
-Common ownership baseline:
-
-- `DOC-06B`: navigation, global non-Bills route shells and human-readable route-level UX behavior, entry points, route taxonomy, and dashboard placement;
-- `DOC-06C`: Bills/rent/tenancy UX, cards, details, evidence UI entry, reminder UI, bill-specific activity;
-- `DOC-07`: user-facing Outcome/Message/CTA mappings, disclosure, approved copy, and presentation behavior;
-- `DOC-08`: notification IDs, channels, templates, preferences, and delivery rules;
-- `DOC-09`: payment request mechanics, checkout, funding, authorization, payment instructions, payment states;
+- `DOC-06B`: global non-Bills route shells, navigation, entry points, route taxonomy, and route-level UX;
+- `DOC-06C`: Bills/rent/tenancy UX, cards, details, evidence entry, reminders, and bill activity;
+- `DOC-07`: approved user-facing Outcome/Message/CTA mappings, disclosure, copy, and presentation;
+- `DOC-08`: notification identity, recipients, channels, templates, preferences, and delivery;
+- `DOC-09`: payment request, checkout, funding, authorization, instructions, and payment states;
 - `DOC-10`: payout and reconciliation;
-- `DOC-11`: refund, cancellation, dispute, chargeback;
-- `DOC-12`: evidence, document AI/OCR, field extraction, verification;
-- `DOC-13`: promotions, coupons, vouchers, referrals, membership, offers logic;
-- `DOC-14`: AML, anti-cashout, fraud, dynamic risk controls;
-- `DOC-15`: privacy, data classification, masking, retention, approved-purpose access;
-- `DOC-18`: data model, event taxonomy, audit events, lineage, reporting;
-- `DOC-19`: authentication, token, session, rate-limit, access, and security controls;
-- `DOC-20`: detailed acceptance, UAT, and release evidence;
-- `DOC-21`: support procedures, monitoring, incidents, and operational escalation;
-- `DOC-22`: admin operations, dashboard workflow, configurable controls, manual review operations.
+- `DOC-11`: refund, cancellation, dispute, and chargeback;
+- `DOC-12`: evidence, OCR/extraction, and verification;
+- `DOC-13`: promotions, offers, referrals, and membership logic;
+- `DOC-14`: AML, anti-cashout, fraud, and risk controls;
+- `DOC-15`: privacy classification, masking, retention, visibility, and approved-purpose access;
+- `DOC-18`: future canonical data, status/event, audit, lineage, and reporting specification;
+- `DOC-19`: future canonical authentication, session, token, access, rate-limit, and security specification;
+- `DOC-20`: detailed testing, UAT, and release evidence;
+- `DOC-21`: monitoring, incidents, support, and operational escalation;
+- `DOC-22`: admin workflow, configuration, queues, review, and controlled overrides.
 
-If ownership is unclear, identify the likely primary owner and list reference documents before editing.
+Do not infer missing technical detail from placeholder owners.
 
-### Recommended Pre-Edit Output
+### 7.4 User and Route Discipline
 
-For any new feature, route, workflow, policy, status model, or cross-document change, provide this summary before editing unless the founder has already approved the exact change:
+For user-facing behavior, identify the actor, intent, first view, available action, destination, result, return behavior, hidden or masked information, non-member/unlinked behavior, and failed evidence/verification/risk/privacy/authorization path.
 
-1. concept classification;
-2. recommended structure;
-3. why the structure is not over-complicated;
-4. primary owning document and reference documents;
-5. user-facing flow;
-6. affected documents;
-7. open questions or `TBC` items.
+Product destination IDs must describe the product area and remain independent of document numbers.
 
-For route or reusable-flow proposals, use this presentation where applicable:
+- Reserve `*-ROOT` for the main screen of an independent product area.
+- Use clear child-screen names for subordinate destinations.
+- Record ordinary navigation through source/action/destination/return transitions.
+- Keep `docs/traceability/route-register.md` as the destination inventory.
+- Use hierarchical route diagrams as visual projections, not independent authority.
 
-1. modes or invocation contexts;
-2. a screen-sequence table with enough detail to review each screen;
-3. product and security rules;
-4. status-to-action mapping;
-5. failure, interruption, and return behavior;
-6. owning and reference documents.
+### 7.5 Simplicity and Layering
 
-Do not compress an entire multi-screen flow into one table row. Modes and screen states must not be promoted into new routes unless they are independently navigable destinations.
+Prefer the simplest structure that preserves product control, compliance boundaries, user understanding, and future implementation clarity.
 
-## Agent Workflow Rules
+- Treat shared lists with different selection criteria as views or filters unless a materially different screen is required.
+- Treat a button that opens another area as an entry point, not a new feature owner.
+- Reference another document's owned detail instead of duplicating it.
+- Use user-facing language in product documents and implementation terminology in the proper technical layer.
+- Mark unresolved details `TBD`, `Open`, or `To be confirmed` with an owner.
 
-### Parallel-Agent Documentation Workflow
+## 8. Approval and Authorization Boundaries
 
-When the founder requests parallel agents, multi-agent drafting, a review swarm, or worktree-based documentation work, read and apply `docs/00-foundation/payplus-parallel-agent-drafting-workflow.md`.
+- The Founder remains the reserved decision owner for material product, governance, ownership, scope, commit, and push authorization unless explicitly delegated.
+- Formal document owners, reviewers, approvers, statuses, and version rules are governed by `DOC-00`.
+- The Documentation Development Workflow exclusively defines how approvals and lifecycle gates operate.
+- `AGENTS.md`, specialist guides, frameworks, diagrams, prototypes, chat, and AI output cannot independently approve a requirement or Git action.
+- Review or analysis requests do not authorize edits.
+- Edit authorization does not automatically authorize a commit, push, approval status, or product decision beyond the accepted scope.
+- When authority is unclear, preserve completed in-scope work and return the unresolved decision through the canonical workflow.
 
-The lead agent in the active task acts as Orchestrator / Integration Lead unless the founder appoints another owner. Do not create worktrees or begin parallel editing until the workflow's classification, ownership, baseline, and approval gates have been satisfied.
+## 9. Repository Safety and Operating Discipline
 
-### Prototype Design and Validation Workflow
+Before repository work, verify the current workspace, repository visibility, relevant source documents, `AGENTS.md`, and working-tree state.
 
-When the founder requests an interactive prototype, route prototype, wireframe implementation, UI proof of concept, or prototype review, read and apply `docs/00-foundation/payplus-prototype-design-validation-workflow.md`.
+- Treat existing modifications and untracked files as user-owned unless proven otherwise.
+- Never discard, revert, overwrite, stage, move, or delete unrelated changes.
+- Use the exact writable-file scope authorized for the task.
+- Read the primary owner and material handoff owners before changing governed content.
+- Preserve useful existing content and stable IDs unless the accepted change requires replacement.
+- Replace superseded definitions rather than leaving two active meanings.
+- Keep broad searches batched and proportionate; repeat them only when scope changes or validation finds an unexpected conflict.
+- Route all lifecycle reporting, validation authority, commit/records handling, and completion decisions to the Documentation Development Workflow.
+- Do not commit, push, open a pull request, or mark a document Approved without explicit authority.
+- Before handing back work, state the files changed, checks performed, material unresolved items, and whether any Git action occurred.
 
-Treat source documents as authoritative and the prototype as a visual or interaction aid. Do not introduce product behavior through prototype code alone. Return material product discoveries to the primary owning document, validate the prototype at the required functional and visual states, and obtain founder approval before committing it as a current reference.
+## 10. Writing, Risk, and AI Operating Rules
 
-### Documentation Change Integration and Commit Workflow
+Write clear, professional, human-readable Markdown with precise payments, fintech, risk, privacy, security, compliance, and operations language.
 
-For any material documentation change, read and apply `docs/00-foundation/payplus-document-change-integration-workflow.md` after the product decision and edit scope are accepted.
+- Use tables when they materially improve reviewability.
+- Use stable IDs where traceability requires them.
+- Distinguish product intent from legal or regulatory conclusions.
+- Use `requires assessment`, `subject to approval`, or `to be confirmed` for unresolved professional-review matters.
+- Do not invent partner capabilities, regulatory approval, legal advice, security constants, technical values, statuses, routes, notifications, admin permissions, or implementation facts.
+- Avoid unsupported claims such as `fully compliant` or `bank-grade`.
+- Keep evidence, payer authorization, payee verification, anti-cashout, auditability, reconciliation, masking, and retention visible where relevant.
+- Preserve exact source IDs and route names in derived documents.
+- Keep assumptions and examples visibly separate from accepted requirements.
+- Keep open questions visible through downstream technical and AI execution work.
+- Require future code and tests to trace back to accepted human and technical sources.
 
-Before editing, prepare one task-level Change Impact Manifest covering the primary owner, superseded wording, potentially affected domain and parent documents, traceability, status/route registers, glossary, diagrams, prototypes, indexes, and deferred technical or AI layers. Use that manifest to perform one coordinated owner-first edit pass. Do not repeatedly rescan the whole repository after every individual file.
-
-The workflow requires the primary owner to be updated first, followed by only necessary alignment of governing documents, product requirements, references, traceability, indexes, `AGENTS.md`, README files, hierarchical route diagrams, and current governed prototypes. When a child or module document changes materially, synchronize its parent overview, family status, route/requirement register, and acceptance coverage where affected. This rule applies to every modular document family, not only DOC-06.
-
-Complete one integrated validation pass and pre-commit report after the coordinated edits. Additional scans are required only when validation reveals a conflict, the scope changes, or a new founder decision is introduced.
-
-After every substantive documentation commit, update `docs/changelog/changelog.md` and `docs/decision-log/decisionlog.md` with the substantive commit identifier and actual delivered scope, then create the immediate records-only follow-up commit required by the workflow. Do not push or report completion before both commits exist. Records-only follow-up commits are exempt from self-referential recording unless they introduce another substantive decision.
-
-Before making broad documentation changes:
-
-1. Check the current workspace path.
-2. Check `git status --short --branch`.
-3. Review the relevant source documents before editing.
-4. Identify whether the requested work is review-only, drafting, rewriting, or AI-execution conversion.
-5. Preserve existing useful content.
-6. Flag contradictions, missing decisions, and open questions.
-7. Ask for founder confirmation before committing changes.
-8. Update affected index, README, traceability, and reference files when broad documentation changes alter navigation, ownership, or source-of-truth assumptions.
-
-Do not commit, push, create pull requests, or mark documents as approved unless the founder explicitly asks for that action.
-
-### DOC-07 Design Specification Workflow
-
-When drafting or materially changing DOC-07 Outcome, Message, disclosure, or CTA mappings, read and apply `docs/00-foundation/payplus-doc-07-design-specification-workflow.md` with `docs/00-foundation/payplus-outcome-message-notification-framework.md`.
-
-Finalize the owning route or domain rules and permitted Resolution Strategies first. Author DOC-07 by coherent route-family or domain slice. Do not invent source rules, statuses, resolution paths, notification triggers, security controls, technical constants, or admin permissions inside DOC-07.
-
-## Writing Standards
-
-Write PayPlus documents in clear, professional, human-readable Markdown.
-
-Prefer:
-
-- precise fintech, payments, compliance, risk, security, and operations language;
-- concise paragraphs;
-- tables where they improve scanability;
-- stable IDs for requirements, risks, controls, decisions, tests, and open questions;
-- explicit `TBD`, `Open`, or `To be confirmed` markers where facts are unknown;
-- practical launch-readiness and implementation-readiness language.
-
-Avoid:
-
-- unsupported regulatory conclusions;
-- invented partner capabilities;
-- invented legal advice;
-- vague claims such as "fully compliant" or "bank-grade" unless supported by formal review;
-- moving unapproved assumptions into requirements;
-- treating AI build files as source-of-truth documents.
-
-## Formal Document Expectations
-
-Formal `DOC-XX` files should generally follow `DOC-00` governance and include:
-
-- canonical YAML front matter where the document already uses it or where a new formal document is being created;
-- a human-readable `Document Control` table immediately below the H1 title that mirrors the YAML metadata;
-- document ID;
-- title;
-- version;
-- status;
-- owner;
-- reviewers;
-- approvers;
-- last updated date;
-- classification;
-- related documents;
-- purpose;
-- scope;
-- requirements, rules, controls, or flows as appropriate;
-- open questions;
-- acceptance criteria;
-- version history.
-
-YAML is the metadata source of truth. The Document Control table is a presentation mirror and must not introduce different values. Whenever metadata changes, update and verify both representations in the same edit. Empty placeholder documents are exempt until formal drafting begins; backup files must not be mechanically reformatted.
-
-When editing an existing document, preserve its established format unless the task is specifically to standardize format.
-
-## Compliance and Risk Caution
-
-PayPlus is a payments-adjacent product with regulatory, card network, PSP/acquirer, AML, privacy, security, fraud, chargeback, and consumer-protection implications.
-
-Agents must:
-
-- distinguish product intent from legal conclusion;
-- use "requires assessment", "subject to approval", or "to be confirmed" where decisions are unresolved;
-- flag jurisdiction, PSP/acquirer, card network, payout, KYC/KYB, AML, privacy, PCI, and retention questions;
-- avoid giving final legal, regulatory, tax, or compliance advice;
-- keep evidence, authorization, payee verification, anti-cashout, audit, and reconciliation controls visible in relevant docs.
-
-## Human Docs Before AI Coding Docs
-
-Do not start converting documents into AI-coding-friendly implementation prompts until the founder confirms that the human-readable documentation set is complete enough.
-
-When conversion is approved, AI execution docs must:
-
-- cite or link back to their human source documents;
-- preserve product boundaries and prohibited behaviors;
-- keep open questions visible;
-- separate confirmed requirements from assumptions;
-- include test and traceability expectations.
-
-## Recommended Review Output
-
-When asked to review documentation, provide:
-
-1. High-priority issues.
-2. Cross-document inconsistencies.
-3. Missing documents or empty placeholders.
-4. Recommended drafting order.
-5. Suggested edits or rewrite scope.
-6. Open questions for the founder.
-
-Do not make large rewrites unless the founder asks for direct file edits.
-
-## Git and Change Safety
-
-This repository may contain user edits.
-
-Agents must not discard or revert user changes unless explicitly asked.
-
-Before finishing any edit session, report:
-
-- files changed;
-- checks performed;
-- material recommendations;
-- whether changes were committed.
-
-Commits require explicit founder confirmation.
+Formal `DOC-XX` metadata and presentation must follow `DOC-00`. YAML is the metadata source of truth; any human-readable Document Control table is its exact presentation mirror.

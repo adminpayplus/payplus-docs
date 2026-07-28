@@ -3,9 +3,9 @@
 
 This folder contains the PayPlus documentation set.
 
-Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance source of truth and `AGENTS.md` for AI assistant workflow rules. Use the [`PayPlus Platform Design Principles`](00-foundation/payplus-platform-design-principles.md) and [`Outcome, Resolution, Message and Notification Framework`](00-foundation/payplus-outcome-message-notification-framework.md) for material decision, outcome, resolution, message, CTA, notification, and protected-continuation design. When drafting DOC-07 mappings, also use the [`DOC-07 Design Specification Workflow`](00-foundation/payplus-doc-07-design-specification-workflow.md).
+Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance and ranked source-of-truth authority. Use `AGENTS.md` as the repository Operating Contract and Routing Layer. Use the [`PayPlus Platform Design Principles`](00-foundation/payplus-platform-design-principles.md) for durable platform doctrine and the [`Outcome, Resolution, Message and Notification Framework`](00-foundation/payplus-outcome-message-notification-framework.md) for the detailed Outcome → Resolution → Message/CTA/Notification chain. When drafting DOC-07 mappings, also use the [`DOC-07 Design Specification Specialist Guide`](00-foundation/payplus-doc-07-design-specification-specialist-guide.md).
 
-For parallel-agent or worktree-based drafting, use [`00-foundation/payplus-parallel-agent-drafting-workflow.md`](00-foundation/payplus-parallel-agent-drafting-workflow.md). For prototype planning, building, validation, and lifecycle control, use [`00-foundation/payplus-prototype-design-validation-workflow.md`](00-foundation/payplus-prototype-design-validation-workflow.md). For accepted changes that require repository alignment, commit preparation, and post-commit records, use [`00-foundation/payplus-document-change-integration-workflow.md`](00-foundation/payplus-document-change-integration-workflow.md). Substantive commits are recorded in [`changelog/changelog.md`](changelog/changelog.md) and [`decision-log/decisionlog.md`](decision-log/decisionlog.md).
+All documentation work uses the [`Documentation Development Workflow`](00-foundation/payplus-documentation-development-workflow.md), the sole owner of the complete Documentation Lifecycle and its gates. For parallel-agent or worktree execution, additionally use the [`Parallel-Agent Documentation Procedure`](00-foundation/payplus-parallel-agent-documentation-procedure.md). For prototype-specific planning, building, and specialist validation, additionally use the [`Prototype Design and Validation Specialist Guide`](00-foundation/payplus-prototype-design-validation-specialist-guide.md). These specialist documents extend the canonical lifecycle and do not replace it. Substantive commits are recorded in [`changelog/changelog.md`](changelog/changelog.md) and [`decision-log/decisionlog.md`](decision-log/decisionlog.md).
 
 ## Current Baseline
 
@@ -35,7 +35,7 @@ For parallel-agent or worktree-based drafting, use [`00-foundation/payplus-paral
 | `decision-log/` | Append-only accepted decision records linked to owning documents and substantive commits. |
 | `diagrams/` | Governed route, product-structure, and user-flow visual references. |
 | `glossary/` | Controlled PayPlus terminology and source-owner references. |
-| `prototypes/` | Prototype lifecycle register. Current and archived artifacts appear only when registered under the prototype workflow. |
+| `prototypes/` | Prototype register. Current and archived artifacts appear only when registered under the Prototype Design and Validation Specialist Guide and governed through the canonical Documentation Development Workflow. |
 | `traceability/` | Requirements traceability, route register, open-question register, and status-display alignment references. |
 
 ## Reading Order

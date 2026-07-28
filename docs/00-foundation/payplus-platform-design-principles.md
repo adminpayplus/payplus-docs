@@ -121,23 +121,9 @@ Material platform behavior must be traceable from the approved principle or requ
 
 Derived documents and implementation artifacts must link back to their authoritative sources. Traceability must expose unresolved decisions and deferred work rather than conceal them through assumptions.
 
-## 5. Canonical Decision and Presentation Chain
+## 5. Outcome Architecture Reference
 
-Where a material user-facing result requires controlled handling, use:
-
-```text
-Business Intent and Source Rule
-    -> Decision or Evaluation
-    -> Outcome
-    -> Resolution Strategy
-    -> Message and CTA
-    -> Notification, when required
-    -> Audit Event
-    -> Acceptance Test
-    -> Code and Automated Test
-```
-
-This is a documentation and traceability model, not a requirement to create a separate software service called a decision or resolution engine.
+PP-DP-04 establishes the durable principle that Outcome, Resolution Strategy, Message/CTA, and Notification are separate concepts. The detailed canonical chain, definitions, mappings, traceability fields, and acceptance model are owned by the [`PayPlus Outcome, Resolution, Message and Notification Framework`](payplus-outcome-message-notification-framework.md). This principles document must not maintain a competing copy of that detailed framework.
 
 ## 6. Application Rule
 

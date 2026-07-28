@@ -110,7 +110,18 @@ The `00-foundation/` documents establish the PayPlus documentation baseline.
 | `DOC-03` | Defines regulatory, PSP, acquirer, payment partner, category, and payee feasibility assessment. |
 | `DOC-04` | Defines compliance roadmap, control ownership, launch gates, evidence expectations, and change governance. |
 
-Foundation documents guide downstream drafting but do not replace detailed product, technical, risk, compliance, security, privacy, testing, or operations specifications.
+The same folder also contains supporting foundation architecture documents. They are authoritative only for the responsibility stated below and do not change the ranked source hierarchy in Section 3.
+
+| Supporting foundation document | Role |
+| --- | --- |
+| `payplus-platform-design-principles.md` | Defines durable cross-platform product and system design doctrine. |
+| `payplus-outcome-message-notification-framework.md` | Defines the detailed Outcome, Resolution, Message/CTA, Notification, audit, and acceptance traceability model. |
+| `payplus-documentation-development-workflow.md` | Sole canonical owner of the Documentation Lifecycle and its stages and gates. |
+| `payplus-parallel-agent-documentation-procedure.md` | Optional execution procedure for parallel agents, workstreams, worktrees, consolidation, and parallel review. |
+| `payplus-prototype-design-validation-specialist-guide.md` | Specialist guide for prototype planning, creation, validation, status, and evidence. |
+| `payplus-doc-07-design-specification-specialist-guide.md` | Specialist guide for DOC-07 authoring and specialist validation. |
+
+Foundation documents guide downstream drafting but do not replace detailed product, technical, risk, compliance, security, privacy, testing, or operations specifications. Supporting frameworks, procedures, and guides do not override DOC-00 governance or the formal document that owns a product or domain rule.
 
 ---
 
@@ -715,7 +726,7 @@ The documentation repository includes supporting areas for change management, de
 
 Backup files should not be treated as authoritative documentation.
 
-Every substantive documentation commit must be recorded in `docs/changelog/changelog.md` and `docs/decision-log/decisionlog.md` under the Documentation Change Integration and Commit Workflow. Changelog entries, decision records, and change requests should reference affected documents where applicable.
+Every substantive documentation commit must be recorded in `docs/changelog/changelog.md` and `docs/decision-log/decisionlog.md` under the Documentation Development Workflow. Changelog entries, decision records, and change requests should reference affected documents where applicable.
 
 ---
 

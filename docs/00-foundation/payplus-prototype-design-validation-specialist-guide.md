@@ -1,12 +1,14 @@
-# PayPlus Prototype Design and Validation Workflow
+# PayPlus Prototype Design and Validation Specialist Guide
 
 Last updated: 2026-07-26
 
 ## 1. Purpose
 
-This procedure governs how PayPlus prototypes are proposed, built, reviewed, validated, aligned, and retired. It applies to route-flow, interaction, information-architecture, visual-design, responsive, and technical proof-of-concept prototypes.
+This specialist guide defines how PayPlus prototypes are classified, scoped, built, reviewed, tested, represented, maintained, superseded, and retired. It applies to route-flow, interaction, information-architecture, visual-design, responsive, and technical proof-of-concept prototypes.
 
-It supplements `DOC-00`, `AGENTS.md`, `payplus-parallel-agent-drafting-workflow.md`, and `payplus-document-change-integration-workflow.md`. It does not replace product requirements, formal UX ownership, technical specifications, or founder approval.
+The PayPlus Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, general Validation gates, Commit, Records Commit, Push, and Completion. This guide extends that lifecycle with prototype-specific inputs, build methods, validation checks, review evidence, and artifact-status rules. It **MUST NOT** redefine, duplicate, weaken, bypass, or independently authorize a lifecycle stage, owner, or gate.
+
+Prototype work must be invoked from a named canonical lifecycle stage and must return its plan, artifact, findings, or validation evidence to a named canonical lifecycle stage. It may also invoke the Parallel-Agent Documentation Procedure where the canonical lifecycle has authorized parallel execution. This guide does not replace product requirements, formal UX ownership, technical specifications, or founder authority.
 
 ## 2. Core Principles
 
@@ -17,20 +19,17 @@ It supplements `DOC-00`, `AGENTS.md`, `payplus-parallel-agent-drafting-workflow.
 5. Use mock data only. Do not include real customer, payment, identity, credential, token, or partner data.
 6. A prototype is not production code and must not be represented as implementation-ready unless separately assessed.
 
-The normal lifecycle is:
+Use this specialist invocation map:
 
 ```text
-Source documents
--> prototype plan
--> founder scope confirmation
--> canonical prototype build
--> functional and visual validation
--> founder review
--> accepted discoveries return to source documents
--> prototype alignment and revalidation
--> documentation integration workflow
--> commit and lifecycle recording
+Canonical Stage 5 -> prototype planning method -> return to canonical Stage 6
+Canonical Stage 8 -> prototype build method -> return to canonical Stage 9
+Canonical Stage 12 -> prototype-specific validation -> return evidence to canonical Stage 13
+Prototype discovery requiring a product change -> return to canonical Stage 5 or 6
+Accepted source change -> canonical Stages 8 to 11 -> re-invoke prototype build or validation as needed
 ```
+
+The arrows describe specialist invocation and return, not a separate Documentation Lifecycle.
 
 ## 3. Prototype Classification
 
@@ -88,19 +87,19 @@ Use only the roles justified by prototype complexity.
 
 | Role | Responsibility | Default access |
 | --- | --- | --- |
-| Founder | Confirms scope, reviews the prototype, decides product changes, and approves commits. | Decision authority |
-| Prototype Orchestrator | Classifies the prototype, prepares context, assigns roles, controls scope, consolidates findings, and manages integration. | Controlled integration access |
-| Prototype Designer / Builder | Creates the one canonical prototype from the confirmed plan. | Limited prototype write access |
+| Founder | Supplies scope or product decisions only through the applicable canonical lifecycle gate. | Decision authority defined by the canonical workflow |
+| Prototype Orchestrator | Receives the invocation stage, classifies the prototype, prepares context, assigns roles, controls specialist scope, consolidates findings, and returns control to the canonical lifecycle. | Controlled specialist access |
+| Prototype Designer / Builder | Creates the one canonical prototype within the write scope supplied by the canonical lifecycle. | Limited prototype write access |
 | Product Consistency Reviewer | Checks PRD, route ownership, PayPlus boundaries, actors, labels, and accepted behavior. | Read-only |
 | UX / Accessibility Reviewer | Checks hierarchy, usability, responsive behavior, accessibility, and user comprehension. | Read-only |
 | Functional QA Reviewer | Tests controls, navigation, states, failure handling, and broken interactions. | Read-only |
-| Documentation Integrator | Returns accepted product discoveries to the owning documents and applies the integration workflow. | Controlled document access |
+| Documentation Integrator | Receives prototype discoveries through the canonical workflow and performs only the lifecycle work authorized there. | Controlled document access |
 
 Only one builder edits the canonical prototype at a time. Parallel agents may review independently, but must not create competing prototype implementations unless the founder explicitly requests design alternatives.
 
-## 6. Prototype Review Pack
+## 6. Prototype Planning Input Pack
 
-Before building, the Prototype Orchestrator must provide a compact but decision-complete review pack containing:
+When canonical Stage 5 invokes prototype planning, the Prototype Orchestrator must return a compact but decision-complete specialist input pack containing:
 
 1. **Objective and decision boundary:** what the prototype will test and what it will not decide.
 2. **Prototype classification and proposed status:** primary and secondary artifact types.
@@ -115,21 +114,21 @@ Before building, the Prototype Orchestrator must provide a compact but decision-
 11. **Excluded and deferred details:** final styling, backend logic, external services, or unresolved product decisions.
 12. **Review roles and validation plan:** product, UX, accessibility, functional, and responsive checks.
 13. **Affected-document forecast:** documents that may need alignment if the prototype reveals a product change.
-14. **Founder approval checklist:** numbered scope and behavior decisions with accept, amend, reject, or defer options.
+14. **Decision handoff checklist:** numbered scope and behavior matters, their decision owner, and the canonical stage that must resolve them.
 
-Keep the review pack structured and easy to scan. Do not over-compress material behavior, states, interactions, source assumptions, or exclusions to the point that the founder cannot assess the plan confidently.
+Keep the pack structured and easy to scan. Do not over-compress material behavior, states, interactions, source assumptions, or exclusions. The pack supplies evidence to canonical Stage 6; it is not an independent Proposal or Approval stage.
 
 ## 7. Required Source Package
 
 The builder and reviewers must receive a task-specific package containing, as applicable:
 
-- `AGENTS.md` and this workflow;
+- `AGENTS.md` and this specialist guide;
 - relevant `DOC-00` and `DOC-05` sections;
 - applicable `DOC-06A`, `DOC-06B`, `DOC-06C`, and `DOC-06D` sections;
 - current route register, transition tables, and Mermaid route map;
 - applicable domain owners such as `DOC-08`, `DOC-09`, `DOC-12`, `DOC-13`, `DOC-15`, `DOC-18`, or `DOC-22`;
 - status-display reference matrix;
-- accepted proposal or decision IDs;
+- accepted canonical decision IDs;
 - explicit open questions and visual-design limitations.
 
 Do not build from a route name, screenshot, or chat summary alone when authoritative repository context exists.
@@ -210,7 +209,7 @@ Use fictional, obviously non-production data. Do not include real:
 
 Do not commit dependency directories, caches, temporary screenshots, development-server output, local configuration, or secrets. Commit dependency manifests and lockfiles only when the selected prototype technology requires them.
 
-## 10. Founder-Usable Delivery
+## 10. Founder-Usable Prototype Delivery
 
 Prototype delivery must not require the founder to understand terminal commands.
 
@@ -222,11 +221,13 @@ Provide:
 - a concise statement of intentionally unimplemented behavior;
 - fallback screenshots only where they help review or diagnose access problems.
 
-If a development server is required, the builder starts it and provides the URL. Do not report completion while a required server or validation process is still running or unavailable.
+If a development server is required, the builder starts it and provides the URL. The specialist delivery is not ready for handoff while a required server or prototype-specific check is still running or unavailable.
 
-## 11. Validation
+## 11. Specialist Prototype Validation
 
-Run prototype validation as one coordinated pass after the intended source-alignment and prototype edits are complete. Repeat only failed or materially affected checks rather than restarting the full workflow after every small change.
+When canonical Stage 12 invokes prototype validation, run the following specialist checks as one coordinated pass after the intended source-alignment and prototype edits are ready. Repeat only failed or materially affected checks rather than restarting all specialist checks after every small change.
+
+These checks produce prototype validation evidence for the canonical workflow. They do not independently declare general Validation passed, establish lifecycle Definition of Done, authorize a commit, or mark the documentation task complete.
 
 ### 11.1 Functional Validation
 
@@ -278,9 +279,9 @@ At minimum, check:
 - no essential meaning conveyed only by color;
 - reduced-motion behavior where material motion is used.
 
-## 12. Founder Review Delivery
+## 12. Specialist Review Handoff
 
-After validation, report:
+Return the following prototype evidence to canonical Stage 13:
 
 1. prototype purpose, classification, status, and source baseline;
 2. working URL or file link;
@@ -291,7 +292,7 @@ After validation, report:
 7. known limitations and intentionally deferred behavior;
 8. reviewer disagreements or unresolved risks;
 9. founder scenario checklist;
-10. accept, amend, reject, supersede, or retire decision points.
+10. any accept, amend, reject, supersede, or retire decision points that must be routed to the applicable canonical decision stage.
 
 Keep the report compact but decision-complete. Do not substitute a screenshot gallery for the interaction and product findings.
 
@@ -303,25 +304,25 @@ Classify founder and reviewer feedback before editing:
 | --- | --- |
 | Prototype correction | Fix the prototype because it fails to represent accepted documentation. |
 | Visual preference | Update the prototype if product behavior and ownership do not change. |
-| Product requirement change | Update the primary owning document first through the approved drafting process. |
-| New route, status, role, or behavior | Return to proposal and founder approval before implementation. |
+| Product requirement change | Return to canonical Stage 5 or 6; the canonical workflow updates the primary owner first. |
+| New route, status, role, or behavior | Return to canonical Stage 5 or 6 before implementation. |
 | Technical limitation | Record for the technical owner; do not silently weaken product intent. |
 | Deferred detail | Keep visible as open or exploratory. |
 
-When feedback changes product behavior:
+When feedback changes product behavior, use this invocation and return path:
 
 ```text
-Founder decision
--> update primary owning document
--> apply documentation change integration workflow
--> align route diagram where applicable
--> update prototype
--> repeat product, functional, visual, and accessibility validation
+Prototype specialist finding
+-> return to canonical Stage 5 or 6
+-> canonical workflow updates the primary owner and performs Alignment
+-> canonical workflow re-invokes prototype build support at Stage 8 when needed
+-> canonical workflow re-invokes prototype-specific validation at Stage 12
+-> return specialist evidence to canonical Stage 13
 ```
 
 Do not update only the prototype and leave the source documents contradictory.
 
-## 14. Validation and Lifecycle Gate
+## 14. Validated Reference Criteria
 
 A prototype may become a `Validated Reference` only when:
 
@@ -330,7 +331,9 @@ A prototype may become a `Validated Reference` only when:
 - functional, visual, responsive, product, and applicable accessibility checks pass;
 - known limitations and open questions are documented;
 - exploratory choices are not presented as final requirements;
-- the founder confirms it is suitable as a reference.
+- the applicable canonical decision owner confirms it is suitable as a reference.
+
+These are prototype-status criteria, not a general Validation gate or lifecycle Completion rule. The Prototype Orchestrator returns the evidence and requested status change to the canonical workflow; this guide does not approve the documentation change or Git action.
 
 When a prototype is replaced:
 
@@ -340,22 +343,22 @@ When a prototype is replaced:
 - preserve it only when it has historical or diagnostic value;
 - do not leave several artifacts appearing equally current.
 
-## 15. Integration and Commit Gate
+## 15. Canonical Lifecycle Handoff
 
-Before requesting commit approval:
+When returning prototype work to canonical Stage 13, provide this specialist evidence:
 
 1. list prototype source files changed;
 2. list source documents changed or confirm that no product requirement changed;
 3. classify existing and replacement prototypes;
-4. apply `payplus-document-change-integration-workflow.md` when documentation or governed visual references changed;
+4. identify any documentation or governed visual-reference impact for canonical Alignment;
 5. update Mermaid route diagrams only when navigation changed;
 6. verify the prototype `README.md`, source baseline, status, and limitations;
 7. complete functional, visual, responsive, product, and accessibility checks;
 8. identify files checked but unchanged;
 9. exclude caches, dependency directories, temporary exports, and unrelated assets;
-10. report commit readiness and obtain founder approval.
+10. identify unresolved specialist findings and the canonical stage that must receive them.
 
-After a substantive commit, follow the repository changelog and decision-log follow-up commit requirements. A prototype-only visual correction with no substantive product or governance decision must still be recorded according to the integration workflow's `Not applicable` decision-log rule.
+The canonical Documentation Development Workflow exclusively determines Alignment, general Validation, Definition of Done, commit readiness, Commit, changelog and decision-log treatment, Records Commit, Push, and Completion.
 
 ## 16. Parallel-Agent and Worktree Use
 
@@ -364,34 +367,29 @@ After a substantive commit, follow the repository changelog and decision-log fol
 - Use separate design alternatives only when the founder explicitly requests comparison.
 - Use worktrees only for independent prototypes or disjoint components with defined ownership and integration order.
 - Do not allow multiple agents to edit the same prototype concurrently.
-- Apply `payplus-parallel-agent-drafting-workflow.md` when a prototype task uses parallel agents or worktrees.
+- Apply the Parallel-Agent Documentation Procedure in `payplus-parallel-agent-documentation-procedure.md` when the canonical lifecycle authorizes parallel agents or worktrees for a prototype task.
 
-## 17. Reusable Invocation Prompts
+## 17. Reusable Specialist Invocation Prompts
 
-### Prototype Plan Only
+### Prototype Planning Support
 
 ```text
-Apply the PayPlus Prototype Design and Validation Workflow to [prototype task].
-
-First provide a compact but decision-complete Prototype Review Pack covering
-purpose, classification, source documents, routes, screen and interaction
-inventory, actors, states, scenarios, technology, responsive and accessibility
-scope, exclusions, review roles, affected documents, and founder approval
-checklist. Do not over-compress material behavior or assumptions.
-
-Do not build, edit, commit, or push until I confirm the plan.
+Within canonical Documentation Development Workflow Stage 5, invoke the PayPlus
+Prototype Design and Validation Specialist Guide for [prototype task]. Return a
+compact, decision-complete Prototype Planning Input Pack covering purpose,
+classification, sources, routes, screens, interactions, actors, states,
+technology, responsive and accessibility scope, exclusions, reviewers, affected
+documents, and decision handoffs to canonical Stage 6.
 ```
 
-### Approval-Gated Build
+### Prototype Build and Specialist Validation
 
 ```text
-I approve the prototype plan items [IDs].
-
-Build one canonical interactive prototype using mock data only. Perform product,
-functional, visual, responsive, and accessibility validation. Start any required
-local server and provide a working URL plus founder test scenarios.
-
-Do not change product requirements silently. Return material product changes for
-decision and apply the documentation integration workflow where required. Do not
-commit or push without my approval.
+Within canonical Documentation Development Workflow Stage 8, invoke the PayPlus
+Prototype Design and Validation Specialist Guide for the accepted prototype
+scope [IDs]. Build one canonical prototype using mock data, then return the
+artifact to canonical Stage 9. When canonical Stage 12 is reached, re-invoke the
+specialist functional, visual, responsive, product, and accessibility checks and
+return the evidence to canonical Stage 13. Route material product discoveries
+back to canonical Stage 5 or 6.
 ```

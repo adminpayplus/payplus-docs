@@ -1,19 +1,32 @@
-# PayPlus DOC-07 Design Specification Workflow
+# PayPlus DOC-07 Design Specification Specialist Guide
 
 Last updated: 2026-07-29
 
 ## 1. Purpose
 
-This workflow governs how DOC-07 is authored, reviewed, validated, approved, and maintained as PayPlus's canonical specification for user-facing outcomes, messages, disclosures, and CTAs.
+This specialist guide defines how DOC-07 slices are structured, authored, risk-reviewed, checked, and maintained as PayPlus's canonical specification for user-facing outcomes, messages, disclosures, and CTAs.
 
 It must be used with:
 
 - `AGENTS.md`;
 - DOC-00;
 - `payplus-outcome-message-notification-framework.md`;
-- `payplus-document-change-integration-workflow.md`.
+- `payplus-documentation-development-workflow.md`.
 
-This workflow does not approve any copy, identifier, disclosure, legal position, security value, or implementation by itself.
+The PayPlus Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, general Validation gates, Commit, Records Commit, Push, and Completion. This guide extends that lifecycle with DOC-07-specific inputs, authoring methods, matrices, review depth, specialist validation, traceability, and maintenance checks. It **MUST NOT** redefine, duplicate, weaken, bypass, or independently authorize a lifecycle stage, owner, or gate.
+
+DOC-07 work must be invoked from a named canonical lifecycle stage and must return its slice boundary, draft, findings, or validation evidence to a named canonical lifecycle stage. This guide does not approve any copy, identifier, disclosure, legal position, security value, lifecycle decision, or implementation by itself.
+
+Use this specialist invocation map:
+
+```text
+Canonical Stages 5 to 7 -> DOC-07 slice inputs and readiness -> return unresolved decisions to Stage 6
+Canonical Stage 8 -> DOC-07 specialist authoring method -> return the draft to Stage 9
+Canonical Stage 12 -> DOC-07 specialist validation -> return evidence to Stage 13
+Source-rule change or missing owner decision -> return to canonical Stage 5, 6, or 8 as applicable
+```
+
+The arrows describe specialist invocation and return, not a separate Documentation Lifecycle.
 
 ## 2. DOC-07 Mandate
 
@@ -43,7 +56,7 @@ DOC-07 does not own:
 
 | Role | Responsibility |
 | --- | --- |
-| Product / Founder | Confirms product meaning, priority, and user outcome. |
+| Product / Founder | Supplies product meaning, priority, or user-outcome decisions through the applicable canonical lifecycle gate. |
 | DOC-07 Owner | Maintains the canonical matrix, wording, disclosure, CTA, and traceability. |
 | Route/Domain Owner | Supplies the approved rule, trigger, route context, status relationship, and safe next steps. |
 | Content/Design Reviewer | Reviews clarity, hierarchy, surface behavior, CTA, accessibility, and localization readiness. |
@@ -52,7 +65,7 @@ DOC-07 does not own:
 | Engineering/Data Reviewer | Confirms stable machine mapping, event/audit feasibility, and no copy/business-logic coupling. |
 | QA Reviewer | Confirms measurable acceptance and negative-path coverage. |
 | Support/Operations Reviewer | Confirms support handoff, correlation, failure handling, and operational usability. |
-| Change Integrator | Performs owner-first alignment, validation, staged-diff review, and approved commit workflow. |
+| Change Integrator | Receives DOC-07 findings through the canonical workflow and performs only the lifecycle work authorized there. |
 
 No reviewer may redefine another document's owned business rule inside DOC-07.
 
@@ -124,9 +137,11 @@ Each matrix row must include:
 | Acceptance / Test | DOC-20 or owning acceptance IDs. |
 | Status | Draft, In Review, Founder Working Baseline, Approved, Superseded, or TBC. |
 
-## 6. Authoring Workflow
+## 6. DOC-07 Specialist Authoring Method
 
-### Phase 1: Select and Bound the Slice
+When canonical Stage 8 invokes DOC-07 authoring, apply the following specialist steps. These steps define how to construct the DOC-07 content; they are not Documentation Lifecycle stages.
+
+### Step 1: Select and Bound the Slice
 
 Author DOC-07 by coherent route family or domain slice, not as an uncontrolled repository-wide copy exercise.
 
@@ -138,7 +153,7 @@ For the slice:
 - identify required reviewers;
 - record open conflicts before drafting.
 
-### Phase 2: Build the Outcome Inventory
+### Step 2: Build the Outcome Inventory
 
 For every material operation:
 
@@ -152,7 +167,7 @@ For every material operation:
 
 Do not create Message IDs until the Outcome inventory is coherent.
 
-### Phase 2A: Map Permitted Resolutions
+### Step 2A: Map Permitted Resolutions
 
 For every Outcome:
 
@@ -165,7 +180,7 @@ For every Outcome:
 
 Do not invent a Resolution Strategy in DOC-07. Return missing or conflicting behavior to the route or domain owner.
 
-### Phase 3: Classify Disclosure
+### Step 3: Classify Disclosure
 
 For each outcome:
 
@@ -178,7 +193,7 @@ For each outcome:
 
 Anonymous authentication and recovery outcomes require explicit account-enumeration review.
 
-### Phase 4: Draft Message and CTA Mappings
+### Step 4: Draft Message and CTA Mappings
 
 Draft:
 
@@ -194,7 +209,7 @@ Draft:
 
 Copy must be clear, accurate, non-accusatory, and actionable without overstating an unconfirmed result.
 
-### Phase 5: Map Cross-Document Handoffs
+### Step 5: Map Cross-Document Handoffs
 
 For every row, determine:
 
@@ -207,7 +222,7 @@ For every row, determine:
 
 Use `TBC` with an owner when a downstream document is not ready. Do not invent missing technical detail.
 
-### Phase 6: Review by Risk
+### Step 6: Review by Risk
 
 Apply review depth proportionate to the row:
 
@@ -220,20 +235,17 @@ Apply review depth proportionate to the row:
 | Support-assisted recovery or admin action | Product, Security, Support/Operations, DOC-22 owner, QA |
 | Low-risk informational message | Product, Content/Design, owning domain, QA |
 
-### Phase 7: Validate and Integrate
+### Step 7: Return the Specialist Draft
 
-Run the validation in Section 10, apply the repository integration workflow, update only materially affected sources and registers, and prepare the pre-commit report.
+After Steps 1–6:
 
-### Phase 8: Approve, Commit, and Record
+- return the DOC-07 draft, reviewer findings, unresolved owner decisions, and affected-document forecast to canonical Stage 9;
+- route any new material decision to canonical Stage 6;
+- allow the canonical workflow to perform its Change Impact Manifest and Alignment stages;
+- perform Section 10 checks only when canonical Stage 12 invokes DOC-07 specialist validation;
+- return validation evidence to canonical Stage 13.
 
-Only after founder authorization:
-
-- stage intended files only;
-- inspect the staged diff and file list;
-- create the substantive commit;
-- record it in changelog and decision log as required by the integration workflow;
-- create the records-only follow-up commit;
-- push only when explicitly authorized.
+This guide does not determine general Validation, commit readiness, Commit, Records Commit, Push, or Completion.
 
 ## 7. Interaction With Owning Documents
 
@@ -326,9 +338,9 @@ DOC-22 owns:
 
 DOC-07 defines admin-visible or user-visible result messaging only; it must not grant an override.
 
-## 8. Definition of Ready
+## 8. DOC-07 Specialist Authoring Readiness
 
-A DOC-07 slice is ready for authoring when:
+These criteria supplement canonical Stage 7. A DOC-07 slice is ready for specialist authoring when:
 
 - the route/domain owner is confirmed;
 - scope and exclusions are explicit;
@@ -342,11 +354,11 @@ A DOC-07 slice is ready for authoring when:
 - required reviewers are identified;
 - conflicts and unresolved values are visible.
 
-A slice is not ready if drafting would require the author to invent a business rule, security control, legal position, route, status, or notification trigger.
+A slice is not ready if authoring would require the author to invent a business rule, security control, legal position, route, status, or notification trigger. The guide returns the missing input to canonical Stage 6 or 7; it does not redefine the lifecycle Definition of Ready.
 
-## 9. Definition of Done
+## 9. DOC-07 Slice Quality Criteria
 
-A DOC-07 slice is Done when:
+These criteria define specialist content quality and supply evidence to canonical Stage 13. A DOC-07 slice meets its specialist quality threshold when:
 
 - every included source rule maps to an outcome or an explicit non-user-visible disposition;
 - every included outcome has an owner-approved Resolution Strategy or an explicit internal-only/no-action disposition;
@@ -362,10 +374,13 @@ A DOC-07 slice is Done when:
 - accessibility and localization notes are complete enough for implementation;
 - no conflicting active ID or duplicate canonical copy remains;
 - open questions have owners and do not masquerade as requirements;
-- metadata, version history, indexes, traceability, changelog, and decision records are aligned as required;
-- the founder-approved commit sequence is complete.
+- DOC-07 metadata, version history, indexes, and traceability are accurate where they are within the accepted scope.
 
-## 10. Validation
+Meeting this threshold does not declare general Validation passed, establish lifecycle Definition of Done, approve the document, authorize Git activity, or mark the task complete.
+
+## 10. DOC-07 Specialist Validation
+
+When canonical Stage 12 invokes DOC-07 validation, run the following specialist checks and return the evidence to canonical Stage 13. These checks do not replace the canonical Validation gate.
 
 ### 10.1 Structural Validation
 
@@ -411,17 +426,16 @@ Source Rule
 
 Missing links must be reported, not inferred.
 
-### 10.4 Repository Validation
+### 10.4 Specialist Repository Checks
 
 Run:
 
 - targeted searches for old wording and IDs;
 - duplicate-ID searches;
 - link/reference checks where tooling exists;
-- `git diff --check`;
-- staged file-list and staged-diff review before commit.
+- `git diff --check` for the DOC-07 edit scope.
 
-Also confirm that unrelated existing changes remain unstaged.
+Report unrelated existing changes so the canonical workflow can preserve and exclude them. Commit scope, staged review, records, and push rules remain owned by the canonical workflow.
 
 ## 11. Review Checklist
 
@@ -467,7 +481,7 @@ Also confirm that unrelated existing changes remain unstaged.
 - Are equivalence, negative, expiry, duplicate, interrupted, unconfirmed, stale-target, and accessibility cases covered?
 - Can each requirement be traced to future code and automated tests?
 
-## 12. Maintenance Workflow
+## 12. DOC-07 Maintenance Method
 
 When a source rule changes:
 
@@ -478,7 +492,7 @@ When a source rule changes:
 5. check route, notification, event/status, security, test, support, and admin impacts;
 6. update traceability and open questions;
 7. invalidate or update derived AI execution material;
-8. apply the integration and commit workflow.
+8. return the affected slice and impact findings to canonical Stage 5, 8, or 10 as applicable.
 
 At each material release or scheduled documentation review:
 
@@ -501,11 +515,11 @@ An AI agent drafting DOC-07 must be instructed to:
 5. preserve owner-approved Resolution Strategies without turning them into new statuses or routes;
 6. use `TBC` with an owner instead of invention;
 7. produce a complete traceability matrix and review report;
-8. stop before commit unless founder approval already covers the exact scope.
+8. return the specialist draft to canonical Stage 9 and specialist validation evidence to canonical Stage 13.
 
-## 14. Workflow Acceptance Criteria
+## 14. Specialist Guide Effectiveness Criteria
 
-This workflow is effective when:
+This specialist guide is effective when:
 
 - DOC-07 can be authored incrementally without becoming a duplicate route, security, data, notification, or operations specification;
 - reviewers can evaluate each Outcome, Resolution, Message, and CTA mapping by stable ID and owned source;
