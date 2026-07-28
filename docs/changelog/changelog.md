@@ -864,3 +864,51 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 - Final provider-specific recovery and failure mapping.
 - Support-assisted proof, cooling period, restricted-account treatment, and approval roles in `DOC-19` and `DOC-22`.
 - Derived recovery, interruption, replay, accessibility, and security tests in `DOC-20`.
+
+### `2026-07-29` - Documentation Operating Architecture Final Integration
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `eb6526726f87ba2e38d99f67d69aaa602f806793` |
+| Primary owner | DOC-00, `AGENTS.md`, and Documentation Development Workflow according to their defined responsibilities |
+| Decision record | `DEC-2026-027` |
+| Founder approval | Bounded Final Integration authorized on `2026-07-29` |
+
+**Files Changed**
+
+- `AGENTS.md`
+- `docs/README.md`
+- `docs/00-foundation/doc-00-documentation-governance.md`
+- Platform Design Principles and Outcome Framework
+- Documentation Development Workflow, Parallel-Agent Documentation Procedure, Prototype Specialist Guide, and DOC-07 Specialist Guide
+- `docs/01-product/doc-07-content-disclosure-user-authorization-spec.md`
+- Prototype registry and current mobile prototype README
+
+**Material Changes**
+
+- Established DOC-00 as the sole documentation-governance and ranked source-of-truth authority.
+- Established `AGENTS.md` as the Operating Contract and Routing Layer without competing lifecycle or source-precedence ownership.
+- Established the Documentation Development Workflow as the sole canonical owner of the complete Documentation Lifecycle and its stages and gates.
+- Kept Parallel as an execution Procedure and Prototype and DOC-07 as Specialist Guides that enter and return control to the canonical lifecycle.
+- Made the Outcome Framework the detailed owner of the Outcome → Resolution Strategy → Message/CTA → Notification architecture while retaining durable separation doctrine in Platform Design Principles.
+- Renamed the four lifecycle and specialist documents to match their approved roles and migrated all current live references.
+- Registered the supporting foundation architecture documents in DOC-00 and aligned repository discovery guidance.
+
+**Rename Mapping**
+
+- `payplus-document-change-integration-workflow.md` → `payplus-documentation-development-workflow.md`
+- `payplus-parallel-agent-drafting-workflow.md` → `payplus-parallel-agent-documentation-procedure.md`
+- `payplus-prototype-design-validation-workflow.md` → `payplus-prototype-design-validation-specialist-guide.md`
+- `payplus-doc-07-design-specification-workflow.md` → `payplus-doc-07-design-specification-specialist-guide.md`
+
+**Checks Performed**
+
+- Confirmed former names remain only in historical records.
+- Checked all 117 Markdown files and found no broken relative links.
+- Verified all 11 foundation Markdown documents appear in the Foundation Document Ownership Matrix.
+- Verified specialist documents do not independently authorize lifecycle stages or gates.
+- Ran staged diff and whitespace validation against an exact allowlist.
+
+**Remaining Open Items**
+
+- None for the approved Final Integration scope.

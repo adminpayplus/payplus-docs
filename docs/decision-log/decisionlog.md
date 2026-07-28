@@ -1170,3 +1170,56 @@ Completes the previously pending `AUTH-RECOVERY` baseline while preserving `DEC-
 - Exact Support-assisted proof, cooling period, restricted-account treatment, and approval roles in `DOC-19` and `DOC-22`.
 - Exact recovery Outcome IDs, Message IDs, approved copy, CTA records, and disclosure rules in `DOC-07`.
 - Final provider-specific recovery and failure mapping after provider selection.
+
+### `DEC-2026-027` - Documentation Operating Architecture And Canonical Lifecycle
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-29` |
+| Status | Accepted |
+| Primary owner | DOC-00 for governance; `AGENTS.md` for operating contract and routing; Documentation Development Workflow for lifecycle |
+| Affected documents | `AGENTS.md`, DOC-00, foundation architecture documents, documentation index, DOC-07 live specialist reference, and prototype registry references |
+| Substantive commit | `eb6526726f87ba2e38d99f67d69aaa602f806793` |
+| Founder approval | Bounded Final Integration authorized on `2026-07-29` |
+
+**Decision**
+
+PayPlus documentation uses one operating architecture:
+
+- DOC-00 is the sole documentation-governance authority and sole owner of the ranked source-of-truth hierarchy.
+- `AGENTS.md` is the repository Operating Contract and Routing Layer and does not define a competing hierarchy or Documentation Lifecycle.
+- `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle and all lifecycle stages, roles, gates, validation authority, Git and records treatment, and completion rules.
+- `payplus-parallel-agent-documentation-procedure.md` supplies optional parallel-execution mechanics only.
+- `payplus-prototype-design-validation-specialist-guide.md` and `payplus-doc-07-design-specification-specialist-guide.md` supply specialist methods and checks only.
+- Platform Design Principles owns durable platform and product design doctrine.
+- The Outcome Framework is the detailed owner of the Outcome → Resolution Strategy → Message/CTA → Notification architecture.
+
+The following filename migration is accepted:
+
+- `payplus-document-change-integration-workflow.md` → `payplus-documentation-development-workflow.md`;
+- `payplus-parallel-agent-drafting-workflow.md` → `payplus-parallel-agent-documentation-procedure.md`;
+- `payplus-prototype-design-validation-workflow.md` → `payplus-prototype-design-validation-specialist-guide.md`;
+- `payplus-doc-07-design-specification-workflow.md` → `payplus-doc-07-design-specification-specialist-guide.md`.
+
+**Rationale**
+
+One concept must have one owner and one authoritative definition. Separating governance, routing, lifecycle execution, specialist methods, platform doctrine, and outcome architecture reduces duplicated rules and prevents agents from selecting a competing workflow or authority.
+
+**Alternatives Considered**
+
+- Retaining multiple complete workflows was rejected because lifecycle gates and responsibilities could drift.
+- Keeping old filenames after changing document roles was rejected because the names continued to imply competing workflows.
+- Repeating DOC-00's ranked hierarchy in `AGENTS.md` was rejected because two ranked copies could diverge.
+- Keeping the detailed outcome chain in both Platform Principles and the Outcome Framework was rejected because the framework is the appropriate detailed owner.
+
+**Consequences And Handoffs**
+
+All documentation tasks route through the canonical Documentation Development Workflow. Specialist procedures and guides are loaded only when their triggers apply and must return their outputs to a named lifecycle stage. Current repository navigation and live references use the new filenames. Historical changelog, decision-log, DOC-00 version-history, backup, and superseded wording remains unchanged as time-accurate evidence.
+
+**Supersedes / Superseded By**
+
+Supersedes the former architectural interpretation that Parallel, Prototype, DOC-07, or documentation-change integration could operate as separate lifecycle workflows. It does not rewrite or invalidate historical records created under their former names.
+
+**Remaining Open Items**
+
+None for the approved Final Integration scope.
