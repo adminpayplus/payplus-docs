@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.24
+version: 0.1.25
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-28
+last_updated: 2026-07-29
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -31,12 +31,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.24` |
+| **Version** | `0.1.25` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-28` |
+| **Last Updated** | `2026-07-29` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist |
 
@@ -134,6 +134,8 @@ The DOC-06 user journey scope is satisfied when:
 
 - app launch without an approved session opens `ENTRANCE-ROOT`, where public non-personalized content does not obscure Log In or Create Account;
 - `AUTH-LOGIN` resolves eligible remembered users to `AUTH-LOGIN-FAST` and other users to `AUTH-LOGIN-FULL`;
+- each material authentication result keeps its business outcome, permitted resolution, persistent account status, user-facing Message/CTA, notification decision, audit occurrence, and acceptance evidence separate;
+- authentication recovery selects only a currently permitted recovery capability and does not treat a remembered device, phone number, verified identity, or provider email as a standalone recovery method unless DOC-19 explicitly permits it;
 - each successful login renews Fast Login eligibility for one month, while approved risk, device, credential, account, or security changes may revoke it earlier;
 - Fast Login remembers no plaintext password, masks the remembered email, uses only user-enabled operating-system biometrics, and provides password, recovery, another-account, and cancel paths;
 - `Log In With Another Account` requires confirmation, revokes the current device session, clears remembered/protected local context, and opens `AUTH-LOGIN-FULL` without unlinking server-side login methods;
@@ -147,7 +149,13 @@ The DOC-06 user journey scope is satisfied when:
 - the Account Activation banner follows the confirmed two-or-more, phone-only, identity-only, passcode-only, and hidden mappings in DOC-06B;
 - one verified email, phone, and individual identity may each belong to only one active individual account; a post-account-creation phone or identity conflict blocks activation and never auto-merges accounts;
 - authentication failure does not expose protected route history and keeps the user in the applicable authentication flow with a permitted retry or recovery path;
-- authentication outcome presentation follows the mandatory DOC-07 matrix mechanism; exact Outcome IDs, Message IDs, and approved copy remain open and must not be invented by implementation;
+- `AUTH-RECOVERY` provides Recovery Start, Check Email, Link Validation, New Password, Recovery Resolution, Support-authorized Setup, and Recovery Complete as internal screens or states without creating extra route IDs;
+- Check Email displays the destination address, a disabled resend action until its countdown ends, and `Cannot Access This Email`; it does not assume an email app or permit primary-email change within anonymous Recovery;
+- a provider-only account cannot create its first PayPlus password through anonymous Recovery and is directed to provider login or controlled Support;
+- successful password reset does not create a logged-in session, revokes active sessions and remembered authentication context, sends the required security communication, and returns to `AUTH-LOGIN-FULL`;
+- recovery preserves only an opaque intended-destination reference, revalidates that destination after successful login, and never preserves or auto-submits payment authorization state;
+- when self-service recovery cannot continue, PayPlus selects a safe redirect, waiting, Support, or Recovery Not Permitted resolution without disclosing protected account or capability information;
+- authentication outcome and resolution presentation follows the mandatory DOC-07 matrix mechanism; exact Outcome IDs, Message IDs, approved copy, and final notification mappings remain open and must not be invented by implementation;
 - payers can register and log in;
 - payees can register and log in;
 - phone verification, new-device 2FA, dormant-login reauthentication, and material-change confirmation touchpoints are represented;
@@ -286,6 +294,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.25 | 2026-07-29 | Added acceptance coverage for the capability-aware AUTH-RECOVERY baseline, explicit outcome-resolution separation, neutral recovery messaging, session revocation, safe return, and controlled Support or stop handling. |
 | 0.1.24 | 2026-07-28 | Added acceptance coverage for HK-only Phone Verification, five-state Identity Verification and banners, no voluntary re-verification after Verified, and the defined six-digit Payment Passcode Set/Change/Reset flows. |
 | 0.1.23 | 2026-07-28 | Corrected first-time identity-verification acceptance, added Phone Verification ownership coverage, and marked detailed verification/passcode screen and security behavior as pending DOC-19/DOC-20 work. |
 | 0.1.22 | 2026-07-28 | Added acceptance coverage for Entrance, Fast/Full Login, Recovery, non-reserving registration attempts, Account Activation and banners, one-month Fast Login, uniqueness conflicts, display-name boundary, protected return, and the mandatory-but-open authentication outcome/message mechanism. |

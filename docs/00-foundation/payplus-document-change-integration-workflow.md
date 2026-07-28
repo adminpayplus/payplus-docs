@@ -1,6 +1,6 @@
 # PayPlus Documentation Change Integration and Commit Workflow
 
-Last updated: 2026-07-26
+Last updated: 2026-07-29
 
 ## 1. Purpose
 
@@ -179,6 +179,22 @@ Check relevant drafted downstream owners when the accepted human requirement has
 - `DOC-21` for monitoring, incidents, and service operations;
 - `DOC-22` for admin configuration, queues, review actions, thresholds, exceptions, and operational controls.
 
+When a change introduces or revises a material result path, check the full chain:
+
+```text
+Business Intent and Source Rule
+-> Decision or Evaluation
+-> Outcome
+-> Resolution Strategy
+-> Message and CTA
+-> Notification when required
+-> Audit Event
+-> Acceptance Test
+-> Code and Automated Test
+```
+
+Update only the owners affected by that chain. The route or domain owner defines the business Outcome and permitted Resolution Strategy; DOC-07 governs Message/CTA presentation; DOC-08 governs notifications; DOC-18 governs occurrence and correlation data; DOC-19 governs security eligibility; DOC-20 governs tests; and DOC-21/DOC-22 govern controlled operational handling where applicable. Do not collapse these concepts into one status or duplicate their definitions.
+
 Where a downstream document is still a placeholder, do not infer or draft missing technical detail. Record a precise future-alignment requirement only where needed to prevent the accepted requirement from being lost.
 
 Check `DOC-08` when the change creates or alters a notifiable event, deeplink destination, channel rule, user preference, or admin communication control. Check risk, privacy, compliance, and security owners when the change affects evidence, authorization, participant linking, personal data, masking, approved-purpose access, fraud, AML, tokenization, auditability, or retention.
@@ -272,16 +288,17 @@ Before reporting commit readiness, verify:
 2. no contradictory or superseded definition remains active;
 3. no unnecessary duplication was introduced;
 4. route IDs, terminology, statuses, actors, and handoffs are consistent;
-5. references and links identify the correct owner;
-6. traceability and open-question records are accurate;
-7. acceptance criteria and test mappings reflect the accepted requirement where applicable;
-8. technical, operational, admin, notification, risk, privacy, and security impacts were handled or clearly deferred;
-9. document metadata and version history are accurate;
-10. diagrams and current visual artifacts match written behavior where applicable;
-11. derived AI and external handoff documents were correctly included, deferred, or excluded;
-12. PayPlus boundaries and documentation layering remain intact;
-13. unrelated content and user changes were preserved;
-14. the actual diff matches the approved scope.
+5. material outcomes, permitted resolutions, persistent statuses, Message/CTA presentation, notifications, audit occurrences, and acceptance evidence remain distinct and correctly owned;
+6. references and links identify the correct owner;
+7. traceability and open-question records are accurate;
+8. acceptance criteria and test mappings reflect the accepted requirement where applicable;
+9. technical, operational, admin, notification, risk, privacy, and security impacts were handled or clearly deferred;
+10. document metadata and version history are accurate;
+11. diagrams and current visual artifacts match written behavior where applicable;
+12. derived AI and external handoff documents were correctly included, deferred, or excluded;
+13. PayPlus boundaries and documentation layering remain intact;
+14. unrelated content and user changes were preserved;
+15. the actual diff matches the approved scope.
 
 Use `git diff --check` and appropriate repository searches. Add other validation when the affected artifact requires it.
 

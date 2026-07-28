@@ -4,7 +4,7 @@ Status: Working alignment reference
 
 Owner: Product / Documentation Owner
 
-Last updated: 2026-07-28
+Last updated: 2026-07-29
 Classification: Internal
 
 This glossary defines approved PayPlus terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
@@ -123,7 +123,9 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Identity Verification | The reusable `ACCOUNT-PROFILE` child flow for first-time identity verification, processing, retry after failure, or an admin-required update. Its user-facing states are `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`; a verified user cannot voluntarily re-verify. | DOC-06B / DOC-15 |
 | Payment Passcode | The six-digit PayPlus secret used for payment authorization and other specifically approved sensitive controls. It is not the login password and is never displayed after setup. | DOC-09 / DOC-15 / DOC-19 |
 | Payment Passcode Settings | The reusable `ACCOUNT-SECURITY` child flow for six-digit Set, Change, or Reset and the permitted card/payment-profile confirmation preference. Account Activation may invoke Set contextually; Reset requires fresh login reauthentication and OTP to the registered verified phone. | DOC-06B / DOC-19 |
-| Authentication Outcome Type | A stable internal classification for an authentication or registration result. It is separate from the user-facing message and one occurrence of the result. | DOC-07 / DOC-18 |
+| Authentication Outcome Type | A stable internal classification of what resulted from an authentication, registration, activation, or recovery evaluation. It is separate from persistent account status, Resolution Strategy, user-facing Message/CTA, notification, and one occurrence of the result. | DOC-06B / DOC-07 / DOC-18 |
+| Resolution Strategy | The permitted next-handling decision selected after an Outcome, such as Continue, Restart, Redirect, Wait, Support, or Stop. It is not a route, status, message, CTA, or software service. | DOC-06B / DOC-07 |
+| Recovery Resolution | A capability-aware Resolution Strategy for account recovery that uses only currently permitted authentication or controlled Support capabilities without exposing protected account information. | DOC-06B / DOC-15 / DOC-19 |
 | Authentication Message ID | The stable identifier for approved user-facing authentication copy, disclosure level, actions, and destination behavior. Multiple internal outcomes may map to the same Message ID. | DOC-07 |
 | Authentication Occurrence / Correlation ID | The unique event and flow references used to trace one authentication occurrence and related operations without exposing credentials or sensitive values. | DOC-18 |
 | Nickname / Display Name | Optional editable account-profile text used for user-facing recognition. It is not a login identifier and does not change an authentication method. | DOC-06B / DOC-15 |

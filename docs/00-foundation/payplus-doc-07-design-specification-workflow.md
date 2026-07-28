@@ -1,6 +1,6 @@
 # PayPlus DOC-07 Design Specification Workflow
 
-Last updated: 2026-07-28
+Last updated: 2026-07-29
 
 ## 1. Purpose
 
@@ -19,7 +19,8 @@ This workflow does not approve any copy, identifier, disclosure, legal position,
 
 DOC-07 owns:
 
-- the canonical Outcome and Message Matrix for user-facing results;
+- the canonical Outcome, Resolution, Message, and CTA Matrix for user-facing results;
+- the canonical recording of owner-approved Resolution Strategies used by messages and CTAs;
 - Message IDs and approved user-facing copy;
 - audience, surface, disclosure, masking, and variable rules;
 - CTA label, priority, action, destination, retry, dismissal, and safe-return mapping;
@@ -30,6 +31,7 @@ DOC-07 owns:
 DOC-07 does not own:
 
 - route structure or return behavior defined by DOC-06B;
+- the business or security decision that makes a Resolution Strategy available;
 - notification eligibility, recipients, channels, delivery, preferences, or retry rules defined by DOC-08;
 - data schemas, canonical statuses, event taxonomy, or audit implementation defined by DOC-18;
 - token, session, authentication, rate-limit, and access controls defined by DOC-19;
@@ -62,13 +64,14 @@ For each route family or domain slice, collect:
 2. route, screen, action, destination, and return behavior;
 3. domain statuses and transitions, if any;
 4. operation outcomes, including success, failure, cancellation, expiry, conflict, restriction, unavailable, and unconfirmed cases;
-5. actor, audience, authentication, authorization, and assurance context;
-6. prohibited disclosure and masking requirements;
-7. notification eligibility and delivery owner;
-8. event, audit, correlation, and retention requirements;
-9. acceptance criteria and known test cases;
-10. support and admin handoffs;
-11. unresolved decisions and configurable values.
+5. permitted Resolution Strategies and unavailable-path handling supplied by the route or domain owner;
+6. actor, audience, authentication, authorization, assurance, and usable-capability context;
+7. prohibited disclosure and masking requirements;
+8. notification eligibility and delivery owner;
+9. event, audit, correlation, and retention requirements;
+10. acceptance criteria and known test cases;
+11. support and admin handoffs;
+12. unresolved decisions and configurable values.
 
 Chat, prototypes, diagrams, and AI execution files may help locate questions but must not override formal source documents.
 
@@ -82,8 +85,8 @@ DOC-07 must contain or link to:
 4. disclosure-level model;
 5. global content and variable rules;
 6. canonical Outcome Registry;
-7. canonical Outcome and Message Matrix;
-8. CTA and safe-return rules;
+7. canonical Outcome, Resolution, Message, and CTA Matrix;
+8. Resolution Strategy, CTA, and safe-return rules;
 9. surface and presentation rules;
 10. localization and accessibility rules;
 11. notification handoff to DOC-08;
@@ -107,6 +110,7 @@ Each matrix row must include:
 | Origin Context | Route, screen, action, domain object, or system process. |
 | Audience / Assurance | Actor and authentication/verification context. |
 | Disclosure Level | `D0`, `D1`, `D2`, `D3`, or `DI`. |
+| Resolution Strategy | Owner-approved continue, restart, redirect, wait, support, or stop handling; eligible alternatives; selection rule; and no-safe-path treatment. |
 | Message ID | Stable DOC-07 ID. |
 | Surface | Inline, field, banner, sheet, modal, full page, toast, Inbox detail, or other approved surface. |
 | Title / Body | Approved source copy or explicit `TBC`. |
@@ -148,6 +152,19 @@ For every material operation:
 
 Do not create Message IDs until the Outcome inventory is coherent.
 
+### Phase 2A: Map Permitted Resolutions
+
+For every Outcome:
+
+1. obtain the permitted Resolution Strategies from the route or domain owner;
+2. identify the current actor, assurance, capability, and control conditions that affect selection;
+3. distinguish continue, restart, redirect, wait, Support, and stop behavior where applicable;
+4. identify alternative paths that must not be revealed before the required assurance;
+5. define the no-safe-path treatment;
+6. confirm that the resolution does not create a new status, bypass a gate, or silently authorize a protected action.
+
+Do not invent a Resolution Strategy in DOC-07. Return missing or conflicting behavior to the route or domain owner.
+
 ### Phase 3: Classify Disclosure
 
 For each outcome:
@@ -170,6 +187,7 @@ Draft:
 - permitted variables;
 - presentation surface and severity;
 - primary and secondary CTA;
+- the owner-approved Resolution Strategy implemented by each CTA;
 - retry, dismissal, support, and safe-return behavior;
 - accessibility announcement and focus;
 - localization notes.
@@ -225,11 +243,12 @@ DOC-06B supplies:
 
 - route and screen context;
 - user action and origin;
+- operation Outcomes and permitted Resolution Strategies at the human-readable product level;
 - destination and return behavior;
 - current-state revalidation expectation;
 - route-level failure and interruption points.
 
-DOC-07 returns Outcome/Message/CTA IDs. It must not redefine route topology.
+DOC-07 returns approved Outcome/Resolution/Message/CTA mappings. It must not redefine route topology.
 
 ### 7.2 DOC-08
 
@@ -316,6 +335,7 @@ A DOC-07 slice is ready for authoring when:
 - source requirements are stable enough to reference;
 - operation boundaries and actors are known;
 - known outcomes include negative and uncertain paths;
+- permitted Resolution Strategies and no-safe-path handling are defined or explicitly owned as TBC;
 - status ownership is clear;
 - disclosure and privacy inputs are available;
 - route actions and destinations are defined or explicitly TBC;
@@ -329,6 +349,7 @@ A slice is not ready if drafting would require the author to invent a business r
 A DOC-07 slice is Done when:
 
 - every included source rule maps to an outcome or an explicit non-user-visible disposition;
+- every included outcome has an owner-approved Resolution Strategy or an explicit internal-only/no-action disposition;
 - every user-visible outcome maps to an approved Message ID;
 - every CTA has action, destination, revalidation, and safe-return behavior;
 - disclosure levels and prohibited reveals are reviewed;
@@ -362,6 +383,7 @@ Check:
 Check:
 
 - Outcome is not confused with Status;
+- Resolution Strategy is not confused with Outcome, Status, Message, CTA, or a new route;
 - Message is not confused with Notification;
 - Event is not confused with recipient delivery;
 - the same internal result does not leak more information on a lower-assurance surface;
@@ -379,8 +401,8 @@ For every row, verify:
 ```text
 Source Rule
   -> Outcome
-  -> Message
-  -> CTA
+  -> Resolution Strategy
+  -> Message and CTA
   -> Notification or None
   -> Event/Audit
   -> Acceptance/Test
@@ -409,6 +431,7 @@ Also confirm that unrelated existing changes remain unstaged.
 - Is the actor, operation, and result unambiguous?
 - Are all material negative and uncertain paths present?
 - Is a real status transition referenced rather than invented?
+- Is the Resolution Strategy permitted by the owning route/domain and current capability context?
 
 ### Content and Design
 
@@ -448,7 +471,7 @@ Also confirm that unrelated existing changes remain unstaged.
 
 When a source rule changes:
 
-1. identify affected Outcome and Message rows;
+1. identify affected Outcome, Resolution, and Message rows;
 2. determine whether meaning changed or only copy changed;
 3. preserve stable IDs for non-semantic copy edits;
 4. supersede rather than reuse IDs when business meaning changes;
@@ -475,16 +498,17 @@ An AI agent drafting DOC-07 must be instructed to:
 2. return the slice boundary, owners, applicable IDs, conflicts, and missing decisions;
 3. draft only approved rows;
 4. preserve exact source IDs and route names;
-5. use `TBC` with an owner instead of invention;
-6. produce a complete traceability matrix and review report;
-7. stop before commit unless founder approval already covers the exact scope.
+5. preserve owner-approved Resolution Strategies without turning them into new statuses or routes;
+6. use `TBC` with an owner instead of invention;
+7. produce a complete traceability matrix and review report;
+8. stop before commit unless founder approval already covers the exact scope.
 
 ## 14. Workflow Acceptance Criteria
 
 This workflow is effective when:
 
 - DOC-07 can be authored incrementally without becoming a duplicate route, security, data, notification, or operations specification;
-- reviewers can evaluate each mapping by stable ID and owned source;
+- reviewers can evaluate each Outcome, Resolution, Message, and CTA mapping by stable ID and owned source;
 - missing decisions remain visible;
 - AI coding receives precise outcomes, messages, CTAs, disclosure rules, and tests;
 - repository changes preserve source ownership and traceability.

@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.31
+version: 0.18.32
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-28
+last_updated: 2026-07-29
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.31` |
+| **Version** | `0.18.32` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-28` |
+| **Last Updated** | `2026-07-29` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -514,6 +514,8 @@ For split UX topics, use one primary owner. DOC-06B owns standalone route shells
 
 Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `ENTRANCE-ROOT` is the unauthenticated app root; `AUTH-LOGIN` resolves to `AUTH-LOGIN-FAST` or `AUTH-LOGIN-FULL`; `AUTH-RECOVERY` owns password recovery; and `AUTH-REGISTRATION` owns restricted-account creation. `ACCOUNT-ACTIVATION` completes phone, identity, and payment-passcode requirements through their reusable child flows. Normal successful login proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET` and `MORE-ROOT` identify the Pay+ and More destinations. `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings, with `NOTIFICATION-INBOX` as its default child. DOC-09 `PAYMENT-CHECKOUT` identifies the payment checkout flow/screen group without transferring checkout ownership to DOC-06.
 
+Material AUTH handling must separate the operation Outcome from its permitted Resolution Strategy, user-facing Message/CTA, Notification, and persistent status. Capability-aware resolution may continue, restart, redirect, wait, invoke controlled Support, or stop according to the current permitted authentication and recovery context. It must not reveal unproven login methods, create a security bypass, silently authorize a protected action, or imply that every account can be recovered. DOC-06B owns route-level Outcomes and Resolution Strategies; DOC-07 owns presentation; DOC-08 owns notifications; and DOC-18 to DOC-22 own their respective technical, security, testing, operational, and admin details.
+
 PayPlus uses one account with one unique verified primary email and one or more explicitly enabled login methods. Email/password, Google, and Apple may access the same account only after the provider identity is explicitly linked; matching email addresses never merge or link accounts automatically. Social-authenticated users may set a PayPlus password later through `ACCOUNT-SECURITY`. Before account creation, a temporary registration attempt creates no account and reserves no proposed identifier. Restricted account creation may reach `HOME-ROOT` before phone verification, identity verification, and six-digit payment-passcode setup; `ACCOUNT-ACTIVATION` must complete those gates before the registration-level restriction is removed or a financially restricted action proceeds.
 
 `PAYPLUS-ACTION-SHEET` uses the confirmed five-action order and role boundaries from DOC-06B. `Pay a Bill` and `Pay Rent` open temporary category-scoped `BILLS-PAY` selection without changing saved Bills filters; `Add Bill / Rent` opens `BILLS-ADD`; `Continue Payment` resolves to disabled, one instruction detail, or the instruction list according to active instruction count; and `Request Payment` means payee-to-payer request creation. Exact visual measurements, iconography, and motion timing remain design-open.
@@ -778,6 +780,7 @@ The MVP is acceptable when:
 | Major functions and modules must be independently disableable. | Confirmed |
 | Future docs should use concise product-spec structure. | Confirmed |
 | Promotion engine capabilities are framework scope but launch-gated by DOC-13 rules and admin configuration. | Confirmed |
+| AUTH routes use capability-aware Outcome-to-Resolution handling without changing approved login, registration, activation, verification, passcode, or return decisions. | Confirmed |
 | `ENTRANCE-ROOT`, the `AUTH-LOGIN` family, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, and `ACCOUNT-ACTIVATION` are required acceptance-scope destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Behavior Defined |
 | One account uses one unique verified primary email and may explicitly enable email/password, Google, and Apple login methods. Social accounts may set a password later; matching emails never auto-link accounts; a registration attempt reserves no identifier; phone, identity, and six-digit payment-passcode completion remove the registration-level restriction through `ACCOUNT-ACTIVATION`. | Confirmed |
 | `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, and the `NOTIFICATION-ROOT` family have defined behavior baselines and route handoffs. DOC-09 `PAYMENT-CHECKOUT` remains a stable destination with further detail pending. | Working Baseline / Final Visual Design Pending |
@@ -796,6 +799,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.32 | 2026-07-29 | Added the platform-wide Outcome-to-Resolution product requirement and aligned the AUTH baseline with capability-aware recovery without changing existing account, login, activation, or security decisions. |
 | v0.18.31 | 2026-07-28 | Aligned the PRD with the defined Phone Verification, five-state Identity Verification, no voluntary re-verification after Verified, and six-digit Payment Passcode Set/Change/Reset behavior. |
 | v0.18.30 | 2026-07-28 | Aligned the PRD with separate Phone and Identity Verification routes, the first-time identity-verification passcode exception, and the pending detailed Payment Passcode Settings definition. |
 | v0.18.29 | 2026-07-28 | Aligned the PRD with `ENTRANCE-ROOT`, Fast/Full Login, Recovery, non-reserving registration attempts, Account Activation, six-digit passcode requirement, uniqueness conflicts, display-name boundary, and authentication outcome/message ownership. |

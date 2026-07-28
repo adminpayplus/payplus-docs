@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.30
+version: 1.0.31
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-28
+last_updated: 2026-07-29
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.30` |
+| **Version** | `1.0.31` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-28` |
+| **Last Updated** | `2026-07-29` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -369,6 +369,8 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 KYC/KYB notifications that require user action should open `IDENTITY-VERIFICATION`; approved or informational status messages may open `ACCOUNT-PROFILE`. Identity notifications and banners must use only `Not Verified`, `Processing`, `Verified`, `Failed`, or `Update Required` and the actions in the status-display matrix. `Processing` may produce a dismissible Home banner with View Status; `Verified` may produce a dismissible completion banner; `Failed` and `Update Required` require an Action Required treatment. Dismissal changes presentation only. Internal provider or operational states must map to one approved label and must not expose raw provider or risk reasons. Privacy-request messages open `PRIVACY-DATA-CONTROLS`. Account-closure messages open `ACCOUNT-PROFILE`, except the final completion message where login has been disabled and the notification must use an approved external channel or pre-logon destination. Contact-change messages under `NOTIF-ACCT-006` must notify the old and new channels where available without exposing OTP or recovery detail.
 
 First password setup, password change, payment-passcode Change/Reset, and Google/Apple login-method link or unlink use `NOTIF-ACCT-006`; they do not require separate notification IDs. Successful payment-passcode Change and Reset must notify available verified channels. A temporary registration attempt is not an account and creates no Inbox record. Pre-account prompts, OTPs, provider errors, and other in-flow authentication outcomes use the mandatory DOC-07 outcome/message mechanism rather than notification IDs. `NOTIF-ACCT-001` applies only after restricted-account creation and should open `ACCOUNT-ACTIVATION` where action remains. `NOTIF-ACCT-002` applies after phone, identity, and payment-passcode requirements complete.
+
+`AUTH-RECOVERY` capability decisions, link-validation results, retry paths, and unavailable-method handling are in-flow Outcomes and Resolution Strategies, not notification events. The password-reset email is a controlled authentication delivery and does not prove reset success. A completed password reset must use the mandatory account-security communication family, currently `NOTIF-ACCT-006`, without creating a separate ID unless later operational review requires one. Exact recovery delivery events, Message IDs, CTA mappings, and notification-template treatment remain governed by the DOC-07 authentication slice and future DOC-18/DOC-19 implementation specifications.
 
 ### 11.1A Receiving Info Events
 
@@ -788,6 +790,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.31 | 2026-07-29 | Separated AUTH-RECOVERY Outcomes and Resolution Strategies from notification events, classified reset-link email as controlled delivery, and mapped successful password reset to the existing mandatory account-security communication family. |
 | 1.0.30 | 2026-07-28 | Aligned identity notifications and Home banners with the five-state model, added processing/success/action-required presentation behavior, and required security notification after payment-passcode Change or Reset. |
 | 1.0.29 | 2026-07-28 | Replaced user-facing identity suspension wording with the approved `Failed` / `Update Required` labels and required internal suspension conditions to map through the canonical status-display matrix. |
 | 1.0.28 | 2026-07-28 | Aligned account notifications with non-account registration attempts, restricted-account creation, full registration through `ACCOUNT-ACTIVATION`, and the DOC-07 in-flow authentication outcome/message boundary. |

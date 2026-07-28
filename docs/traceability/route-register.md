@@ -2,7 +2,7 @@
 
 Status: Working alignment reference
 Owner: Product / Founder
-Last updated: 2026-07-28
+Last updated: 2026-07-29
 Classification: Internal
 
 This register is the canonical inventory of PayPlus product destinations. Owning documents define behavior; this register tracks identity, parentage, type, ownership, and definition status without restating detailed requirements.
@@ -24,7 +24,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `AUTH-LOGIN` | `ENTRANCE-ROOT` / protected deeplink | Route family / entry resolver | Select Fast Login when eligible; otherwise open Full Login. | DOC-06B | Defined baseline |
 | `AUTH-LOGIN-FAST` | `AUTH-LOGIN` | Child authentication screen / sheet | Authenticate an eligible remembered account through enabled biometric or password fallback. | DOC-06B | Defined baseline |
 | `AUTH-LOGIN-FULL` | `AUTH-LOGIN` / Log In With Another Account | Child authentication screen | Authenticate an existing user through an explicitly linked email/password, Google, or Apple login method. | DOC-06B | Defined baseline |
-| `AUTH-RECOVERY` | `AUTH-LOGIN-FAST` / `AUTH-LOGIN-FULL` | Reusable child flow | Recover account access through approved identity and security controls. | DOC-06B / DOC-15 | Partially defined |
+| `AUTH-RECOVERY` | `AUTH-LOGIN-FAST` / `AUTH-LOGIN-FULL` | Reusable child flow | Recover account access through approved self-service, provider, or controlled Support resolution without creating an authenticated session. | DOC-06B | Defined baseline |
 | `AUTH-REGISTRATION` | `ENTRANCE-ROOT` / referral or approved deeplink | Child registration/onboarding flow | Complete a temporary non-account registration attempt and atomically create a restricted account after required email, login-method, and Terms/Privacy checks. | DOC-06B | Defined baseline |
 | `ACCOUNT-ACTIVATION` | Post-account setup / Home banner / blocked financial action | Orchestration route flow | Coordinate only the missing phone verification, identity verification, or six-digit payment-passcode setup and return to the originating context. | DOC-06B | Defined baseline |
 | `PHONE-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable child flow | Verify or replace the required Hong Kong primary phone number; may be invoked contextually by `ACCOUNT-ACTIVATION`. | DOC-06B | Defined baseline |
@@ -96,7 +96,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 
 ## Assigned Destinations Requiring Further Definition
 
-All currently identified product areas have stable destination IDs. Entrance, Fast/Full Login, Registration, Account Activation, Phone Verification, Identity Verification, and Payment Passcode Settings have defined human-readable behavior baselines. `ENTRANCE-PROMOTION-DETAIL`, `AUTH-RECOVERY`, `HOME-ROOT`, and `PAYMENT-CHECKOUT` remain partially defined. Provider mapping, technical security controls, detailed tests, and final visual design remain open where assigned to DOC-17, DOC-19, DOC-20, or DOC-22.
+All currently identified product areas have stable destination IDs. Entrance, Fast/Full Login, Registration, Account Activation, Recovery, Phone Verification, Identity Verification, and Payment Passcode Settings have defined human-readable behavior baselines. `ENTRANCE-PROMOTION-DETAIL`, `HOME-ROOT`, and `PAYMENT-CHECKOUT` remain partially defined. Recovery Outcome/Message IDs and copy, provider mapping, technical security controls, Support proof and approval details, detailed tests, and final visual design remain open where assigned to DOC-07, DOC-17, DOC-19, DOC-20, DOC-21, or DOC-22.
 
 ## Maintenance Rules
 

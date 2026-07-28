@@ -68,8 +68,8 @@ Future full DOC-22 drafting must support controlled authentication and Account A
 Required capabilities should include:
 
 - locate permitted registration-attempt, authentication, session, and Account Activation events by user/account reference, attempt ID, occurrence/event ID, or correlation ID;
-- show approved operational outcome classifications and reason categories separately from user-facing message text;
-- use the DOC-07 Authentication Outcome and Message Matrix for Message ID, disclosure, action, and destination alignment;
+- show approved operational Outcome classifications, selected Resolution Strategies, and reason categories separately from persistent account status and user-facing message text;
+- use the DOC-07 Authentication Outcome, Resolution, Message, and CTA Matrix for Message ID, disclosure, action, destination, and notification-treatment alignment;
 - support authorized review of primary-email, phone, identity, provider-link, and account-creation uniqueness conflicts without automatically merging or linking accounts;
 - inspect Fast Login eligibility renewal/revocation and current-device session revocation without storing or revealing plaintext passwords or protected device secrets;
 - configure and monitor registration-attempt expiry, OTP invalidation, rate limits, abuse controls, and cleanup while ensuring temporary attempts do not reserve identifiers or grant account rights;
@@ -79,9 +79,12 @@ Required capabilities should include:
 - record requester, approver, prior status, new status, reason, timestamp, and case/provider reference for every identity-status reset or required-update decision;
 - configure the HK$3,000 additional external/risk step-up baseline without weakening mandatory payment-passcode, payer-authorization, PSP/acquirer, card-network, regulatory, or risk controls;
 - preserve controlled support-assisted payment-passcode recovery for unavailable registered phones; exact proof and waiting-period rules remain TBC for the full DOC-19/DOC-22 drafting;
+- preserve controlled account-recovery cases with case and correlation IDs, disclosure-safe available-capability summaries, proof and retained-evidence references, risk/reason category, reviewer and approver assignment, cooling-off treatment, permitted recovery authorization, notifications, and complete audit history;
+- require dual approval where established recovery channels are unavailable, subject to final DOC-19/DOC-21/DOC-22 proof, role, and waiting-period decisions;
+- prohibit administrators from choosing passwords or passcodes, reading recovery secrets, directly creating authenticated sessions, linking providers, bypassing phone/identity/activation controls, or promising recovery where ownership assurance cannot be established;
 - preserve full audit history for permitted support, security, review, and override actions.
 
-The exact authentication Outcome Type IDs, Message IDs, user-facing messages, and mappings remain open in DOC-07. DOC-22 must preserve the lookup and operational-control mechanism but must not invent or override those decisions.
+The exact authentication Outcome Type IDs, Resolution Strategy codes/mappings, Message IDs, user-facing messages, CTA mappings, and notification treatment remain open in DOC-07. Exact recovery proof, cooling-off, restricted-account treatment, reviewer/approver roles, and technical security controls remain open in DOC-19/DOC-21/DOC-22. DOC-22 must preserve the lookup and operational-control mechanism but must not invent or override those decisions.
 
 ## 8. Admin Review Workflows
 
@@ -366,6 +369,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.21.0 | 2026-07-29 | Aligned future authentication administration with capability-aware Recovery, the Outcome/Resolution/Message/CTA separation, controlled Support recovery cases, dual approval, and explicit administrator prohibitions while leaving security and operational details TBC. |
 | 0.20.0 | 2026-07-28 | Added future admin controls for the five-state identity model, prohibited direct verification/passcode bypass, required dual approval for Verified-to-Not-Verified reset, recorded reset audit fields, preserved support-assisted passcode-recovery TBCs, and added the configurable HK$3,000 step-up baseline. |
 | 0.19.0 | 2026-07-28 | Added future operational controls for temporary registration attempts, authentication outcome/message/correlation lookup, account-activation conflicts, Fast Login/session handling, and approved public Entrance content while preserving DOC-07 ownership of exact IDs and messages. |
 | 0.18.0 | 2026-07-27 | Added future admin and support markers for unique-primary-email conflicts, explicit provider login-method links, first-password state, final-login-method protection, and restricted-account financial-activation gates. |

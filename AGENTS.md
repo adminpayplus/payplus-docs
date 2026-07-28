@@ -123,11 +123,35 @@ Keep similar concepts separate unless the source documents clearly combine them.
 - evidence status is not the same as payment readiness, although it may affect readiness;
 - a notification is not the same as a status;
 - a user-facing label is not always the same as the underlying system state;
+- an outcome is not the same as a persistent status;
+- a resolution strategy is not the same as an outcome, message, CTA, route, or status;
 - a Pay+ action is not automatically a standalone route;
 - a reminder is not automatically a deferred payment instruction;
 - a user action is not the same as a backend event or audit record.
 
 When drafting or editing user-facing status labels, activity labels, checkout/result status, receipt or statement wording, notification wording, or admin status display, check `docs/traceability/status-display-reference-matrix.md`. That matrix is the status-display alignment reference; domain documents still own the underlying system status meaning and DOC-18 remains the future canonical status/event taxonomy owner.
+
+### Outcome and Resolution Rule
+
+For material user-facing results and controlled handling, apply:
+
+```text
+Business Intent and Source Rule
+  -> Decision or Evaluation
+  -> Outcome
+  -> Resolution Strategy
+  -> Message and CTA
+  -> Notification, when required
+  -> Audit Event
+  -> Acceptance Test
+  -> Code and Automated Test
+```
+
+Read `docs/00-foundation/payplus-platform-design-principles.md` and `docs/00-foundation/payplus-outcome-message-notification-framework.md` when a task defines or changes a material decision, outcome, unavailable path, recovery path, message, CTA, notification relationship, or protected continuation.
+
+The route or domain owner defines the Outcome meaning and permitted Resolution Strategies. DOC-07 owns approved user-facing Outcome/Message/CTA mappings and disclosure. DOC-08 owns notification behavior. DOC-18 owns event/audit/status data, and specialist owners define security, operations, testing, and admin controls.
+
+Resolution must be capability-aware but disclosure-safe. It may continue, restart, redirect, wait, invoke controlled Support, or stop. It must not create a new persistent status, reveal unavailable capabilities, bypass a gate, silently authorize a protected action, or imply that every account or process can be recovered.
 
 ### User-First Flow Check
 
@@ -198,6 +222,7 @@ Common ownership baseline:
 
 - `DOC-06B`: navigation, global non-Bills route shells and human-readable route-level UX behavior, entry points, route taxonomy, and dashboard placement;
 - `DOC-06C`: Bills/rent/tenancy UX, cards, details, evidence UI entry, reminder UI, bill-specific activity;
+- `DOC-07`: user-facing Outcome/Message/CTA mappings, disclosure, approved copy, and presentation behavior;
 - `DOC-08`: notification IDs, channels, templates, preferences, and delivery rules;
 - `DOC-09`: payment request mechanics, checkout, funding, authorization, payment instructions, payment states;
 - `DOC-10`: payout and reconciliation;
@@ -207,6 +232,9 @@ Common ownership baseline:
 - `DOC-14`: AML, anti-cashout, fraud, dynamic risk controls;
 - `DOC-15`: privacy, data classification, masking, retention, approved-purpose access;
 - `DOC-18`: data model, event taxonomy, audit events, lineage, reporting;
+- `DOC-19`: authentication, token, session, rate-limit, access, and security controls;
+- `DOC-20`: detailed acceptance, UAT, and release evidence;
+- `DOC-21`: support procedures, monitoring, incidents, and operational escalation;
 - `DOC-22`: admin operations, dashboard workflow, configurable controls, manual review operations.
 
 If ownership is unclear, identify the likely primary owner and list reference documents before editing.
@@ -272,6 +300,12 @@ Before making broad documentation changes:
 8. Update affected index, README, traceability, and reference files when broad documentation changes alter navigation, ownership, or source-of-truth assumptions.
 
 Do not commit, push, create pull requests, or mark documents as approved unless the founder explicitly asks for that action.
+
+### DOC-07 Design Specification Workflow
+
+When drafting or materially changing DOC-07 Outcome, Message, disclosure, or CTA mappings, read and apply `docs/00-foundation/payplus-doc-07-design-specification-workflow.md` with `docs/00-foundation/payplus-outcome-message-notification-framework.md`.
+
+Finalize the owning route or domain rules and permitted Resolution Strategies first. Author DOC-07 by coherent route-family or domain slice. Do not invent source rules, statuses, resolution paths, notification triggers, security controls, technical constants, or admin permissions inside DOC-07.
 
 ## Writing Standards
 

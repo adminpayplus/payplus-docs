@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.37
+version: 0.1.38
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-28
+last_updated: 2026-07-29
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -40,12 +40,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.37` |
+| **Version** | `0.1.38` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-28` |
+| **Last Updated** | `2026-07-29` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -160,13 +160,48 @@ When this document or another route owner defines, renames, replaces, or materia
 | `AUTH-LOGIN` | Route family / entry resolver | Resolve an existing-user login into Fast or Full Login according to the current device and account context. | Resolver rules defined |
 | `AUTH-LOGIN-FAST` | Child login screen | Reauthenticate a remembered eligible account through user-enabled device biometrics or password fallback. | Screen behavior defined; technical mechanics open |
 | `AUTH-LOGIN-FULL` | Child login screen | Offer Google, Apple, or email/password login where Fast Login is unavailable or another account is selected. | Screen behavior defined; technical mechanics open |
-| `AUTH-RECOVERY` | Reusable child flow | Recover or reset email/password access through an approved controlled flow. | Product boundary defined; detailed security mechanics open |
+| `AUTH-RECOVERY` | Reusable child flow | Recover an existing PayPlus login password or resolve account-access recovery through an approved controlled flow. | Product behavior and resolution baseline defined; detailed security, support, message, and notification mappings open |
 | `AUTH-REGISTRATION` | Child registration flow | Complete Google, Apple, or email account creation and create a restricted account only after all account-creation gates pass. | Screen and account-creation baseline defined |
 | `ACCOUNT-ACTIVATION` | Reusable orchestration flow | Coordinate the remaining phone, identity, and payment-passcode requirements for full registration. | Route, banner, and child handoffs defined |
 | `PHONE-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Verify or replace the account phone number through the approved method; Account Activation may invoke initial verification contextually. | Defined behavior baseline; security constants remain with DOC-19 |
 | `IDENTITY-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Complete first-time verification, resume processing, retry a failed attempt, or respond to an admin-required update; Account Activation may invoke it contextually. | Defined behavior baseline; provider mapping remains TBC |
 | `PAYMENT-PASSCODE-SETTINGS` | Reusable `ACCOUNT-SECURITY` child flow | Set, change, or reset the six-digit payment passcode and manage the permitted card/profile confirmation preference; Account Activation may invoke Set contextually. | Defined behavior baseline; technical controls remain with DOC-19 |
 | `HOME-ROOT` | Logged-in root screen | Provide the task-first dashboard after successful login or restricted-account creation. | Dashboard baseline defined; final UI pending |
+
+#### Authentication Outcome and Resolution Rule
+
+The Authentication route family applies the repository-wide decision chain:
+
+```text
+Business Rule and Current Context
+    -> Decision or Evaluation
+    -> Outcome
+    -> Resolution Strategy
+    -> DOC-07 Message and CTA
+    -> DOC-08 Notification, when required
+    -> DOC-18 Audit and Correlation
+    -> DOC-06D / DOC-20 Acceptance Coverage
+    -> Technical Implementation and Automated Test
+```
+
+DOC-06B owns route-level Outcomes and the permitted Resolution Strategies at the human-readable product level. A Resolution Strategy may continue, restart, redirect, wait, invoke controlled Support, or stop. It is not a route, persistent status, message, CTA, or notification, and it does not require a standalone software service.
+
+Resolution must be capability-aware but disclosure-safe. PayPlus must use only currently permitted authentication or recovery capabilities and must not reveal whether an account or login method exists before the required assurance. A remembered device, phone number, identity record, or provider email is not sufficient recovery proof unless DOC-19 and the applicable owning rules permit it.
+
+The current AUTH-family resolution baseline is:
+
+| Flow | Evaluation focus | Permitted resolution baseline |
+| --- | --- | --- |
+| `AUTH-LOGIN` | Current session, remembered-account eligibility, enabled login method, device and security context. | Resume an approved session, open Fast Login, open Full Login, or require Recovery. |
+| `AUTH-LOGIN-FAST` | Biometric availability/result, remembered email, password fallback, and another-account choice. | Continue login, use password fallback, use Full Login, open Recovery, cancel, or wait/retry where permitted. |
+| `AUTH-LOGIN-FULL` | Selected linked login method, credentials/provider result, account eligibility, and protected return. | Continue login, try another method, open Recovery, offer Registration where appropriate, cancel, or use Support where required. |
+| `AUTH-REGISTRATION` | Attempt validity, provider/email verification, uniqueness, consent, and account-creation result. | Continue, restart, redirect to Login/Recovery, try another method, cancel, or stop account creation. |
+| `ACCOUNT-ACTIVATION` | Missing phone, identity, and passcode requirements and each child result. | Invoke a missing child, wait for processing, permit retry/help, remain restricted, or complete and return after revalidation. |
+| `PHONE-VERIFICATION` | Phone input, possession verification, replacement controls, expiry, restriction, and interruption. | Continue, resend, restart, wait, use Support, or stop where controls prohibit continuation. |
+| `IDENTITY-VERIFICATION` | Current five-state identity status, provider processing, retry eligibility, and admin-required update. | Start/continue, wait and view status, retry/get help, perform an approved update, or remain blocked. |
+| `PAYMENT-PASSCODE-SETTINGS` | Set/Change/Reset mode, matching entry, reauthentication, registered-phone access, restriction, and save result. | Continue, correct, retry, use controlled recovery, wait for reconciliation, cancel, or return safely. |
+
+These mappings refine handling only. They do not change existing login, account-creation, activation, verification, passcode, security, or return decisions.
 
 #### 5.0.1 `ENTRANCE-ROOT`
 
@@ -205,7 +240,63 @@ On an eligible device, `AUTH-LOGIN-FAST` automatically presents the operating-sy
 
 Provider identities use the stable provider-specific identifier. Matching email never creates, merges, transfers, or links an account. A linked provider may proceed through normal login and required step-up. An unlinked provider offers Create Account or Try Another Method without automatic email-based linking. Before the user proves control of an identifier, login and recovery errors must avoid confirming whether an account exists.
 
-#### 5.0.3 Registration Attempt and Account Creation
+#### 5.0.3 `AUTH-RECOVERY`
+
+`AUTH-RECOVERY` is one reusable flow for resetting an existing PayPlus login password or resolving account-access recovery through another approved method. It does not reset the Payment Passcode, recover Google or Apple credentials, create a provider-only user's first PayPlus password anonymously, change the primary email, merge accounts, or preserve authentication or payment authorization.
+
+Invocation contexts are:
+
+- Forgot Password from `AUTH-LOGIN-FAST` or the Email view in `AUTH-LOGIN-FULL`;
+- a controlled Login or Registration conflict that permits Recovery without revealing account existence; and
+- a protected destination that requires authentication before it can be reconsidered.
+
+Recovery cases are internal modes or screen states inside `AUTH-RECOVERY`, not separate routes.
+
+| Screen / state | Required product behavior |
+| --- | --- |
+| Recovery Start | Show Back, recovery title, a masked remembered email where permitted or editable email input, Continue, Try Another Login Method, Get Help, and Cancel. |
+| Check Your Email | Show the submitted address subject to DOC-07 disclosure/masking rules and a neutral instruction to check email. Show `Cannot receive the email?`, a disabled `Resend` action with visible countdown, and clickable `Cannot Access This Email?`. Do not show `Open Email App` or an inline Change Email action; Back returns to Recovery Start for correction. |
+| Link Validation | Validate the single-use deeplink silently. Show neutral loading only where needed and do not expose account, token, provider, restriction, or technical validation detail. |
+| New Password | Show new-password and confirm-password fields, visibility controls, approved requirements, Confirm, and Cancel. Both entries must match before submission. |
+| Recovery Resolution | Present only the safe next action permitted by the current Outcome, assurance, available capability, and control context. This is a conditional state, not a general error page or separate route. |
+| Support-Authorized Setup | Permit restricted login-method setup only after approved Support recovery authorization. It does not create a normal authenticated session or bypass activation. |
+| Recovery Complete | Confirm completion and session termination, then offer `Return to Log In` to `AUTH-LOGIN-FULL`. Successful reset does not log the user in. |
+
+The Check Your Email presentation must behave equivalently where account, password, provider-link, restriction, or delivery eligibility cannot be disclosed. Exact wording, masking, Outcome IDs, Message IDs, CTA labels, and surface treatment belong to the DOC-07 Authentication slice.
+
+##### Capability-Aware Recovery Resolution
+
+Recovery evaluates the safest currently permitted path rather than presenting a raw-error catalogue.
+
+| Situation / Outcome | Resolution Strategy | Product handling |
+| --- | --- | --- |
+| Recovery request accepted for neutral processing | Continue | Show Check Your Email without confirming account or password existence. |
+| Reset link valid and an existing PayPlus password is eligible for reset | Continue | Open New Password in a restricted reset session. |
+| Link invalid, expired, consumed, or reused | Restart | Permit Request New Link or Return to Login through the DOC-07 mapping. |
+| Email inaccessible and an already-linked login method is safely usable | Redirect | Permit Try Another Login Method without exposing unverified linkage details. |
+| Provider-only account has no PayPlus password | Redirect | Return to provider login or controlled Support; do not create a first password through anonymous Recovery. |
+| Provider temporarily unavailable or cancelled | Redirect / Wait | Permit provider retry, another approved method, Provider Help, or Support as applicable. |
+| No approved self-service method remains | Support | Begin controlled Support-assisted recovery. Phone OTP alone is insufficient. |
+| Support cannot establish the required ownership assurance | Stop | Use a safe Recovery Not Permitted treatment without creating a security bypass or promising recovery. |
+| Temporary security/service restriction or reset result is unconfirmed | Wait | Prevent unsafe duplicate submission, reconcile the result, and provide only an approved retry, return, or Support path. |
+| Password reset completed | Redirect | Revoke affected sessions and authentication context, then return to `AUTH-LOGIN-FULL`. |
+
+A trusted device, phone number, identity record, or provider-returned email may support risk or ownership assessment but is not an independent recovery capability unless DOC-19 expressly permits it. Support is a controlled final recovery capability, not an ordinary convenience option.
+
+##### Security, Support, and Return Rules
+
+- A reset deeplink is single-use and expiring. Exact validity, resend cooldown, retry, throttling, token, and abuse controls belong to DOC-19.
+- A valid link creates a restricted password-reset session only.
+- Anonymous reset requests must not revoke sessions, lock the account, change credentials, or reveal account/login-method existence.
+- Successful reset revokes active sessions, refresh tokens, Fast Login eligibility, remembered authentication context, biometric login binding, effective device trust, and sensitive pending authorization state. Device records remain where required for audit.
+- Google and Apple credential recovery remains provider-owned. A usable linked provider may authenticate normally, after which first-password setup remains an authenticated `ACCOUNT-SECURITY` flow.
+- If the primary email is unavailable and no linked login method works, Recovery hands off to controlled Support. Detailed proof, cooling-off, approval, restriction, and case handling remain with DOC-19, DOC-21, and DOC-22.
+- PayPlus may securely remember only an opaque intended destination during Recovery. After successful login, the destination and current permissions must be revalidated before return. Credentials, provider payloads, authorization results, and payment submission state must not be preserved.
+- A payment return must revalidate the obligation, evidence, amount, fees, benefit selection, payment method, receiving destination, activation, payer authorization, and risk controls. Payment must never auto-submit after Recovery.
+
+DOC-08 decides reset-link delivery and post-recovery security-notification treatment. DOC-18 owns recovery attempts, Outcomes, Resolution occurrences, correlations, session-revocation evidence, Support-case linkage, and audit lineage. DOC-20 owns detailed positive, neutral-equivalence, negative, expiry, replay, interruption, unconfirmed-result, accessibility, and return tests.
+
+#### 5.0.4 Registration Attempt and Account Creation
 
 `AUTH-REGISTRATION` offers Google, Apple, and Email paths:
 
@@ -228,7 +319,7 @@ Referral deeplink or QR context remains prefilled and non-editable. Manual refer
 
 After account creation, show `Complete Your PayPlus Setup` with `Complete Now` and `Do It Later`. Complete Now opens `ACCOUNT-ACTIVATION`; Do It Later opens `HOME-ROOT` with the applicable persistent Action Required banner.
 
-#### 5.0.4 `ACCOUNT-ACTIVATION`
+#### 5.0.5 `ACCOUNT-ACTIVATION`
 
 `ACCOUNT-ACTIVATION` completes full registration; it is not labelled payment setup. It may open after restricted-account creation, from the Home Action Required banner, or when a financially restricted action detects an incomplete requirement. It presents only the missing requirements and routes to `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, or `PAYMENT-PASSCODE-SETTINGS`.
 
@@ -248,11 +339,11 @@ One verified primary email, one verified phone number, and one verified individu
 
 The reusable child-flow behavior is defined in Sections 5.17.4.2 and 5.17.4.3. Account Activation must consume those flows without duplicating their screens or statuses. Final OTP constants, provider contracts, credential storage, retry/lockout controls, support-assisted recovery proof, and other technical security mechanics remain with DOC-17, DOC-19, and DOC-22 as stated below.
 
-#### 5.0.5 Return, Failure, and Ownership Rules
+#### 5.0.6 Return, Failure, and Ownership Rules
 
 Normal successful login opens `HOME-ROOT`. An approved protected deeplink resumes its intended destination only after authentication and current access revalidation; invalid, expired, consumed, or unauthorized destinations fall back to the safest owning root or Home without exposing protected content. Logout returns to `ENTRANCE-ROOT` and clears protected route history.
 
-DOC-07 owns the future canonical Authentication Outcome and Message Matrix. The mechanism and required matrix fields are mandatory, but exact outcome IDs, message IDs, approved copy, and mappings remain open. DOC-06B owns the route, action, destination, and return behavior that consume those mappings. In-flow authentication messages are not Inbox notifications unless DOC-08 separately defines a notifiable event.
+DOC-07 owns the future canonical Authentication Outcome, Resolution, Message, and CTA Matrix. The mechanism, Outcome inventory, owner-approved Resolution Strategy field, and required matrix fields are mandatory, but exact IDs, approved copy, and final mappings remain open. DOC-06B owns the route-level Outcome meaning, permitted Resolution Strategies, action destination, and return behavior consumed by that matrix. In-flow authentication messages are not Inbox notifications unless DOC-08 separately defines a notifiable event.
 
 DOC-06A owns journey sequence, DOC-07 owns user-facing content and disclosure, DOC-13 owns referral attribution, DOC-15 owns account/privacy handling, DOC-18 owns attempt/event/correlation data, DOC-19 owns security mechanics, DOC-20 owns detailed test implementation, and DOC-22 owns admin/support handling and Entrance content configuration.
 
@@ -2324,12 +2415,13 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 | OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Pay+ and Partner Offer label taxonomy, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed. | Product / Design / Growth / Privacy / Commercial | Partially open |
 | OQ-06B-012 | What final Entrance carousel capacity, rotation, targeting, ordering, visual design, content classes, and permitted action destinations should apply? What final visual design and technical security mechanics should apply to the defined Entrance and Authentication route family? | Product / Design / Growth / Security / Privacy / Operations | Partially open; route behavior and account-access rules defined |
 | OQ-06B-013 | What final OTP constants, provider-result mapping, weak-code/retry/lockout rules, support-assisted passcode-recovery proof and waiting period, credential storage, session-revocation mechanics, and final visual design apply to the defined `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` flows? DOC-17/DOC-19/DOC-22 own those technical and operational decisions; DOC-20 must derive implementation tests. | Security / Engineering / Compliance / QA / Operations | Partially open; product behavior, five identity labels, HK-only phone baseline, six-digit passcode flows, and return behavior confirmed |
-| OQ-06B-014 | What exact Authentication Outcome IDs, Message IDs, approved user-facing messages, CTA mappings, disclosure levels, and technical outcome/event mappings should populate the mandatory DOC-07 Authentication Outcome and Message Matrix? | Product / Content / Design / Security / Privacy / Support | Open; matrix mechanism and required fields defined |
+| OQ-06B-014 | What exact Authentication Outcome IDs, Resolution mappings, Message IDs, approved user-facing messages, CTA mappings, disclosure levels, notification treatment, and technical outcome/event mappings should populate the mandatory DOC-07 Authentication slice? | Product / Content / Design / Security / Privacy / Support | Open; route-level Outcomes and Resolution Strategies defined, exact DOC-07/DOC-08/DOC-18 mappings pending |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.38 | 2026-07-29 | Adopted the capability-aware Outcome-to-Resolution framework across the AUTH family; defined the full `AUTH-RECOVERY` product flow, screen states, resolution matrix, security/support boundaries, and protected return without changing existing authentication decisions. |
 | 0.1.37 | 2026-07-28 | Defined Phone Verification, five-state Identity Verification, processing/dashboard banners, six-digit Payment Passcode Set/Change/Reset, phone-based reset recovery, return behavior, admin reset boundaries, and technical-owner TBCs; removed superseded four-label and voluntary re-verification wording. |
 | 0.1.36 | 2026-07-28 | Corrected the first-time identity-verification passcode rule, synchronized all three Account Activation child-route references, and marked Payment Passcode Settings screen/security details plus DOC-19/DOC-20 handoffs as pending. |
 | 0.1.35 | 2026-07-28 | Clarified Account Activation as an orchestration route, established Account Profile and Account Security as the canonical parents of reusable verification/passcode routes, aligned origin-aware return behavior, and simplified the hierarchical Authentication, Account Activation, and Me route-map handoffs. |

@@ -1,6 +1,6 @@
-# PayPlus Outcome, Message and Notification Framework
+# PayPlus Outcome, Resolution, Message and Notification Framework
 
-Last updated: 2026-07-28
+Last updated: 2026-07-29
 
 ## 1. Purpose
 
@@ -12,13 +12,14 @@ This framework supplements DOC-00 and `AGENTS.md`. It does not replace formal pr
 
 ## 2. Canonical Architecture
 
-Every material user-facing result must follow this chain:
+Every material user-facing result that requires controlled handling must follow this chain:
 
 ```text
-Business Rule
+Business Intent and Source Rule
+    -> Decision or Evaluation
     -> Outcome
-    -> Message
-    -> CTA
+    -> Resolution Strategy
+    -> Message and CTA
     -> Notification, when required
     -> Audit Event
     -> Acceptance Test
@@ -32,7 +33,9 @@ The chain is a traceability sequence, not a rule that every result must create a
 | Artifact | Definition | Must not become |
 | --- | --- | --- |
 | Business Rule | Approved product, domain, security, privacy, risk, or operational requirement. | UI copy or an implementation shortcut. |
+| Decision / Evaluation | Application of approved rules to the current actor, object, context, capability, and control state. | An undocumented override or a user-facing error message. |
 | Outcome | Stable business result of one operation or evaluation. | A sentence, transport error, or persistent status by default. |
+| Resolution Strategy | Safe next handling permitted for the outcome and current context, such as continue, restart, redirect, wait, support, or stop. | A persistent status, automatic authorization, or disclosure of unavailable capabilities. |
 | Message | Approved user-facing interpretation of an outcome for a defined audience and surface. | Backend business logic or a notification delivery rule. |
 | CTA | Approved next action, route, retry, dismissal, or support handoff presented with a message. | A substitute for route authorization or current-state validation. |
 | Notification | Recipient-specific out-of-band or Inbox communication triggered by an eligible event. | The domain event, account status, or in-flow message itself. |
@@ -86,10 +89,28 @@ Each canonical outcome record must contain:
 | Disclosure Level | Maximum information that the mapped message may reveal. |
 | Persistent Status Change | `None` or an explicit reference to the status owner and transition. |
 | Retry / Idempotency | Whether and how the operation may be repeated safely. |
+| Resolution Mapping | Approved next-handling strategy, eligible alternatives, selection rule, unavailable-path treatment, and owning route/domain rule. |
 | Message Mapping | One or more DOC-07 Message IDs. |
 | Notification Mapping | DOC-08 Notification ID or `None`. |
 | Audit Mapping | DOC-18 event reference or explicit future-alignment marker. |
 | Acceptance Mapping | DOC-20 or owning acceptance/test IDs. |
+
+### 3.2 Resolution Strategy
+
+A Resolution Strategy states what PayPlus permits the user or system to do next after an Outcome is known and the current context and available capabilities have been checked.
+
+Common strategies include:
+
+- continue the current flow;
+- restart the current flow;
+- redirect to another approved route or login method;
+- wait for review, reconciliation, service recovery, or a security condition;
+- begin controlled Support handling; or
+- stop where no approved continuation or recovery path remains.
+
+One Outcome may support different resolutions in different assurance or capability contexts. For example, an inaccessible recovery email may permit an already-linked provider login for one user and require Support for another. The resolution selection must not expose unavailable login methods, internal risk rules, or protected account facts.
+
+Resolution is a governed mapping, not a new persistent status or a requirement to build a standalone software service. The route or domain owner defines permitted resolution behavior. DOC-07 maps that behavior to approved messages and CTAs. DOC-19 and other specialist owners define the controls that determine whether a capability is usable.
 
 ## 4. Status vs Outcome
 
@@ -106,7 +127,7 @@ No agent may introduce a persistent status merely to preserve an outcome. If an 
 
 ## 5. Message Architecture
 
-A Message is the approved user-facing interpretation of an outcome in a specific context. DOC-07 is the canonical owner.
+A Message is the approved user-facing interpretation of an outcome and permitted resolution in a specific context. DOC-07 is the canonical owner.
 
 One outcome may map to different messages by:
 
@@ -136,11 +157,11 @@ Each message definition must include:
 - DOC-08 notification relationship, if any;
 - acceptance/test references.
 
-Backend business logic must return a stable outcome and correlation reference, not hard-coded user-facing copy. Frontend or presentation services must resolve the approved message mapping without weakening current permission, disclosure, or route checks.
+Backend business logic must return a stable outcome and sufficient governed context for resolution and correlation, not hard-coded user-facing copy. Frontend or presentation services must resolve the approved message and CTA mapping without weakening current permission, disclosure, capability, or route checks.
 
 ## 6. CTA Architecture
 
-A CTA is a user-facing next step mapped to a message. It is not merely button copy.
+A CTA is a user-facing action implementing a permitted Resolution Strategy and mapped to a message. It is not merely button copy.
 
 Each CTA mapping must define:
 
@@ -236,6 +257,7 @@ Rules:
 | Concern | Primary Owner |
 | --- | --- |
 | Route, screen sequence, entry, destination, return | DOC-06B or applicable DOC-06 family/domain route owner |
+| Outcome meaning and permitted Resolution Strategy | Applicable route or domain owner |
 | User-facing outcome, message, disclosure, and CTA mapping | DOC-07 |
 | Notification event, recipient, channel, template, delivery, and preference | DOC-08 |
 | Domain lifecycle and payment behavior | Applicable domain document, including DOC-09 to DOC-14 |
@@ -253,9 +275,9 @@ Reference documents must link to the owner instead of copying the canonical rule
 
 Every material user-facing result must be traceable across:
 
-| Source Rule | Outcome | Message | CTA | Notification | Event/Audit | Acceptance/Test | Code/Test |
+| Source Rule | Outcome | Resolution | Message / CTA | Notification | Event/Audit | Acceptance/Test | Code/Test |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Stable requirement ID | Outcome ID/code | Message ID | Action/destination | Notification ID or `None` | Event ID | AC/test ID | Implementation reference |
+| Stable requirement ID | Outcome ID/code | Permitted next handling | Message ID and action/destination | Notification ID or `None` | Event ID | AC/test ID | Implementation reference |
 
 The mapping must:
 
@@ -275,13 +297,14 @@ An AI coding agent must:
 1. read the owning source documents and this framework before implementation;
 2. enumerate applicable stable IDs and unresolved conflicts before coding;
 3. use documented Outcome codes unchanged;
-4. keep user copy outside backend business logic;
-5. keep notification dispatch driven by eligible events and policy, not UI rendering;
-6. preserve neutral public responses and disclosure limits;
-7. represent unconfirmed results explicitly and avoid unsafe automatic retry;
-8. preserve idempotency, correlation, audit, and current-state revalidation;
-9. create automated tests for every mapped acceptance criterion;
-10. return a requirement-to-code-and-test traceability report.
+4. implement only documented Resolution Strategies and re-evaluate current capability before action;
+5. keep user copy outside backend business logic;
+6. keep notification dispatch driven by eligible events and policy, not UI rendering;
+7. preserve neutral public responses and disclosure limits;
+8. represent unconfirmed results explicitly and avoid unsafe automatic retry;
+9. preserve idempotency, correlation, audit, and current-state revalidation;
+10. create automated tests for every mapped acceptance criterion;
+11. return a requirement-to-code-and-test traceability report.
 
 An AI coding agent must not:
 
@@ -298,6 +321,7 @@ An AI reviewer must review by stable ID and report:
 
 - missing or duplicate owners;
 - Outcome/Status confusion;
+- Outcome/Resolution confusion or an undocumented resolution path;
 - Event/Notification confusion;
 - missing neutral-response or disclosure handling;
 - messages without outcomes or outcomes without mapped presentation behavior;
@@ -320,6 +344,7 @@ classification: expiry
 owner: DOC-06B
 disclosure_level: D0
 persistent_status_change: none
+resolution_strategy: restart_recovery
 message_id: MSG-AUTH-REC-004
 primary_cta:
   label: Request New Link
@@ -352,7 +377,7 @@ When a canonical mapping changes:
 
 This framework is satisfied when:
 
-- Outcome, Message, CTA, Notification, Disclosure, Status, and Event are kept distinct;
+- Decision, Outcome, Resolution Strategy, Message, CTA, Notification, Disclosure, Status, and Event are kept distinct;
 - DOC-07 is the sole canonical owner of user-facing outcome/message/CTA mappings;
 - DOC-08 is the sole canonical owner of notification delivery behavior;
 - each material result has a stable, reviewable traceability chain;

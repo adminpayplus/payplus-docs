@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.13
+version: 0.1.14
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-28
+last_updated: 2026-07-29
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -41,12 +41,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.13` |
+| **Version** | `0.1.14` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-28` |
+| **Last Updated** | `2026-07-29` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -137,6 +137,8 @@ Google/Apple identities are linked by stable provider identifier only through ex
 Before account creation, a temporary registration attempt may preserve verified in-flow context and security records but creates no account and reserves no email, phone, provider identity, or other proposed identifier. Account creation atomically rechecks uniqueness. Referral attribution begins only when restricted-account creation succeeds.
 
 The `AUTH-LOGIN` family resolves remembered eligible users to `AUTH-LOGIN-FAST` and other users to `AUTH-LOGIN-FULL`. Each successful login renews the one-month Fast Login period; approved risk, device, credential, account, or security changes may revoke it earlier. `AUTH-RECOVERY` owns password recovery. DOC-06B owns detailed route and return behavior.
+
+Authentication journeys use capability-aware resolution without changing their approved route sequence. After an operation Outcome is known, PayPlus may continue, restart, redirect, wait, invoke controlled Support, or stop according to the current permitted capability and control context. The Resolution Strategy is separate from persistent status, user-facing message, CTA, notification, and audit event. DOC-06B owns route-level resolution behavior; DOC-07 owns presentation; DOC-08 owns notification; and DOC-18/DOC-19/DOC-20/DOC-21/DOC-22 own their respective data, security, testing, Support, and admin specifications.
 
 ---
 
@@ -1228,6 +1230,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.14 | 2026-07-29 | Aligned the AUTH journeys with capability-aware Outcome-to-Resolution handling while preserving the existing Login, Registration, Recovery, Account Activation, and protected-return decisions. |
 | 0.1.13 | 2026-07-28 | Defined the journey handoff for `ENTRANCE-ROOT`, Fast/Full Login, Recovery, non-reserving registration attempts, restricted-account creation, Account Activation, rolling one-month Fast Login eligibility, and protected contextual return. |
 | 0.1.12 | 2026-07-27 | Added the progressive restricted-account and financial-activation journey, unique primary email, explicit email/password and provider login methods, deferred phone/identity/passcode completion, and Account Security linking handoff. |
 | 0.1.11 | 2026-07-27 | Closed the material More/shortcut IA questions after DOC-06B defined capacity, protected access, preference, reorder, restore, availability, and secondary-service behavior; retained final styling and optional Undo as open. |
