@@ -45,6 +45,8 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-022` | `2026-07-28` | Identity Verification Passcode Boundary And Child-Route Readiness | Accepted | `DOC-06B` / `DOC-15` | `4f781c7` |
 | `DEC-2026-023` | `2026-07-28` | Verification, Passcode, And Additional Step-Up Baseline | Accepted | `DOC-06B` | `b120c6e` |
 | `DEC-2026-024` | `2026-07-28` | Optional Decision-Complete Behavior Pattern | Accepted | Parallel-agent drafting workflow | `d2a9bfd` |
+| `DEC-2026-025` | `2026-07-29` | Capability-Aware Outcome And Resolution Framework | Accepted | Platform design principles / `DOC-07` workflow | `4255f63` |
+| `DEC-2026-026` | `2026-07-29` | Authentication Recovery And Safe Return Model | Accepted | `DOC-06B` | `4255f63` |
 
 ## 4. Decision Record Template
 
@@ -1080,3 +1082,91 @@ Adds optional detail guidance without superseding the existing compact-but-decis
 **Remaining Open Items**
 
 None.
+
+### `DEC-2026-025` - Capability-Aware Outcome And Resolution Framework
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-29` |
+| Status | Accepted |
+| Primary owner | `docs/00-foundation/payplus-platform-design-principles.md` and `docs/00-foundation/payplus-outcome-message-notification-framework.md` |
+| Affected documents | `AGENTS.md`, documentation integration workflow, `DOC-05`, `DOC-06`, `DOC-06A`, `DOC-06B`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-15`, `DOC-18`, `DOC-22`, documentation index, glossary, route register, requirements matrix, and open-question register |
+| Substantive commit | `4255f63` |
+| Founder approval | Capability-aware resolution concept and AUTH-family refinement approved on `2026-07-29` |
+
+**Decision**
+
+Material PayPlus flows may use the canonical chain:
+
+`Business Intent And Source Rule -> Decision/Evaluation -> Outcome -> Resolution Strategy -> Message/CTA -> Notification -> Audit Event -> Acceptance Test -> Code And Automated Test`.
+
+The decision layer determines what is true. The resolution layer selects the permitted next handling path. `DOC-07` owns user-facing Outcome, Message, and CTA definitions; `DOC-08` owns notification behavior. Domain owners retain business logic, and future technical documents retain schemas, engines, security constants, and implementation contracts.
+
+Capability-aware resolution must guide a user toward the safest available valid path rather than multiplying error-specific routes. A resolution, mode, state, or message is not automatically a route.
+
+**Rationale**
+
+Separating decisions, resolutions, outcomes, messages, notifications, and audit events prevents UX copy from becoming business logic, reduces duplicate route definitions, and creates a stable bridge from human requirements to later technical and AI-execution specifications.
+
+**Alternatives Considered**
+
+- Treating every failure as a dedicated error page was rejected because it produces fragmented routes and maintenance-heavy behavior.
+- Letting each domain define its own message and notification semantics was rejected because it creates inconsistent user communication and weak traceability.
+- Applying the framework mechanically to every simple interaction was rejected because it would over-complicate human-readable documents.
+
+**Consequences And Handoffs**
+
+Owning documents must define business intent, decisions, available capabilities, and permitted resolutions. `DOC-07` must assign canonical Outcome and Message records; `DOC-08` must map notifications only where justified; `DOC-18` must map correlation and audit events; `DOC-20` must test decision and resolution paths. Route diagrams remain navigation views and must not represent outcomes or resolutions as destinations unless an independently navigable screen exists.
+
+**Supersedes / Superseded By**
+
+Refines earlier outcome/message guidance without changing accepted domain decisions.
+
+**Remaining Open Items**
+
+- Exact canonical Outcome IDs, Message IDs, approved copy, disclosure levels, actions, and destinations.
+- Detailed technical decision-engine and resolution-registry design in the future engineering layer.
+
+### `DEC-2026-026` - Authentication Recovery And Safe Return Model
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-29` |
+| Status | Accepted |
+| Primary owner | `DOC-06B`, `AUTH-RECOVERY` |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06A`, `DOC-06B`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-15`, `DOC-18`, `DOC-22`, Authentication and Account Activation route maps, glossary, route register, requirements matrix, and open-question register |
+| Substantive commit | `4255f63` |
+| Founder approval | Consolidated AUTH recovery proposal and alignment approved on `2026-07-29` |
+
+**Decision**
+
+`AUTH-RECOVERY` is one reusable route with internal modes and screens for recovery start, email delivery confirmation, reset-link validation, new-password entry, capability-aware resolution, Support-authorized setup, and completion. Password reset uses a single-use expiring deeplink sent to the verified primary email and applies only when a PayPlus password already exists.
+
+A provider-only account must authenticate through its linked provider and may set its first PayPlus password only from authenticated Account Security. Provider recovery remains provider-owned. If ordinary recovery capabilities are unavailable, PayPlus evaluates permitted alternatives and may continue, restart, redirect, wait, escalate to controlled Support recovery, or stop when ownership cannot be established.
+
+Successful password reset terminates active authentication sessions and remembered access context, does not log the user in, and returns to `AUTH-LOGIN-FULL`. PayPlus may preserve only an opaque intended destination; after login, it must revalidate the destination, permissions, and all payment controls. It must never preserve credentials, OTPs, passcodes, authorization results, or a payment-submission state.
+
+**Rationale**
+
+The model supports practical self-service recovery without creating an authentication bypass. Capability-aware resolution gives users the safest remaining path while allowing recovery to stop where identity or account ownership cannot be established.
+
+**Alternatives Considered**
+
+- Email OTP or login password alone for payment-passcode reset was rejected as insufficient for a payment-authorizing secret.
+- Creating separate routes for every recovery failure was rejected because they are outcomes and resolution states within one route.
+- Automatically logging in or resuming payment after reset was rejected because authentication, payment context, and authorization must be revalidated.
+
+**Consequences And Handoffs**
+
+`DOC-07` must define disclosure-safe recovery outcomes, messages, and CTAs. `DOC-08` distinguishes reset-link delivery from mandatory reset-completion security notification. `DOC-18` must retain attempt, link, correlation, callback, outcome, resolution, and audit records without logging secrets. `DOC-22` must provide a controlled Support recovery case interface and prohibit administrators from viewing secrets, choosing credentials, directly creating sessions, linking providers, or bypassing activation and verification controls.
+
+**Supersedes / Superseded By**
+
+Completes the previously pending `AUTH-RECOVERY` baseline while preserving `DEC-2026-019` through `DEC-2026-023`.
+
+**Remaining Open Items**
+
+- Exact reset-link validity, resend cooldown, retry limits, and security constants in `DOC-19`.
+- Exact Support-assisted proof, cooling period, restricted-account treatment, and approval roles in `DOC-19` and `DOC-22`.
+- Exact recovery Outcome IDs, Message IDs, approved copy, CTA records, and disclosure rules in `DOC-07`.
+- Final provider-specific recovery and failure mapping after provider selection.

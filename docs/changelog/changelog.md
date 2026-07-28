@@ -820,3 +820,47 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 **Remaining Open Items**
 
 - None.
+
+### `2026-07-29` - Capability-Aware Platform Framework And Authentication Recovery
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `4255f63` |
+| Primary owner | Platform design principles, Outcome framework, and `DOC-06B` |
+| Decision record | `DEC-2026-025`, `DEC-2026-026` |
+| Founder approval | Capability-aware framework, AUTH-family refinement, and AUTH recovery behavior approved on `2026-07-29` |
+
+**Files Changed**
+
+- `AGENTS.md`
+- Platform design principles, Outcome framework, DOC-07 workflow, and documentation integration workflow
+- `DOC-05`, `DOC-06`, `DOC-06A`, `DOC-06B`, `DOC-06D`, `DOC-07`, and `DOC-08`
+- `DOC-15`, `DOC-18`, and `DOC-22`
+- Documentation index and glossary
+- Authentication and Account Activation route maps
+- Route register, requirements traceability matrix, and open-questions register
+
+**Material Changes**
+
+- Added the capability-aware PayPlus platform-design baseline and the canonical Decision-to-Resolution-to-Outcome documentation chain.
+- Clarified domain, UX content, notification, data/audit, acceptance, and implementation ownership without moving existing product decisions between documents.
+- Completed the human-readable `AUTH-RECOVERY` route baseline, including password recovery, provider-owned recovery, unavailable-channel handling, controlled Support escalation, and a legitimate recovery-impossible outcome.
+- Defined disclosure-safe email-reset behavior, restricted reset sessions, session revocation after success, and return to `AUTH-LOGIN-FULL` without automatic login.
+- Preserved only an opaque intended destination across recovery and required complete context and authorization revalidation before returning to a protected flow.
+- Aligned AUTH family status, route ownership, acceptance, privacy, data, admin, glossary, traceability, and hierarchical route diagrams.
+
+**Checks Performed**
+
+- Staged exactly the 22 approved files and excluded unrelated workspace changes.
+- Ran `git diff --cached --check`; no whitespace errors were found.
+- Verified formal-document YAML and Document Control parity.
+- Checked route ownership, route diagrams, parent and acceptance coverage, glossary, traceability, privacy, notification, data/audit, and future admin handoffs.
+- Confirmed outcomes and resolutions were not incorrectly introduced as persistent statuses or standalone routes.
+
+**Remaining Open Items**
+
+- Exact recovery Outcome IDs, Message IDs, approved copy, CTA mappings, and disclosure levels in `DOC-07`.
+- Exact reset-link, retry, cooldown, credential, and security constants in `DOC-19`.
+- Final provider-specific recovery and failure mapping.
+- Support-assisted proof, cooling period, restricted-account treatment, and approval roles in `DOC-19` and `DOC-22`.
+- Derived recovery, interruption, replay, accessibility, and security tests in `DOC-20`.
