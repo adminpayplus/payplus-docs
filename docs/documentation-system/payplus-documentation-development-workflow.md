@@ -1,10 +1,12 @@
 # PayPlus Documentation Development Workflow
 
 Last updated: 2026-07-29
+Version: 2.0
+Status: Production Ready
 
 ## 1. Purpose
 
-This workflow governs the end-to-end development of PayPlus documentation, from task intake and source review through proposal, drafting, cross-document alignment, validation, founder approval, commit, and repository records.
+This workflow governs the end-to-end development of PayPlus documentation, from task intake and source review through proposal, drafting, cross-document alignment, validation, founder approval, commit, and repository records. It also defines the normative Thinking Modes that separate Explore, Proposal, Draft, Review, Align, and Integrate behaviour.
 
 It applies whether the work is performed by one agent, supported by parallel reviewers, produced through an approved worktree plan, or drafted directly by the founder. Parallel-agent and specialist procedures may supplement this workflow, but they do not replace its ownership, approval, integration, validation, or commit gates.
 
@@ -26,10 +28,13 @@ Every documentation task must follow these rules:
 8. validate the integrated result once after the coordinated edit set;
 9. obtain separate approval before committing or pushing unless the founder's instruction explicitly includes that action;
 10. preserve unrelated user changes and keep the actual diff within the accepted scope.
+11. apply the Thinking Mode assigned to the current lifecycle stage and do not carry permissions or decision behaviour from one mode into another.
 
 Update the primary owning document first. Then identify and align only the governing, product, domain, reference, traceability, decision, acceptance, technical, operational, index, guidance, metadata, and visual files materially affected by that accepted change.
 
 Checking a file does not mean it must be edited. Do not create mechanical reference churn, duplicate the owning requirement, or change unrelated content.
+
+Workflow v2.0 is the Production Ready baseline. Further changes to its Thinking Modes, Stage Contracts, lifecycle philosophy, or mode boundaries require evidence from real PayPlus documentation work. Hypothetical preference or speculative improvement alone is insufficient: the change request must identify the observed task, failure or friction, affected stage, and supporting repository evidence.
 
 ## 3. Applicability, Work Modes, and Roles
 
@@ -45,11 +50,13 @@ Classify the task into one of these work modes before acting:
 
 | Work mode | Permitted result | Editing rule |
 | --- | --- | --- |
-| Review only | Findings, inconsistencies, ownership map, recommendations, and open questions. | Do not edit. |
-| Proposal | Decision-ready proposed structure, rules, alternatives, impacts, and open questions. | Do not edit unless the founder approves the exact change. |
-| Approved drafting | Draft or revise the accepted content in the primary owner and approved alignment files. | Edit only the accepted scope. |
+| Explore | Founder clarifications, repository and industry findings, alternatives, conflicts, risks, open questions, and Proposal inputs. | Read-only. Do not recommend or select a solution. |
+| Proposal | Decision-ready recommendation, alternatives, trade-offs, impacts, ownership, terminology, architecture, open questions, and proposed edit boundary. | Read-only. Stop at the Founder Decision gate. |
+| Approved drafting | Convert an approved Proposal or equivalent explicit Founder instruction into primary-owner documentation. | Edit only the accepted scope and do not introduce new design decisions. |
+| Review only | Correctness, completeness, ambiguity, inconsistency, quality, and implementation-fidelity findings. | Read-only. Do not redesign architecture. |
 | Direct scoped edit | Implement an exact founder instruction that does not require a new material decision. | Record the scope and edit without an additional proposal gate. |
-| Integration and validation | Align an accepted primary change across materially affected repository artifacts. | Use the Change Impact Manifest and owner-first sequence. |
+| Alignment | Synchronize terminology, ownership, references, duplicates, and materially affected documents. | Do not create requirements or redesign accepted work. |
+| Integration and validation | Merge approved work into the complete documentation system, validate it, and prepare the pre-commit report. | Use the Change Impact Manifest; do not draft or alter the approved design. |
 | Commit preparation | Produce the pre-commit report and verify the intended diff. | Do not commit until explicitly authorized. |
 | Commit and records | Create the approved substantive commit and immediate records-only follow-up. | Do not push unless explicitly authorized. |
 
@@ -82,14 +89,14 @@ Use this lifecycle for every task, skipping a stage only when the task mode make
 
 ```text
 Task Request
-    -> Classify Work and Concept
-    -> Identify Authority and Primary Owner
-    -> Review Sources and Current Baseline
-    -> Prepare Proposal or Confirm Exact Edit Scope
+    -> Explore: Task Contract and Work Classification (Stages 1-2)
+    -> Explore: Authority, Ownership Candidates, and Evidence (Stages 3-4)
+    -> Proposal: Recommend One Direction or Confirm Exact Approved Scope (Stage 5)
     -> Founder Decision, when required
-    -> Draft the Primary Owner
-    -> Integrate Materially Affected Documents
-    -> Validate the Coordinated Result
+    -> Draft: Definition of Ready and Primary-Owner Documentation (Stages 7-8)
+    -> Review: Validate the Primary-Owner Draft (Stage 9)
+    -> Align: Manifest and Cross-Document Consistency (Stages 10-11)
+    -> Integrate: Coordinated Validation and Pre-Commit Result (Stages 10-13)
     -> Founder Commit Approval
     -> Substantive Commit
     -> Changelog and Decision-Log Records Commit
@@ -105,19 +112,19 @@ The following matrix is the canonical lifecycle ownership reference. `Responsibl
 
 | Lifecycle stage | Responsible | Approver / decision owner |
 | --- | --- | --- |
-| 1. Task intake and task contract | Documentation Lead | Founder for requested scope; otherwise `None` for recording an already explicit instruction |
-| 2. Work-mode and concept classification | Documentation Lead | `None`; unresolved classification or scope expansion returns to the Founder |
-| 3. Authority, primary-owner, and dependency identification | Documentation Lead | Founder when ownership is unclear, disputed, or materially changed; otherwise `None` |
-| 4. Source and repository-baseline review | Documentation Lead | `None`; authoritative conflicts return to the Founder |
-| 5. Proposal or exact edit-scope preparation | Documentation Lead, with applicable reviewers | `None` for preparing the proposal; the resulting material decision belongs to the Founder at Stage 6 |
+| 1. Explore - Task intake and task contract | Documentation Lead | Founder for requested scope; otherwise `None` for recording an already explicit instruction |
+| 2. Explore - Work-mode and concept classification | Documentation Lead | `None`; unresolved classification or scope expansion returns to the Founder |
+| 3. Explore - Authority, current ownership, ownership candidates, and dependency evidence | Documentation Lead | Founder when an existing authority conflict prevents exploration; otherwise `None` |
+| 4. Explore - Source, repository-baseline, and applicable industry review | Documentation Lead | `None`; authoritative conflicts remain Explore findings and return to the Founder when they prevent Proposal |
+| 5. Proposal - Decision recommendation or exact approved-scope confirmation | Documentation Lead, with applicable reviewers | `None` for preparing the Proposal; the resulting material decision belongs to the Founder at Stage 6 |
 | 6. Founder Decision and edit-scope gate | Documentation Lead presents the decision pack | Founder |
-| 7. Definition of Ready | Documentation Lead | `None`; unmet readiness conditions block drafting |
-| 8. Primary-owner drafting | Primary Document Owner or one canonical writer appointed by the Documentation Lead | Founder for the accepted material decision and edit scope; formal document approver roles remain governed by `DOC-00` |
-| 9. Draft review gate | Documentation Lead, supported by applicable reviewers | Founder for any new material decision; otherwise `None` |
-| 10. Change Impact Manifest | Change Integrator | `None`; scope expansion or unresolved conflicts return to the Founder |
-| 11. Integration and cross-document Alignment | Change Integrator | Founder for any newly discovered material decision or scope expansion; otherwise `None` |
-| 12. Integrated Validation | Change Integrator, supported by applicable reviewers | `None`; failed validation blocks commit readiness |
-| 13. Definition of Done and pre-commit report | Documentation Lead / Change Integrator | `None` for reporting; unresolved material matters return to the Founder |
+| 7. Draft - Definition of Ready | Documentation Lead | `None`; unmet readiness conditions block drafting |
+| 8. Draft - Primary-owner documentation | Primary Document Owner or one canonical writer appointed by the Documentation Lead | Founder for the accepted material decision and edit scope; formal document approver roles remain governed by `DOC-00` |
+| 9. Review - Draft review gate | Documentation Lead, supported by applicable reviewers | Founder for any new material decision; otherwise `None` |
+| 10. Align / Integrate - Change Impact Manifest | Change Integrator | `None`; scope expansion or unresolved conflicts return to the Founder |
+| 11. Align / Integrate - Cross-document consistency | Change Integrator | Founder for any newly discovered material decision or scope expansion; otherwise `None` |
+| 12. Integrate - Integrated Validation | Change Integrator, supported by applicable reviewers | `None`; failed validation blocks commit readiness |
+| 13. Integrate - Integration completion, Definition of Done, and pre-commit report | Documentation Lead / Change Integrator | `None` for reporting; unresolved material matters return to the Founder |
 | 14. Commit approval gate | Change Integrator presents the exact intended scope | Founder |
 | 15. Substantive Commit | Change Integrator | Founder through the Stage 14 approval |
 | 16. Changelog and decision-log update | Change Integrator | The accepted decision remains owned by the Founder; no new approval is required when records accurately describe the approved substantive commit |
@@ -128,7 +135,396 @@ The following matrix is the canonical lifecycle ownership reference. `Responsibl
 
 The Founder may appoint named owners, reviewers, or approvers consistent with `DOC-00`. Such appointments do not transfer the Founder's reserved product-decision, commit-authorization, or push-authorization role unless the Founder explicitly states otherwise.
 
-## 5. Intake, Classification, and Proposal
+### 4.4 Normative Thinking Modes
+
+Thinking Mode governs AI behaviour throughout the applicable lifecycle stage. It determines how the agent reasons, what it may produce, what it must not decide, and the evidence required before leaving the stage. A command selects a mode or lifecycle destination; it does not weaken this behavioural contract or authorize a later mode.
+
+| Stage | Thinking Mode | Purpose | Decision Authority |
+| --- | --- | --- | --- |
+| Explore | Divergent | Expand understanding and generate Proposal inputs. | Cannot select a solution. |
+| Proposal | Convergent | Evaluate alternatives and recommend one direction. | Recommendation only; Founder decides. |
+| Draft | Execution | Convert approved decisions into documentation. | Cannot introduce new design decisions. |
+| Review | Validation | Validate correctness, completeness, clarity, consistency, quality, and implementation fidelity. | Cannot redesign architecture. |
+| Align | Consistency | Synchronize terminology, ownership, references, duplicates, and cross-document meaning. | Cannot create requirements. |
+| Integrate | Integration | Merge approved work into the complete documentation system and prepare the coordinated result. | Cannot alter the approved design. |
+
+The lifecycle mapping is:
+
+```text
+Stages 1-4   Explore
+Stage 5      Proposal
+Stage 6      Founder Decision
+Stages 7-8   Draft
+Stage 9      Review
+Stages 10-11 Align
+Stages 10-13 Integrate
+```
+
+Integrate is the orchestration mode across Stages 10 to 13. Within that sequence, Align supplies the Consistency behaviour for Stages 10 and 11, and Integrated Validation supplies validation evidence at Stage 12. Neither activity permits drafting or design changes.
+
+The `Review` command may also route a source or baseline review to Stage 4 or support Integrated Validation at Stage 12. In those contexts, the Thinking Mode follows the lifecycle stage: Stage 4 remains divergent Explore, Stage 9 uses Review/Validation, and Stage 12 remains part of Integrate.
+
+### 4.5 Canonical Stage Contracts
+
+Each contract below is the canonical behavioural specification for AI operating in that Thinking Mode.
+
+#### 4.5.1 Explore Stage Contract
+
+##### Thinking Mode
+
+Divergent.
+
+##### Purpose
+
+Expand understanding, investigate the current and external context, expose alternatives and conflicts, and prepare neutral inputs for a later Proposal. Explore exists to widen and clarify the decision space, not to converge on a solution.
+
+##### Inputs
+
+- Founder topic, goal, clarifications, constraints, and known concerns;
+- current repository sources, ownership records, traceability, and working-tree evidence;
+- applicable industry, professional, technical, regulatory, or operational evidence when available and appropriate;
+- known assumptions, conflicts, dependencies, risks, and unanswered questions.
+
+##### Outputs
+
+Explore **SHALL** produce an **Explore Pack** containing:
+
+1. Founder Clarifications;
+2. Existing Repository Findings;
+3. Industry Findings;
+4. Alternative Comparison;
+5. Conflict Analysis;
+6. Risks;
+7. Open Questions;
+8. Proposal Inputs.
+
+An item may be marked `Not applicable` or `No material finding` when supported by the exploration evidence; the heading must remain visible so omission is not mistaken for completed analysis.
+
+##### Allowed Actions
+
+- understand, investigate, compare, identify, classify, and expand possibilities;
+- distinguish repository facts, external findings, assumptions, and unresolved questions;
+- identify current owners and candidate future owners without selecting a new owner;
+- describe candidate concepts, terminology, objects, lifecycle models, statuses, or architectures only as non-authoritative alternatives requiring comparison;
+- identify conflicts, dependencies, risks, evidence gaps, and inputs needed for Proposal.
+
+##### Forbidden Actions
+
+Explore **MUST NOT**:
+
+- recommend or select an architecture;
+- define or recommend ownership;
+- define or recommend terminology;
+- define a lifecycle;
+- define statuses;
+- define an object model;
+- recommend document edits;
+- make or conceal a design decision;
+- write documentation or let an Explore output gradually become Proposal or Draft content.
+
+##### Exit Criteria
+
+Explore may exit only when:
+
+- sufficient evidence exists to understand the material problem and alternatives;
+- repository findings and industry findings are distinguishable;
+- candidate concepts remain explicitly non-authoritative;
+- conflicts, risks, and open questions are visible;
+- the Explore Pack is complete enough to support a separate Proposal;
+- no recommendation or edit has been introduced.
+
+Leaving Explore does not authorize Proposal. Proposal begins only under the hard boundary in Section 5.4.
+
+#### 4.5.2 Proposal Stage Contract
+
+##### Thinking Mode
+
+Convergent.
+
+##### Purpose
+
+Evaluate the evidence and alternatives, recommend one proportionate direction, explain its consequences, and prepare the material decisions for the Founder.
+
+##### Inputs
+
+- a sufficient Explore Pack or equivalent current evidence;
+- the problem and decision to be made;
+- product, governance, documentation-layer, risk, security, privacy, compliance, operational, and delivery constraints;
+- alternatives, conflicts, risks, and open questions;
+- current owners and affected documents.
+
+##### Outputs
+
+Proposal **SHALL** produce:
+
+1. recommended solution;
+2. rationale;
+3. alternatives considered;
+4. rejected alternatives and rejection reasons;
+5. trade-offs;
+6. impacts;
+7. ownership recommendation;
+8. terminology recommendation;
+9. architecture recommendation;
+10. remaining Founder decisions;
+11. proposed edit boundary and exclusions;
+12. explicit Founder approval request.
+
+Items that do not apply must be identified as such rather than silently omitted.
+
+##### Allowed Actions
+
+Proposal is the first stage permitted to:
+
+- recommend architecture;
+- recommend terminology;
+- recommend ownership;
+- recommend a lifecycle or status model;
+- recommend an object model;
+- recommend document changes and an edit boundary;
+- select a preferred alternative and explain trade-offs;
+- identify unresolved decisions that remain with the Founder.
+
+##### Forbidden Actions
+
+Proposal **MUST NOT**:
+
+- edit documentation;
+- present a recommendation as accepted;
+- hide rejected alternatives or material trade-offs;
+- bypass the Founder Decision gate;
+- carry an unresolved recommendation into Draft as though it were approved.
+
+##### Exit Criteria
+
+Proposal exits only when:
+
+- one direction is recommended clearly;
+- alternatives, rejected alternatives, trade-offs, impacts, and remaining decisions are visible;
+- proposed ownership, terminology, architecture, and document changes are explicit where applicable;
+- the writable boundary and exclusions are reviewable;
+- an explicit Founder approval request is presented.
+
+Proposal remains read-only and ends at Stage 6, the existing Founder Decision and edit-scope gate.
+
+#### 4.5.3 Draft Stage Contract
+
+##### Thinking Mode
+
+Execution.
+
+##### Purpose
+
+Convert approved Proposal decisions or an equivalent explicit Founder instruction into accurate primary-owner documentation.
+
+##### Inputs
+
+- an approved Proposal; or
+- an explicit Founder instruction that supplies equivalent design authority and exact scope;
+- primary owning document and writable-file allowlist;
+- authoritative sources, approved terminology, ownership, architecture, requirements, and unresolved items;
+- applicable specialist guidance.
+
+##### Outputs
+
+- primary-owner documentation implementing the approved meaning;
+- traceability from the approved decisions or exact Founder instruction to the drafted content;
+- visible assumptions, `TBD`, `Open`, or `To be confirmed` items that remain unresolved;
+- a Draft Review handoff identifying the implemented scope and any blocked design discovery.
+
+##### Allowed Actions
+
+- create or revise documentation within the approved writable scope;
+- execute approved architecture, ownership, terminology, lifecycle, status, object, and requirement decisions;
+- preserve repository consistency, stable IDs, documentation layering, and traceability;
+- apply non-material editorial judgement needed to express the approved decision clearly.
+
+##### Forbidden Actions
+
+Draft **MUST NOT**:
+
+- introduce new architecture;
+- redefine ownership;
+- redefine approved terminology;
+- select among unapproved alternatives;
+- redesign requirements;
+- invent a decision to make the draft appear complete;
+- expand the approved scope silently.
+
+##### Exit Criteria
+
+Draft exits only when:
+
+- the approved decision is expressed in the primary owner;
+- the implementation remains within the accepted boundary;
+- approved terminology, ownership, architecture, and requirements are preserved;
+- traceability to the approved Proposal or equivalent Founder instruction is visible;
+- unresolved items remain explicit;
+- any new design discovery has been returned to Proposal rather than resolved in Draft.
+
+#### 4.5.4 Review Stage Contract
+
+##### Thinking Mode
+
+Validation.
+
+##### Purpose
+
+Validate the primary-owner draft against its approved decision, authoritative sources, quality expectations, and documentation boundaries.
+
+##### Inputs
+
+- the primary-owner draft or defined review target;
+- approved Proposal or equivalent Founder instruction;
+- authoritative sources and applicable specialist checks;
+- requested review lens and acceptance expectations.
+
+##### Outputs
+
+- evidence-backed findings covering correctness, completeness, ambiguity, inconsistency, documentation quality, and implementation fidelity;
+- severity and ownership for each material finding;
+- accepted-scope corrections distinguished from design issues;
+- design issues routed to Explore or Proposal;
+- Draft Review PASS/FAIL conclusion and unresolved items.
+
+##### Allowed Actions
+
+- identify defects, gaps, ambiguity, contradictions, duplication, unsupported assumptions, and incomplete implementation of the approved decision;
+- recommend corrections that restore fidelity to the approved design;
+- identify when a problem requires renewed exploration or a new Proposal;
+- verify that the draft did not introduce undocumented architecture, terminology, ownership, objects, statuses, lifecycle, or requirements.
+
+##### Forbidden Actions
+
+Review **MUST NOT**:
+
+- redesign architecture;
+- select a new alternative;
+- redefine ownership, terminology, lifecycle, statuses, objects, or requirements;
+- convert a design finding into an unapproved corrective design;
+- edit without a separately authorized correction scope.
+
+##### Exit Criteria
+
+Review exits only when:
+
+- findings are evidence-backed and classified;
+- corrections within the approved design are separated from new design questions;
+- design issues are routed to Explore when more understanding is required or Proposal when a decision recommendation is required;
+- the review states PASS or FAIL and identifies what blocks progression to Align.
+
+#### 4.5.5 Align Stage Contract
+
+##### Thinking Mode
+
+Consistency.
+
+##### Purpose
+
+Synchronize the reviewed, approved primary change across materially affected documentation without creating new requirements or reopening the design.
+
+##### Inputs
+
+- reviewed primary-owner draft;
+- approved Proposal or equivalent Founder instruction;
+- Change Impact Manifest and affected-document set;
+- existing terminology, ownership, references, registers, diagrams, traceability, and duplicate definitions.
+
+##### Outputs
+
+- terminology consistency;
+- ownership consistency;
+- reference consistency;
+- removal or replacement of active duplicate and superseded definitions;
+- cross-document consistency across materially affected artifacts;
+- unresolved conflicts or scope expansion returned to Proposal.
+
+##### Allowed Actions
+
+- synchronize terminology, ownership statements, references, handoffs, registers, indexes, diagrams, traceability, and materially affected documents;
+- remove or replace duplicate and superseded definitions;
+- preserve one primary owner and make dependent documents reference it;
+- report conflicts that cannot be resolved without a material decision.
+
+##### Forbidden Actions
+
+Align **MUST NOT**:
+
+- create requirements;
+- redesign architecture;
+- redefine ownership or terminology beyond the approved decision;
+- draft new primary-owner design;
+- treat consistency work as authority to expand scope.
+
+##### Exit Criteria
+
+Align exits only when:
+
+- materially affected documents are consistent with the reviewed primary owner;
+- terminology, ownership, references, and duplicated definitions are aligned;
+- unrelated documents remain unchanged;
+- every material conflict or scope expansion has returned to Proposal instead of being decided during Align.
+
+#### 4.5.6 Integrate Stage Contract
+
+##### Thinking Mode
+
+Integration.
+
+##### Purpose
+
+Merge approved and reviewed work into the complete documentation system, coordinate alignment and integrated validation, and produce the canonical pre-commit result.
+
+##### Inputs
+
+- approved Proposal or equivalent Founder instruction;
+- reviewed primary-owner draft;
+- repository and working-tree baseline;
+- writable boundary and exclusions;
+- Change Impact Manifest;
+- aligned materially affected documents and governed artifacts;
+- applicable validation and acceptance checks.
+
+##### Outputs
+
+- completed Change Impact Manifest;
+- integrated, aligned documentation-system result;
+- integrated validation evidence;
+- integration-completion and Definition of Done conclusion;
+- canonical pre-commit report, remaining blockers, and deferred items.
+
+##### Allowed Actions
+
+- prepare and maintain the Change Impact Manifest;
+- orchestrate Align across materially affected artifacts;
+- perform repository impact checks and integrated validation;
+- consolidate already approved work;
+- prepare integration completion, Definition of Done, and pre-commit evidence.
+
+##### Forbidden Actions
+
+Integrate **MUST NOT**:
+
+- draft or redraft primary-owner design;
+- introduce or alter architecture;
+- redefine ownership, terminology, lifecycle, statuses, objects, or requirements;
+- select an unapproved alternative;
+- use impact discovery as authority for a material change;
+- alter the approved design.
+
+##### Exit Criteria
+
+Integrate exits only when:
+
+- only approved and reviewed work has been merged;
+- the Change Impact Manifest is complete;
+- Alignment and Integrated Validation have been completed;
+- no drafting or design decision occurred during Integration;
+- material discoveries have returned to Proposal;
+- the coordinated result satisfies Definition of Done or identifies explicit blockers;
+- the pre-commit report is ready for the unchanged Stage 14 Founder Commit approval gate.
+
+## 5. Explore and Proposal
 
 ### 5.1 Confirm the Task Contract
 
@@ -146,36 +542,74 @@ At intake, identify:
 
 Do not infer approval for a new route, status, requirement, policy, data object, control, disclosure rule, or product boundary from a general request to improve wording or structure.
 
-### 5.2 Classify Ownership and Dependencies
+### 5.2 Explore the Decision Space
 
-Before proposing structure or edits:
+During Stages 1 to 4, apply only the Explore/Divergent contract.
 
 - classify the subject as a route, screen, view, component, action, status, outcome, event, data object, rule, setting, notification, report, or other governed concept;
 - distinguish similar concepts using the separation rules in `AGENTS.md`;
-- identify the primary owner and reference or handoff owners;
-- identify dependencies that must be decided first;
+- identify current authority and owners as repository findings;
+- identify ownership, terminology, architecture, lifecycle, status, object, and document-treatment candidates only as alternatives;
+- identify dependencies that may need to be decided later;
 - check PayPlus product boundaries and documentation-layer boundaries;
-- identify specialist frameworks or playbooks that are conditionally required.
+- identify specialist frameworks or guides that may be conditionally required;
+- investigate applicable repository and industry evidence;
+- compare alternatives without choosing or recommending one.
 
-If ownership is unclear or authoritative sources conflict, stop at proposal and return the conflict for founder decision.
+If ownership is unclear or authoritative sources conflict, record the conflict in the Explore Pack. Do not resolve it through a hidden recommendation.
 
-### 5.3 Prepare the Pre-Edit Proposal
+### 5.3 Produce the Explore Pack
 
-For a material new feature, route, workflow, policy, status model, governance rule, or cross-document change, provide a decision-ready proposal containing:
+The Explore Pack is the required Stage 4 handoff whenever the requested mode is Explore or the task needs material investigation before Proposal.
 
-1. concept classification;
-2. recommended structure and why it is proportionate;
-3. primary owner and reference documents;
-4. user-facing or operational flow where applicable;
-5. affected documents and expected treatment;
-6. superseded definitions;
-7. alternatives or reviewer disagreements that materially affect the decision;
-8. open questions and named future owners;
-9. proposed edit boundary and explicit exclusions.
+Use these headings:
 
-Do not over-compress a multi-screen flow, material business rule, ownership choice, failure path, disclosure boundary, or cross-document consequence. Do not edit while the task remains review-only or proposal-only.
+1. Founder Clarifications;
+2. Existing Repository Findings;
+3. Industry Findings;
+4. Alternative Comparison;
+5. Conflict Analysis;
+6. Risks;
+7. Open Questions;
+8. Proposal Inputs.
 
-### 5.4 Founder Decision Gate
+Repository facts, external findings, hypotheses, and candidate alternatives must remain distinguishable. The Explore Pack must not contain a preferred architecture, recommended ownership, selected terminology, lifecycle, status model, object model, or proposed document edit.
+
+### 5.4 Hard Explore-to-Proposal Boundary
+
+Explore **SHALL NOT** gradually evolve into Proposal. A sentence, table, diagram, object list, or candidate model created during Explore remains non-authoritative unless it is later evaluated and recommended explicitly in Proposal.
+
+Proposal may begin only when:
+
+- sufficient Explore evidence or equivalent current evidence exists;
+- alternatives remain visibly non-authoritative;
+- the Proposal mode is explicitly requested by the Founder or equivalent decision authority is present in an explicit Founder instruction;
+- the intended decision, constraints, and stopping gate are clear.
+
+An agent must not reinterpret a request to understand, investigate, compare, review, or explore as permission to recommend one solution.
+
+### 5.5 Prepare the Proposal
+
+For a material new feature, route, workflow, policy, status model, governance rule, or cross-document change, apply the Proposal/Convergent contract and produce a decision-ready recommendation containing:
+
+1. recommended solution;
+2. rationale;
+3. alternatives considered;
+4. rejected alternatives and rejection reasons;
+5. trade-offs;
+6. impacts;
+7. ownership recommendation;
+8. terminology recommendation;
+9. architecture recommendation;
+10. remaining Founder decisions;
+11. proposed edit boundary and explicit exclusions;
+12. explicit Founder approval request.
+
+Proposal is the first stage permitted to recommend architecture, terminology, ownership, lifecycle, statuses, object model, or document changes. It remains read-only.
+
+Do not over-compress a multi-screen flow, material business rule, ownership choice, failure path, disclosure boundary, or cross-document consequence. Do not draft documentation while the task remains Proposal-only.
+
+### 5.6 Founder Decision Gate
 
 Founder confirmation is required before drafting when the proposal:
 
@@ -183,7 +617,7 @@ Founder confirmation is required before drafting when the proposal:
 - resolves a material open question or replaces an active definition;
 - materially expands the requested file or concept scope.
 
-An additional proposal gate is not required when the founder has already approved the exact change or requests a direct scoped edit that does not require a new material decision. Record unresolved matters as `TBD`, `Open`, or `To be confirmed` with an owner rather than inventing an answer.
+An additional Proposal gate is not required when the Founder has already approved the exact change or requests a direct scoped edit that supplies equivalent design authority and does not require a new material decision. That instruction becomes the bounded decision contract for Draft; it does not authorize Draft to redesign it. Record unresolved matters as `TBD`, `Open`, or `To be confirmed` with an owner rather than inventing an answer.
 
 ## 6. Drafting the Primary Owner
 
@@ -191,13 +625,15 @@ An additional proposal gate is not required when the founder has already approve
 
 Drafting is ready when:
 
+- an approved Proposal exists, or an explicit Founder instruction supplies equivalent design authority and exact scope;
 - the task mode and edit boundary are clear;
 - the primary owner is identified;
 - authoritative inputs have been reviewed;
-- required product decisions are accepted or explicitly left open;
+- required product decisions are accepted or explicitly left open without authorizing Draft to resolve them;
 - affected concepts and dependencies are classified;
 - unrelated files and working-tree changes are identified;
-- specialist frameworks or playbooks have been selected only where applicable.
+- specialist frameworks or guides have been selected only where applicable;
+- the approved architecture, ownership, terminology, lifecycle, statuses, object model, requirements, and document treatment are identifiable where applicable.
 
 ### 6.2 Owner-First Drafting
 
@@ -207,11 +643,13 @@ Draft the primary owning document before its dependants.
 - Replace superseded wording instead of layering a competing rule beside it.
 - Keep the human source document readable and leave implementation detail to the correct technical or AI-execution layer.
 - Use stable IDs, explicit ownership, measurable acceptance, and traceable handoffs where appropriate.
-- Keep confirmed requirements separate from examples, assumptions, options, and open questions.
+- Preserve traceability from each material drafted definition to the approved Proposal decision or equivalent explicit Founder instruction.
+- Keep confirmed requirements separate from examples, assumptions, unselected options, and open questions.
 - Do not redefine rules owned by another document.
 - Do not silently expand the approved scope.
+- Do not introduce architecture, redefine ownership or terminology, select alternatives, redesign requirements, or invent a decision to complete the draft.
 
-If drafting reveals a material decision not covered by the approval, stop that part of the edit, preserve completed in-scope work, and return the new decision for confirmation.
+If drafting reveals a material design decision not covered by the approval, stop that part of the edit, preserve completed in-scope work, and return the discovery to Proposal. If additional understanding is required before a recommendation can be prepared, return it to Explore first.
 
 ### 6.3 Draft Review Gate
 
@@ -221,24 +659,32 @@ Before integration, confirm:
 2. superseded wording in the owner has been replaced;
 3. unresolved items remain visible;
 4. ownership and documentation layering are preserved;
-5. the draft has not introduced undocumented routes, statuses, signals, capabilities, controls, or implementation assumptions.
+5. the draft has not introduced undocumented routes, statuses, signals, capabilities, controls, implementation assumptions, architecture, terminology, ownership, lifecycle, or object definitions;
+6. each material definition remains traceable to the approved Proposal or equivalent Founder instruction;
+7. the review covers correctness, completeness, ambiguity, inconsistency, documentation quality, and implementation fidelity.
 
-## 7. Integration Sequence
+Review validates the Draft; it does not redesign it. Corrections that restore fidelity to the approved design may be recommended. A finding that requires wider investigation returns to Explore, and a finding that requires a new recommendation or material decision returns to Proposal.
+
+## 7. Align and Integrate Approved Work
+
+Integrate spans Stages 10 to 13 and owns the Change Impact Manifest, coordination of Alignment, Integrated Validation, integration completion, and the pre-commit report. Align supplies only the Consistency behaviour needed to synchronize materially affected documents during Stages 10 and 11.
+
+No Drafting occurs during Integrate. Alignment edits may synchronize approved meaning across dependent documents, but they must not create or alter architecture, ownership, terminology, lifecycle, statuses, object models, or requirements. Any material change returns to Proposal.
 
 ### 7.1 Confirm the Accepted Change
 
-Before editing, record:
+Before Alignment or Integration, record:
 
-1. the accepted definition, requirement, or behavior;
+1. the accepted and reviewed definition, requirement, or behavior;
 2. the primary owning document and affected section;
 3. the permitted edit scope;
 4. unresolved items that remain `TBD`, `Open`, or `To be confirmed`;
 5. whether the change replaces an existing definition;
 6. whether unrelated changes are prohibited.
 
-If the founder has not accepted the material product decision, return to proposal and review rather than beginning integration.
+If the Founder has not accepted the material product decision, return to Proposal rather than beginning Integration. If the primary-owner Draft has not passed Stage 9 Review, return to Draft or Review as applicable.
 
-Create one task-level **Change Impact Manifest** before editing. It should identify:
+Create one task-level **Change Impact Manifest** before Alignment. It should identify:
 
 - the primary owner and exact accepted decision;
 - superseded terms, rules, values, routes, statuses, and open questions;
@@ -259,15 +705,17 @@ Use this generic trigger guide:
 | New or materially changed term | Primary owner and glossary; references should link to the owner rather than redefine the term. |
 | Prototype-represented behavior | Current prototype registry, prototype README/source baseline, represented interaction, and prototype validation record. |
 
-### 7.2 Confirm or Update the Primary Owner
+### 7.2 Confirm the Reviewed Primary-Owner Draft
 
-Edit the document that owns the behavior first.
+Confirm that the primary owning document:
 
-- Preserve useful existing content that remains valid.
-- Replace superseded requirements instead of adding a second competing rule.
-- Keep assumptions and open decisions visibly distinct from confirmed requirements.
-- Keep implementation detail in its proper documentation layer.
-- Preserve established formatting and stable IDs unless the approved change requires otherwise.
+- already contains the approved meaning from Draft;
+- passed the Stage 9 Review gate;
+- preserves useful content, documentation layering, established formatting, and stable IDs;
+- replaces superseded requirements instead of adding a competing rule;
+- keeps assumptions and open decisions visibly distinct from confirmed requirements.
+
+Do not draft, redraft, or redesign the primary owner during Integration. If an accepted-scope correction is needed, return it to Draft and repeat Review before resuming Integration. If the discovery requires a material design change, return it to Proposal.
 
 ### 7.3 Perform Repository Impact Search
 
@@ -479,7 +927,7 @@ Use hierarchical route diagrams:
 6. When a governed diagram is replaced, preserve the prior version under a dated archive/snapshot path, mark it superseded and non-authoritative, identify its replacement diagrams, and update the diagram index.
 7. Regenerate governed exports from the active Mermaid source where applicable. Old exports must be marked superseded or kept outside the current-reference index.
 
-### 7.14 Perform Final Integrated Review
+### 7.14 Perform Final Integrated Validation
 
 Before reporting commit readiness, verify:
 
@@ -502,6 +950,8 @@ Before reporting commit readiness, verify:
 Use `git diff --check` and appropriate repository searches. Add other validation when the affected artifact requires it.
 
 Perform this as one batched validation pass after the coordinated edit set. Do not repeat every repository-wide check after each file unless a failed check or changed scope justifies another pass. The pre-commit report should identify the search terms, affected files checked, validation results, and any consciously deferred alignment.
+
+Integrated Validation may identify a material design problem but must not solve it through Integration. Return an evidence gap to Explore and a decision-ready design issue to Proposal.
 
 ### 7.15 Prepare Changelog and Decision-Log Recording
 
@@ -597,32 +1047,78 @@ If the staged diff differs materially from the approved scope, stop and obtain r
 
 ## 11. Reusable Invocation Prompts
 
-### 11.1 Review or Proposal Only
+### 11.1 Explore
 
 ```text
-Apply the PayPlus Documentation Development Workflow to [task].
-Classify the work and concept, identify the primary owner and authoritative
-sources, and return a decision-ready proposal with affected documents,
-superseded definitions, alternatives, and open questions. Review and proposal
-only. Do not edit, commit, or push.
+Explore [topic] under the PayPlus Documentation Development Workflow.
+Use Divergent Thinking. Produce the complete Explore Pack: Founder
+Clarifications, Existing Repository Findings, Industry Findings, Alternative
+Comparison, Conflict Analysis, Risks, Open Questions, and Proposal Inputs.
+Keep candidates non-authoritative. Do not recommend a solution, define
+architecture, ownership, terminology, lifecycle, statuses, or objects, propose
+document edits, edit files, commit, or push. Stop before Proposal.
 ```
 
-### 11.2 Approved Drafting and Integration
+### 11.2 Proposal
 
 ```text
-Apply the PayPlus Documentation Development Workflow to [accepted change].
-Draft the primary owner first, then align only materially affected documents
-and governed artifacts. Preserve unrelated changes, replace superseded
-definitions, perform one integrated validation pass, and return the full
-pre-commit report. Do not commit or push without my separate approval.
+Proposal [change] under the PayPlus Documentation Development Workflow.
+Use Convergent Thinking. Evaluate sufficient Explore evidence, recommend one
+direction, and report rationale, alternatives, rejected alternatives,
+trade-offs, impacts, ownership, terminology, architecture, remaining Founder
+decisions, and the exact proposed edit boundary. Read-only. Stop at the
+Founder Decision gate. Do not Draft, commit, or push.
 ```
 
-### 11.3 Direct Scoped Edit
+### 11.3 Draft
+
+```text
+Draft [approved Proposal or equivalent explicit Founder instruction] in
+[primary owner]. Use Execution Thinking. Implement only the approved decisions
+and writable scope, preserve traceability and consistency, and return the Draft
+Review handoff. Do not introduce architecture, redefine ownership or
+terminology, select alternatives, redesign requirements, Align, Integrate,
+commit, or push. Return new design discoveries to Proposal.
+```
+
+### 11.4 Review
+
+```text
+Review [draft or target] against [approved Proposal or authoritative source].
+Use Validation Thinking. Report correctness, completeness, ambiguity,
+inconsistency, documentation quality, and implementation-fidelity findings
+with evidence, severity, and ownership. Do not redesign architecture or edit.
+Return evidence gaps to Explore and decision-ready design issues to Proposal.
+```
+
+### 11.5 Align
+
+```text
+Align [reviewed and approved primary change] across only the materially
+affected documents. Use Consistency Thinking. Synchronize terminology,
+ownership, references, duplicate treatment, and cross-document meaning.
+Do not create requirements, redesign the approved work, draft primary-owner
+design, commit, or push. Return every material change to Proposal.
+```
+
+### 11.6 Integrate
+
+```text
+Integrate [approved and reviewed work] under the PayPlus Documentation
+Development Workflow. Use Integration Thinking. Complete the Change Impact
+Manifest, coordinate Alignment, perform Integrated Validation, determine
+integration completion and Definition of Done, and return the pre-commit
+report. Do not draft or redraft, alter the approved design, commit, or push.
+Return material discoveries to Proposal.
+```
+
+### 11.7 Direct Scoped Edit
 
 ```text
 Apply the PayPlus Documentation Development Workflow to this exact scoped edit:
 [scope]. The product decision is already accepted. Confirm the owner and edit
-boundary, implement only the named scope, perform proportionate impact review
-and validation, and report the result. Do not commit or push without my
-separate approval.
+boundary, treat the instruction as the bounded Draft decision contract,
+implement only the named scope, perform proportionate Review, Alignment, and
+Integration, and report the result. Do not introduce a new design decision,
+commit, or push without my separate approval.
 ```
