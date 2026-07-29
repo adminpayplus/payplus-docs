@@ -1223,3 +1223,65 @@ Supersedes the former architectural interpretation that Parallel, Prototype, DOC
 **Remaining Open Items**
 
 None for the approved Final Integration scope.
+
+### `DEC-2026-028` - Documentation System Directory And Architecture Map
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-29` |
+| Status | Accepted |
+| Primary owner | DOC-00 for governance; Documentation Architecture Map for navigation; Documentation Development Workflow for lifecycle |
+| Affected documents | `AGENTS.md`, DOC-00, documentation index, Documentation System artifacts, DOC-07 live specialist reference, Outcome Framework maintenance reference, and prototype registry references |
+| Substantive commit | `c7b3f23f35b6f0c32886ae37e45daa86821a4db6` |
+| Founder approval | Bounded Documentation System Directory Migration authorized on `2026-07-29` |
+
+**Decision**
+
+Create `docs/documentation-system/` as the repository location for the operating architecture used to create, review, integrate, and maintain PayPlus documentation.
+
+The directory contains:
+
+- a concise directory README;
+- `documentation-architecture-map.md` as the canonical navigation artifact for authority, ownership, routing, dependencies, directory rules, and operating-document classification;
+- the sole canonical Documentation Development Workflow;
+- the optional Parallel-Agent Documentation Procedure;
+- the DOC-07 Design Specification Specialist Guide;
+- the Prototype Design and Validation Specialist Guide.
+
+The following path migrations are accepted:
+
+- `docs/00-foundation/payplus-documentation-development-workflow.md` → `docs/documentation-system/payplus-documentation-development-workflow.md`;
+- `docs/00-foundation/payplus-parallel-agent-documentation-procedure.md` → `docs/documentation-system/payplus-parallel-agent-documentation-procedure.md`;
+- `docs/00-foundation/payplus-doc-07-design-specification-specialist-guide.md` → `docs/documentation-system/payplus-doc-07-design-specification-specialist-guide.md`;
+- `docs/00-foundation/payplus-prototype-design-validation-specialist-guide.md` → `docs/documentation-system/payplus-prototype-design-validation-specialist-guide.md`.
+
+DOC-00, DOC-01 through DOC-04, Platform Design Principles, and the Outcome Framework remain in `docs/00-foundation/`.
+
+**Rationale**
+
+Operational workflows, execution procedures, and specialist documentation guides are part of the documentation operating system rather than the product, regulatory, commercial, compliance, or subject-framework foundation. Separating them makes repository routing and future extension clearer without changing authority.
+
+The Architecture Map provides one concise navigation owner so `AGENTS.md`, directory indexes, workflows, procedures, and specialist guides can reference the approved structure without reproducing it.
+
+**Authority Confirmation**
+
+- DOC-00 remains the sole documentation-governance authority and ranked source-of-truth owner.
+- `AGENTS.md` remains the Operating Contract and Routing Layer only.
+- The Documentation Development Workflow remains the sole owner of the complete Documentation Lifecycle and lifecycle gates.
+- Platform Design Principles and the Outcome Framework retain their existing subject ownership.
+- Parallel remains an optional Procedure; DOC-07 and Prototype remain Specialist Guides.
+- The directory migration and Architecture Map do not create or transfer approval, lifecycle, product, or domain authority.
+
+**Consequences And Handoffs**
+
+Current normative references use `docs/documentation-system/`. Future documentation operating workflows, procedures, architecture maps, and specialist documentation guides belong in that directory. New artifacts require explicit concept ownership, classification, non-duplication boundaries, invocation and return rules, and governed updates to the Architecture Map and routing indexes.
+
+Historical changelog, decision-log, DOC-00 version-history, backups, archives, and superseded snapshots retain their time-accurate former paths.
+
+**Supersedes / Superseded By**
+
+Refines the directory placement established by `DEC-2026-027` without changing its authority or lifecycle decisions.
+
+**Remaining Open Items**
+
+None for the approved directory-migration scope.

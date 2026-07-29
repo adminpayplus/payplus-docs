@@ -912,3 +912,53 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 **Remaining Open Items**
 
 - None for the approved Final Integration scope.
+
+### `2026-07-29` - Documentation System Directory Migration
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `c7b3f23f35b6f0c32886ae37e45daa86821a4db6` |
+| Primary owner | DOC-00 for governance; Documentation Architecture Map for navigation; Documentation Development Workflow for lifecycle |
+| Decision record | `DEC-2026-028` |
+| Founder approval | Bounded Documentation System Directory Migration authorized on `2026-07-29` |
+
+**Files Changed**
+
+- `AGENTS.md`
+- `docs/README.md`
+- `docs/00-foundation/doc-00-documentation-governance.md`
+- `docs/00-foundation/payplus-outcome-message-notification-framework.md`
+- `docs/01-product/doc-07-content-disclosure-user-authorization-spec.md`
+- `docs/prototypes/README.md`
+- `docs/prototypes/payplus-current-mobile-prototype/README.md`
+- `docs/documentation-system/README.md`
+- `docs/documentation-system/documentation-architecture-map.md`
+- Four documentation operating artifacts moved from `docs/00-foundation/` to `docs/documentation-system/`
+
+**Material Changes**
+
+- Created `docs/documentation-system/` as the location for documentation operating architecture.
+- Added a concise directory README and a canonical Documentation Architecture Map.
+- Moved the canonical Documentation Development Workflow, Parallel Procedure, DOC-07 Specialist Guide, and Prototype Specialist Guide without changing their authority or lifecycle ownership.
+- Updated current routing, ownership matrices, repository navigation, DOC-00 directory governance, and live specialist references.
+- Kept DOC-00, Platform Design Principles, Outcome Framework, and DOC-01 through DOC-04 in `docs/00-foundation/`.
+
+**Path Migration**
+
+- `docs/00-foundation/payplus-documentation-development-workflow.md` → `docs/documentation-system/payplus-documentation-development-workflow.md`
+- `docs/00-foundation/payplus-parallel-agent-documentation-procedure.md` → `docs/documentation-system/payplus-parallel-agent-documentation-procedure.md`
+- `docs/00-foundation/payplus-doc-07-design-specification-specialist-guide.md` → `docs/documentation-system/payplus-doc-07-design-specification-specialist-guide.md`
+- `docs/00-foundation/payplus-prototype-design-validation-specialist-guide.md` → `docs/documentation-system/payplus-prototype-design-validation-specialist-guide.md`
+
+**Checks Performed**
+
+- Confirmed the required Final Integration commits were present in current history before editing.
+- Found no former live paths outside protected historical records.
+- Checked 119 Markdown files and found no broken relative links.
+- Verified all seven foundation and six Documentation System Markdown files are covered by the `AGENTS.md` ownership matrix.
+- Verified specialist non-authorization and canonical lifecycle ownership.
+- Ran staged allowlist and whitespace validation.
+
+**Remaining Open Items**
+
+- None for the approved directory-migration scope.
