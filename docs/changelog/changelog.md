@@ -1000,3 +1000,39 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 **Remaining Open Items**
 
 - None for the approved Work Command Language and adaptive-role scope.
+
+### `2026-07-29` - Documentation Workflow v2.0
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `0d5864f142844c557be2309fa00477023f0792ec` |
+| Primary owner | Documentation Development Workflow |
+| Decision record | `DEC-2026-030` |
+| Founder approval | Workflow v2.0 accepted as Production Ready and Commit authorized on `2026-07-29`; Push not authorized |
+
+**Files Changed**
+
+- `docs/documentation-system/payplus-documentation-development-workflow.md`
+
+**Material Changes**
+
+- Introduced normative Thinking Modes for Explore, Proposal, Draft, Review, Align, and Integrate.
+- Added a complete Stage Contract for each Thinking Mode, including purpose, inputs, outputs, allowed actions, forbidden actions, and exit criteria.
+- Established the Explore Pack and a hard Explore-to-Proposal boundary so exploration remains divergent and read-only.
+- Reserved architecture, terminology, object-model, lifecycle, ownership, and document-change recommendations for Proposal and the existing Founder Decision gate.
+- Required Draft to execute approved decisions without introducing new design decisions.
+- Constrained Review to validation, Align to consistency, and Integrate to merging and coordinated validation without redesign or drafting.
+- Preserved the existing 20-stage Documentation Lifecycle, Founder approval gates, command compatibility, and Commit/Records/Push rules.
+- Marked Workflow v2.0 `Production Ready` and required evidence from real PayPlus documentation work before further changes to its thinking model or stage boundaries.
+
+**Checks Performed**
+
+- Verified all six Thinking Mode contracts and all 20 lifecycle-stage ownership rows.
+- Confirmed the Stage 6, Stage 14, and Stage 18 Founder gates remain present.
+- Confirmed the Commit and Push Gate is unchanged from the prior committed baseline.
+- Checked all 120 Markdown files and found no broken relative links.
+- Ran staged allowlist and whitespace validation against the one-file substantive scope.
+
+**Remaining Open Items**
+
+- None for the approved Documentation Workflow v2.0 scope. Future workflow changes require observed documentation evidence as defined by the Production Ready baseline.

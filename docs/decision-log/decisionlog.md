@@ -1335,3 +1335,62 @@ Extends `DEC-2026-027` and `DEC-2026-028` without changing their governance, lif
 **Remaining Open Items**
 
 None for the approved Work Command Language and adaptive-role scope.
+
+### `DEC-2026-030` - Documentation Workflow v2.0 Thinking Mode Separation
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-29` |
+| Status | Accepted |
+| Primary owner | Documentation Development Workflow |
+| Affected documents | `docs/documentation-system/payplus-documentation-development-workflow.md` |
+| Substantive commit | `0d5864f142844c557be2309fa00477023f0792ec` |
+| Founder approval | Workflow v2.0 accepted as Production Ready and Commit authorized on `2026-07-29`; Push not authorized |
+
+**Decision**
+
+Adopt Documentation Workflow v2.0 as the Production Ready baseline and explicitly separate the reasoning behaviour used across documentation work:
+
+- Explore uses Divergent Thinking to investigate, compare, expose conflicts and risks, and produce a neutral Explore Pack without selecting a solution.
+- Proposal uses Convergent Thinking and is the first mode permitted to recommend architecture, terminology, ownership, lifecycle, status, object-model, or documentation changes.
+- Draft uses Execution Thinking to convert an approved Proposal or equivalent explicit Founder instruction into documentation without introducing new design decisions.
+- Review uses Validation Thinking to identify correctness, quality, completeness, ambiguity, inconsistency, and implementation-fidelity issues without redesigning architecture.
+- Align uses Consistency Thinking to synchronize approved terminology, ownership, references, and meaning without creating requirements.
+- Integrate uses Integration Thinking to merge and validate approved work across the documentation system without drafting or altering the approved design.
+
+Each Thinking Mode has one canonical Stage Contract defining purpose, inputs, outputs, allowed actions, forbidden actions, and exit criteria. The existing 20 lifecycle stages, Founder Decision, Commit, and Push gates remain authoritative and unchanged in ownership.
+
+Further changes to Workflow v2.0 Thinking Modes, Stage Contracts, lifecycle philosophy, or mode boundaries require evidence from real PayPlus documentation work. A hypothetical preference or speculative improvement alone is not sufficient; the change request must identify an observed task, failure or friction, affected stage, and supporting repository evidence.
+
+**Authority Confirmation**
+
+- The Documentation Development Workflow remains the sole owner of the Documentation Lifecycle and every lifecycle stage and gate.
+- Explore cannot make recommendations, Draft cannot introduce new design decisions, and Review, Align, and Integrate cannot redesign approved architecture.
+- Proposal recommendations remain subject to the existing Stage 6 Founder Decision gate.
+- Commit, Records Commit, Push, and Completion authority remain governed by the existing lifecycle stages and Founder gates.
+- The Work Command Language continues to interpret commands and route them into these canonical modes; it does not own or redefine the modes or lifecycle.
+
+**Rationale**
+
+PAYMENT-CHECKOUT exploration demonstrated that exploration output could gradually converge into hidden recommendations or draft content. Separating divergent investigation, convergent decision preparation, and documentation execution makes decision ownership visible, prevents premature architecture, and gives agents a testable behavioural boundary at every stage.
+
+**Alternatives Considered**
+
+- Allowing Explore to recommend a preferred architecture was rejected because it collapses investigation and decision-making into one mode.
+- Allowing Proposal content to evolve directly into documentation was rejected because approved decisions must exist before execution begins.
+- Creating a second workflow for Thinking Modes was rejected because the Documentation Development Workflow is already the sole lifecycle owner.
+- Redesigning existing approval, Commit, Records Commit, Push, or Completion stages was rejected because the evidence concerned reasoning boundaries rather than lifecycle authority.
+
+**Consequences And Handoffs**
+
+Future documentation tasks must apply the Thinking Mode assigned to the current lifecycle stage. Explore produces inputs for a separate Proposal; Proposal stops for explicit Founder approval; Draft implements only the approved meaning; Review, Align, and Integrate return newly discovered material design questions to Proposal. Work Command Language compatibility and specialist invocation remain intact.
+
+Workflow changes after this Production Ready baseline must cite real repository documentation evidence. Routine use should now focus on applying the workflow and collecting observed evidence rather than continuing speculative workflow redesign.
+
+**Supersedes / Superseded By**
+
+Extends `DEC-2026-027`, `DEC-2026-028`, and `DEC-2026-029` without changing their governance, lifecycle ownership, directory, command-interface, or specialist-document decisions.
+
+**Remaining Open Items**
+
+None for the approved Documentation Workflow v2.0 scope.
