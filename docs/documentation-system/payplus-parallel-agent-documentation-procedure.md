@@ -36,6 +36,56 @@ Use only the roles needed for the task.
 
 The Orchestrator must not merely combine agent responses. It must identify agreements, conflicts, unsupported assumptions, and matters that must return to the applicable canonical lifecycle decision gate.
 
+### 3.1 Adaptive Role Coverage and Temporary Specialist Roles
+
+Before parallel work begins, the Orchestrator must assess whether the proposed role allocation provides sufficient:
+
+- domain expertise for the approved scope;
+- independent review coverage proportionate to materiality and risk;
+- primary and handoff document-ownership coverage; and
+- integration and consolidation capability.
+
+The standard roles above are responsibility sets, not fixed agent headcount. One agent may combine compatible roles when capacity is limited, but the work packet must disclose the combination and its conflict controls. The Founder role and reserved authority must not be assumed by an agent. For a material draft or decision, the drafting contribution must receive independent review from an agent that did not author that contribution; if no such reviewer is available, the review remains not performed rather than being self-certified.
+
+If coverage is insufficient, the Orchestrator must:
+
+1. identify the specific responsibility, ownership, review, or expertise gap;
+2. determine whether an existing agent can safely cover it without an incompatible duty or unsupported claim of expertise;
+3. when necessary, recommend or assign a task-scoped temporary specialist role;
+4. define the temporary role's scope, required inputs, expected output, authority boundary, handoff recipient, and completion condition in the work packet; and
+5. report any material gap that cannot be covered.
+
+Examples include Security Reviewer, Compliance Reviewer, UX Reviewer, Backend Architecture Reviewer, Outcome Framework Reviewer, Prototype Reviewer, or another role narrowly defined for the current task. These examples do not create permanent roles or require every task to use them.
+
+A temporary specialist role must not:
+
+- redefine or independently operate the Documentation Lifecycle;
+- approve a material Founder decision;
+- authorize Commit, Records Commit, Push, or Completion;
+- expand the approved task or writable-file scope;
+- override a canonical document owner; or
+- become a permanent governance role without a separate accepted proposal.
+
+If no suitably capable agent is available, the Orchestrator must:
+
+- complete only the general or non-specialist work that remains supportable;
+- mark the affected specialist review or validation `Not performed` or `Unresolved`;
+- identify the missing capability, affected scope, risk, and required next owner; and
+- return control to the applicable canonical lifecycle gate without claiming full review, validation, readiness, or completion.
+
+Repeated evidence of the same durable capability gap may support a proposal to change the permanent role model. That proposal must proceed through the canonical Documentation Development Workflow and requires Founder approval before this procedure or its standard roles are changed.
+
+### 3.2 Minimum Role-Coverage Record
+
+The work packet or parallel execution plan must record:
+
+| Coverage concern | Assigned role or agent | Independence or combination note | Required output | Gap status |
+| --- | --- | --- | --- | --- |
+| Domain expertise | Named standard or temporary role | Relevant expertise and any limitation | Domain finding or contribution | Covered / Unresolved |
+| Independent review | Named reviewer | Must identify separation from the material author | Review findings | Covered / Not performed |
+| Document ownership | Primary writer and handoff reviewers | Writable owner and read-only dependencies | Owned draft or ownership findings | Covered / Unresolved |
+| Integration | Orchestrator / Integration Lead | Conflicting duties and controls, if any | Consolidated pack and return-control record | Covered / Unresolved |
+
 ## 4. Work Classification
 
 Before assigning agents, the Orchestrator must classify the requested work:

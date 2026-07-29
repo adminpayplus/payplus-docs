@@ -69,6 +69,7 @@ Use `docs/documentation-system/documentation-architecture-map.md` for canonical 
 
 | Task category or trigger | Canonical owner | Required or conditional specialist reference |
 | --- | --- | --- |
+| Founder uses a PayPlus work command such as Explore, Proposal, Draft, Review, Edit, Align, Validate, Integrate, Commit, Record, or Push | Documentation Development Workflow | PayPlus Work Command Language for command interpretation and routing only |
 | Any documentation review, proposal, drafting, restructuring, alignment, validation, approval request, Git action, records treatment, or completion report | Documentation Development Workflow | `DOC-00` plus the primary owning document |
 | Parallel agents, a review swarm, multiple workstreams, or worktrees are explicitly requested | Documentation Development Workflow | Parallel-Agent Documentation Procedure |
 | Interactive prototype, route prototype, wireframe, UI proof of concept, prototype review, or prototype-status change | Documentation Development Workflow | Prototype Design and Validation Specialist Guide |
@@ -91,6 +92,7 @@ Use `docs/documentation-system/documentation-architecture-map.md` for canonical 
 ### Routing Rules
 
 - Start every documentation task with the Documentation Development Workflow and the primary owning document.
+- Interpret a named PayPlus work command through the Work Command Language, then apply the mapped canonical lifecycle stage and gate without treating the command as independent authority.
 - Load only the specialist references whose triggers are present.
 - The Parallel Procedure controls distribution and consolidation only.
 - The Prototype Guide controls prototype-specific methods and checks only.
@@ -116,6 +118,7 @@ This matrix covers every Markdown document currently located in `docs/00-foundat
 | `documentation-system/README.md` | Documentation System directory discovery | Concise classification and links to documentation operating artifacts | Ranked authority; lifecycle rules; subject rules |
 | `documentation-system/documentation-architecture-map.md` | Canonical documentation-architecture navigation | Authority, ownership, routing, dependencies, directory responsibilities, and operating-document classification | Ranked authority; lifecycle gates; detailed subject rules |
 | `documentation-system/payplus-documentation-development-workflow.md` | Sole canonical Documentation Development Workflow | Entire Documentation Lifecycle and all lifecycle stages, roles, gates, validation authority, Git/records treatment, and completion rules | Product/domain requirements; specialist prototype methods; DOC-07 content method; parallel execution mechanics |
+| `documentation-system/payplus-work-command-language.md` | Normative command-interface reference | Meaning, minimum task contract, expected output, and lifecycle routing for Founder work commands | Lifecycle stages/gates; approval authority; product/domain rules; parallel execution mechanics |
 | `documentation-system/payplus-parallel-agent-documentation-procedure.md` | Optional Parallel-Agent Documentation Procedure | Orchestration; task decomposition; work packets; parallel roles; worktree isolation; consolidation; execution conflicts; parallel review | Lifecycle stages/gates; product decisions; general validation authority; commit/records/push/completion authority |
 | `documentation-system/payplus-prototype-design-validation-specialist-guide.md` | Prototype Design and Validation Specialist Guide | Prototype classification/status; planning inputs; build method; interaction matrix; functional, visual, responsive, product, and accessibility checks; artifact handoff evidence | Product source requirements; lifecycle stages/gates; general approval/validation; commit/records/push/completion authority |
 | `documentation-system/payplus-doc-07-design-specification-specialist-guide.md` | DOC-07 Design Specification Specialist Guide | DOC-07 slice inputs; mandatory matrix; Outcome/Resolution/Message/CTA authoring; disclosure and risk review; specialist validation and maintenance | Source route/domain rules; notification delivery; status/event schema; lifecycle stages/gates; Git or completion authority |
@@ -227,7 +230,7 @@ Before repository work, verify the current workspace, repository visibility, rel
 - Treat existing modifications and untracked files as user-owned unless proven otherwise.
 - Never discard, revert, overwrite, stage, move, or delete unrelated changes.
 - Use the exact writable-file scope authorized for the task.
-- Place documentation operating workflows, procedures, architecture maps, and specialist documentation guides under `docs/documentation-system/`; keep formal foundation documents and foundation subject frameworks under `docs/00-foundation/`.
+- Place documentation operating workflows, procedures, command-interface references, architecture maps, and specialist documentation guides under `docs/documentation-system/`; keep formal foundation documents and foundation subject frameworks under `docs/00-foundation/`.
 - Read the primary owner and material handoff owners before changing governed content.
 - Preserve useful existing content and stable IDs unless the accepted change requires replacement.
 - Replace superseded definitions rather than leaving two active meanings.
