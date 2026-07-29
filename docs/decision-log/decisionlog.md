@@ -1285,3 +1285,53 @@ Refines the directory placement established by `DEC-2026-027` without changing i
 **Remaining Open Items**
 
 None for the approved directory-migration scope.
+
+### `DEC-2026-029` - Work Command Interface And Adaptive Parallel Role Coverage
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-29` |
+| Status | Accepted |
+| Primary owner | PayPlus Work Command Language for command meaning and routing; Parallel-Agent Documentation Procedure for adaptive parallel-role coverage |
+| Affected documents | `AGENTS.md`, documentation indexes, Documentation Architecture Map, Parallel-Agent Documentation Procedure, and PayPlus Work Command Language |
+| Substantive commit | `9b5706016e69a062ab1c61962732d5cb0a1c607a` |
+| Founder approval | Local documentation change and Commit/Record authorized on `2026-07-29`; Push not authorized |
+
+**Decision**
+
+Create `payplus-work-command-language.md` as a normative command-interface reference so the Founder can use a stable vocabulary to route work into the canonical Documentation Development Workflow.
+
+The core commands are Explore, Proposal, Approve, Draft, Review, Edit, Align, Validate, Integrate, Commit, Record, Push, and Complete. Prototype and Specify are subject qualifiers that must be paired with, or safely interpreted as, a core command. The command reference owns command meaning, minimum inputs, expected outputs, and lifecycle routing only.
+
+Extend the Parallel-Agent Documentation Procedure so the Orchestrator assesses domain expertise, independent review, document ownership, and integration coverage before parallel work. Compatible responsibilities may be combined with disclosed conflict controls. Temporary specialist roles may be assigned for the current task when their scope, inputs, outputs, authority boundary, handoff, and completion condition are defined.
+
+**Authority Confirmation**
+
+- The Documentation Development Workflow remains the sole owner of the Documentation Lifecycle and every lifecycle stage and gate.
+- A work command does not independently authorize editing, approval, validation, Commit, Records Commit, Push, or Completion.
+- Temporary specialist roles cannot approve Founder decisions, expand approved scope, override canonical owners, or become permanent governance roles.
+- Missing specialist capability must be marked `Not performed` or `Unresolved`; full review or validation cannot be claimed.
+- A permanent role-model change requires a separate proposal through the canonical workflow and Founder approval.
+
+**Rationale**
+
+A stable command interface reduces repeated prompting while preserving canonical lifecycle ownership. Adaptive role coverage allows the Orchestrator to match specialist capability to task risk without creating a large permanent role catalogue or allowing agents to invent expertise and authority.
+
+**Alternatives Considered**
+
+- Adding the commands directly to the lifecycle workflow was rejected because the vocabulary is an interface and routing concern, not a second lifecycle definition.
+- Treating Prototype and Specify as standalone workflows was rejected because their specialist guides operate within the canonical lifecycle.
+- Creating permanent specialist roles for every domain was rejected because most specialist needs are task-specific.
+- Allowing self-review when no independent reviewer is available was rejected for material work; the review must instead remain explicitly incomplete.
+
+**Consequences And Handoffs**
+
+`AGENTS.md` and the Documentation Architecture Map route named work commands to the Work Command Language and then to the canonical workflow. The Documentation System README and documentation index expose the reference. Parallel work packets must record role coverage and unresolved capability gaps. Existing core roles remain available; no permanent specialist role is created by this decision.
+
+**Supersedes / Superseded By**
+
+Extends `DEC-2026-027` and `DEC-2026-028` without changing their governance, lifecycle, directory, or specialist-document ownership decisions.
+
+**Remaining Open Items**
+
+None for the approved Work Command Language and adaptive-role scope.

@@ -962,3 +962,41 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 **Remaining Open Items**
 
 - None for the approved directory-migration scope.
+
+### `2026-07-29` - PayPlus Work Command Language And Adaptive Role Coverage
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `9b5706016e69a062ab1c61962732d5cb0a1c607a` |
+| Primary owner | PayPlus Work Command Language for command meaning and routing; Parallel-Agent Documentation Procedure for adaptive parallel-role coverage |
+| Decision record | `DEC-2026-029` |
+| Founder approval | Local documentation change and Commit/Record authorized on `2026-07-29`; Push not authorized |
+
+**Files Changed**
+
+- `AGENTS.md`
+- `docs/README.md`
+- `docs/documentation-system/README.md`
+- `docs/documentation-system/documentation-architecture-map.md`
+- `docs/documentation-system/payplus-parallel-agent-documentation-procedure.md`
+- `docs/documentation-system/payplus-work-command-language.md`
+
+**Material Changes**
+
+- Added a normative command-interface reference for Founder commands including Explore, Proposal, Approve, Draft, Review, Edit, Align, Validate, Integrate, Commit, Record, Push, and Complete.
+- Classified Prototype and Specify as subject qualifiers rather than competing lifecycle commands.
+- Mapped every command to the canonical Documentation Development Workflow while keeping all lifecycle stages, gates, validation authority, Git treatment, records treatment, and completion rules in that workflow.
+- Added routing and discovery references in `AGENTS.md`, the Documentation Architecture Map, and both documentation indexes.
+- Added adaptive role-coverage assessment, compatible role-combination controls, independent review requirements, task-scoped temporary specialist roles, unresolved-capability handling, and the permanent-role proposal path to the Parallel-Agent Documentation Procedure.
+
+**Checks Performed**
+
+- Verified the six-file staged allowlist before the substantive commit.
+- Ran staged and untracked-file whitespace checks.
+- Verified relative Markdown links, command-matrix coverage and columns, and balanced code fences.
+- Checked routing and ownership consistency and confirmed the new reference does not redefine the canonical lifecycle.
+- Preserved all unrelated working-tree changes.
+
+**Remaining Open Items**
+
+- None for the approved Work Command Language and adaptive-role scope.
