@@ -6,7 +6,7 @@ This folder contains review aids derived from approved PayPlus source documents.
 
 No current prototype is registered.
 
-A prototype may be listed here only after its scope, source baseline, status, and required specialist validation have been recorded under the PayPlus Prototype Design and Validation Specialist Guide and processed through the canonical Documentation Development Workflow.
+A prototype may be listed here only after its scope, source baseline, status, and required specialist validation have been recorded under the [`PayPlus Prototype Design and Validation Specialist Guide`](../documentation-system/payplus-prototype-design-validation-specialist-guide.md) and processed through the canonical [`Documentation Development Workflow`](../documentation-system/payplus-documentation-development-workflow.md).
 
 ## Lifecycle Rules
 

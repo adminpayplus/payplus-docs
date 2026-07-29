@@ -110,18 +110,25 @@ The `00-foundation/` documents establish the PayPlus documentation baseline.
 | `DOC-03` | Defines regulatory, PSP, acquirer, payment partner, category, and payee feasibility assessment. |
 | `DOC-04` | Defines compliance roadmap, control ownership, launch gates, evidence expectations, and change governance. |
 
-The same folder also contains supporting foundation architecture documents. They are authoritative only for the responsibility stated below and do not change the ranked source hierarchy in Section 3.
+The same folder also contains supporting foundation subject frameworks. They are authoritative only for the responsibility stated below and do not change the ranked source hierarchy in Section 3.
 
-| Supporting foundation document | Role |
+| Supporting foundation framework | Role |
 | --- | --- |
 | `payplus-platform-design-principles.md` | Defines durable cross-platform product and system design doctrine. |
 | `payplus-outcome-message-notification-framework.md` | Defines the detailed Outcome, Resolution, Message/CTA, Notification, audit, and acceptance traceability model. |
+
+Documentation operating artifacts are stored separately under `docs/documentation-system/`.
+
+| Documentation System artifact | Role |
+| --- | --- |
+| `README.md` | Provides concise discovery and classification for the Documentation System. |
+| `documentation-architecture-map.md` | Provides canonical architecture navigation, ownership, routing, dependency, and directory rules. |
 | `payplus-documentation-development-workflow.md` | Sole canonical owner of the Documentation Lifecycle and its stages and gates. |
 | `payplus-parallel-agent-documentation-procedure.md` | Optional execution procedure for parallel agents, workstreams, worktrees, consolidation, and parallel review. |
 | `payplus-prototype-design-validation-specialist-guide.md` | Specialist guide for prototype planning, creation, validation, status, and evidence. |
 | `payplus-doc-07-design-specification-specialist-guide.md` | Specialist guide for DOC-07 authoring and specialist validation. |
 
-Foundation documents guide downstream drafting but do not replace detailed product, technical, risk, compliance, security, privacy, testing, or operations specifications. Supporting frameworks, procedures, and guides do not override DOC-00 governance or the formal document that owns a product or domain rule.
+Foundation documents and subject frameworks guide downstream drafting but do not replace detailed product, technical, risk, compliance, security, privacy, testing, or operations specifications. Documentation System artifacts do not override DOC-00 governance or the formal document that owns a product or domain rule.
 
 ---
 
@@ -137,6 +144,13 @@ payplus-docs/
 |   |   |-- doc-02-business-model-unit-economics.md
 |   |   |-- doc-03-regulatory-psp-acquirer-assessment.md
 |   |   `-- doc-04-compliance-certification-roadmap-control-framework.md
+|   |-- documentation-system/
+|   |   |-- README.md
+|   |   |-- documentation-architecture-map.md
+|   |   |-- payplus-documentation-development-workflow.md
+|   |   |-- payplus-parallel-agent-documentation-procedure.md
+|   |   |-- payplus-doc-07-design-specification-specialist-guide.md
+|   |   `-- payplus-prototype-design-validation-specialist-guide.md
 |   |-- 01-product/
 |   |   |-- doc-05-master-prd-feature-requirement-index.md
 |   |   |-- doc-06-user-journey-ux-flow-service-blueprint.md
@@ -721,6 +735,7 @@ The documentation repository includes supporting areas for change management, de
 | docs/diagrams/ | Stores architecture, process, service, data, and operational diagrams. |
 | docs/backup/ | Stores temporary backup files only when needed. |
 | docs/glossary/glossary.md | Defines shared terminology. |
+| docs/documentation-system/ | Stores the documentation operating architecture, canonical lifecycle workflow, optional procedures, and specialist documentation guides. |
 | docs/README.md | Provides documentation repository navigation. |
 | README.md | Provides root repository overview. |
 

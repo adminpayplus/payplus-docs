@@ -8,7 +8,7 @@ This workflow governs the end-to-end development of PayPlus documentation, from 
 
 It applies whether the work is performed by one agent, supported by parallel reviewers, produced through an approved worktree plan, or drafted directly by the founder. Parallel-agent and specialist procedures may supplement this workflow, but they do not replace its ownership, approval, integration, validation, or commit gates.
 
-This workflow supplements `DOC-00` and `AGENTS.md`. It does not replace their source-of-truth hierarchy, PayPlus product boundaries, documentation layering, product-thinking method, or founder authority.
+This workflow supplements [`DOC-00`](../00-foundation/doc-00-documentation-governance.md) and [`AGENTS.md`](../../AGENTS.md). It does not replace their governance, PayPlus product boundaries, documentation layering, product-thinking method, or founder authority.
 
 ## 2. Authority and Core Rules
 

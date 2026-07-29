@@ -8,9 +8,9 @@ This specialist guide defines how DOC-07 slices are structured, authored, risk-r
 
 It must be used with:
 
-- `AGENTS.md`;
-- DOC-00;
-- `payplus-outcome-message-notification-framework.md`;
+- `../../AGENTS.md`;
+- `../00-foundation/doc-00-documentation-governance.md`;
+- `../00-foundation/payplus-outcome-message-notification-framework.md`;
 - `payplus-documentation-development-workflow.md`.
 
 The PayPlus Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, general Validation gates, Commit, Records Commit, Push, and Completion. This guide extends that lifecycle with DOC-07-specific inputs, authoring methods, matrices, review depth, specialist validation, traceability, and maintenance checks. It **MUST NOT** redefine, duplicate, weaken, bypass, or independently authorize a lifecycle stage, owner, or gate.

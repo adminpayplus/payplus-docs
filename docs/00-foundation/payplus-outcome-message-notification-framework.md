@@ -361,7 +361,7 @@ This example defines structure only. DOC-07, DOC-18, DOC-20, and the owning rout
 
 ## 15. Change and Maintenance Rules
 
-Changes to this framework are governance-sensitive. Apply the PayPlus Documentation Development Workflow.
+Changes to this framework are governance-sensitive. Apply the [`PayPlus Documentation Development Workflow`](../documentation-system/payplus-documentation-development-workflow.md).
 
 When a canonical mapping changes:
 

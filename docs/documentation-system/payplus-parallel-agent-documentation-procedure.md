@@ -12,7 +12,7 @@ The procedure is intended to improve analysis speed, specialist coverage, and re
 
 ## 2. Authority and Boundaries
 
-- Founder decision and approval authority remains defined by the canonical Documentation Development Workflow and `DOC-00`.
+- Founder decision and approval authority remains defined by the canonical Documentation Development Workflow and [`DOC-00`](../00-foundation/doc-00-documentation-governance.md).
 - The lead agent in the active task acts as Orchestrator / Integration Lead unless the founder appoints another owner.
 - Formal source documents remain authoritative according to `DOC-00`.
 - Parallel-agent findings are inputs to the canonical lifecycle, not accepted requirements or lifecycle decisions.

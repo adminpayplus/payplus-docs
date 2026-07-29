@@ -3,9 +3,9 @@
 
 This folder contains the PayPlus documentation set.
 
-Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance and ranked source-of-truth authority. Use `AGENTS.md` as the repository Operating Contract and Routing Layer. Use the [`PayPlus Platform Design Principles`](00-foundation/payplus-platform-design-principles.md) for durable platform doctrine and the [`Outcome, Resolution, Message and Notification Framework`](00-foundation/payplus-outcome-message-notification-framework.md) for the detailed Outcome → Resolution → Message/CTA/Notification chain. When drafting DOC-07 mappings, also use the [`DOC-07 Design Specification Specialist Guide`](00-foundation/payplus-doc-07-design-specification-specialist-guide.md).
+Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance and ranked source-of-truth authority. Use `AGENTS.md` as the repository Operating Contract and Routing Layer. Use the [`PayPlus Platform Design Principles`](00-foundation/payplus-platform-design-principles.md) for durable platform doctrine and the [`Outcome, Resolution, Message and Notification Framework`](00-foundation/payplus-outcome-message-notification-framework.md) for the detailed Outcome → Resolution → Message/CTA/Notification chain.
 
-All documentation work uses the [`Documentation Development Workflow`](00-foundation/payplus-documentation-development-workflow.md), the sole owner of the complete Documentation Lifecycle and its gates. For parallel-agent or worktree execution, additionally use the [`Parallel-Agent Documentation Procedure`](00-foundation/payplus-parallel-agent-documentation-procedure.md). For prototype-specific planning, building, and specialist validation, additionally use the [`Prototype Design and Validation Specialist Guide`](00-foundation/payplus-prototype-design-validation-specialist-guide.md). These specialist documents extend the canonical lifecycle and do not replace it. Substantive commits are recorded in [`changelog/changelog.md`](changelog/changelog.md) and [`decision-log/decisionlog.md`](decision-log/decisionlog.md).
+Enter the operating architecture through the [`Documentation System`](documentation-system/README.md) and its independent [`Documentation Architecture Map`](documentation-system/documentation-architecture-map.md). All documentation work uses the [`Documentation Development Workflow`](documentation-system/payplus-documentation-development-workflow.md), the sole owner of the complete Documentation Lifecycle and its gates. The directory README routes to the Parallel Procedure and the DOC-07 and Prototype Specialist Guides without duplicating their rules. Substantive commits are recorded in [`changelog/changelog.md`](changelog/changelog.md) and [`decision-log/decisionlog.md`](decision-log/decisionlog.md).
 
 ## Current Baseline
 
@@ -21,6 +21,7 @@ All documentation work uses the [`Documentation Development Workflow`](00-founda
 | Folder | Purpose |
 | --- | --- |
 | `00-foundation/` | Governance, product positioning, business model, regulatory assessment, and compliance control framework. |
+| `documentation-system/` | Documentation operating architecture, canonical lifecycle workflow, optional procedure, specialist guides, and architecture navigation. |
 | `01-product/` | Master PRD, DOC-06 UX/navigation child documents, disclosures, notifications, and user-facing behavior. |
 | `02-payment-domain/` | Payment requests, funding, settlement, payout, reconciliation, refunds, cancellations, disputes, and chargebacks. |
 | `03-bill-verification/` | Bill category, evidence, AI/OCR, extracted data, duplicate evidence, and payee verification requirements. |

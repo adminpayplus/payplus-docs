@@ -12,7 +12,7 @@
 ## Primary Sources
 
 - `AGENTS.md`
-- `docs/00-foundation/payplus-prototype-design-validation-specialist-guide.md`
+- `docs/documentation-system/payplus-prototype-design-validation-specialist-guide.md`
 - `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
 - `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
 - `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`

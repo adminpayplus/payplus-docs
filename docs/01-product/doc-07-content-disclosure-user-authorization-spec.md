@@ -579,7 +579,7 @@ The following inventory preserves the approved DOC-06B product behavior without 
 | Temporary restriction, provider unavailability, or reset result unconfirmed | Wait / Redirect | Safe wait, retry, alternative-method, return, or Support treatment according to current capability. | None unless DOC-08 approves a separate event. |
 | Password reset completed | Redirect | Recovery Complete followed by Return to `AUTH-LOGIN-FULL`; do not auto-login. | Mandatory credential-change security communication; exact DOC-08 mapping TBC. |
 
-Multiple internal Outcomes may map to the same public-neutral message. The exact copy, masking, CTA hierarchy, Outcome/Message/Action IDs, and notification mappings require the DOC-07 Design Specification Specialist Guide and applicable security, privacy, notification, data, testing, Support, and admin reviews.
+Multiple internal Outcomes may map to the same public-neutral message. The exact copy, masking, CTA hierarchy, Outcome/Message/Action IDs, and notification mappings require the [`DOC-07 Design Specification Specialist Guide`](../documentation-system/payplus-doc-07-design-specification-specialist-guide.md) and applicable security, privacy, notification, data, testing, Support, and admin reviews.
 
 ---
 
