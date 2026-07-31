@@ -1036,3 +1036,62 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 **Remaining Open Items**
 
 - None for the approved Documentation Workflow v2.0 scope. Future workflow changes require observed documentation evidence as defined by the Production Ready baseline.
+
+### `2026-08-01` - DOC-09 Payment Domain Architecture Baseline
+
+| Field | Record |
+| --- | --- |
+| Mechanical rename commit | `200bc0e26e508723ae5c1fc392385e0c41460ab6` |
+| Substantive commit | `0586c84d1038ba597470355d72414b70fbeff458` |
+| Primary owner | `DOC-09` Payment Domain Architecture |
+| Decision record | `DEC-2026-031` |
+| Founder approval | Candidate Final, rename, alignment, validation, integration, and Commit grouping approved through the DOC-09 workflow ending `2026-08-01` |
+
+**Files Changed**
+
+- Renamed `docs/02-payment-domain/doc-09-payment-request-multi-funding-source-settlement.md` to `docs/02-payment-domain/doc-09-payment-domain-architecture.md`.
+- `AGENTS.md`
+- `docs/00-foundation/doc-00-documentation-governance.md`
+- `docs/00-foundation/doc-01-project-charter-product-positioning.md`
+- `docs/00-foundation/doc-02-business-model-unit-economics.md`
+- `docs/00-foundation/doc-03-regulatory-psp-acquirer-assessment.md`
+- `docs/00-foundation/doc-04-compliance-certification-roadmap-control-framework.md`
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-07-content-disclosure-user-authorization-spec.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/02-payment-domain/doc-09-payment-domain-architecture.md`
+- `docs/02-payment-domain/doc-10-payout-reconciliation.md`
+- `docs/02-payment-domain/doc-11-refund-cancellation-chargeback.md`
+- `docs/03-bill-verification/doc-12-bill-category-document-ai-ocr-payee-verification-spec.md`
+- `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`
+- `docs/05-risk-compliance-privacy/doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md`
+- `docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/README.md`
+- `docs/diagrams/routes/payplus-action-sheet-route-map.md`
+- `docs/diagrams/routes/payplus-instructions-route-map.md`
+- `docs/glossary/glossary.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+- `docs/traceability/route-register.md`
+- `docs/traceability/status-display-reference-matrix.md`
+
+**Material Changes**
+
+- Established `DOC-09 - Payment Domain Architecture` version `1.1.0` as a Founder Working Baseline, replacing the superseded DOC-09 baseline.
+- Recorded the accepted Payment Domain architecture and its direct repository alignment without introducing a new architecture decision during Align or bounded correction.
+
+**Checks Performed**
+
+- Completed Edit, Align, bounded correction, Re-Validate, and Integrate with `PASS - READY TO INTEGRATE`.
+- Verified the history-preserving rename, validated substantive manifest, metadata mirroring, version-history uniqueness, active Request terminology, DOC-11 Instruction/Checkout separation, local links, whitespace, and excluded-worktree boundaries.
+
+**Remaining Open Items**
+
+- Downstream technical and operational TBCs remain with the owners identified by `DOC-09`; none blocks this Founder Working Baseline.

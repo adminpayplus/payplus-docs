@@ -47,6 +47,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-024` | `2026-07-28` | Optional Decision-Complete Behavior Pattern | Accepted | Parallel-agent drafting workflow | `d2a9bfd` |
 | `DEC-2026-025` | `2026-07-29` | Capability-Aware Outcome And Resolution Framework | Accepted | Platform design principles / `DOC-07` workflow | `4255f63` |
 | `DEC-2026-026` | `2026-07-29` | Authentication Recovery And Safe Return Model | Accepted | `DOC-06B` | `4255f63` |
+| `DEC-2026-031` | `2026-08-01` | DOC-09 Payment Domain Architecture Baseline | Accepted | `DOC-09` | `0586c84d1038ba597470355d72414b70fbeff458` |
 
 ## 4. Decision Record Template
 
@@ -1394,3 +1395,40 @@ Extends `DEC-2026-027`, `DEC-2026-028`, and `DEC-2026-029` without changing thei
 **Remaining Open Items**
 
 None for the approved Documentation Workflow v2.0 scope.
+
+### `DEC-2026-031` - DOC-09 Payment Domain Architecture Baseline
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-01` |
+| Status | Accepted |
+| Primary owner | `DOC-09` Payment Domain Architecture |
+| Affected documents | `DOC-00`, `DOC-01` to `DOC-15` where directly aligned, `DOC-18`, `DOC-22`, `AGENTS.md`, documentation index, route diagrams, glossary, and traceability registers |
+| Mechanical rename commit | `200bc0e26e508723ae5c1fc392385e0c41460ab6` |
+| Substantive commit | `0586c84d1038ba597470355d72414b70fbeff458` |
+| Founder approval | Candidate Final, rename, alignment, validation, integration, and Commit grouping approved through the DOC-09 workflow ending `2026-08-01` |
+
+**Decision**
+
+Accept `DOC-09 - Payment Domain Architecture` version `1.1.0` as a Founder Working Baseline and canonical replacement for the superseded DOC-09 payment-request, multi-funding-source, and settlement baseline. Rename the canonical file to `doc-09-payment-domain-architecture.md` while preserving Git history and align only direct repository references and owned handoffs.
+
+**Rationale**
+
+The accepted document now owns the Payment Domain architecture and its boundaries more accurately than the former feature-oriented title and baseline. The validated split commits preserve rename traceability and separate the mechanical path change from the accepted substantive content.
+
+**Alternatives Considered**
+
+- Retaining the former filename and title was rejected because they no longer represented the accepted domain ownership.
+- Combining rename, substantive content, and records into one commit was rejected in favor of the Founder-approved history-safe split grouping.
+
+**Consequences And Handoffs**
+
+Live documentation references use the new DOC-09 title and path. The accepted architecture replaces the superseded baseline. Direct repository alignment and validation passed, and no new architecture decision was introduced during Align or bounded correction. Downstream Settlement, adjustment, provider integration, machine-state, outcome/message, security, testing, operations, and admin details remain with their named owners.
+
+**Supersedes / Superseded By**
+
+Supersedes the former active DOC-09 baseline titled `Payment Request, Multi-Funding Source & Settlement` without rewriting its historical records.
+
+**Remaining Open Items**
+
+Downstream technical and operational TBCs remain with the owners identified by `DOC-09`; none blocks the Founder Working Baseline.
