@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 0.7.3
+version: 0.7.4
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -26,7 +26,7 @@ related_documents:
   - DOC-05 Master PRD & Feature Requirement Index
   - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
@@ -43,14 +43,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-10` |
 | **Title** | Payout & Reconciliation |
-| **Version** | `0.7.3` |
+| **Version** | `0.7.4` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Finance |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -58,7 +58,7 @@ related_documents:
 
 This document defines PayPlus MVP rules for payout readiness, payout execution, payout batching, payout rails, settlement calendar handling, reconciliation, payout exceptions, and payout reporting.
 
-DOC-10 starts after DOC-09 confirms payment completion and settlement readiness. It owns the movement of settled funds from PayPlus's operating bank account to approved payees and the evidence needed to reconcile that movement.
+DOC-10 starts from the confirmed Payment and destination facts handed off by DOC-09. It owns Settlement, Payout, reconciliation, timing, readiness, and the movement of eligible funds from PayPlus's operating bank account to approved payees. Checkout completion is not a prerequisite for accepting a confirmed Payment handoff.
 
 This document is not a bank API specification, ledger schema, accounting policy, refund manual, or admin dashboard UI specification.
 
@@ -83,7 +83,7 @@ Detailed specifications belong to:
 
 | Topic | Owning Document |
 | --- | --- |
-| Card authorization, payment completion, and settlement readiness | DOC-09 |
+| Payment Obligation, Checkout Workspace, payer-authorization boundary, Provider Confirmation acceptance, confirmed Payment, Payment Application, and destination snapshot handoff | DOC-09 |
 | Refund, cancellation, chargeback, dispute, and reversal operations | DOC-11 |
 | Risk scoring, anti-cashout, fake invoice, fake rent, and monitoring rules | DOC-14 |
 | Privacy, masking, retention, and approved-purpose access for payout and bank records | DOC-15 |
@@ -105,7 +105,7 @@ Detailed specifications belong to:
 | Gateway cutoff | Default cutoff assumption is 23:00 Hong Kong time. Payments from 23:00 to 23:59 are treated as next business day for settlement timing. |
 | Business days | Hong Kong holidays and non-business days postpone settlement and payout. Foreign/offshore payment methods may follow platform, issuer, acquirer, or foreign-market calendars. |
 | Split payment grouping | Same payer, payee, and obligation payments before cutoff on the same business day should normally group into one payout where permitted. |
-| Partial funded portion payout | Settlement-ready funded portions from a DOC-09 payment instruction may proceed to payout evaluation even if the overall payment instruction remains partially funded. |
+| Confirmed Payment handoff | Each eligible confirmed Payment handed off by DOC-09 may proceed to Settlement and Payout evaluation independently of whether its originating Checkout Workspace later completes, closes, or expires. |
 | Selected payee transfer date | User-selected payee transfer date may delay payout but must not be earlier than applicable T+3 / settlement-ready timing and payout readiness checks. |
 | Batch processing | Normal non-red-flag payouts should support batch generation for bank processing. Direct bank API payout should remain a supported future option. |
 
@@ -322,18 +322,18 @@ The system must preserve links between:
 
 Detailed data model belongs in DOC-18.
 
-### 9.3 Partial Funded Portion Payout
+### 9.3 Payout from an Incomplete Checkout
 
-If a DOC-09 split-card payment instruction is only partially funded, settlement-ready funded portions may be evaluated for payout without marking the overall payment as completed.
+If an incomplete DOC-09 Checkout Workspace has already produced one or more confirmed Payments, each eligible confirmed Payment may be evaluated for Settlement and Payout without marking the Checkout Target as fully funded.
 
 Rules:
 
-- partial payout applies only to actually funded and settlement-ready portions;
-- remaining unfunded legs must remain pending, failed, expired, or cancelled in DOC-09;
+- payout applies only to confirmed Payments that satisfy DOC-10 Settlement and Payout rules;
+- unconfirmed or unexecuted Funding Legs remain outside the payout amount;
 - payout item and payout batch must show that the payout is partial where applicable;
-- payee-facing wording must not imply the full obligation was paid if only a funded portion is paid out;
-- payer-facing receipt/history must show funded amount, paid-out amount, and remaining unpaid amount;
-- reconciliation must link each partial payout to its funding leg, settlement record, payment instruction, request, payer, and payee.
+- payee-facing wording must not imply the Payment Obligation is Fully Paid when Effective Coverage remains below Due Amount;
+- payer-facing receipt/history must distinguish confirmed Payment amount, paid-out amount, and obligation Outstanding Amount;
+- reconciliation must link each payout to its confirmed Payment, originating Funding Leg and Checkout Workspace, Payment Applications, settlement record, payer, payee, and destination snapshot without requiring a Request or Payment Instruction.
 
 ---
 
@@ -649,7 +649,7 @@ Examples:
 | OQ-10-009 | What manual override permissions are required for mark-as-paid, mark-as-failed, retry, and reconciliation match? | Operations / Security | Open |
 | OQ-10-010 | What finance/accounting policy applies to payout payable, settlement clearing, reserves, and reconciliation breaks? | Finance | Open |
 | OQ-10-011 | Which partner-funded promotions, external vouchers, miles rewards, or campaign reimbursements require reconciliation against payout, settlement, or partner records? | Finance / Growth / Payments | Open |
-| OQ-10-012 | What payout, accounting, and payee-facing wording should apply when a DOC-09 payment instruction is partially funded and only settlement-ready funded portions are paid out? | Payments / Finance / Product | Open |
+| OQ-10-012 | What payout, accounting, and payee-facing wording should apply when an incomplete DOC-09 Checkout Workspace has produced confirmed Payments but the Checkout Target remains partly unfunded? | Payments / Finance / Product | Open |
 | OQ-10-013 | What exact Receiving Info method fields, identity-name normalization, external account/FPS validation capability, third-party/company proof, review SLA, risk-based step-up, and destination-attributable failure mappings apply at launch? | Payments / Risk / Compliance / Operations / Security | Open |
 
 ---
@@ -663,7 +663,7 @@ DOC-10 is acceptable when:
 - FPS, cheque, EPS, batch upload, and future bank API paths are acknowledged;
 - cutoff, business day, Hong Kong holiday, and foreign/offshore calendar rules are defined at business-rule level;
 - same-business-day split-payment grouping is defined without losing item-level traceability;
-- partial funded portion payout is defined without treating the overall payment instruction as completed;
+- payout from confirmed Payments is defined without treating the originating Checkout Workspace as fully funded;
 - payout batching and partial batch success rules are defined;
 - bank record ingestion and manual upload requirements are defined;
 - successful individual payout matching rules are defined;
@@ -679,6 +679,7 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.7.4 | 2026-07-31 | Aligned the DOC-09 handoff to confirmed Payments and destination facts, removed Checkout-completion and Payment-Instruction payout coupling, and preserved DOC-10 Settlement/Payout ownership. |
 | 0.7.3 | 2026-07-26 | Confirmed payout and reconciliation blockers for obligation archive/restore and preserved payout, destination, and completed-history snapshots across personal archive visibility changes. |
 | 0.7.2 | 2026-07-26 | Replaced ambiguous request-status payout gating with the canonical payee-created request lifecycle and separate linked-case/hold controls, while preserving payer-created no-request payment. |
 | 0.7.1 | 2026-07-26 | Required passcode or approved reauthentication for full Receiving Info reveal and add/edit while retaining confirmation for archive and stronger risk/provider step-up where applicable. |

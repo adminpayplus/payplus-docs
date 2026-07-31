@@ -1,7 +1,7 @@
-﻿---
+---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.32
+version: 0.18.33
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-29
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -28,7 +28,7 @@ related_documents:
   - DOC-06D UX Requirements, Acceptance Criteria & Test Matrix
   - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
@@ -48,14 +48,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.32` |
+| **Version** | `0.18.33` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-29` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -63,7 +63,7 @@ related_documents:
 
 This document defines the master product requirements for PayPlus.
 
-PayPlus is an evidence-backed payment platform that allows payers and payees to create, view, link, authorize, and track bill, invoice, fee, rent, domestic service, and other approved obligation payment requests.
+PayPlus is an evidence-backed payment platform that allows users to create and manage bill, invoice, fee, rent, domestic service, and other approved obligation records; establish permitted linkage through Requests; and authorize and track Payments.
 
 This document establishes the MVP product scope, core roles, required flows, controls, exclusions, and acceptance criteria.
 
@@ -76,10 +76,10 @@ PayPlus enables a user to make or request a payment when the payment is supporte
 The MVP supports both:
 
 1. **Payer-created payment flow**
-   - A payer creates a payment request and pushes a payment to a payee.
+   - A payer creates or selects an evidence-backed obligation and may pay without a Request or payee acceptance where all gates pass.
 
-2. **Payee-created payment request flow**
-   - A payee creates an evidence-backed payment request and sends it to a payer for review and payment.
+2. **Payee-created Request flow**
+   - A payee creates an evidence-backed obligation context and sends a Request to a payer for review and acceptance. The Request is not payment; payment remains a separate payer-authorized action after acceptance.
 
 Both flows are core MVP features.
 
@@ -103,7 +103,7 @@ The MVP includes:
 - payee account registration and login;
 - payer-created evidence-backed obligations and payments;
 - optional payer-created linking requests;
-- payee-created payment requests;
+- payee-created Requests that establish or accept an evidence-backed obligation linkage;
 - evidence-backed bill, invoice, fee, tenancy, rent, domestic service, or document upload;
 - AI/OCR-assisted evidence capture, autofill, user correction, verification, and review routing where enabled;
 - payer and payee visibility into linked payment records where both sides are platform users and linking is approved;
@@ -134,7 +134,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | OCR or document AI | Enable by category, payee type, risk tier, document type, and provider readiness; manual or assisted review may be used until automation is approved. |
 | Multi-card funding | MVP scope; support up to 6 credit cards per payment/profile, with related controls configurable where applicable. |
 | Tokenized cards and saved payment profiles | MVP scope; DOC-06B defines the user route shell, DOC-09 defines checkout use, and DOC-19 defines tokenization/security mechanics. |
-| User payment instruction | MVP scope for pending pay-later setup and incomplete payment continuation where DOC-06B route shell, DOC-09 funding rules, action-alert routing, partial funding, and payout controls are ready. |
+| Payment Instructions and incomplete Checkout continuation | MVP scope. A Payment Instruction is a deliberate pay-later arrangement. An interrupted immediate payment remains an incomplete Checkout Workspace, although both may be surfaced through DOC-06B Instructions routes for user management. DOC-09 owns their Payment Domain distinction and funding rules; DOC-10 owns Payout. |
 | Pay+ action sheet | Five MVP actions are `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, `Continue Payment`, and `Request Payment`; each action remains independently availability-controlled and must preserve its owning route's gates. |
 | Data and AI readiness | Require structured events, field classification, lineage, auditability, consent/preference state, approved-purpose metadata, and model-use eligibility metadata where relevant; advanced model automation and external activation remain future-gated. |
 
@@ -176,7 +176,7 @@ The MVP does not include:
 - crypto payments;
 - lending or credit issuance;
 - automatic recurring payments unless separately approved;
-- deferred or incomplete user payment instruction for single-card and split-card payment is in scope under DOC-06B/DOC-09 and is not an automatic recurring payment;
+- deliberate Payment Instructions and incomplete Checkout continuation for single-card and split-card payment are in scope under DOC-06B/DOC-09 and are not automatic recurring payments or the same domain object;
 - marketplace escrow;
 - investment, savings, or deposit accounts;
 - open-loop funds transfer unrelated to a bill or evidence-backed obligation;
@@ -189,11 +189,11 @@ The MVP does not include:
 | Principle | Requirement |
 |---|---|
 | Evidence-backed payments | Every payment must be linked to a bill, invoice, fee, rent, tenancy, agreement, employment/service record, statement, or acceptable proof of obligation. |
-| Two-sided visibility | Both payer and payee should be able to view the linked bill/request/payment when both are platform users. |
+| Two-sided visibility | Both payer and payee should be able to view the permitted linked Bill/Rent, Request, and Payment context when both are platform users. |
 | Authorization required | A payer must authorize payment before funds are charged or moved. |
 | No wallet behavior | PayPlus must not create stored balances or user-controlled cash accounts. |
 | No arbitrary P2P | PayPlus must not support unsupported person-to-person transfers without evidence. |
-| Traceability | Each payment must be traceable to its request, evidence, payer, payee, and status history. |
+| Traceability | Each Payment must be traceable to its Payment Obligation, supporting evidence lineage, payer, payee, Payment Applications, and status/event history, and to a Request only where one established the linkage. |
 | Compliance first | Product behavior must remain within approved regulatory and partner constraints. |
 | Data-engine readiness | Material product actions should create structured events and classified data suitable for governed analytics, reporting, and future approved AI/model improvement. |
 | Trust-preserving intelligence | Analytics, personalization, partner reporting, and AI use must preserve PayPlus product boundaries, privacy controls, consent rules, role-based visibility, and auditability. |
@@ -205,7 +205,7 @@ The MVP does not include:
 | Role | Description | MVP Login? |
 |---|---|---|
 | Payer | User who reviews, authorizes, and makes payment. | Yes |
-| Payee | User who receives payment or creates payment requests. | Yes |
+| Payee | User who receives Payout or creates Requests asking a payer to accept an evidence-backed obligation context. | Yes |
 | Admin / Operations | Internal user who reviews requests, evidence, risk, payee details, and exceptions. | Yes |
 | System | Automated services handling status updates, notifications, duplicate detection, payee/payout validation, record linking, and audit events. | No |
 
@@ -220,17 +220,17 @@ The payer-created flow allows a payer to initiate a payment to a payee.
 ### Flow
 
 1. Payer logs in.
-2. Payer creates a new payment request.
+2. Payer creates or selects a bill/rent/fee obligation record.
 3. Payer selects or enters payee details.
 4. Payer adds payment amount, due date, category, and description.
 5. Payer uploads or links evidence.
 6. System processes evidence using OCR/document AI where enabled.
 7. System autofills eligible fields and lets payer review or correct them.
 8. System validates evidence, validates payee/payout details where required, checks duplicates, and routes red flags to review.
-9. System creates a payment request record.
-10. Payer may proceed to payment after eligibility gates and authorization; payee acceptance is not required by default for payer-created payment.
+9. System preserves the evidence-backed obligation record and supplies its payment-relevant facts to the DOC-09 Payment Domain.
+10. Payer may proceed through Payment Obligation and Checkout eligibility gates; a Request or payee acceptance is not required by default for payer-created payment.
 11. Payee may be represented by a valid non-user payee record or invited/linked through an approved user-initiated or user-accepted flow.
-12. Admin/system reviews request and evidence according to configured controls.
+12. Admin/system reviews the obligation, evidence, recipient, and risk context according to configured controls.
 13. Payer authorizes payment.
 14. Payment is processed through approved payment partners.
 15. Payee receives payment according to approved settlement/payout rules.
@@ -239,26 +239,26 @@ The payer-created flow allows a payer to initiate a payment to a payee.
 
 ---
 
-## 6.2 Payee-Created Payment Request Flow
+## 6.2 Payee-Created Request Flow
 
 The payee-created flow allows a payee to request payment from a payer.
 
 ### Flow
 
 1. Payee logs in.
-2. Payee creates a payment request.
+2. Payee creates a Request linked to an evidence-backed obligation context.
 3. Payee enters payer information or selects an existing payer.
 4. Payee adds amount, due date, category, and description.
 5. Payee uploads or links evidence, such as invoice, bill, fee notice, tenancy agreement, employment/service record, or statement.
 6. System processes evidence using OCR/document AI where enabled.
 7. System autofills eligible fields and lets payee review or correct them.
 8. System validates evidence, validates payee/payout details where required, checks duplicates, and routes red flags to review.
-9. System creates a payment request record.
+9. System creates a Request record that remains separate from the obligation and any later Payment.
 10. Payer is notified or invited to view the request.
 11. Payer logs in or registers.
 12. Payer reviews the request, evidence summary, amount, payee details, and required disclosures.
 13. Payer accepts or rejects the request, with rejection reason where required.
-14. If accepted, payer authorizes payment.
+14. If accepted, the parties are linked to the obligation context; the payer may separately enter Checkout and authorize payment.
 15. Payment is processed through approved payment partners.
 16. Payee receives payment according to approved settlement/payout rules.
 17. Both payer and payee can view the linked bill/request/payment record.
@@ -268,7 +268,7 @@ The payee-created flow allows a payee to request payment from a payer.
 
 ## 7. Evidence Requirements
 
-Every payment request must be supported by acceptable evidence.
+Every Request must reference an acceptable evidence-backed obligation context. Checkout reads the Payment Obligation, not the Request or Evidence.
 
 Detailed bill category, document AI/OCR, extracted field, autofill, user correction, duplicate detection, verification outcome, and payee/payout validation requirements belong in DOC-12.
 
@@ -294,7 +294,7 @@ MVP evidence may include:
 
 | Rule | Requirement |
 |---|---|
-| Evidence required | A payment or payment request cannot proceed without evidence supporting the obligation unless an approved exception applies. |
+| Evidence required | A Payment or Request cannot proceed without evidence supporting the obligation unless an approved exception applies. Evidence does not itself become payable. |
 | Evidence linked | Evidence must link to the bill/rent/tenancy obligation. A request references the same evidence-backed context where a request is used. |
 | OCR/autofill support | Where enabled, system should extract evidence fields and autofill request fields for user review. |
 | User correction | Users must be able to review and correct autofilled fields before submission. |
@@ -321,7 +321,7 @@ Each completed or active payment should be linkable to:
 
 - payer user;
 - payee user or payee record;
-- payment request, only where the payment originated from a request;
+- Request, only where the Payment Obligation linkage originated from an accepted Request;
 - evidence record;
 - payment transaction;
 - payout or settlement record, if applicable;
@@ -334,7 +334,7 @@ Each completed or active payment should be linkable to:
 
 | Requirement | Description |
 |---|---|
-| Shared request ID | Both payer and payee should reference the same payment request when both are users. |
+| Shared request ID | Both payer and payee should reference the same Request when both are users, without treating that Request ID as a Payment or Payment Obligation ID. |
 | Linked obligation/payment | The bill, invoice, fee, tenancy, rent, domestic service, or evidence record must link to the payment record. |
 | Two-sided visibility | Payer and payee must be able to view the same linked transaction context, subject to permissions. |
 | User-accepted linking | User-to-user linking must be initiated, invited, accepted, or otherwise approved; automatic UX matching is not allowed. |
@@ -395,7 +395,7 @@ Submission, sending, sharing, viewing, reminding, archiving, and restoration are
 | No unsupported transfer | Payment cannot be unrelated to a bill, invoice, fee, rent, tenancy, domestic service, or proof of obligation. |
 | No stored balance | PayPlus must not hold user wallet balances. |
 | Failed payment handling | Failed payments must be visible and traceable. |
-| Payment instruction quote validity | A pending or incomplete payment instruction must revalidate payment quote, promotion quote, card eligibility, and material terms before funding submission where required by DOC-09 and DOC-13. |
+| Payment continuation revalidation | A pending Payment Instruction or incomplete Checkout Workspace must revalidate applicable amount, fee, benefit, funding-method, destination, eligibility, and risk facts before Provider Submission where required by DOC-09 and DOC-13. |
 | Refunds/reversals | Refunds or reversals require admin-dashboard status handling and must follow approved operational policy. |
 
 ---
@@ -406,7 +406,7 @@ Admins must be able to:
 
 - view payer accounts;
 - view payee accounts;
-- view payment requests;
+- view Requests;
 - view evidence;
 - review new payees;
 - review high-risk requests;
@@ -446,10 +446,10 @@ Admin actions must be permissioned and logged.
 The MVP should support basic notifications for:
 
 - account registration;
-- payment request created;
+- Request created;
 - request submitted for evidence verification;
 - request evidence verified and sent;
-- payment request received;
+- Request received;
 - request viewed;
 - request accepted;
 - request rejected;
@@ -482,7 +482,7 @@ The MVP should support data structures for the following object families. Detail
 - payer profile;
 - payee profile;
 - authentication, device, OTP, payment passcode, and material account-change events;
-- payment request;
+- Request;
 - evidence/document;
 - evidence extraction, normalized fields, user corrections, verification signals, review outcome, and final evidence snapshot;
 - request participant mapping;
@@ -569,8 +569,8 @@ Archive is a per-user visibility action. It must not change the counterparty's a
 - enter payment passcode before proceeding with payment authorization;
 - choose pay now or create a pending payment instruction where enabled;
 - view and act on payment instruction action alerts through DOC-06B `INSTRUCTIONS-ROOT` / `INSTRUCTIONS-DETAIL`;
-- review updated quote, promotion, fee, card eligibility, or timing changes when returning to a pending or incomplete payment instruction;
-- view partial funding, remaining amount, and partial payout status where applicable;
+- review updated amount, promotion, fee, card eligibility, destination, or timing changes when returning to a pending Payment Instruction or incomplete Checkout Workspace;
+- view confirmed funded value and the remaining Checkout Target or obligation Outstanding Amount where applicable, without treating them as the same value;
 - review the automatically selected highest-user-value payment-method-sensitive Card Offer, separately select an eligible checkout coupon/voucher/discount, and review the recalculated promotion/payment quote in the same checkout screen or step before authorization;
 - discover approved promotions through DOC-06B `OFFERS-ROOT` and review conditions through `OFFER-DETAIL`;
 - manage issued coupons, vouchers, external-partner instruments, miles entitlements, or other supported rewards through `REWARDS-ROOT` and `REWARD-DETAIL`; external vouchers and miles are launch-supported reward types, while each actual provider method remains subject to operational and integration readiness;
@@ -585,7 +585,7 @@ Archive is a per-user visibility action. It must not change the counterparty's a
 - create a restricted account with a unique verified primary email, then complete `ACCOUNT-ACTIVATION` before full registration;
 - complete new-device 2FA and dormant-login reauthentication where required;
 - dashboard through `HOME-ROOT`;
-- create payment request;
+- create Request;
 - upload evidence;
 - review and correct autofilled evidence fields where applicable;
 - send request to payer;
@@ -631,8 +631,8 @@ The MVP should support:
 - transaction-level revenue tracking;
 - payment status reporting;
 - governed product, risk, evidence, payment, promotion, support, and operations analytics where enabled;
-- payment instruction status reporting, including deferred, pending, partial funding, fully funded, expired, and cancelled states;
-- partial payout status reporting for settlement-ready funded portions;
+- deliberate Payment Instruction reporting, including pending, expired, cancelled, and archived conditions;
+- incomplete Checkout Workspace, Funding Leg, confirmed Payment, Payment Application, Effective Coverage, Outstanding Amount, and downstream payout reporting without collapsing them into one status family;
 - user-level activity history, with bill/rent-specific activity governed by DOC-06C and full audit/event history governed by DOC-18 and DOC-22;
 - operational review workflows;
 - support and dispute handling;
@@ -686,7 +686,7 @@ The MVP is acceptable when:
 - payees can register and log in;
 - payer-created evidence-backed obligations and payments can be created without a request or payee acceptance by default;
 - optional payer-created linking requests can be created without being treated as payment authorization;
-- payee-created payment requests can be created;
+- payee-created Requests can be created without being treated as payments;
 - evidence can be attached to requests;
 - OCR/document AI can extract and autofill evidence fields where enabled;
 - users can review and correct autofilled evidence fields before submission;
@@ -748,7 +748,7 @@ The MVP is acceptable when:
 | DOC-06D | UX requirements, acceptance criteria, and test-readiness mapping |
 | DOC-07 | User-facing disclosure, authorization, evidence, privacy, and policy wording |
 | DOC-08 | Notifications, receipts, communication triggers, and delivery logging |
-| DOC-09 | Payment request, funding, authorization, and settlement readiness |
+| DOC-09 | Payment Domain architecture, including payable basis, projection, obligations, checkout, funding execution, payer authorization boundaries, confirmed Payments, Payment Applications, and deliberate Payment Instructions |
 | DOC-10 | Payout, payout readiness, payout destination, batching, and reconciliation |
 | DOC-11 | Refund, cancellation, reversal, dispute, and chargeback handling |
 | DOC-12 | Bill category, document AI/OCR, evidence verification, duplicate detection, and payee/payout validation |
@@ -768,7 +768,7 @@ The MVP is acceptable when:
 |---|---|
 | Payer-created evidence-backed obligations and payments are MVP scope and do not require a request or payee acceptance by default. | Confirmed |
 | Optional payer-created linking requests may connect a payee to an obligation for shared visibility or communication but do not authorize payment. | Confirmed |
-| Payee-created payment requests are MVP scope. | Confirmed |
+| Payee-created Requests are MVP scope. | Confirmed |
 | Tenancy and rent payments are MVP scope. | Confirmed |
 | Payers can log in. | Confirmed |
 | Payees can log in. | Confirmed |
@@ -799,6 +799,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.33 | 2026-07-31 | Aligned product requirements with DOC-09 Payment Domain Architecture, separated deliberate Payment Instructions from incomplete Checkout Workspaces, and clarified Request, Payment Obligation, Checkout, Payment, Payment Application, coverage, and downstream Payout boundaries. |
 | v0.18.32 | 2026-07-29 | Added the platform-wide Outcome-to-Resolution product requirement and aligned the AUTH baseline with capability-aware recovery without changing existing account, login, activation, or security decisions. |
 | v0.18.31 | 2026-07-28 | Aligned the PRD with the defined Phone Verification, five-state Identity Verification, no voluntary re-verification after Verified, and six-digit Payment Passcode Set/Change/Reset behavior. |
 | v0.18.30 | 2026-07-28 | Aligned the PRD with separate Phone and Identity Verification routes, the first-time identity-verification passcode exception, and the pending detailed Payment Passcode Settings definition. |

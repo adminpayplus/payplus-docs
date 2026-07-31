@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.14
+version: 0.1.15
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-29
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -23,7 +23,7 @@ related_documents:
   - DOC-06D UX Requirements, Acceptance Criteria & Test Matrix
   - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
@@ -41,14 +41,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.14` |
+| **Version** | `0.1.15` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-29` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -101,7 +101,7 @@ The MVP must support the following essential journeys:
 | 2 | Payee registration and login | Yes |
 | 3 | Payer dashboard | Yes |
 | 4 | Payee dashboard | Yes |
-| 5 | Payee-created payment request flow | Yes |
+| 5 | Payee-created Request flow | Yes |
 | 6 | Payer-created payment flow | Yes |
 | 7 | Payee-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup | Yes |
 | 8 | Payer-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup | Yes |
@@ -165,7 +165,7 @@ A payer must be able to:
 - enter or select payee details;
 - upload or link evidence;
 - review and correct autofilled evidence fields where applicable;
-- receive payee-created payment requests;
+- receive payee-created Requests for evidence-backed obligation acceptance/linkage;
 - review evidence before payment;
 - accept a request;
 - reject a request;
@@ -185,7 +185,7 @@ The payer journey may begin when:
 - the payer registers directly;
 - the payer logs in to create a payment;
 - the payer receives an invitation from a payee-created request;
-- the payer receives a notification for a bill, invoice, tenancy, or payment request;
+- the payer receives a notification for a bill, invoice, tenancy, or Request;
 - the payer returns to view status or history.
 
 ---
@@ -206,7 +206,7 @@ A payee must be able to:
 - complete new-device 2FA and dormant-login reauthentication where required;
 - confirm material account, credential, payout destination, or contact changes using password, payment passcode, 2FA, or approved confirmation;
 - access a payee dashboard;
-- create a payment request;
+- create a Request linked to an evidence-backed obligation;
 - create or link a bill, invoice, tenancy, agreement, statement, or obligation record;
 - enter or select payer details;
 - upload or link evidence;
@@ -255,11 +255,11 @@ Referral attribution is not payer/payee participant linking, a Request, payment 
 
 ---
 
-### Payee-Created Payment Request Flow
+### Payee-Created Request Flow
 
 #### Purpose
 
-Allows a payee to create an evidence-backed payment request and push it to a payer for review and payment.
+Allows a payee to create an evidence-backed obligation context and send a Request to a payer for review and acceptance. The Request establishes linkage only; Checkout and payer authorization remain separate.
 
 Within DOC-06A, a request is not a payment. A request asks another party to review, accept, link to, or reject a bill, tenancy, rent, invoice, fee, or approved obligation context. A query, clarification, or dispute opens a linked case without replacing the request lifecycle state. Acceptance links the parties to that accepted context and may support later payment readiness, but it does not authorize, process, or complete payment.
 
@@ -270,7 +270,7 @@ This is a core MVP journey.
 #### Primary Flow
 
 1. Payee logs in.
-2. Payee selects **Create Payment Request**.
+2. Payee selects **Request Payment**.
 3. Payee enters or selects payer information.
 4. Payee enters request details:
    - amount;
@@ -293,7 +293,7 @@ This is a core MVP journey.
 8. System autofills eligible fields and lets payee review or correct them.
 9. System validates required fields, evidence verification outcome, duplicate/reused evidence indicators, and risk routing.
 10. Payee selects a saved Receiving Info profile or enters an approved destination for the request.
-11. System creates a `Draft` payment request record and a versioned destination snapshot that discloses only the selected destination to the payer.
+11. System creates a `Draft` Request record and a versioned destination snapshot that discloses only the selected destination to the payer.
 12. System links evidence and final evidence snapshot to the request.
 13. On submission, system assigns `Pending Evidence Verification`; if evidence is already accepted, it may move to `Pending Receiver Action` when delivered.
 14. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
@@ -439,7 +439,7 @@ If optional linking is used, that request follows the canonical request lifecycl
 
 #### Purpose
 
-Allows either a payer or payee to create an obligation record that can support a payment request or payment.
+Allows either a payer or payee to create an obligation record that can support a Request or a later Payment.
 
 An obligation record may become shared only through an approved user action, such as payer acceptance of a payee-created request or optional payee linking/adoption of a payer-created record. PayPlus should not assume automatic user-to-user matching.
 
@@ -465,7 +465,7 @@ An obligation record may represent:
 6. Payee reviews or corrects autofilled fields.
 7. System validates evidence and creates obligation record.
 8. System links evidence and final evidence snapshot to obligation record.
-9. Payee creates or sends payment request.
+9. Payee creates or sends a Request linked to the obligation.
 10. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
 11. Payer is notified or invited through the selected approved channel.
 12. Payer reviews the obligation, evidence summary, and request.
@@ -517,7 +517,7 @@ Allows the recipient of a request or obligation record to review the details and
 
 | Creator | Recipient | Recipient Review Actions |
 | --- | --- | --- |
-| Payee creates payment request | Payer | Accept, reject with reason where required, authorize payment after acceptance. |
+| Payee creates Request | Payer | Accept or reject with reason where required; after acceptance, separately choose whether to enter Checkout and authorize payment. |
 | Payer creates payment/obligation record | Payee | Optional accept/adopt or reject for linkage only; payer payment does not require payee acceptance unless a specific gate requires it. |
 
 #### Required Review Information
@@ -612,8 +612,8 @@ MVP evidence may include:
 
 | Rule | Requirement |
 | --- | --- |
-| Evidence required | Payment request cannot proceed to payment without required evidence unless an approved exception applies. |
-| Evidence linked | Evidence must be linked to a payment request, obligation, or payment record. |
+| Evidence required | A Request cannot be delivered and a Payment Obligation cannot become eligible without required evidence unless an approved exception applies. |
+| Evidence linked | Evidence links to the Bill/Rent obligation. A Request references that evidence-backed context; Checkout executes only against a Payment Obligation. |
 | OCR/autofill | Where enabled, extracted fields should assist request creation but must not remove user review. |
 | User correction | Users must be able to correct autofilled fields before submission. |
 | Extractable vs displayable | Sensitive extracted fields may be stored under controls without being shown broadly in UI. |
@@ -744,9 +744,9 @@ Before authorization, the payer should be shown:
 | Promotion visibility | Eligible discounts, service-fee benefits, coupons, vouchers, and reward impact must be displayed before authorization where applicable. |
 | Payment passcode | Payment passcode is required before payment authorization proceeds. |
 | Step-up authentication | Additional authentication may be required by DOC-09, DOC-14, DOC-15, or DOC-19 risk/security rules. |
-| Deferred instruction | Deferred payment instruction must return the payer to payment/checkout screen, not only to bill detail. |
+| Deferred instruction | A deliberate Payment Instruction must return the payer to checkout when submission is due; an interrupted immediate payment remains an incomplete Checkout Workspace and must resume through its preserved checkout context. |
 | Quote revalidation | Deferred instruction return flow must show updated payment, promotion, card, fee, or timing changes before submission. |
-| Partial funding | Split-card partial funding must not be shown as payment completed; remaining amount and funded portion should remain clear. |
+| Partial execution | Confirmed Payments must remain visible even when the Checkout Target is not fully funded. The remaining Checkout Target and the obligation Outstanding Amount must remain distinct and clear. |
 | Audit logging | Authorization must be logged. |
 | No hidden material terms | Material payment information must not be hidden from payer. |
 
@@ -795,7 +795,7 @@ Each active or completed payment should be linkable to:
 
 - payer user;
 - payee user or payee record;
-- payment request;
+- Request, where one established the obligation linkage;
 - obligation record where applicable;
 - evidence record;
 - payment transaction;
@@ -824,7 +824,7 @@ Automatic user-to-user matching must not be assumed for the user experience. Dup
 
 | Requirement | Description |
 | --- | --- |
-| Shared request ID | Both payer and payee should reference the same payment request when both are users. |
+| Shared request ID | Both payer and payee should reference the same Request when both are users; the Request ID remains distinct from Payment Obligation, Checkout, and Payment IDs. |
 | Linked evidence | Evidence record must link to request and payment context. |
 | Two-sided visibility | Payer and payee must see the same underlying transaction context, subject to permissions. |
 | User-accepted linking | User-to-user linking must be initiated, invited, accepted, or otherwise approved; automatic UX linking is not allowed. |
@@ -944,7 +944,7 @@ Admins must be able to:
 - access sensitive data only through role-based permission, masking, reason capture, and audit logging;
 - view payer accounts;
 - view payee accounts;
-- view payment requests;
+- view Requests;
 - view obligation records;
 - view evidence;
 - review new payees;
@@ -1019,8 +1019,8 @@ Identifies where notifications are needed in the user journey. Notification cont
 The MVP should support basic notifications for:
 
 - account registration;
-- payment request created;
-- payment request received;
+- Request created;
+- Request received;
 - request viewed;
 - request accepted;
 - request rejected;
@@ -1191,7 +1191,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
-| OQ-06-001 | What exact UX distinction should exist between a payment request, obligation record, bill record, and payment transaction? | Product / Design | Open |
+| OQ-06-001 | What exact UX language should distinguish a Request, Bill/Rent obligation record, Payment Obligation, Checkout Workspace, and confirmed Payment while preserving their accepted domain boundaries? | Product / Design / Payments | Open |
 | OQ-06-002 | Which exceptional payer-created categories, if any, require payee adoption before payment can proceed despite the default rule that payer-created payments do not require payee acceptance? | Product / Operations / Risk | Open |
 | OQ-06-003 | Which payee-created request categories require admin review before payer authorization? | Risk / Operations | Open |
 | OQ-06-004 | Which evidence categories are accepted at MVP launch? | Product / Compliance | Open |
@@ -1220,7 +1220,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-027 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
 | OQ-06-028 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
 | OQ-06-029 | What exact request-delivery and `Remind Payer` UX should apply inside `BILLS-RECEIVE`, including resend limits, payer acceptance states, wording, and notification-channel rules? | Product / Design / Operations | Open |
-| OQ-06-030 | Should detailed payment/checkout UI be documented inside DOC-09 only, or should DOC-06 keep a lightweight route shell for checkout entry, return, and navigation behavior? | Product / Design / Payments | Proposed: DOC-09 owns checkout UI; DOC-06 owns handoff. |
+| OQ-06-030 | What detailed `PAYMENT-CHECKOUT` screen order, interaction design, and route-state presentation should DOC-06B define around the accepted DOC-09 Payment Domain architecture? | Product / Design / Payments | Open; DOC-09 owns domain architecture and invariants, while DOC-06B owns route-level UX and handoff behavior. |
 
 ---
 
@@ -1230,6 +1230,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.15 | 2026-07-31 | Aligned journeys with Request-as-linkage, Payment Obligation/Checkout boundaries, and the distinct deliberate Payment Instruction versus incomplete Checkout Workspace model. |
 | 0.1.14 | 2026-07-29 | Aligned the AUTH journeys with capability-aware Outcome-to-Resolution handling while preserving the existing Login, Registration, Recovery, Account Activation, and protected-return decisions. |
 | 0.1.13 | 2026-07-28 | Defined the journey handoff for `ENTRANCE-ROOT`, Fast/Full Login, Recovery, non-reserving registration attempts, restricted-account creation, Account Activation, rolling one-month Fast Login eligibility, and protected contextual return. |
 | 0.1.12 | 2026-07-27 | Added the progressive restricted-account and financial-activation journey, unique primary email, explicit email/password and provider login methods, deferred phone/identity/passcode completion, and Account Security linking handoff. |

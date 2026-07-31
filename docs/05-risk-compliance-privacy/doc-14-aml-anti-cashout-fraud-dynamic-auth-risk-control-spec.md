@@ -1,7 +1,7 @@
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 0.6.4
+version: 0.6.5
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -17,7 +17,7 @@ approvers:
   - Project Owner
   - Compliance Lead
   - Risk Lead
-last_updated: 2026-07-28
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -28,7 +28,7 @@ related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
   - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
@@ -47,14 +47,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-14` |
 | **Title** | AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification |
-| **Version** | `0.6.4` |
+| **Version** | `0.6.5` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Risk / Compliance |
 | **Reviewers** | Product Lead<br>Compliance Lead<br>Risk Lead<br>Payments Lead<br>Operations Lead<br>Engineering Lead<br>Data Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Compliance Lead<br>Risk Lead |
-| **Last Updated** | `2026-07-28` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -94,7 +94,7 @@ Detailed specifications belong to:
 | User journey and UX touchpoints | DOC-06 |
 | User-facing wording and disclosure | DOC-07 |
 | Notifications and user/admin communication | DOC-08 |
-| Payment eligibility, multi-card funding, payment profiles, authorization, settlement readiness | DOC-09 |
+| Payment Obligation and Checkout eligibility, payable-capacity controls, multi-card Funding Allocation, payer authorization, Provider Submission, confirmed Payment, and Payment Application | DOC-09 |
 | Payout readiness, payout hold, payout destination, reconciliation | DOC-10 |
 | Refund, cancellation, dispute, chargeback, recovery | DOC-11 |
 | Bill verification, OCR, evidence matching, duplicate evidence | DOC-12 |
@@ -230,7 +230,7 @@ Risk decisioning may consume signals from:
 - user account status and verification status;
 - payee, landlord, business payee, and payout destination records;
 - DOC-12 evidence verification outcome, duplicate indicator, mismatch indicator, confidence, user correction, and final evidence snapshot;
-- DOC-09 payment instruction, funding leg, payment profile, token reference, card metadata, multi-card allocation, authorization, step-up result, failure, retry, partial funding, quote revalidation, and expiry history;
+- DOC-09 Payment Instruction, Checkout Workspace, Obligation Allocation, payable-capacity reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Provider Submission, confirmed Payment, Payment Application, authorization, step-up result, failure, retry, continuation, closure, and expiry history;
 - DOC-10 payout readiness, destination change, payout hold, bank result, and reconciliation records;
 - DOC-11 refund, dispute, chargeback, reversal, recovery, and write-off cases;
 - DOC-13 campaign, offer, entitlement, reward, referral, coupon, voucher, membership, promotion quote reservation, and reversal records;
@@ -483,7 +483,7 @@ Risk-rule changes must be permissioned, logged, and reviewable. Critical rule ch
 | OQ-14-006 | What risk-review SLA and escalation path applies for critical cases? | Operations / Risk | Medium | Open |
 | OQ-14-007 | What suspicious activity escalation or reporting process is required under the final legal/regulatory assessment? | Compliance / Legal | High | Open |
 | OQ-14-008 | What four-eye approval rules apply to payout release, risk hold release, block override, and account reinstatement? | Risk / Operations / Security | Medium | Open |
-| OQ-14-009 | What risk thresholds should apply to repeated incomplete payment instructions, unusual split-card partial payout patterns, and selected transfer date changes? | Risk / Payments / Product | Medium | Open |
+| OQ-14-009 | What risk thresholds should apply to repeated abandoned or incomplete Checkout Workspaces, unusual split-card funding or payout patterns, and selected transfer-date changes? Deliberate Payment Instructions remain a separate risk context. | Risk / Payments / Product | Medium | Open |
 | OQ-14-010 | What thresholds should identify abusive deferred payment instruction patterns involving promotion reservation, quote revalidation, or card-linked benefit testing? | Risk / Growth / Payments | Medium | Open |
 | OQ-14-011 | What model governance, feature registry, monitoring, explainability, and human-review requirements must exist before AI/model-assisted risk scoring is enabled? | Risk / Data / Privacy | High | Open |
 | OQ-14-012 | Which payer-payee, evidence, payout, device, card, support, and promotion graph signals may be used for risk review, and which are prohibited from marketing or partner reporting? | Risk / Privacy / Legal | High | Open |
@@ -527,6 +527,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.6.5` | `2026-07-31` | Product Documentation Team | Aligned risk references with DOC-09 Payment Domain objects, execution boundaries, and distinct Payment Instruction versus incomplete Checkout contexts. |
 | `0.6.4` | `2026-07-28` | Product Documentation Team | Set the admin-configurable HK$3,000 MVP baseline for additional external/risk step-up while preserving always-required payer authorization/passcode and mandatory partner, network, regulatory, and risk overrides. |
 | `0.6.3` | `2026-07-26` | Product Documentation Team | Added obligation archive/restore blockers for unresolved risk, compliance, identity, recipient, evidence, and manual review without changing underlying risk states or holds. |
 | `0.6.2` | `2026-07-23` | Product Documentation Team | Added Receiving Info identity/proof risk treatment, private-library boundary, destination-difference signal, snapshot immutability, and destination-attributable versus transient payout-failure handling. |

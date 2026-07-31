@@ -4,7 +4,7 @@ Status: Working alignment reference
 
 Owner: Product / Documentation Owner
 
-Last updated: 2026-07-29
+Last updated: 2026-07-31
 Classification: Internal
 
 This glossary defines approved PayPlus terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
@@ -42,18 +42,36 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
-| Payment | The payer-authorized funding transaction for an eligible evidence-backed obligation. | DOC-09 |
-| Payment Instruction | A pending pay-later setup or incomplete payment that has not reached full payment completion. It is not every immediate payment and is separate from an ordinary bill/rent reminder. | DOC-09 / DOC-06B |
+| Bill/Rent Payable Basis | The Payment Domain's payment-facing representation of an authoritative Bill/Rent. It contains only the facts needed for Projection and Payment Obligation materialization and does not replace the Bill/Rent record. | DOC-09 |
+| Projection | A recalculable, non-authoritative schedule and eligibility read model derived from the Payable Basis and confirmed payment history. | DOC-09 |
+| Materialization | Demand-driven creation of a formal Payment Obligation from an eligible projected period or another approved business trigger. | DOC-09 |
+| Payment Obligation | The authoritative materialized payable aggregate that owns Due Amount, Effective Coverage, Outstanding Amount, payable capacity, and active reservations. | DOC-09 |
+| Checkout Workspace | The execution workspace for one payment intent scoped to exactly one Bill/Rent Payable Basis and its effective payee relationship. | DOC-09 |
+| Checkout Target | The total obligation-applicable amount selected for one Checkout Workspace. It becomes immutable when the first Provider Submission is initiated. | DOC-09 |
+| Obligation Allocation | The Checkout-owned allocation of Checkout Target value across one or more Payment Obligations from the same Payable Basis. | DOC-09 |
+| Payable-Capacity Reservation | The Payment Obligation-owned reservation representing the unconfirmed portion of an associated Obligation Allocation. Funding Legs do not own duplicate reservations. | DOC-09 |
+| Funding Allocation Version | One payer-reviewed version of the Checkout's funding-method allocation. A permitted change after execution begins creates a new version and does not change the locked Checkout Target or Obligation Allocations. | DOC-09 |
+| Payment | The immutable confirmed financial result produced by exactly one successfully confirmed Funding Leg. It is not the Checkout Workspace or its completion state. | DOC-09 |
+| Payment Application | One immutable application of confirmed obligation-funded value from one Payment to one Payment Obligation. Adjustments do not rewrite it. | DOC-09 |
+| Payment Instruction | A deliberate user-created pay-later arrangement. An interrupted or partly funded immediate Checkout does not automatically become a Payment Instruction. | DOC-09 / DOC-06B |
+| Incomplete Checkout Workspace | A Checkout Workspace that has started execution but has not fully funded its immutable Checkout Target. It may be continuable, closed, or expired without rewriting confirmed Payments or Payment Applications. | DOC-09 / DOC-06B |
 | Reminder | A user- or system-configured alert linked to a bill/rent/tenancy obligation. It does not itself create or authorize a payment. | DOC-06C / DOC-08 |
 | Tokenized Card | A card represented by a PSP-permitted token/reference and masked metadata. PayPlus does not store or reveal full PAN or CVV. | DOC-09 / DOC-19 |
 | Payment Profile | A payer-owned reusable split-card allocation profile. It stores card ratios, not wallet value, and supports up to 6 cards for MVP. | DOC-06B / DOC-09 |
-| Funding Leg | One separately authorized card-funded part of a split-card payment. | DOC-09 |
+| Funding Leg | One separately authorized funding component within a Checkout Workspace. Each successfully confirmed Funding Leg produces exactly one Payment. | DOC-09 |
+| Payment Attempt | One execution attempt for a Funding Leg. A Funding Leg may have multiple attempts, but failed or unconfirmed attempts produce no Payment. | DOC-09 |
+| Provider Submission | The provider-neutral boundary at which a Payment Attempt is initiated toward a provider and the Checkout Target and Obligation Allocations become locked. | DOC-09 |
+| Provider Confirmation Event | Provider evidence evaluated under PayPlus confirmation policy. Acceptance confirms the Funding Leg and produces one Payment; provider-specific mechanics remain with DOC-17. | DOC-09 / DOC-17 |
 | Split-Card Payment | One obligation payment funded through sequential authorization of multiple card funding legs, subject to an MVP maximum of 6 cards. | DOC-09 |
 | Payment Quote | The current calculated payment amount, fee, promotion effect, and payable total requiring payer review before authorization. | DOC-09 / DOC-13 |
-| Settlement Ready | An internal/domain condition indicating received funds meet the rules for payout preparation. It is not a generic user-facing payment label. | DOC-09 / DOC-10 |
+| Effective Financial Adjustment | A separate downstream financial fact whose effective obligation-attributed amount reduces previously applied obligation coverage without modifying the original Payment or Payment Application. | DOC-11 / DOC-09 |
+| Effective Coverage | The derived portion of a Payment Obligation's Due Amount that remains covered by confirmed Payment Applications after effective coverage-reducing adjustments. | DOC-09 |
+| Outstanding Amount | The Payment Obligation's derived unpaid amount: Due Amount minus Effective Coverage. | DOC-09 |
+| Settlement Ready | A DOC-10-owned internal condition indicating a confirmed Payment satisfies applicable Settlement and Payout preparation rules. It is not a generic user-facing payment label. | DOC-10 |
 | Receiving Info | A payee's private reusable library of receiving-information profiles. It is optional and not the sole payout source of truth. | DOC-06B / DOC-10 |
 | Receiving Info Profile | One user-linked, versioned, reusable bank/FPS/cheque/EPS destination profile with readiness and proof metadata where required. | DOC-06B / DOC-10 |
-| Destination Snapshot | The immutable version of receiving information selected or entered for a request, obligation, payment, or payout context. Later profile edits must not mutate it. | DOC-09 / DOC-10 / DOC-18 |
+| Destination Snapshot | An immutable context-specific copy of receiving information selected or entered for a Request, obligation, Checkout, Payment, or Payout. Later source-profile edits must not mutate it. | DOC-10 / DOC-15 / DOC-18 |
+| Effective Payout Destination Snapshot | The authorization-time destination snapshot frozen for a Checkout and referenced by each resulting Payment. Later Bill/Rent, payee-profile, or payout-configuration changes must not silently mutate it. | DOC-09 / DOC-10 / DOC-18 |
 | Payout | PayPlus's transfer of settlement-ready funds to the designated payee destination. | DOC-10 |
 | Payout Rail | The operational method used for payout. FPS, cheque, and EPS are accepted Hong Kong rails, subject to operating-bank support and enablement. | DOC-10 |
 | Reconciliation | Matching payment, settlement, payout, bank, batch/API, return, and exception records to confirm financial completeness and identify differences. | DOC-10 |

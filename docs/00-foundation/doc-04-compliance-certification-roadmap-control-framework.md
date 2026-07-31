@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.12.5
+version: 0.12.6
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -22,7 +22,7 @@ approvers:
   - Risk Lead
   - Payments Lead
   - Finance Lead
-last_updated: 2026-07-27
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -33,7 +33,7 @@ related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
   - DOC-07 Content, Disclosure & User Communication
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification
@@ -55,14 +55,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-04` |
 | **Title** | Compliance Control Framework |
-| **Version** | `0.12.5` |
+| **Version** | `0.12.6` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance Lead |
 | **Reviewers** | Legal Lead<br>Risk Lead<br>Security Lead<br>Privacy Lead<br>Payments Lead<br>Product Lead<br>Engineering Lead<br>Operations Lead<br>Finance Lead |
 | **Approvers** | Project Owner<br>Legal Lead<br>Compliance Lead<br>Security Lead<br>Risk Lead<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-07-27` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory Assessment<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory Assessment<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -85,7 +85,7 @@ This document applies to:
 
 - payer-created obligations and payments;
 - optional payer-created linking requests;
-- payee-created payment requests;
+- payee-created Requests that establish or accept evidence-backed obligation linkage;
 - payee onboarding;
 - bill, invoice, fee, and rent payment flows;
 - domestic helper, driver, and personal service payment flows where evidence-backed and enabled;
@@ -115,7 +115,7 @@ PayPlus controls must support the following objectives.
 | Objective ID | Objective |
 | --- | --- |
 | `OBJ-DOC04-001` | Payments must be tied to an approved bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved obligation. |
-| `OBJ-DOC04-002` | Payment requests must be supported by uploaded, linked, or captured evidence. |
+| `OBJ-DOC04-002` | Requests and payment contexts must reference approved obligations supported by uploaded, linked, or captured evidence. |
 | `OBJ-DOC04-003` | Payers must review and authorize payment before funding, capture, or payout. |
 | `OBJ-DOC04-004` | Payee-created requests must not automatically trigger payment. |
 | `OBJ-DOC04-005` | Payees must be verified before creating requests or receiving payouts, where required. |
@@ -194,13 +194,13 @@ Payee-created requests, bill payments, fee payments, rent/tenancy payments, dome
 
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
-| `CTRL-DOC04-EVD-001` | `T0` | Require each payment request to reference an approved obligation type, such as bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved category. | Product / Compliance | Request record |
-| `CTRL-DOC04-EVD-002` | `T0` | Require uploaded, linked, captured, or system-generated evidence for each payment request unless the category has an approved exception. | Product / Compliance | Evidence record |
+| `CTRL-DOC04-EVD-001` | `T0` | Require each Request or payment context to reference an approved obligation type, such as bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved category. | Product / Compliance | Request or payment-context record |
+| `CTRL-DOC04-EVD-002` | `T0` | Require uploaded, linked, captured, or system-generated evidence for each referenced obligation unless the category has an approved exception. | Product / Compliance | Evidence record |
 | `CTRL-DOC04-EVD-003` | `T1` | Store evidence with request ID, payer ID, payee ID where applicable, category, timestamp, source, and review status. | Engineering / Compliance | Evidence metadata |
 | `CTRL-DOC04-EVD-004` | `T1` | Prevent request submission if required evidence fields are missing. | Product / Engineering | Validation logs |
-| `CTRL-DOC04-EVD-005` | `T1` | Detect duplicate evidence, duplicate invoices, duplicate rent requests, or repeated payment requests where feasible. | Risk / Engineering | Duplicate detection alerts |
+| `CTRL-DOC04-EVD-005` | `T1` | Detect duplicate evidence, duplicate invoices, duplicate rent requests, or repeated Requests where feasible. | Risk / Engineering | Duplicate detection alerts |
 | `CTRL-DOC04-EVD-006` | `T1` | Route unclear, incomplete, suspicious, or high-risk evidence to admin review. | Risk / Operations | Review case logs |
-| `CTRL-DOC04-EVD-007` | `T1` | Require payee-created payment requests to include evidence equal to or stronger than payer-created obligation/payment evidence for the same category. | Product / Compliance / Risk | Evidence requirements matrix |
+| `CTRL-DOC04-EVD-007` | `T1` | Require payee-created Requests to link evidence equal to or stronger than payer-created obligation/payment evidence for the same category. | Product / Compliance / Risk | Evidence requirements matrix |
 | `CTRL-DOC04-EVD-008` | `T1` | Require rent evidence, such as lease, rent schedule, property reference, tenancy confirmation, or approved equivalent. | Product / Compliance / Risk | Rent evidence record |
 | `CTRL-DOC04-EVD-009` | `T1 if invoice enabled` | Require invoice evidence, business-payee details, service description, amount, due date, and payee identity information. | Product / Compliance / Risk | Invoice evidence record |
 | `CTRL-DOC04-EVD-010` | `T1 if domestic helper, driver, or personal service enabled` | Require acceptable employment, service, invoice, salary, contract, or obligation evidence before payment and payout. | Product / Compliance / Risk | Service-obligation evidence record |
@@ -234,7 +234,7 @@ Payee-created requests, bill payments, fee payments, rent/tenancy payments, dome
 | `CTRL-DOC04-PAYEE-003` | `T1` | Screen payees against applicable sanctions or blocked-party lists where required. | Compliance | Screening logs |
 | `CTRL-DOC04-PAYEE-004` | `T1` | Assign payee status, risk tier, category permissions, payout permissions, and request creation permissions. | Product / Risk / Compliance | Payee capability config |
 | `CTRL-DOC04-PAYEE-005` | `T1` | Block restricted, rejected, suspended, or unverified payees from payout. | Product / Payments / Engineering | Payout block logs |
-| `CTRL-DOC04-PAYEE-006` | `T1 if payee-created enabled` | Block restricted, rejected, suspended, or unverified payees from creating or sending payment requests. | Product / Engineering | Request permission logs |
+| `CTRL-DOC04-PAYEE-006` | `T1 if payee-created enabled` | Block restricted, rejected, suspended, or unverified payees from creating or sending Requests. | Product / Engineering | Request permission logs |
 | `CTRL-DOC04-PAYEE-007` | `T1` | Review payout destination changes before allowing payout to the new destination where risk requires. | Operations / Risk / Payments | Change review logs |
 | `CTRL-DOC04-PAYEE-008` | `T1` | Verify landlord or property manager identity, property relationship, payout destination, and rent-request eligibility. | Compliance / Risk / Operations | Landlord verification record |
 | `CTRL-DOC04-PAYEE-009` | `T1 if invoice enabled` | Verify business-payee identity, business status, invoice legitimacy indicators, and payout destination where required. | Compliance / Risk / Operations | Business payee verification record |
@@ -491,7 +491,7 @@ If landlord-created rent requests are enabled, additional tests must include:
 | User record | Application database | Product |
 | Payee onboarding and verification | Compliance case system / operations queue / application database | Compliance / Operations |
 | Payee capability record | Application database / admin console | Product / Risk |
-| Payment request record | Application database / transaction system | Product / Engineering |
+| Request record | Application database / transaction system | Product / Engineering |
 | Request, invoice, rent, or bill evidence | Evidence repository / document storage / application database | Product / Compliance / Risk |
 | Payer response and authorization | Application database / audit log / payment platform | Product / Payments / Engineering |
 | Payer/payee communication | Notification system / support system | Operations / Product |
@@ -660,7 +660,7 @@ Exception log fields:
 | `OQ-DOC04-021` | Who has final authority to approve MVP launch? | Project Owner / Compliance | Critical | Open |
 | `OQ-DOC04-022` | What post-launch monitoring cadence is acceptable after stabilization? | Compliance / Operations | Medium | Open |
 | `OQ-DOC04-023` | Which payee-created request modules, categories, and payee types are enabled at initial launch versus disabled until controls are ready? | Project Owner / Product / Compliance | Critical | Open |
-| `OQ-DOC04-024` | Which payee types can create payment requests? | Product / Risk / Compliance | Critical | Open |
+| `OQ-DOC04-024` | Which payee types can create Requests? | Product / Risk / Compliance | Critical | Open |
 | `OQ-DOC04-025` | What final KYC/KYB provider, check depth, sanctions screening, payout destination verification, and capability checks apply to the baseline onboarding model? | Compliance / Risk / Operations | Critical | Open |
 | `OQ-DOC04-026` | Does the payee-created request model require additional partner confirmation? | Payments / Legal / Compliance | Critical | Open |
 | `OQ-DOC04-027` | How must payer authorization be captured for payee-created requests? | Product / Legal / Payments | Critical | Open |
@@ -727,6 +727,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.12.6` | `2026-07-31` | Product Documentation Team | Aligned DOC-09 title references and evidence controls with Request-as-linkage rather than payment. |
 | `0.12.5` | `2026-07-27` | Product Documentation Team | Distinguished direct payer-created obligations/payments from optional payer-created linking requests and aligned evidence-parity terminology without changing compliance controls. |
 | `0.1.0` | `2026-05-14` | Initial Author | Initial draft of `DOC-04 Compliance Certification Roadmap & Control Framework`. |
 | `0.2.0` | `2026-05-26` | Product Documentation Team | Expanded into broad compliance roadmap and control framework with control domains, starter matrix, launch gates, evidence requirements, testing, remediation, governance, assumptions, constraints, dependencies, risks, downstream impact, and acceptance criteria. |

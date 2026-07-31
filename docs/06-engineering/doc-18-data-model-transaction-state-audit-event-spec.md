@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.22
+version: 0.4.23
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -16,12 +16,13 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-07-29
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
   - DOC-01 Product Overview & Positioning
   - DOC-05 Master PRD & Feature Requirement Index
+  - DOC-09 Payment Domain Architecture
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
@@ -38,14 +39,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `0.4.22` |
+| **Version** | `0.4.23` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Data Lead |
-| **Last Updated** | `2026-07-29` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -122,7 +123,7 @@ DOC-18 should define logical structures for at least the following object famili
 - payee profile;
 - KYC/KYB verification reference;
 - authentication, device, OTP, passcode, and material account-change event;
-- payment request;
+- Request;
 - request participant mapping;
 - participant invitation or linking request;
 - obligation record;
@@ -294,7 +295,9 @@ Reward-instrument linkage must preserve independent instrument type, earning sou
 
 Future DOC-18 drafting must also specify entitlement-time quota/value reservation, campaign/offer/benefit/terms snapshot, separate campaign-end/claim-deadline/reward-usage-expiry fields, one-entitlement-to-at-most-one-instrument idempotency, duplicate/concurrent/uncertain claim recovery, and administrator hold/release/reversal audit linkage. User-facing Referral projections must remain distinct from canonical internal states, and masked referee phone must be projected only to the permitted `REFERRAL-ROOT` progress context.
 
-DOC-18 must include data structures for DOC-09 user payment instruction, payment instruction funding leg, deferred funding date, selected payee transfer date, payment instruction action alert/task, partial funding status, partial payout linkage, remaining unpaid amount, payment quote revalidation, promotion quote reservation, and changed-term acknowledgement.
+DOC-18 must implement the DOC-09 Payment Domain architecture without redefining it. The logical model must preserve distinct Bill/Rent Payable Basis, Projection, Materialization, Payment Obligation, Checkout Workspace, Obligation Allocation, payable-capacity reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Provider Submission, Provider Confirmation Event, Payment, Payment Application, Effective Financial Adjustment reference, Effective Coverage, Outstanding Amount, and Effective Payout Destination Snapshot concepts.
+
+The model must also keep a deliberate Payment Instruction separate from an incomplete Checkout Workspace. It must preserve stable identities, correlation and causation, target-lock timing, allocation versions, payer authorization, provider evidence references, late-confirmation exception handling, immutable Payment and Payment Application facts, adjustment attribution, coverage recalculation inputs, and downstream Settlement/Payout handoffs. Machine states, transitions, persistence, event IDs, schemas, and reporting projections remain DOC-18 work and must trace to DOC-09 semantic conditions and invariants.
 
 DOC-18 must include data structures for DOC-06B/DOC-09 tokenized card and payment profile behavior, including card token/reference, permitted masked metadata, card nickname, card status, default-card marker, saved split-card profile name, card slots, stored ratios, setup/reference amount, starred/frequent marker, action-required state, soft-delete/archive metadata, checkout/instruction return context, and related audit events.
 
@@ -440,6 +443,7 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.4.23 | 2026-07-31 | Product Documentation Team | Added the precise future implementation marker for canonical Request identity and DOC-09 Payment Domain objects, invariants, semantic conditions, correlation, late confirmation, adjustments, and distinct Instruction/Checkout identities. |
 | 0.4.22 | 2026-07-29 | Product Documentation Team | Added future data and audit requirements for capability-aware Recovery and explicit separation of authentication Outcome, Resolution Strategy, persistent status, Message/CTA, notification, and occurrence records. |
 | 0.4.21 | 2026-07-28 | Product Documentation Team | Replaced the superseded four-label identity projection with five states; added HK phone challenge, provider-result/PayPlus-policy separation, passcode reset, admin reset/dual-approval, security notification, and correlation requirements. |
 | 0.4.20 | 2026-07-28 | Product Documentation Team | Added durable future data/event requirements for separate Phone and Identity Verification, first-time versus later identity-change context, four-label projection, provider-pending deduplication, and Payment Passcode Set/Change/Reset modes. |

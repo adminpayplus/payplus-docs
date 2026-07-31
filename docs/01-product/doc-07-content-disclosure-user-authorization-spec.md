@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.9.12
+version: 0.9.13
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-29
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -24,7 +24,7 @@ related_documents:
   - DOC-05 Master PRD & Feature Requirement Index
   - DOC-06 User Journey, UX Flow & Service Blueprint
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
@@ -42,14 +42,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `0.9.12` |
+| **Version** | `0.9.13` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-29` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -57,7 +57,7 @@ related_documents:
 
 This document defines the user-facing content, disclosure, consent, and authorization requirements for the PayPlus MVP.
 
-PayPlus must explain payment requests clearly enough that payers and payees understand:
+PayPlus must explain Requests and any later payment action clearly enough that payers and payees understand:
 
 - what the request is for;
 - who created it;
@@ -119,7 +119,7 @@ Those details belong in downstream or adjacent documents.
 | Product model | Controlled payer-authorized card-funded bill, invoice, fee, rent, domestic service, and approved obligation payment platform. |
 | Payer-created obligations and payments | MVP scope; no request or payee acceptance is required by default. |
 | Payer-created linking requests | MVP scope where optional party linking is enabled. |
-| Payee-created payment requests | MVP scope; payer acceptance is required before payment from the request. |
+| Payee-created Requests | MVP scope; payer acceptance establishes the linked obligation context required before payment from that Request. Acceptance is not payment authorization. |
 | Bill and fee payments | MVP scope, subject to evidence, payee, payment, payout, and risk controls. |
 | Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
 | Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
@@ -144,7 +144,7 @@ Unconfirmed items above should not block documentation drafting. They should rem
 | No false certainty | Do not imply payment, payout, refund, or settlement is complete before the relevant system of record confirms it. |
 | Explicit authorization | Payment requires clear payer action and recorded authorization. |
 | Role clarity | Users must understand whether they are acting as payer, payee, landlord, business payee, or admin. |
-| Request-origin clarity | Content must distinguish payee-created payment requests, optional payer-created linking requests, and direct payer-created obligations/payments. |
+| Request-origin clarity | Content must distinguish payee-created Requests, optional payer-created linking Requests, and direct payer-created obligations/payments, and must state that a Request is not a payment. |
 | Evidence clarity | Content must explain what evidence supports the obligation without overexposing sensitive data. |
 | Evidence display control | User-facing screens should show task-relevant evidence fields; sensitive extracted fields may be stored for approved purposes without broad display. |
 | Fee clarity | Payer-facing fees and total charge must be shown before authorization. |
@@ -160,14 +160,14 @@ Unconfirmed items above should not block documentation drafting. They should rem
 PayPlus may use language such as:
 
 - bill payment;
-- payment request;
+- Request or the command label `Request Payment`, while making clear that the Request is not payment;
 - card-funded payment;
 - pay eligible bills by card;
 - pay eligible invoices, fees, rent, and approved obligations by card;
 - pay approved domestic helper, driver, or personal service obligations by card where supported;
 - pay rent by card where supported;
 - payment to approved payee;
-- evidence-backed payment request;
+- evidence-backed obligation Request;
 - payer authorization;
 - payment processing;
 - payout or settlement to payee;
@@ -205,7 +205,7 @@ Every user-facing request should identify its origin.
 | Origin | User-Facing Label | Meaning |
 | --- | --- | --- |
 | Payer-created linking request | Linking request sent by you | The payer invited the payee to link to an evidence-backed obligation for shared visibility or communication. |
-| Payee-created payment request | Sent by payee | An approved payee created and sent a payment request for payer review and acceptance. |
+| Payee-created Request | Sent by payee | An approved payee created and sent a Request for payer review and acceptance of an evidence-backed obligation context. Payment remains a separate payer-authorized action. |
 | Admin-created | Created by PayPlus support | PayPlus operations created the record under approved process. |
 | System-generated | Generated by PayPlus | The system created an event, reminder, or status update. |
 
@@ -369,8 +369,8 @@ The payer must be shown:
 - fee treatment for split payments;
 - what happens if one card authorization fails;
 - what happens if only part of the split-card payment is funded;
-- that partial funding is not payment completion;
-- that settlement-ready funded portions may be paid out while remaining amounts stay unpaid or pending under DOC-09 and DOC-10;
+- that an incomplete Checkout may already contain one or more confirmed Payments while its Checkout Target remains partly unfunded;
+- that Checkout completion, Payment confirmation, Payment Obligation Effective Coverage, and downstream Payout are separate concepts owned by DOC-09 and DOC-10 as applicable;
 - whether the payer must re-authorize after changing card split amounts.
 
 The MVP maximum is 6 cards per payment/profile. The displayed limit and any narrower partner-, risk-, or category-specific restriction should be configuration-driven where practical.
@@ -379,27 +379,34 @@ The MVP maximum is 6 cards per payment/profile. The displayed limit and any narr
 
 ### 12.1 Payment Instruction and Reminder Disclosure
 
-PayPlus must distinguish three user-facing concepts:
+PayPlus must distinguish four user-facing concepts:
 
 | Concept | User-Facing Meaning | Action Destination |
 | --- | --- | --- |
 | Normal due-date reminder | Reminder based on bill, rent, or obligation due date; payment flow has not started. | Bill/rent/obligation detail. |
 | User manual reminder | Reminder date or offset set by user for a bill, rent, or obligation. | Bill/rent/obligation detail. |
-| Deferred payment instruction reminder | Payment flow has started and payment context exists, but gateway submission is pending. | Payment/checkout screen. |
+| Payment Instruction action alert | The user deliberately created a pay-later arrangement and action is now due. | Instruction detail or the related Checkout. |
+| Incomplete Checkout continuation alert | Immediate payment execution started but the Checkout Target remains partly unfunded. This is not a Payment Instruction. | The preserved Checkout context. |
 
 Bill/rent reminder cycles, custom reminder dates, reminder toggles, and reminder deletion/disabling must be described as reminder tools only. They must not imply automatic recurring payment, stored authorization, card authorization, gateway submission, payout readiness, or payment completion.
 
 If a reminder is linked to a recurring bill/rent frequency, the user-facing wording should distinguish recurring reminder scheduling from recurring payment authorization. Reminder route behavior belongs in DOC-06. Notification channel and template wording belongs in DOC-08.
 
-Deferred payment instruction wording must explain:
+Payment Instruction wording must explain:
 
 - selected funding date or action date;
-- selected payee transfer date where applicable;
-- card split and remaining pending amount where applicable;
+- intended amount and funding arrangement where applicable;
 - expiry or required action deadline;
-- that payment quote, promotion quote, card eligibility, fee, or timing may need to be revalidated before submission;
-- that PayPlus cannot force the user to complete pending funding legs;
-- that partial funding may lead to partial payout of settlement-ready funded portions without making the overall payment completed.
+- that amount, promotion, card eligibility, fee, destination, or timing may need to be revalidated before Provider Submission;
+- that execution of a deliberate instruction occurs through a Checkout and still requires payer authorization.
+
+Incomplete Checkout wording must explain:
+
+- the immutable Checkout Target;
+- confirmed Payments and the remaining target amount;
+- expiry of the continuation capability;
+- that closing or expiry does not cancel or rewrite confirmed Payments or Payment Applications;
+- that downstream Settlement and Payout treatment belongs to DOC-10 and does not determine whether the original Checkout is complete.
 
 ---
 
@@ -712,6 +719,7 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.9.13 | 2026-07-31 | Aligned Request, Payment Instruction, incomplete Checkout, confirmed Payment, obligation coverage, and downstream Payout disclosure boundaries with DOC-09. |
 | 0.9.12 | 2026-07-29 | Added owner-approved Resolution Strategy between Outcome and user presentation, established capability-aware AUTH slice sequencing, and added the preliminary `AUTH-RECOVERY` outcome/resolution inventory while leaving exact IDs, copy, CTA hierarchy, and notification mappings open. |
 | 0.9.11 | 2026-07-28 | Aligned identity wording with the five approved labels and context-aware actions, prohibited voluntary re-verification after Verified, and defined the mandatory authentication outcome categories while keeping exact IDs and copy open. |
 | 0.9.10 | 2026-07-28 | Defined the mandatory Authentication Outcome and Message Matrix fields, ownership, disclosure and many-to-one mapping rules while leaving exact IDs and approved messages open; removed login-name content requirements. |

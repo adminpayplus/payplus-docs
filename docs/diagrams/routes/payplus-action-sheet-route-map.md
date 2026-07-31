@@ -2,7 +2,7 @@
 
 Status: Current discussion reference
 Owner: DOC-06B
-Last updated: 2026-07-27
+Last updated: 2026-07-31
 
 This map owns the five `PAYPLUS-ACTION-SHEET` handoffs. Destination internals belong to their route-family maps. It defines behavior, not final visual design.
 
@@ -21,7 +21,7 @@ flowchart TD
   ADD --> BILLSADD["BILLS-ADD"]
   REQUEST --> REQUESTNEW["REQUESTS-NEW"]
 
-  CONTINUE --> COUNT{"Active pending or<br/>incomplete instructions"}
+  CONTINUE --> COUNT{"Active Payment Instructions or<br/>incomplete Checkout Workspaces"}
   COUNT -->|"None"| DISABLED["Action disabled"]
   COUNT -->|"One"| DETAIL["INSTRUCTIONS-DETAIL"]
   COUNT -->|"More than one"| ROOT["INSTRUCTIONS-ROOT"]

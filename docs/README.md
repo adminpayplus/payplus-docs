@@ -23,7 +23,7 @@ Enter the operating architecture through the [`Documentation System`](documentat
 | `00-foundation/` | Governance, product positioning, business model, regulatory assessment, and compliance control framework. |
 | `documentation-system/` | Documentation operating architecture, canonical lifecycle workflow, command interface, optional procedure, specialist guides, and architecture navigation. |
 | `01-product/` | Master PRD, DOC-06 UX/navigation child documents, disclosures, notifications, and user-facing behavior. |
-| `02-payment-domain/` | Payment requests, funding, settlement, payout, reconciliation, refunds, cancellations, disputes, and chargebacks. |
+| `02-payment-domain/` | Payment Domain architecture, funding, settlement, payout, reconciliation, refunds, cancellations, disputes, and chargebacks. |
 | `03-bill-verification/` | Bill category, evidence, AI/OCR, extracted data, duplicate evidence, and payee verification requirements. |
 | `04-growth-ecosystem/` | Promotion engine, coupons, vouchers, discount codes, referrals, membership, partner rewards, and campaign controls. |
 | `05-risk-compliance-privacy/` | AML, anti-cashout, fraud, dynamic auth, privacy, data classification, approved-purpose access, masking, and retention. |

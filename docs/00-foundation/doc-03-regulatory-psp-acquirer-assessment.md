@@ -1,7 +1,7 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 0.10.2
+version: 0.10.3
 status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Legal Lead
   - Compliance Lead
   - Payments Lead
-last_updated: 2026-07-27
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -27,7 +27,7 @@ related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
   - DOC-07 Content, Disclosure & User Communication
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification
@@ -48,14 +48,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-03` |
 | **Title** | Regulatory Assessment |
-| **Version** | `0.10.2` |
+| **Version** | `0.10.3` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance / Payments Owner |
 | **Reviewers** | Legal Lead<br>Compliance Lead<br>Payments Lead<br>Risk Lead<br>Finance Lead<br>Product Lead |
 | **Approvers** | Project Owner<br>Legal Lead<br>Compliance Lead<br>Payments Lead |
-| **Last Updated** | `2026-07-27` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook |
 
 ---
 
@@ -65,7 +65,7 @@ This document defines the regulatory assessment framework for PayPlus.
 
 It explains the intended regulatory posture of the PayPlus MVP and identifies the key legal, compliance, PSP/acquirer, payment partner, and risk questions that must be resolved before launch.
 
-PayPlus is intended to operate as an **evidence-backed, payer-authorized bill, invoice, fee, rent, and approved obligation payment request platform**.
+PayPlus is intended to operate as an **evidence-backed, payer-authorized bill, invoice, fee, rent, and approved-obligation payment platform**.
 
 PayPlus is **not intended** to operate as:
 
@@ -102,7 +102,7 @@ No flow should launch unless Legal, Compliance, Payments, Risk, Finance, and rel
 
 ### 2.1 Current Regulatory Baseline
 
-Payee-created payment requests, bill payments, fee payments, tenancy/rent payments, domestic helper payments, driver payments, personal service payments, multi-card payments, and user payment instructions are included in the MVP product baseline where supported by acceptable evidence and enabled controls.
+Payee-created Requests, bill payments, fee payments, tenancy/rent payments, domestic helper payments, driver payments, personal service payments, multi-card payments, and user payment instructions are included in the MVP product baseline where supported by acceptable evidence and enabled controls.
 
 Regulatory, PSP/acquirer, payout, AML, privacy, card network, and partner approval remain gated requirements. If any required approval is unavailable, the affected module, category, payee type, or payment path must be disabled without blocking unrelated approved modules.
 
@@ -120,7 +120,7 @@ User payment instruction is a deferred user action model, not a recurring paymen
 
 ## 3. Product Model Assessed
 
-The MVP is assessed as a two-sided payment request platform.
+The MVP is assessed as a two-sided evidence-backed obligation-payment platform.
 
 PayPlus supports both:
 
@@ -366,7 +366,7 @@ The following controls are required or must be explicitly risk-accepted before l
 | Category restrictions | Maintain approved, restricted, prohibited, and enhanced-review categories. |
 | Payee onboarding | Verify payees before request creation or payout, as required by risk and partner rules. |
 | Payer authorization | Require explicit payer authorization before funding or payout. |
-| Evidence | Link each payment request to supporting evidence of the bill or obligation. |
+| Evidence | Require each Request and payment context to reference an underlying bill or obligation supported by appropriate evidence. |
 | Anti-cashout | Prevent self-payment, fake obligation, circular payment, related-party abuse, and unsupported P2P. |
 | Transaction monitoring | Monitor fraud, velocity, duplicate requests, complaints, chargebacks, and payout anomalies. |
 | Disclosure | Disclose PayPlus role, request origin, payee identity, fees, timing, authorization, refunds, disputes, and failed-payment behavior. |
@@ -379,7 +379,7 @@ The following controls are required or must be explicitly risk-accepted before l
 Detailed control implementation belongs in:
 
 - `DOC-04 Compliance Certification Roadmap & Control Framework`;
-- `DOC-09 Payment Request, Multi-Funding Source & Settlement`;
+- `DOC-09 Payment Domain Architecture`;
 - `DOC-10 Payout & Reconciliation`;
 - `DOC-11 Refund, Cancellation & Chargeback`;
 - `DOC-14 AML, Anti-Cashout, Fraud & Risk Controls`;
@@ -619,7 +619,7 @@ Reviewers:
 | `OQ-DOC03-017` | What disclosures are required at request review, checkout, receipt, notification, and payee communications? | Legal / Product | High | Open |
 | `OQ-DOC03-018` | What contract provisions are mandatory for PSP/acquirer/payout provider agreements? | Legal / Payments | High | Open |
 | `OQ-DOC03-019` | What legal, partner, category, and control gates must be satisfied before payee-created requests are enabled for launch? | Project Owner / Legal / Compliance / Payments | Critical | Open |
-| `OQ-DOC03-020` | Which payee types can create payment requests? | Product / Legal / Compliance / Risk | Critical | Open |
+| `OQ-DOC03-020` | Which payee types can create Requests? | Product / Legal / Compliance / Risk | Critical | Open |
 | `OQ-DOC03-021` | Are onboarded payees treated as merchants, sub-merchants, billers, beneficiaries, agents, customers, platform participants, or another role? | Legal / Compliance / Payments | Critical | Open |
 | `OQ-DOC03-022` | Does enabling payee-created requests require PayFac, marketplace, platform, or sub-merchant treatment? | Legal / Compliance / Payments | Critical | Open |
 | `OQ-DOC03-023` | Do PSP/acquirer and payout partners approve payee-created bill, invoice, fee, or rent request flows? | Payments / Commercial | Critical | Open |
@@ -648,7 +648,7 @@ Reviewers:
 | `DOC-06` | Payer, payee, landlord, biller, and partner journeys. |
 | `DOC-07` | Role, fee, timing, request-origin, refund, risk, authorization, issuer-fee, and payee-created request disclosures. |
 | `DOC-08` | Receipts and notifications for request, payment, authorization, status, and failure events. |
-| `DOC-09` | Payment request, funds flow, settlement, authorization, partner constraints, and multi-card limits. |
+| `DOC-09` | Payment Domain aggregates, payable-capacity controls, checkout and funding execution, payer authorization boundaries, confirmed Payment creation, and multi-card limits. Provider mechanics remain with `DOC-17`; Settlement and Payout remain with `DOC-10`. |
 | `DOC-10` | Payout, reconciliation, payout eligibility, reserves, settlement timing, and reporting. |
 | `DOC-11` | Refund, cancellation, chargeback, dispute, payer rejection, payee withdrawal, and loss allocation. |
 | `DOC-12` | Bill category, OCR, payee verification, invoice evidence, rent evidence, and landlord verification. |
@@ -700,6 +700,7 @@ This document must remain an assessment framework and must not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.10.3` | 2026-07-31 | Product Documentation Team | Aligned DOC-09 title, Request-as-linkage terminology, Payment Domain aggregates, provider-integration boundaries, and separate Settlement/Payout ownership. |
 | `0.1.0` | 2026-05-14 | Initial Author | Initial draft of DOC-03 Regulatory, PSP & Acquirer Assessment. |
 | `0.2.0` | 2026-05-26 | Product Documentation Team | Reframed as foundation assessment framework, added triggers, role and licensing assessment, funds flow review, partner due diligence, scorecard, category restrictions, required confirmations, contractual assessment, compliance gates, assumptions, constraints, dependencies, risks, downstream impact, and standardized metadata and version history. |
 | `0.3.0` | 2026-05-27 | Product Documentation Team | Updated assessment framework for payee onboarding and payee-created bill, invoice, fee, and rent payment request capability introduced in DOC-05 v0.2.0. |

@@ -1,7 +1,7 @@
-﻿---
+---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.19
+version: 0.8.20
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-07-29
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -30,7 +30,7 @@ related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
   - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
@@ -50,14 +50,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.8.19` |
+| **Version** | `0.8.20` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
 | **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
-| **Last Updated** | `2026-07-29` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
 
 ---
 
@@ -156,7 +156,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Authentication and Security Data | Login-method type and state, stable external-provider subject/reference, provider-link status, password-set status and hash where applicable, payment passcode hash, OTP events, device ID, session logs, remembered masked-email reference, Fast Login eligibility, login history, failed attempts, new-device flags, biometric unlock status. | Authentication, account linking, step-up, security monitoring, incident investigation. |
 | KYC / KYB Data | Provider reference, ID type, ID number, name, sex where returned, date of birth where required, nationality where required, Business Registration document, owner ID, verification outcome. | Onboarding, compliance, payee approval, risk control, dispute and chargeback evidence. |
 | Evidence and Obligation Data | Bills, invoices, tenancy agreements, contracts, OCR text, extracted fields, corrected fields, final evidence snapshot, landlord/payee details, property address, due date, amount, reference number. | Payment validation, autofill, payer review, payee verification, duplicate detection, audit, analytics. |
-| Payment and Funding Data | Request ID, amount, fees, quote, quote revalidation result, payment instruction, funding leg, deferred funding date, selected payee transfer date, authorization record, payment token reference, masked card summary, permitted masked cardholder name, card nickname, card brand, expiry, issuer/BIN metadata where available, default-card marker, saved split-card profile name, profile ratios, starred/frequent marker, profile action-required state, multi-card split, partial funding status, step-up result, PSP reference. | Payment processing, risk, reconciliation, chargeback defense, product analytics. |
+| Payment and Funding Data | Bill/Rent Payable Basis reference, Projection inputs/outputs where retained, Payment Obligation, Due Amount, Effective Coverage, Outstanding Amount, Checkout Workspace, Checkout Target, Obligation Allocation, payable-capacity reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Provider Submission, Provider Confirmation reference, Payment, Payment Application, Effective Payout Destination Snapshot, deliberate Payment Instruction, deferred funding date, authorization record, payment token reference, masked card summary, permitted masked cardholder name, card nickname, card brand, expiry, issuer/BIN metadata where available, default-card marker, saved split-card profile name, profile ratios, starred/frequent marker, profile action-required state, step-up result, provider reference. | Payment processing, risk, reconciliation, chargeback defense, product analytics. |
 | Payout and Payee Data | Payee profile, landlord/business payee data, Receiving Info profile ID, owner, nickname, method, version, readiness, proof reference, archive state, request/obligation/payment destination snapshot, source reference, bank/FPS/cheque/EPS details, payout status, payout batch, bank reference, reconciliation result. | Payout execution, payee validation, reconciliation, fraud prevention, support. |
 | Participant Linking and Invitation Data | User-initiated search/input, invitation channel, deeplink/QR/app-link reference, pending participant record, linking acceptance/decline, linked participant role, and linkage audit trail. | Two-sided visibility, request delivery, support, fraud prevention, privacy-controlled communication. |
 | Risk and Compliance Data | Risk score/band, rule triggers, AML/sanctions status, duplicate evidence signals, same-party indicators, fraud flags, payout holds, admin review outcome, escalation records. | Anti-cashout, fraud prevention, compliance control, monitoring, audit. |
@@ -292,7 +292,7 @@ Visibility must reflect role, task, permission, and approved purpose.
 
 | Actor | Visibility Rule |
 | --- | --- |
-| Payer | May view own account, payment request, payment summary, evidence summary, selected payment method summary, the destination selected for the relevant payment context, own masked card and payment profile summaries, status, receipts, and support history. A payer must not browse a payee's Receiving Info library. |
+| Payer | May view own account, Request, payment summary, evidence summary, selected payment method summary, the destination selected for the relevant payment context, own masked card and payment profile summaries, status, receipts, and support history. A payer must not browse a payee's Receiving Info library. |
 | Payee | May manage own Receiving Info profiles and view request/payout context needed to receive or request payment, but not payer card details, payer payment profiles, private funding data, unrelated KYC data, internal risk flags, or private payer profile data. |
 | Admin / Operations | May access data required for assigned queue, review, support, payout, refund, dispute, risk, or compliance task. Access must be permissioned and logged. |
 | Risk / Compliance | May access broader identity, evidence, relationship, payment, payout, refund, chargeback, promotion, and risk signals where needed for approved review. |
@@ -599,6 +599,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.20` | `2026-07-31` | Product Documentation Team | Aligned Request visibility, payment/funding data classification, and DOC-09 title references with the accepted Payment Domain aggregate and derived-value model. |
 | `0.8.19` | `2026-07-29` | Product Documentation Team | Added the disclosure-safe, capability-aware account-recovery privacy boundary and required opaque Outcome, Resolution, and correlation references without changing approved authentication methods. |
 | `0.8.18` | `2026-07-28` | Product Documentation Team | Aligned privacy and account-control rules with HK Phone Verification, the five-state Identity Verification projection, no voluntary re-verification after Verified, admin-required update boundaries, and defined Payment Passcode recovery controls. |
 | `0.8.17` | `2026-07-28` | Product Documentation Team | Distinguished first-time identity verification from later sensitive identity changes: Account Activation does not require a pre-existing passcode, while correction, update, and re-verification require passcode or approved reauthentication. |

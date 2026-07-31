@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 0.6.4
+version: 0.6.5
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Payments Lead
   - Operations Lead
   - Finance Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -29,7 +29,7 @@ related_documents:
   - DOC-05 Master PRD & Feature Requirement Index
   - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
@@ -48,14 +48,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-11` |
 | **Title** | Refund, Cancellation & Chargeback |
-| **Version** | `0.6.4` |
+| **Version** | `0.6.5` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Operations |
 | **Reviewers** | Product Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Customer Support Lead<br>Engineering Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Operations Lead<br>Finance Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -63,7 +63,7 @@ related_documents:
 
 This document defines PayPlus MVP rules for cancellation, refund, reversal, dispute, chargeback, payee withdrawal, fee reversal, payout hold, recovery, and related case handling.
 
-DOC-11 owns the payment-domain policy and system behavior required to handle exceptions after a request is created, authorized, paid, settled, or paid out.
+DOC-11 owns adjustment and case policy for cancellation, refund, reversal, chargeback, dispute, return, recovery, and related exceptions. It does not rewrite DOC-09 Payment or Payment Application facts.
 
 This document is not a final legal policy, accounting memo, PSP/acquirer operating manual, customer support script, ledger schema, API specification, or admin dashboard design.
 
@@ -75,7 +75,7 @@ DOC-11 covers:
 
 - pre-authorization rejection, query, dispute, and payee withdrawal;
 - cancellation before and after payment authorization;
-- payment instruction cancellation, expiry, and incomplete split-card handling;
+- deliberate Payment Instruction cancellation policy and separate adjustment handling for confirmed Payments produced by an incomplete Checkout;
 - refund eligibility and approval rules;
 - technical reversals and operational adjustments;
 - chargeback case handling;
@@ -93,7 +93,7 @@ Detailed specifications belong to:
 | Product requirements and user journeys | DOC-05, DOC-06 |
 | User-facing wording and authorization disclosures | DOC-07 |
 | Notifications, receipts, and status messages | DOC-08 |
-| Payment authorization, payment status, settlement readiness, multi-card funding | DOC-09 |
+| Payment Obligation, Checkout Workspace, funding execution, payer-authorization boundary, immutable Payment and Payment Application, and Effective Coverage response to an effective adjustment | DOC-09 |
 | Payout execution, payout holds, payout recovery, reconciliation | DOC-10 |
 | Bill category, OCR/autofill, evidence verification, duplicate/reused evidence, payee matching | DOC-12 |
 | Promotion engine, coupon/voucher, reward entitlement, miles, referral, membership, and clawback rules | DOC-13 |
@@ -118,10 +118,12 @@ Detailed specifications belong to:
 | Admin support | Admin dashboard must support status handling, review, evidence capture, payout hold, recovery, and audit logging. |
 | Payout impact | Refund, dispute, chargeback, and reversal cases may block payout, reverse payout readiness, or trigger recovery. |
 | Multi-card impact | Refunds and reversals must support payment split across up to a configurable number of credit cards. |
-| Payment instruction impact | A DOC-09 deferred payment instruction may be cancelled or expire before gateway submission. Refund rules apply only to funding legs actually submitted and completed. |
+| Payment instruction and Checkout impact | A deliberate DOC-09 Payment Instruction may be cancelled or expire before Provider Submission. An incomplete Checkout remains DOC-09-owned; DOC-11 rules apply only when a confirmed Payment, return, refund, reversal, chargeback, or dispute adjustment exists. |
 | Fee model | Fee refundability, fee reversals, promotions, coupons, and discounts remain configurable and to be confirmed. |
 
 Unconfirmed items should remain editable assumptions or gated requirements and should not block continued documentation drafting.
+
+When DOC-11 determines that an obligation-attributed financial adjustment has become effective, it must preserve the original Payment and Payment Application and provide the effective adjustment amount and attribution to DOC-09. DOC-09 then recalculates the Payment Obligation's Effective Coverage, Outstanding Amount, and future payable capacity. The historical Checkout Workspace is not reopened.
 
 ---
 
@@ -150,7 +152,7 @@ PayPlus refund, cancellation, dispute, and chargeback handling must follow these
 | Query or clarification | Payer or payee requests more information before or after authorization. |
 | Dispute | A user, payee, or admin-raised case about request validity, payment, payout, service issue, or evidence. A dispute is not automatically a card chargeback. |
 | Payee withdrawal | Payee withdraws a request before payer authorization, or requests withdrawal under approved rules after authorization. |
-| Payment instruction cancellation | User or admin cancellation of a saved DOC-09 payment instruction or remaining pending funding leg before gateway submission. |
+| Payment instruction cancellation | User or admin cancellation of a deliberate saved DOC-09 Payment Instruction before it starts Checkout execution. Closing or expiring an incomplete Checkout Workspace remains a separate DOC-09 action. |
 | Cancellation | Stopping a request or payment flow before it becomes final under payment, settlement, or payout rules. |
 | Refund | Returning all or part of a completed payment to the payer through the permitted payment rail or PSP/acquirer process. |
 | Reversal | Technical, partner, or operational reversal of a payment, fee, promotion, ledger, or payout-related event. |
@@ -170,7 +172,7 @@ DOC-11 uses the following case types:
 | Payer query or clarification | Before or after authorization | Support / Operations |
 | Payee withdrawal | Before authorization or approved post-authorization window | Operations |
 | Cancellation before authorization | Before payer authorizes payment | Product / Operations |
-| Payment instruction cancellation or expiry | After payment context is saved but before one or more funding legs are submitted | Product / Payments / Operations |
+| Payment instruction cancellation or expiry | After a deliberate Payment Instruction is saved but before it starts Checkout execution | Product / Payments / Operations |
 | Cancellation after authorization | After authorization but before final completion, settlement, or payout | Payments / Operations |
 | Refund request | After payment completion | Operations / Payments |
 | Partial refund | After payment completion where allowed | Operations / Payments / Finance |
@@ -214,12 +216,12 @@ Pre-authorization rejection, expiry, cancellation, withdrawal, and linked query/
 
 The request lifecycle belongs in DOC-05 and DOC-06. User-facing messages belong in DOC-07 and DOC-08.
 
-For DOC-09 deferred payment instructions:
+For deliberate DOC-09 Payment Instructions and incomplete Checkout Workspaces:
 
-- cancellation or expiry before gateway submission should not create a refund because no funds moved for that pending leg;
-- cancellation or expiry of remaining split-card legs must not reverse already completed funding legs automatically;
-- funded legs should follow refund, settlement, payout hold, and recovery rules based on their actual payment and payout status;
-- user-facing status must distinguish cancelled or expired pending legs from refunded or reversed funded legs.
+- cancellation or expiry of a deliberate Payment Instruction before Checkout execution should not create a refund because no funds moved;
+- closing or expiring the unconfirmed remainder of an incomplete Checkout Workspace must not reverse confirmed Payments automatically;
+- confirmed Payments should follow refund, settlement, payout hold, and recovery rules based on their actual payment and payout status;
+- user-facing presentation must distinguish Payment Instruction cancellation or expiry, Checkout closure or expiry, and refund or reversal outcomes.
 
 ---
 
@@ -230,7 +232,8 @@ Cancellation treatment depends on payment and payout status.
 | Stage | Rule |
 | --- | --- |
 | Before payer authorization | Request may be rejected, withdrawn, expired, or cancelled without funds movement. A query or dispute opens a linked case and may apply a separate hold. |
-| Deferred instruction before gateway submission | Pending instruction or pending funding leg may be cancelled or expire without refund, subject to audit and user notification. |
+| Deliberate Payment Instruction before Checkout execution | The instruction may be cancelled or expire without refund, subject to audit and user notification. |
+| Incomplete Checkout before Provider Submission for a remaining Funding Leg | The Checkout may be closed or expire under DOC-09 without refund for its unconfirmed remainder; confirmed Payments remain unchanged. |
 | After authorization but before capture/completion | Cancellation may attempt void, reversal, or cancellation through PSP/acquirer where supported. |
 | After payment completion but before upstream settlement | Cancellation normally becomes refund or reversal handling, subject to PSP/acquirer capability. |
 | After settlement but before payout | Cancellation may require refund approval and payout hold. |
@@ -238,7 +241,7 @@ Cancellation treatment depends on payment and payout status.
 
 Cancellation must not bypass risk review, partner rules, fee rules, disclosure requirements, or reconciliation.
 
-For partially funded DOC-09 payment instructions, cancellation may apply to the remaining unpaid instruction balance while completed funding legs remain subject to refund, reversal, payout hold, or recovery rules.
+For a partially funded DOC-09 Checkout Workspace, ending the remaining continuation follows DOC-09 closure or expiry rules and does not cancel confirmed Payments. Confirmed Payments remain subject to refund, reversal, payout hold, or recovery rules in this document.
 
 ---
 
@@ -375,7 +378,7 @@ Where an active refund, dispute, chargeback, recovery, or linked case materially
 Payout hold is required or recommended where:
 
 - payment is not settled or settlement-ready;
-- payment instruction is partially funded and payout, refund, dispute, or risk treatment is unresolved;
+- Checkout Workspace is partially funded and payout, refund, dispute, or risk treatment for a confirmed Payment is unresolved;
 - refund request is open and material;
 - chargeback has been opened or is reasonably expected;
 - obligation evidence is disputed;
@@ -524,7 +527,7 @@ Detailed dashboard, warehouse, ledger, and reporting schema belong in DOC-18 and
 | OQ-11-009 | What status values and reason codes should be implemented in the admin dashboard? | Product / Operations / Engineering | Medium | Open |
 | OQ-11-010 | What legal wording is required before authorization and in receipts for refund, cancellation, dispute, and chargeback limitations? | Legal / Product | High | Open |
 | OQ-11-011 | Which DOC-12 verification outcomes should automatically block refund, payout release, representment, or recovery actions pending review? | Operations / Risk / Payments | High | Open |
-| OQ-11-012 | What cancellation, expiry, refund, and user-facing wording should apply to pending or partially funded DOC-09 payment instructions? | Product / Payments / Operations | Medium | Open |
+| OQ-11-012 | What final cancellation, expiry, refund, and user-facing wording should apply to deliberate DOC-09 Payment Instructions and incomplete Checkout Workspaces? | Product / Payments / Operations | Medium | Open |
 
 ---
 
@@ -534,7 +537,7 @@ DOC-11 is acceptable when it clearly defines:
 
 - refund, cancellation, reversal, dispute, chargeback, and payee withdrawal boundaries;
 - pre-authorization versus post-authorization handling;
-- payment instruction cancellation, expiry, and partially funded exception handling;
+- deliberate Payment Instruction cancellation or expiry and incomplete Checkout exception handling;
 - pre-payout versus post-payout handling;
 - multi-card refund allocation requirements;
 - fee, promotion, and revenue reversal ownership;
@@ -569,6 +572,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.6.5` | `2026-07-31` | Product Documentation Team | Aligned adjustment ownership with immutable DOC-09 Payment and Payment Application facts, the Effective Coverage/Outstanding Amount recalculation boundary, and incomplete Checkout closure treatment. |
 | `0.6.4` | `2026-07-26` | Product Documentation Team | Aligned obligation archive/restore blockers with active refund, dispute, chargeback, recovery, and linked-case handling without changing case lifecycle or completed history. |
 | `0.6.3` | `2026-07-26` | Product Documentation Team | Established the canonical five-state case lifecycle, separated operational action/outcome states, and clarified that disputes and queries are linked cases rather than request lifecycle states. |
 | `0.6.2` | `2026-07-21` | Product Documentation Team | Linked authoritative reward restoration/reversal outcomes to canonical My Rewards Active/History status, including restored usable rewards returning to Active, and prohibited duplicate outcome application from uncertain or repeated callbacks. |

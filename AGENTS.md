@@ -77,7 +77,7 @@ Use `docs/documentation-system/documentation-architecture-map.md` for canonical 
 | Material decision, outcome, recovery/unavailable path, protected continuation, message/CTA relationship, or notification relationship | Owning route/domain document through the Documentation Development Workflow | Platform Design Principles plus Outcome Framework |
 | Product route, destination, screen, entry point, return behavior, or route-family structure | Applicable product/UX owner | Route register, transition tables, and governed hierarchical diagrams |
 | Bills, rent, tenancy, evidence UI, reminder UI, or bill-specific activity | Applicable DOC-06 family owner, normally DOC-06C | Relevant payment, evidence, privacy, notification, and acceptance owners |
-| Payment request, checkout, funding, authorization, or payment instruction | DOC-09 | DOC-06 route owner plus applicable payout, evidence, risk, privacy, notification, and acceptance owners |
+| Payment obligation, checkout, funding execution, payer authorization, confirmed payment, payment application, or payment instruction | DOC-09 | DOC-06 route owner plus applicable payout, adjustment, evidence, provider-integration, risk, privacy, notification, data, and acceptance owners |
 | Notification ID, recipient, channel, template, preference, delivery, retry, or notification evidence | DOC-08 | Outcome Framework; DOC-07 only for owned user-facing mapping |
 | Evidence, OCR, extraction, bill verification, or payee verification | DOC-12 | Applicable UX, payment, risk, privacy, data, and acceptance owners |
 | Promotion, coupon, voucher, referral, membership, or offer logic | DOC-13 | Applicable UX, checkout, accounting, risk, notification, and acceptance owners |
@@ -176,7 +176,7 @@ Common ownership:
 - `DOC-06C`: Bills/rent/tenancy UX, cards, details, evidence entry, reminders, and bill activity;
 - `DOC-07`: approved user-facing Outcome/Message/CTA mappings, disclosure, copy, and presentation;
 - `DOC-08`: notification identity, recipients, channels, templates, preferences, and delivery;
-- `DOC-09`: payment request, checkout, funding, authorization, instructions, and payment states;
+- `DOC-09`: Payment Domain architecture from payment-facing Bill/Rent facts through obligations, checkout, funding execution, confirmed Payments, Payment Applications, and payment instructions;
 - `DOC-10`: payout and reconciliation;
 - `DOC-11`: refund, cancellation, dispute, and chargeback;
 - `DOC-12`: evidence, OCR/extraction, and verification;

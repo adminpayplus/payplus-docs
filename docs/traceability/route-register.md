@@ -2,7 +2,7 @@
 
 Status: Working alignment reference
 Owner: Product / Founder
-Last updated: 2026-07-29
+Last updated: 2026-07-31
 Classification: Internal
 
 This register is the canonical inventory of PayPlus product destinations. Owning documents define behavior; this register tracks identity, parentage, type, ownership, and definition status without restating detailed requirements.
@@ -35,7 +35,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `NOTIFICATION-INBOX` | `NOTIFICATION-ROOT` / Home header | Default child screen | Search, filter, read, and archive notification-backed messages, announcements, support replies, and action items. | DOC-06B / DOC-08 | Defined baseline |
 | `NOTIFICATION-DETAIL` | `NOTIFICATION-INBOX` / approved external notification context | Child screen | Show one permitted message and route a current valid action to its owning destination. | DOC-06B / DOC-08 | Defined baseline |
 | `NOTIFICATION-SETTINGS` | `NOTIFICATION-ROOT` / direct Me entry | Child screen | Manage permitted communication channels and preferences with reciprocal Inbox navigation. | DOC-06B / DOC-08 | Defined baseline |
-| `PAYMENT-CHECKOUT` | Bills, Instructions, Requests, or approved payment entry | Flow / screen group | Review payment method, eligible benefits, quote, authorization, and submission. | DOC-09 | Partially defined |
+| `PAYMENT-CHECKOUT` | Bills, Instructions, or another approved payment entry | Flow / screen group | Present and coordinate payment review, funding allocation, eligible benefits, payer authorization, Provider Submission, continuation, and result handoffs around the DOC-09 Payment Domain architecture. | DOC-06B; DOC-09 for domain architecture | Partially defined |
 | `BILLS-ROOT` | Bottom navigation: Bills | Root screen | Open the Bills area and its payer/payee views. | DOC-06C | Defined baseline |
 | `BILLS-PAY` | `BILLS-ROOT` | Tab / view | Manage obligations the user needs or expects to pay. | DOC-06C | Defined baseline |
 | `BILLS-RECEIVE` | `BILLS-ROOT` | Tab / view | Manage payee-created obligations and requests the user expects to receive. | DOC-06C | Defined baseline |
@@ -52,8 +52,8 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `REQUESTS-ROOT` | Dashboard shortcut / Me | Root screen | List and manage received, sent, and archived requests. | DOC-06B | Defined baseline |
 | `REQUESTS-DETAIL` | `REQUESTS-ROOT` / notification / deeplink | Child screen | Review and act on one request while preserving linked-context handoffs. | DOC-06B | Defined baseline |
 | `REQUESTS-NEW` | Requests / Pay+ / bill/rent context | Child flow | Create and send one controlled evidence-backed request. | DOC-06B | Defined baseline |
-| `INSTRUCTIONS-ROOT` | Dashboard shortcut / Pay+ | Root screen | List pending pay-later and incomplete payment instructions. | DOC-06B | Defined baseline |
-| `INSTRUCTIONS-DETAIL` | `INSTRUCTIONS-ROOT` / alert | Child screen | View and act on one pending or incomplete instruction. | DOC-06B | Defined baseline |
+| `INSTRUCTIONS-ROOT` | Dashboard shortcut / Pay+ | Root screen | List deliberate pay-later Payment Instructions and incomplete Checkout Workspaces without treating them as the same domain object. | DOC-06B | Defined baseline |
+| `INSTRUCTIONS-DETAIL` | `INSTRUCTIONS-ROOT` / alert | Child screen | View and act on one Payment Instruction or one incomplete Checkout Workspace according to its distinct rules. | DOC-06B | Defined baseline |
 | `PAYMENT-PROFILE-ROOT` | Dashboard shortcut / Me / checkout / instruction | Root route family | Manage tokenized cards and saved split-card profiles. | DOC-06B | Defined baseline |
 | `PAYMENT-CARD-LIST` | `PAYMENT-PROFILE-ROOT` Cards tab | Initial screen / tab content | List and manage tokenized cards. | DOC-06B | Defined baseline |
 | `PAYMENT-CARD-ADD` | `PAYMENT-CARD-LIST` | Child flow | Add and tokenize a card through the selected PSP flow. | DOC-06B | Defined baseline |

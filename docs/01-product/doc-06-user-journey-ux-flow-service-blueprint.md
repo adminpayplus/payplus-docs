@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.30
+version: 0.21.31
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-29
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -25,7 +25,7 @@ related_documents:
   - DOC-06D UX Requirements, Acceptance Criteria & Test Matrix
   - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
@@ -44,14 +44,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `0.21.30` |
+| **Version** | `0.21.31` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-29` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -98,7 +98,7 @@ The DOC-06 family keeps the following MVP user-journey scope as the official bas
 | Role | Description | MVP Login? | Key Journey Responsibility |
 | --- | --- | ---: | --- |
 | Payer | User who reviews, accepts, rejects, raises approved support/exception cases where needed, and authorizes payment. | Yes | Create obligations, review requests, authorize payment, track status. |
-| Payee | User who receives payments or creates payment requests. | Yes | Create requests, upload evidence, send requests, optionally adopt/link payer-created records, track status. |
+| Payee | User who receives payments or creates Requests. | Yes | Create Requests, upload evidence, send Requests, optionally adopt/link payer-created records, track status. |
 | Admin / Operations | Internal user who reviews accounts, evidence, requests, risk, disputes, and exceptions. | Yes | Review, approve, reject, hold, investigate, configure, and audit. |
 | System | Automated services handling status changes, notifications, linking, validation, audit events, and integrations. | No | Route, link, notify, validate, and record events. |
 
@@ -175,7 +175,7 @@ PayPlus supports two-sided payment journeys between a payer and a payee.
 
 A payment may originate from either side:
 
-- a payee may create a bill, invoice, fee, rent, tenancy, agreement, employment/service record, statement, or other evidence-backed payment request and send it to a payer; or
+- a payee may create an evidence-backed Request for a bill, invoice, fee, rent, tenancy, agreement, employment/service record, statement, or other approved obligation and send it to a payer; or
 - a payer may create a bill, invoice, fee, rent, tenancy, employment/service, or payment obligation record, link or invite a payee, and push payment to that payee.
 
 In all cases:
@@ -260,7 +260,7 @@ Cross-document blockers remain tracked in docs/traceability/open-questions-regis
 | DOC-05 | Master product requirements and MVP scope. |
 | DOC-07 | User-facing disclosure, authorization, evidence, privacy, and policy wording. |
 | DOC-08 | Notification templates, channels, triggers, user preferences, and delivery logging. |
-| DOC-09 | Payment request, funding, authorization, and settlement readiness. |
+| DOC-09 | Payment Domain architecture and business invariants from payment-facing Bill/Rent facts through obligations, checkout, funding execution, confirmed Payments, and Payment Applications. Requests remain upstream; Settlement and Payout remain with DOC-10. |
 | DOC-10 | Payout, payout readiness, payout destination, batching, and reconciliation. |
 | DOC-11 | Refund, cancellation, reversal, dispute, and chargeback handling. |
 | DOC-12 | Bill category, document AI/OCR, evidence verification, duplicate detection, and payee matching. |
@@ -289,7 +289,7 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | Payee registration and login are MVP scope. | Confirmed |
 | Payer dashboard is MVP scope. | Confirmed |
 | Payee dashboard is MVP scope. | Confirmed |
-| Payee-created payment requests are MVP scope. | Confirmed |
+| Payee-created Requests are MVP scope. | Confirmed |
 | Payer-created payments are MVP scope. | Confirmed |
 | Tenancy and rent journeys are MVP scope. | Confirmed |
 | Payee-created bill, invoice, tenancy, or obligation setup is MVP scope. | Confirmed |
@@ -309,7 +309,7 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | `Pay+` is the preferred center bottom-nav action label and opens `PAYPLUS-ACTION-SHEET`. Its confirmed two-row order is Pay a Bill and Pay Rent, then Add Bill / Rent, Continue Payment, and Request Payment; exact visual specification remains open. | Defined Behavior / Not Final Visual Design |
 | `Add Bill / Rent` includes scan QR, upload evidence, and manual entry inside the setup flow; QR/upload is not a standalone instant-payment action. | Working Baseline |
 | Pay+ `Request Payment` is a payee-to-payer payment-request entry available by default unless unavailable or restricted. Optional payer-to-payee linking starts contextually from the linked bill/rent flow and is not payment authorization. | Confirmed |
-| Pay+ `Continue Payment` is disabled with no active pending/incomplete instruction, opens one `INSTRUCTIONS-DETAIL` when exactly one exists, and opens `INSTRUCTIONS-ROOT` when more than one exists; review-blocked instructions remain visible but cannot continue. | Confirmed |
+| Pay+ `Continue Payment` is disabled with no active pending Payment Instruction or continuable incomplete Checkout Workspace, opens one `INSTRUCTIONS-DETAIL` when exactly one managed item exists, and opens `INSTRUCTIONS-ROOT` when more than one exists; review-blocked items remain visible but cannot continue. | Confirmed |
 | MVP dashboard shortcuts are Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More. | Designated Layout Baseline |
 | Dashboard shortcuts must be admin-configurable and user-reorderable, with user settings overriding system default and restore-default support. | Confirmed |
 | Important Notice / Action Required is a combined swipeable section, collapsible by user, hidden when empty. | Confirmed |
@@ -366,6 +366,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.31 | 2026-07-31 | Aligned the DOC-06 family map and Request terminology with DOC-09 Payment Domain Architecture and separated Payment Instruction from incomplete Checkout continuation without redefining route UX. |
 | v0.21.30 | 2026-07-29 | Synchronized the DOC-06 family with the capability-aware Outcome-to-Resolution framework and the decision-complete `AUTH-RECOVERY` product baseline without changing existing authentication routes or statuses. |
 | v0.21.29 | 2026-07-28 | Synchronized the DOC-06 parent with the completed human-readable Phone Verification, five-state Identity Verification, and Payment Passcode Set/Change/Reset baselines while retaining provider/security/test detail with DOC-17/DOC-19/DOC-20/DOC-22. |
 | v0.21.28 | 2026-07-28 | Synchronized the parent with all three Account Activation child routes, the first-time identity-verification passcode exception, and the still-pending detailed verification/passcode screens and DOC-19/DOC-20 handoffs. |

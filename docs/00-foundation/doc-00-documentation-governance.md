@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.7
+version: 0.7.8
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,7 +12,7 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-07-26
+last_updated: 2026-07-31
 classification: Internal
 related_documents: []
 ---
@@ -23,12 +23,12 @@ related_documents: []
 | --- | --- |
 | **Document ID** | `DOC-00` |
 | **Title** | Documentation Governance |
-| **Version** | `0.7.7` |
+| **Version** | `0.7.8` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Documentation Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead |
 | **Approvers** | Product Lead<br>Engineering Lead |
-| **Last Updated** | `2026-07-26` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
 | **Related Documents** | None |
 
@@ -161,7 +161,7 @@ payplus-docs/
 |   |   |-- doc-07-content-disclosure-user-authorization-spec.md
 |   |   `-- doc-08-notification-receipt-communication-spec.md
 |   |-- 02-payment-domain/
-|   |   |-- doc-09-payment-request-multi-funding-source-settlement.md
+|   |   |-- doc-09-payment-domain-architecture.md
 |   |   |-- doc-10-payout-reconciliation.md
 |   |   `-- doc-11-refund-cancellation-chargeback.md
 |   |-- 03-bill-verification/
@@ -299,7 +299,7 @@ Document IDs must not be reused. Deprecated or retired document IDs remain reser
 | DOC-06D | UX Requirements, Acceptance Criteria & Test Matrix | 01-product/ | doc-06d-ux-requirements-acceptance-test-matrix.md |
 | DOC-07 | Content, Disclosure & User Authorization Specification | 01-product/ | doc-07-content-disclosure-user-authorization-spec.md |
 | DOC-08 | Notification, Receipt & Communication Specification | 01-product/ | doc-08-notification-receipt-communication-spec.md |
-| DOC-09 | Payment Request, Multi-Funding Source & Settlement | 02-payment-domain/ | doc-09-payment-request-multi-funding-source-settlement.md |
+| DOC-09 | Payment Domain Architecture | 02-payment-domain/ | doc-09-payment-domain-architecture.md |
 | DOC-10 | Payout & Reconciliation | 02-payment-domain/ | doc-10-payout-reconciliation.md |
 | DOC-11 | Refund, Cancellation & Chargeback | 02-payment-domain/ | doc-11-refund-cancellation-chargeback.md |
 | DOC-12 | Bill Category, Document AI/OCR & Payee Verification Specification | 03-bill-verification/ | doc-12-bill-category-document-ai-ocr-payee-verification-spec.md |
@@ -643,7 +643,7 @@ Foundation documents guide downstream documents as follows:
 | DOC-06D UX Requirements, Acceptance Criteria & Test Matrix | Define UX requirement IDs, acceptance criteria, route/action/state/event/test mapping, and test-readiness tracking. |
 | DOC-07 Content, Disclosure & User Authorization Specification | Define approved product language, disclosures, user authorization, consent, and confirmation requirements. |
 | DOC-08 Notification, Receipt & Communication Specification | Define lifecycle-based notifications, receipts, and communication rules. |
-| DOC-09 Payment Request, Multi-Funding Source & Settlement | Define payment request, funding, authorization, and settlement behavior. |
+| DOC-09 Payment Domain Architecture | Define Payment Domain architecture from Bill/Rent Payable Basis through Payment Obligation, Checkout Workspace, funding execution, Payment, and Payment Application; preserve downstream Settlement/Payout and adjustment ownership boundaries. |
 | DOC-10 Payout & Reconciliation | Define payout, settlement evidence, reconciliation, and exception rules. |
 | DOC-11 Refund, Cancellation & Chargeback | Define cancellation, refund, dispute, chargeback, and reversal rules. |
 | DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification | Define bill category, evidence, OCR, validation, and payee verification rules. |
@@ -859,6 +859,7 @@ DOC-00 must remain focused on documentation governance only.
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.7.8 | 2026-07-31 | Product Documentation Team | Aligned the DOC-09 register title and ownership description with the accepted Payment Domain Architecture and renamed its canonical file to `doc-09-payment-domain-architecture.md` following Founder approval. |
 | 0.7.7 | 2026-07-26 | Product Documentation Team | Aligned the governed repository tree with hierarchical route maps and dated superseded route-map snapshots. |
 | 0.7.6 | 2026-07-26 | Product Documentation Team | Registered the canonical product-destination route register and established the prototype lifecycle register, single-current-prototype rule, and dated/versioned archive convention; no current prototype is registered at this baseline. |
 | 0.7.5 | 2026-07-22 | Product Documentation Team | Kept YAML as canonical metadata, added the synchronized human-readable Document Control table requirement, aligned and repaired the repository-tree and lifecycle-arrow presentation, and exempted empty placeholders and backups from mechanical formatting. |

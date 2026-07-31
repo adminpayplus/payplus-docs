@@ -1,7 +1,7 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 0.9.2
+version: 0.9.3
 status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
@@ -15,7 +15,7 @@ approvers:
   - Project Owner
   - Finance Lead
   - Commercial Lead
-last_updated: 2026-07-27
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -23,7 +23,7 @@ related_documents:
   - DOC-03 Regulatory, PSP & Acquirer Assessment
   - DOC-04 Compliance Certification Roadmap & Control Framework
   - DOC-05 Master PRD & Feature Requirement Index
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
@@ -37,14 +37,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-02` |
 | **Title** | Business Model & Unit Economics |
-| **Version** | `0.9.2` |
+| **Version** | `0.9.3` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Commercial / Finance Owner |
 | **Reviewers** | Product Lead<br>Finance Lead<br>Commercial Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Finance Lead<br>Commercial Lead |
-| **Last Updated** | `2026-07-27` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
 ---
 
@@ -73,7 +73,7 @@ PayPlus should only scale a category, request model, payee type, payment method,
 PayPlus should evaluate profitability at the following levels:
 
 - transaction;
-- payment request;
+- request;
 - user or payer;
 - payee;
 - request creator type;
@@ -129,7 +129,7 @@ PayPlus may use one or more approved business model components.
 
 | Model Component | Description | Candidate Use |
 | --- | --- | --- |
-| Payer-paid service fee | Payer pays a fee when funding a direct payer-created payment or an accepted payee-created payment request. | Core candidate model. |
+| Payer-paid service fee | Payer pays a fee when funding a direct payer-created payment or a Payment Obligation reached through an accepted payee-created Request. | Core candidate model. |
 | Percentage fee | Fee calculated as a percentage of bill amount or funded amount. | Candidate core fee model. |
 | Fixed fee | Flat fee per request, transaction, payout, or other approved event. | Candidate supplemental model. |
 | Minimum fee | Fee floor to avoid negative economics on small transactions. | Candidate margin protection. |
@@ -157,7 +157,7 @@ Candidate revenue streams include:
 | Revenue Stream | Description | Notes |
 | --- | --- | --- |
 | Service fee | Fee charged to user or payer per transaction. | Must be disclosed before payment confirmation. |
-| Payer service fee | Fee charged when payer authorizes payment. | May apply to a direct payer-created payment or an accepted payee-created payment request. |
+| Payer service fee | Fee charged when payer authorizes payment. | May apply to a direct payer-created payment or a Payment Obligation reached through an accepted payee-created Request. |
 | Payee onboarding fee | Fee charged to payee for onboarding, verification, or activation. | Requires legal, tax, and commercial review. |
 | Payee subscription or platform fee | Recurring fee for payee portal, reporting, request creation, or support tools. | Requires billing and cancellation rules. |
 | Payee request fee | Fee charged per request created, sent, accepted, funded, paid, or completed. | Trigger point must be defined. |
@@ -456,7 +456,7 @@ Each promotion must define:
 
 - funding source;
 - whether it applies to payer, payee, or both;
-- whether eligibility differs for direct payer-created payments, optional payer-to-payee linking requests, and payee-created payment requests;
+- whether eligibility differs for direct payer-created payments, optional payer-to-payee linking Requests, and payee-created Requests;
 - budget;
 - eligibility;
 - qualification and entitlement rules;
@@ -686,7 +686,7 @@ Candidate metrics include:
 | Payout failure rate | Percentage of payouts that fail. |
 | Category profitability | Margin by bill category. |
 | Payee profitability | Margin by payee or payee type. |
-| Origin-model profitability | Margin by direct payer-created payment versus accepted payee-created payment request, with optional linking tracked separately where applicable. |
+| Origin-model profitability | Margin by direct payer-created payment versus payment from an accepted payee-created Request, with optional linking tracked separately where applicable. |
 | Partner profitability | Margin by partner or payment route. |
 | Campaign profitability | Margin after campaign cost. |
 | Payee-created request volume | Number and value of requests created by approved payees. |
@@ -763,7 +763,7 @@ Detailed data model and ledger design belong in `DOC-18`.
 Finance and Legal/Tax must determine:
 
 - whether PayPlus acts as principal or agent in each flow;
-- whether treatment differs for direct payer-created payments, optional payer-to-payee linking requests, and payee-created payment requests;
+- whether treatment differs for direct payer-created payments, optional payer-to-payee linking Requests, and payee-created Requests;
 - how onboarded payees are classified for accounting and tax purposes;
 - whether fees are recognized gross or net;
 - when payer-side revenue is recognized;
@@ -919,7 +919,7 @@ This document provides a framework only and does not establish accounting or tax
 | `OQ-DOC02-012` | What tax treatment applies to user fees, payer fees, payee fees, partner fees, and promotions? | Legal / Tax / Finance | Critical | Open |
 | `OQ-DOC02-013` | What data fields are required to calculate transaction, request, payee, and request-origin margin accurately? | Finance / Engineering | High | Open |
 | `OQ-DOC02-014` | What commercial approval process is required before category, payee type, request-origin, or pricing changes? | Project Owner / Finance | Medium | Open |
-| `OQ-DOC02-015` | What commercial gates must payee-created payment requests pass before launch enablement and scale-up? | Project Owner / Commercial / Product | Critical | Open |
+| `OQ-DOC02-015` | What commercial gates must payee-created Requests and the resulting Payment Obligations pass before launch enablement and scale-up? | Project Owner / Commercial / Product | Critical | Open |
 | `OQ-DOC02-016` | Which payee types can be commercially supported for request creation? | Commercial / Product / Risk | Critical | Open |
 | `OQ-DOC02-017` | Are payees charged onboarding, subscription, invoice, request, payout, platform, or transaction fees? | Commercial / Finance / Product | Critical | Open |
 | `OQ-DOC02-018` | If payee-side fees are charged, when are they charged: onboarding, request creation, request delivery, payer acceptance, funding, payout, monthly, or another trigger? | Commercial / Finance / Product | High | Open |
@@ -974,6 +974,7 @@ This document should remain a commercial framework and should not become a final
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.9.3` | 2026-07-31 | Product Documentation Team | Aligned DOC-09 title references and commercial request-origin language with Request-as-linkage and Payment Obligation boundaries. |
 | `0.1.0` | 2026-05-14 | Initial Author | Initial draft of DOC-02 Business Model & Unit Economics. |
 | `0.2.0` | 2026-05-26 | Product Documentation Team | Reframed as foundation commercial framework, added unit economics model, revenue and cost taxonomy, commercial viability gates, pricing governance, promotion economics, settlement and reserve considerations, reporting expectations, assumptions, constraints, dependencies, risks, downstream impact, and standardized metadata and version history. |
 | `0.3.0` | 2026-05-27 | Product Documentation Team | Updated commercial framework to account for payee onboarding and payee-created bill, invoice, fee, and rent payment request capability introduced in DOC-05 v0.2.0. Added payee-side revenue streams, payee onboarding and verification costs, request-origin economics, payer/payee fee allocation, payee-created request funnel metrics, rent/invoice economics, payee-side pricing governance, commercial viability gates, reporting and ledger expectations, assumptions, constraints, dependencies, risks, and open questions. |

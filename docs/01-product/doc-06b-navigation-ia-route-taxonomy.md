@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.38
+version: 0.1.39
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-29
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -23,7 +23,7 @@ related_documents:
   - DOC-06D UX Requirements, Acceptance Criteria & Test Matrix
   - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
@@ -40,14 +40,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.38` |
+| **Version** | `0.1.39` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-29` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -134,8 +134,8 @@ Each route must have one primary owner. DOC-06B may list related documents, but 
 | Route shell | Route ID, route purpose, entry points, destination relationship, major sections, empty state, and high-level allowed actions. | N/A |
 | Request lifecycle | Route entry and where request lists open. | DOC-06A owns lifecycle, status meaning, acceptance, rejection, expiry, cancellation, and any later clarification/dispute extension if enabled. |
 | Bills/rent request implementation | Global shortcut and route relationship. | DOC-06C owns `BILLS-PAY`, `BILLS-RECEIVE`, cards, details, request/remind-payer actions, and Bills-route handoff. |
-| Payment/checkout route | Entry and return/handoff expectations only. | DOC-09 owns checkout screen behavior, payment instruction, funding, authorization, and payment states. |
-| Payment Profile route | Route shell, entry points, major screens, card/profile management purpose, and route handoff. | DOC-09 owns checkout selection, allocation, authorization, funding, and payment states. DOC-19 owns tokenization and security mechanics. |
+| Payment/checkout route | Route ID, screen structure, entry/return behavior, interaction presentation, and handoffs. | DOC-09 owns Payment Domain architecture, monetary invariants, obligations, Checkout Workspace, funding execution, payer-authorization boundaries, Payments, and Payment Applications. DOC-07 owns Outcomes/Messages/CTAs; DOC-18 owns machine implementation. |
+| Payment Profile route | Route shell, entry points, major screens, card/profile management purpose, and route handoff. | DOC-09 owns payment-time Funding Allocation and execution semantics. DOC-19 owns tokenization and security mechanics. |
 | Notification destination | Route target for a notification tap. | DOC-08 owns notification IDs, channels, templates, preferences, and delivery rules. |
 | Data/intelligence signal | Signal existence at route level. | DOC-18 owns event taxonomy, schema, lineage, analytics, and reporting. |
 
@@ -408,8 +408,8 @@ The design must support reduced-motion accessibility and future additional actio
 | `Pay a Bill` | `BILLS-PAY` | Open a temporary Bill/Fee/non-rent selection scope. Do not overwrite the user's saved Bills filters. A payment-ready selection may continue to DOC-09 `PAYMENT-CHECKOUT`; a non-ready selection opens the applicable detail or resolution context. |
 | `Pay Rent` | `BILLS-PAY` | Open a temporary Rent/Tenancy selection scope with the same saved-filter and readiness rules. |
 | `Add Bill / Rent` | `BILLS-ADD` | Start evidence-backed setup. QR scan, file/photo upload, and manual entry remain inside this flow and are not standalone Pay+ payment actions. |
-| `Continue Payment` | `INSTRUCTIONS-DETAIL` or `INSTRUCTIONS-ROOT` | Count active pending and incomplete instructions, including visible review-blocked instructions. With none, show the action disabled; with one, open its detail; with more than one, open the instruction list. Review-blocked instructions remain visible but cannot continue until the blocking condition is resolved. |
-| `Request Payment` | `REQUESTS-NEW` | Start a payee-to-payer payment request linked to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation. This action is available by default to all users because one account may act as payer and payee. |
+| `Continue Payment` | `INSTRUCTIONS-DETAIL` or `INSTRUCTIONS-ROOT` | Count active pending Payment Instructions and continuable incomplete Checkout Workspaces, including visible review-blocked items. With none, show the action disabled; with one, open its detail; with more than one, open the list. Review-blocked items remain visible but cannot continue until the blocking condition is resolved. |
+| `Request Payment` | `REQUESTS-NEW` | Start a payee-to-payer Request linked to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation. This action is available by default to all users because one account may act as payer and payee. |
 
 `Request Payment` in this sheet does not start a payer-to-payee linking request. A payer may create a separate optional linking request from the relevant bill/rent detail, `BILLS-LINKING`, or another approved contextual request action. That request may create shared visibility or communication after acceptance, but it is not payment authorization and is not required for a payer-created direct obligation or payment.
 
@@ -569,7 +569,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Me Area IA | `ME-ROOT` is the permanent account-control route. Its section order, established-route handoffs, core account child-route behavior, masking, reveal, state, and return boundaries are defined in Section 5.17. | Core account child routes defined / other details pending |
 | More Shortcuts IA | Maintain `MORE-ROOT` shortcut management, reorder/arrangement, restore-default behavior, approved secondary-service entry, and protected access to More. | Defined baseline / final visual design open |
 | Requests Route | Define standalone Requests route shell, creation flow, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
-| Instructions Route | Define payment instruction / 付款指示 route shell, pending versus incomplete instruction display, edit boundaries, cancellation/archive behavior, and checkout handoff. | Working baseline / not finalized |
+| Instructions Route | Define payment instruction / 付款指示 route shell, deliberate Payment Instruction versus incomplete Checkout Workspace display, edit boundaries, cancellation/archive behavior, and checkout handoff. | Working baseline / not finalized |
 | Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
 | Activity Route | Define global account-level financial activity route shell, including role-aware `Paid` / `Received` views, single-entry transaction lifecycle behavior, and status-display matrix handoff. | Route shell defined / not final UI |
 | Receipts & Statements Route | Define the searchable receipt/statement list, direct download, shared PDF preview, return behavior, and re-issue handoff. | Root and preview behavior defined / not final PDF design |
@@ -640,7 +640,7 @@ The canonical request lifecycle and user-facing labels are:
 | Header Inbox icon | Opens Inbox first; request-related inbox items may route to `REQUESTS-ROOT`, `REQUESTS-DETAIL`, or linked Bills/rent context depending on item type. |
 | Request notification | Routes to `REQUESTS-DETAIL` by default when a specific request exists. It may route to `REQUESTS-ROOT`, `BILLS-PAY`, `BILLS-RECEIVE`, or linked bill/rent detail only where DOC-08 routing rules require it. |
 | `+ Create Request` in `REQUESTS-ROOT` | Opens `REQUESTS-NEW`. |
-| Pay+ `Request Payment` | Opens `REQUESTS-NEW` for a payee-to-payer payment request. It must not create an open money request, start a payer-to-payee linking request, or bypass evidence-backed context setup. |
+| Pay+ `Request Payment` | Opens `REQUESTS-NEW` for a payee-to-payer Request. It must not create an open money request, start a payer-to-payee linking request, or bypass evidence-backed context setup. |
 | `Request` action on Bills/rent card or detail | Creates, sends, resends, or updates a request record for the selected verified context. It does not open `REQUESTS-ROOT` by default. |
 | `Remind Payer` action on Bills/rent card or detail | Creates or sends a request reminder event against the existing request; it does not create a payment action or a new request. |
 | App link, WhatsApp deeplink, QR code, or approved channel | Opens onboarding/login first where required, then routes to `REQUESTS-DETAIL` for the relevant request context. |
@@ -723,7 +723,7 @@ Request activity may show system-visible request events such as created, submitt
 
 #### 5.11.8 `REQUESTS-NEW` Creation Flow
 
-`REQUESTS-NEW` is the controlled request creation flow. It may be opened from the `+ Create Request` action in `REQUESTS-ROOT`, Pay+ `Request Payment` for payee-to-payer payment requests, or an approved contextual Bills/rent request action. Payer-to-payee linking begins contextually and must not be mistaken for the Pay+ action.
+`REQUESTS-NEW` is the controlled request creation flow. It may be opened from the `+ Create Request` action in `REQUESTS-ROOT`, Pay+ `Request Payment` for payee-to-payer Requests, or an approved contextual Bills/rent request action. Payer-to-payee linking begins contextually and must not be mistaken for the Pay+ action.
 
 The flow must not create an open money request. It must link to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation before sending. It must not perform payment quote, checkout, authorization, funding, settlement, payout, or refund actions.
 
@@ -838,7 +838,7 @@ These signals should support service quality, funnel analysis, risk review, supp
 
 The user-facing route label may be `Payment Instructions` or `付款指示`.
 
-The route is for pending, future, or incomplete payment setups. It is not the normal pay-now checkout route, not a bill/rent reminder route, not a request route, not full card management, and not payment history.
+The route manages two distinct item kinds: deliberate pay-later Payment Instructions and incomplete Checkout Workspaces that remain continuable. It is not the normal pay-now checkout route, not a bill/rent reminder route, not a request route, not full card management, and not payment history. Surfacing both item kinds in the same management route does not make an incomplete Checkout Workspace a Payment Instruction.
 
 | Field | Requirement |
 | --- | --- |
@@ -846,40 +846,38 @@ The route is for pending, future, or incomplete payment setups. It is not the no
 | Detail product destination | `INSTRUCTIONS-DETAIL` |
 | Optional traceability screen reference | `SCREEN-06B-INSTRUCTIONS-DETAIL` |
 | Primary owner | DOC-06B owns route shell, list/detail layout, entry points, high-level actions, and route handoff. |
-| Payment owner | DOC-09 owns payment instruction mechanics, checkout/payment screen behavior, payment quote, payment profile/card allocation, funding-leg state, authorization, revalidation, and payment status. |
+| Payment owner | DOC-09 owns Payment Instruction and Checkout Workspace business meaning, funding and monetary invariants, payer-authorization boundaries, confirmed Payment creation, Payment Application, and continuation rules. DOC-06B owns route-level screen behavior and presentation. |
 | Related owners | DOC-08 owns notification delivery; DOC-13 owns promotion quote impact; DOC-15 owns masking/privacy; DOC-18 owns schema/events; DOC-19 owns security/tokenization; DOC-22 owns admin controls. |
 
 #### 5.12.1 Instruction Definition
 
-A payment instruction means the user has already entered, or intentionally started, a payment setup and the payment is not submitted or completed immediately.
+A Payment Instruction is a deliberate user-created pay-later arrangement. It is not created merely because an immediate Checkout is interrupted, partly funded, failed, cancelled, or abandoned.
 
 Payment instruction is created only where:
 
 - the user intentionally creates a pay-later instruction within the allowed instruction window;
-- the user starts a split-card payment and one or more funding legs remain pending;
-- a payment setup remains incomplete due to pending, failed, expired, or retry-required funding action;
 - the instruction requires user action before payment can proceed.
 
-Payment instruction must not be created merely because a user pays immediately and completes payment. Normal completed payments belong to receipt/activity surfaces. A user who wants to pay beyond the allowed instruction window should create a normal reminder or future payment prompt, not a payment instruction.
+An immediate Checkout that has started execution but has not fully funded its Checkout Target remains an incomplete Checkout Workspace. It may appear in this route for continuation or archive behavior, but it retains its own Checkout identity and lifecycle. Normal completed payments belong to receipt/activity surfaces. A user who wants an alert without creating a pay-later arrangement should create a normal reminder.
 
 #### 5.12.2 Instruction Types
 
-| Type | Meaning | User Edit Boundary |
+| Managed Item | Meaning | User Edit Boundary |
 | --- | --- | --- |
-| Pending Instruction | User intentionally set up a future/pay-later payment and no funding leg has been submitted. | User may change target bill/rent, amount, payment profile/card allocation, and payment schedule before submitting. |
-| Incomplete Instruction | User already started payment and at least one payment step, funding leg, or failure/retry state exists. | User may continue payment or archive the instruction, but should not materially change target bill/rent, original amount, or completed funding legs. |
+| Pending Payment Instruction | User intentionally set up a future/pay-later arrangement and no Provider Submission has been initiated for the related Checkout. | User may update the instruction's permitted setup before execution. When Checkout begins, DOC-09 target-lock and authorization rules apply. |
+| Incomplete Checkout Workspace | Immediate payment execution started but the immutable Checkout Target was not fully funded. It is not a Payment Instruction. | User may continue or close/archive the continuable Checkout presentation. Confirmed Payments and Payment Applications remain immutable; the locked Checkout Target and Obligation Allocations cannot be reduced or redefined. |
 
-`Pay now` is not an instruction type. It is the normal checkout/payment path governed by DOC-09. Every payment may have backend session, quote, attempt, or audit records, but only pending/future/incomplete setups appear as user-facing payment instructions.
+`Pay now` is not an instruction type. It is the normal checkout path governed by DOC-09. Every attempt may have session, provider, or audit records, but only deliberate pay-later arrangements are Payment Instructions.
 
 #### 5.12.3 Entry Points
 
 | Entry Point | Route Behavior |
 | --- | --- |
 | Dashboard shortcut `Instructions` | Opens `INSTRUCTIONS-ROOT`. |
-| Pay+ `Continue Payment` | Disabled when no active pending/incomplete instruction exists; opens `INSTRUCTIONS-DETAIL` for exactly one or `INSTRUCTIONS-ROOT` for more than one. Review-blocked instructions remain visible but cannot continue. |
+| Pay+ `Continue Payment` | Disabled when no active pending Payment Instruction or continuable incomplete Checkout Workspace exists; opens `INSTRUCTIONS-DETAIL` for exactly one or `INSTRUCTIONS-ROOT` for more than one. Review-blocked items remain visible but cannot continue. |
 | Important Notice / Action Required card | Opens the relevant `INSTRUCTIONS-DETAIL` where a specific instruction exists. |
-| Payment instruction notification | Opens `INSTRUCTIONS-DETAIL` by default for context; its primary action may continue to DOC-09 checkout/review where payment submission is required. |
-| Checkout/payment flow | May create or update a payment instruction where user chooses pay later, split-card remains incomplete, or payment remains pending action. |
+| Payment action notification | Opens `INSTRUCTIONS-DETAIL` by default for context; its primary action may continue to the relevant Checkout Workspace where payment submission is required. |
+| Checkout flow | Creates or updates a Payment Instruction only when the user deliberately chooses pay later. An interrupted or partly funded immediate Checkout returns as an incomplete Checkout Workspace without conversion into an instruction. |
 
 #### 5.12.4 `INSTRUCTIONS-ROOT` List Screen
 
@@ -889,22 +887,22 @@ Recommended screen order:
 
 1. Header: `Payment Instructions` or `付款指示`.
 2. Top action: `+ Add Instruction`.
-3. Filter row: `All`, `Pending`, `Incomplete`, `Archived`.
-4. Instruction card list.
+3. Filter row: `All`, `Pay Later`, `Incomplete`, `Archived`.
+4. Managed-item card list.
 5. Empty state.
 
-Instruction cards should be compact. They should not behave like a full payment summary or receipt.
+Cards should be compact. They should not behave like a full payment summary or receipt, and must identify whether the item is a Payment Instruction or an incomplete Checkout Workspace.
 
 MVP card fields:
 
 - linked bill/rent/fee name;
 - category;
 - payee / recipient name;
-- intended amount or remaining amount, depending instruction type;
-- instruction status;
+- intended amount for a Payment Instruction, or immutable Checkout Target plus remaining target amount for an incomplete Checkout Workspace;
+- item type and current user-facing condition;
 - timing label:
   - pending instruction: `Pay on [date]`;
-  - incomplete instruction: `Expires in X days`, `Expires today`, or `Expired`.
+  - incomplete Checkout Workspace: `Expires in X days`, `Expires today`, or `Expired`.
 
 Card action:
 
@@ -914,7 +912,7 @@ The card should not show detailed quote, fee, promotion, or full payment profile
 
 #### 5.12.5 `INSTRUCTIONS-DETAIL` Detail Screen
 
-`INSTRUCTIONS-DETAIL` explains and controls one instruction. It is a context and management screen; actual payment submission remains in DOC-09 checkout/payment.
+`INSTRUCTIONS-DETAIL` explains and controls one Payment Instruction or one incomplete Checkout Workspace. It is a context and management screen; actual payment submission remains in `PAYMENT-CHECKOUT` under DOC-09 domain rules.
 
 For a pending instruction, show:
 
@@ -940,7 +938,7 @@ Pending instruction actions:
 - `Update Instruction`;
 - `Cancel Instruction`.
 
-For an incomplete instruction, show:
+For an incomplete Checkout Workspace, show:
 
 - linked bill/rent/fee;
 - category;
@@ -953,12 +951,12 @@ For an incomplete instruction, show:
 - expiry countdown;
 - instruction status.
 
-Incomplete instruction actions:
+Incomplete Checkout actions:
 
 - `Continue Payment`, routing to DOC-09 checkout/review for remaining eligible action;
 - `Archive`.
 
-Incomplete instruction must not allow material changes to the target bill/rent, original intended amount, or completed funding legs. If the user wants a different target, different amount, or different payment setup after payment has partly started, the user should create a new payment or instruction instead of mutating the incomplete one.
+Incomplete Checkout must not allow reduction or redefinition of the locked Checkout Target, Obligation Allocations, confirmed Payments, or Payment Applications. Permitted changes to unexecuted funding arrangements must remain within the locked Checkout Target and follow DOC-09 allocation-version and renewed-authorization rules. Closing or expiry ends continuation only and does not rewrite confirmed financial facts.
 
 #### 5.12.6 Add Instruction Flow
 
@@ -1002,7 +1000,7 @@ Allowed route behavior:
 - show if a selected card or profile is unavailable, expired, failed, or requires action;
 - for pending single-card instructions, provide `Choose Card` or `Update Card`;
 - for pending split-card instructions, provide `Choose Profile` or `Edit Profile`;
-- for incomplete instructions, preserve completed funding-leg facts and route only to permitted continuation or correction actions.
+- for incomplete Checkout Workspaces, preserve confirmed Payment and Payment Application facts and route only to permitted continuation, closure, or correction actions.
 
 Handoff behavior:
 
@@ -1026,8 +1024,8 @@ Material signals include:
 - pending instruction created;
 - pending instruction updated;
 - pending instruction cancelled;
-- incomplete instruction continued;
-- incomplete instruction archived;
+- incomplete Checkout Workspace continued;
+- incomplete Checkout Workspace archived from active presentation;
 - instruction expired;
 - payment profile/card issue displayed;
 - user routed from instruction to Payment Profile;
@@ -1042,7 +1040,7 @@ These signals support funnel analysis, payment-friction analysis, support invest
 
 | Item | Owner | Status |
 | --- | --- | --- |
-| Final visual layout, field density, and exact button labels for pending versus incomplete instruction cards | Product / Design | Open |
+| Final visual layout, field density, and exact button labels distinguishing Payment Instruction cards from incomplete Checkout Workspace cards | Product / Design | Open |
 | Final expiry window, expiry countdown wording, cancellation/archive rules, and restore rules | Product / Payments / Operations | Open |
 | Exact visual copy, placement, and return-state UI for handoff among `INSTRUCTIONS-DETAIL`, `PAYMENT-PROFILE-ROOT`, and DOC-09 checkout. Route direction is clarified in `docs/diagrams/routes/payplus-instructions-route-map.md` and `docs/diagrams/routes/payplus-payment-profile-route-map.md`. | Product / Payments / Security | Open |
 | Exact notification wording and timing for payment instruction action alerts | Product / Payments / DOC-08 | Open |
@@ -2408,7 +2406,7 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
 | OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
 | OQ-06B-006 | What exact visual styling, card density, field-level copy, resend/reminder limit, share-button placement, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
-| OQ-06B-007 | What exact visual styling, field density, expiry/archive wording, and card/payment-profile handoff should apply to pending and incomplete payment instruction routes? | Product / Design / Payments / Security | Open |
+| OQ-06B-007 | What exact visual styling, field density, expiry/archive wording, and card/payment-profile handoff should distinguish deliberate Payment Instructions from incomplete Checkout Workspaces in the shared Instructions route? | Product / Design / Payments / Security | Open |
 | OQ-06B-008 | What exact Payment Profile card styling, field density, empty-state copy, tokenization return UX, and permitted PSP card metadata should be used? Two-tab `Cards` / `Profiles` structure is confirmed. | Product / Design / Payments / Security | Partially open |
 | OQ-06B-009 | What exact Activity visual styling, field density, search/filter behavior, grouping behavior, empty-state copy, lifecycle timeline wording, and transaction-detail display should be used? Screen order, expandable entry behavior, amount direction, and core actions are defined. | Product / Design / Payments / Operations | Partially open |
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
@@ -2421,6 +2419,7 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.39 | 2026-07-31 | Aligned checkout ownership and Instructions-route presentation with DOC-09 Payment Domain Architecture, keeping deliberate Payment Instructions distinct from incomplete Checkout Workspaces. |
 | 0.1.38 | 2026-07-29 | Adopted the capability-aware Outcome-to-Resolution framework across the AUTH family; defined the full `AUTH-RECOVERY` product flow, screen states, resolution matrix, security/support boundaries, and protected return without changing existing authentication decisions. |
 | 0.1.37 | 2026-07-28 | Defined Phone Verification, five-state Identity Verification, processing/dashboard banners, six-digit Payment Passcode Set/Change/Reset, phone-based reset recovery, return behavior, admin reset boundaries, and technical-owner TBCs; removed superseded four-label and voluntary re-verification wording. |
 | 0.1.36 | 2026-07-28 | Corrected the first-time identity-verification passcode rule, synchronized all three Account Activation child-route references, and marked Payment Passcode Settings screen/security details plus DOC-19/DOC-20 handoffs as pending. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.25
+version: 0.1.26
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-29
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -31,12 +31,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.25` |
+| **Version** | `0.1.26` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-29` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist |
 
@@ -98,8 +98,8 @@ Example pattern:
 | Bills activity sub-route | DOC-06C / DOC-09 / DOC-10 / DOC-11 | Partial to strong | Payment, payout/transfer, failure, return, refund, and reversal activity is testable; request and evidence lifecycle entries are explicitly excluded. |
 | Bills reminder route | DOC-06C / DOC-08 / DOC-09 | Partial to strong | Reminder list/detail behavior and separation from payment-instruction action alerts are testable; final visual design remains open. |
 | Requests route | DOC-06B / DOC-06A / DOC-06C / DOC-08 | Partial to strong | `REQUESTS-ROOT`, `REQUESTS-DETAIL`, and `REQUESTS-NEW`, canonical lifecycle states, role labels, event separation, evidence gate, linked-case boundary, and archive visibility are testable; final visual design and detailed operational limits remain open. |
-| Instructions route | DOC-06B / DOC-09 | Partial to strong | Pending versus incomplete cards/details, edit restrictions, actions, expiry, and checkout return are testable; final visual design remains open. |
-| Payment checkout handoff | DOC-06A / DOC-06C / DOC-09 | Partial | `PAYMENT-CHECKOUT` is assigned; DOC-06 can test route handoff and DOC-09 owns checkout tests. |
+| Instructions route | DOC-06B / DOC-09 | Partial to strong | Deliberate Payment Instruction versus incomplete Checkout Workspace presentation, edit restrictions, actions, expiry, and checkout return are testable; final visual design remains open. |
+| Payment checkout handoff | DOC-06A / DOC-06B / DOC-06C / DOC-09 | Partial | `PAYMENT-CHECKOUT` is assigned; DOC-06 can test route UX and handoff while DOC-09 acceptance criteria govern Payment Domain architecture and invariants. |
 | Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial to strong | Two-tab `Cards` / `Profiles` baseline, card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary are testable; final styling and tokenization behavior remain open. |
 | Global Activity route | DOC-06B / DOC-09 / DOC-10 / DOC-11 | Partial to strong | Accounting-style entries, role-aware direction/status, expansion, detail, document actions, and return behavior are testable; final visual density/search/grouping remain open. |
 | Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
@@ -161,11 +161,11 @@ The DOC-06 user journey scope is satisfied when:
 - phone verification, new-device 2FA, dormant-login reauthentication, and material-change confirmation touchpoints are represented;
 - payers have `HOME-ROOT` as their logged-in dashboard;
 - payees have `HOME-ROOT` as their logged-in dashboard;
-- payees can create evidence-backed payment requests;
-- payees can send payment requests to payers;
+- payees can create evidence-backed Requests;
+- payees can send Requests to payers;
 - Pay+ `Request Payment` opens `REQUESTS-NEW` as a payee-to-payer request entry, while payer-to-payee linking begins only from an approved contextual bill/rent/linking action;
 - Pay+ `Pay a Bill` and `Pay Rent` open temporary category-scoped `BILLS-PAY` selection without changing saved Bills filters and do not bypass readiness or checkout gates;
-- Pay+ `Continue Payment` is disabled with no active pending/incomplete instruction, opens one instruction detail for exactly one, and opens the instruction list for more than one; review-blocked instructions remain visible but cannot continue;
+- Pay+ `Continue Payment` is disabled with no active pending Payment Instruction or continuable incomplete Checkout Workspace, opens one detail for exactly one managed item, and opens the Instructions list for more than one; review-blocked items remain visible but cannot continue;
 - standalone Pay+ bill/rent setup offers `Pay Now` only when payment-ready and otherwise shows the current readiness state; request-origin setup returns to `REQUESTS-NEW`;
 - Pay+ open/close, hidden-versus-disabled, unsaved-work protection, duplicate-activation prevention, and reduced-motion behavior follow DOC-06B;
 - payers can receive and review payee-created requests;
@@ -294,6 +294,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.26 | 2026-07-31 | Aligned UX acceptance coverage with the distinct Payment Instruction and incomplete Checkout Workspace model and DOC-09 domain-versus-route ownership. |
 | 0.1.25 | 2026-07-29 | Added acceptance coverage for the capability-aware AUTH-RECOVERY baseline, explicit outcome-resolution separation, neutral recovery messaging, session revocation, safe return, and controlled Support or stop handling. |
 | 0.1.24 | 2026-07-28 | Added acceptance coverage for HK-only Phone Verification, five-state Identity Verification and banners, no voluntary re-verification after Verified, and the defined six-digit Payment Passcode Set/Change/Reset flows. |
 | 0.1.23 | 2026-07-28 | Corrected first-time identity-verification acceptance, added Phone Verification ownership coverage, and marked detailed verification/passcode screen and security behavior as pending DOC-19/DOC-20 work. |

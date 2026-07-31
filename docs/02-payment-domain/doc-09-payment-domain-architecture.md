@@ -1,7 +1,7 @@
-﻿---
+---
 document_id: DOC-09
-title: Payment Request, Multi-Funding Source & Settlement
-version: 1.0.14
+title: Payment Domain Architecture
+version: 1.1.0
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,771 +16,1221 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-07-28
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
-  - DOC-01 Product Overview & Positioning
+  - DOC-01 Project Charter & Product Positioning
   - DOC-03 Regulatory, PSP & Acquirer Assessment
   - DOC-04 Compliance Certification Roadmap & Control Framework
   - DOC-05 Master PRD & Feature Requirement Index
   - DOC-06 User Journey, UX Flow & Service Blueprint
   - DOC-07 Content, Disclosure & User Authorization Specification
-  - DOC-08 Notification, Receipt & Communication Rules
+  - DOC-08 Notification, Receipt & Communication Specification
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-  - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
-  - DOC-15 Privacy, Data Protection & Record Retention
-  - DOC-17 API & Third-party Integration
+  - DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification
+  - DOC-15 Privacy, Data Protection & Record Retention Specification
+  - DOC-17 API & Third-party Integration Specification
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
-  - DOC-19 Security, Tokenization & Authentication
+  - DOC-19 Security, Tokenization, Authentication & Admin Control Specification
+  - DOC-20 Testing, UAT & Go-live Checklist
+  - DOC-21 Monitoring, Incident Response & Operational SOPs
+  - DOC-22 Admin Management Dashboard & Operations Workflow
 ---
 
-# DOC-09 - Payment Request, Multi-Funding Source & Settlement
+# DOC-09 - Payment Domain Architecture
 
 | Document Control | Details |
 | --- | --- |
 | **Document ID** | `DOC-09` |
-| **Title** | Payment Request, Multi-Funding Source & Settlement |
-| **Version** | `1.0.14` |
+| **Title** | Payment Domain Architecture |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-07-28` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
 
 ---
 
 ## 1. Purpose
 
-This document defines PayPlus MVP rules for payment requests, user payment instructions, card funding, multi-card funding, payer authorization, payment profiles, tokenization boundaries, payment status, and settlement readiness.
+DOC-09 defines the canonical PayPlus Payment Domain architecture from payment-facing Bill/Rent information through payable obligation, Checkout, funding execution, confirmed Payment and application of confirmed value.
 
-It explains how an evidence-backed request becomes eligible for card payment and how PayPlus tracks funding from authorization to completion, failure, or settlement readiness.
+It defines:
 
-This document is not a PSP integration guide, PCI policy, data schema, payout manual, refund manual, or legal opinion.
+- Bill/Rent Payable Basis;
+- Projection;
+- Materialization;
+- Payment Obligation;
+- Checkout Workspace;
+- Obligation Allocation;
+- payable-capacity reservation;
+- Funding Allocation;
+- Funding Leg;
+- Payment Attempt;
+- Provider Submission;
+- Provider Confirmation Event;
+- Payment;
+- Payment Application;
+- Effective Coverage;
+- Outstanding Amount;
+- controlled handoffs to downstream domains.
 
----
-
-## 2. Scope and Ownership
-
-DOC-09 covers:
-
-- direct payer-created obligations/payments, optional payer-to-payee linking requests, and payee-created payment requests;
-- eligibility gates before payment;
-- evidence verification outcome consumption;
-- promotion quote consumption;
-- payment quotes;
-- payment/checkout screen content and payment-domain UI behavior;
-- user payment instructions and deferred funding;
-- payment method and payment profile selection;
-- tokenization product rules;
-- multi-card funding;
-- payer authorization;
-- step-up authentication;
-- payment status and failure handling;
-- settlement readiness;
-- payment-domain admin controls.
-
-DOC-09 does not define:
-
-| Topic | Owning Document |
-| --- | --- |
-| App route entry points, Bills-tab card actions, and non-payment navigation | DOC-06B, DOC-06C |
-| User disclosure and authorization wording | DOC-07 |
-| Notification and receipt delivery | DOC-08 |
-| Payout execution and reconciliation | DOC-10 |
-| Refund, cancellation, dispute, chargeback, and reversal operations | DOC-11 |
-| Bill category, document AI/OCR, evidence verification, and duplicate evidence rules | DOC-12 |
-| Promotion engine, campaign, offer, coupon, voucher, reward, entitlement, and promotion quote rules | DOC-13 |
-| Risk scoring and anti-cashout rules | DOC-14 |
-| PSP/acquirer and tokenization APIs | DOC-17 |
-| Data model, ledger, and audit event schema | DOC-18 |
-| PCI, token vault, authentication, and security mechanics | DOC-19 |
-
-### 2.1 Payment Checkout Destination
-
-`PAYMENT-CHECKOUT` is the stable product destination ID for the payment checkout flow and screen group governed by DOC-09. It may be opened from an eligible Bills context, an accepted request, `INSTRUCTIONS-DETAIL`, or another approved payment entry point.
-
-`PAYMENT-CHECKOUT` owns payment-method or profile selection, eligible offer/reward presentation, quote recalculation, payer review, authorization, submission, and payment-result handoff. It is not a Bills list, request route, Payment Profile management route, payment instruction list, or payout route.
-
-Normal successful payment submission proceeds to the applicable Activity or result context. Cancellation, failure, interruption, or a return from Payment Profile must preserve the originating bill/rent/instruction context where allowed. Detailed screen order, validation copy, failure states, and implementation-level child destinations remain open; the stable parent destination ID must be used meanwhile for route and traceability references.
+DOC-09 defines business architecture, invariants and semantic conditions. It does not define provider-specific integration, final machine states, persistence schemas, user-facing messages, Settlement, Payout or financial-adjustment workflows.
 
 ---
 
-## 3. Current Decision Baseline
+## 2. Domain Boundary
 
-| Area | Baseline |
-| --- | --- |
-| Launch jurisdiction | Hong Kong. |
-| Transaction classification | Expected bill payment or ordinary online card purchase; final PSP/acquirer, MCC, and classification remain to be confirmed. |
-| Payer-created obligations and payments | MVP scope; no request or payee acceptance is required by default. |
-| Payer-created linking requests | MVP scope where optional party linking is enabled; they do not authorize payment. |
-| Payee-created payment requests | MVP scope; payer acceptance is required before payment from the request. |
-| Bill and fee payments | MVP scope, subject to payment eligibility, evidence, payee, payout, and risk controls. |
-| Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
-| Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
-| Multi-card payment | MVP scope, supporting up to 6 credit cards per payment/profile, with related controls configurable where applicable. |
-| User payment instruction | MVP scope for pending pay-later setup and incomplete payment continuation. Pay-now completed payments do not appear as user-facing payment instructions. |
-| Payout rails | FPS, cheque, and EPS are acceptable Hong Kong payout rails; payout execution belongs to DOC-10. |
-| Upstream settlement | Payment gateway settlement expected T+1 to T+3. |
-| Fee model | Percentage-based online payment processing service fee; exact rates and allocations remain admin-configurable and to be confirmed. |
-| Step-up authentication | Extra authentication may be skipped below a configurable amount where partner, risk, compliance, and security rules allow. |
-| Evidence verification | DOC-12 verification outcome must be resolved before payment quote and authorization where the category requires verification. |
-| Promotion quote | DOC-13 promotion impact must be calculated before payer authorization where promotions, coupons, vouchers, rewards, membership benefits, or card-linked offers are enabled. |
+### 2.1 Upstream Concepts
 
-Unconfirmed items should remain editable assumptions or gated requirements and should not block continued documentation drafting.
+- Evidence supports verification of a Bill/Rent. Evidence is not payable.
+- A Link Request may establish a Bill/Rent relationship between parties. A Request is not a payment.
+- A payer-created Bill/Rent does not require a Link Request or payee acceptance by default.
+- Bill/Rent remains the authoritative business object outside the Payment Domain.
 
----
+### 2.2 Payment Domain Entry
 
-## 4. Payment Context and Request Model
+The Payment Domain receives payment-relevant facts from the authoritative Bill/Rent through the Bill/Rent Payable Basis.
 
-PayPlus supports evidence-backed payer-created obligations/payments and payee-created payment requests funded by card.
+```text
+Bill/Rent
+    -> supplies payment-relevant facts
+Bill/Rent Payable Basis
+```
 
-Each payment context, including one created from an accepted payee-created payment request, must link:
+The Payable Basis supports two permitted paths to Materialization:
 
-- payer;
-- approved payee or payee record;
-- bill, invoice, fee, rent, domestic service, or other approved obligation;
-- evidence or approved evidence exception;
-- evidence verification outcome and final evidence snapshot where applicable;
-- promotion quote and reward entitlement references where applicable;
-- amount;
-- context origin and request reference where applicable;
-- payment quote;
-- user payment instruction where created;
-- payer authorization record;
-- payment status history;
-- audit trail.
+```text
+Normal recurring-payment path
 
-Payment-context origins:
+Payable Basis
+    -> Projection
+    -> payer selects an eligible period
+    -> Materialization
+    -> Payment Obligation
+```
 
-| Origin | Rule |
-| --- | --- |
-| Payer-created obligation/payment | Payer creates the evidence-backed obligation/payment context and may proceed after evidence, payee/payout, risk, payment, and authorization gates pass. No request or payee acceptance is required by default. |
-| Accepted payee-created payment request | Approved payee creates and sends the request; payer must accept it before payment-method selection and must separately authorize funding. |
-| Admin-created | Internal user creates or corrects a record under approved process; payment still requires payer authorization. |
-| System-generated | System creates status, reminder, or derived event; cannot authorize payment. |
+```text
+Approved direct-event path
 
-An optional payer-created linking request is a separate request-domain record. If accepted, it may link the payee to the obligation for shared visibility or communication, but it does not create or replace payer authorization and is not required for direct payer-created payment by default.
+Payable Basis
+    -> supplies authoritative payable facts
+Approved business event
+    -> triggers Materialization
+    -> Payment Obligation
+```
 
-PayPlus must not support wallet balance, stored value, arbitrary P2P transfer, self-cashout, card-to-bank cashout, or payment unrelated to an approved evidence-backed obligation.
+Projection is the normal user-facing scheduling and selection path. It is not a mandatory predecessor to every Materialization event.
 
----
+No additional Materialization trigger is authorized by this document.
 
-## 5. Eligibility Gates
+### 2.3 Payment Execution Boundary
 
-An obligation/payment context, and any required request, must pass the applicable gates before payment processing.
+Checkout executes only against Payment Obligations.
 
-| Gate | Requirement |
-| --- | --- |
-| Category | Category must be approved and enabled. |
-| Evidence | Required evidence must exist, pass DOC-12 verification, or have an approved exception. |
-| Payee | Payee must be eligible for request type and payout destination where required. |
-| Effective destination | A versioned destination snapshot must be attached to the bill/rent/payment context and pass applicable recipient, evidence, risk, payout, compliance, and authorization checks. |
-| Payer | Payer must be eligible and not blocked, suspended, or restricted. |
-| Context/request origin | The context origin and any request type must be allowed for the category and payee type. |
-| Risk | Risk, velocity, duplicate/reused evidence, same-party, and anti-cashout checks must pass or route to review. |
-| Fee | Fee, promotion, discount, and total charge must be calculated before authorization. |
-| Promotion | Promotion quote, entitlement, coupon/voucher selection, and card-linked eligibility must be resolved before authorization where applicable. |
-| Disclosure | Required disclosures must be available before authorization. |
-| Authorization | Payer must explicitly authorize before payment processing. |
+It must not execute directly against:
 
-Failed gates should create a clear status and, where appropriate, admin review or user action path.
+- Evidence;
+- Link Request;
+- Bill/Rent;
+- Projection; or
+- Bill/Rent Payable Basis.
+
+### 2.4 Downstream Ownership
+
+| Concern | Canonical Owner |
+|---|---|
+| Settlement, payout and reconciliation | DOC-10 |
+| Refund, reversal, cancellation, chargeback and dispute processing | DOC-11 |
+| Provider-specific submission, authorization, capture, callback, query and confirmation evidence | DOC-17 |
+| Technical read models, machine states, transitions, persistence and event processing | DOC-18 |
+| Security, authentication and technical authorization controls | DOC-19 |
+| User-facing Outcomes, Messages and CTAs | DOC-07 |
+| Notifications and delivery policy | DOC-08 |
+| Operational support and exception handling | DOC-21 |
+| Controlled administrative exception workflow | DOC-22 |
 
 ---
 
-## 6. Payment Domain Flow Summary
+## 3. Requirement Classification
 
-DOC-06A owns core user journeys and service blueprint steps; DOC-06B owns navigation and route taxonomy; DOC-06C owns Bills-route entry and handoff behavior.
+| Classification | Meaning |
+|---|---|
+| Architecture Rule | Defines domain ownership, relationships or authoritative boundaries. |
+| Domain Invariant | Must remain true regardless of implementation. |
+| Product Behaviour | Defines required PayPlus behaviour. |
+| MVP Configuration | Approved launch value that may later become configurable. |
+| Cross-document Dependency | Requirement completed by another canonical owner. |
 
-DOC-09 owns the payment-domain lifecycle after an eligible obligation/payment context exists or an accepted payee-created request is ready for payment evaluation.
-
-DOC-06B `REQUESTS-NEW` is a request creation and party-linking route, not a payment/checkout route. A request created through `REQUESTS-NEW` must not reach payment quote, payment method selection, authorization, funding, capture, settlement readiness, or payout handoff until the required evidence gate, request acceptance gate where applicable, and all payment eligibility gates pass.
-
-### 6.1 Common Payment Lifecycle
-
-1. An obligation/payment context is established from a payer-created obligation, an accepted payee-created payment request, or an approved auditable admin process. A system event cannot create payment authority.
-2. Evidence is uploaded, processed, corrected, and verified where required by DOC-12.
-3. System applies eligibility gates.
-4. System prepares the obligation amount, normal service fee, and preliminary payment context.
-5. Payer selects an eligible card or split-card payment profile.
-6. System evaluates and displays payment-method-sensitive offers and separately selectable eligible checkout rewards under DOC-13.
-7. System creates or recalculates the promotion and payment quote for payer review.
-8. Payer chooses pay now, creates a pending payment instruction, or continues an incomplete payment instruction.
-9. For pay-now flow, payer authorizes payment and system submits payment through approved PSP/acquirer flow.
-10. For payment instruction flow, system stores or updates the instruction and sends the payer back to the relevant instruction detail or payment/checkout screen when action is required.
-11. System records payment outcome for each submitted funding leg.
-12. System records settlement readiness for each completed funding leg.
-13. Payout readiness for settlement-ready funded portions passes to DOC-10.
-
-### 6.2 Origin-Specific Rules
-
-| Origin | Payment-Domain Rule |
-| --- | --- |
-| Payer-created obligation/payment | Payer may proceed to quote and authorization after eligibility gates pass. Optional payer-to-payee linking is not a payment-domain gate unless a category, risk, payout, or compliance rule explicitly requires it. |
-| Payee-created payment request | Payer must accept the request before payment-method selection; acceptance and payment authorization remain separate recorded actions. |
-| Admin-created | Admin-created records must remain auditable and cannot bypass payer authorization for payment. |
-| System-generated | System-generated events cannot authorize or process payment by themselves. |
-
-A payee-created payment request must not trigger funding, capture, payout, or settlement action before payer acceptance and authorization. A payer-created obligation/payment may use a valid non-user payee record or payout destination where allowed by evidence, risk, payout, and compliance gates.
-
-Destination handling follows these rules:
-
-- a payee-created request must select one destination before sending; the payer sees only that selected snapshot, not the payee's private Receiving Info library;
-- a payee may change the destination before payer acceptance;
-- after payer acceptance, a payee destination change requires a new request and new bill/rent record, with the same evidence reusable where permitted;
-- a payer may select or change a destination without payee approval; where a PayPlus payee is linked, notify the payee without making that notification a payment gate;
-- a payer-selected destination different from an accepted payee-created request must not rewrite the accepted request and must be recorded as the effective bill/payment-context destination;
-- changing a destination after payment authorization requires renewed payer authorization.
+Configurable product values must not be treated as permanent architectural constraints.
 
 ---
 
-## 7. Payment Quote
+## 4. Accepted Architecture Baseline
 
-Before authorization, PayPlus must generate a payment quote containing:
-
-- request ID where the payment originated from a request;
-- payee;
-- effective destination snapshot and source;
-- context origin and request origin where applicable;
-- category and obligation reference;
-- evidence verification summary and final evidence snapshot reference where applicable;
-- payment amount;
-- service fee;
-- promotion quote ID, automatically applied payment-method-sensitive Card Offer, user-selected coupon/voucher/discount, other campaign/offer references, reward, entitlement, or subsidy where applicable;
-- total charge;
-- selected payment method summary;
-- multi-card split summary where applicable;
-- pay-now or deferred payment instruction choice;
-- deferred funding date and selected payee transfer date where applicable;
-- expected processing and settlement timing where relevant;
-- disclosure version.
-- quote validity or expiry timestamp where applicable.
-
-If amount, fee, discount, promotion quote, reward entitlement, payment method, card split, payee, effective destination, evidence, or other material terms change after review, payer reauthorization may be required.
-
-If evidence is corrected, replaced, rejected, marked duplicate, or routed to review after quote creation, the quote must be recalculated or blocked until the required verification outcome is resolved.
-
-If a selected payment card, payment profile, funding-leg allocation, promotion campaign, budget, entitlement, coupon/voucher, membership benefit, or reward status changes after quote creation, the quote must be recalculated or blocked until DOC-13 rules are resolved.
+| Decision | Canonical Decision |
+|---|---|
+| `PDA-01` | Payment Obligation is the authoritative materialized payable aggregate. |
+| `PDA-02` | Bill/Rent Payable Basis, Projection, Materialization and Payment Obligation remain separate. Materialization is demand-driven. |
+| `PDA-03` | Checkout Workspace and Payment Obligation have a many-to-many relationship through Obligation Allocation. |
+| `PDA-04` | Payable-capacity reservations protect obligation capacity before confirmed Payment Applications consume it. |
+| `PDA-05` | Confirmed value is applied in the payer-approved order, using oldest due first as the default. |
+| `PDA-06` | One successfully confirmed Funding Leg produces exactly one Payment. |
+| `PDA-07` | DOC-09 is the canonical human-readable owner of Payment Domain architecture. |
 
 ---
 
-## 8. User Payment Instruction
+## 5. Canonical Terminology
 
-User payment instruction is MVP scope.
+| Term | Definition |
+|---|---|
+| Bill/Rent Payable Basis | Current, reusable payment-facing representation of an authoritative Bill/Rent containing payment-relevant facts. Relevant Bill/Rent changes may update it without rewriting authoritative materialized Payment Domain facts. |
+| Projection | Recalculable user-facing scheduling and selection read model. |
+| Materialization | Controlled process that creates a Payment Obligation from authoritative Payable Basis facts. |
+| Payment Obligation | Materialized authoritative payable aggregate for a specific payable period or item. |
+| Due Amount | Total obligation-applicable value due under a Payment Obligation. |
+| Gross Applied Value | Total confirmed obligation-applicable value contributed by accepted Payment Applications. |
+| Effective Adjustment Value | Total effective obligation-attributed coverage reduction received from DOC-11. |
+| Effective Coverage | Derived portion of the Due Amount that remains effectively covered. |
+| Outstanding Amount | Derived unpaid amount remaining after Effective Coverage. |
+| Active Reserved Amount | Sum of all active payable-capacity reservations for one Payment Obligation. |
+| Available Payable Capacity | Portion of Outstanding Amount not currently protected by active payable-capacity reservations. |
+| Checkout Workspace | Execution workspace for one payer payment intent against one Bill/Rent Payable Basis. |
+| Checkout Target | Total obligation-applicable amount committed through the Checkout. |
+| Obligation Allocation | Checkout-owned allocation of Checkout Target value referencing one Payment Obligation. |
+| Payable-capacity Reservation | Payment Obligation-owned protection of payable capacity associated with one Obligation Allocation. |
+| Funding Allocation | Checkout-specific allocation of Checkout Target across funding methods. |
+| Funding Allocation Version | Auditable version of the funding arrangement for unexecuted value. |
+| Funding Leg | Planned execution portion assigned to one funding method. |
+| Payment Attempt | One execution attempt for a Funding Leg. |
+| Provider Submission | Initiation of a provider-bound Payment Attempt for a Funding Leg. |
+| Provider Confirmation Event | Provider-neutral confirmation evidence evaluated under PayPlus confirmation policy. |
+| Payment | Immutable confirmed financial fact produced by one successfully confirmed Funding Leg. |
+| Payment Application | Immutable application of confirmed obligation value from one Payment to one Payment Obligation. |
+| Effective Financial Adjustment | Separate downstream financial fact whose effective obligation-attributed amount reduces Effective Coverage. |
+| Effective Payout Destination Snapshot | Immutable authorization-time representation of the effective payee destination governing Payments produced by one Checkout Workspace. |
+| Payment Profile | Reusable payer-owned ratio template for allocating Checkout Target across saved cards. |
+| Payment Instruction | Deliberate user-created pay-later arrangement. |
 
-A payment instruction means the user has entered, or intentionally started, a payment setup and the payment is pending, future-dated within the allowed window, or incomplete. It may include selected payment amount, payment profile(s), split allocation where applicable, timing, and payee transfer preference, but one or more funding legs have not yet been submitted or completed through the PSP/acquirer.
+Effective Coverage, Outstanding Amount, Active Reserved Amount and Available Payable Capacity are Payment Obligation-owned derived business values. They are not replacement financial records.
 
-Payment instruction is not:
+Bill/Rent Payable Basis is reusable and updateable. It is not a frozen snapshot.
 
-- a recurring payment mandate;
-- an automatic recurring payment;
-- a stored-value or wallet instruction;
-- a normal bill/rent due-date reminder;
-- a user manual reminder for a bill/rent record.
-
-### 8.1 Instruction Types
-
-| Type | Meaning | Edit Boundary |
-| --- | --- | --- |
-| Pending Instruction | User intentionally creates a pay-later payment setup within the allowed window and no funding leg has been submitted. | User may change target bill/rent, amount, payment profile/card allocation, and payment schedule before submission. |
-| Incomplete Instruction | User already started payment and one or more funding legs, failures, retries, or pending actions remain unresolved. | User may continue payment or archive; material changes to target bill/rent, original amount, or completed funding legs should not be allowed. |
-| Reminder only | User asks to be reminded about a bill/rent/obligation outside the payment flow or beyond the allowed instruction window. | No gateway submission and no payment instruction. |
-
-Pay now is not a payment instruction type. A pay-now flow that is submitted and completed should route to receipt/activity surfaces, not the user-facing Payment Instructions route.
-
-Payment instruction must support both single-card and split-card payments where enabled.
-
-### 8.2 Timing Rules
-
-| Rule | Requirement |
-| --- | --- |
-| Deferred instruction window | A deferred payment instruction may target a funding action date within 7 days. |
-| Beyond 7 days | If user wants action more than 7 days later, PayPlus should create a reminder only; user must return and start or resume payment flow. |
-| Gateway authorization validity | PayPlus must not assume PSP/acquirer 2FA, 3DS, authorization, or session validity will remain available until the deferred date. |
-| User return required | Payment instruction action alerts should return the user to the relevant instruction detail or payment/checkout review so the user can confirm and submit payment. |
-| Quote revalidation | Stored payment and promotion quotes must be revalidated when the user returns to submit a deferred funding leg. Material changes require recalculation and user confirmation. |
-| Selected payee transfer date | User may select a payee transfer date only if it is no earlier than the applicable T+3 / settlement-ready date for the funded portion and subject to DOC-10 readiness rules. |
-| No selected payee transfer date | Settlement-ready funded portions may pass to DOC-10 for normal payout timing. |
-
-The exact 7-day window, T+3 basis, cutoff, business-day treatment, and PSP/acquirer constraints must remain configurable and subject to DOC-10, DOC-17, and DOC-18.
-
-Creating a payment instruction stores the user's selected payment context. It must not be represented as card authorization, capture, settlement, payout readiness, or completed payment until the relevant funding leg has actually been submitted and confirmed through the approved payment flow.
-
-### 8.3 Split-Card Instruction Rules
-
-Split-card payment instruction must track each funding leg separately.
-
-Each card leg should include:
-
-- funding leg ID;
-- payment instruction ID;
-- payment profile summary;
-- allocated amount;
-- target funding date where deferred;
-- gateway submission status;
-- authorization and step-up status;
-- payment attempt status;
-- settlement status;
-- payout linkage where settlement-ready;
-- action-alert status;
-- failure, expiry, or cancellation reason where applicable.
-
-Rules:
-
-- one or more card legs may be paid immediately while other legs remain pending;
-- PayPlus cannot force the user to complete pending funding legs;
-- the overall payment must not be marked completed until the intended full amount is funded;
-- settlement-ready funded portions may proceed to DOC-10 payout evaluation even if the overall instruction remains partially funded;
-- remaining unpaid legs must stay visible as pending, expired, failed, or cancelled according to status rules;
-- user and payee screens must not describe partial funding as full payment completion.
-- once a payment becomes an incomplete instruction, user-facing UI should allow continuation or archive, but should not allow material changes to target bill/rent, original intended amount, or completed funding legs.
-
-### 8.4 Payment Instruction Status
-
-| Status | Meaning |
-| --- | --- |
-| Pending Instruction | Payment instruction exists and no funding leg has been submitted. |
-| Pending User Action | User must return to confirm or submit one or more funding legs. |
-| Partially Funded | At least one funding leg is completed, but the intended full amount is not funded. |
-| Fully Funded | All intended funding legs are completed. |
-| Expired | Instruction or remaining leg passed allowed action window. |
-| Cancelled | User or admin cancelled the instruction where permitted. |
-| Archived | User hides an expired, cancelled, or incomplete instruction from the active instruction list where allowed; archive is not hard deletion. |
-
-### 8.5 Funding Leg Status
-
-| Status | Meaning |
-| --- | --- |
-| Pending | Leg selected but not submitted to gateway. |
-| Action Alert Sent | User action alert or notification sent for pending leg. |
-| Submitted | Leg submitted to PSP/acquirer. |
-| Authorized | Gateway authorization succeeded where applicable. |
-| Failed | Leg failed or was declined. |
-| Settlement Pending | Leg completed but upstream settlement not ready. |
-| Settlement Ready | Leg is settlement-ready for DOC-10 payout evaluation. |
-| Paid Out | Funded portion linked to payout item or payout result. |
-| Expired / Cancelled | Leg expired or was cancelled. |
-
-### 8.6 Payment Completion and Partial Payout Rule
-
-Payment completion and funded-portion payout are separate.
-
-| Concept | Rule |
-| --- | --- |
-| Overall payment completion | Only when full intended amount is funded and all required payment checks pass. |
-| Partial funding | Allowed where user submits only some split-card legs. Must not be called completed payment. |
-| Partial payout | Settlement-ready funded portions may proceed to DOC-10 payout evaluation, subject to payee, risk, settlement, destination, dispute, and admin rules. |
-| Remaining amount | Remains pending, failed, expired, cancelled, or otherwise unresolved until user action or expiry. |
-| Receipt and proof | Receipt/proof wording must identify paid/funded portion versus remaining unpaid amount. |
-
-DOC-10 owns payout execution, partial payout grouping, bank file/API handling, and reconciliation for settlement-ready funded portions.
-
-### 8.7 Reminder and Action-Alert Boundary
-
-Payment instruction action alerts are different from ordinary bill/rent reminders.
-
-| Reminder Type | Source | User Action Destination |
-| --- | --- | --- |
-| Normal due-date reminder | System generated from bill/rent/obligation due date. | Bill/rent/obligation detail screen. |
-| User manual reminder | User sets reminder date or offset for a bill/rent/obligation. | Bill/rent/obligation detail screen. |
-| Payment instruction action alert | User has entered payment flow and has a pending or incomplete payment instruction requiring action. | `INSTRUCTIONS-DETAIL` and/or payment/checkout review for the same instruction. |
-
-DOC-06C owns ordinary bill/rent reminder management through `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. DOC-06B owns `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` route shells. DOC-08 owns notification IDs, channel rules, and message delivery. Payment instruction action alerts must not be treated as ordinary bill/rent reminder records.
+No Payable Basis versioning rule is defined or implied.
 
 ---
 
-## 9. Tokenized Cards and Payment Profiles
+## 6. Canonical Payment Story
 
-DOC-09 distinguishes individual tokenized cards from saved payment profiles.
+```text
+Evidence supports Bill/Rent
+        |
+Bill/Rent supplies payment-relevant facts
+        |
+Bill/Rent Payable Basis
+        |
+        +-> Projection
+        |       |
+        |       +-> payer selects an eligible period
+        |               |
+        +---------------+-> Materialization
+        |
+Approved business event
+        |
+        +------------------> Materialization
+                                |
+                                v
+                        Payment Obligation
+                                |
+                        Checkout Workspace
+                                |
+                       Obligation Allocation
+                                |
+                  payable-capacity reservation
+                                |
+                         Funding execution
+                                |
+                         confirmed Payment
+                                |
+                       Payment Application
+                                |
+                  Payment Obligation recalculates
+                  Effective Coverage and
+                  Outstanding Amount
+```
 
-| Object | Meaning | Primary UX Owner |
-| --- | --- | --- |
-| Tokenized card | Payer-owned card reference created through PSP/acquirer tokenization and represented in PayPlus only by token/reference and permitted masked metadata. | DOC-06B `PAYMENT-CARD-*`; security mechanics in DOC-19. |
-| Payment profile | Saved split-card allocation template created from one or more tokenized cards. It stores reusable allocation logic, not money or payment authorization. | DOC-06B `PAYMENT-PROFILE-*`; checkout use in DOC-09. |
-
-Tokenized card records may include:
-
-- PSP/acquirer token or payment method reference;
-- masked card summary;
-- masked cardholder name only where returned or permitted by PSP/acquirer;
-- card brand and expiry where permitted;
-- user-entered card nickname;
-- payer owner reference;
-- default-card marker where applicable;
-- status;
-- risk or verification status where applicable.
-
-Saved payment profiles may include:
-
-- profile name;
-- selected tokenized cards;
-- saved allocation ratios;
-- reference/base amount used for setup calculation;
-- starred/frequent marker;
-- profile status;
-- action-required marker where an underlying card is unavailable.
-
-Core rules:
-
-| Rule | Requirement |
-| --- | --- |
-| Tokenized processing | Card funding should use PSP/acquirer tokenization where available. |
-| No raw card storage | PayPlus must not store raw card number, CVV, magnetic stripe data, or sensitive authentication data unless separately approved under PCI scope. |
-| Limited metadata | PayPlus should store only token/reference and permitted masked metadata. |
-| Payer ownership | Tokenized cards and payment profiles must be linked to the payer account or approved user context. |
-| Authorization link | Each token/card/profile use in checkout must be linked to payer authorization. |
-| Reuse | Saved card or profile reuse requires payer authorization for each payment unless a separately approved recurring authorization model exists. |
-| Profile storage | Saved split-card profiles should store allocation ratios as reusable values. Amounts are recalculated against the current checkout amount. |
-| Privacy classification | Token references, masked card metadata, payment profiles, allocation ratios, authorization, step-up, and payment behavior data must be classified as Payment and Funding Data or Authentication and Security Data under DOC-15 as applicable. |
-
-Tokenized card statuses should include `Active`, `Verification Required`, `Expired`, `Suspended`, and `Deleted` or archived/removed where user-facing deletion is implemented as soft delete. A saved profile should show `Action Required` if an underlying card is removed, expired, suspended, invalid, or otherwise unavailable.
-
-Detailed token vault, encryption, PCI, authentication, privacy classification, API, and schema requirements belong in DOC-15, DOC-17, DOC-18, and DOC-19.
+A later effective financial adjustment does not rewrite this history. It contributes a coverage reduction to the Payment Obligation, which recalculates Effective Coverage and Outstanding Amount.
 
 ---
 
-## 10. Payment Method Selection
+## 7. Architecture Classification and Genuine Ownership
 
-The payer must select an eligible card or split-card payment profile before authorization.
+```text
+Upstream Business Domain
+├── Evidence
+├── Link Request
+└── Bill/Rent
 
-Rules:
+Payment Domain
+├── Bill/Rent Payable Basis
+├── Projection
+├── Materialization Boundary
+├── Payment Obligation
+│   ├── Due Amount
+│   ├── Effective Coverage
+│   ├── Outstanding Amount
+│   └── Active payable-capacity reservations
+├── Checkout Workspace
+│   ├── Checkout Target
+│   ├── Obligation Allocations
+│   ├── Funding Allocation Versions
+│   ├── Funding Legs
+│   │   └── Payment Attempts
+│   └── Effective Payout Destination Snapshot
+└── Payment
+    └── Payment Applications
 
-- a default card may be pre-selected for single-card checkout, but the payer must be able to change it before authorization;
-- split-card checkout must not pre-select a payment profile by default; the payer must choose the profile or define the split;
-- starred/frequent split-card profiles should be displayed first during profile selection;
-- blocked, expired, suspended, deleted, removed, unavailable, or failed cards/profiles must not proceed without resolution;
-- a profile with an unavailable card may be selected for review, but checkout must warn that the profile is incomplete and block authorization until the affected card is replaced, removed, or updated;
-- selected methods must cover the payment amount and applicable fees;
-- payer must see masked method summary before authorization;
-- payment method changes after authorization require reauthorization where material;
-- admin users must not select payment methods for a payer unless a separately approved support process exists.
+Downstream Domains
+├── Settlement / Payout / Reconciliation
+├── Financial Adjustments
+├── Provider Integration
+├── Machine-State and Data Implementation
+└── Outcomes / Messages / Notifications
+```
 
-### 10.1 Payment-Method-Sensitive Offers and Rewards in Checkout
-
-Payment-card/profile selection and available-offer handling must occur in the same checkout screen or step before payer authorization.
-
-Required behavior:
-
-1. The payer selects or confirms the payment card or split-card payment profile.
-2. PayPlus evaluates payment-method-sensitive Card Offers against the selected payment card and, for split payment, each applicable funding leg.
-3. Where more than one Card Offer is eligible for the same payment card or funding leg, DOC-13 automatically selects the single offer with the highest user value.
-4. Checkout displays the automatically applied Card Offer and resulting benefit; the payer does not manually choose a competing Card Offer.
-5. Checkout displays the separately selectable issued coupons, vouchers, discount codes, or other approved checkout rewards that remain eligible for the current obligation, amount, payment method, and stacking context.
-6. The payer may select one permitted reward under DOC-13 rules; `View Details` opens DOC-06B `REWARD-DETAIL` and Close returns to the same checkout without selecting, reserving, or consuming it.
-7. Checkout revalidates status, expiry, availability, stacking, caps, limits, and current eligibility, then recalculates the service fee, discount, total promotion impact, and final total.
-8. The payer reviews the final payment quote before authorization.
-
-Checkout is the canonical selection point for checkout-applied rewards. `REWARDS-ROOT` and `REWARD-DETAIL` do not create a second payment path. Selecting or viewing a reward does not consume it; DOC-13 determines the authoritative redemption or fulfilment result. Failed, cancelled, or uncertain outcomes must follow DOC-13 release, restoration, idempotency, and reconciliation rules before another use is allowed.
-
-Changing the payment card, payment profile, funding allocation, payment amount, obligation, or another material eligibility input must clear or replace an invalid promotion result, explain the change where user-relevant, and generate a revised quote before authorization.
-
-For split-card payment, the one-best-Card-Offer rule applies per funding leg and the benefit normally applies only to that leg's funded amount. DOC-13 owns eligibility, value comparison, stacking, caps, quotas, and benefit calculation; DOC-09 owns checkout presentation, quote review, and leg-by-leg authorization.
-
----
-
-## 11. Multi-Card Funding
-
-Multi-card funding is MVP scope.
-
-PayPlus must support up to 6 credit cards per payment/profile for MVP. Related controls may be configurable, but the MVP maximum is 6 unless later approved.
-
-| Rule | Requirement |
-| --- | --- |
-| Card-count cap | Maximum cards per payment/profile is 6 for MVP. |
-| Allocation | Each selected card must have an allocated amount. If a saved profile is used, checkout calculates card amounts from the saved ratios and current payment amount. |
-| Total match | Allocations must equal the authorized total charge. |
-| Amount/ratio edit | Before authorization, payer may adjust amount or ratio where enabled; changing one recalculates the other and the final total must still match. |
-| Profile save | A revised checkout split may be saved as a new or updated payment profile where permitted. |
-| Masked summary | Payer must see masked card summary and amount per card before authorization. |
-| Reauthorization | Changing selected cards or split amounts after authorization requires reauthorization. |
-| Leg-by-leg authorization | Split-card payment must authorize and submit each card leg one by one unless a later approved PSP/acquirer model supports another controlled approach. |
-| Benefit recalculation | Card-linked promotion or reward eligibility may be estimated before authorization but must be recalculated for each card leg before submission. |
-| Partial funding | Payment instruction may be partially funded, but overall payment must not be treated as fully completed until the intended full amount is funded. |
-| Retry | Retry may be allowed subject to partner, risk, velocity, and authorization rules. |
-| Audit | Each card attempt and result must be logged. |
-
-If multi-card funding fails or remains incomplete, the user may be asked to complete remaining legs, replace a card, change the split, retry, cancel, or reauthorize according to configured rules.
+This tree expresses classification and genuine aggregate ownership only. It does not express business sequence or mandatory predecessor relationships.
 
 ---
 
-## 12. Payer Authorization
+## 8. Domain Relationships and Flow
 
-Payer authorization is always required before payment processing. Payment passcode is the baseline PayPlus confirmation before payment authorization proceeds.
+```mermaid
+flowchart TD
+    EV["Evidence"] -->|supports| BR["Bill / Rent"]
+    LR["Link Request"] -.->|optionally links parties to| BR
 
-Authorization must record:
+    BR -->|supplies payment-relevant facts| PB["Bill / Rent Payable Basis"]
+    PB -->|derives scheduling view| PR["Projection"]
+    PB -->|supplies authoritative payable facts| MP["Materialization Process"]
+    PR -->|payer selection may trigger| MP
+    BE["Approved Business Event"] -->|may trigger| MP
+    MP -->|creates| O["Payment Obligation"]
 
-- payer ID;
-- request ID;
-- payment ID where available;
-- payee reference;
-- effective destination snapshot/version and source;
-- amount, fee, discount, and total charge;
-- selected payment profile summary;
-- payment instruction ID where applicable;
-- multi-card split where applicable;
-- pay-now or deferred instruction choice;
-- selected payee transfer date where applicable;
-- disclosure and terms version where applicable;
-- payment passcode confirmation result;
-- step-up authentication decision and result where applicable;
-- timestamp;
-- authorization result;
-- channel or device context where available.
+    W["Checkout Workspace"] -->|owns| ALLOC["Obligation Allocation"]
+    ALLOC -->|references| O
 
-Material changes after authorization require invalidation or reauthorization.
+    O -->|owns| RES["Active Payable-capacity Reservation"]
+    W -.->|preserves reservation reference| RES
+    ALLOC -.->|reservation protects its unconfirmed portion| RES
 
-Material changes include amount, fee, promotion quote, reward entitlement, total charge, selected card, card split, payee, effective destination, evidence, evidence verification outcome, deferred funding date, selected payee transfer date, material timing, or disclosure terms.
+    W -->|owns| FAV["Funding Allocation Version"]
+    FAV -->|defines| FL["Funding Leg"]
+    FL -->|owns| AT["Payment Attempt"]
+    AT --> PS["Provider Submission"]
+    PS --> CE["Provider Confirmation Event"]
+    CE -->|accepted under confirmation policy| FL
+    FL -->|produces exactly one| P["Payment"]
 
-Authorization freezes the effective destination snapshot for that payment. A later profile, request, bill/rent, or payer-entered destination change must not silently redirect the authorized payout. Where the payer selected a destination different from an accepted payee-created request, the authorization screen must clearly disclose the difference and record the payer's confirmation.
+    P -->|owns| PA["Payment Application"]
+    PA -->|contributes confirmed applied value to| O
+    ADJ["Effective Financial Adjustment"] -->|contributes obligation-attributed coverage reduction to| O
 
----
+    O -->|derives| EC["Effective Coverage"]
+    O -->|derives| OUT["Outstanding Amount"]
+    OUT -->|informs scheduling and eligibility| PR
+```
 
-## 13. Step-Up Authentication
-
-Step-up authentication means an additional challenge beyond normal payer confirmation and payment passcode, such as 2FA, OTP, 3DS, biometric challenge, PSP/acquirer challenge, or PayPlus risk challenge.
-
-| Rule | Requirement |
-| --- | --- |
-| Payer authorization always required | User confirmation is never skipped. |
-| Payment passcode always required | Payment passcode is required before payment authorization proceeds, subject to final DOC-19 security design. |
-| Step-up conditional | The MVP baseline requires additional external or risk step-up at HK$3,000 or above. Below HK$3,000, it may be skipped only where partner, network, regulatory, risk, compliance, and security rules allow. |
-| Configurable threshold | HK$3,000 is the launch baseline and must be adjustable in the admin management dashboard. |
-| Risk override | Step-up may still be required below threshold when risk is elevated. |
-| Mandatory override | PSP/acquirer, card-network, regulatory, or other mandatory authentication requirements always apply and cannot be weakened by the PayPlus threshold. |
-| Logging | Step-up required, skipped, passed, failed, and expired decisions must be logged. |
-| Failure handling | Failed or expired step-up must not result in payment completion or payout readiness. |
-| Deferred instruction | Saved deferred instruction must not rely on stale PSP/acquirer authorization or 2FA validity beyond allowed partner/security windows. |
-
-Detailed security and authentication mechanics belong in DOC-19.
+The normal relationship from accepted Provider Confirmation to Payment remains valid even when confirmation arrives late. What changes in the late-confirmation case is automatic Payment Application, not Payment creation.
 
 ---
 
-## 14. Payment and Related State Boundaries
+## 9. Aggregate Ownership and Invariants
 
-DOC-09 owns payment-domain status meaning at product-rule level. Canonical event schema belongs in DOC-18.
+| Concept | Ownership and Invariant |
+|---|---|
+| Bill/Rent Payable Basis | References an authoritative Bill/Rent, contains current payment-relevant facts and may update when those authoritative facts change. |
+| Projection | Recalculable and non-authoritative. DOC-09 owns its business purpose, inputs and outputs. |
+| Materialization | Process boundary that creates Payment Obligation using authoritative Payable Basis facts. |
+| Payment Obligation | Owns Due Amount, payable capacity, Gross Applied Value, Effective Adjustment Value, Effective Coverage, Outstanding Amount, Active Reserved Amount, Available Payable Capacity and active reservations. |
+| Checkout Workspace | Owns Checkout Target, Obligation Allocations, Funding Allocation Versions and Funding Legs. |
+| Obligation Allocation | Owned only by Checkout Workspace and references one Payment Obligation. |
+| Reservation | Owned by Payment Obligation and associated with one Obligation Allocation. Checkout may retain its reference. |
+| Funding Leg | Owns its Payment Attempts. It does not own a reservation. |
+| Payment | Immutable confirmed result of exactly one successfully confirmed Funding Leg. |
+| Payment Application | Owned by Payment and represents immutable application to one Payment Obligation. |
+| Effective Financial Adjustment | Separate immutable downstream fact owned by DOC-11. |
+| Effective Coverage | Derived and owned by Payment Obligation. |
+| Outstanding Amount | Derived and owned by Payment Obligation. |
+| Active Reserved Amount | Derived and owned by Payment Obligation. |
+| Available Payable Capacity | Derived and owned by Payment Obligation. |
 
-Evidence status naming must not diverge from DOC-06C and DOC-12. DOC-12 owns evidence verification outcomes. DOC-06C owns the user-facing evidence status and bill/rent payment-readiness mapping. DOC-09 consumes the mapped readiness result to decide whether payment quote creation, authorization, retry, settlement readiness, or payout handoff may proceed.
-
-| State Family | Canonical States or Events | Ownership and Purpose |
-| --- | --- | --- |
-| Request lifecycle | Draft, Pending Evidence Verification, Pending Receiver Action, Accepted, Rejected, Expired, Cancelled | DOC-06A owns request state meaning. Payee-created payment may proceed only from an accepted request; payer-created payment does not require a request unless optional linking is initiated. |
-| Request events | Created, Updated, Submitted, Evidence Gate Entered/Passed, Auto-Sent, Sent/Delivered, Shared, Viewed, Reminded, Accepted, Rejected, Expired, Cancelled, Resent/Recreated, Parties Linked, Archived, Restored | Events and visibility transitions do not replace request lifecycle state. |
-| Evidence verification | Not Provided, Pending Review, Accepted, Correction Needed, Update Needed, Rejected, Duplicate Suspected | DOC-12 owns verification outcomes and DOC-06C owns the user-facing mapping. Evidence status is not request, payment, archive-visibility, or evidence-history status. |
-| Obligation archive and evidence history | Archived, Previous version, restore eligibility | DOC-06B/DOC-06C own route behavior and user-facing archive handling. DOC-12 owns evidence version meaning. `Restore available` is an eligibility hint; a non-restorable reason is explanatory detail, not a status. These descriptors and restore rules do not replace evidence verification, obligation readiness, request, or payment state. |
-| Obligation payment readiness | Ready to Pay, Action Required, Under Review | DOC-06C owns readiness. Paid/Received are payment outcomes; Archived is visibility; Due Soon is date-derived. |
-| Linked case | Open, Pending Information, Under Review, Resolved, Closed | DOC-11 owns dispute/support case meaning. A linked case may apply a hold but does not become a request status. |
-| Request archive visibility | Active, Archived | Archive changes route visibility and retention handling without replacing the retained request lifecycle state. |
-| Payment quote | Quote Created, Quote Revalidated, Quote Expired or Replaced | Quote events and state are payment-domain records, not obligation readiness. |
-| Payment instruction | Pending Instruction, Pending User Action, Partially Funded, Fully Funded, Expired, Cancelled, Archived | Tracks saved payment context before and during pending, future, or incomplete funding. |
-| Authorization | Payment Authorized, Step-Up Required, Step-Up Passed, Step-Up Failed | Tracks payer authorization and extra authentication. |
-| Funding leg | Pending, Action Alert Sent, Submitted, Authorized, Failed, Settlement Pending, Settlement Ready, Paid Out, Expired, Cancelled | Tracks each card leg in single-card or split-card funding. |
-| Processing | Payment Processing, Payment Completed, Payment Failed, Partially Funded | Tracks PSP/acquirer payment outcome without treating partial funding as complete. |
-
-An obligation must not be archived while an active payment instruction, submitted funding leg, authorization, payment, or other unresolved payment process materially depends on it. Archiving or restoring the obligation does not cancel, revive, resubmit, or reauthorize a payment instruction or payment; DOC-06C owns the user-facing archive action and DOC-09 remains the payment-state authority.
-| Review or hold | Held for Review | Payment requires admin, risk, or partner review. |
-| Settlement readiness | Settlement Pending, Settlement Confirmed | Tracks upstream settlement state before payout readiness. |
-
-Payout statuses belong in DOC-10.
-
-Refund, reversal, chargeback, and cancellation operation statuses plus dispute-case lifecycle belong in DOC-11, though DOC-09 must link resulting payment events to the original payment.
+No entity may be represented as owned by two aggregates.
 
 ---
 
-## 15. Failure Handling
+## 10. Aggregate Internal Structure
 
-Payment failure may result from:
+```text
+Payment Obligation
+├── Due Amount
+├── Gross Applied Value
+├── Effective Adjustment Value
+├── Effective Coverage
+├── Outstanding Amount
+├── Active Reserved Amount
+├── Available Payable Capacity
+├── accepted Payment Application references
+└── Active payable-capacity reservations
 
-- card decline;
-- expired or invalid token;
-- issuer rejection;
-- failed step-up authentication;
-- PSP/acquirer error;
-- duplicate or velocity rule;
-- risk hold;
-- user cancellation;
-- timeout;
-- partial multi-card failure.
-- deferred instruction expiry;
-- incomplete split-card funding.
+Checkout Workspace
+├── immutable identity
+├── Bill/Rent Payable Basis reference
+├── Checkout Target
+├── Obligation Allocations
+├── payable-capacity reservation references
+├── Funding Allocation Versions
+├── Funding Legs
+├── Effective Payout Destination Snapshot
+├── payer-authorization evidence
+└── continuation and closure information
 
-Rules:
+Funding Leg
+├── obligation-funded amount
+├── applicable fee and benefit result
+├── payer charge
+├── funding-method reference
+├── Payment Attempts
+└── confirmed Payment reference, when successful
 
-- failed payment must be visible and traceable;
-- failed or expired authorization must not result in payout readiness;
-- retries may be allowed where configured;
-- pending or incomplete funding legs may generate action alerts and user action tasks;
-- retry limits must be configurable;
-- repeated failures may trigger risk review or payment profile suspension;
-- failure events should feed DOC-08 notification decisions and DOC-18 audit records.
+Payment
+├── confirmed obligation-funded amount
+├── payer charge and applicable commercial results
+├── provider-confirmation reference
+├── destination-snapshot reference
+└── Payment Applications
+```
 
----
-
-## 16. Settlement Readiness
-
-Payment completion and payout readiness are not the same.
-
-| Concept | Meaning |
-| --- | --- |
-| Payment authorized | Payer approved charge. |
-| Payment completed | Card payment completed according to approved payment system record. |
-| Partially funded | One or more intended funding legs completed, but intended full amount is not completed. |
-| Settlement pending | Funds not yet settled by upstream counterparty. |
-| Settlement confirmed | Settlement file, report, webhook, or approved record indicates settlement is complete or settlement-ready. |
-| Payout-ready | Payment, payee, risk, payout destination, and settlement checks permit payout evaluation. |
-
-Current baseline assumes upstream payment gateway settlement of T+1 to T+3.
-
-Payout is expected on the same day after upstream settlement, subject to DOC-10 payout readiness, selected payee transfer date, bank processing, partner rules, risk holds, reserves, exceptions, and reconciliation.
-
-For partially funded split-card instructions, each settlement-ready funded portion may pass to DOC-10 for payout evaluation. This does not make the overall payment completed.
-
-DOC-09 emits settlement readiness status or evidence for DOC-10; DOC-10 owns payout execution.
+Payment Obligation may retain accepted Payment Application references for calculation and audit. It does not own Payment Application.
 
 ---
 
-## 17. Admin Controls
+## 11. Projection and Materialization
 
-Admin or operations users should be able to:
+### 11.1 Projection Ownership
 
-- view payment request and payment attempt status;
-- view payment instruction status;
-- view masked payment profile summary;
-- view multi-card allocation and attempt status;
-- view pending, incomplete, expired, settlement-ready, and paid-out funding legs;
-- view step-up status where available;
-- place or release payment hold where permitted;
-- trigger permitted retry or user reauthorization path;
-- suspend or flag payment profile where required by risk/support policy;
-- view settlement readiness;
-- view audit log.
+DOC-09 owns:
 
-Admin users must not see raw card data, CVV, sensitive authentication data, or full token secrets.
+- Projection business purpose;
+- Projection business semantics;
+- required business inputs;
+- required business outputs;
+- payment-period eligibility meaning;
+- scheduling meaning;
+- next-period meaning.
 
-Admin actions must be permissioned and logged.
+DOC-18 owns:
+
+- technical read-model implementation;
+- persistence;
+- event processing;
+- refresh mechanics;
+- technical correlation;
+- concurrency;
+- schemas;
+- machine states and transitions.
+
+### 11.2 Projection Inputs
+
+Projection derives the user-facing payment schedule using:
+
+- Bill/Rent Payable Basis;
+- recurrence and due-date rules;
+- materialized Payment Obligations;
+- Effective Coverage;
+- Outstanding Amount;
+- confirmed payment history;
+- approved period-eligibility rules.
+
+### 11.3 Projection Outputs
+
+Projection must support:
+
+- upcoming billing periods;
+- projected payment amounts;
+- projected due dates;
+- user-selectable payment periods;
+- the next suggested payment period;
+- updated eligibility after an effective financial adjustment.
+
+### 11.4 Materialization Paths
+
+Payment Obligation Materialization may be triggered by either:
+
+1. payer selection through Projection; or
+2. another already approved business event using authoritative facts from Payable Basis.
+
+Projection is the normal recurring-payment path, but not the mandatory predecessor to every Materialization event.
+
+Future periods must not be eagerly materialized merely because they appear in Projection.
+
+### 11.5 Period Selection
+
+For recurring Bill/Rent payment:
+
+- payer may select the current eligible period or immediately next eligible period;
+- payer need not complete the current period through PayPlus before selecting the next period because payment may have occurred outside PayPlus;
+- payer must not skip the immediately next eligible period and select a later period directly;
+- multi-period selection must follow the approved contiguous-period rule.
+
+Eligibility must be recalculated when Effective Coverage or Outstanding Amount changes.
+
+### 11.6 Payable Basis Updates
+
+Relevant changes to the authoritative Bill/Rent may:
+
+- update Bill/Rent Payable Basis; and
+- recalculate non-authoritative Projection results.
+
+Such changes must not silently rewrite:
+
+- an already materialized Payment Obligation;
+- a locked Checkout Workspace;
+- a Payment; or
+- a Payment Application.
+
+A change to an already materialized Payment Obligation must occur through an approved controlled change or financial-adjustment process. It must not be inherited automatically from an updated Payable Basis.
+
+This rule does not introduce Payable Basis versioning or an obligation-revision aggregate.
 
 ---
 
-## 18. Risk and Anti-Cashout Boundary
+## 12. Effective Coverage and Outstanding Amount
 
-Payment processing must support controls against self-payment, unsupported P2P transfer, fake invoice, fake rent, duplicate obligation, collusive activity, card testing, suspicious refunds, unsupported categories, and payment profile abuse.
+For one Payment Obligation:
 
-Evidence-derived mismatch, duplicate/reused evidence, same-party, and verification signals come from DOC-12 and feed payment eligibility and risk routing. Detailed risk scoring, rules, thresholds, monitoring, and investigation procedures belong in DOC-14 and DOC-21.
+```text
+Gross Applied Value
+    = sum of accepted obligation-applicable Payment Applications
 
-Risk routing should be proportionate. Not every red flag blocks payment; DOC-14 defines whether a signal should allow, warn, require clarification, require step-up, route to manual review, hold payment or payout, block, suspend, or escalate.
+Effective Adjustment Value
+    = sum of effective obligation-attributed coverage reductions
 
-Deferred payment instruction and partial funding create additional timing and loss risks. Risk controls may consider pending duration, repeated incomplete split payments, unusual card split patterns, selected payee transfer date, settlement-ready partial payout, and user/payee complaint or dispute history.
+Effective Coverage
+    = Gross Applied Value - Effective Adjustment Value
+
+Outstanding Amount
+    = Due Amount - Effective Coverage
+```
+
+Payment Obligation derives all four values.
+
+The domain must preserve:
+
+```text
+0 <= Effective Coverage <= Due Amount
+0 <= Outstanding Amount <= Due Amount
+```
+
+### 12.1 Semantic Conditions
+
+| Semantic Condition | Derivation |
+|---|---|
+| Fully Paid | Effective Coverage equals Due Amount. |
+| Partially Paid | Effective Coverage is greater than zero and below Due Amount. |
+| Unpaid | Effective Coverage equals zero. |
+
+These are semantic business conditions, not final machine-state enums.
+
+### 12.2 Adjustment Effect
+
+When DOC-11 determines that an obligation-attributed adjustment has become effective:
+
+- Payment remains unchanged;
+- Payment Application remains unchanged;
+- Effective Adjustment Value increases by the applicable amount;
+- Effective Coverage decreases;
+- Outstanding Amount increases;
+- payable capacity reopens on Payment Obligation;
+- Projection and payment-period eligibility are recalculated;
+- a subsequent eligible Checkout may target reopened Outstanding Amount.
+
+The reason for adjustment does not change this Payment Domain treatment.
+
+An effective adjustment must not:
+
+- reopen the historical Checkout Workspace;
+- alter its Checkout Target;
+- reactivate released reservations;
+- rewrite Funding Legs;
+- rewrite Payment; or
+- rewrite Payment Applications.
+
+If an active continuable Checkout already exists for the same Payable Basis, it must be resolved under the normal active-Checkout rule before a new Checkout is created.
 
 ---
 
-## 19. Events, Notifications, and Audit
+## 13. Checkout Scope and Destination
 
-DOC-09 emits payment-domain statuses and events.
+A Checkout Workspace is scoped to:
 
-DOC-08 determines whether and how users or admins are notified.
+- exactly one Bill/Rent Payable Basis;
+- Payment Obligations originating from that Payable Basis;
+- one effective payee relationship;
+- one Effective Payout Destination Snapshot.
 
-DOC-18 defines detailed data model, ledger, reporting, and event schema.
+The Effective Payout Destination Snapshot must be resolved and frozen no later than final payer authorization.
 
-DOC-09 requires traceability for:
+Every Payment produced by Checkout must preserve a reference to that authorization-time snapshot.
 
-- context origin and request origin where applicable;
-- payer;
-- payee;
-- obligation and evidence;
-- evidence verification outcome and final evidence snapshot where applicable;
-- quote;
-- promotion quote, benefit application, reward entitlement, and instrument reference where applicable;
-- payment profile and token reference;
-- payment instruction ID and status where applicable;
-- authorization and step-up decision;
-- payment attempt and status;
-- multi-card allocation and funding leg status;
-- failure reason where available;
-- settlement readiness;
-- partial payout linkage where applicable;
-- admin action.
+Later changes to Bill/Rent information, payee profile, receiving information or payout configuration must not silently alter an authorized Checkout or confirmed Payment.
+
+Settlement and Payout consume the preserved destination reference. Material post-authorization changes require controlled handling and, where applicable, renewed payer authorization.
 
 ---
 
-## 20. Open Questions
+## 14. Monetary Ownership and Invariants
 
-| ID | Question | Owner | Status |
+### 14.1 Checkout Target
+
+Checkout Target represents obligation-applicable value, not total payer charge.
+
+The payer may:
+
+- select the full eligible Available Payable Capacity; or
+- lower the intended payment amount.
+
+Checkout Target must not exceed aggregate Available Payable Capacity across selected Payment Obligations.
+
+### 14.2 Allocation and Charge Derivation
+
+```text
+sum of Obligation Allocation amounts
+    = Checkout Target
+```
+
+Once Funding Allocation is complete:
+
+```text
+sum of current Funding Leg obligation-funded amounts
+    = Checkout Target
+```
+
+Payer Charge is derived from:
+
+- Funding Leg obligation-funded amount;
+- applicable fee result; and
+- applicable benefit result,
+
+under pricing, benefit and rounding rules owned by the relevant commercial, promotion and technical documents.
+
+The following monetary invariant applies:
+
+```text
+Funding Leg obligation-funded amount
+    is not the same monetary value as
+Funding Leg payer charge
+```
+
+DOC-09 does not define detailed fee, reward, cashback, subsidy or rounding formulas.
+
+### 14.3 Payment Application Conservation
+
+For each Payment:
+
+```text
+sum of obligation-applicable values represented by its Payment Applications
+    <= confirmed obligation-funded amount of that Payment
+```
+
+Payment Applications must not apply:
+
+- service fees;
+- provider charges;
+- non-obligation amounts; or
+- value exceeding Payment’s confirmed obligation-funded amount.
+
+A Payment may temporarily have zero Payment Applications in the controlled late-confirmation case.
+
+---
+
+## 15. Checkout Target Lock and Funding Changes
+
+Before first Provider Submission:
+
+- Checkout Target may be amended within current payable capacity;
+- Obligation Allocations may be recalculated;
+- Funding Allocation may be edited;
+- affected eligibility, fees, benefits, methods, destination and risk controls must be revalidated.
+
+Checkout Target becomes immutable when first Provider Submission is initiated for any Funding Leg in Checkout Workspace.
+
+From that point:
+
+- Checkout Target must not be increased, reduced or redefined;
+- Obligation Allocations must not be increased, reduced or redefined;
+- submitted or confirmed Funding Legs must not be rewritten;
+- changes may apply only to unexecuted funding arrangements;
+- changes must remain within locked Checkout Target;
+- prior Funding Allocation Versions must remain auditable;
+- affected fees, benefits, methods and risk controls must be revalidated;
+- renewed payer authorization is required before revised execution.
+
+Provider Submission is the provider-neutral domain boundary. DOC-17 maps provider-specific mechanics to it.
+
+---
+
+## 16. Payable-Capacity Reservation
+
+Payment Obligation owns payable capacity and active payable-capacity reservations.
+
+Checkout Workspace:
+
+- owns Obligation Allocations;
+- preserves applicable reservation references;
+- does not own reservations.
+
+Funding Legs do not own reservations.
+
+### 16.1 Aggregate Capacity
+
+For one Payment Obligation:
+
+```text
+Active Reserved Amount
+    = sum of all active payable-capacity reservations
+      for the Payment Obligation
+
+Available Payable Capacity
+    = Outstanding Amount - Active Reserved Amount
+```
+
+The domain must preserve:
+
+```text
+0 <= Active Reserved Amount <= Outstanding Amount
+
+0 <= Available Payable Capacity <= Outstanding Amount
+```
+
+A new reservation must not exceed current Available Payable Capacity of the affected Payment Obligation.
+
+### 16.2 Individual Reservation
+
+For a normal active Checkout:
+
+```text
+Individual Reserved Amount
+    = unconfirmed portion of its associated
+      Obligation Allocation
+```
+
+An individual reservation:
+
+- is associated with one Obligation Allocation;
+- protects capacity on the Payment Obligation referenced by that allocation;
+- is consumed or reduced through accepted Payment Applications;
+- remains available across unsuccessful attempts while Checkout is continuable;
+- is released when confirmed value consumes it, Checkout closes or Checkout expires;
+- is not owned or duplicated by Funding Legs.
+
+An effective financial adjustment does not reactivate a consumed or released reservation. It reopens Available Payable Capacity on Payment Obligation.
+
+A subsequent Checkout creates its own reservations.
+
+### 16.3 Controlled Late-Application Reservations
+
+Controlled late application may require one or more new normal reservation instances.
+
+For each approved Obligation Allocation or affected Payment Obligation against which the unapplied Payment will be applied:
+
+- one new reservation is required;
+- reservation amount must not exceed current Available Payable Capacity;
+- reservation must have a distinct identity from the released historical reservation;
+- association with historical Obligation Allocation is retained only for lineage and approved allocation context;
+- historical reservation remains released;
+- historical Checkout remains closed or expired.
+
+Across all controlled late-application reservations:
+
+```text
+sum of new reservation amounts
+    <= unapplied confirmed obligation-funded amount
+       of the Payment
+```
+
+These reservations provide current payable-capacity protection only. They do not restore historical Checkout continuation.
+
+---
+
+## 17. Funding Execution and Provider Confirmation
+
+### 17.1 Funding Leg Execution
+
+- Each Funding Leg may have multiple Payment Attempts.
+- An unsuccessful attempt creates no Payment.
+- Retry controls remain subject to security, risk and provider rules.
+- Initiating first Provider Submission locks Checkout Target and Obligation Allocations.
+- Applicable fees, benefits and provider eligibility must be revalidated before each Provider Submission.
+
+### 17.2 Accepted Provider Confirmation
+
+```text
+Payment Attempt
+    -> Provider Submission
+    -> Provider Confirmation Event
+    -> PayPlus confirmation-policy acceptance
+    -> Funding Leg becomes successfully confirmed
+    -> exactly one Payment is created or returned idempotently
+```
+
+Checkout Workspace coordinates the journey. Successfully confirmed Funding Leg produces Payment.
+
+Repeated, duplicated or replayed confirmation evidence must not produce duplicate Payments.
+
+DOC-17 owns provider-specific authorization, browser return, callback, webhook, capture, query and confirmation mechanics.
+
+---
+
+## 18. Late Provider Confirmation
+
+### 18.1 Immutable Payment Creation
+
+An accepted Provider Confirmation received after Checkout closure or expiry still:
+
+1. confirms affected Funding Leg;
+2. creates, or idempotently returns, exactly one Payment;
+3. preserves Payment as an immutable confirmed financial fact.
+
+Payment creation must not wait for administrative review.
+
+```text
+Accepted late Provider Confirmation
+    -> Funding Leg becomes successfully confirmed
+    -> exactly one Payment is created or returned idempotently
+    -> Payment remains unapplied
+    -> controlled exception resolution
+```
+
+Payment may temporarily have zero Payment Applications.
+
+### 18.2 Automatic Application Prohibition
+
+Where historical reservations have been released, the system must not:
+
+- automatically create Payment Applications;
+- revive released reservations;
+- silently recreate them as though they remained active;
+- reopen historical Checkout Workspace;
+- reduce Outstanding Amount without authorized application;
+- over-apply any Payment Obligation.
+
+### 18.3 Controlled Application
+
+Where controlled resolution authorizes application:
+
+1. affected Payment Obligations and approved Obligation Allocations must be identified;
+2. current Available Payable Capacity must be revalidated for every affected Payment Obligation;
+3. one or more new normal reservation instances must be created as required;
+4. each reservation must have a distinct identity from its released historical reservation;
+5. each reservation must remain within Available Payable Capacity of its affected obligation;
+6. total new reservation value must not exceed Payment’s unapplied confirmed obligation-funded amount;
+7. new reservations must retain historical Obligation Allocation lineage and controlled-resolution reference;
+8. historical Checkout remains closed or expired;
+9. authorized Payment Applications consume or reduce new reservations;
+10. Payment Applications must reference controlled exception resolution;
+11. Payment Application conservation remains enforced;
+12. Payment Applications follow payer-approved Obligation Allocation order;
+13. where payer approved no different order, default application order is oldest due first.
+
+Historical Obligation Allocation association provides lineage and approved allocation context only. It does not reactivate or amend historical Checkout.
+
+### 18.4 Return of Funds
+
+Where controlled resolution requires return:
+
+- no Payment Application is created;
+- Payment remains an immutable confirmed financial fact;
+- historical Checkout remains closed or expired;
+- historical reservations remain released;
+- return, refund or other adjustment processing remains owned by DOC-11 and applicable operational documents.
+
+### 18.5 Settlement and Payout Boundary
+
+While Payment remains unapplied:
+
+- it may enter necessary Settlement and reconciliation handling under DOC-10 because a confirmed provider financial result exists;
+- it must not be treated as normal payee payout-eligible value.
+
+Normal payout eligibility requires:
+
+- accepted Payment Applications; or
+- another explicit controlled downstream resolution owned by DOC-10 and DOC-11.
+
+DOC-09 supplies only the business condition that Payment is confirmed but unapplied. It does not define Settlement timing, payout timing, payout grouping, accounting treatment or return mechanics.
+
+### 18.6 Exception Ownership
+
+DOC-09 owns:
+
+- Payment-creation consequence;
+- unapplied-Payment treatment;
+- prohibition against automatic application;
+- current-capacity revalidation;
+- new-reservation requirements;
+- application order;
+- conservation and over-application controls;
+- unapplied-Payment payout boundary.
+
+Detailed provider, reconciliation, operational and administrative handling remains with owners defined in Section 25.
+
+---
+
+## 19. Payment and Payment Application
+
+### 19.1 Payment
+
+A Payment:
+
+- has stable identity;
+- is produced by exactly one successfully confirmed Funding Leg;
+- represents an immutable confirmed financial fact;
+- records confirmed obligation-funded value separately from payer charge;
+- preserves Provider Confirmation and destination-snapshot references;
+- may temporarily have zero Payment Applications in the late-confirmation case;
+- must not be modified by refunds, reversals, cancellations, chargebacks or dispute outcomes.
+
+### 19.2 Payment Application
+
+A Payment Application:
+
+- has stable identity;
+- is owned by Payment;
+- links one Payment to one Payment Obligation;
+- represents one immutable confirmed application of obligation value;
+- consumes or reduces an applicable reservation;
+- is append-only;
+- must not be modified or deleted by a later adjustment.
+
+Payment Applications must be created according to payer-approved Obligation Allocation order.
+
+Where payer has not approved a different order, default application order is oldest due first.
+
+This application-order invariant applies to:
+
+- normal Payment Application creation; and
+- controlled late-confirmation application.
+
+Payment Obligation may retain accepted Payment Application references without owning Payment Application.
+
+One Payment may have multiple Payment Applications where confirmed value is applied across multiple Payment Obligations.
+
+Section 14.3 always applies.
+
+---
+
+## 20. Financial Adjustment Boundary
+
+DOC-11 owns:
+
+- adjustment occurrence;
+- adjustment type;
+- adjustment amount;
+- obligation attribution;
+- determination of effectiveness;
+- refund workflow;
+- reversal workflow;
+- transaction-cancellation workflow;
+- chargeback workflow;
+- dispute workflow and outcome.
+
+DOC-09 consumes authoritative effective obligation-attributed coverage reduction and owns:
+
+- preservation of Payment and Payment Application;
+- recalculation of Effective Adjustment Value;
+- recalculation of Effective Coverage;
+- recalculation of Outstanding Amount;
+- reopening of Available Payable Capacity;
+- recalculation of Projection and payment eligibility;
+- eligibility for a subsequent Checkout.
+
+Machine representation and event taxonomy remain owned by DOC-18.
+
+---
+
+## 21. Partial Funding and Checkout Continuation
+
+Partial funding is a normal supported result.
+
+If Checkout Target is HK$1,000 and confirmed obligation-funded value is HK$600:
+
+- Checkout Target remains HK$1,000;
+- confirmed Payment and Payment Application records remain authoritative;
+- Checkout meets Partially Funded semantic condition;
+- HK$400 remains unfunded within that Checkout;
+- payer may Continue Payment or Close Checkout.
+
+Checkout Target must not be reduced to HK$600 merely to present completion.
+
+### 21.1 Continuation
+
+- MVP continuation period is 30 days.
+- Value may later become admin-configurable.
+- Unsuccessful or unexecuted Funding Legs do not erase successful Payments.
+- Changes to unexecuted funding arrangements follow Section 15.
+
+### 21.2 Closure and Expiry
+
+Closing or expiring Checkout:
+
+- ends continuation;
+- releases unused reservations;
+- preserves successful Payments and Payment Applications;
+- does not cancel or rewrite confirmed value;
+- does not change locked historical Checkout Target.
+
+Only one active continuable Checkout may exist for the same Bill/Rent Payable Basis.
+
+Payer must continue or close that Checkout before starting another one.
+
+A controlled late-confirmation process must not restore continuation to a closed or expired Checkout.
+
+---
+
+## 22. Payment Profile, Funding Allocation and Payment Instruction
+
+### 22.1 Payment Profile
+
+Payment Profile stores reusable card ratios, not final future Checkout amounts.
+
+```text
+Payment Profile ratios
+    × Checkout Target
+    = proposed Funding Allocation amounts
+```
+
+Payer may adjust proposed Funding Allocation before Provider Submission.
+
+After first Provider Submission, Section 15 applies.
+
+### 22.2 Payment Instruction
+
+Payment Instruction is a deliberate pay-later arrangement.
+
+An interrupted immediate Checkout remains an incomplete Checkout Workspace and does not automatically become a Payment Instruction.
+
+Instructions route may display both while preserving their separate business meanings.
+
+---
+
+## 23. Payer Authorization
+
+Payer authorization remains central.
+
+- Creating Checkout does not authorize payment.
+- Setting Payment Profile does not authorize payment.
+- Creating Funding Allocation does not authorize payment.
+- Provider return alone does not prove successful payment.
+- Every Provider Submission requires applicable payer authorization.
+- Material changes to unexecuted arrangements after target lock require renewed authorization.
+- Resumed Checkout must revalidate current conditions before submission.
+- Payment must never auto-submit solely because user returned from another route or completed account activation.
+
+Detailed authentication and security controls remain owned by DOC-19.
+
+---
+
+## 24. Semantic Conditions and DOC-18 Boundary
+
+DOC-09 defines semantic business conditions rather than final implementation enums.
+
+| Subject | Semantic Meaning |
+|---|---|
+| Checkout editable | No Provider Submission has been initiated and current eligibility remains valid. |
+| Checkout target locked | At least one Provider Submission has been initiated. |
+| Checkout partially funded | Confirmed obligation-funded value is greater than zero but below Checkout Target. |
+| Checkout fully funded | Confirmed obligation-funded value equals Checkout Target. |
+| Checkout closed | Payer deliberately ended continuation. |
+| Checkout expired | Permitted continuation period elapsed. |
+| Obligation fully paid | Effective Coverage equals Due Amount. |
+| Obligation partially paid | Effective Coverage is above zero and below Due Amount. |
+| Obligation unpaid | Effective Coverage equals zero. |
+| Payment unapplied | Confirmed Payment currently has no accepted Payment Application and is not normal payee payout-eligible value. |
+
+DOC-09 owns Projection business semantics, inputs and outputs.
+
+DOC-18 owns:
+
+- technical read-model implementation;
+- persistence;
+- event processing;
+- refresh mechanics;
+- technical correlation;
+- concurrency;
+- machine states and transitions;
+- schemas;
+- idempotency records.
+
+Status-display reference matrix owns display mapping. DOC-07 owns Outcomes, Messages and CTAs.
+
+---
+
+## 25. Cross-Domain Boundaries
+
+| Boundary | Direction Relative to DOC-09 | DOC-09 Responsibility | Other Canonical Owner |
+|---|---|---|---|
+| Provider Submission | Outbound integration boundary | Define business submission semantics and target-lock consequence. | DOC-17 owns provider mechanics. |
+| Provider Confirmation Event | Inbound provider evidence | Define confirmation-policy acceptance and Payment-creation consequences. | DOC-17 owns provider evidence; DOC-18 owns technical transport and event implementation. |
+| Confirmed and applied Payment | Outbound Settlement handoff | Preserve immutable Payment, accepted Payment Applications and destination reference. | DOC-10 owns Settlement and payout processing. |
+| Confirmed but unapplied Payment | Shared downstream handling boundary | Supply confirmed-but-unapplied condition and prohibit normal payee payout eligibility. | DOC-10 owns Settlement and reconciliation treatment; DOC-11 owns return or adjustment processing. |
+| Effective Financial Adjustment | Inbound from adjustment domain | Consume authoritative obligation-attributed coverage reduction and recalculate Payment Obligation. | DOC-11 owns occurrence, effectiveness, amount and attribution. |
+| Settlement and Payout | Outbound downstream boundary | Supply confirmed Payment and destination facts without defining timing or readiness. | DOC-10 owns downstream lifecycle. |
+| User Outcome Context | Outbound presentation boundary | Supply semantic condition and decision context. | DOC-07 owns Outcome, Message and CTA. |
+| Notification Context | Outbound communication boundary | Supply triggering business result. | DOC-08 owns notification identity, channel and delivery. |
+| Late-Confirmation Exception | Shared operational escalation boundary | Prohibit automatic application and require controlled capacity review and new reservations where application is authorized. | DOC-21 owns operational handling; DOC-22 owns authorized administrative handling. |
+| Machine Implementation | Downstream technical specification | Supply invariants, business semantics, inputs and expected outputs. | DOC-18 owns implementation. |
+| Acceptance Testing | Downstream verification specification | Supply testable domain requirements. | DOC-20 owns test and acceptance evidence. |
+
+---
+
+## 26. Audit and Data Requirements
+
+Implementation must preserve:
+
+- stable identifiers for Payable Basis, Projection context, Payment Obligation, Checkout Workspace, Obligation Allocation, reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Payment and Payment Application;
+- Provider Submission and Provider Confirmation correlation;
+- payer-authorization reference;
+- Effective Payout Destination Snapshot reference;
+- allocation and reservation history;
+- Active Reserved Amount and Available Payable Capacity calculation inputs;
+- every released historical-reservation identity;
+- every new controlled late-application reservation identity;
+- each new reservation’s affected Payment Obligation and historical Obligation Allocation lineage;
+- controlled exception-resolution reference;
+- aggregate controlled late-reservation amount;
+- Payment Application conservation checks;
+- application-order evidence;
+- Effective Coverage and Outstanding Amount calculation inputs;
+- adjustment-effectiveness and obligation-attribution references;
+- idempotent confirmation and Payment creation;
+- complete audit history without exposing restricted provider payloads or credentials.
+
+Exact schema and event names remain owned by DOC-18.
+
+---
+
+## 27. Downstream Technical and Operational TBCs
+
+The following remain outside DOC-09 architecture ownership:
+
+- provider-specific submission and confirmation evidence;
+- Sicpay and future PSP capabilities;
+- authorization, capture, callback, webhook and transaction-query mechanics;
+- provider-specific retry and idempotency implementation;
+- technical Projection read-model implementation;
+- persistence schema and event taxonomy;
+- fee, benefit, rounding and accounting formulas;
+- Settlement and payout-readiness rules;
+- treatment of confirmed but unapplied Payment within Settlement and reconciliation;
+- financial-adjustment workflow and effectiveness rules;
+- administrative exception screens, permissions and approval roles;
+- final user-facing Outcomes, Messages and CTAs;
+- notification IDs, channels and delivery rules;
+- operational service levels and support procedures.
+
+These are downstream specifications, not unresolved DOC-09 architecture decisions.
+
+---
+
+## 28. Decision Coverage
+
+| Decision | Implemented In |
+|---|---|
+| `PDA-01` Payment Obligation authority | Sections 5, 7, 9, 10, 11, 12 and 16 |
+| `PDA-02` Basis, Projection, Materialization and Obligation separation | Sections 2, 5, 6, 7, 8, 9 and 11 |
+| `PDA-03` many-to-many Obligation Allocation relationship | Sections 8, 9, 10 and 14 |
+| `PDA-04` reservation and Payment Application architecture | Sections 8, 9, 10, 14, 16, 18 and 19 |
+| `PDA-05` payer-approved application order | Sections 4, 18 and 19 |
+| `PDA-06` exactly one Payment per successfully confirmed Funding Leg | Sections 17, 18 and 19 |
+| `PDA-07` DOC-09 canonical ownership | Sections 1, 2, 11, 24, 25 and 28 |
+
+---
+
+## 29. Acceptance Criteria
+
+DOC-09 is satisfied when implementation and downstream specifications demonstrate that:
+
+1. Evidence and Link Request cannot be executed as payment objects.
+2. Checkout consumes only Payment Obligations.
+3. Projection is the normal scheduling path but not mandatory for every Materialization.
+4. Both approved Materialization paths use authoritative Payable Basis facts.
+5. No unapproved Materialization trigger is inferred.
+6. Projection business semantics remain owned by DOC-09.
+7. Relevant Bill/Rent changes may update Payable Basis and recalculate Projection.
+8. Payable Basis changes do not silently rewrite materialized Payment Obligations, locked Checkout Workspaces, Payments or Payment Applications.
+9. Checkout Workspace owns Obligation Allocations.
+10. Payment Obligation does not own Obligation Allocations.
+11. Payment Obligation owns payable capacity and active reservations.
+12. Payment Obligation owns Effective Coverage and Outstanding Amount.
+13. Checkout Target equals sum of Obligation Allocations.
+14. Funding Leg obligation-funded amount remains distinct from Funding Leg payer charge.
+15. First Provider Submission locks Checkout Target and Obligation Allocations.
+16. Only unexecuted funding arrangements may change after locking.
+17. Changed funding arrangements remain auditable, revalidated and reauthorized.
+18. Active Reserved Amount equals sum of active reservations for one Payment Obligation.
+19. Active Reserved Amount does not exceed Outstanding Amount.
+20. Available Payable Capacity equals Outstanding Amount minus Active Reserved Amount.
+21. Available Payable Capacity cannot be negative.
+22. New reservation does not exceed current Available Payable Capacity.
+23. Individual reservations remain associated with relevant Obligation Allocations.
+24. Funding Legs do not own duplicate reservations.
+25. An unsuccessful Payment Attempt creates no Payment.
+26. Every accepted Provider Confirmation confirms its Funding Leg.
+27. One successfully confirmed Funding Leg produces exactly one Payment.
+28. Replayed confirmation evidence returns existing Payment idempotently.
+29. Late accepted Provider Confirmation creates or returns Payment before exception review.
+30. Late Payment remains unapplied pending controlled resolution.
+31. Payment may temporarily have zero Payment Applications.
+32. Released historical reservations are never revived.
+33. Controlled late application may create one or more new reservations.
+34. Each controlled late reservation has identity distinct from released historical reservation.
+35. Each controlled late reservation remains within Available Payable Capacity of its affected Payment Obligation.
+36. Sum of controlled late reservations does not exceed unapplied confirmed obligation-funded amount of Payment.
+37. Controlled late reservations retain lineage without reactivating historical Checkout.
+38. Historical Checkout remains closed or expired.
+39. Controlled late application records exception-resolution reference.
+40. Return of late-confirmed funds creates no Payment Application.
+41. Payment Applications follow payer-approved Obligation Allocation order.
+42. Default Payment Application order is oldest due first where payer approved no different order.
+43. Application order applies to normal and controlled late application.
+44. Payment Application totals cannot exceed confirmed obligation-funded Payment value.
+45. Payment and Payment Application remain immutable.
+46. Effective adjustments do not modify historical Payment or Payment Application.
+47. Payment Obligation derives Effective Coverage and Outstanding Amount.
+48. Effective adjustments reduce coverage and increase Outstanding Amount.
+49. Effective adjustments reopen obligation capacity, not historical Checkout.
+50. Projection and eligibility use updated Outstanding Amount.
+51. Effective Payout Destination Snapshot is frozen no later than final payer authorization.
+52. Every Payment produced by Checkout preserves destination-snapshot reference.
+53. Closing or expiring Checkout preserves confirmed financial facts.
+54. Only one active continuable Checkout exists for one Bill/Rent Payable Basis.
+55. Unapplied Payment is not normal payee payout-eligible value.
+56. Unapplied Payment may still require Settlement and reconciliation handling under DOC-10.
+57. Normal payout eligibility requires accepted Payment Applications or explicit controlled downstream resolution.
+58. Machine-state design remains with DOC-18.
+59. Adjustment workflow remains with DOC-11.
+60. Outcomes, Messages and CTAs remain with DOC-07.
+
+---
+
+## Version History
+
+| Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
-| OQ-09-001 | Which PSP/acquirer will support the intended bill payment or ordinary online card purchase treatment? | Payments / Commercial | Open |
-| OQ-09-002 | What MCC/classification will the selected acquirer assign? | Payments / Legal | Open |
-| OQ-09-003 | What maximum number of credit cards per payment/profile should be allowed at launch? | Product / Payments | Answered: 6 |
-| OQ-09-004 | What amount threshold applies to additional external or risk step-up? | Risk / Security / Payments | Answered for MVP: HK$3,000 or above, admin-configurable; mandatory partner/network/regulatory and risk overrides remain |
-| OQ-09-005 | Which risk factors force step-up authentication even below the amount threshold? | Risk / Security | Open |
-| OQ-09-006 | What retry limits apply by user, card, request, payee, category, and time window? | Risk / Payments | Open |
-| OQ-09-007 | What authorization expiry period applies before payer reauthorization is required? | Payments / Product | Open |
-| OQ-09-008 | What tokenized card and payment profile metadata may be stored under final PSP/acquirer, PCI, privacy, and security design? | Security / Payments / Engineering | Open |
-| OQ-09-009 | What settlement file, report, webhook, or reconciliation signal confirms settlement readiness? | Payments / Finance / Engineering | Open |
-| OQ-09-010 | What partial multi-card failure status naming should be exposed to payer and admin? | Product / Design / Operations | Open |
-| OQ-09-011 | Which DOC-12 evidence verification outcomes and DOC-06C evidence-status/payment-readiness mappings block payment quote, authorization, retry, or settlement readiness? | Product / Payments / Risk | Open |
-| OQ-09-012 | Which final DOC-13 technical states and reason codes represent Card Offer replacement, equal-value tie-break, coupon/voucher conflict, or promotion recalculation before payer authorization? | Product / Payments / Growth | Open |
-| OQ-09-013 | What exact deferred payment instruction validity window should apply if PSP/acquirer, 3DS, or security rules differ from the 7-day product baseline? | Payments / Security / Product | Open |
-| OQ-09-014 | What selected payee transfer date rules apply when split-card funding legs complete on different dates? | Payments / Finance / Product | Open |
-| OQ-09-015 | What expiry, cancellation, archive, and action-alert schedule should apply to incomplete payment instructions and funding legs? | Product / Operations / Payments | Open |
-| OQ-09-016 | What payer/payee wording should describe partial funding, partial payout, remaining unpaid amount, and incomplete payment? | Product / Legal / Operations | Open |
-| OQ-09-017 | What quote reservation, expiry, revalidation, and campaign-budget handling should apply to deferred payment instructions? | Product / Growth / Payments | Open |
-
----
-
-## 21. Acceptance Criteria
-
-DOC-09 is acceptable when:
-
-- payer-created obligation/payment and payee-created payment-request flows are defined;
-- payment eligibility gates are clear;
-- DOC-12 evidence verification outcomes are consumed before payment quote and authorization where required;
-- payment quote requirements are defined;
-- user payment instruction and deferred/incomplete funding rules are defined for single-card and split-card payments;
-- deferred payment instruction quote revalidation and material-term confirmation rules are defined;
-- DOC-13 promotion quote requirements are consumed before authorization where applicable;
-- tokenized card, payment profile, and tokenization boundaries are included without duplicating DOC-17, DOC-18, or DOC-19;
-- split-card payment profile use is defined as reusable allocation setup, while payment-time authorization and submission remain per funding leg;
-- multi-card funding is defined as MVP scope with configurable card-count limit;
-- partial funding is distinguished from payment completion;
-- settlement-ready funded portions can be routed to DOC-10 without falsely completing the overall payment;
-- payer authorization is mandatory and auditable;
-- payment passcode is recorded as a baseline confirmation before authorization proceeds;
-- additional external or risk step-up uses an admin-configurable HK$3,000 launch baseline and may be skipped below it only where mandatory and risk rules allow;
-- payment status and failure handling are defined at product-rule level;
-- settlement readiness is distinguished from payout execution;
-- admin controls are defined without exposing raw card data;
-- DOC-10, DOC-11, DOC-14, DOC-15, DOC-17, DOC-18, and DOC-19 ownership boundaries remain clear.
-
----
-
-## 22. Version History
-
-| Version | Date | Summary |
-| --- | --- | --- |
-| 1.0.14 | 2026-07-28 | Set the admin-configurable HK$3,000 MVP threshold for additional external/risk step-up while preserving mandatory PSP, network, regulatory, and risk overrides and the separate always-required payment passcode. |
-| 1.0.13 | 2026-07-27 | Replaced obsolete payer-created payment-request terminology with payer-created obligation/payment context, preserved optional payer-created linking requests as separate non-authorization records, and aligned eligibility, lifecycle, quote, and acceptance language. |
-| 1.0.12 | 2026-07-26 | Aligned payment-state ownership with obligation archive blockers, removed non-restorable as a user-facing archive status, and confirmed that archive/restore does not cancel or revive payment processes. |
-| 1.0.11 | 2026-07-26 | Removed `Archived` from evidence verification and aligned payment gating with the separate obligation-archive, evidence-history, and restore-eligibility domain. |
-| 1.0.10 | 2026-07-26 | Assigned `PAYMENT-CHECKOUT` as the stable checkout flow/screen-group destination while preserving DOC-09 ownership and existing Bills, Requests, Instructions, Payment Profile, authorization, and result handoffs. |
-| 1.0.9 | 2026-07-26 | Separated canonical request lifecycle, role-facing labels, request events, evidence status, obligation readiness, linked cases, quote state, payment state, and archive visibility; kept request acceptance distinct from payment authorization. |
-| 1.0.8 | 2026-07-23 | Added effective destination snapshots, Receiving Info privacy boundary, payee-request destination replacement rules, payer-selected destination behavior, linked-payee notification, checkout disclosure, and authorization-time destination freeze. |
-| 1.0.7 | 2026-07-21 | Clarified the canonical checkout sequence: payment-card/profile selection precedes offer and reward evaluation; checkout displays eligible issued rewards, supports detail-and-return without selection or consumption, revalidates before authorization, and remains the sole checkout selection owner. |
-| 1.0.6 | 2026-07-20 | Added same-screen payment-card/profile and offer handling, automatic highest-user-value Card Offer selection per funding leg, separate coupon/voucher/discount selection, and quote recalculation before authorization. |
-| 0.1.0 | 2026-05-29 | Initial founder working baseline for payment request, card funding, multi-card funding, payment profiles, tokenization boundary, payer authorization, step-up authentication, payment status, failure handling, and settlement readiness. |
-| 0.3.0 | 2026-05-30 | Aligned payment eligibility and quote rules with DOC-12 evidence verification outcomes, final evidence snapshots, duplicate/reused evidence routing, and evidence-related payment blocks. |
-| 0.2.0 | 2026-05-30 | Aligned payment request scope with updated DOC-01 positioning for invoices, fees, rent, domestic service obligations, and evidence-backed payment boundaries. |
-| 0.4.0 | 2026-06-01 | Aligned payment quote and authorization rules with DOC-13 promotion quote, reward entitlement, coupon/voucher, card-linked eligibility, and recalculation requirements. |
-| 0.5.0 | 2026-06-02 | Clarified bill and fee MVP baseline and added DOC-14 proportionate risk-routing boundary. |
-| 0.6.0 | 2026-06-02 | Aligned payment authorization and payment-profile handling with DOC-15 by adding payment passcode, authentication/security data references, and DOC-15 privacy classification boundaries. |
-| 0.7.0 | 2026-06-02 | Added MVP user payment instruction model covering deferred single-card and split-card funding, reminder boundaries, partial funding, funding-leg status, selected transfer date, and partial payout routing to DOC-10. |
-| 0.8.0 | 2026-06-02 | Added deferred payment instruction quote revalidation, promotion quote expiry/reservation open question, and changed-term confirmation before funding submission. |
-| 0.9.0 | 2026-06-12 | Aligned payment-domain origin rules with DOC-06 Bills tab baseline by clarifying payer-created payment does not require default payee acceptance and optional payee linking is not a payment gate unless explicitly required. |
-| 1.0.0 | 2026-06-17 | Aligned reminder boundary with DOC-06 reminder list/detail routes while keeping deferred payment instruction reminders under the checkout/payment instruction flow. |
-| 1.0.1 | 2026-06-18 | Aligned evidence status consumption with DOC-06 evidence status/payment-readiness mapping and DOC-12 verification outcomes. |
-| 1.0.2 | 2026-06-24 | Clarified that DOC-09 owns payment/checkout screen content and payment-domain UI behavior while DOC-06 owns route entry and handoff. |
-| 1.0.3 | 2026-07-02 | Aligned payment-domain boundary with DOC-06B `REQUESTS-NEW`, confirming request creation is not checkout and cannot bypass evidence, acceptance, or payment eligibility gates. |
-| 1.0.4 | 2026-07-03 | Aligned payment instruction definition with DOC-06B: pay-now completed payments do not appear as instructions; pending instructions are editable before submission; incomplete instructions allow continue/archive but not material changes; action alerts are separate from ordinary bill/rent reminders. |
-| 1.0.5 | 2026-07-06 | Distinguished tokenized cards from saved split-card payment profiles, added max 6-card payment/profile cap, default-card versus user-selected split-profile rules, profile action-required behavior, ratio-based profile reuse, and leg-by-leg split-card authorization. |
+| 1.1.0 | 2026-07-31 | Product Documentation Team | Established the Founder Working Baseline for the Payment Domain Architecture, including the accepted architecture, canonical terminology, invariants, decision coverage, acceptance criteria, and canonical filename. |

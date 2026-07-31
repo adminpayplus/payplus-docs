@@ -1,7 +1,7 @@
-﻿---
+---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.31
+version: 1.0.32
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-29
+last_updated: 2026-07-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -24,7 +24,7 @@ related_documents:
   - DOC-06B Navigation, IA & Route Taxonomy
   - DOC-06C Bills, Rent & Tenancy UX Module
   - DOC-07 Content, Disclosure & User Authorization Specification
-  - DOC-09 Payment Request, Multi-Funding Source & Settlement
+  - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
   - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
@@ -42,14 +42,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.31` |
+| **Version** | `1.0.32` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-29` |
+| **Last Updated** | `2026-07-31` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Request, Multi-Funding Source & Settlement<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -393,7 +393,7 @@ Notification IDs are event-driven and do not define request lifecycle states. DO
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
 | `NOTIF-REQ-001` | Payer-created linking request created | App | Important service |
-| `NOTIF-REQ-002` | Payee-created payment request created | App | Important service |
+| `NOTIF-REQ-002` | Payee-created Request created for evidence-backed obligation acceptance/linkage | App | Important service |
 | `NOTIF-REQ-003` | Request received | App, push optional, email optional, WhatsApp optional | Important service |
 | `NOTIF-REQ-004` | Request viewed | App or disabled | Optional service |
 | `NOTIF-REQ-005` | Request submitted for evidence verification | App | Important service |
@@ -753,7 +753,7 @@ Detailed schema belongs in DOC-18.
 | OQ-08-008 | What retention exceptions, deletion rules, and masking rules apply beyond the 7-year baseline? | Legal / Privacy | Open |
 | OQ-08-009 | Which evidence verification events should notify users versus remain app status or admin-only dashboard tasks? | Product / Operations / Legal | Open |
 | OQ-08-010 | Which DOC-13 promotion, coupon, voucher, referral, membership, miles, entitlement, fulfilment, and clawback events should notify users versus remain app status or admin-only tasks? | Product / Growth / Operations | Open |
-| OQ-08-011 | Which payment instruction action-alert schedule, channel mix, and final-action wording should apply for single-card, split-card, partial funding, and expiry cases? | Product / Payments / Operations | Open |
+| OQ-08-011 | Which action-alert schedule, channel mix, and final-action wording should apply separately to deliberate Payment Instructions and incomplete Checkout Workspaces, including split-card continuation and expiry cases? | Product / Payments / Operations | Open |
 | OQ-08-012 | What notification wording and channel rules should apply when deferred payment quote, promotion, card eligibility, fee, or timing terms changed before submission? | Product / Growth / Payments | Open |
 | OQ-08-013 | Which Important Notice / Action Required dashboard items should also create notification events, inbox entries, push alerts, email, SMS, or WhatsApp messages? | Product / Operations / Legal | Open |
 | OQ-08-014 | Which Featured / What's New / Hot Offer carousel items require notification consent, marketing consent, inbox entries, or dashboard-only display? | Product / Growth / Privacy | Open |
@@ -778,7 +778,7 @@ DOC-08 is acceptable when:
 - evidence verification, correction, duplicate warning, and admin review message boundaries are defined;
 - promotion, reward, coupon, voucher, referral, membership, miles, entitlement, and fulfilment message boundaries are defined;
 - referral share actions do not create recipient notifications, while attribution, qualification, entitlement, claim, and issued-reward events route to their defined destinations;
-- payment instruction, action-required alert, deferred action, split-card remaining action, partial funding, expiry/cancellation, and partial payout message boundaries are defined;
+- deliberate Payment Instruction and incomplete Checkout Workspace action-alert boundaries, deferred action, split-card remaining action, continuation expiry/closure, confirmed Payment, and downstream Payout message boundaries are defined without collapsing them into one status family;
 - deferred payment quote or promotion change notification boundaries are defined without renumbering existing notification IDs;
 - dashboard placement boundaries are defined so Important Notice / Action Required, Inbox, Featured carousel, and notification events remain separate but linkable surfaces;
 - delivery logging and retention expectations are defined;
@@ -790,6 +790,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.32 | 2026-07-31 | Aligned notification references with Request-as-linkage and distinct Payment Instruction versus incomplete Checkout continuation contexts without defining new notification IDs. |
 | 1.0.31 | 2026-07-29 | Separated AUTH-RECOVERY Outcomes and Resolution Strategies from notification events, classified reset-link email as controlled delivery, and mapped successful password reset to the existing mandatory account-security communication family. |
 | 1.0.30 | 2026-07-28 | Aligned identity notifications and Home banners with the five-state model, added processing/success/action-required presentation behavior, and required security notification after payment-passcode Change or Reset. |
 | 1.0.29 | 2026-07-28 | Replaced user-facing identity suspension wording with the approved `Failed` / `Update Required` labels and required internal suspension conditions to map through the canonical status-display matrix. |

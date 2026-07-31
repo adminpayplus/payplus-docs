@@ -32,7 +32,7 @@ Required items to be updated include:
 
 Detailed schema and event taxonomy belong in DOC-18. User-facing evidence routes belong in DOC-06. Evidence verification rules belong in DOC-12. Risk escalation rules belong in DOC-14.
 
-### 7.4 Payment Request Review Queue
+### 7.4 Request Review Queue
 
 Future full DOC-22 drafting must present request review without one overloaded status field.
 

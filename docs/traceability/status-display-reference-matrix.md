@@ -2,14 +2,14 @@
 
 Status: Working alignment reference  
 Owner: Product / Founder  
-Last updated: 2026-07-28
+Last updated: 2026-07-31
 Classification: Internal
 
 This matrix aligns PayPlus system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
 
 It is not the final backend status schema. DOC-18 owns the future canonical status, event, audit, and data model taxonomy. Domain documents continue to own their product-rule status meaning:
 
-- DOC-09: payment, funding-leg, authorization, instruction, and settlement-readiness statuses.
+- DOC-09: Payment Domain semantic conditions for obligations, Checkout Workspace, funding execution, confirmed Payments, Payment Applications, Effective Coverage, and deliberate Payment Instructions.
 - DOC-10: payout, settlement-calendar, batch, bank-record, and reconciliation statuses.
 - DOC-11: refund, cancellation, reversal, dispute, chargeback, hold, recovery, and case statuses.
 - DOC-12: evidence, OCR/autofill, verification, and duplicate/reuse statuses.
@@ -66,9 +66,9 @@ Message delivery outcomes such as queued, sent, delivered, failed, or retried be
 
 | Domain | Stage / Status Type | System / Domain Status | Owning Doc | Payer-Facing Label | Payee-Facing Label | Appears In | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Payment Lifecycle | Payment completion | `Payment Completed` | DOC-09 | `Paid` | `Processing` | Activity, checkout result, bill/rent detail | Payee sees `Processing` until payout completes. Payer-facing Activity should not use generic `Processing` for this state. |
+| Payment Lifecycle | Confirmed payment | Accepted Provider Confirmation produced an immutable `Payment` | DOC-09 | `Paid` | `Processing` | Activity, checkout result, bill/rent detail | This describes one confirmed Payment, not overall Checkout completion. Payee sees `Processing` until DOC-10 payout completes. |
 | Payment Lifecycle | Payout completion | `Payout Completed` | DOC-10 | `Transferred` | `Received` | Activity, receipt/proof, statement | Same transaction entry updates status instead of creating a separate payout activity entry by default. |
-| Payment Lifecycle | Payment failure | `Payment Failed` | DOC-09 | `Failed` | `Rejected` | Activity, checkout result | Role-specific label. |
+| Payment Lifecycle | Funding attempt unsuccessful | Payment Attempt or Funding Leg did not produce a confirmed Payment | DOC-09 / DOC-17 / DOC-18 | `Failed` | `Rejected` | Activity, checkout result | Role-specific display outcome; exact machine state remains with DOC-18. |
 | Payment Lifecycle | Payout failure | `Payout Failed` / `Payout Cancelled` | DOC-10 | `Failed` / `Returned` | `Rejected` | Activity, activity detail | Exact payer label depends on whether funds are returned or whether payment did not complete. |
 | Payment Lifecycle | Payout return | `Payout Returned` | DOC-10 | `Returned` | `Returned` | Activity, activity detail, receipt/proof re-issue where applicable | Do not imply refund unless DOC-11 confirms a refund. |
 | Payment Lifecycle | Refund completed | `Refund Completed` | DOC-11 | `Refunded` | `Reversed` / `Adjusted` | Activity, receipt re-issue where applicable, statement | Payee label needs final policy confirmation. |
@@ -166,7 +166,9 @@ The following domains already have human-readable status requirements or explici
 | --- | --- | --- |
 | Request Lifecycle | Canonical states and role-facing labels are defined in the Request Lifecycle mapping above. Events, evidence processing, obligation readiness, linked cases, payment/payout status, and archive visibility are separate. | DOC-06A, DOC-06B, DOC-06C, DOC-08, DOC-18 |
 | Bill / Rent Readiness | `Ready to Pay`, `Action Required`, and `Under Review`. `Paid` / `Received` are payment outcomes; `Archived` is visibility; due-state display is date-derived. | DOC-06C, DOC-12, DOC-14, DOC-18 |
-| Payment Instruction Lifecycle | Pending instruction, incomplete instruction, expired, cancelled, and archived. Payment-instruction action alerts are not ordinary bill/rent reminder records. | DOC-06B, DOC-09, DOC-18 |
+| Payment Instruction Lifecycle | Deliberate pay-later instruction, including pending, expired, cancelled, and archived conditions. Payment-instruction action alerts are not ordinary bill/rent reminder records. | DOC-06B, DOC-09, DOC-18 |
+| Checkout Continuation | Incomplete, continuable, closed, or expired Checkout Workspace presentation. It is separate from Payment Instruction, confirmed Payment, and Payment Obligation coverage. | DOC-06B, DOC-09, DOC-18 |
+| Payment Obligation Coverage | `Fully Paid`, `Partially Paid`, or `Unpaid` semantic condition derived from Effective Coverage against Due Amount. Final cross-surface display mapping must not be inferred beyond DOC-09. | DOC-09, DOC-18 |
 | Evidence Lifecycle | `Not Provided`, `Pending Review`, `Accepted`, `Correction Needed`, `Update Needed`, `Rejected`, and `Duplicate Suspected`. Evidence status may affect obligation readiness but is not payment activity or archive visibility. | DOC-06C, DOC-12, DOC-18, DOC-22 |
 | Obligation Archive and Evidence History | `Archived` is an obligation/document visibility label; `Previous version` is evidence history created after accepted replacement. Neither is an evidence-processing status. Restore eligibility belongs to the archived obligation and is not offered on evidence. | DOC-06B, DOC-06C, DOC-12, DOC-15, DOC-18 |
 | Promotion Eligibility and Quote Lifecycle | Eligible, selected, applied, reserved, recalculated, released, or rejected before or during checkout. Issued reward-instrument display uses the MVP mapping above. | DOC-09, DOC-13, DOC-18, DOC-22 |
@@ -179,7 +181,7 @@ The following domains already have human-readable status requirements or explici
 
 ## Activity Detail Rule
 
-Activity detail may show system lifecycle milestones, but user-facing labels must follow this matrix or the future DOC-18 canonical mapping. For example, the detail may preserve backend milestones such as payment authorization, payment completion, settlement readiness, payout completion, refund, reversal, return, or failure, but the status displayed to payer/payee must use the mapped user-facing label.
+Activity detail may show system lifecycle milestones, but user-facing labels must follow this matrix or the future DOC-18 canonical mapping. For example, the detail may preserve backend milestones such as payer authorization, accepted Provider Confirmation, confirmed Payment, Settlement readiness, Payout completion, refund, reversal, return, or failed attempt, but the status displayed to payer/payee must use the mapped user-facing label.
 
 `BILLS-ACTIVITY` is limited to payment and related payout/transfer, failure, return, refund, and reversal events for one obligation. Request and evidence lifecycle events must not be inserted into that activity route merely because they relate to the same bill/rent/tenancy record.
 
