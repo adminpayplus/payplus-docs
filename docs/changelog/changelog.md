@@ -1124,3 +1124,37 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 **Remaining Open Items**
 
 - None for this retrospective records closure.
+
+### `2026-08-02` - Immediate Workflow Stabilisation
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `a8b0c1963f71abb53cf4a7d6453f86b58555456c` |
+| Primary owner | Documentation Development Workflow |
+| Decision record | `DEC-2026-033` |
+| Founder approval | Revised Immediate Workflow Stabilisation Proposal, exact two-file implementation, branch attachment, and substantive Commit authorized on `2026-08-02` |
+
+**Files Changed**
+
+- `docs/documentation-system/payplus-documentation-development-workflow.md`
+- `docs/documentation-system/payplus-work-command-language.md`
+
+**Material Changes**
+
+- Added the bounded Proposal Challenge and Proposal Decision Readiness controls.
+- Added the consolidated Founder Decision Pack with materiality and dependent-scope blocking rules.
+- Added the Draft Plan and Decision Coverage Matrix.
+- Added Primary, Verification, and Final Verification Review convergence rules.
+- Separated Align execution from coordinated validation and established canonical Review, Align, Validate, Revalidate, and Integrate result vocabulary.
+- Kept the workflow product-independent and created no DOC-06 Pilot Pack, document-specific workflow guide, standalone template, script, automation, or observation file.
+
+**Checks Performed**
+
+- Confirmed the exact two-file Change Impact Manifest and preserved unrelated working-tree changes.
+- Ran scoped terminology, duplication, product-specific-language, local-link, whitespace, lifecycle-stage, Thinking Mode, and Founder-gate checks.
+- Completed read-only Align, Validate, and Integrate with `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL` before the separately authorized substantive Commit.
+- Confirmed the existing 20-stage lifecycle remained unchanged and line endings produced no whole-file diff noise.
+
+**Remaining Open Items**
+
+- The controls remain subject to evidence-based evaluation after the complete `PAYMENT-CHECKOUT` documentation route. Workflow Improvement Round 2 and Workflow vNext are separately governed later phases.

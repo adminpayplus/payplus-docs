@@ -49,6 +49,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-026` | `2026-07-29` | Authentication Recovery And Safe Return Model | Accepted | `DOC-06B` | `4255f63` |
 | `DEC-2026-031` | `2026-08-01` | DOC-09 Payment Domain Architecture Baseline | Accepted | `DOC-09` | `0586c84d1038ba597470355d72414b70fbeff458` |
 | `DEC-2026-032` | `2026-07-28` | Outcome Framework And DOC-07 Specialist Authoring Method | Accepted | Outcome Framework / `DOC-07` | `b3241adfd5b54a28039a365b354fe4715f36820b` |
+| `DEC-2026-033` | `2026-08-02` | Immediate Workflow Stabilisation Controls | Accepted | Documentation Development Workflow | `a8b0c1963f71abb53cf4a7d6453f86b58555456c` |
 
 ## 4. Decision Record Template
 
@@ -1470,3 +1471,52 @@ Refined by `DEC-2026-025`, `DEC-2026-027`, and `DEC-2026-028`; this retrospectiv
 **Remaining Open Items**
 
 None for this retrospective records closure.
+
+### `DEC-2026-033` - Immediate Workflow Stabilisation Controls
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-02` |
+| Status | Accepted |
+| Primary owner | Documentation Development Workflow |
+| Affected documents | `docs/documentation-system/payplus-documentation-development-workflow.md`; `docs/documentation-system/payplus-work-command-language.md` |
+| Substantive commit | `a8b0c1963f71abb53cf4a7d6453f86b58555456c` |
+| Founder approval | Revised Immediate Workflow Stabilisation Proposal, exact implementation scope, branch attachment, and substantive Commit authorized through the execution workflow ending `2026-08-02` |
+
+**Decision**
+
+Adopt six generic Immediate Workflow Stabilisation controls within the existing Documentation Development Workflow and its command interface:
+
+- a bounded Proposal Challenge with one default cycle and a hard maximum of two;
+- Proposal Decision Readiness for each material decision;
+- one consolidated Founder Decision Pack wherever practical;
+- a Draft Plan and Decision Coverage Matrix for material work;
+- bounded Primary, Verification, and Final Verification Review convergence;
+- canonical result vocabulary that separates Align execution, coordinated Validate passage, and Integrate readiness.
+
+The controls remain internal contracts and structured outputs of existing stages. They do not create a lifecycle stage, Thinking Mode, product-specific workflow, standalone guide, template, knowledge base, automation, or migration process. The existing 20-stage lifecycle remains the canonical baseline.
+
+**Rationale**
+
+The DOC-09 retrospective showed that material decisions, scenario and invariant coverage, cross-document representation, review convergence, and the distinction between Align execution and coordinated validation required stronger controls at their existing lifecycle gates. Integrating bounded generic controls into the canonical workflow addresses those observed failure modes without creating a competing workflow or coupling workflow governance to a product document.
+
+**Alternatives Considered**
+
+- A DOC-06 `PAYMENT-CHECKOUT` Pilot Pack and document-specific workflow guidance were rejected because they would couple the generic workflow to one product family and risk becoming shadow authority.
+- A new lifecycle stage or Thinking Mode was rejected because the required controls fit the existing Proposal, Draft, Review, Align, Validate, and Integrate contracts.
+- Standalone templates, scripts, automation, observation files, and legacy migration rules were excluded because the immediate scope was limited to evidence-backed generic stabilisation.
+- Preserving the earlier controls unchanged was rejected because observed DOC-09 execution and validation findings demonstrated material decision-timing, representation, convergence, and stage-result ambiguity.
+
+**Consequences And Handoffs**
+
+Future material Proposals must include the bounded challenge, Decision Readiness evidence, and consolidated material Founder escalation wherever practical. Material Draft work must use decision coverage before Primary Review. Verification and Final Verification cannot reopen accepted design through unbounded alternative preferences. Align reports `ALIGN_EXECUTED - PENDING_VALIDATE`; Validate owns coordinated passage; Integrate reports commit readiness only after validation passes.
+
+The first evidence-producing use is the separately governed restart and completion of the DOC-06 `PAYMENT-CHECKOUT` route. Observations from that route may inform a later retrospective and Workflow Improvement Round 2 but cannot independently change this accepted workflow.
+
+**Supersedes / Superseded By**
+
+Extends `DEC-2026-030` without changing the existing 20 lifecycle stages, six Thinking Modes, Founder gates, lifecycle ownership, records treatment, or Push authority.
+
+**Remaining Open Items**
+
+The six controls require evidence-based evaluation after the complete `PAYMENT-CHECKOUT` route. Keep, Modify, Remove, Automate, or Still Unproven treatment belongs to the later Workflow Improvement Round 2; Workflow vNext remains separately governed.
