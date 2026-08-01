@@ -1095,3 +1095,32 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 **Remaining Open Items**
 
 - Downstream technical and operational TBCs remain with the owners identified by `DOC-09`; none blocks this Founder Working Baseline.
+
+### `2026-08-01` - Retrospective Record: Outcome Framework And DOC-07 Authoring Guide
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `b3241adfd5b54a28039a365b354fe4715f36820b` |
+| Primary owner | Outcome Framework for cross-domain result architecture; DOC-07 authoring guide for specialist authoring practice |
+| Decision record | `DEC-2026-032` |
+| Founder approval | Original substantive change delivered on `2026-07-28`; retrospective records closure authorized on `2026-08-01` |
+
+**Files Changed**
+
+- `docs/00-foundation/payplus-outcome-message-notification-framework.md`
+- `docs/00-foundation/payplus-doc-07-design-specification-workflow.md`
+
+**Material Changes**
+
+- Added the repository-wide separation and traceability model for business rules, Outcomes, Messages, CTAs, Notifications, audit evidence, acceptance coverage, and implementation.
+- Added the original specialist authoring method for DOC-07 outcome, disclosure, message, and CTA records while preserving domain, notification, data, security, testing, support, and admin ownership boundaries.
+- Recorded the original delivered paths. Later accepted decisions refined the capability-aware Resolution layer and moved the DOC-07 guide into the Documentation System as a specialist guide without changing this historical commit.
+
+**Checks Performed**
+
+- Verified the substantive commit identifier, commit date, subject, and exact two-file manifest.
+- Confirmed the retrospective record does not change either substantive file or override the later `DEC-2026-025`, `DEC-2026-027`, and `DEC-2026-028` authority refinements.
+
+**Remaining Open Items**
+
+- None for this retrospective records closure.

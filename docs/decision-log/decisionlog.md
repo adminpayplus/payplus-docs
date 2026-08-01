@@ -48,6 +48,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-025` | `2026-07-29` | Capability-Aware Outcome And Resolution Framework | Accepted | Platform design principles / `DOC-07` workflow | `4255f63` |
 | `DEC-2026-026` | `2026-07-29` | Authentication Recovery And Safe Return Model | Accepted | `DOC-06B` | `4255f63` |
 | `DEC-2026-031` | `2026-08-01` | DOC-09 Payment Domain Architecture Baseline | Accepted | `DOC-09` | `0586c84d1038ba597470355d72414b70fbeff458` |
+| `DEC-2026-032` | `2026-07-28` | Outcome Framework And DOC-07 Specialist Authoring Method | Accepted | Outcome Framework / `DOC-07` | `b3241adfd5b54a28039a365b354fe4715f36820b` |
 
 ## 4. Decision Record Template
 
@@ -1432,3 +1433,40 @@ Supersedes the former active DOC-09 baseline titled `Payment Request, Multi-Fund
 **Remaining Open Items**
 
 Downstream technical and operational TBCs remain with the owners identified by `DOC-09`; none blocks the Founder Working Baseline.
+
+### `DEC-2026-032` - Outcome Framework And DOC-07 Specialist Authoring Method
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-07-28` |
+| Status | Accepted; retrospectively recorded on `2026-08-01` |
+| Primary owner | Outcome Framework for cross-domain result architecture; `DOC-07` for approved user-facing mappings |
+| Affected documents | `docs/00-foundation/payplus-outcome-message-notification-framework.md`; original `docs/00-foundation/payplus-doc-07-design-specification-workflow.md`, now governed through the DOC-07 specialist guide under `docs/documentation-system/` |
+| Substantive commit | `b3241adfd5b54a28039a365b354fe4715f36820b` |
+| Founder approval | Original substantive change delivered on `2026-07-28`; retrospective records closure authorized on `2026-08-01` |
+
+**Decision**
+
+Establish a repository-wide architecture that keeps a business rule, operation Outcome, user-facing Message, CTA, Notification, audit evidence, acceptance coverage, and implementation mapping distinct and traceable. Establish a specialist DOC-07 authoring method for outcome, disclosure, message, and CTA records without transferring ownership from the applicable route, domain, notification, data, security, testing, support, or admin document.
+
+**Rationale**
+
+Stable outcome semantics and explicit ownership boundaries prevent backend logic, persistent statuses, user-facing copy, notifications, and audit evidence from collapsing into one ambiguous implementation concept. A specialist DOC-07 method makes the required mappings reviewable without creating a competing documentation lifecycle.
+
+**Alternatives Considered**
+
+- Embedding user-facing copy directly in backend business logic was rejected because wording and localization must not redefine business outcomes.
+- Treating notifications or persistent statuses as operation outcomes was rejected because each has a different owner and lifecycle.
+- Allowing the DOC-07 guide to approve product rules or operate as an independent lifecycle was rejected; later documentation-system decisions made this boundary explicit.
+
+**Consequences And Handoffs**
+
+Domain owners supply approved rules and decisions. `DOC-07` owns approved user-facing Outcome, Message, disclosure, and CTA mappings; `DOC-08` owns notification behavior; technical, testing, support, and admin owners retain their respective implementation and evidence responsibilities. `DEC-2026-025` later added the capability-aware Resolution layer. `DEC-2026-027` and `DEC-2026-028` later confirmed the canonical lifecycle and reclassified the DOC-07 material as a specialist guide under the Documentation System.
+
+**Supersedes / Superseded By**
+
+Refined by `DEC-2026-025`, `DEC-2026-027`, and `DEC-2026-028`; this retrospective record does not supersede those later decisions.
+
+**Remaining Open Items**
+
+None for this retrospective records closure.
