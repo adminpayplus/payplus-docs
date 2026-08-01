@@ -268,7 +268,10 @@ Proposal **SHALL** produce:
 9. architecture recommendation;
 10. remaining Founder decisions;
 11. proposed edit boundary and exclusions;
-12. explicit Founder approval request.
+12. a bounded Proposal Challenge summary;
+13. Decision Readiness evidence for every material decision;
+14. one consolidated Founder Decision Pack wherever practical;
+15. explicit Founder approval request.
 
 Items that do not apply must be identified as such rather than silently omitted.
 
@@ -295,6 +298,27 @@ Proposal **MUST NOT**:
 - bypass the Founder Decision gate;
 - carry an unresolved recommendation into Draft as though it were approved.
 
+##### Bounded Proposal Challenge
+
+Before Proposal exit, challenge the initial recommendation through this sequence:
+
+```text
+Initial Recommendation
+-> Adversarial Challenge
+-> Scenario and Invariant Testing
+-> Canonical Conflict Check
+-> Cross-document Impact Check
+-> Revised Recommendation
+```
+
+Run one challenge cycle by default and no more than two. A second cycle requires a recorded material recommendation change or newly exposed blocker. Use stable finding IDs, do not introduce a new alternative unless an existing option fails, and close with a concise challenge summary.
+
+##### Decision Readiness and Founder Decision Pack
+
+Mark every material decision `Pass`, `Fail`, or justified `N/A` for evidence completeness, a defined invariant, normal and exception scenarios, canonical-conflict resolution, current owner, downstream impact, and whether Founder approval is required. A material `Fail` cannot enter Draft; keep it in Proposal or return it to Explore when more evidence is required.
+
+Wherever practical, consolidate material Founder decisions into one numbered pack. Each decision must state its Decision ID, problem and evidence, authority and current owner, viable options, agent recommendation, consequences and affected documents, exact Founder answer requested, decision class, and blocked and unaffected dependencies where applicable. Classify it as an agent-resolvable correction, an agent-analysis-required Founder-approved decision, or an affected-scope blocker. Escalate only material product, money, ownership, risk, compliance, privacy, security, architecture, scope, or governance decisions; an affected-scope blocker blocks only dependent scope.
+
 ##### Exit Criteria
 
 Proposal exits only when:
@@ -304,6 +328,9 @@ Proposal exits only when:
 - proposed ownership, terminology, architecture, and document changes are explicit where applicable;
 - the writable boundary and exclusions are reviewable;
 - an explicit Founder approval request is presented.
+- the bounded Proposal Challenge is complete;
+- every material decision passes Decision Readiness or has been kept out of Draft;
+- material Founder decisions are consolidated wherever practical and dependent-scope blocking is explicit.
 
 Proposal remains read-only and ends at Stage 6, the existing Founder Decision and edit-scope gate.
 
@@ -324,6 +351,7 @@ Convert approved Proposal decisions or an equivalent explicit Founder instructio
 - primary owning document and writable-file allowlist;
 - authoritative sources, approved terminology, ownership, architecture, requirements, and unresolved items;
 - applicable specialist guidance.
+- a Draft Plan and Decision Coverage Matrix for material work.
 
 ##### Outputs
 
@@ -331,6 +359,7 @@ Convert approved Proposal decisions or an equivalent explicit Founder instructio
 - traceability from the approved decisions or exact Founder instruction to the drafted content;
 - visible assumptions, `TBD`, `Open`, or `To be confirmed` items that remain unresolved;
 - a Draft Review handoff identifying the implemented scope and any blocked design discovery.
+- a coverage matrix mapping each approved decision or requirement to its normative section, required table, materially useful tree or Mermaid representation, Acceptance Criteria, primary owner, and downstream handoff; use justified `N/A` where a representation would not materially improve or govern meaning.
 
 ##### Allowed Actions
 
@@ -361,6 +390,7 @@ Draft exits only when:
 - traceability to the approved Proposal or equivalent Founder instruction is visible;
 - unresolved items remain explicit;
 - any new design discovery has been returned to Proposal rather than resolved in Draft.
+- the coverage matrix is complete and ready for a pre-Primary Review representation check.
 
 #### 4.5.4 Review Stage Contract
 
@@ -378,6 +408,7 @@ Validate the primary-owner draft against its approved decision, authoritative so
 - approved Proposal or equivalent Founder instruction;
 - authoritative sources and applicable specialist checks;
 - requested review lens and acceptance expectations.
+- the Draft Plan and Decision Coverage Matrix for material work.
 
 ##### Outputs
 
@@ -386,6 +417,7 @@ Validate the primary-owner draft against its approved decision, authoritative so
 - accepted-scope corrections distinguished from design issues;
 - design issues routed to Explore or Proposal;
 - Draft Review PASS/FAIL conclusion and unresolved items.
+- named findings and the review phase: Primary Review, Verification Review, or Final Verification.
 
 ##### Allowed Actions
 
@@ -404,6 +436,14 @@ Review **MUST NOT**:
 - convert a design finding into an unapproved corrective design;
 - edit without a separately authorized correction scope.
 
+##### Review Convergence
+
+- **Primary Review** may identify any evidence-backed defect.
+- **Verification Review** verifies named findings and accepted corrections. It may add a finding only for a regression, previously hidden contradiction, or material safety or implementation blocker.
+- **Final Verification** is closure-led. New findings are limited to objective blockers, regressions, or bounded closure defects.
+
+After Proposal approval, an alternative preference is a non-blocking backlog observation unless the accepted design is contradictory, unsafe, impossible, or unimplementable. An alternative design that requires reconsideration returns to Explore or Proposal; it does not remain an open-ended review blocker.
+
 ##### Exit Criteria
 
 Review exits only when:
@@ -412,6 +452,7 @@ Review exits only when:
 - corrections within the approved design are separated from new design questions;
 - design issues are routed to Explore when more understanding is required or Proposal when a decision recommendation is required;
 - the review states PASS or FAIL and identifies what blocks progression to Align.
+- the applicable convergence phase has respected its new-finding boundary.
 
 #### 4.5.5 Align Stage Contract
 
@@ -438,6 +479,7 @@ Synchronize the reviewed, approved primary change across materially affected doc
 - removal or replacement of active duplicate and superseded definitions;
 - cross-document consistency across materially affected artifacts;
 - unresolved conflicts or scope expansion returned to Proposal.
+- `ALIGN_EXECUTED - PENDING_VALIDATE`, together with unresolved matters; Align does not declare coordinated success.
 
 ##### Allowed Actions
 
@@ -455,6 +497,7 @@ Align **MUST NOT**:
 - redefine ownership or terminology beyond the approved decision;
 - draft new primary-owner design;
 - treat consistency work as authority to expand scope.
+- report the coordinated result as passed before Validate.
 
 ##### Exit Criteria
 
@@ -464,6 +507,7 @@ Align exits only when:
 - terminology, ownership, references, and duplicated definitions are aligned;
 - unrelated documents remain unchanged;
 - every material conflict or scope expansion has returned to Proposal instead of being decided during Align.
+- execution is reported as `ALIGN_EXECUTED - PENDING_VALIDATE` rather than as a coordinated PASS.
 
 #### 4.5.6 Integrate Stage Contract
 
@@ -492,6 +536,7 @@ Merge approved and reviewed work into the complete documentation system, coordin
 - integrated validation evidence;
 - integration-completion and Definition of Done conclusion;
 - canonical pre-commit report, remaining blockers, and deferred items.
+- an integration result of `INTEGRATE_FAIL - RETURN_TO_<STAGE>` or, only after coordinated validation passes, `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL`.
 
 ##### Allowed Actions
 
@@ -511,6 +556,7 @@ Integrate **MUST NOT**:
 - select an unapproved alternative;
 - use impact discovery as authority for a material change;
 - alter the approved design.
+- declare commit readiness before coordinated validation has passed.
 
 ##### Exit Criteria
 
@@ -523,6 +569,7 @@ Integrate exits only when:
 - material discoveries have returned to Proposal;
 - the coordinated result satisfies Definition of Done or identifies explicit blockers;
 - the pre-commit report is ready for the unchanged Stage 14 Founder Commit approval gate.
+- coordinated validation has passed before `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL` is reported.
 
 ## 5. Explore and Proposal
 
@@ -607,6 +654,8 @@ For a material new feature, route, workflow, policy, status model, governance ru
 
 Proposal is the first stage permitted to recommend architecture, terminology, ownership, lifecycle, statuses, object model, or document changes. It remains read-only.
 
+Run the bounded Proposal Challenge defined in Section 4.5.2 and include its concise summary. Complete Decision Readiness for every material decision. A material `Fail` stays in Proposal or returns to Explore and must not enter Draft.
+
 Do not over-compress a multi-screen flow, material business rule, ownership choice, failure path, disclosure boundary, or cross-document consequence. Do not draft documentation while the task remains Proposal-only.
 
 ### 5.6 Founder Decision Gate
@@ -616,6 +665,8 @@ Founder confirmation is required before drafting when the proposal:
 - introduces or changes product behavior, ownership, governance, status meaning, route structure, disclosure, risk, compliance, payment, privacy, security, operational, or admin rules;
 - resolves a material open question or replaces an active definition;
 - materially expands the requested file or concept scope.
+
+Consolidate these material decisions into one numbered Founder Decision Pack wherever practical, using the content and classification defined in Section 4.5.2. Resolve agent-resolvable corrections without escalation. An affected-scope blocker blocks only its dependent scope; explicitly identify unaffected work that may proceed.
 
 An additional Proposal gate is not required when the Founder has already approved the exact change or requests a direct scoped edit that supplies equivalent design authority and does not require a new material decision. That instruction becomes the bounded decision contract for Draft; it does not authorize Draft to redesign it. Record unresolved matters as `TBD`, `Open`, or `To be confirmed` with an owner rather than inventing an answer.
 
@@ -634,6 +685,8 @@ Drafting is ready when:
 - unrelated files and working-tree changes are identified;
 - specialist frameworks or guides have been selected only where applicable;
 - the approved architecture, ownership, terminology, lifecycle, statuses, object model, requirements, and document treatment are identifiable where applicable.
+- every material decision entering Draft has passed Decision Readiness;
+- a Draft Plan and Decision Coverage Matrix maps approved decisions and requirements to the representations, Acceptance Criteria, ownership, and handoffs defined in Section 4.5.3.
 
 ### 6.2 Owner-First Drafting
 
@@ -662,6 +715,8 @@ Before integration, confirm:
 5. the draft has not introduced undocumented routes, statuses, signals, capabilities, controls, implementation assumptions, architecture, terminology, ownership, lifecycle, or object definitions;
 6. each material definition remains traceable to the approved Proposal or equivalent Founder instruction;
 7. the review covers correctness, completeness, ambiguity, inconsistency, documentation quality, and implementation fidelity.
+8. the coverage matrix has been checked against prose, tables, trees and Mermaid diagrams, cardinality, formulas and monetary relationships, lifecycle and status terminology, Acceptance Criteria, and downstream handoffs, with justified `N/A` where applicable;
+9. Primary, Verification, and Final Verification work follows the convergence limits in Section 4.5.4.
 
 Review validates the Draft; it does not redesign it. Corrections that restore fidelity to the approved design may be recommended. A finding that requires wider investigation returns to Explore, and a finding that requires a new recommendation or material decision returns to Proposal.
 
@@ -953,6 +1008,21 @@ Perform this as one batched validation pass after the coordinated edit set. Do n
 
 Integrated Validation may identify a material design problem but must not solve it through Integration. Return an evidence gap to Explore and a decision-ready design issue to Proposal.
 
+Use only these stage-result terms:
+
+```text
+REVIEW_EXECUTED - GATE_PASS
+REVIEW_EXECUTED - GATE_FAIL
+CORRECTION_REQUIRED - RETURN_TO_<STAGE>
+ALIGN_EXECUTED - PENDING_VALIDATE
+VALIDATE_FAIL - RETURN_TO_<STAGE>
+REVALIDATE_PASS - READY_TO_INTEGRATE
+INTEGRATE_FAIL - RETURN_TO_<STAGE>
+INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL
+```
+
+`PASS WITH MAJOR CORRECTIONS` and equivalent mixed results are prohibited. Review may pass or fail only its own Draft Review gate. Align reports execution and unresolved matters, never coordinated success. Validate alone may pass or fail the coordinated Edit/Align result. Every failed result must name the correct return stage. Integrate may report readiness for Commit approval only after coordinated validation passes.
+
 ### 7.15 Prepare Changelog and Decision-Log Recording
 
 Every substantive documentation commit must be recorded in both:
@@ -1029,6 +1099,8 @@ Before requesting commit approval, report:
 11. whether anything still needs cross-document alignment;
 12. prepared changelog and decision-log record content;
 13. commit readiness.
+
+Completion and pre-commit reporting must use the canonical stage-result vocabulary in Section 7.14 and must not use ambiguous or mixed PASS terminology.
 
 ## 10. Commit and Push Gate
 
