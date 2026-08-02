@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.8
+version: 0.7.9
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,7 +12,7 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-02
 classification: Internal
 related_documents: []
 ---
@@ -23,12 +23,12 @@ related_documents: []
 | --- | --- |
 | **Document ID** | `DOC-00` |
 | **Title** | Documentation Governance |
-| **Version** | `0.7.8` |
+| **Version** | `0.7.9` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Documentation Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead |
 | **Approvers** | Product Lead<br>Engineering Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-02` |
 | **Classification** | Internal |
 | **Related Documents** | None |
 
@@ -260,6 +260,7 @@ payplus-docs/
 |   |   `-- reviewpack.md
 |   |-- traceability/
 |   |   |-- open-questions-register.md
+|   |   |-- payplus-documentation-management-roadmap.md
 |   |   |-- route-register.md
 |   |   |-- requirements-traceability-matrix.md
 |   |   `-- status-display-reference-matrix.md
@@ -604,6 +605,7 @@ The current traceability files are:
 | --- | --- |
 | requirements-traceability-matrix.md | Maps requirements, rules, controls, tests, decisions, and implementation references. |
 | open-questions-register.md | Tracks unresolved questions across the documentation set. |
+| payplus-documentation-management-roadmap.md | Derived programme-level coordination and progress tracker; references canonical owners and has no product-truth, lifecycle, approval, Git, records, or completion authority. |
 | route-register.md | Maintains the canonical product-destination inventory, parent, type, owner, and definition status. |
 | status-display-reference-matrix.md | Aligns user-facing labels with domain-owned status meaning. |
 
@@ -859,6 +861,7 @@ DOC-00 must remain focused on documentation governance only.
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.7.9 | 2026-08-02 | Product Documentation Team | Registered the derived PayPlus Documentation Management Roadmap in the repository structure and traceability inventory without assigning product-truth or Documentation Lifecycle authority. |
 | 0.7.8 | 2026-07-31 | Product Documentation Team | Aligned the DOC-09 register title and ownership description with the accepted Payment Domain Architecture and renamed its canonical file to `doc-09-payment-domain-architecture.md` following Founder approval. |
 | 0.7.7 | 2026-07-26 | Product Documentation Team | Aligned the governed repository tree with hierarchical route maps and dated superseded route-map snapshots. |
 | 0.7.6 | 2026-07-26 | Product Documentation Team | Registered the canonical product-destination route register and established the prototype lifecycle register, single-current-prototype rule, and dated/versioned archive convention; no current prototype is registered at this baseline. |
