@@ -50,6 +50,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-031` | `2026-08-01` | DOC-09 Payment Domain Architecture Baseline | Accepted | `DOC-09` | `0586c84d1038ba597470355d72414b70fbeff458` |
 | `DEC-2026-032` | `2026-07-28` | Outcome Framework And DOC-07 Specialist Authoring Method | Accepted | Outcome Framework / `DOC-07` | `b3241adfd5b54a28039a365b354fe4715f36820b` |
 | `DEC-2026-033` | `2026-08-02` | Immediate Workflow Stabilisation Controls | Accepted | Documentation Development Workflow | `a8b0c1963f71abb53cf4a7d6453f86b58555456c` |
+| `DEC-2026-034` | `2026-08-02` | PayPlus Documentation Management Roadmap | Accepted | `DOC-00` | `b0f072c1d3fd60d84c51dbdc747537fe9341a1b1` |
 
 ## 4. Decision Record Template
 
@@ -1520,3 +1521,41 @@ Extends `DEC-2026-030` without changing the existing 20 lifecycle stages, six Th
 **Remaining Open Items**
 
 The six controls require evidence-based evaluation after the complete `PAYMENT-CHECKOUT` route. Keep, Modify, Remove, Automate, or Still Unproven treatment belongs to the later Workflow Improvement Round 2; Workflow vNext remains separately governed.
+
+### `DEC-2026-034` - PayPlus Documentation Management Roadmap
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-02` |
+| Status | Accepted |
+| Primary owner | `DOC-00` documentation governance |
+| Affected documents | `docs/traceability/payplus-documentation-management-roadmap.md`; `docs/00-foundation/doc-00-documentation-governance.md` |
+| Substantive commit | `b0f072c1d3fd60d84c51dbdc747537fe9341a1b1` |
+| Founder approval | Roadmap role, boundaries, bounded corrections, DOC-00 alignment, Validate, Integrate, and conditional Commit approved through the management-roadmap workflow ending `2026-08-02` |
+
+**Decision**
+
+Establish the PayPlus Documentation Management Roadmap as a derived programme-level coordination and progress tracker. It may register bounded work, task assignments, canonical lifecycle position, dependencies, returned evidence, queues, and next permitted actions. It must preserve returned canonical results without reinterpretation and must not own product truth, lifecycle stages or gates, approvals, validation authority, Git actions, records treatment, or completion.
+
+The PayPlus Documentation Development Workflow remains the sole lifecycle authority. Manager assignments embed or reference its task contract, and execution tasks return its required outputs unchanged.
+
+**Rationale**
+
+A persistent coordination surface makes multi-task documentation progress, dependencies, evidence, and Founder gates visible without turning task management into a competing workflow or duplicating formal requirements.
+
+**Alternatives Considered**
+
+- Using conversation history alone was rejected because it does not provide a stable repository-level progress and dependency record.
+- Creating a separate management lifecycle or manager-owned result vocabulary was rejected because it would compete with the canonical Documentation Development Workflow.
+
+**Consequences And Handoffs**
+
+DOC-00 registers the roadmap as a derived traceability artifact. The roadmap references canonical owners, uses coordination-only work-item IDs and statuses, and cannot independently approve, validate, integrate, commit, push, or establish completion. Product and domain requirements remain in their formal owners.
+
+**Supersedes / Superseded By**
+
+None.
+
+**Remaining Open Items**
+
+None for the accepted roadmap and DOC-00 registration scope.

@@ -1158,3 +1158,33 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 **Remaining Open Items**
 
 - The controls remain subject to evidence-based evaluation after the complete `PAYMENT-CHECKOUT` documentation route. Workflow Improvement Round 2 and Workflow vNext are separately governed later phases.
+
+### `2026-08-02` - PayPlus Documentation Management Roadmap
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `b0f072c1d3fd60d84c51dbdc747537fe9341a1b1` |
+| Primary owner | `DOC-00` documentation governance; roadmap as a derived traceability artifact |
+| Decision record | `DEC-2026-034` |
+| Founder approval | Roadmap structure, bounded corrections, DOC-00 alignment, Validate, Integrate, and conditional Commit approved through the management-roadmap workflow ending `2026-08-02` |
+
+**Files Changed**
+
+- `docs/traceability/payplus-documentation-management-roadmap.md`
+- `docs/00-foundation/doc-00-documentation-governance.md`
+
+**Material Changes**
+
+- Established the PayPlus Documentation Management Roadmap as a derived programme-level coordination and progress tracker.
+- Preserved the PayPlus Documentation Development Workflow as the sole owner of lifecycle stages, gates, results, approvals, Git actions, records treatment, and completion.
+- Registered the roadmap in the DOC-00 repository structure and traceability inventory and advanced DOC-00 to version `0.7.9`.
+
+**Checks Performed**
+
+- Completed bounded Review corrections, Align, Validate, and Integrate without an unresolved finding.
+- Verified roadmap ownership boundaries, canonical result preservation, DOC-00 metadata mirroring, Version History uniqueness, Markdown structure, local links, route-register projection, and exact two-file scope.
+- Ran `git diff --cached --check` and confirmed unrelated worktree changes remained unstaged.
+
+**Remaining Open Items**
+
+- None for the accepted roadmap and DOC-00 registration scope.
