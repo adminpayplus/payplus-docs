@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.15
+version: 0.1.17
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-03
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -41,12 +41,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.15` |
+| **Version** | `0.1.17` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-03` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -721,7 +721,7 @@ Before authorization, the payer should be shown:
 2. Payer confirms that evidence and payment details are acceptable.
 3. System displays final payment summary, including the effective destination and a warning where it differs from an accepted payee-created request.
 4. System displays fee, promotion quote, discount, coupon/voucher impact, reward impact, and total charge where applicable.
-5. Payer selects or confirms payment method: default card may apply for single-card checkout; split-card checkout requires the payer to choose or define a payment profile under DOC-06B/DOC-09 rules.
+5. Payer selects or confirms the applicable funding method. Single-card funding may use an eligible default card. Multi-card funding may use an owner-confirmed current-Checkout allocation or Payment Profile capability. Where exactly one capability is available, the Workspace proceeds directly to that capability without a capability-selection step; direct entry does not silently select a specific profile, confirm an allocation, or authorize funding. Where two or more capabilities are simultaneously available, the payer selects the capability. The payer then completes the applicable funding configuration, review, and authorization.
 6. Payer chooses pay now or creates a deferred payment instruction where enabled.
 7. Payer accepts required terms or disclosures for the selected action.
 8. Payer enters payment passcode or completes confirmation required for the selected action.
@@ -1220,7 +1220,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-027 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
 | OQ-06-028 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
 | OQ-06-029 | What exact request-delivery and `Remind Payer` UX should apply inside `BILLS-RECEIVE`, including resend limits, payer acceptance states, wording, and notification-channel rules? | Product / Design / Operations | Open |
-| OQ-06-030 | What detailed `PAYMENT-CHECKOUT` screen order, interaction design, and route-state presentation should DOC-06B define around the accepted DOC-09 Payment Domain architecture? | Product / Design / Payments | Open; DOC-09 owns domain architecture and invariants, while DOC-06B owns route-level UX and handoff behavior. |
+| OQ-06-030 | The reviewed DOC-06B Section 5.20 adaptive UI contract defines route-level `PAYMENT-CHECKOUT` presentation without imposing one fixed screen order. Which remaining Bill/Rent source handoffs, final copy, technical contracts, prototype and accessibility/user-validation evidence, and implementation/UAT acceptance evidence must the applicable owners complete, including the unresolved Instruction `Pay Now` identity and notification direct-entry contracts recorded in `OQ-XDOC-007` and `OQ-XDOC-015`? | Product / Design / Payments | Partially open; DOC-06B supplies the route-level UI/UX answer, DOC-09 retains domain architecture and invariants, and the named owner, implementation, prototype, validation, and entry-contract dependencies remain unresolved. |
 
 ---
 
@@ -1230,6 +1230,8 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.17 | 2026-08-03 | Aligned the Checkout authorization journey with owner-confirmed current-allocation and Payment Profile capabilities, including direct entry when only one capability is available without silently selecting, confirming, or authorizing funding. |
+| 0.1.16 | 2026-08-03 | Aligned OQ-06-030 with the reviewed DOC-06B adaptive Checkout UI contract while retaining cross-owner entry, copy, technical, prototype, validation, and acceptance dependencies. |
 | 0.1.15 | 2026-07-31 | Aligned journeys with Request-as-linkage, Payment Obligation/Checkout boundaries, and the distinct deliberate Payment Instruction versus incomplete Checkout Workspace model. |
 | 0.1.14 | 2026-07-29 | Aligned the AUTH journeys with capability-aware Outcome-to-Resolution handling while preserving the existing Login, Registration, Recovery, Account Activation, and protected-return decisions. |
 | 0.1.13 | 2026-07-28 | Defined the journey handoff for `ENTRANCE-ROOT`, Fast/Full Login, Recovery, non-reserving registration attempts, restricted-account creation, Account Activation, rolling one-month Fast Login eligibility, and protected contextual return. |

@@ -2,7 +2,7 @@
 
 Status: Working alignment reference
 Owner: Product / Founder
-Last updated: 2026-07-31
+Last updated: 2026-08-03
 Classification: Internal
 
 This register is the canonical inventory of PayPlus product destinations. Owning documents define behavior; this register tracks identity, parentage, type, ownership, and definition status without restating detailed requirements.
@@ -35,7 +35,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `NOTIFICATION-INBOX` | `NOTIFICATION-ROOT` / Home header | Default child screen | Search, filter, read, and archive notification-backed messages, announcements, support replies, and action items. | DOC-06B / DOC-08 | Defined baseline |
 | `NOTIFICATION-DETAIL` | `NOTIFICATION-INBOX` / approved external notification context | Child screen | Show one permitted message and route a current valid action to its owning destination. | DOC-06B / DOC-08 | Defined baseline |
 | `NOTIFICATION-SETTINGS` | `NOTIFICATION-ROOT` / direct Me entry | Child screen | Manage permitted communication channels and preferences with reciprocal Inbox navigation. | DOC-06B / DOC-08 | Defined baseline |
-| `PAYMENT-CHECKOUT` | Bills, Instructions, or another approved payment entry | Flow / screen group | Present and coordinate payment review, funding allocation, eligible benefits, payer authorization, Provider Submission, continuation, and result handoffs around the DOC-09 Payment Domain architecture. | DOC-06B; DOC-09 for domain architecture | Partially defined |
+| `PAYMENT-CHECKOUT` | Bill/Rent Pay resolver or another owner-approved Checkout entry, resume, or protected-return context | Flow / screen group | Provide one persistent adaptive Checkout Workspace for eligible New Checkout or valid Resume context, funding, holistic review and authorization, Funding Leg progress, condition-specific results and recovery, and safe return without imposing a fixed wizard or redefining DOC-09 domain meaning. Instruction `Pay Now` identity and notification direct entry remain open under `OQ-XDOC-007` and `OQ-XDOC-015`. | DOC-06B; DOC-09 for domain architecture | Partially defined |
 | `BILLS-ROOT` | Bottom navigation: Bills | Root screen | Open the Bills area and its payer/payee views. | DOC-06C | Defined baseline |
 | `BILLS-PAY` | `BILLS-ROOT` | Tab / view | Manage obligations the user needs or expects to pay. | DOC-06C | Defined baseline |
 | `BILLS-RECEIVE` | `BILLS-ROOT` | Tab / view | Manage payee-created obligations and requests the user expects to receive. | DOC-06C | Defined baseline |

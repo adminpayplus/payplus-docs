@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.39
+version: 0.1.46
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-03
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -40,12 +40,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.39` |
+| **Version** | `0.1.46` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-03` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -75,6 +75,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 | Route taxonomy and ID standard | Working baseline | Stable product destination rules are defined; the canonical destination inventory is maintained in `docs/traceability/route-register.md`. |
 | Non-Bills route registry | Working baseline | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, Me core child routes, Receiving Info, and the Archive hub/document route have route-level baselines; undefined destinations remain visible in the route register. |
 | Notifications | Defined baseline | `NOTIFICATION-ROOT`, Inbox, Detail, and Settings behavior, entry/return rules, filters, archive visibility, and owning-domain handoffs are defined. Final visual styling remains open. |
+| Payment Checkout | Partially defined | `PAYMENT-CHECKOUT` is defined as one persistent Checkout Workspace with Bill/Rent resolver entry, adaptive presentation, funding, review, execution, resolution, protected return, accessibility, and owner handoffs. |
 
 ---
 
@@ -405,8 +406,8 @@ The design must support reduced-motion accessibility and future additional actio
 
 | Action | Destination | Required Behavior |
 | --- | --- | --- |
-| `Pay a Bill` | `BILLS-PAY` | Open a temporary Bill/Fee/non-rent selection scope. Do not overwrite the user's saved Bills filters. A payment-ready selection may continue to DOC-09 `PAYMENT-CHECKOUT`; a non-ready selection opens the applicable detail or resolution context. |
-| `Pay Rent` | `BILLS-PAY` | Open a temporary Rent/Tenancy selection scope with the same saved-filter and readiness rules. |
+| `Pay a Bill` | `BILLS-PAY` | Open a temporary Bill/Fee/non-rent selection scope without overwriting the user's saved Bills filters. After selection, the Bill Pay action resolves the current Payable Basis, current eligibility, and current Checkout condition under Section 5.20. It may begin a new Checkout only when eligible and no active continuable Checkout exists for the same basis; otherwise it resumes/resolves the existing Checkout or remains in the source-owner context. |
+| `Pay Rent` | `BILLS-PAY` | Open a temporary Rent/Tenancy selection scope with the same saved-filter rule, then apply the same Checkout resolver rule while preserving rent/tenancy context. |
 | `Add Bill / Rent` | `BILLS-ADD` | Start evidence-backed setup. QR scan, file/photo upload, and manual entry remain inside this flow and are not standalone Pay+ payment actions. |
 | `Continue Payment` | `INSTRUCTIONS-DETAIL` or `INSTRUCTIONS-ROOT` | Count active pending Payment Instructions and continuable incomplete Checkout Workspaces, including visible review-blocked items. With none, show the action disabled; with one, open its detail; with more than one, open the list. Review-blocked items remain visible but cannot continue until the blocking condition is resolved. |
 | `Request Payment` | `REQUESTS-NEW` | Start a payee-to-payer Request linked to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation. This action is available by default to all users because one account may act as payer and payee. |
@@ -1150,7 +1151,7 @@ Validation rules:
 - duplicate use of the same card in one profile should be blocked unless later explicitly approved;
 - maximum card count is 6 for MVP unless a later approved change reduces or expands it.
 
-Split-card checkout should not pre-select a payment profile by default. Users should choose a profile during checkout. Starred/frequent profiles should be displayed first.
+When the Payment Profile capability is available and entered, present eligible profiles without silently preselecting or applying one. Starred or frequent profiles may appear first. Current-Checkout allocation remains a separate owner-confirmed capability. Direct entry where only one capability is available removes only the unnecessary capability-choice step; the payer must still complete the applicable selection or configuration within that capability.
 
 #### 5.13.6 Invalid Card and Action-Required Behavior
 
@@ -1170,12 +1171,14 @@ Recommended warning meaning: the profile is incomplete because one card is unava
 
 For split-card payment, checkout should:
 
-1. require the payer to choose a profile or define a current-payment split;
-2. calculate each card leg from the selected profile ratios and current payment amount;
-3. allow amount and ratio adjustment before authorization, subject to total-amount rules;
-4. allow saving the adjusted split as a new or updated profile where permitted;
-5. authorize and submit each card leg one by one;
-6. treat the payment as completed only when all required legs complete.
+1. present a neutral choice between a saved Payment Profile and a current-Checkout split only when the applicable owners make both capabilities available and the payer intentionally expands from single-card funding;
+2. derive current-Checkout allocation from the selected profile ratios and current Checkout Target, or from the payer's current-Checkout allocation choices, without treating a profile as authorization;
+3. allow eligible amount or ratio adjustment before authorization, subject to DOC-09 allocation and locking rules;
+4. allow saving the adjusted split as a new or updated profile only where the applicable owner permits it;
+5. authorize and submit each applicable Funding Leg sequentially under DOC-09;
+6. describe the Checkout as fully funded only when confirmed obligation-funded value reaches the Checkout Target, while preserving every immutable Payment created by an earlier confirmed Funding Leg, including after partial funding.
+
+DOC-06B does not define card or Payment Profile eligibility. Each applicable current-Checkout allocation change remains traceable through the authoritative Funding Allocation Version history or the owner-approved equivalent audit record. Section 5.20 defines the complete Checkout Workspace treatment and return behavior.
 
 Estimated card-linked benefits may be shown during checkout, but final eligibility must be recalculated per card leg before authorization under DOC-13 and DOC-09.
 
@@ -2376,6 +2379,407 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 - final provider capabilities, quiet hours, retry/fallback thresholds, and admin workflow;
 - final template content and legally validated mandatory-service classifications.
 
+### 5.20 `PAYMENT-CHECKOUT` Checkout Workspace
+
+`PAYMENT-CHECKOUT` is the existing, `Partially defined` flow/screen group for one persistent Checkout Workspace. It is not a new route family, a sequence of child routes, a Payment, a Payment Instruction, a Settlement, or a Payout. Internal presentations are replaceable views of the same Workspace and must not redefine the unique domain truth owned by DOC-09.
+
+DOC-06B owns the route-level UI/UX described in this section. The accepted payment-domain baseline remains DOC-09 v1.1.0 at `docs/02-payment-domain/doc-09-payment-domain-architecture.md`. This section presents DOC-09 facts without redefining their object, lifecycle, status, event, audit, authorization, provider, or financial meaning.
+
+The derived [Payment Checkout route map](../diagrams/routes/payplus-payment-checkout-route-map.md) is the current discussion-reference projection of this accepted route-level UI/UX. It does not override this section, DOC-09, or the route register and must not be read as a mandatory wizard, a set of child routes, or a domain state model.
+
+#### 5.20.1 Ownership and Semantic Boundary
+
+| Concern | DOC-06B treatment | Formal owner or handoff |
+| --- | --- | --- |
+| Checkout Workspace route UX | Entry and return behavior, adaptive presentation, visible payer task, funding interaction, review, progress, resolution, mobile, and accessibility. | DOC-06B |
+| Bill/Rent source and handoff | Present source context received from the owning Bill/Rent or Tenancy surface; do not redefine source eligibility, amount, period, evidence, payee, or CTA rules. | DOC-06C |
+| Payment Domain | Display one Checkout against exactly one Payable Basis, funding and confirmed-payment facts, locking, continuation, closure, expiry, and late-confirmation meaning. | DOC-09 |
+| Outcome, disclosure, authorization wording, messages, and CTAs | Reserve content locations and distinguish facts and actions; do not invent final payer-facing wording. | DOC-07 |
+| Notification identity, delivery, and notification action routing | Consume only approved mappings. Notification direct-entry treatment remains excluded under `OQ-XDOC-015` (Proposal evidence alias `PDM-PROP-X02`). | DOC-08 plus the applicable domain owner |
+| Promotions, fees, benefits, and payer charge | Display owner-supplied accepted, submitted-pending, or estimated facts with their applicable qualification. | DOC-02/DOC-07/DOC-09/DOC-13 and applicable commercial/accounting owners |
+| Provider return and confirmation evidence | Treat return as non-authoritative and wait for or consume authoritative evidence. | DOC-17 and DOC-09 |
+| Object schema, allocation-version implementation, machine states, events, lineage, audit, and reporting | Do not define them in this route document. | DOC-18 |
+| Authentication, tokenization, session, and reauthentication | Preserve route context only after applicable security checks; do not preserve stale security state. | DOC-19 |
+| Prototype, accessibility, implementation, UAT, operations, and support evidence | Record later evidence dependencies without claiming they have passed. | DOC-20, DOC-21, DOC-22, and applicable owners |
+
+The Checkout presentation must preserve these DOC-09 boundaries:
+
+- each Checkout is associated with exactly one Bill/Rent Payable Basis;
+- at most one Checkout for that Payable Basis may be active and continuable at a time;
+- a later eligible Checkout may be created after every earlier Checkout for that basis has become closed, expired, or otherwise non-continuable;
+- every earlier Checkout remains an authoritative retained historical record in its recorded condition and is not erased, rewritten, invalidated as history, or reactivated merely because a later Checkout exists;
+- each confirmed Funding Leg creates or returns exactly one immutable Payment, including where the Checkout remains partially funded;
+- Checkout, Funding Allocation, Funding Leg, Payment Attempt, Provider Submission, Payment, Payment Application, Settlement, and Payout remain separate concepts;
+- a Payment Profile is a reusable payer-owned ratio template, not a Checkout, Funding Allocation, Funding Leg, or payer authorization.
+
+#### 5.20.2 Condition, Fact, Evidence, Presentation, and Technical-State Boundary
+
+| Authority layer | Owned meaning | DOC-06B presentation boundary |
+| --- | --- | --- |
+| DOC-09 semantic business conditions | `Checkout editable`; `Checkout target locked`; `Checkout partially funded`; `Checkout fully funded`; `Checkout closed`; `Checkout expired`. | Present the applicable owner-supplied condition and valid action without converting it into a DOC-06B status taxonomy or a fixed sequence of screens. |
+| DOC-09 authoritative payment facts | Confirmed Funding Leg; immutable Payment; confirmed obligation-funded value; Remaining Checkout Target. | Display confirmed and remaining obligation-funded value distinctly. Do not infer confirmation from provider return or from presentation progress. |
+| DOC-17 evidence conditions | Provider submission or confirmation evidence awaiting authoritative evaluation. | `Pending evidence` is a presentation of unresolved authoritative evidence, not a success/failure conclusion or a new Checkout machine state. |
+| DOC-06B presentation and task contexts | Checkout overview; Funding; Review and authorize; Funding Leg execution; Result and resolution; interrupted or protected-return task context; pending-evidence presentation. | These are adaptive internal Workspace presentations or task contexts. They may overlap, compose, or be skipped and are not routes, domain objects, lifecycle stages, or system-state enums. |
+| DOC-18 technical implementation | Final machine-state enums; technical transitions; schemas; events; lineage; audit implementation. | DOC-06B must not name, infer, or freeze the technical representation. |
+| DOC-07 payer-facing presentation | User-facing Outcome; status label; Message; disclosure; CTA; final presentation wording. | DOC-06B reserves the location and required meaning but does not create an Outcome ID, status label, Message ID, CTA mapping, or final copy. |
+
+Terms such as `pending evidence`, `interrupted`, `unsuccessful presentation`, `result`, and `recovery` retain their actual layer: evidence-driven presentation, temporary task context, payer-visible result context, or a condition-dependent permitted action. They do not silently become machine-state enums, domain conditions, Outcomes, Messages, CTAs, or events.
+
+#### 5.20.3 Bill/Rent Pay Resolver and New Checkout Context
+
+Bill/Rent Pay is a Checkout resolver, not unconditional Checkout creation. After the source owner has identified the current Bill/Rent and its Payable Basis, the transition must resolve current eligibility and the current Checkout condition:
+
+| Resolver result | Route-level treatment |
+| --- | --- |
+| Eligible and no active continuable Checkout exists for the same Payable Basis | A new Checkout may begin. Establish the Bill/Rent obligation, Payable Basis, payee or landlord context, Checkout Target, current eligibility/evidence context, source-aware return context, and available funding actions. |
+| An active continuable Checkout exists for the same Payable Basis | Do not create another Checkout. Resolve or intentionally resume the existing Checkout after revalidation. |
+| Not currently eligible | Remain in the Bill/Rent source-owner context with an explicit owner-supplied unavailable or resolution treatment. Do not create or resume Checkout merely to show an error. |
+
+The source context remains visible without changing route identity:
+
+| Context | Checkout presentation may carry forward | Source-owner facts that DOC-06B must not invent |
+| --- | --- | --- |
+| Bill | Bill identity, issuer/payee, category, due date, eligible amount, evidence/readiness summary, and return destination. | Bill CTA availability, current evidence, eligible amount, payee relationship, readiness, and contextual disclosures. |
+| Rent/Tenancy | Rent identity, property/tenancy and landlord/payee context, payable period, due date, eligible amount, evidence/readiness summary, and return destination. | Tenancy standing, payable period, rent CTA availability, current evidence, eligible amount, landlord relationship, readiness, and contextual disclosures. |
+
+Bill and Rent differences may change composed content, labels, disclosures, and return context. They do not by themselves create different Checkout routes or domain objects.
+
+#### 5.20.4 Context Restoration and Adaptive Presentation
+
+The Workspace composes its current presentation from the authoritative Checkout condition, the payer's current task, confirmed and remaining financial facts, current eligibility and revalidation results, and currently available actions.
+
+| Entry or update | Required restoration behavior |
+| --- | --- |
+| New Checkout | Establish the new Workspace context described in Section 5.20.3 before presenting the applicable funding action. |
+| Intentional Resume | Restore overall Workspace context only after revalidation confirms the Checkout remains active, eligible, and continuable. Foreground the original Checkout Target, confirmed value, Remaining Checkout Target, Funding Leg progress, continuation expiry, material changes, current eligibility, and next valid actions. |
+| Protected re-entry | After card, Payment Profile, provider/3DS, reauthentication, or application return, restore the safest valid point in the interrupted task only after revalidation. This is task-context restoration, not a third standard first view. |
+| Unsafe or materially changed protected return | Fall back to Resume overview only when the Checkout remains active, eligible, and continuable. Otherwise present historical or source-owner resolution. |
+| Pending-evidence or confirmed-leg update | Evaluate the authoritative current condition and evidence before composing the next presentation. Do not use stale task context. |
+| Inactive, ineligible, or non-continuable Checkout | Present historical or source-owner resolution. That resolution does not automatically re-enter Checkout composition. |
+
+Neither Intentional Resume nor protected re-entry automatically proceeds to Funding. Revalidation must not preserve stale authorization, provider evidence, eligibility, fees, benefits, destination, risk, privacy, or security decisions.
+
+The following five classifications describe adaptive presentation content, not fixed or exhaustive navigation:
+
+| Presentation classification | Payer purpose and material content |
+| --- | --- |
+| Checkout overview | Understand source context, Checkout Target, confirmed and remaining facts, progress, expiry, material changes, continuability, and next valid actions. |
+| Funding | Confirm or change an eligible card, provisionally express single-card intent when no eligible saved card is available, or intentionally expand to eligible multi-card allocation. |
+| Review and authorize | Review the holistic Checkout and provide the applicable payer authorization for the next Provider Submission. |
+| Funding Leg execution | Understand the current leg, authoritative evidence condition, confirmed progress, remaining target, and whether another valid action is available. |
+| Result and resolution | Understand successful completion, partial funding, pending evidence, unsuccessful execution, closure, expiry, or source-owner/historical resolution. |
+
+These classifications may be entered non-linearly, overlap, or be composed together. They may evolve, merge, split, or be renamed; a payer need not traverse all five. They are not routes, child destinations, machine states, domain objects, events, or technical contracts.
+
+##### Checkout Entry, Revalidation and Presentation-Composition Decision Map
+
+This decision map explains Bill/Rent Pay resolution; eligibility and Checkout-condition evaluation; intentional Resume; protected return; authoritative evidence updates; presentation composition; historical or source-owner resolution; late confirmation; and the excluded entry-contract scope. It is not the complete payer-visible UI journey.
+
+```mermaid
+flowchart TD
+    BP["Bill or Rent Pay"] --> ER["Resolve Payable Basis, eligibility, and current Checkout condition"]
+
+    ER -->|"Eligible; no active continuable Checkout"| NC["New Checkout"]
+    ER -->|"Active continuable Checkout exists"| IR["Intentional Resume"]
+    ER -->|"Not currently eligible"| SR["Source-owner resolution"]
+
+    NC --> NO["Establish new Workspace context"]
+
+    IR --> RV1["Revalidate Checkout, eligibility, continuability, and protected conditions"]
+    RV1 -->|"Active, eligible, and continuable"| WR["Restore overall Workspace context"]
+    RV1 -->|"Inactive, ineligible, or non-continuable"| HR["Historical or source-owner resolution"]
+
+    PR["Card, Profile, provider, 3DS, reauthentication, or application return"] --> RV2["Revalidate user, Checkout, evidence, eligibility, fees, benefits, destination, risk, and security"]
+    RV2 --> TC{"Interrupted task context remains safe?"}
+
+    TC -->|"Yes"| TR["Restore safest valid interrupted task"]
+    TC -->|"No, but Checkout remains active, eligible, and continuable"| FB["Resume overview"]
+    TC -->|"No safe Checkout continuation"| HX["Historical or source-owner resolution"]
+
+    PE["Pending-evidence update"] --> AE["Evaluate authoritative current condition and evidence"]
+    CE["Confirmed-leg evidence update"] --> AE
+
+    NO --> AE
+    WR --> AE
+    TR --> AE
+    FB --> AE
+
+    AE --> PC["Compose current presentation; not a route, state, event, or object"]
+
+    PC -. "may include or combine" .-> O["Checkout overview"]
+    PC -. "may include or combine" .-> F["Funding"]
+    PC -. "may include or combine" .-> R["Review and authorize"]
+    PC -. "may include or combine" .-> E["Funding Leg execution"]
+    PC -. "may include or combine" .-> X["Result and resolution"]
+
+    LC["Late accepted confirmation"] --> CR["Immutable Payment and independent controlled resolution outside ordinary continuation"]
+
+    subgraph EXCLUDED["Excluded entry-contract scope"]
+        EX1["OQ-XDOC-007: Instruction Pay Now identity<br/>PDM-PROP-X01 evidence alias"]
+        EX2["OQ-XDOC-015: Notification direct entry<br/>PDM-PROP-X02 evidence alias"]
+    end
+```
+
+`OQ-XDOC-007` and `OQ-XDOC-015`, with `PDM-PROP-X01` and `PDM-PROP-X02` retained only as Proposal evidence aliases, are unconnected annotations rather than normal Checkout-flow branches. No normal Bill/Rent flow arrow reaches them. Historical or source-owner resolution has no arrow back to presentation composition. Late accepted confirmation remains outside ordinary Checkout continuation.
+
+##### Condition-Aware Illustrative Checkout Workspace Payer Experience Flow
+
+This diagram is an illustrative payer-visible journey from Bill/Rent Pay through funding, review, authorization, progress, result, and safe completion or recovery. It is not a mandatory fixed wizard, screen sequence, route hierarchy, machine-state diagram, object lifecycle, or implementation contract. The preceding decision map and the Minimum Adaptive UI Contract retain the detailed resolution, revalidation, evidence, and action-availability rules.
+
+```mermaid
+flowchart TD
+    S["Bill/Rent: select items and Pay"] --> R{"Checkout resolution"}
+
+    R -->|"Eligible new Checkout"| N["1. New Checkout overview"]
+    R -->|"Valid Resume"| O["1. Resume overview"]
+    R -->|"Unavailable"| H["Source or historical resolution"]
+
+    N -->|"Funding is the next permitted task"| F["2. Choose or change funding"]
+    O -->|"Funding is the next permitted task"| F
+
+    F -->|"Default eligible path"| SC["Single card"]
+    F -->|"Use multiple cards"| MC["Multi-card or Payment Profile"]
+
+    SC --> V["3. Review amount, fees and benefits"]
+    MC --> V
+
+    V --> A["4. Authorize next submission"]
+    A --> E["5. Funding Leg progress"]
+    E --> C{"Authoritative result"}
+
+    C -->|"Fully funded"| D["6. Fully funded completion and safe exit"]
+    C -->|"Partially funded"| P["6. Partial result"]
+    C -->|"Evidence pending"| W["6. Pending result"]
+    C -->|"Unsuccessful"| U["6. Unsuccessful result"]
+
+    P -->|"Continue or adjust if permitted"| F
+    P -->|"Wait where evidence remains pending"| W
+    P -->|"Close if permitted"| H
+    P -->|"Safe return; continuation preserved"| X["Safe return or approved later continuation"]
+
+    W -. "Authoritative evidence update" .-> C
+    W -->|"Safe return"| X
+
+    U -->|"Owner-confirmed recovery"| F
+    U -->|"Close if permitted"| H
+    U -->|"Safe return"| X
+
+    classDef journey fill:#eaf3ff,stroke:#285b8f,stroke-width:2px,color:#172b3a;
+    classDef decision fill:#fff4ce,stroke:#8a6d1d,stroke-width:2px,color:#222;
+    classDef completion fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#153d18;
+    classDef resolution fill:#f3f4f6,stroke:#5f6368,stroke-width:2px,color:#202124;
+    class S,N,O,F,SC,MC,V,A,E,P,W,U journey;
+    class R,C decision;
+    class D completion;
+    class H,X resolution;
+```
+
+- The numbered presentations are adaptive Workspace views, not child routes, domain conditions, machine states, or a mandatory fixed wizard. Presentations may combine or be skipped when the current payer task does not require them.
+- A Resume proceeds to Funding only when Funding is the next permitted task. Otherwise, the preceding decision map and the Minimum Adaptive UI Contract restore the applicable Review, progress, pending, result, or safe-return presentation.
+- Protected return revalidates and restores the safest valid presentation; its detailed resolution remains in the preceding decision map.
+- Late confirmation remains outside ordinary Checkout continuation and is intentionally not a normal-flow branch here.
+- Fully funded completion exposes no Funding, Continue, adjust, retry, wait, or `Close Checkout` action.
+- Pending exposes no retry or alternate-funding submission while authoritative evidence remains unresolved.
+- Partial and unsuccessful results expose only owner- and condition-permitted actions.
+- `OQ-XDOC-007` and `OQ-XDOC-015` remain excluded and unresolved; `PDM-PROP-X01` and `PDM-PROP-X02` remain their Proposal evidence aliases.
+
+##### Minimum Adaptive UI Contract
+
+This contract defines the minimum route-level meaning that every permitted composition must preserve. It does not select final tabs, sheets, cards, steppers, animation, styling, measurements, or pixel layout.
+
+| Conformance term | Meaning in this section |
+| --- | --- |
+| Required | Every applicable composition must preserve the stated information, action boundary, or return behavior. |
+| Recommended | Normal presentation treatment unless current condition, accessibility, security, or available capability requires a safer composition. |
+| Optional | May be included only when an applicable owner supplies the capability and it does not obscure required facts or actions. |
+
+Workspace-wide requirements:
+
+| UI concern | Minimum adaptive contract |
+| --- | --- |
+| Persistent Workspace identity | Required: keep the Bill/Rent identity, payee or landlord context, and Checkout Target visible or available through an immediately accessible Workspace summary without leaving `PAYMENT-CHECKOUT`. Bill/Rent details may be condensed after initial confirmation but must not be replaced by generic payment wording. |
+| Persistent financial position | Required wherever execution has begun or confirmed/pending value exists: keep confirmed value, unconfirmed value, Remaining Checkout Target, applicable payer-charge category, and current Funding Leg progress visible or available through the same Workspace presentation. Estimated, submitted-pending, and confirmed charges remain separate. |
+| Current condition and consequence | Required: state the current payer-relevant Checkout/evidence meaning, whether ordinary continuation is available, material changes since the prior action, and the consequence of the currently offered primary action. Exact Outcome, Message, disclosure, and CTA wording remains DOC-07. |
+| Action hierarchy | Required: expose only currently permitted actions. Where one action advances the current valid task, present it as the primary action. Present change, Back, safe return, wait, or `Close Checkout` as secondary/escape actions according to condition. A disabled or unavailable action must never appear equivalent to an enabled primary action. |
+| Unavailable and disabled actions | Required: never enable an action that current authoritative conditions prohibit. A temporarily unavailable action may remain visible only with an owner-approved explanation and resolution. An unlaunched or unsupported capability may be omitted. Internal risk, security, or provider reasons must not be exposed without owner approval. |
+| Back and cancel | Required: Back or cancel never authorizes, submits, retries, closes, or rewrites Checkout. Before Provider Submission, preserve valid entered intent or obtain explicit confirmation before discarding unsaved changes. After submission, Back may leave the presentation safely but must not cancel or classify the Provider Submission. |
+| Supporting handoff | Required: Card/Profile/provider/3DS/reauthentication handoff preserves a protected return reference, then revalidates before restoring the safest valid task presentation, Resume first view, or historical/source-owner resolution. Cancellation or failure returns with retained valid context and an explicit recovery action where available. |
+| Responsive composition | Required: on mobile, place the current financial position and primary action before lower-priority detail; a condensed summary may expand in place. Content must reflow for large text, zoom, orientation, and safe areas without hiding condition, consequence, or escape action. |
+| Accessible updates | Required: use semantic headings/landmarks, programmatic labels, logical reading/focus order, non-color-only distinctions, and announcements for authoritative evidence, progress, Remaining Checkout Target, errors, and action-availability changes. Focus returns to the restored task heading or current resolution after a protected handoff. |
+
+The information hierarchy below describes semantic priority, not fixed vertical order. Presentations may overlap or combine when all required information and action boundaries remain clear.
+
+| Adaptive presentation | Entry or activation condition | Minimum information hierarchy and persistent context | Primary action | Secondary, Back, handoff, and unavailable treatment | Owners and intentionally open visual detail |
+| --- | --- | --- | --- | --- | --- |
+| New Checkout first view | Required when Bill/Rent Pay resolves an eligible Payable Basis with no active continuable Checkout. | Required: (1) Bill/Rent identity and payee/landlord; (2) payable period/due context where applicable; (3) Checkout Target and current eligibility/evidence summary; (4) estimated fee/benefit/payer-charge facts where supplied; (5) return context; (6) available funding readiness. The payer must be able to confirm what is being paid before authorization. | Required: advance to the currently available funding task, using the eligible default single-card presentation where applicable. This may be composed with the first view but must not obscure Target confirmation. | Recommended: owner-permitted Target adjustment before lock, change source only through the owning Bill/Rent context, or safe return. Back before submission preserves valid intent or explicitly confirms discard. Ineligible/unavailable resolution remains with DOC-06C and must not create Checkout. | DOC-06B composition; DOC-06C source facts; DOC-09 eligibility/Target; DOC-07 wording. Final card, summary, and section styling remain open. |
+| Intentional Resume first view | Required only after revalidation confirms an existing Checkout is active, eligible, and continuable. | Required: (1) original Bill/Rent and Checkout Target; (2) confirmed value; (3) unconfirmed value; (4) Remaining Checkout Target; (5) Funding Leg progress; (6) continuation expiry; (7) material fee, benefit, card, destination, eligibility, evidence, risk, or security changes; (8) next valid actions. Foreground changed or action-required facts before routine detail. | Required: the condition-specific next valid action, which may be review, continue eligible unexecuted funding, wait, resolve a material change, or safe return. Resume does not default to Funding. | Recommended: view full leg/progress detail; `Close Checkout` only when permitted and with consequences; safe return to the approved source. If revalidation fails, replace Resume actions with historical/source-owner resolution. | DOC-06B presentation; DOC-09 continuability; DOC-07 consequence wording; DOC-19 reauthentication. Final overview arrangement remains open. |
+| Funding | Required when current conditions permit selection or change of unexecuted funding. | Required: (1) persistent Checkout Target and current confirmed/unconfirmed/remaining position; (2) current eligible saved-card/default or provisional no-card presentation; (3) single-card choice with clear progressive expansion to owner-confirmed multi-card capability; (4) per-card obligation-funded allocation and separate estimated payer charge/benefit where supplied; (5) allocation validation/error summary. | Required: continue to holistic review only after the current funding choice is owner-confirmed eligible and the authoritative allocation requirements pass. | Recommended: change card, expand/contract eligible multi-card presentation, or open Card/Profile support; Back returns to New/Resume context without submission. Cancel/failure of support restores retained valid intent and recovery. Unsupported capabilities are omitted or owner-approved unavailable, never selectable. | DOC-09 allocation/locking; DOC-18 audit implementation; DOC-19 card/security; DOC-13 benefits. Final editor control, tabs/sheets, and visual allocation treatment remain open. |
+| Review and authorize | Required before every Provider Submission, including revised execution after a material change. | Required: (1) persistent source and Checkout Target; (2) current Funding Leg obligation-funded amount; (3) masked funding method; (4) accepted/confirmed, submitted-pending, or estimated payer charge as applicable; (5) fee/benefit facts; (6) confirmed/unconfirmed/remaining position; (7) destination/timing/evidence and material-change disclosures; (8) authorization consequence. | Required: provide the applicable payer authorization for the next Provider Submission. Authorization applies only to that submission and must not be inferred from prior review, profile selection, Resume, or provider return. | Recommended before submission: return to eligible unexecuted funding changes or safe return. Back/cancel does not submit. Once submission begins, route to Funding Leg progress and do not offer cancellation through generic Back. Disabled authorization requires an owner-approved explanation/resolution. | DOC-07 final wording/CTA; DOC-09 authorization and lock; DOC-19 security. Final review layout and authentication component remain open. |
+| Funding Leg progress | Required after authorization while the current Provider Submission or authoritative confirmation evaluation is unresolved or while sequential legs remain. | Required: (1) current leg identity/position within the funding arrangement; (2) submitted obligation-funded value and payer charge category; (3) confirmed value; (4) unconfirmed value; (5) Remaining Checkout Target; (6) prior leg results; (7) current authoritative evidence meaning; (8) next available action, if any. | Required: no generic primary action while authoritative evidence is unresolved. When the current condition permits another action, present only that condition-specific action after evaluation. | Provider/3DS return revalidates before restoring progress, pending, or result. Back/safe return does not cancel the submission. Prevent duplicate activation and unsafe retry. Announce leg/evidence/remaining-value changes accessibly. | DOC-09 execution semantics; DOC-17 provider evidence; DOC-18 technical states/events; DOC-07 payer wording. Final progress visualization remains open. |
+
+Result and resolution presentations must not share one generic action set:
+
+| Result or resolution presentation | Activation condition | Minimum information hierarchy and persistent context | Primary action | Secondary, closing, return, and unavailable treatment | Owners and intentionally open visual detail |
+| --- | --- | --- | --- | --- | --- |
+| Fully funded completion | Required when authoritative confirmed obligation-funded value equals Checkout Target. | Required: (1) fully funded Checkout meaning; (2) Checkout Target and confirmed value; (3) applicable confirmed payer-charge facts; (4) confirmed Funding Leg/Payment summary without implying Settlement or Payout completion; (5) Bill/Rent/source context; (6) available receipt/activity or source-return handoff where owner-confirmed. | Required: complete the payer task through the approved safe exit or source return. | Optional: view owner-confirmed detail, receipt, or Activity handoff. Do not expose Funding, Continue, adjust, retry, wait, or `Close Checkout`. Back must not reopen setup. | DOC-09 confirmation/full-funding meaning; DOC-07 completion wording; DOC-10 payout separation. Final celebration, illustration, and layout remain open. |
+| Partially funded result and recovery | Required when confirmed value is above zero and below Checkout Target. | Required: (1) original Checkout Target; (2) confirmed value and immutable Payment facts; (3) unconfirmed value; (4) Remaining Checkout Target; (5) complete Funding Leg progress; (6) continuation expiry; (7) locked versus eligible unexecuted funding; (8) consequence of wait, continue/change, safe return, or closing. | Required: one current condition-permitted action—continue eligible unexecuted funding, wait for authoritative evidence, or another owner-confirmed recovery. Pending evidence takes precedence over a retry/continue action where duplicate submission risk exists. | Recommended where permitted: modify eligible unexecuted funding, `Close Checkout`, or safe return/later continuation. Closing requires clear consequences and never rewrites Target or confirmed Payments. Unavailable actions remain disabled/omitted with owner-approved resolution. | DOC-09 partial funding/closure; DOC-07 consequence wording; DOC-17 evidence; DOC-19 risk/security. Final recovery component layout remains open. |
+| Pending-evidence result | Required whenever authoritative submission/confirmation evidence is unresolved, including after provider/3DS return or later evidence update. | Required: (1) known submitted leg/value; (2) no-success/no-definitive-failure meaning; (3) confirmed value from other legs; (4) unconfirmed value; (5) Remaining Checkout Target; (6) what is being awaited; (7) whether any safe action is currently available. | Required: wait or another owner-confirmed non-submission action. There is no retry, alternate-funding submission, or success action while duplicate-submission risk remains unresolved. | Safe return may preserve the pending context. Back does not cancel or reclassify. On authoritative evidence update, re-evaluate before composing progress or result. Any unavailable retry remains absent or clearly disabled with a safe explanation. | DOC-17 evidence; DOC-09 confirmation; DOC-07 wording; DOC-21 support. Final pending illustration, timing text, and refresh mechanism remain owner-controlled/open. |
+| Unsuccessful result and permitted recovery | Required only after authoritative evidence supports an unsuccessful attempt or Funding Leg result. | Required: (1) affected leg and unsuccessful meaning; (2) no Payment for that unsuccessful attempt; (3) any confirmed value from other legs; (4) unconfirmed value, if any separate evidence remains pending; (5) Remaining Checkout Target; (6) locked/unexecuted funding facts; (7) owner-supplied recovery availability. | Required: only a currently permitted recovery after revalidation, such as using eligible unexecuted funding. Do not expose a generic retry. | Where permitted, secondary actions may include change eligible unexecuted funding, `Close Checkout`, support, or safe return. If no recovery is permitted, foreground explicit resolution rather than a disabled dead end. | DOC-09 attempt/leg meaning; DOC-17 evidence; DOC-14/DOC-19 risk/security; DOC-07 wording. Final error illustration and component styling remain open. |
+| Historical or source-owner resolution | Required when Checkout is inactive, ineligible, non-continuable, closed/expired with no ordinary continuation, or Bill/Rent resolution must remain with its owner. | Required: (1) recorded Checkout condition; (2) original Checkout Target; (3) preserved confirmed Payment facts where applicable; (4) no-continuation meaning; (5) source Bill/Rent context; (6) owner-confirmed resolution or support handoff. Historical facts must remain authoritative and unchanged. | Required: the applicable source-owner, historical-detail, support, or safe-exit action. | Do not expose Funding, Review/authorize, Continue, adjust, retry, or ordinary Checkout composition. Back returns safely to the source/history context and does not reactivate Checkout. | DOC-06C source resolution; DOC-09 history/continuability; DOC-07 wording; DOC-21 support. Final historical-detail composition remains open. |
+
+Where adaptive presentations are combined, the more restrictive current condition controls action availability. A composed surface must not hide required context or make two mutually incompatible actions appear concurrently primary. Final visual hierarchy may vary by viewport and task only within these constraints.
+
+#### 5.20.5 Funding Selection, Allocation, and Protected Support Return
+
+When at least one owner-confirmed eligible saved card is available, a new Checkout defaults to a clear single-card funding presentation. The payer may change the selected eligible card or intentionally expand the same Workspace into multi-card funding. Single-card and multi-card are UI configurations derived from authoritative Funding Allocation facts, not permanent Checkout states.
+
+When no eligible saved card is available, use a provisional single-card funding presentation that explains the need to add or select a card and preserves the Checkout context during that supporting action. This presentation expresses payer intent only. It does not determine when an authoritative Funding Allocation Version or Funding Leg is created. Exact record creation, versioning, audit, card eligibility, and technical behavior remain with DOC-09, DOC-18, DOC-19, and the applicable owners.
+
+When the payer intentionally expands to multi-card funding, the Checkout Workspace resolves the currently available owner-confirmed funding capabilities. Where exactly one capability is available, the Workspace proceeds directly to that capability without requiring a capability-selection step. Direct entry does not silently apply a Payment Profile, confirm an allocation, or authorize funding; the payer must still complete the applicable selection, review, and authorization actions.
+
+Selection between capabilities is presented only where two or more owner-confirmed capabilities are simultaneously available. An unavailable capability must not appear selectable. It may be omitted or presented as unavailable only where the applicable owner has supplied or approved the explanation and presentation treatment.
+
+Do not treat a Payment Profile as authorization, preselect it silently, or invent what makes a card or profile eligible or usable. Current-Checkout allocation must support one to six eligible cards only where that owner-confirmed capability is available. Amount/ratio editing, total reconciliation, rounding, and profile-save behavior must consume owner-supplied rules rather than define new payment or technical logic here.
+
+| Temporary supporting action | Protected return behavior |
+| --- | --- |
+| Card add/change/select succeeds | Revalidate and return to the relevant single-card or allocation context with refreshed eligible card facts. |
+| Card add/change/select is cancelled or fails | Return safely to the relevant funding context with retained valid intent, a clear owner-approved explanation, and an explicit recovery action; do not create or imply a Funding Leg. |
+| Payment Profile select/edit succeeds | Revalidate and return to the related split-funding context with refreshed ratios and card eligibility. |
+| Payment Profile select/edit is cancelled or fails | Return safely to the related split-funding context with the last valid current-Checkout allocation intent and an explicit recovery action. |
+
+Each applicable current-Checkout allocation change remains traceable through the authoritative Funding Allocation Version history or the owner-approved equivalent audit record. Before the first Provider Submission, editable allocation facts remain subject to owner-supplied validation and revalidation rules; editing does not itself authorize payment. After the first Provider Submission, the Checkout Target and applicable obligation allocations remain locked under DOC-09: submitted or confirmed Funding Legs are not rewritten; changes are limited to eligible unexecuted funding; prior versions remain auditable; and revised execution requires revalidation and renewed payer authorization.
+
+#### 5.20.6 Holistic Review, Payer Charge, and Authorization
+
+Before a Provider Submission, the Workspace presents one holistic Checkout review containing the applicable Bill/Rent context, payee or landlord, Checkout Target, funding allocation, masked cards, fees, benefits, payer charge, destination/timing disclosures, evidence/readiness facts, material changes, and consequences supplied by their formal owners. Exact wording, disclosure order, and CTA labels remain with DOC-07.
+
+Every Provider Submission requires the applicable payer authorization. A prior Checkout review, Payment Profile selection, card selection, earlier Funding Leg authorization, provider return, or Resume action does not authorize another submission. Revalidation or a material change may require renewed review and authorization before execution continues.
+
+Payer charge presentation must separate:
+
+| Charge category | Presentation rule |
+| --- | --- |
+| Accepted or confirmed payer-charge fact | Label it as accepted/confirmed only when the authoritative owner provides that fact. Associate it with the applicable confirmed financial result without treating it as obligation-funded value. |
+| Submitted charge awaiting authoritative evidence | Show it as submitted and awaiting evidence. Do not present it as confirmed, failed, or available for unsafe retry. |
+| Estimated charge for unexecuted funding | Mark it as an estimate subject to recalculation, eligibility, benefit, risk, and authorization rules before submission. |
+
+Confirmed, pending, estimated, and remaining values are not automatically additive. The UI must not sum them into a misleading total or subtract payer charge from the Checkout Target.
+
+#### 5.20.7 Financial Position and Funding Leg Progress
+
+The payer-facing financial position must keep these concepts distinct:
+
+| Concept | Required route-level meaning |
+| --- | --- |
+| Checkout Target | The obligation-funded amount pursued by the Checkout; it becomes immutable when the first Provider Submission is initiated and excludes payer charge. |
+| Funding Leg obligation-funded amount | The portion of Checkout Target assigned to an authoritative Funding Leg; it is not the payer charge. |
+| Confirmed value | Obligation-funded value represented by immutable Payments from confirmed Funding Legs. |
+| Unconfirmed value | Submitted obligation-funded value awaiting authoritative evidence; it is not yet confirmed value and must not support a success claim. |
+| Remaining Checkout Target | The authoritative outstanding obligation-funded value after confirmed Payments; it is not a payer charge and must remain distinguishable from unconfirmed submitted value. |
+| Payer charge | A separate accepted/confirmed, submitted-pending, or estimated charge fact displayed under Section 5.20.6. |
+
+Sequential execution must keep visible the current Funding Leg, completed confirmed progress, any submitted value awaiting evidence, unsuccessful or unexecuted funding, Remaining Checkout Target, applicable payer charge, current Checkout condition, and valid next actions. The presentation may emphasize the current leg while retaining access to the complete leg list and holistic financial position.
+
+A provider or 3DS return is non-authoritative. On return, the Workspace revalidates and presents pending, execution, or result context only after evaluating authoritative current evidence. A confirmed Funding Leg advances progress using its immutable Payment and updated remaining target. Completed single-card funding presents the applicable successful completion; it must not reopen funding setup.
+
+#### 5.20.8 Partial Funding, Pending Evidence, Recovery, Closure, and Expiry
+
+Recovery is a condition-dependent permitted action, not a mandatory stage. It depends on authoritative Checkout and Funding Leg conditions, provider evidence, eligibility, continuability, risk/security controls, and locked versus unexecuted funding.
+
+For a partially funded Checkout, the UI may expose only currently permitted actions:
+
+- continue with eligible unexecuted funding;
+- modify eligible unexecuted funding, followed by revalidation and renewed authorization;
+- wait for authoritative evidence;
+- `Close Checkout` for remaining continuation;
+- return safely and use an approved later continuation entry.
+
+`Close Checkout` ends remaining continuation under DOC-09. It does not mean or cause a refund, reversal, Bill/Rent obligation cancellation, Payment Instruction cancellation, invalidation of confirmed Payments, rewrite of the original Checkout Target, rewrite of Payment Applications, or rewrite/erasure/reactivation of Checkout history.
+
+Pending-evidence presentation must:
+
+- make no success claim;
+- make no definitive failure claim without authoritative evidence;
+- prevent unsafe retry or duplicate submission;
+- preserve the safest valid task context where possible;
+- explain the known facts and any currently available action using owner-approved wording.
+
+Interruption never authorizes Resume automatically. After revalidation, an active, eligible, and continuable Checkout may restore overall Workspace context or the safest valid task context. An inactive, ineligible, or non-continuable Checkout presents historical or source-owner resolution. Continuation expiry and closure must preserve confirmed Payments and historical Checkout facts while preventing unavailable continuation actions.
+
+#### 5.20.9 Late Confirmation
+
+A delayed or late accepted provider confirmation follows an independent controlled-resolution path. It creates or returns exactly one immutable Payment for the confirmed Funding Leg while the historical Checkout remains closed, expired, or otherwise non-continuable. The confirmed Payment may remain unapplied pending controlled resolution.
+
+Late confirmation must not reopen Checkout, recreate reservations, rewrite the historical Checkout Target, authorize another submission, or expose ordinary Checkout actions such as Continue Payment, change unexecuted funding, retry, close, or restart. Activity, notification, payer disclosure, support, application, and operations treatment remains with the applicable formal owners.
+
+#### 5.20.10 Mobile and Accessibility Requirements
+
+The Checkout Workspace must support:
+
+- a mobile-first single-column composition that preserves the primary financial position and next valid action;
+- large text and dynamic type without clipping, overlap, or loss of action access;
+- zoom and reflow without requiring two-dimensional scrolling for ordinary content;
+- portrait and landscape operation with safe-area treatment;
+- owner-approved minimum touch-target sizing and adequate spacing;
+- sufficient contrast and non-color-only communication of progress, warnings, confirmation, pending evidence, and errors;
+- reduced-motion behavior that preserves sequence and progress meaning;
+- keyboard and screen-reader operation for all interactive content;
+- meaningful announcements when Funding Leg progress, authoritative evidence, Remaining Checkout Target, or an error changes;
+- deliberate focus restoration after card, Payment Profile, provider, 3DS, or reauthentication return;
+- usable one-to-six-card allocation on mobile where multi-card capability is available, without requiring precision dragging as the sole interaction.
+
+Accessibility presentation must preserve the semantic distinctions among Checkout Target, confirmed value, unconfirmed value, Remaining Checkout Target, and payer charge. Reading order and announcements must not imply that pending value is confirmed or that partial funding completed the Checkout.
+
+#### 5.20.11 Exclusions and Downstream Dependencies
+
+The following entry contracts remain outside this specification:
+
+| Exclusion | Authority gap | Blocking scope |
+| --- | --- | --- |
+| `OQ-XDOC-007`: Instruction `Pay Now` identity (Proposal evidence alias `PDM-PROP-X01`) | DOC-06B and DOC-09 must clarify whether the approved action creates, activates, or resumes Checkout. Presentation must not infer identity from a preferred screen or redefine an incomplete Checkout as a Payment Instruction. | Blocks only the Instruction entry contract and its dependent content. |
+| `OQ-XDOC-015`: notification direct entry (Proposal evidence alias `PDM-PROP-X02`) | DOC-06B, DOC-08, and the applicable domain owner must clarify whether an instruction-related notification may bypass `NOTIFICATION-DETAIL`. Convenience must not determine routing. | Blocks only the notification direct-entry contract and its dependent content. |
+
+The `OQ-XDOC-*` identifiers are the permanent repository traceability references. The `PDM-PROP-*` identifiers are retained only as aliases to the accepted Proposal evidence and do not replace the formal Open Questions.
+
+Other downstream dependencies remain explicit:
+
+- DOC-06C: final Bill/Rent source CTA, eligibility, evidence, contextual disclosure, and return contract;
+- DOC-07: exact payer-facing terms, disclosures, outcomes, messages, authorization copy, and CTA mappings;
+- DOC-08: notification identities, recipients, channels, templates, and approved continuation treatment;
+- DOC-09: payment-domain invariants, authorization boundaries, confirmation, continuation, closure, expiry, and application meaning;
+- DOC-10/DOC-11: payout/reconciliation and any refund, reversal, cancellation, dispute, or chargeback treatment;
+- DOC-13/DOC-14/DOC-15: benefit, risk, anti-cashout, privacy, masking, and approved-purpose rules;
+- DOC-17/DOC-18/DOC-19: provider evidence, exact schema/version/event/audit implementation, tokenization, authentication, and security controls;
+- DOC-20/DOC-21/DOC-22: UAT, monitoring, support, incident, and controlled operations evidence.
+
+#### 5.20.12 Future Validation and Acceptance Evidence
+
+This specification does not claim that prototype, accessibility, user-validation, implementation, UAT, or acceptance evidence has passed.
+
+Later acceptance evidence must demonstrate:
+
+- New Checkout and Intentional Resume present their distinct required first-view context without forcing Resume into Funding;
+- the persistent Workspace and financial position remain available across Funding, Review, execution, and result compositions;
+- fully funded, partial, pending-evidence, unsuccessful, and historical/source-owner presentations expose only their condition-permitted actions;
+- no dead-end in the primary payer journey;
+- no loss of valid Checkout context through cancel, back, card/Profile support, provider/3DS, or reauthentication return;
+- no duplicate or unsafe Provider Submission;
+- correct payer understanding of confirmed, unconfirmed, remaining, and payer-charge values;
+- clear recovery after partial funding, pending evidence, and unsuccessful execution;
+- no continuation action for an inactive, ineligible, or non-continuable Checkout;
+- usable keyboard, screen-reader, large-text, reflow, orientation, and mobile operation.
+
+No numerical accessibility, performance, or usability threshold is established here. Stable acceptance and test IDs remain a later DOC-06D/DOC-20 responsibility.
+
+| Evidence layer | Required later evidence | Current specification position |
+| --- | --- | --- |
+| Prototype | Demonstrate adaptive composition, New versus Resume understanding, protected return, pending evidence, sequential progress, partial funding, closure, and one-to-six-card mobile allocation. | Required later; no prototype created. |
+| Accessibility validation | Test large text/dynamic type, zoom/reflow, orientation, safe areas, touch targets, contrast, reduced motion, keyboard/screen reader use, announcements, and focus restoration across supporting returns. | Required later; not yet validated. |
+| User validation | Test comprehension of New Checkout versus Resume, confirmed versus unconfirmed versus remaining value, payer charge categories, partial funding, pending evidence, and `Close Checkout` consequences. | Required later; not yet validated. |
+| Implementation/UAT | Verify resolver outcomes, no duplicate active continuable Checkout, revalidation gates, protected return, sequential authorization/submission, allocation traceability, locking, pending safeguards, closure/expiry, and late-confirmation separation. | DOC-20 dependency; no implementation or UAT evidence claimed. |
+| Owner acceptance | Verify DOC-06C handoff facts, DOC-07 wording/disclosures, DOC-08 notification treatment, DOC-09 invariants, and DOC-17/DOC-18/DOC-19 technical mappings without changing this route boundary. | Required through later owning-document alignment, validation, and acceptance evidence. |
+
 ## 6. Route Completion Status
 
 | Route / Area | Status | Next Required Work |
@@ -2383,6 +2787,7 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 | Entrance and Authentication | Defined Behavior Baseline / Final Design and Technical Controls Pending | `ENTRANCE-ROOT`, Login, Recovery boundary, Registration, Account Activation, Phone Verification, Identity Verification, Payment Passcode Settings, banners, protected return, and route ownership are defined. Confirm Entrance carousel configuration, final visual design, provider mapping, and DOC-19/DOC-20 technical and test controls. |
 | Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Confirm card-level UI, notice priority, carousel behavior, dashboard activity cap, and empty states. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
+| Payment Checkout | `PAYMENT-CHECKOUT` Partially defined | Complete owner-aligned wording, governed presentation-flow synchronization, and later acceptance/test mappings while preserving the Workspace, resolver, funding, authorization, execution, recovery, and accessibility boundaries in Section 5.20. |
 | Pay+ | `PAYPLUS-ACTION-SHEET` Defined Baseline / Not Final Visual Design | Five MVP actions, role direction, route handoffs, availability behavior, completion rules, and motion principles are defined. Confirm exact iconography, measurements, spacing, blur, motion timing/easing, and future added-button layout. |
 | Offers and Rewards | Defined Behavior / Not Final Visual Design | Offers discovery and child-list behavior are defined. `REWARDS-ROOT` Active/History views, search, filters, ordering, cards, route states, `REWARD-DETAIL`, checkout return, and contextual fulfilment actions are defined. Confirm final styling, Offers label taxonomy, personalization, equal-priority fallback, and partner-specific activation methods. |
 | Me | Core Account, Receiving Info, and Archive Family Defined / Other Child Details Pending | `ME-ROOT`, account/security/privacy routes, the `RECEIVING-INFO` family, `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` are defined. Support/About/Terms detail and final visual design remain open. |
@@ -2419,6 +2824,13 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.46 | 2026-08-03 | Removed superseded mandatory Payment Profile wording and aligned profile presentation with owner-confirmed current-Checkout allocation, capability-aware direct entry, and required within-capability selection or configuration. |
+| 0.1.45 | 2026-08-03 | Added mechanical cross-references from the reviewed Checkout Workspace contract to the derived route map and permanent Open Question IDs while preserving the accepted UI/UX and DOC-09 meaning. |
+| 0.1.44 | 2026-08-03 | Replaced the second Checkout illustration with a concise payer-visible Bill/Rent Pay-to-funding, review, authorization, Funding Leg progress, result, and safe-resolution journey while preserving the separate decision map, adaptive UI contract, domain invariants, exclusions, and owner boundaries. |
+| 0.1.43 | 2026-08-03 | Corrected the illustrative Checkout payer-experience flow so resolver, Resume, protected-return, evidence, result, and recovery paths preserve condition-aware actions; added the minimum adaptive UI contract for New, Resume, funding, review, execution, completion, recovery, pending, unsuccessful, and historical/source-owner presentations without creating fixed steps, routes, states, or technical contracts. |
+| 0.1.42 | 2026-08-03 | Replaced the oversized illustrative Checkout payer-experience diagram with a concise top-to-bottom Bill/Rent Pay-to-result-and-recovery journey while preserving the existing Checkout, funding, protected-return, late-confirmation, and unresolved-entry-contract meaning. |
+| 0.1.41 | 2026-08-03 | Clarified the DOC-09/DOC-17/DOC-06B/DOC-18/DOC-07 condition, evidence, presentation, and technical-state boundary; added the illustrative adaptive payer-experience flow; consolidated single- versus multi-capability funding fallback; distinguished the entry/revalidation decision map; and strengthened acceptance intent without changing the accepted `PAYMENT-CHECKOUT` product meaning. |
+| 0.1.40 | 2026-08-03 | Defined the approved PDM-WI-003 `PAYMENT-CHECKOUT` persistent Workspace route UX, including Bill/Rent resolver entry, New/Resume/protected re-entry, adaptive presentation, funding and allocation treatment, holistic review and authorization, Funding Leg progress, financial-position separation, recovery/closure/expiry, independent late confirmation, accessibility, owner handoffs, exclusions, and future validation dependencies; route status remained `Partially defined`. |
 | 0.1.39 | 2026-07-31 | Aligned checkout ownership and Instructions-route presentation with DOC-09 Payment Domain Architecture, keeping deliberate Payment Instructions distinct from incomplete Checkout Workspaces. |
 | 0.1.38 | 2026-07-29 | Adopted the capability-aware Outcome-to-Resolution framework across the AUTH family; defined the full `AUTH-RECOVERY` product flow, screen states, resolution matrix, security/support boundaries, and protected return without changing existing authentication decisions. |
 | 0.1.37 | 2026-07-28 | Defined Phone Verification, five-state Identity Verification, processing/dashboard banners, six-digit Payment Passcode Set/Change/Reset, phone-based reset recovery, return behavior, admin reset boundaries, and technical-owner TBCs; removed superseded four-label and voluntary re-verification wording. |

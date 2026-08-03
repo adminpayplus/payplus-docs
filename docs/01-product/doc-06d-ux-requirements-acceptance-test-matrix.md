@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.26
+version: 0.1.27
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-03
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -31,12 +31,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.26` |
+| **Version** | `0.1.27` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-03` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist |
 
@@ -99,7 +99,7 @@ Example pattern:
 | Bills reminder route | DOC-06C / DOC-08 / DOC-09 | Partial to strong | Reminder list/detail behavior and separation from payment-instruction action alerts are testable; final visual design remains open. |
 | Requests route | DOC-06B / DOC-06A / DOC-06C / DOC-08 | Partial to strong | `REQUESTS-ROOT`, `REQUESTS-DETAIL`, and `REQUESTS-NEW`, canonical lifecycle states, role labels, event separation, evidence gate, linked-case boundary, and archive visibility are testable; final visual design and detailed operational limits remain open. |
 | Instructions route | DOC-06B / DOC-09 | Partial to strong | Deliberate Payment Instruction versus incomplete Checkout Workspace presentation, edit restrictions, actions, expiry, and checkout return are testable; final visual design remains open. |
-| Payment checkout handoff | DOC-06A / DOC-06B / DOC-06C / DOC-09 | Partial | `PAYMENT-CHECKOUT` is assigned; DOC-06 can test route UX and handoff while DOC-09 acceptance criteria govern Payment Domain architecture and invariants. |
+| Payment checkout handoff | DOC-06A / DOC-06B / DOC-06C / DOC-09 | Strong human-readable adaptive UI baseline / detailed evidence pending | DOC-06B defines the reviewed adaptive `PAYMENT-CHECKOUT` Workspace UI/UX, including New versus Resume context, funding, review, authorization, progress, result-specific treatment, and protected return without imposing a fixed wizard. DOC-09 governs Payment Domain architecture and invariants. Stable acceptance IDs, technical tests, prototype evidence, accessibility testing, user validation, and implementation/UAT evidence remain pending under their formal owners. |
 | Payment Profile route | DOC-06B / DOC-09 / DOC-15 / DOC-19 | Partial to strong | Two-tab `Cards` / `Profiles` baseline, card/profile management, max 6-card profile/payment cap, return context, masking, and non-checkout boundary are testable; final styling and tokenization behavior remain open. |
 | Global Activity route | DOC-06B / DOC-09 / DOC-10 / DOC-11 | Partial to strong | Accounting-style entries, role-aware direction/status, expansion, detail, document actions, and return behavior are testable; final visual density/search/grouping remain open. |
 | Receipts & Statements route | DOC-06B / DOC-08 / DOC-15 | Partial to strong | `RECEIPTS-ROOT` views, search, list, `Paid` / `Received` role indicator, empty-state behavior, direct download, shared PDF preview, notification entry, and return behavior are testable; final PDF design and re-issue operations remain open. |
@@ -238,9 +238,9 @@ The DOC-06 user journey scope is satisfied when:
 - Inbox `All` excludes Archived, the badge counts unread Inbox records only, read/archive actions do not alter owning-domain state, and `Action Required` comes from the owning domain;
 - every notification card opens `NOTIFICATION-DETAIL`, which revalidates current status, permission, target, and action availability before any domain handoff;
 - required communications are not shown as disableable toggles, optional preference changes save immediately, failed changes restore the prior effective value, account preferences/read/archive state synchronize across approved devices, and device push permission remains device-specific;
-- payment entry routes use `PAYMENT-CHECKOUT` for DOC-09 checkout behavior without turning Bills, Requests, Instructions, or Payment Profile into checkout owners;
+- payment entry routes use `PAYMENT-CHECKOUT`, whose route-level adaptive UI/UX is owned by DOC-06B and whose Payment Domain architecture and authoritative payment meaning are owned by DOC-09, without turning Bills, Requests, Instructions, or Payment Profile into Checkout owners;
 - saved split-card profiles and split-card checkout must observe the MVP maximum of 6 cards;
-- single-card checkout may preselect a default card while split-card checkout requires user selection of a payment profile;
+- single-card Checkout may preselect a default eligible card. When only one owner-confirmed funding capability is available, the Checkout Workspace proceeds directly to that capability without requiring a user selection. Selection is presented only when two or more owner-confirmed capabilities are simultaneously available. Multi-card treatment may use owner-confirmed current multi-card allocation, owner-confirmed Payment Profile capability, or both; a Payment Profile is not inherently required for multi-card Checkout;
 - payment status can be tracked;
 - payout or settlement status can be tracked where applicable;
 - `BILLS-ACTIVITY` shows payment and related payout/transfer, failure, return, refund, and reversal activity for one obligation and excludes request and evidence lifecycle entries;
@@ -263,7 +263,7 @@ The DOC-06 user journey scope is satisfied when:
 - Offers child lists apply mandatory display gates and stable collection-specific admin priority without random reshuffling or MVP user sorting;
 - one payment card may qualify for multiple distinct offers without those offers being treated as duplicates;
 - checkout automatically applies the single eligible payment-method-sensitive Card Offer with the highest user value per selected payment card or split-payment funding leg and displays the applied result;
-- payment-card/profile selection, automatic Card Offer result, separate eligible coupon/voucher/discount selection, recalculated quote, and payer review occur in the same checkout screen or step before authorization;
+- the applicable payment-card or Payment Profile facts, automatic Card Offer result, separate eligible coupon/voucher/discount selection, recalculated quote, and payer review are presented within the Checkout Workspace and reviewed before authorization. Adaptive presentations may combine or separate these facts according to the current payer task and authoritative conditions; one fixed screen or step is not required;
 - changing a payment card, profile, funding allocation, amount, or other material eligibility input re-evaluates the promotion result and blocks authorization until the revised quote is reviewed;
 - navigation tests cover source, user action, destination, and return behavior without requiring a permanent ID for every entry action;
 - successful redemption changes the offer action to `Redeemed` and exposes `View My Reward`, while failed or ineligible redemption creates no reward instrument;
@@ -294,6 +294,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.27 | 2026-08-03 | Aligned Checkout acceptance readiness with the reviewed adaptive DOC-06B UI baseline, preserved owner-confirmed current-allocation and Payment Profile capability choices, and removed fixed screen/step wording without adding test IDs or technical thresholds. |
 | 0.1.26 | 2026-07-31 | Aligned UX acceptance coverage with the distinct Payment Instruction and incomplete Checkout Workspace model and DOC-09 domain-versus-route ownership. |
 | 0.1.25 | 2026-07-29 | Added acceptance coverage for the capability-aware AUTH-RECOVERY baseline, explicit outcome-resolution separation, neutral recovery messaging, session revocation, safe return, and controlled Support or stop handling. |
 | 0.1.24 | 2026-07-28 | Added acceptance coverage for HK-only Phone Verification, five-state Identity Verification and banners, no voluntary re-verification after Verified, and the defined six-digit Payment Passcode Set/Change/Reset flows. |

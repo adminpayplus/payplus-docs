@@ -19,6 +19,7 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 | `routes/payplus-requests-route-map.md` | Requests list/detail/new and Bills/Receiving Info handoffs. | DOC-06B |
 | `routes/payplus-instructions-route-map.md` | Payment Instructions, checkout, and Payment Profile handoffs. | DOC-06B / DOC-09 |
 | `routes/payplus-payment-profile-route-map.md` | Cards/Profile tabs, child screens, tokenization, and contextual return. | DOC-06B / DOC-09 |
+| `routes/payplus-payment-checkout-route-map.md` | Current discussion-reference projection of the accepted payer-visible adaptive Checkout Workspace journey, result-specific treatment, and safe exits. It is not a fixed wizard or domain-state map. | DOC-06B / DOC-09 |
 | `routes/payplus-activity-receipts-route-map.md` | Account Activity, Receipts & Statements, and contextual Bills Activity handoffs. | DOC-06B / DOC-06C |
 | `routes/payplus-offers-rewards-referral-route-map.md` | Offers discovery, Rewards, Referral, registration attribution, and checkout handoffs. | DOC-06B / DOC-13 |
 | `routes/payplus-me-route-map.md` | `ME-ROOT` direct child destinations plus Account Profile and Account Security handoffs to phone, identity, and payment-passcode controls. | DOC-06B |

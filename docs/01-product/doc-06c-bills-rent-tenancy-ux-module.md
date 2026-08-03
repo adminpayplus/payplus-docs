@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.18
+version: 0.1.19
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-03
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -39,12 +39,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06C` |
 | **Title** | Bills, Rent & Tenancy UX Module |
-| **Version** | `0.1.18` |
+| **Version** | `0.1.19` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-03` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -163,7 +163,7 @@ Initial route ownership:
 Payment/checkout ownership rule:
 
 - DOC-06C owns the user-facing entry point, route handoff, back/return behavior expectation, and the fact that payer-side `Pay` opens checkout.
-- DOC-06B owns the global `PAYMENT-CHECKOUT` route-level UX when drafted. DOC-09 owns the underlying Payment Domain architecture and business invariants, including Payment Obligations, Checkout Workspace, monetary and funding allocations, Provider Submission, confirmed Payments, Payment Applications, deliberate Payment Instructions, and incomplete Checkout continuation. DOC-06B `PAYMENT-PROFILE-ROOT` owns reusable card/profile management when checkout or instruction flows need a card/profile management handoff.
+- DOC-06B owns the reviewed global `PAYMENT-CHECKOUT` route-level adaptive Workspace UI/UX, including presentation, entry, return, and handoff behavior. DOC-09 owns the underlying Payment Domain architecture and business invariants, including Payment Obligations, Checkout Workspace, monetary and funding allocations, Provider Submission, confirmed Payments, Payment Applications, deliberate Payment Instructions, and incomplete Checkout continuation. DOC-06B `PAYMENT-PROFILE-ROOT` owns reusable card/profile management when Checkout or instruction flows need a card/profile management handoff. DOC-06C continues to own Bill/Rent selection, payer-side `Pay` entry, source facts and readiness, contextual treatment, and source-aware return behavior; it does not own Checkout composition or payment-domain meaning.
 - DOC-07 owns required user-facing wording and disclosures; DOC-08 owns checkout-related notifications and receipts; DOC-13 owns promotion/coupon/voucher checkout treatment; DOC-15 owns masking and data visibility; DOC-19 owns authentication/security controls; DOC-18 owns route events and data signals.
 
 Standalone `BILLS-ADD` started from Pay+ should end on a success state with `Pay Now` only when the new obligation is payment-ready and `Back to Home`. If it is not payment-ready, show the current verification/readiness state and no active `Pay Now`. This does not replace the existing `REQUESTS-NEW` return behavior when setup originated from request creation.
@@ -826,6 +826,7 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.19 | 2026-08-03 | Removed the stale future-draft qualification and aligned Bill/Rent handoff ownership with the reviewed DOC-06B Checkout route-level UI/UX contract and DOC-09 Payment Domain authority. |
 | 0.1.18 | 2026-07-31 | Aligned Bills-to-checkout handoff and Instructions references with DOC-09 Payment Domain Architecture while preserving DOC-06B route-level UX ownership. |
 | 0.1.17 | 2026-07-27 | Aligned `BILLS-PAY` with temporary Pay+ Bill/Fee and Rent/Tenancy selection scopes and defined standalone Pay+ `BILLS-ADD` success/readiness behavior without changing Bills ownership or checkout logic. |
 | 0.1.16 | 2026-07-26 | Defined `ARCHIVED-BILLS-LIST`, archived read-only bill/rent detail mode, mixed-role search/filters, archive eligibility and blockers, personal archive projection, restore behavior, evidence cascade, reminder effects, and non-restorable handling. |

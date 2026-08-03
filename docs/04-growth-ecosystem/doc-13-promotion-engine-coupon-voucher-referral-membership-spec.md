@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.2.2
+version: 1.2.3
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-03
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -51,12 +51,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-13` |
 | **Title** | Promotion Engine, Coupon, Voucher, Referral & Membership Specification |
-| **Version** | `1.2.2` |
+| **Version** | `1.2.3` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Growth / Product |
 | **Reviewers** | Product Lead<br>Commercial Lead<br>Finance Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Commercial Lead<br>Finance Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-03` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -518,7 +518,7 @@ Checkout calculation sequence:
 14. Store applied promotion terms, selection basis, and user-value result for authorization and audit.
 15. Revalidate or recalculate before actual funding submission where DOC-09 deferred payment instruction is used.
 
-After the payer selects a payment card or payment profile, DOC-09 checkout must evaluate and display the available promotion result in the same checkout screen or step. The UI must identify the automatically applied Card Offer, allow a separate eligible coupon/voucher/discount selection, and show the recalculated fee, discount, benefit, and final total before authorization. Changing the payment card, profile, funding allocation, amount, or other material eligibility input invalidates the prior promotion quote and triggers re-evaluation.
+After the payer selects a payment card or Payment Profile where applicable, DOC-13 owns promotion eligibility, selection, quote, and recalculation rules; DOC-09 owns payment-domain and authorization meaning; and DOC-06B owns presentation within the Checkout Workspace. The Workspace must identify the automatically applied Card Offer, allow a separate eligible coupon/voucher/discount selection, and present the recalculated fee, discount, benefit, and final total before authorization. These facts may be adaptively combined or separated within the Checkout Workspace and are not required to use one fixed screen or step. Changing the payment card, profile, funding allocation, amount, or other material eligibility input invalidates the prior promotion quote and triggers re-evaluation.
 
 Material changes require recalculation. Material changes include payment amount, category, payee, evidence status, selected card, card split, service fee, discount, campaign status, usage entitlement, or budget availability.
 
@@ -1094,6 +1094,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.3 | 2026-08-03 | Aligned Checkout promotion presentation with DOC-13 promotion-rule ownership, DOC-09 payment-domain meaning, and DOC-06B adaptive Workspace presentation without changing promotion eligibility, priority, stacking, reservation, budget, quote, or recalculation logic. |
 | 1.2.2 | 2026-07-31 | Updated the related-document title to DOC-09 Payment Domain Architecture without changing promotion-engine decisions. |
 | 1.2.1 | 2026-07-28 | Defined the public non-personalized Entrance placement boundary and clarified that referral attribution begins at successful restricted-account creation, not during a temporary registration attempt. |
 | 1.2.0 | 2026-07-21 | Defined canonical issued-reward lifecycle and display projections, single-use default, authoritative/idempotent fulfilment, checkout-selection boundary, launch support for external vouchers and miles, and separate instrument, source, role, program, campaign/offer, entitlement, and fulfilment data dimensions; retained hold-versus-expiry as open. |

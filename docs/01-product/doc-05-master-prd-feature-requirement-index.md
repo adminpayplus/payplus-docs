@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.33
+version: 0.18.34
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-03
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.33` |
+| **Version** | `0.18.34` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-03` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -506,13 +506,13 @@ Detailed data model, event taxonomy, warehouse, analytics marts, feature/model m
 
 ## 15. UX Requirements
 
-The MVP should include the following UX surfaces. Detailed route flows, service blueprint steps, and non-payment interaction rules belong in the DOC-06 family. Payment/checkout screen content and payment-domain UI behavior belong primarily in DOC-09, with DOC-06A/DOC-06C owning route entry and handoff.
+The MVP should include the following UX surfaces. Detailed route flows, service blueprint steps, and non-payment interaction rules belong in the DOC-06 family. DOC-06B owns `PAYMENT-CHECKOUT` route-level UI/UX, adaptive Workspace presentation, entry, return, and handoff behavior. DOC-09 owns Payment Domain architecture, objects, invariants, and authoritative payment meaning. DOC-05 remains the product requirement and feature index and does not duplicate detailed Checkout UI.
 
 DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B owns navigation, route taxonomy, and human-readable route-level UX for global non-Bills routes, DOC-06C owns Bills/rent/tenancy UX, and DOC-06D owns UX requirement/test mapping. Product requirements in DOC-05 should reference stable product destination IDs where useful, use specific child destinations where defined, and avoid duplicating screen-level routing rules.
 
 For split UX topics, use one primary owner. DOC-06B owns standalone route shells and human-readable route-level UX for Requests, Instructions, Payment Profile, Offers, Me, Referral, More, and global Receipts/Activity routes. DOC-06A owns the underlying journey lifecycle. DOC-06C owns Bills/rent/tenancy-specific implementation. DOC-06D owns testability mapping. If a requirement seems to affect multiple DOC-06 child documents, define the primary owner first, then update only references or handoffs in the other documents.
 
-Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `ENTRANCE-ROOT` is the unauthenticated app root; `AUTH-LOGIN` resolves to `AUTH-LOGIN-FAST` or `AUTH-LOGIN-FULL`; `AUTH-RECOVERY` owns password recovery; and `AUTH-REGISTRATION` owns restricted-account creation. `ACCOUNT-ACTIVATION` completes phone, identity, and payment-passcode requirements through their reusable child flows. Normal successful login proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET` and `MORE-ROOT` identify the Pay+ and More destinations. `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings, with `NOTIFICATION-INBOX` as its default child. DOC-09 `PAYMENT-CHECKOUT` identifies the payment checkout flow/screen group without transferring checkout ownership to DOC-06.
+Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `ENTRANCE-ROOT` is the unauthenticated app root; `AUTH-LOGIN` resolves to `AUTH-LOGIN-FAST` or `AUTH-LOGIN-FULL`; `AUTH-RECOVERY` owns password recovery; and `AUTH-REGISTRATION` owns restricted-account creation. `ACCOUNT-ACTIVATION` completes phone, identity, and payment-passcode requirements through their reusable child flows. Normal successful login proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET` and `MORE-ROOT` identify the Pay+ and More destinations. `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings, with `NOTIFICATION-INBOX` as its default child. `PAYMENT-CHECKOUT` identifies the existing payment checkout flow/screen group; DOC-06B owns its route-level UI/UX, adaptive Workspace presentation, entry, return, and handoff behavior, while DOC-09 owns its Payment Domain architecture and authoritative payment meaning.
 
 Material AUTH handling must separate the operation Outcome from its permitted Resolution Strategy, user-facing Message/CTA, Notification, and persistent status. Capability-aware resolution may continue, restart, redirect, wait, invoke controlled Support, or stop according to the current permitted authentication and recovery context. It must not reveal unproven login methods, create a security bypass, silently authorize a protected action, or imply that every account can be recovered. DOC-06B owns route-level Outcomes and Resolution Strategies; DOC-07 owns presentation; DOC-08 owns notifications; and DOC-18 to DOC-22 own their respective technical, security, testing, operational, and admin details.
 
@@ -571,7 +571,7 @@ Archive is a per-user visibility action. It must not change the counterparty's a
 - view and act on payment instruction action alerts through DOC-06B `INSTRUCTIONS-ROOT` / `INSTRUCTIONS-DETAIL`;
 - review updated amount, promotion, fee, card eligibility, destination, or timing changes when returning to a pending Payment Instruction or incomplete Checkout Workspace;
 - view confirmed funded value and the remaining Checkout Target or obligation Outstanding Amount where applicable, without treating them as the same value;
-- review the automatically selected highest-user-value payment-method-sensitive Card Offer, separately select an eligible checkout coupon/voucher/discount, and review the recalculated promotion/payment quote in the same checkout screen or step before authorization;
+- review the automatically selected highest-user-value payment-method-sensitive Card Offer and separately select an eligible checkout coupon/voucher/discount; the applicable payment, promotion, fee, benefit, quote, and review facts must be presented within the Checkout Workspace and reviewed before the applicable authorization. Their presentation may be adaptively combined or separated and is not required to use one fixed screen or step;
 - discover approved promotions through DOC-06B `OFFERS-ROOT` and review conditions through `OFFER-DETAIL`;
 - manage issued coupons, vouchers, external-partner instruments, miles entitlements, or other supported rewards through `REWARDS-ROOT` and `REWARD-DETAIL`; external vouchers and miles are launch-supported reward types, while each actual provider method remains subject to operational and integration readiness;
 - share a reusable referral link/code, view attributed-referee qualification progress, and claim the user's corresponding referrer or referee rewards through the Referral route family where enabled; referral sharing alone does not identify a recipient or create an invitation status;
@@ -799,6 +799,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.34 | 2026-08-03 | Aligned the PAYMENT-CHECKOUT owner split to DOC-06B route-level UI/UX and DOC-09 authoritative Payment Domain meaning, and replaced fixed-screen review wording with the accepted adaptive Workspace composition. |
 | v0.18.33 | 2026-07-31 | Aligned product requirements with DOC-09 Payment Domain Architecture, separated deliberate Payment Instructions from incomplete Checkout Workspaces, and clarified Request, Payment Obligation, Checkout, Payment, Payment Application, coverage, and downstream Payout boundaries. |
 | v0.18.32 | 2026-07-29 | Added the platform-wide Outcome-to-Resolution product requirement and aligned the AUTH baseline with capability-aware recovery without changing existing account, login, activation, or security decisions. |
 | v0.18.31 | 2026-07-28 | Aligned the PRD with the defined Phone Verification, five-state Identity Verification, no voluntary re-verification after Verified, and six-digit Payment Passcode Set/Change/Reset behavior. |
