@@ -52,6 +52,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-033` | `2026-08-02` | Immediate Workflow Stabilisation Controls | Accepted | Documentation Development Workflow | `a8b0c1963f71abb53cf4a7d6453f86b58555456c` |
 | `DEC-2026-034` | `2026-08-02` | PayPlus Documentation Management Roadmap | Accepted | `DOC-00` | `b0f072c1d3fd60d84c51dbdc747537fe9341a1b1` |
 | `DEC-2026-035` | `2026-08-03` | Adaptive Payment Checkout Workspace UI/UX | Accepted | `DOC-06B` | `afb4bb02b8de6e7ed63e973127a23b09435c2871` |
+| `DEC-2026-036` | `2026-08-04` | Instruction Pay Now Resolver And Notification Detail Entry | Accepted | `DOC-09` / `DOC-08` / `DOC-06B` | `d0d35da995da1347844d11366387fbbf95774bd4` |
 
 ## 4. Decision Record Template
 
@@ -1606,3 +1607,42 @@ None. This decision applies the accepted `DOC-09` v1.1.0 architecture baseline w
 - `OQ-XDOC-007`: whether Instruction `Pay Now` creates, activates, or resumes Checkout remains unresolved.
 - `OQ-XDOC-015`: whether an instruction-related notification may bypass `NOTIFICATION-DETAIL` remains unresolved.
 - Final prototype, visual design, copy, technical contract, accessibility, user-validation, implementation/UAT, acceptance, monitoring, support, and operational evidence remains with the applicable formal owners.
+
+### `DEC-2026-036` - Instruction Pay Now Resolver And Notification Detail Entry
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-04` |
+| Status | Accepted |
+| Primary owner | `DOC-09` for Checkout identity and resolver meaning; `DOC-08` for notification entry and current action availability; `DOC-06B` for route-level UI/UX |
+| Affected documents | `DOC-05`, `DOC-06A`, `DOC-06B`, `DOC-08`, `DOC-09`, Pay+ route map, Instructions route map, PAYMENT-CHECKOUT route map, Open Questions Register, and Product Destination Register |
+| Substantive commit | `d0d35da995da1347844d11366387fbbf95774bd4` |
+| Founder approval | PDM-WI-003 Instruction Pay Now and Notification Entry Contracts decisions and conditional Commit, Record, and Push authorization activated on `2026-08-04` |
+
+**Decision**
+
+Instruction `Pay Now` invokes the DOC-09 Checkout Resolver rather than unconditionally creating, activating, or resuming a predetermined Checkout. The resolver validates the authenticated payer, Payment Instruction, current Payable Basis, source/return context, obligation, evidence, eligibility, timing, and applicable controls. An existing Checkout takes precedence only when it remains active, eligible, and continuable; an active continuable Checkout that is currently ineligible is resolved without duplicate creation; a later eligible Checkout may be created only when no active continuable Checkout exists and current eligibility permits; otherwise the payer receives explicit Instruction or source-owner resolution. Payment Instruction and Checkout remain separate, historical Checkouts remain authoritative in their recorded condition, and resolver entry carries no stale authorization or quote and creates no silent Funding Allocation, Funding Leg, Payment Attempt, or Provider Submission.
+
+Every instruction-related notification enters `NOTIFICATION-DETAIL`. Notification Detail revalidates current state, authenticated payer, permission, target, and action availability before an owner-approved current CTA may invoke the same Checkout Resolver. Notification content, delivery, read/archive state, and stored snapshots are non-authoritative and cannot establish Checkout eligibility, payer authorization, Provider Confirmation, Payment, or payment result. Stale, withdrawn, expired, ineligible, or unavailable targets remain in Notification Detail or use the applicable current resolution.
+
+**Rationale**
+
+The resolver preserves Payment Instruction and Checkout identity, respects active-Checkout precedence and retained history, and prevents duplicate or stale execution. Mandatory Notification Detail entry prevents communication convenience or historical notification evidence from bypassing current authority and eligibility checks.
+
+**Alternatives Considered**
+
+- Unconditionally creating a Checkout or predetermining Resume from Instruction `Pay Now` was rejected because current Payable Basis, eligibility, continuability, and retained Checkout history must be resolved first.
+- Allowing an instruction-related notification to bypass `NOTIFICATION-DETAIL` was rejected because notification delivery and stored content are not authoritative evidence of current eligibility, authorization, or payment result.
+
+**Consequences And Handoffs**
+
+`OQ-XDOC-007` and `OQ-XDOC-015` are `Decided`, while `PAYMENT-CHECKOUT` remains `Partially defined`. DOC-09 owns Checkout identity and resolver meaning, DOC-08 owns notification entry and current action availability, and DOC-06B owns route-level UI/UX. A separate Manager-owned DOC-07 work item must define communication semantics and final user-facing message and CTA treatment. Technical contracts, prototype and visual evidence, accessibility and user validation, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending with their formal owners.
+
+**Supersedes / Superseded By**
+
+Completes the two entry-contract decisions left open by `DEC-2026-035` without superseding its accepted adaptive Checkout Workspace direction.
+
+**Remaining Open Items**
+
+- Complete the separate Manager-owned DOC-07 communication-semantic work item without changing the accepted resolver or Detail-first entry contracts.
+- Complete the applicable technical, prototype, visual, accessibility, user-validation, implementation/UAT, acceptance, monitoring, support, and operational evidence under their formal owners.

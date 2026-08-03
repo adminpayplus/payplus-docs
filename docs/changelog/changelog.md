@@ -1235,3 +1235,45 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 - `OQ-XDOC-007` keeps Instruction `Pay Now` Checkout identity unresolved.
 - `OQ-XDOC-015` keeps notification direct-entry authority unresolved.
 - Final payer-facing wording, notification contracts, provider/data/security contracts, prototype evidence, visual design, accessibility and user validation, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending with their formal owners.
+
+### `2026-08-04` - Instruction Pay Now And Notification Detail Entry Contracts
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `d0d35da995da1347844d11366387fbbf95774bd4` |
+| Primary owner | `DOC-09` Checkout identity and resolver meaning; `DOC-08` notification entry and current action availability; `DOC-06B` route-level UI/UX |
+| Decision record | `DEC-2026-036` |
+| Founder approval | PDM-WI-003 Instruction Pay Now and Notification Entry Contracts decisions and conditional Commit, Record, and Push authorization activated on `2026-08-04` |
+
+**Files Changed**
+
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/02-payment-domain/doc-09-payment-domain-architecture.md`
+- `docs/diagrams/routes/payplus-action-sheet-route-map.md`
+- `docs/diagrams/routes/payplus-instructions-route-map.md`
+- `docs/diagrams/routes/payplus-payment-checkout-route-map.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/route-register.md`
+
+**Material Changes**
+
+- Defined Instruction `Pay Now` as invoking the DOC-09 Checkout Resolver rather than unconditionally creating, activating, or resuming a predetermined Checkout.
+- Required current authenticated-payer, Payment Instruction, Payable Basis, obligation, evidence, eligibility, timing, and applicable-control validation; preserved existing active, eligible, and continuable Checkout precedence, conditional later eligible creation, explicit unavailable resolution, object separation, retained history, and no stale or silent execution.
+- Required every instruction-related notification to enter `NOTIFICATION-DETAIL`, revalidate current state, payer, permission, target, and action availability, and only then expose an owner-approved current CTA to the same resolver.
+- Preserved notification content, delivery, read/archive state, and stored snapshots as non-authoritative for current Checkout eligibility, authorization, Provider Confirmation, Payment, or payment result.
+- Recorded `OQ-XDOC-007` and `OQ-XDOC-015` as `Decided` while preserving `PAYMENT-CHECKOUT` as `Partially defined` and keeping the DOC-07 communication-semantic and later technical and validation dependencies open.
+
+**Checks Performed**
+
+- Completed owner-first Draft in DOC-09, DOC-08, and DOC-06B, corrected two Stage 9 findings, and passed the read-only Stage 9 Verification Re-review.
+- Completed the 14-file Change Impact Manifest and seven-file downstream Align without changing the reviewed primary-owner drafts during Align.
+- Passed coordinated Stage 12 validation and Stage 13 integration readiness across the exact ten-file substantive scope.
+- Inspected the complete staged substantive diff, verified the exact ten-file list and `189` insertions / `71` deletions, and passed `git diff --cached --check` before substantive commit `d0d35da995da1347844d11366387fbbf95774bd4`.
+
+**Remaining Open Items**
+
+- Complete the separate Manager-owned DOC-07 communication-semantic work item; no DOC-07 artifact was edited in this change.
+- Complete applicable technical contracts, prototype and visual evidence, accessibility and user validation, implementation/UAT, acceptance, monitoring, support, and operational evidence under their formal owners.
