@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.46
+version: 0.1.47
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-03
+last_updated: 2026-08-04
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -40,12 +40,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.46` |
+| **Version** | `0.1.47` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-03` |
+| **Last Updated** | `2026-08-04` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -868,7 +868,7 @@ An immediate Checkout that has started execution but has not fully funded its Ch
 | Pending Payment Instruction | User intentionally set up a future/pay-later arrangement and no Provider Submission has been initiated for the related Checkout. | User may update the instruction's permitted setup before execution. When Checkout begins, DOC-09 target-lock and authorization rules apply. |
 | Incomplete Checkout Workspace | Immediate payment execution started but the immutable Checkout Target was not fully funded. It is not a Payment Instruction. | User may continue or close/archive the continuable Checkout presentation. Confirmed Payments and Payment Applications remain immutable; the locked Checkout Target and Obligation Allocations cannot be reduced or redefined. |
 
-`Pay now` is not an instruction type. It is the normal checkout path governed by DOC-09. Every attempt may have session, provider, or audit records, but only deliberate pay-later arrangements are Payment Instructions.
+`Pay Now` is not an instruction type and does not identify a predetermined Checkout. It is a Payment Instruction action that invokes the DOC-09 Checkout Resolver. Every attempt may have session, provider, or audit records, but only deliberate pay-later arrangements are Payment Instructions.
 
 #### 5.12.3 Entry Points
 
@@ -877,7 +877,7 @@ An immediate Checkout that has started execution but has not fully funded its Ch
 | Dashboard shortcut `Instructions` | Opens `INSTRUCTIONS-ROOT`. |
 | Pay+ `Continue Payment` | Disabled when no active pending Payment Instruction or continuable incomplete Checkout Workspace exists; opens `INSTRUCTIONS-DETAIL` for exactly one or `INSTRUCTIONS-ROOT` for more than one. Review-blocked items remain visible but cannot continue. |
 | Important Notice / Action Required card | Opens the relevant `INSTRUCTIONS-DETAIL` where a specific instruction exists. |
-| Payment action notification | Opens `INSTRUCTIONS-DETAIL` by default for context; its primary action may continue to the relevant Checkout Workspace where payment submission is required. |
+| Payment action notification | Opens `NOTIFICATION-DETAIL` first. After current-state and permission revalidation, an owner-approved instruction action may invoke the same DOC-09 Checkout Resolver. It must not bypass Notification Detail or identify a predetermined Checkout. |
 | Checkout flow | Creates or updates a Payment Instruction only when the user deliberately chooses pay later. An interrupted or partly funded immediate Checkout returns as an incomplete Checkout Workspace without conversion into an instruction. |
 
 #### 5.12.4 `INSTRUCTIONS-ROOT` List Screen
@@ -935,9 +935,19 @@ Pending instruction allowed edits:
 
 Pending instruction actions:
 
-- `Pay Now`, routing to DOC-09 checkout/review;
+- `Pay Now`, invoking the DOC-09 Checkout Resolver after current instruction and payer validation;
 - `Update Instruction`;
 - `Cancel Instruction`.
+
+Instruction `Pay Now` does not unconditionally create, activate, or resume Checkout. The route consumes the resolver result owned by DOC-09:
+
+| Resolver result | Route-level treatment |
+| --- | --- |
+| An active Checkout remains eligible and continuable for the instruction's current Payable Basis | Resume that existing Checkout after revalidation. Do not create another Checkout. |
+| No active continuable Checkout exists and current instruction, obligation, evidence, eligibility, timing, and control conditions permit creation | Enter an eligible New Checkout with the instruction and source-aware return context. |
+| The action is stale, withdrawn, expired, ineligible, unavailable, or otherwise cannot proceed | Remain in `INSTRUCTIONS-DETAIL` or return the applicable instruction/source-owner resolution. Do not create, resume, or reactivate Checkout. |
+
+Before route handoff, the presentation must use current owner-supplied validity and action availability. The Checkout Workspace must revalidate applicable fees, benefits, funding, destination, risk, security, and authorization conditions. No stale authorization is carried forward, and tapping `Pay Now` creates no silent Funding Leg or Provider Submission.
 
 For an incomplete Checkout Workspace, show:
 
@@ -980,7 +990,7 @@ A payment instruction may generate app notifications, action-required alerts, an
 | --- | --- |
 | Bill/rent due-date reminder | DOC-06C `BILLS-REMINDER-LIST` / `BILLS-REMINDER-DETAIL`. |
 | User manual bill/rent reminder | DOC-06C `BILLS-REMINDER-LIST` / `BILLS-REMINDER-DETAIL`. |
-| Payment instruction action alert | `INSTRUCTIONS-DETAIL` and DOC-09 checkout/review, with delivery governed by DOC-08. |
+| Notification-backed Payment Instruction action alert | Enters `NOTIFICATION-DETAIL`; after current-state, authenticated-payer, permission, target, and action-availability revalidation, an owner-approved current CTA may invoke the DOC-09 Checkout Resolver. It does not enter `INSTRUCTIONS-DETAIL`, `PAYMENT-CHECKOUT`, or checkout/review directly. |
 
 This avoids duplicate user functions:
 
@@ -1044,7 +1054,7 @@ These signals support funnel analysis, payment-friction analysis, support invest
 | Final visual layout, field density, and exact button labels distinguishing Payment Instruction cards from incomplete Checkout Workspace cards | Product / Design | Open |
 | Final expiry window, expiry countdown wording, cancellation/archive rules, and restore rules | Product / Payments / Operations | Open |
 | Exact visual copy, placement, and return-state UI for handoff among `INSTRUCTIONS-DETAIL`, `PAYMENT-PROFILE-ROOT`, and DOC-09 checkout. Route direction is clarified in `docs/diagrams/routes/payplus-instructions-route-map.md` and `docs/diagrams/routes/payplus-payment-profile-route-map.md`. | Product / Payments / Security | Open |
-| Exact notification wording and timing for payment instruction action alerts | Product / Payments / DOC-08 | Open |
+| Exact user-facing notification/message/CTA wording and semantics, plus timing, delivery, eligibility, and current action availability for Payment Instruction action alerts | DOC-07 for wording and CTA semantics; DOC-08 for timing, delivery, eligibility, and current action availability; Product / Payments as applicable | Open |
 
 ---
 
@@ -2299,7 +2309,7 @@ Archived notifications are a filter/view within Inbox, not another route. A noti
 | `NOTIFICATION-INBOX` | Tap Settings | `NOTIFICATION-SETTINGS` | Back returns to Inbox with search, filter, and scroll state preserved. |
 | `NOTIFICATION-SETTINGS` | Tap Inbox | `NOTIFICATION-INBOX` | Back returns to Settings without creating repeated route-stack loops. |
 | `NOTIFICATION-CARD` | Tap card | `NOTIFICATION-DETAIL` | Back returns to the originating Inbox state. |
-| `NOTIFICATION-DETAIL` | Tap contextual action | Owning product destination | Back returns to Detail, then to the original Inbox or external entry context. |
+| `NOTIFICATION-DETAIL` | Tap a current owner-approved contextual action | Owning product destination; an instruction `Pay Now` action invokes the DOC-09 Checkout Resolver | Back returns to Detail, then to the original Inbox or external entry context. |
 | Push, email, SMS, WhatsApp, deeplink, or approved app context | Open a specific notification | `NOTIFICATION-DETAIL` after authentication and access checks | Back returns to the prior app context where available; otherwise Inbox. |
 
 Opening a notification must revalidate the current owning-domain state, permissions, and target availability. A stale message may retain its historical content while its action is removed or replaced with a safe current-state explanation.
@@ -2350,6 +2360,10 @@ The UI must not display duplicate generic fields named `state`, `label`, and `st
 
 The notification record may preserve status and action-at-send snapshots for audit, but current display and action availability must use the latest authorized domain state.
 
+For an instruction-related notification, `NOTIFICATION-DETAIL` is mandatory before payment action. Detail revalidates the authenticated payer, current instruction state, permission, target availability, and action availability before presenting an owner-approved `Pay Now` action. Where still available, that action invokes the same DOC-09 Checkout Resolver described in Sections 5.12.5 and 5.20.3; there is no notification-to-Checkout bypass.
+
+A stale, withdrawn, expired, ineligible, or unavailable notification target remains in Detail with the applicable current resolution or returns to an owner-approved source context. Notification content, delivery, read/archive state, and stored status/action/quote snapshots do not establish current Checkout eligibility, payer authorization, Provider Confirmation, Payment, or payment result.
+
 #### 5.19.5 `NOTIFICATION-SETTINGS` Screen
 
 The MVP screen order is:
@@ -2383,7 +2397,7 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 
 `PAYMENT-CHECKOUT` is the existing, `Partially defined` flow/screen group for one persistent Checkout Workspace. It is not a new route family, a sequence of child routes, a Payment, a Payment Instruction, a Settlement, or a Payout. Internal presentations are replaceable views of the same Workspace and must not redefine the unique domain truth owned by DOC-09.
 
-DOC-06B owns the route-level UI/UX described in this section. The accepted payment-domain baseline remains DOC-09 v1.1.0 at `docs/02-payment-domain/doc-09-payment-domain-architecture.md`. This section presents DOC-09 facts without redefining their object, lifecycle, status, event, audit, authorization, provider, or financial meaning.
+DOC-06B owns the route-level UI/UX described in this section. The accepted payment-domain baseline remains DOC-09 v1.1.1 at `docs/02-payment-domain/doc-09-payment-domain-architecture.md`. This section presents DOC-09 facts without redefining their object, lifecycle, status, event, audit, authorization, provider, or financial meaning.
 
 The derived [Payment Checkout route map](../diagrams/routes/payplus-payment-checkout-route-map.md) is the current discussion-reference projection of this accepted route-level UI/UX. It does not override this section, DOC-09, or the route register and must not be read as a mandatory wizard, a set of child routes, or a domain state model.
 
@@ -2395,7 +2409,7 @@ The derived [Payment Checkout route map](../diagrams/routes/payplus-payment-chec
 | Bill/Rent source and handoff | Present source context received from the owning Bill/Rent or Tenancy surface; do not redefine source eligibility, amount, period, evidence, payee, or CTA rules. | DOC-06C |
 | Payment Domain | Display one Checkout against exactly one Payable Basis, funding and confirmed-payment facts, locking, continuation, closure, expiry, and late-confirmation meaning. | DOC-09 |
 | Outcome, disclosure, authorization wording, messages, and CTAs | Reserve content locations and distinguish facts and actions; do not invent final payer-facing wording. | DOC-07 |
-| Notification identity, delivery, and notification action routing | Consume only approved mappings. Notification direct-entry treatment remains excluded under `OQ-XDOC-015` (Proposal evidence alias `PDM-PROP-X02`). | DOC-08 plus the applicable domain owner |
+| Notification identity, delivery, and notification action routing | Require instruction-related notifications to enter `NOTIFICATION-DETAIL`, revalidate current state and permission, and expose only a current owner-approved action to the DOC-09 Checkout Resolver. Notification content and delivery are non-authoritative. | DOC-08 plus the applicable domain owner |
 | Promotions, fees, benefits, and payer charge | Display owner-supplied accepted, submitted-pending, or estimated facts with their applicable qualification. | DOC-02/DOC-07/DOC-09/DOC-13 and applicable commercial/accounting owners |
 | Provider return and confirmation evidence | Treat return as non-authoritative and wait for or consume authoritative evidence. | DOC-17 and DOC-09 |
 | Object schema, allocation-version implementation, machine states, events, lineage, audit, and reporting | Do not define them in this route document. | DOC-18 |
@@ -2425,7 +2439,7 @@ The Checkout presentation must preserve these DOC-09 boundaries:
 
 Terms such as `pending evidence`, `interrupted`, `unsuccessful presentation`, `result`, and `recovery` retain their actual layer: evidence-driven presentation, temporary task context, payer-visible result context, or a condition-dependent permitted action. They do not silently become machine-state enums, domain conditions, Outcomes, Messages, CTAs, or events.
 
-#### 5.20.3 Bill/Rent Pay Resolver and New Checkout Context
+#### 5.20.3 Checkout Resolver Entry and New Checkout Context
 
 Bill/Rent Pay is a Checkout resolver, not unconditional Checkout creation. After the source owner has identified the current Bill/Rent and its Payable Basis, the transition must resolve current eligibility and the current Checkout condition:
 
@@ -2443,6 +2457,20 @@ The source context remains visible without changing route identity:
 | Rent/Tenancy | Rent identity, property/tenancy and landlord/payee context, payable period, due date, eligible amount, evidence/readiness summary, and return destination. | Tenancy standing, payable period, rent CTA availability, current evidence, eligible amount, landlord relationship, readiness, and contextual disclosures. |
 
 Bill and Rent differences may change composed content, labels, disclosures, and return context. They do not by themselves create different Checkout routes or domain objects.
+
+##### Instruction `Pay Now` and Notification Entry
+
+Instruction `Pay Now` invokes the same DOC-09 Checkout Resolver rather than unconditionally creating, activating, or resuming a predetermined Checkout. Payment Instruction and Checkout remain separate objects throughout the handoff.
+
+| Source action | Required route treatment |
+| --- | --- |
+| `INSTRUCTIONS-DETAIL` - current `Pay Now` | Verify the authenticated payer and consume current instruction validity and action availability before invoking the DOC-09 Checkout Resolver. |
+| Instruction-related notification | Enter `NOTIFICATION-DETAIL`; revalidate current state, permission, target, and action availability; then expose an owner-approved `Pay Now` action to the same resolver only where still available. There is no direct notification-to-Checkout edge. |
+| Resolver returns an active, eligible and continuable Checkout for the same Payable Basis | Intentionally Resume that existing Checkout after current revalidation. Do not create another Checkout. |
+| Resolver permits a new Checkout because no active continuable Checkout exists and current eligibility passes | Establish an eligible New Checkout while preserving the Payment Instruction and source-aware return context as separate from Checkout identity. |
+| Resolver cannot proceed | Remain in Instruction or Notification Detail, or return the applicable source-owner resolution. Do not create or reactivate Checkout. |
+
+Every entry path must revalidate applicable obligation, evidence, eligibility, timing, fees, benefits, funding, destination, risk, security, and authorization conditions at the owner-controlled point where they apply. Neither a source CTA nor a notification snapshot carries forward stale authorization, silently creates a Funding Leg, or initiates a Provider Submission.
 
 #### 5.20.4 Context Restoration and Adaptive Presentation
 
@@ -2473,11 +2501,19 @@ These classifications may be entered non-linearly, overlap, or be composed toget
 
 ##### Checkout Entry, Revalidation and Presentation-Composition Decision Map
 
-This decision map explains Bill/Rent Pay resolution; eligibility and Checkout-condition evaluation; intentional Resume; protected return; authoritative evidence updates; presentation composition; historical or source-owner resolution; late confirmation; and the excluded entry-contract scope. It is not the complete payer-visible UI journey.
+This decision map explains Bill/Rent Pay and Instruction `Pay Now` resolution; mandatory Notification Detail entry; eligibility and Checkout-condition evaluation; intentional Resume; protected return; authoritative evidence updates; presentation composition; historical or source-owner resolution; and late confirmation. It is not the complete payer-visible UI journey.
 
 ```mermaid
 flowchart TD
     BP["Bill or Rent Pay"] --> ER["Resolve Payable Basis, eligibility, and current Checkout condition"]
+
+    IP["INSTRUCTIONS-DETAIL<br/>Pay Now"] --> IV["Validate authenticated payer, current instruction, and action availability"]
+    IN["Instruction-related notification"] --> ND["NOTIFICATION-DETAIL"]
+    ND --> NV["Revalidate current state, permission, target, and action availability"]
+    NV -->|"Owner-approved Pay Now remains available"| IV
+    NV -->|"Stale, withdrawn, expired, ineligible, or unavailable"| NR["Notification/current resolution"]
+    IV -->|"Invoke DOC-09 Checkout Resolver"| ER
+    IV -->|"Cannot proceed"| SR
 
     ER -->|"Eligible; no active continuable Checkout"| NC["New Checkout"]
     ER -->|"Active continuable Checkout exists"| IR["Intentional Resume"]
@@ -2513,22 +2549,20 @@ flowchart TD
     PC -. "may include or combine" .-> X["Result and resolution"]
 
     LC["Late accepted confirmation"] --> CR["Immutable Payment and independent controlled resolution outside ordinary continuation"]
-
-    subgraph EXCLUDED["Excluded entry-contract scope"]
-        EX1["OQ-XDOC-007: Instruction Pay Now identity<br/>PDM-PROP-X01 evidence alias"]
-        EX2["OQ-XDOC-015: Notification direct entry<br/>PDM-PROP-X02 evidence alias"]
-    end
 ```
 
-`OQ-XDOC-007` and `OQ-XDOC-015`, with `PDM-PROP-X01` and `PDM-PROP-X02` retained only as Proposal evidence aliases, are unconnected annotations rather than normal Checkout-flow branches. No normal Bill/Rent flow arrow reaches them. Historical or source-owner resolution has no arrow back to presentation composition. Late accepted confirmation remains outside ordinary Checkout continuation.
+Instruction `Pay Now` reaches the DOC-09 Checkout Resolver only after current instruction and payer validation; it does not preselect new-versus-Resume identity. An instruction-related notification reaches that same resolver only through `NOTIFICATION-DETAIL` and current action revalidation, with no notification-to-Checkout bypass edge. Resolver and revalidation nodes are operations, not payer-visible presentations, routes, states, events, or objects. Historical, notification, or source-owner resolution has no arrow back to presentation composition. Late accepted confirmation remains outside ordinary Checkout continuation.
 
 ##### Condition-Aware Illustrative Checkout Workspace Payer Experience Flow
 
-This diagram is an illustrative payer-visible journey from Bill/Rent Pay through funding, review, authorization, progress, result, and safe completion or recovery. It is not a mandatory fixed wizard, screen sequence, route hierarchy, machine-state diagram, object lifecycle, or implementation contract. The preceding decision map and the Minimum Adaptive UI Contract retain the detailed resolution, revalidation, evidence, and action-availability rules.
+This diagram is an illustrative payer-visible journey from Bill/Rent Pay or a current Instruction `Pay Now` action through Checkout resolution, funding, review, authorization, progress, result, and safe completion or recovery. It is not a mandatory fixed wizard, screen sequence, route hierarchy, machine-state diagram, object lifecycle, or implementation contract. The preceding decision map and the Minimum Adaptive UI Contract retain the detailed resolution, revalidation, evidence, and action-availability rules.
 
 ```mermaid
 flowchart TD
-    S["Bill/Rent: select items and Pay"] --> R{"Checkout resolution"}
+    B["Bill/Rent: select items and Pay"] --> R{"Checkout resolution"}
+    I["INSTRUCTIONS-DETAIL: current Pay Now"] --> R
+    N0["Instruction-related notification"] --> ND["NOTIFICATION-DETAIL"]
+    ND -->|"Revalidate; current owner-approved Pay Now"| R
 
     R -->|"Eligible new Checkout"| N["1. New Checkout overview"]
     R -->|"Valid Resume"| O["1. Resume overview"]
@@ -2568,20 +2602,21 @@ flowchart TD
     classDef decision fill:#fff4ce,stroke:#8a6d1d,stroke-width:2px,color:#222;
     classDef completion fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#153d18;
     classDef resolution fill:#f3f4f6,stroke:#5f6368,stroke-width:2px,color:#202124;
-    class S,N,O,F,SC,MC,V,A,E,P,W,U journey;
+    class B,I,N0,ND,N,O,F,SC,MC,V,A,E,P,W,U journey;
     class R,C decision;
     class D completion;
     class H,X resolution;
 ```
 
 - The numbered presentations are adaptive Workspace views, not child routes, domain conditions, machine states, or a mandatory fixed wizard. Presentations may combine or be skipped when the current payer task does not require them.
+- Instruction `Pay Now` invokes Checkout resolution and does not choose New-versus-Resume identity. An instruction-related notification reaches resolution only after `NOTIFICATION-DETAIL` revalidates current state, permission, target, and action availability; there is no bypass edge.
 - A Resume proceeds to Funding only when Funding is the next permitted task. Otherwise, the preceding decision map and the Minimum Adaptive UI Contract restore the applicable Review, progress, pending, result, or safe-return presentation.
 - Protected return revalidates and restores the safest valid presentation; its detailed resolution remains in the preceding decision map.
 - Late confirmation remains outside ordinary Checkout continuation and is intentionally not a normal-flow branch here.
 - Fully funded completion exposes no Funding, Continue, adjust, retry, wait, or `Close Checkout` action.
 - Pending exposes no retry or alternate-funding submission while authoritative evidence remains unresolved.
 - Partial and unsuccessful results expose only owner- and condition-permitted actions.
-- `OQ-XDOC-007` and `OQ-XDOC-015` remain excluded and unresolved; `PDM-PROP-X01` and `PDM-PROP-X02` remain their Proposal evidence aliases.
+- `OQ-XDOC-007` and `OQ-XDOC-015` retain their permanent traceability IDs and require downstream register/diagram alignment to their decided dispositions. `PDM-PROP-X01` and `PDM-PROP-X02` remain historical Proposal-evidence aliases only.
 
 ##### Minimum Adaptive UI Contract
 
@@ -2731,16 +2766,16 @@ The Checkout Workspace must support:
 
 Accessibility presentation must preserve the semantic distinctions among Checkout Target, confirmed value, unconfirmed value, Remaining Checkout Target, and payer charge. Reading order and announcements must not imply that pending value is confirmed or that partial funding completed the Checkout.
 
-#### 5.20.11 Exclusions and Downstream Dependencies
+#### 5.20.11 Decided Entry Contracts and Downstream Dependencies
 
-The following entry contracts remain outside this specification:
+The material entry questions recorded under `OQ-XDOC-007` and `OQ-XDOC-015` are decided for the current baseline:
 
-| Exclusion | Authority gap | Blocking scope |
-| --- | --- | --- |
-| `OQ-XDOC-007`: Instruction `Pay Now` identity (Proposal evidence alias `PDM-PROP-X01`) | DOC-06B and DOC-09 must clarify whether the approved action creates, activates, or resumes Checkout. Presentation must not infer identity from a preferred screen or redefine an incomplete Checkout as a Payment Instruction. | Blocks only the Instruction entry contract and its dependent content. |
-| `OQ-XDOC-015`: notification direct entry (Proposal evidence alias `PDM-PROP-X02`) | DOC-06B, DOC-08, and the applicable domain owner must clarify whether an instruction-related notification may bypass `NOTIFICATION-DETAIL`. Convenience must not determine routing. | Blocks only the notification direct-entry contract and its dependent content. |
+- Instruction `Pay Now` invokes the DOC-09 Checkout Resolver and does not unconditionally create, activate, or resume a predetermined Checkout.
+- An instruction-related notification enters `NOTIFICATION-DETAIL`, revalidates current state and permission, and only then exposes an owner-approved current action to that same resolver. It does not bypass Notification Detail.
 
-The `OQ-XDOC-*` identifiers are the permanent repository traceability references. The `PDM-PROP-*` identifiers are retained only as aliases to the accepted Proposal evidence and do not replace the formal Open Questions.
+The permanent Open Questions Register and derived route diagrams require downstream Align updates to record these decided dispositions. `PDM-PROP-X01` and `PDM-PROP-X02` remain historical Proposal-evidence aliases only.
+
+These decisions do not close their remaining communication, implementation, or validation dependencies. DOC-07 communication semantics, including exact payer-facing terms, disclosures, Outcomes, Messages, authorization copy, and CTA mappings, remain explicitly excluded from this Draft and require a separate Manager-owned work item. No DOC-07 document, specialist guide, framework, runtime registry, schema, or admin-content model is changed here.
 
 Other downstream dependencies remain explicit:
 
@@ -2824,6 +2859,7 @@ No numerical accessibility, performance, or usability threshold is established h
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.47 | 2026-08-04 | Defined Instruction `Pay Now` and instruction-notification entry through the owner-approved Checkout Resolver, required `NOTIFICATION-DETAIL` and current revalidation before any notification payment CTA, removed the X01/X02 route-level authority gaps, and preserved separate Payment Instruction/Checkout identity, retained history, no stale authorization, and no silent funding/submission behavior. |
 | 0.1.46 | 2026-08-03 | Removed superseded mandatory Payment Profile wording and aligned profile presentation with owner-confirmed current-Checkout allocation, capability-aware direct entry, and required within-capability selection or configuration. |
 | 0.1.45 | 2026-08-03 | Added mechanical cross-references from the reviewed Checkout Workspace contract to the derived route map and permanent Open Question IDs while preserving the accepted UI/UX and DOC-09 meaning. |
 | 0.1.44 | 2026-08-03 | Replaced the second Checkout illustration with a concise payer-visible Bill/Rent Pay-to-funding, review, authorization, Funding Leg progress, result, and safe-resolution journey while preserving the separate decision map, adaptive UI contract, domain invariants, exclusions, and owner boundaries. |

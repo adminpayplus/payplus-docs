@@ -2,14 +2,17 @@
 
 Status: Current discussion reference
 Owner: DOC-06B / DOC-09
-Last updated: 2026-08-03
+Last updated: 2026-08-04
 
 ```mermaid
 flowchart TD
   SHORTCUT["Dashboard Instructions shortcut"] --> ROOT["INSTRUCTIONS-ROOT"]
   PAYPLUS["PAYPLUS-ACTION-SHEET<br/>see Pay+ route map"] -. "more than one active managed item" .-> ROOT
   PAYPLUS -. "exactly one active managed item" .-> DETAIL
-  ALERT["Payment action alert"] --> DETAIL["INSTRUCTIONS-DETAIL<br/>instruction or checkout context"]
+  ALERT["Notification-backed Payment Instruction action alert"] --> NDETAIL["NOTIFICATION-DETAIL"]
+  NDETAIL -->|"Revalidate current state, payer,<br/>permission, target, and action"| NCTA{"Owner-approved current CTA available?"}
+  NCTA -->|"Yes: Pay Now"| IVALID
+  NCTA -->|"No"| NRES["Notification/current resolution"]
   ROOT --> DETAIL
   ROOT --> SETUP["Instruction setup"]
 
@@ -20,6 +23,11 @@ flowchart TD
   DETAIL -->|"Incomplete Checkout context"| CONTINUABLE{"Active, eligible,<br/>and continuable?"}
   CONTINUABLE -->|"Yes; Continue Payment"| CHECKOUT["PAYMENT-CHECKOUT"]
   CONTINUABLE -->|"No"| UNAVAILABLE["Continuation unavailable<br/>show current resolution"]
+  DETAIL -->|"Current Payment Instruction: Pay Now"| IVALID["Validate payer, Instruction,<br/>and action availability"]
+  IVALID --> RESOLVER{"DOC-09 Checkout Resolver"}
+  RESOLVER -->|"Active, eligible and continuable Checkout exists"| CHECKOUT
+  RESOLVER -->|"No active continuable Checkout;<br/>current eligibility permits"| CHECKOUT
+  RESOLVER -->|"Cannot proceed"| UNAVAILABLE
   DETAIL -->|"Choose or edit card/profile"| PROFILE["PAYMENT-PROFILE-ROOT"]
   PROFILE -. "Return with refreshed selection" .-> DETAIL
   DETAIL -->|"Update deliberate pay-later instruction"| SETUP
@@ -29,9 +37,8 @@ flowchart TD
   CHECKOUT -->|"Execution incomplete<br/>retain Checkout identity"| DETAIL
   CHECKOUT -->|"Completed"| ACTIVITY["ACTIVITY-DETAIL"]
 
-  subgraph UNRESOLVED["Unresolved entry-contract scope"]
-    X01["OQ-XDOC-007: Instruction Pay Now identity<br/>PDM-PROP-X01 evidence alias"]
-  end
 ```
 
-`Instruction Pay Now` remains an unconnected unresolved-scope annotation. This map does not decide whether that action creates, activates, or resumes Checkout. Only an existing Checkout that remains active, eligible, and continuable may follow the connected `Continue Payment` edge.
+A notification-backed Payment Instruction action alert always enters `NOTIFICATION-DETAIL`. Only after current state, authenticated payer, permission, target, and action availability are revalidated may an owner-approved current `Pay Now` CTA invoke the DOC-09 Checkout Resolver. No notification edge enters `INSTRUCTIONS-DETAIL` or `PAYMENT-CHECKOUT` directly.
+
+Instruction `Pay Now` does not predetermine Checkout identity. The resolver resumes an existing Checkout only when it remains active, eligible, and continuable; permits a later eligible Checkout only when no active continuable Checkout exists; and otherwise returns the applicable current resolution. Payment Instruction and Checkout remain separate, retained historical Checkouts are not reactivated, and resolver entry does not carry stale authorization or silently create a Funding Leg, Payment Attempt, or Provider Submission. The connected `Continue Payment` edge remains limited to an existing active, eligible, and continuable Checkout.

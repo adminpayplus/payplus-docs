@@ -2,7 +2,7 @@
 
 Status: Current discussion reference
 Owner: DOC-06B
-Last updated: 2026-08-03
+Last updated: 2026-08-04
 
 This map owns the five `PAYPLUS-ACTION-SHEET` handoffs. Destination internals belong to their route-family maps. It defines behavior, not final visual design.
 
@@ -30,6 +30,12 @@ flowchart TD
   ALLOWED -->|"No"| VISIBLE["Continuation unavailable<br/>show current resolution"]
   ALLOWED -->|"Yes; Continue existing Checkout"| CHECKOUT["PAYMENT-CHECKOUT"]
 
+  DETAIL -->|"Current Payment Instruction: Pay Now"| IPVALID["Validate payer, Instruction,<br/>and action availability"]
+  IPVALID --> RESOLVER{"DOC-09 Checkout Resolver"}
+  RESOLVER -->|"Active, eligible and continuable Checkout exists"| CHECKOUT
+  RESOLVER -->|"No active continuable Checkout;<br/>current eligibility permits"| CHECKOUT
+  RESOLVER -->|"Cannot proceed"| VISIBLE
+
   BILLPAY -. "See Bills route map" .-> BILLSFAMILY["Bills route family"]
   RENTPAY -. "See Bills route map" .-> BILLSFAMILY
   BILLSADD -. "See Bills route map" .-> BILLSFAMILY
@@ -37,11 +43,10 @@ flowchart TD
   ROOT -. "See Instructions route map" .-> INSTRUCTIONFAMILY["Instructions route family"]
   DETAIL -. "See Instructions route map" .-> INSTRUCTIONFAMILY
 
-  subgraph UNRESOLVED["Unresolved entry-contract scope"]
-    X01["OQ-XDOC-007: Instruction Pay Now identity<br/>PDM-PROP-X01 evidence alias"]
-  end
 ```
 
 `Request Payment` is the payee-to-payer request action. Optional payer-to-payee linking starts from an approved bill/rent or linking context and is not a Pay+ action-sheet destination.
 
-After `Continue Payment` reaches `INSTRUCTIONS-DETAIL`, only an incomplete Checkout that remains active, eligible, and continuable may follow the connected edge to the existing `PAYMENT-CHECKOUT`. A Payment Instruction may expose `Pay Now`, but its creates/activates/resumes identity contract remains unresolved under `OQ-XDOC-007`; the unconnected annotation records that exclusion without deciding it.
+After `Continue Payment` reaches `INSTRUCTIONS-DETAIL`, only an incomplete Checkout that remains active, eligible, and continuable may follow the connected continuation edge to the existing `PAYMENT-CHECKOUT`.
+
+When a current Payment Instruction exposes `Pay Now`, `INSTRUCTIONS-DETAIL` validates the payer, Instruction, and action before invoking the DOC-09 Checkout Resolver. The resolver resumes the existing Checkout when it remains active, eligible, and continuable; permits a later eligible Checkout only when no active continuable Checkout exists; and otherwise returns the current unavailable resolution. Payment Instruction and Checkout remain separate, and resolver entry does not carry stale authorization or silently create funding or submission activity.

@@ -2,7 +2,7 @@
 
 Status: Current discussion reference
 Owner: DOC-06B for route-level UI/UX; DOC-09 for Payment Domain architecture
-Last updated: 2026-08-03
+Last updated: 2026-08-04
 
 This derived diagram projects the reviewed payer-visible `PAYMENT-CHECKOUT` journey from DOC-06B Section 5.20. DOC-06B remains the primary source for adaptive presentation behavior, DOC-09 remains authoritative for payment-domain facts and invariants, and the route register remains authoritative for destination identity and definition status.
 
@@ -11,6 +11,10 @@ The projection is not a mandatory fixed wizard, a route hierarchy, a machine-sta
 ```mermaid
 flowchart TD
     SRC["Bill/Rent source route<br/>DOC-06C"] -->|"Select item(s) and Pay"| R{"Checkout resolution<br/>DOC-09 condition"}
+    INS["INSTRUCTIONS-DETAIL<br/>current Pay Now"] -->|"Validate payer, Instruction, and action"| R
+    NOTIF["Instruction-related notification"] --> NDETAIL["NOTIFICATION-DETAIL"]
+    NDETAIL -->|"Current-state, payer, permission,<br/>target, and action revalidation;<br/>owner-approved Pay Now"| R
+    NDETAIL -->|"Action unavailable"| H
 
     R -->|"Eligible new Checkout"| N["1. New Checkout overview"]
     R -->|"Valid Resume"| O["1. Resume overview"]
@@ -54,7 +58,7 @@ flowchart TD
     classDef completion fill:#e5f7ed,stroke:#238636,color:#0f3d1f,stroke-width:1.5px;
     classDef resolution fill:#f5f0ff,stroke:#7c3aed,color:#2e1065,stroke-width:1.5px;
 
-    class SRC source;
+    class SRC,INS,NOTIF,NDETAIL source;
     class N,O,F,SC,MC,V,A,E,P,W,U presentation;
     class R,C condition;
     class D,X completion;
@@ -70,7 +74,9 @@ flowchart TD
 - Approved Card, Payment Profile, provider, 3DS, reauthentication, and application handoffs return to the safest valid presentation only after the checks owned by the applicable domain, provider, and security documents; the diagram intentionally leaves that detailed resolution in DOC-06B.
 - Fully funded completion is terminal and exposes no Funding, Continue, adjust, retry, wait, or Close Checkout action. Pending evidence exposes no retry or alternate-funding submission while evidence remains unresolved. Partial and unsuccessful results expose only owner- and condition-permitted actions.
 - Late confirmation remains outside ordinary Checkout continuation and follows DOC-09's independent controlled-resolution treatment.
-- `OQ-XDOC-007` (Proposal evidence alias `PDM-PROP-X01`) keeps Instruction `Pay Now` identity unresolved. `OQ-XDOC-015` (Proposal evidence alias `PDM-PROP-X02`) keeps notification direct-entry authority unresolved. Neither excluded contract is projected as an approved entry path.
+- Instruction `Pay Now` invokes the DOC-09 Checkout Resolver rather than predetermining new-versus-Resume identity. An existing Checkout resumes only when it remains active, eligible, and continuable; a later eligible Checkout may begin only when no active continuable Checkout exists; otherwise the payer receives the applicable source or historical resolution.
+- Every instruction-related notification enters `NOTIFICATION-DETAIL` first. Notification content and delivery do not establish current eligibility or result; only after current-state, payer, permission, target, and action-availability revalidation may an owner-approved current CTA invoke the same resolver. There is no notification-to-Checkout bypass edge.
+- Payment Instruction and Checkout remain separate. Earlier Checkouts remain authoritative in their recorded non-continuable condition and are not reactivated or rewritten. Resolver entry carries no stale authorization and silently creates no Funding Allocation, Funding Leg, Payment Attempt, or Provider Submission.
 
 ## References
 

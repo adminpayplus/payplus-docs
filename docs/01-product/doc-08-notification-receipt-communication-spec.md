@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.32
+version: 1.0.33
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-04
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.32` |
+| **Version** | `1.0.33` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-04` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -474,7 +474,32 @@ Marketing campaign messages must be consent-based. Service messages that affect 
 
 Payment authorization may require a status update without an external notification. Payment completion usually requires a receipt or confirmation message.
 
-Payment instruction action alerts must route the user to `INSTRUCTIONS-DETAIL` for the same instruction or directly to the DOC-09 payment/checkout review where immediate submission is required. Normal due-date reminders and user manual bill/rent reminders route to the bill/rent/obligation detail screen. If quote, promotion, card eligibility, payment profile, fee, or timing terms changed, the message should route to instruction detail, `PAYMENT-PROFILE-ROOT`, or updated checkout review as appropriate before submission. No new notification ID is required solely because the action is a card/profile correction.
+#### 11.5.1 Instruction-Related Notification Entry Contract
+
+Every instruction-related notification opens `NOTIFICATION-DETAIL` before any payment action. The current baseline does not permit an instruction-related push, email, SMS, WhatsApp message, Inbox card, deeplink, or stored notification action to bypass `NOTIFICATION-DETAIL` and enter `PAYMENT-CHECKOUT` directly.
+
+```text
+Instruction-related notification
+    -> NOTIFICATION-DETAIL
+    -> current-state, authenticated-payer and permission revalidation
+    -> owner-approved current CTA, where still available
+    -> DOC-09 Instruction Pay Now Checkout Resolver
+```
+
+On Detail entry, the notification experience must consume current owner-supplied facts and revalidate:
+
+- the authenticated payer's permission to view and act on the Payment Instruction;
+- whether the instruction and its target remain current, valid and available;
+- whether the notification's stored action remains permitted; and
+- the applicable current obligation, evidence, eligibility, timing and control conditions before exposing a payment CTA.
+
+Where current validation permits an instruction payment action, the Detail CTA invokes the DOC-09 Instruction `Pay Now` Checkout Resolver. It does not identify a predetermined Checkout, establish current eligibility, carry forward prior authorization, or itself create, activate, resume, fund or submit a Checkout.
+
+A stale, withdrawn, expired, ineligible or unavailable notification target remains in `NOTIFICATION-DETAIL` with the applicable current resolution, or returns to an owner-approved source context. An earlier notification action must not create or resume Checkout after that action has ceased to be valid.
+
+Notification content, delivery success, read/archive state, and stored status/action/quote snapshots are historical communication evidence only. They are not authoritative proof of current Checkout eligibility, payer authorization, Provider Confirmation, Payment, or payment result.
+
+Normal due-date reminders and user manual bill/rent reminders continue to route to the bill/rent/obligation detail screen. No new notification ID is required solely because an instruction later needs card, Payment Profile, quote, fee, benefit, eligibility, or other current resolution. Exact user-facing message and CTA wording remains with DOC-07; DOC-08 owns the notification entry and action-availability contract.
 
 ### 11.5A Bill/Rent Reminder Events
 
@@ -790,6 +815,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.33 | 2026-08-04 | Required every instruction-related notification to enter `NOTIFICATION-DETAIL`, revalidate current state and permission before exposing an owner-approved CTA to the DOC-09 Checkout Resolver, and prohibited notification content or delivery state from establishing current eligibility, authorization or payment result. |
 | 1.0.32 | 2026-07-31 | Aligned notification references with Request-as-linkage and distinct Payment Instruction versus incomplete Checkout continuation contexts without defining new notification IDs. |
 | 1.0.31 | 2026-07-29 | Separated AUTH-RECOVERY Outcomes and Resolution Strategies from notification events, classified reset-link email as controlled delivery, and mapped successful password reset to the existing mandatory account-security communication family. |
 | 1.0.30 | 2026-07-28 | Aligned identity notifications and Home banners with the five-state model, added processing/success/action-required presentation behavior, and required security notification after payment-passcode Change or Reset. |

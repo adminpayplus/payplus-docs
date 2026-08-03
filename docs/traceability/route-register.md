@@ -2,7 +2,7 @@
 
 Status: Working alignment reference
 Owner: Product / Founder
-Last updated: 2026-08-03
+Last updated: 2026-08-04
 Classification: Internal
 
 This register is the canonical inventory of PayPlus product destinations. Owning documents define behavior; this register tracks identity, parentage, type, ownership, and definition status without restating detailed requirements.
@@ -33,9 +33,9 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `MORE-ROOT` | Dashboard shortcut: More | Root screen | Manage up to 7 configurable Home shortcuts plus protected More, restore the current eligible default, and access approved secondary services. | DOC-06B | Defined baseline |
 | `NOTIFICATION-ROOT` | Home Inbox / Me Notification Settings / approved notification context | Parent route shell | Group Inbox, notification detail, and notification settings; generic entry defaults to Inbox. | DOC-06B / DOC-08 | Defined baseline |
 | `NOTIFICATION-INBOX` | `NOTIFICATION-ROOT` / Home header | Default child screen | Search, filter, read, and archive notification-backed messages, announcements, support replies, and action items. | DOC-06B / DOC-08 | Defined baseline |
-| `NOTIFICATION-DETAIL` | `NOTIFICATION-INBOX` / approved external notification context | Child screen | Show one permitted message and route a current valid action to its owning destination. | DOC-06B / DOC-08 | Defined baseline |
+| `NOTIFICATION-DETAIL` | `NOTIFICATION-INBOX` / approved external notification context | Child screen | Show one permitted message, revalidate current state and action availability, and route only an owner-approved current action to its owning destination. An instruction `Pay Now` action invokes the DOC-09 Checkout Resolver only after this Detail-first treatment. | DOC-06B / DOC-08 | Defined baseline |
 | `NOTIFICATION-SETTINGS` | `NOTIFICATION-ROOT` / direct Me entry | Child screen | Manage permitted communication channels and preferences with reciprocal Inbox navigation. | DOC-06B / DOC-08 | Defined baseline |
-| `PAYMENT-CHECKOUT` | Bill/Rent Pay resolver or another owner-approved Checkout entry, resume, or protected-return context | Flow / screen group | Provide one persistent adaptive Checkout Workspace for eligible New Checkout or valid Resume context, funding, holistic review and authorization, Funding Leg progress, condition-specific results and recovery, and safe return without imposing a fixed wizard or redefining DOC-09 domain meaning. Instruction `Pay Now` identity and notification direct entry remain open under `OQ-XDOC-007` and `OQ-XDOC-015`. | DOC-06B; DOC-09 for domain architecture | Partially defined |
+| `PAYMENT-CHECKOUT` | Bill/Rent Pay resolver, Instruction `Pay Now` Checkout Resolver, or another owner-approved resume or protected-return context | Flow / screen group | Provide one persistent adaptive Checkout Workspace for eligible New Checkout or valid Resume context, funding, holistic review and authorization, Funding Leg progress, condition-specific results and recovery, and safe return without imposing a fixed wizard or redefining DOC-09 domain meaning. Instruction `Pay Now` follows the decided `OQ-XDOC-007` resolver contract; instruction-related notifications follow the decided `OQ-XDOC-015` `NOTIFICATION-DETAIL`-first contract. | DOC-06B; DOC-09 for domain architecture | Partially defined |
 | `BILLS-ROOT` | Bottom navigation: Bills | Root screen | Open the Bills area and its payer/payee views. | DOC-06C | Defined baseline |
 | `BILLS-PAY` | `BILLS-ROOT` | Tab / view | Manage obligations the user needs or expects to pay. | DOC-06C | Defined baseline |
 | `BILLS-RECEIVE` | `BILLS-ROOT` | Tab / view | Manage payee-created obligations and requests the user expects to receive. | DOC-06C | Defined baseline |
@@ -53,7 +53,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `REQUESTS-DETAIL` | `REQUESTS-ROOT` / notification / deeplink | Child screen | Review and act on one request while preserving linked-context handoffs. | DOC-06B | Defined baseline |
 | `REQUESTS-NEW` | Requests / Pay+ / bill/rent context | Child flow | Create and send one controlled evidence-backed request. | DOC-06B | Defined baseline |
 | `INSTRUCTIONS-ROOT` | Dashboard shortcut / Pay+ | Root screen | List deliberate pay-later Payment Instructions and incomplete Checkout Workspaces without treating them as the same domain object. | DOC-06B | Defined baseline |
-| `INSTRUCTIONS-DETAIL` | `INSTRUCTIONS-ROOT` / alert | Child screen | View and act on one Payment Instruction or one incomplete Checkout Workspace according to its distinct rules. | DOC-06B | Defined baseline |
+| `INSTRUCTIONS-DETAIL` | `INSTRUCTIONS-ROOT` / Pay+ continuation / approved non-notification source context | Child screen | View and act on one Payment Instruction or one incomplete Checkout Workspace according to its distinct rules. A current Instruction `Pay Now` action invokes the DOC-09 Checkout Resolver without predetermining Checkout identity. | DOC-06B | Defined baseline |
 | `PAYMENT-PROFILE-ROOT` | Dashboard shortcut / Me / checkout / instruction | Root route family | Manage tokenized cards and saved split-card profiles. | DOC-06B | Defined baseline |
 | `PAYMENT-CARD-LIST` | `PAYMENT-PROFILE-ROOT` Cards tab | Initial screen / tab content | List and manage tokenized cards. | DOC-06B | Defined baseline |
 | `PAYMENT-CARD-ADD` | `PAYMENT-CARD-LIST` | Child flow | Add and tokenize a card through the selected PSP flow. | DOC-06B | Defined baseline |
