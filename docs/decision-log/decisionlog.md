@@ -51,6 +51,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-032` | `2026-07-28` | Outcome Framework And DOC-07 Specialist Authoring Method | Accepted | Outcome Framework / `DOC-07` | `b3241adfd5b54a28039a365b354fe4715f36820b` |
 | `DEC-2026-033` | `2026-08-02` | Immediate Workflow Stabilisation Controls | Accepted | Documentation Development Workflow | `a8b0c1963f71abb53cf4a7d6453f86b58555456c` |
 | `DEC-2026-034` | `2026-08-02` | PayPlus Documentation Management Roadmap | Accepted | `DOC-00` | `b0f072c1d3fd60d84c51dbdc747537fe9341a1b1` |
+| `DEC-2026-035` | `2026-08-03` | Adaptive Payment Checkout Workspace UI/UX | Accepted | `DOC-06B` | `afb4bb02b8de6e7ed63e973127a23b09435c2871` |
 
 ## 4. Decision Record Template
 
@@ -1559,3 +1560,49 @@ None.
 **Remaining Open Items**
 
 None for the accepted roadmap and DOC-00 registration scope.
+
+### `DEC-2026-035` - Adaptive Payment Checkout Workspace UI/UX
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-03` |
+| Status | Accepted |
+| Primary owner | `DOC-06B` route-level UI/UX; `DOC-09` remains authoritative for Payment Domain architecture and meaning |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06A`, `DOC-06B`, `DOC-06C`, `DOC-06D`, `DOC-13`, diagram index, Pay+ and Instructions route maps, PAYMENT-CHECKOUT route map, Open Questions Register, and Product Destination Register |
+| Substantive commit | `afb4bb02b8de6e7ed63e973127a23b09435c2871` |
+| Founder approval | PDM-WI-003 Explore and Proposal dispositions, Draft authorization and corrections, Stage 9 Review passage, Align and Validate authorizations, and conditional Stage 14 Commit approval activated on `2026-08-03` |
+
+**Decision**
+
+Define `PAYMENT-CHECKOUT` as the existing `Partially defined` flow/screen group containing one persistent adaptive Checkout Workspace. Bill/Rent Pay resolves the current Payable Basis, eligibility, and Checkout condition rather than unconditionally creating a Checkout. Eligible New Checkout, intentional Resume, protected return, funding, holistic review, applicable authorization for each Provider Submission, Funding Leg progress, condition-specific results, recovery, and safe exit are composed as replaceable presentations rather than a mandatory fixed wizard, child routes, domain states, events, or new payment objects.
+
+Default single-card funding may progressively expand to owner-confirmed multi-card capabilities. Current-Checkout allocation and Payment Profile are distinct capabilities; Payment Profile remains a reusable ratio template rather than authorization. When exactly one capability is available, the Workspace may enter it directly without silently selecting a profile, confirming an allocation, or authorizing funding. When multiple capabilities are available, the payer selects among them and completes the applicable configuration, review, and authorization.
+
+`DOC-06B` owns route-level Workspace UI/UX, adaptive presentation, entry, return, and handoff behavior. `DOC-09` retains ownership of Payment Domain architecture, objects, invariants, cardinality, locking, immutable confirmed Payments, Payment Application, Settlement, authoritative evidence, and historical-record meaning.
+
+**Rationale**
+
+The adaptive Workspace preserves payer context while keeping authoritative payment truth independent from replaceable presentation. It gives prototype and implementation work a reviewable route-level contract for first views, information hierarchy, actions, protected return, results, mobile use, and accessibility without allowing UI structure to redefine payment identity, authorization, or financial semantics.
+
+**Alternatives Considered**
+
+- A mandatory fixed Checkout wizard was rejected because valid New, Resume, protected-return, progress, pending-evidence, result, and recovery contexts do not share one universal screen order.
+- Treating every Bill/Rent Pay action as unconditional new-Checkout creation was rejected because the resolver must respect current eligibility and any active continuable Checkout for the same Payable Basis.
+- Requiring Payment Profile for multi-card funding was rejected because owner-confirmed current-Checkout allocation is a separate capability and capability availability must not silently select or authorize funding.
+- Using a system decision map as the primary payer journey was rejected because route-level review also requires a concise payer-visible projection while preserving the separate decision map and normative contract.
+
+**Consequences And Handoffs**
+
+DOC-05, the DOC-06 family, DOC-13, route diagrams, and traceability registers now use the accepted owner split, adaptive composition, funding-capability treatment, and unresolved-entry boundaries. `PAYMENT-CHECKOUT` remains `Partially defined`; this decision does not approve final visual design, implementation, technical contracts, copy, accessibility results, or operational readiness.
+
+`DOC-07` owns final authorization, disclosure, and payer-facing wording. `DOC-08` owns notification behavior. Payment, provider, data/audit, security, testing, support, and operations owners retain their technical and validation responsibilities. Prototype, accessibility, user-validation, implementation/UAT, and operational evidence remain pending.
+
+**Supersedes / Superseded By**
+
+None. This decision applies the accepted `DOC-09` v1.1.0 architecture baseline without reinterpreting it.
+
+**Remaining Open Items**
+
+- `OQ-XDOC-007`: whether Instruction `Pay Now` creates, activates, or resumes Checkout remains unresolved.
+- `OQ-XDOC-015`: whether an instruction-related notification may bypass `NOTIFICATION-DETAIL` remains unresolved.
+- Final prototype, visual design, copy, technical contract, accessibility, user-validation, implementation/UAT, acceptance, monitoring, support, and operational evidence remains with the applicable formal owners.

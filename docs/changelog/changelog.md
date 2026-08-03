@@ -1188,3 +1188,50 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 **Remaining Open Items**
 
 - None for the accepted roadmap and DOC-00 registration scope.
+
+### `2026-08-03` - Adaptive Payment Checkout Workspace UI/UX
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `afb4bb02b8de6e7ed63e973127a23b09435c2871` |
+| Primary owner | `DOC-06B` route-level Checkout UI/UX; `DOC-09` Payment Domain architecture and authoritative payment meaning |
+| Decision record | `DEC-2026-035` |
+| Founder approval | PDM-WI-003 Explore and Proposal dispositions, Draft authorization and corrections, Stage 9 Review passage, Align and Validate authorizations, and conditional Stage 14 Commit approval activated on `2026-08-03` |
+
+**Files Changed**
+
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`
+- `docs/diagrams/README.md`
+- `docs/diagrams/routes/payplus-action-sheet-route-map.md`
+- `docs/diagrams/routes/payplus-instructions-route-map.md`
+- `docs/diagrams/routes/payplus-payment-checkout-route-map.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/route-register.md`
+
+**Material Changes**
+
+- Defined the existing `PAYMENT-CHECKOUT` flow/screen group as one persistent adaptive Checkout Workspace with Bill/Rent resolver entry, distinct New Checkout and intentional Resume context, protected return, funding, holistic review, applicable per-submission authorization, Funding Leg progress, condition-specific results, recovery, and safe exit.
+- Preserved `DOC-09` v1.1.0 cardinality, locking, immutable Payment, Payment Application, Settlement, authoritative-evidence, and retained-history semantics while assigning route-level presentation, entry, return, and handoff behavior to `DOC-06B`.
+- Aligned single-card, owner-confirmed current-Checkout allocation, and Payment Profile capabilities without making Payment Profile mandatory or silently selecting, confirming, or authorizing funding.
+- Replaced fixed-screen or fixed-step Checkout wording with adaptive Workspace composition while retaining review before authorization.
+- Added and indexed a derived payer-visible PAYMENT-CHECKOUT route map and aligned the Pay+ and Instructions maps without treating unresolved Instruction `Pay Now` identity or notification direct entry as approved route edges.
+- Preserved `PAYMENT-CHECKOUT` as `Partially defined` and retained `OQ-XDOC-007` and `OQ-XDOC-015` as unresolved.
+
+**Checks Performed**
+
+- Completed accepted-scope Draft corrections and independent Stage 9 Verification Review, followed by primary and supplemental Align, corrective Align, renewed Integrated Validation, and renewed Integration with `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL`.
+- Validated the exact thirteen-file substantive scope, 577 insertions and 63 deletions, document metadata mirrors, owner boundaries, route and Open Question IDs, local links, strict UTF-8, Mermaid parsing and rendering, and unchanged `DOC-09` content.
+- Corrected only the authorized five whitespace bytes in the new Checkout route map, leaving visible content and Mermaid meaning unchanged; both tracked and effective cached-equivalent whitespace checks passed.
+- Inspected the exact staged names and complete staged diff, ran `git diff --cached --check`, and excluded changelog, decision log, Management Roadmap, and unrelated files from the substantive commit.
+
+**Remaining Open Items**
+
+- `OQ-XDOC-007` keeps Instruction `Pay Now` Checkout identity unresolved.
+- `OQ-XDOC-015` keeps notification direct-entry authority unresolved.
+- Final payer-facing wording, notification contracts, provider/data/security contracts, prototype evidence, visual design, accessibility and user validation, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending with their formal owners.
