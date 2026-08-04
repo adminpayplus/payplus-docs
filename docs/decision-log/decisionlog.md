@@ -53,6 +53,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-034` | `2026-08-02` | PayPlus Documentation Management Roadmap | Accepted | `DOC-00` | `b0f072c1d3fd60d84c51dbdc747537fe9341a1b1` |
 | `DEC-2026-035` | `2026-08-03` | Adaptive Payment Checkout Workspace UI/UX | Accepted | `DOC-06B` | `afb4bb02b8de6e7ed63e973127a23b09435c2871` |
 | `DEC-2026-036` | `2026-08-04` | Instruction Pay Now Resolver And Notification Detail Entry | Accepted | `DOC-09` / `DOC-08` / `DOC-06B` | `d0d35da995da1347844d11366387fbbf95774bd4` |
+| `DEC-2026-037` | `2026-08-05` | DOC-07 Logical Communication Contracts And Bounded Domain Slices | Accepted | `DOC-07` | `eec4295bdde299d18d17bcaa6bab20a60786aa1f` |
 
 ## 4. Decision Record Template
 
@@ -1646,3 +1647,53 @@ Completes the two entry-contract decisions left open by `DEC-2026-035` without s
 
 - Complete the separate Manager-owned DOC-07 communication-semantic work item without changing the accepted resolver or Detail-first entry contracts.
 - Complete the applicable technical, prototype, visual, accessibility, user-validation, implementation/UAT, acceptance, monitoring, support, and operational evidence under their formal owners.
+
+### `DEC-2026-037` - DOC-07 Logical Communication Contracts And Bounded Domain Slices
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-05` |
+| Status | Accepted |
+| Primary owner | `DOC-07` |
+| Affected documents | `AGENTS.md`, `DOC-01`, `DOC-06B`, `DOC-07`, `DOC-22`, DOC-07 Specialist Guide, and Requirements Traceability Matrix |
+| Substantive commit | `eec4295bdde299d18d17bcaa6bab20a60786aa1f` |
+| Founder approval | PDM-WI-004 `FDP-004-01` through `FDP-004-05`, Stage 6 Founder Decision, and Stage 14 substantive and records commit authorization on `2026-08-05` |
+
+**Decision**
+
+DOC-07 governs material user-facing communication through logically central Semantic, Disclosure, and CTA Contracts supported by logical Reference and Registry Contracts, non-executable Composition, and reference-only Bounded Domain Slices. Source owners retain business conditions, Outcomes, permitted Resolution Strategies, eligibility, routes, notification delivery, runtime and audit, acceptance, support, and operational authority. Reference validity does not establish current eligibility, and CTA Contracts reference action intent, capability, route, or resolver without embedding executable eligibility or business logic.
+
+Copy, Locale Variants, and Presentation Mappings must preserve accepted meaning. AI may propose bounded expression but cannot redefine intent, approve its own output, or receive activation authority. Propose, Approve, and Activate are logical responsibility distinctions only; formal documentation approval and release remain governed by DOC-00 and the canonical Documentation Development Workflow, and no operational activation authority is granted.
+
+Every applicable Provider Submission requires current payer authorization. The confirmed six-card MVP maximum, adaptive Checkout, Instruction `Pay Now` Checkout Resolver, and mandatory instruction-related `NOTIFICATION-DETAIL`-first entry remain preserved.
+
+**Rationale**
+
+This architecture enables semantic-first authoring, cross-document traceability, controlled change, localization readiness, and later technical handoff without coupling independent ownership and maturity into one wide record, duplicating domain authority, turning configuration into business logic, or prematurely selecting a runtime schema or persistent registry.
+
+**Alternatives Considered**
+
+- A single wide Matrix was rejected because it couples independent concerns and owner maturity and becomes difficult to maintain and audit.
+- A purely layered architecture was rejected because it weakens bounded domain navigation and increases cross-layer join and runtime pressure.
+- Pure federated ownership and pure Slice ownership were rejected because they increase semantic drift, duplication, and fragmented audit coverage.
+- The accepted hybrid preserves logical central authority, source-owner retention, bounded navigation, non-executable composition, and reference-only integration.
+
+**Consequences And Handoffs**
+
+DOC-06B retains route, component, placement, destination, entry/return, and adaptive-presentation ownership. DOC-08 retains Notification identity, trigger, recipient, channel, template, delivery, retry, evidence, read/archive, and Detail-first ownership. DOC-09 retains payment, Checkout Resolver, Funding Leg, Provider Submission, and authorization-rule ownership. DOC-15 and DOC-19 retain privacy and security controls. DOC-18 retains runtime, event, audit, and persistent representation. DOC-20 retains acceptance and release evidence. DOC-21 and DOC-22 retain support and Admin operations without inferred permissions or activation authority.
+
+Exact IDs, approved Copy, Locale Variants, Presentation Mappings, notification relationships, runtime mappings, acceptance evidence, Admin mechanisms, and prototype-dependent treatment remain Open, `TBD`, or deferred with their formal owners. TA-21 remains Open. `PAYMENT-CHECKOUT` remains `Partially defined`.
+
+**Supersedes / Superseded By**
+
+Supersedes only the mandatory one-wide Authentication Matrix method recorded historically in `DEC-2026-020` and refines the DOC-07 specialist method recorded in `DEC-2026-032`. It does not supersede `DEC-2026-020` authentication product meaning or the adaptive Checkout and entry contracts in `DEC-2026-035` and `DEC-2026-036`.
+
+**Remaining Open Items**
+
+- TA-21: boundary among DOC-07 Semantic/base Copy, DOC-08 channel-template expression, Locale/platform variants, version relationships, and approval relationships.
+- Exact Outcome, Message, CTA, and Notification IDs and mappings; approved Copy and Locale Variants; and prototype-dependent Presentation Mappings.
+- DOC-18 runtime, event, audit, schema, version, and persistent representation.
+- DOC-20 acceptance, UAT, implementation, accessibility, localization, and release evidence.
+- DOC-22 operational roles, permissions, activation, publication, enforcement, audit, and rollback.
+- Narrower partner, risk, category, and reconciliation card restrictions and their configuration and enforcement.
+- Monitoring, support, implementation, and operational evidence under their formal owners.

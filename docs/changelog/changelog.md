@@ -1277,3 +1277,45 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 
 - Complete the separate Manager-owned DOC-07 communication-semantic work item; no DOC-07 artifact was edited in this change.
 - Complete applicable technical contracts, prototype and visual evidence, accessibility and user validation, implementation/UAT, acceptance, monitoring, support, and operational evidence under their formal owners.
+
+### `2026-08-05` - DOC-07 Communication Contracts And Bounded Domain Slices
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `eec4295bdde299d18d17bcaa6bab20a60786aa1f` |
+| Primary owner | `DOC-07` governed user-facing communication semantics and disclosure |
+| Decision record | `DEC-2026-037` |
+| Founder approval | PDM-WI-004 `FDP-004-01` through `FDP-004-05`, Stage 6 Founder Decision, and Stage 14 substantive and records commit authorization on `2026-08-05` |
+
+**Files Changed**
+
+- `AGENTS.md`
+- `docs/00-foundation/doc-01-project-charter-product-positioning.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-07-content-disclosure-user-authorization-spec.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/documentation-system/payplus-doc-07-design-specification-specialist-guide.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+
+**Material Changes**
+
+- Established DOC-07's governed logical communication architecture using Semantic, Disclosure, CTA, Reference, and Registry Contracts, non-executable Composition, and reference-only Bounded Domain Slices.
+- Preserved source-owner authority over business conditions, Outcomes, permitted Resolution Strategies, eligibility, routes, notification delivery, runtime and audit, acceptance, support, and operations.
+- Required current payer authorization for every applicable Provider Submission and preserved the confirmed six-card MVP maximum, adaptive Checkout, DOC-09 Checkout Resolver, and mandatory `NOTIFICATION-DETAIL`-first instruction-notification entry.
+- Replaced the active mandatory wide Authentication Matrix method with linked contract and owner-handoff coverage without rewriting the historical record.
+- Aligned the six affected routing, product, route, Admin-reference, specialist-method, and traceability documents without adding requirements or operational authority.
+- Preserved TA-21 and prototype, Copy, localization, presentation, runtime, Admin, acceptance, and operational dependencies as Open, `TBD`, or deferred under their formal owners.
+
+**Checks Performed**
+
+- Completed Stage 9 Primary Review, the Stage 10 Change Impact Manifest, Stage 11 Alignment, Stage 12 coordinated Validation, and Stage 13 Definition of Done and pre-commit assessment.
+- Inspected the complete staged substantive diff and exact seven-file list, confirmed `339` insertions and `179` deletions, and passed `git diff --cached --check` before substantive commit `eec4295bdde299d18d17bcaa6bab20a60786aa1f`.
+- Verified DOC-07 SHA-256 `81438DCB981A282859F94F4AE7CC4FA563158D072C4B7FA294C4718CE4F59632`, metadata mirrors, source ownership, open-item preservation, local links, Markdown structure, and unchanged conditional, deferred, reference-only, historical, and no-change documents.
+
+**Remaining Open Items**
+
+- TA-21 keeps the boundary among DOC-07 Semantic/base Copy, DOC-08 channel-template expression, Locale/platform variants, version relationships, and approval relationships Open.
+- Exact Outcome, Message, CTA, and Notification IDs and mappings; approved Copy and Locale Variants; and prototype-dependent Presentation Mappings remain pending with their formal owners.
+- DOC-18 runtime, event, audit, and persistent representation; DOC-20 acceptance, UAT, implementation, and release evidence; and DOC-22 operational roles, permissions, activation, publication, enforcement, and rollback remain deferred.
+- Narrower partner, risk, category, and reconciliation card restrictions and their configuration and enforcement remain open with their applicable owners.
+- `PAYMENT-CHECKOUT` remains `Partially defined`; its later acceptance and Defined-status assessment is outside PDM-WI-004.
