@@ -69,7 +69,7 @@ Required capabilities should include:
 
 - locate permitted registration-attempt, authentication, session, and Account Activation events by user/account reference, attempt ID, occurrence/event ID, or correlation ID;
 - show approved operational Outcome classifications, selected Resolution Strategies, and reason categories separately from persistent account status and user-facing message text;
-- use the DOC-07 Authentication Outcome, Resolution, Message, and CTA Matrix for Message ID, disclosure, action, destination, and notification-treatment alignment;
+- use the DOC-07 Authentication Bounded Domain Slice and linked communication contracts for future Message ID, disclosure, action, destination, notification-treatment, and DOC-22 operational-handoff alignment;
 - support authorized review of primary-email, phone, identity, provider-link, and account-creation uniqueness conflicts without automatically merging or linking accounts;
 - inspect Fast Login eligibility renewal/revocation and current-device session revocation without storing or revealing plaintext passwords or protected device secrets;
 - configure and monitor registration-attempt expiry, OTP invalidation, rate limits, abuse controls, and cleanup while ensuring temporary attempts do not reserve identifiers or grant account rights;

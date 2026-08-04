@@ -1,6 +1,6 @@
 # PayPlus DOC-07 Design Specification Specialist Guide
 
-Last updated: 2026-07-29
+Last updated: 2026-08-05
 
 ## 1. Purpose
 
@@ -13,7 +13,7 @@ It must be used with:
 - `../00-foundation/payplus-outcome-message-notification-framework.md`;
 - `payplus-documentation-development-workflow.md`.
 
-The PayPlus Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, general Validation gates, Commit, Records Commit, Push, and Completion. This guide extends that lifecycle with DOC-07-specific inputs, authoring methods, matrices, review depth, specialist validation, traceability, and maintenance checks. It **MUST NOT** redefine, duplicate, weaken, bypass, or independently authorize a lifecycle stage, owner, or gate.
+The PayPlus Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, general Validation gates, Commit, Records Commit, Push, and Completion. This guide extends that lifecycle with DOC-07-specific inputs, layered contract authoring, Bounded Domain Slice views, review depth, specialist validation, traceability, and maintenance checks. It **MUST NOT** redefine, duplicate, weaken, bypass, or independently authorize a lifecycle stage, owner, or gate.
 
 DOC-07 work must be invoked from a named canonical lifecycle stage and must return its slice boundary, draft, findings, or validation evidence to a named canonical lifecycle stage. This guide does not approve any copy, identifier, disclosure, legal position, security value, lifecycle decision, or implementation by itself.
 
@@ -32,7 +32,7 @@ The arrows describe specialist invocation and return, not a separate Documentati
 
 DOC-07 owns:
 
-- the canonical Outcome, Resolution, Message, and CTA Matrix for user-facing results;
+- canonical layered communication-contract coverage and Bounded Domain Slices for user-facing results;
 - the canonical recording of owner-approved Resolution Strategies used by messages and CTAs;
 - Message IDs and approved user-facing copy;
 - audience, surface, disclosure, masking, and variable rules;
@@ -57,7 +57,7 @@ DOC-07 does not own:
 | Role | Responsibility |
 | --- | --- |
 | Product / Founder | Supplies product meaning, priority, or user-outcome decisions through the applicable canonical lifecycle gate. |
-| DOC-07 Owner | Maintains the canonical matrix, wording, disclosure, CTA, and traceability. |
+| DOC-07 Owner | Maintains canonical communication contracts, linked Slice coverage, wording, disclosure, CTA, and traceability. |
 | Route/Domain Owner | Supplies the approved rule, trigger, route context, status relationship, and safe next steps. |
 | Content/Design Reviewer | Reviews clarity, hierarchy, surface behavior, CTA, accessibility, and localization readiness. |
 | Privacy/Security/Risk Reviewer | Reviews disclosure, masking, enumeration, sensitive variables, and abuse cases. |
@@ -98,7 +98,7 @@ DOC-07 must contain or link to:
 4. disclosure-level model;
 5. global content and variable rules;
 6. canonical Outcome Registry;
-7. canonical Outcome, Resolution, Message, and CTA Matrix;
+7. linked Semantic, Disclosure, and CTA Contracts with Bounded Domain Slice coverage;
 8. Resolution Strategy, CTA, and safe-return rules;
 9. surface and presentation rules;
 10. localization and accessibility rules;
@@ -106,36 +106,27 @@ DOC-07 must contain or link to:
 12. audit/data handoff to DOC-18;
 13. security/privacy/control handoff;
 14. support and admin handoff;
-15. traceability matrix;
+15. logical traceability mapping;
 16. acceptance criteria;
 17. open questions;
 18. version history.
 
-### 5.1 Mandatory Matrix Fields
+### 5.1 Mandatory Linked Coverage
 
-Each matrix row must include:
+Each governed Slice must provide reviewable coverage of the following concerns. Coverage may be distributed across linked contracts, tables, or views where one wide record would couple independent ownership or maturity. The links must preserve end-to-end traceability without transferring source authority.
 
-| Field | Requirement |
+| Coverage Concern | Requirement |
 | --- | --- |
-| Source Rule ID | Approved rule producing the result. |
-| Outcome ID / Code | Stable result identifier and machine-readable code. |
-| Classification | Success, accepted, failure, cancellation, expiry, conflict, restriction, unavailable, or unconfirmed. |
-| Origin Context | Route, screen, action, domain object, or system process. |
-| Audience / Assurance | Actor and authentication/verification context. |
-| Disclosure Level | `D0`, `D1`, `D2`, `D3`, or `DI`. |
-| Resolution Strategy | Owner-approved continue, restart, redirect, wait, support, or stop handling; eligible alternatives; selection rule; and no-safe-path treatment. |
-| Message ID | Stable DOC-07 ID. |
-| Surface | Inline, field, banner, sheet, modal, full page, toast, Inbox detail, or other approved surface. |
-| Title / Body | Approved source copy or explicit `TBC`. |
-| Variables | Allowed variables, format, source, masking, and fallback. |
-| Primary / Secondary CTA | Label, action, destination, revalidation, and return behavior. |
-| Retry / Dismissal | Allowed behavior, cooldown, idempotency, and fallback owner. |
-| Notification | DOC-08 ID or `None` with reason. |
-| Event / Audit | DOC-18 ID or future-alignment marker. |
-| Security / Privacy | DOC-15/DOC-19 references and prohibited reveals. |
-| Support / Admin | DOC-21/DOC-22 handoff or `None`. |
-| Acceptance / Test | DOC-20 or owning acceptance IDs. |
-| Status | Draft, In Review, Founder Working Baseline, Approved, Superseded, or TBC. |
+| Source and Context | Reference the approved source rule, owner, origin route/screen/action/domain context, actor, audience, and assurance context. |
+| Outcome and Resolution | Reference the source-owned Outcome identifier or explicit owner-assigned `TBC`, classification, owner-permitted Resolution Strategy, eligible-alternative/selection owner, and no-safe-path treatment without inventing a status. |
+| Semantic and Disclosure Contracts | Record required meaning, prohibited implication or reveal, disclosure level, masking, permitted variables and fallbacks, and applicable DOC-15/DOC-19 constraints. |
+| CTA Contract | Record user-facing action intent, owner-defined action/destination/resolver reference, revalidation, safe return, retry/dismissal, and unavailable-action treatment without embedding eligibility logic. |
+| Copy and Locale | Record the Message ID or explicit owner-assigned `TBC`, approved or explicitly `TBC` title/body/supporting expression, allowed variables, accessibility behavior, and localization constraints. |
+| Presentation Mapping | Reference the owner-defined surface, component, slot, severity, focus, and announcement treatment; keep prototype-dependent mapping explicit as `TBC` where evidence is insufficient. |
+| Notification | Reference the DOC-08 ID, owner-assigned `TBC`, or `None` with reason without defining trigger, recipient, channel, template, delivery, or retry rules. |
+| Runtime and Audit | Reference the DOC-18 event/audit owner and ID or future-alignment marker without inventing schemas, runtime keys, or persistent objects. |
+| Support and Admin | Reference the DOC-21/DOC-22 handoff or `None` without granting an override, permission, activation, or operational authority. |
+| Acceptance | Reference DOC-20 or owning acceptance evidence, or an explicit owner-assigned `TBC`, covering success, negative, interruption, expiry, stale-target, and unconfirmed paths as applicable. |
 
 ## 6. DOC-07 Specialist Authoring Method
 
@@ -211,7 +202,7 @@ Copy must be clear, accurate, non-accusatory, and actionable without overstating
 
 ### Step 5: Map Cross-Document Handoffs
 
-For every row, determine:
+For every applicable linked contract or mapping, determine:
 
 - whether DOC-08 defines a separate notification;
 - which DOC-18 event/audit evidence is required;
@@ -224,7 +215,7 @@ Use `TBC` with an owner when a downstream document is not ready. Do not invent m
 
 ### Step 6: Review by Risk
 
-Apply review depth proportionate to the row:
+Apply review depth proportionate to the governed communication and source risk:
 
 | Risk | Required Review |
 | --- | --- |
@@ -312,7 +303,7 @@ DOC-20 must cover:
 - audit/correlation evidence;
 - accessibility and localization-critical behavior.
 
-No row is Done without mapped acceptance coverage.
+No governed communication coverage is complete without mapped acceptance coverage or an explicit owner-assigned `TBC`.
 
 ### 7.6 DOC-21
 
@@ -361,17 +352,17 @@ A slice is not ready if authoring would require the author to invent a business 
 These criteria define specialist content quality and supply evidence to canonical Stage 13. A DOC-07 slice meets its specialist quality threshold when:
 
 - every included source rule maps to an outcome or an explicit non-user-visible disposition;
-- every included outcome has an owner-approved Resolution Strategy or an explicit internal-only/no-action disposition;
-- every user-visible outcome maps to an approved Message ID;
+- every included outcome has an owner-approved Resolution Strategy, an explicit internal-only/no-action disposition, or an owner-assigned `TBC`;
+- every user-visible outcome maps to an approved Message ID or an explicit owner-assigned `TBC`;
 - every CTA has action, destination, revalidation, and safe-return behavior;
 - disclosure levels and prohibited reveals are reviewed;
 - persistent status changes reference their true owner;
-- notifications reference DOC-08 or explicitly state `None`;
+- notifications reference DOC-08, an owner-assigned `TBC`, or explicitly state `None`;
 - event/audit mappings reference DOC-18 or an owned TBC;
 - DOC-19 controls are referenced where applicable;
-- DOC-20 acceptance/test IDs cover success, negative, interruption, and unconfirmed paths;
+- DOC-20 acceptance/test IDs or owner-assigned `TBC` references cover success, negative, interruption, and unconfirmed paths;
 - DOC-21 and DOC-22 handoffs are defined where applicable;
-- accessibility and localization notes are complete enough for implementation;
+- accessibility and localization notes are complete for the current evidence maturity, with prototype-dependent treatment explicitly `TBC` where applicable;
 - no conflicting active ID or duplicate canonical copy remains;
 - open questions have owners and do not masquerade as requirements;
 - DOC-07 metadata, version history, indexes, and traceability are accurate where they are within the accepted scope.
@@ -386,11 +377,11 @@ When canonical Stage 12 invokes DOC-07 validation, run the following specialist 
 
 Check:
 
-- all mandatory fields exist;
+- all mandatory linked coverage concerns exist;
 - IDs follow the framework;
 - references and Markdown links resolve;
 - no duplicate active Outcome, Message, or Notification ID exists;
-- `TBC`, `Open`, and `Superseded` rows are distinguishable;
+- `TBC`, `Open`, and `Superseded` contract coverage or mappings are distinguishable;
 - document metadata mirrors DOC-00 requirements.
 
 ### 10.2 Semantic Validation
@@ -411,15 +402,16 @@ Check:
 
 ### 10.3 Traceability Validation
 
-For every row, verify:
+For every applicable linked contract or mapping, verify:
 
 ```text
-Source Rule
-  -> Outcome
-  -> Resolution Strategy
-  -> Message and CTA
+Source Rule and Context
+  -> Outcome and Resolution Strategy
+  -> Semantic, Disclosure, and CTA Contracts
+  -> Copy, Locale, and Presentation Mapping where approved
   -> Notification or None
   -> Event/Audit
+  -> Support/Admin handoff where applicable
   -> Acceptance/Test
   -> implementation mapping when coding begins
 ```
@@ -441,7 +433,7 @@ Report unrelated existing changes so the canonical workflow can preserve and exc
 
 ### Product and Domain
 
-- Does each row reflect an approved rule?
+- Does each governed contract or mapping reflect an approved rule?
 - Is the actor, operation, and result unambiguous?
 - Are all material negative and uncertain paths present?
 - Is a real status transition referenced rather than invented?
@@ -485,7 +477,7 @@ Report unrelated existing changes so the canonical workflow can preserve and exc
 
 When a source rule changes:
 
-1. identify affected Outcome, Resolution, and Message rows;
+1. identify affected Outcome/Resolution relationships, communication contracts, Copy/Locale, and mappings;
 2. determine whether meaning changed or only copy changed;
 3. preserve stable IDs for non-semantic copy edits;
 4. supersede rather than reuse IDs when business meaning changes;
@@ -499,7 +491,7 @@ At each material release or scheduled documentation review:
 - find orphaned outcomes and messages;
 - find implementation-only IDs absent from DOC-07;
 - find notification templates without current source mappings;
-- review `TBC` and open rows;
+- review `TBC` and open contract coverage and mappings;
 - verify localization and variable changes;
 - review disclosure classifications after security/privacy changes;
 - reconcile test and implementation traceability.
@@ -510,11 +502,11 @@ An AI agent drafting DOC-07 must be instructed to:
 
 1. read all authoritative inputs first and not edit yet;
 2. return the slice boundary, owners, applicable IDs, conflicts, and missing decisions;
-3. draft only approved rows;
+3. draft only owner-supported contract coverage and mappings;
 4. preserve exact source IDs and route names;
 5. preserve owner-approved Resolution Strategies without turning them into new statuses or routes;
 6. use `TBC` with an owner instead of invention;
-7. produce a complete traceability matrix and review report;
+7. produce complete logical traceability and a review report;
 8. return the specialist draft to canonical Stage 9 and specialist validation evidence to canonical Stage 13.
 
 ## 14. Specialist Guide Effectiveness Criteria

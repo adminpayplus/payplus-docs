@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.10.4
+version: 0.10.5
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-07-31
+last_updated: 2026-08-05
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -35,12 +35,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-01` |
 | **Title** | Product Overview & Positioning |
-| **Version** | `0.10.4` |
+| **Version** | `0.10.5` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Commercial Lead |
 | **Approvers** | Product Lead<br>Project Owner |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-05` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -95,7 +95,7 @@ The founding-stage MVP baseline includes:
 | Initial card transaction classification assumption | Expected to be treated as bill payment or ordinary online card purchase, subject to acquirer confirmation. |
 | Acquirer / MCC | Acquirer is undecided; PayPlus expects to seek an appropriate or special MCC from the acquirer. |
 | Payout model | PayPlus expects to pay from its operating bank account after upstream settlement; Hong Kong payout rails include FPS, cheque, and EPS, with final operating-bank setup to be confirmed. |
-| Multi-card support | Multi-card payment is MVP scope, with support for up to a configurable number of credit cards per payment. The launch cap is to be confirmed and should be editable by configuration. |
+| Multi-card support | Multi-card payment is MVP scope with a confirmed maximum of 6 cards per payment/profile. Narrower partner-, risk-, category-, or reconciliation-specific restrictions may apply only under current owner rules; their configuration and enforcement remain to be confirmed by the applicable owners. |
 | User payment instruction | MVP scope. A user may pay immediately or save a deferred payment instruction for single-card or split-card payment, subject to DOC-09 validity, reminder, quote revalidation, funding-leg, and payout rules. This is not recurring payment. |
 | Settlement timing | Payment gateway settlement is expected to be T+1 to T+3; payout is expected to occur on the same day after funds are settled by the upstream counterparty. |
 | KYC/KYB baseline | Individual eKYC is expected through a service provider such as Jumio, with name verification, SMS phone verification, email capture, and ID copy submission. Business KYB is expected to require a Business Registration document and owner ID. |
@@ -201,7 +201,7 @@ PayPlus supports the following core use cases, subject to approval and downstrea
 | Payee-created Request | Approved payee creates an eligible bill, invoice, fee, rent, or obligation context and sends a Request; payer acceptance establishes the permitted linkage, after which the payer may separately authorize Payment; PayPlus then routes eligible Payout after downstream Settlement and reconciliation. |
 | Bill and evidence verification | PayPlus validates bill category, payee, amount, evidence, and eligibility before payout. |
 | Card-funded payment | Payer funds the approved request using a supported card funding source. |
-| Multi-card payment | Payer may split one approved bill across up to a configurable number of credit cards. The exact card count limit remains to be confirmed. |
+| Multi-card payment | Payer may split one approved bill across a confirmed MVP maximum of 6 cards per payment/profile, subject to any current owner-defined narrower partner, risk, category, or reconciliation restriction. The configuration and enforcement of narrower restrictions remain to be confirmed by the applicable owners. |
 | User payment instruction | Payer may choose immediate payment or save a deferred payment instruction within DOC-09 limits. Deferred instructions must return the user to checkout for funding submission and revalidation where required. |
 | Payout and settlement | PayPlus receives upstream settlement, applies approved fees or margins where applicable, reconciles the transaction, and pays the approved amount or balance to the approved payee through a supported method. |
 | Request delivery | Requests or invitations may be delivered through in-app message, app link, WhatsApp deeplink, QR code, or other approved channel. |
@@ -263,7 +263,7 @@ MVP should include:
 | Reconciliation reporting | In scope. |
 | Risk monitoring | In scope. |
 | OCR/document AI | Optional; may start as manual or assisted workflow. |
-| Multi-card payment | MVP scope; must support up to a configurable number of credit cards per payment, subject to partner, risk, reconciliation, and operational controls. |
+| Multi-card payment | MVP scope; must support a maximum of 6 cards per payment/profile, subject to current owner-defined narrower partner, risk, category, reconciliation, and operational controls. The configuration and enforcement of narrower restrictions remain to be confirmed by the applicable owners. |
 | Promotion engine | Optional; should not block MVP unless commercially required. |
 | Partner advertisements | Out of initial MVP unless separately approved. |
 
@@ -776,6 +776,7 @@ This document should remain a concise foundation product overview and should not
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.10.5` | `2026-08-05` | Product Documentation Team | Aligned three stale configurable/TBC card-cap statements with the confirmed MVP maximum of 6 cards per payment/profile while preserving narrower partner, risk, category, reconciliation, configuration, and enforcement controls as source-owned or open. |
 | `0.10.4` | `2026-07-31` | Product Documentation Team | Aligned charter terminology and downstream ownership with DOC-09 Payment Domain Architecture, clarified Request as upstream linkage rather than payment, and preserved DOC-10 Settlement/Payout ownership. |
 | `0.10.3` | `2026-07-27` | Product Documentation Team | Replaced obsolete payer-created payment-request wording with direct payer-created obligation/payment terminology, preserved optional payer-to-payee linking requests as a separate concept, and aligned evidence, lifecycle, traceability, and metric language. |
 | `0.1.0` | `2026-05-14` | Initial Author | Initial draft of `DOC-01` Project Charter & Product Positioning. |

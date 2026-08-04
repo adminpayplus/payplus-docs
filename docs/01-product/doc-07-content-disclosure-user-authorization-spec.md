@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.9.13
+version: 0.10.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-04
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `0.9.13` |
+| **Version** | `0.10.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-04` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -55,7 +55,7 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines the user-facing content, disclosure, consent, and authorization requirements for the PayPlus MVP.
+This document defines the governed user-facing communication, disclosure, consent, and authorization requirements for the PayPlus MVP.
 
 PayPlus must explain Requests and any later payment action clearly enough that payers and payees understand:
 
@@ -77,7 +77,9 @@ This document is a product and content specification. It is not a final legal op
 
 ### 2.1 In Scope
 
-This document covers:
+This document covers material user-facing communication that affects authorization, financial or processing meaning, user consequences or permitted action, mandatory disclosure, risk or privacy, recovery, or an unavailable resolution.
+
+It covers:
 
 - product terminology;
 - allowed and prohibited user-facing language;
@@ -93,6 +95,8 @@ This document covers:
 - privacy and data collection notices at product touchpoints;
 - content audit records required for authorization evidence.
 
+Ordinary navigation labels, general helper text, marketing expression, and presentation-only copy do not become DOC-07-owned merely because they contain text. They remain with their existing owners unless they express or alter a governed Semantic, Disclosure, CTA, or approved Copy contract.
+
 ### 2.2 Out of Scope
 
 This document does not define:
@@ -104,8 +108,13 @@ This document does not define:
 - payout execution rules;
 - refund and chargeback operations manual;
 - notification templates;
+- notification identity, trigger, recipient, channel eligibility, delivery, retry, delivery evidence, or read/archive behavior;
+- route, screen, component, placement, or return-behavior definitions;
+- business-condition evaluation, payment calculations, eligibility, authorization rules, resolver logic, risk decisions, or security decisions;
 - database schema;
-- API contracts.
+- API contracts;
+- runtime registry or version-key implementation;
+- final Admin roles, permissions, publication workflow, activation mechanism, or rollback implementation.
 
 Those details belong in downstream or adjacent documents.
 
@@ -126,11 +135,14 @@ Those details belong in downstream or adjacent documents.
 | Multi-card payment | MVP scope, up to 6 credit cards per payment/profile. |
 | Payout rails | FPS, cheque, and EPS are acceptable Hong Kong payout rails; final operating-bank setup remains to be confirmed. |
 | Settlement timing | Payment gateway settlement expected T+1 to T+3; payout expected same day after upstream settlement. |
-| Fee model | Online payment processing service fee as a percentage of transaction amount; exact rates and allocation remain to be confirmed and admin-configurable. |
+| Fee model | Online payment processing service fee as a percentage of transaction amount; exact rates, allocation, configuration mechanism, and operational authority remain to be confirmed by their formal owners. Applicable fees and total charge must still be disclosed before authorization. |
 | Bill verification | OCR/document AI may extract and autofill evidence fields; users must be able to review and correct material fields before submission. |
 | KYC/KYB | Individual eKYC and business KYB baseline is highly confirmed; final provider and detailed checks remain to be confirmed. |
 | Notifications | App, push, email, SMS, and WhatsApp are candidate channels. |
 | Retention | Receipt, payment, account, tax, and audit records expected to be retained for 7 years, subject to final privacy and legal review. |
+| Communication architecture | Governed material communication uses central authoritative contracts, bounded Domain Slices, layered composition, reference-only integration, and layer-level governance. Centrality is logical and does not require one matrix, file, physical registry, database, runtime service, enterprise registry, or new persistent object. |
+| Checkout authorization | Every applicable Provider Submission requires current payer authorization. Earlier review, authorization, profile or card selection, Resume, notification content, or provider return does not authorize a later Provider Submission. |
+| Instruction notification entry | Every instruction-related notification enters `NOTIFICATION-DETAIL`, which revalidates current state, payer, permission, target, and action availability before an owner-approved current CTA may invoke the DOC-09 Checkout Resolver. |
 
 Unconfirmed items above should not block documentation drafting. They should remain editable assumptions, gated requirements, or open questions until finalized.
 
@@ -148,8 +160,99 @@ Unconfirmed items above should not block documentation drafting. They should rem
 | Evidence clarity | Content must explain what evidence supports the obligation without overexposing sensitive data. |
 | Evidence display control | User-facing screens should show task-relevant evidence fields; sensitive extracted fields may be stored for approved purposes without broad display. |
 | Fee clarity | Payer-facing fees and total charge must be shown before authorization. |
-| Configurability | Fee text, card-count limits, category text, and policy-driven messages should be configurable where practical. |
+| Controlled change | Mutability is governed by communication layer. A configurable expression must not alter source-owned meaning, eligibility, authorization, route, payment, risk, privacy, security, or resolver logic. |
 | Auditability | Key content versions and authorization decisions must be logged. |
+
+### 4.1 Governed Communication Architecture
+
+DOC-07 uses this logical architecture for material communication:
+
+```text
+Central Authoritative Contracts
+    + Bounded Domain Slices
+    + Layered Composition
+    + Reference-Only Integration
+    + Layer-Level Governance
+```
+
+`Central` means that each governed communicated meaning has one authoritative contract location and accountable owner. Central contracts may remain domain-specific. Cross-domain reuse is permitted only where meaning, owner, disclosure, prohibited implications, and CTA constraints genuinely align. This architecture does not require one large matrix, one physical registry, one database, one runtime service, one enterprise registry, or one new persistent object.
+
+#### 4.1.1 Communication Layers
+
+| Layer | Governs | Must not govern |
+| --- | --- | --- |
+| Semantic Contract | User-relevant meaning, required understanding, must-communicate facts, must-not-imply facts, audience, and authoritative source references. | Source-condition evaluation, payment logic, route choice, security/risk decisions, or runtime schema. |
+| Outcome and Resolution Relationship | The communicated relationship to a source-owned Outcome and owner-permitted Resolution Strategy. | Redefining an Outcome, inventing a Resolution Strategy, creating a persistent status, or making an unavailable capability available. |
+| Composition Rule | Permitted structure and relationships among already-supplied Semantic, Disclosure, CTA, and expression elements. | Determining whether a condition is true; executable if/else branching; eligibility evaluation; payment calculation; route selection; authorization; or resolver, risk, privacy, or security decisions. |
+| Disclosure Contract | Mandatory communicated meaning, prohibited omission, disclosure boundary, and reference to the owner of the underlying obligation. | Inventing legal, payment, privacy, risk, or compliance requirements. |
+| CTA Contract | User-facing action intent, referenced capability, route, or resolver, revalidation requirement, prohibited implication, and unavailable-action treatment. | Current eligibility, authorization, executable action logic, route decisions, or security decisions. |
+| Copy | Approved user-facing expression of the applicable Semantic, Disclosure, and CTA Contracts. | Changing facts, consequences, eligibility, disclosure, or action meaning. |
+| Locale Variant | Meaning-preserving localized expression of approved Copy. | Locale-specific business logic, weaker disclosure, or broader action authority. |
+| Presentation Mapping | Mapping of approved expression to an owner-defined route, component, surface, slot, or channel. | Inventing routes, screens, components, notification triggers, or domain statuses. |
+
+Semantic is authoritative. Composition defines communication structure. Disclosure defines mandatory communicated meaning. Copy and Locale express accepted meaning. Presentation Mapping determines where and how that expression appears. A later layer must not contradict or silently broaden an earlier authoritative layer.
+
+#### 4.1.2 Core Invariants
+
+1. Every governed communication definition or mapping must reference authoritative business contracts instead of embedding executable business semantics.
+2. Referencing a contract does not transfer ownership of that contract.
+3. Reference validity proves traceability only; it does not prove current eligibility.
+4. Current eligibility and permitted action must be revalidated by the authoritative source owner.
+5. Composition does not execute business branching.
+6. Disclosure does not invent the underlying obligation.
+7. A CTA Contract references action intent, capability, route, or resolver without embedding eligibility.
+8. Copy and Locale must preserve accepted required and prohibited meaning.
+9. Presentation Mapping must use owner-defined product structure.
+10. AI may propose an expression but must not redefine intent, approve its own output, or gain activation authority.
+11. The PayPlus Documentation Development Workflow remains the sole canonical Documentation Workflow.
+12. No new persistent object may be introduced unless an authorized technical decision demonstrates that it removes more complexity than it adds.
+13. Checkout is a representative Semantic Validation subject, not the centre of the architecture.
+
+#### 4.1.3 Reference Contract
+
+A Reference Contract is a logical governance requirement. It must identify:
+
+| Property | Requirement |
+| --- | --- |
+| Authoritative target | Identify the referenced formal rule, condition, Outcome, Resolution Strategy, disclosure constraint, capability, route, resolver, notification authority, audit owner, or acceptance owner. |
+| Target owner and authority | Identify who owns the target and the authority under which it applies. |
+| Reference purpose | Explain why the communication depends on the target. |
+| Dependency or supersession identification | Make the applicable dependency and any replacement or supersession discoverable without prescribing technical keys. |
+| Authority retention | State that the source owner retains authority. |
+| Referential validity | Permit missing, replaced, or superseded references to be identified during review and alignment. |
+| Revalidation | Identify the source owner responsible for current condition or action-availability revalidation. |
+| Permitted projection | State what DOC-07 may communicate or summarize. |
+| Prohibited embedded content | Exclude eligibility expressions, calculations, authorization logic, route decisions, resolver implementation, risk/security decisions, and executable amount, threshold, funding, or configuration rules. |
+
+Reference validity does not establish current authorization, route availability, payment or evidence state, risk/security permission, resolver result, or validity of stored Copy, Locale, Presentation, or Notification data. Technical reference syntax, JSON, schema, runtime keys, database structures, error codes, and fallback algorithms remain outside DOC-07.
+
+#### 4.1.4 Registry Contract
+
+`Registry Contract` is an authority declaration and discoverability rule, not a physical registry or application.
+
+| Property | DOC-07 requirement |
+| --- | --- |
+| Owner | Identify the accountable owner of the governed communicated meaning or mapping. |
+| Authority | State the material communication authority being declared. |
+| Reference Purpose | Connect the communication to source-owned conditions, capabilities, presentation, notification, runtime, and acceptance owners. |
+| May Reference | List the permitted authoritative target types. |
+| May Be Referenced By | Identify permitted consuming documents or later authorized implementation material. |
+| Must Not Define | Exclude source business logic, routes, notification triggers/delivery, technical schemas, Admin roles, and lifecycle status. |
+| Authority Retention | Preserve every referenced source owner's authority. |
+| Version Policy | Require governed replacement or supersession when meaning changes; final version syntax remains deferred. |
+| Change Policy | Require the canonical Workflow, owner review, impact analysis, and later authorized alignment. |
+
+#### 4.1.5 Bounded Domain Slices
+
+A Bounded Domain Slice is a navigation, composition, coverage, transition, or validation view over authoritative contracts. It may assemble references and show domain coverage, but it must not duplicate, redefine, or independently own referenced Semantic, Disclosure, CTA, or source rules.
+
+A genuinely domain-specific Semantic may remain domain-specific, but it must have one authoritative contract owner before the Slice references it. Checkout may be used as a representative validation subject without producing a complete Checkout message inventory or expanding unrelated Refund, Settlement, Payout, Admin Approval, or Account Linking inventories.
+
+#### 4.1.6 Prototype Boundary
+
+Semantic, mandatory Disclosure, prohibited meaning, CTA intent/type, Reference/Registry governance, Domain Slice boundaries, and logical traceability are prototype-independent and may be governed before final UI evidence exists.
+
+Exact Copy, final CTA labels and hierarchy, surface, component, slot, responsive treatment, visual prominence, final focus/announcement behavior, and final Presentation Mapping remain prototype-dependent where current evidence is insufficient. `Defer for Prototype` must not conceal an unresolved Semantic, Disclosure, prohibited meaning, or CTA intent.
 
 ---
 
@@ -243,13 +346,17 @@ The payer must be able to cancel or go back before authorization.
 
 ### 8.1 Authorization Action
 
-Payment authorization must require an explicit payer action, such as selecting a final confirmation button after reviewing the payment summary.
+Every applicable Provider Submission requires current payer authorization after the payer has reviewed the applicable current facts and consequences. Authorization applies only to that Provider Submission.
+
+A prior Checkout review, Payment Profile selection, card selection, earlier Funding Leg authorization, provider return, Resume action, notification, or saved instruction must not silently authorize a later Provider Submission. Revalidation or a material change may require renewed review and authorization before execution continues.
+
+The authorization action must be explicit. Adaptive Checkout presentation may combine, separate, or omit presentation steps according to the current valid task; it must not be converted into one mandatory fixed final screen.
 
 The authorization action should not be preselected, hidden, implied by viewing a request, or bundled with unrelated consent.
 
 Payment passcode entry is a separate payer confirmation step before payment authorization proceeds. Additional 2FA, 3DS, OTP, biometric, PSP/acquirer, or PayPlus risk challenge may apply under DOC-09, DOC-14, DOC-15, and DOC-19.
 
-If the payer creates a deferred payment instruction, content must make clear that the payment has not yet been submitted to the PSP/acquirer and that the payer must return to the payment screen to complete the pending action.
+If the payer creates a deferred Payment Instruction, content must make clear that payment has not yet been submitted to the PSP/acquirer and that a later `Pay Now` action invokes the DOC-09 Checkout Resolver. The instruction does not identify a predetermined Checkout or carry forward payer authorization.
 
 If payment quote, promotion quote, card eligibility, fee, timing, or other material terms are revalidated when the payer returns, the updated terms must be shown before submission.
 
@@ -257,41 +364,35 @@ If a saved split-card profile is incomplete because one card is removed, expired
 
 ### 8.2 Authorization Statement
 
-The final authorization screen should communicate:
+The authorization Semantic and Disclosure Contracts must communicate, for the applicable next Provider Submission:
 
-```text
-By confirming, you authorize PayPlus to charge the selected payment method(s)
-for the total amount shown and to process payment for this approved request.
-```
+- the payer's deliberate authorization intent;
+- the applicable obligation or request context, without implying that a Request itself authorizes payment;
+- the current Funding Leg obligation-funded amount and the applicable payer charge supplied by their owners;
+- the selected masked funding method or methods;
+- material fee, benefit, destination, timing, evidence, and changed-term consequences supplied by their owners;
+- that authorization is distinct from submission, provider evidence, confirmed Payment, full Checkout funding, Settlement, and Payout;
+- that another Provider Submission requires its own applicable authorization; and
+- that an unavailable or disabled authorization action must use an owner-approved explanation or resolution without exposing protected internal reasons.
 
-For a deferred payment instruction, the confirmation wording must not imply the card is charged immediately. It should state that the user is saving a payment instruction and must return to confirm submission when action is due.
+For a deferred Payment Instruction, the governed meaning must state that the instruction is being saved and that no immediate card charge or Provider Submission is implied.
 
-Final wording must be reviewed by Legal, Compliance, Payments, and Product before launch.
+The exact authorization statement, CTA label, surface, hierarchy, and presentation remain `TBD` pending prototype evidence and Legal / Compliance / Payments / Product review. This deferral does not postpone or weaken the presentation-independent authorization semantics above.
 
 ### 8.3 Authorization Record
 
-The system must record:
+PayPlus must preserve evidence of what the payer was shown and accepted for each applicable authorization. The evidence must remain logically traceable to:
 
-- payer ID;
-- request ID where applicable;
-- payment ID where available;
-- payee ID or payee record;
-- authorization timestamp;
-- amount;
-- service fee;
-- total charge;
-- selected payment method summary;
-- payment instruction ID where applicable;
-- multi-card split details where applicable;
-- pay-now or deferred instruction choice where applicable;
-- selected payee transfer date where applicable;
-- payment quote or promotion quote version where applicable;
-- disclosure version;
-- terms or policy version where applicable;
-- authorization result;
-- source channel or device context where available.
+- the payer and applicable source obligation or Request context;
+- the applicable Checkout, Funding Leg, and Provider Submission references supplied by DOC-09;
+- the Semantic, Disclosure, and CTA Contracts;
+- the approved Copy and Locale Variant;
+- the Presentation Mapping used;
+- applicable amount, fee, benefit, masked funding, destination, timing, evidence, quote, policy, and material-change references supplied by their owners;
+- the authorization occurrence, timestamp, and result; and
+- any applicable Notification template or channel variant without treating notification state as authorization evidence.
 
-Detailed data fields belong in DOC-18.
+DOC-07 defines this user-facing evidence intent. DOC-09 retains payment and authorization-rule ownership. DOC-18 owns final data fields, schema, event, correlation, lineage, and storage implementation.
 
 ---
 
@@ -348,7 +449,7 @@ Before payer authorization, PayPlus must show:
 - who pays the fee where relevant;
 - whether a fee is refundable, non-refundable, reversed, or adjusted under applicable policy.
 
-Exact fee rates, fee allocation, coupons, vouchers, promotion codes, discount codes, rewards, miles, membership benefits, refunds, and reversals remain to be confirmed and should be admin-configurable. Promotion calculation and entitlement rules belong in DOC-13.
+Exact fee rates and allocation remain `To be confirmed` by Product / Commercial and the applicable payment owners. Promotion calculation and entitlement rules belong in DOC-13; current payment, quote, and action eligibility belongs in DOC-09; refund and reversal rules belong in DOC-11. DOC-07 retains the required user-facing disclosure of applicable fees, benefits, total charge, allocation meaning, refundability, and user consequences, but it must reference rather than define those source rules or their configuration mechanisms.
 
 For an issued reward, `REWARD-DETAIL` must disclose the full benefit, eligibility, restrictions, usage method, limits, issue and usage dates, expiry, status explanation, and complete terms and conditions. Checkout-applied rewards must be shown as available candidates only after current eligibility is evaluated in DOC-09 checkout; viewing details must not imply selection, reservation, use, or guaranteed application.
 
@@ -373,7 +474,9 @@ The payer must be shown:
 - that Checkout completion, Payment confirmation, Payment Obligation Effective Coverage, and downstream Payout are separate concepts owned by DOC-09 and DOC-10 as applicable;
 - whether the payer must re-authorize after changing card split amounts.
 
-The MVP maximum is 6 cards per payment/profile. The displayed limit and any narrower partner-, risk-, or category-specific restriction should be configuration-driven where practical.
+The confirmed MVP maximum is 6 cards per payment/profile. `OQ-07-004` remains `Answered: 6` and must not return to `Open` or `TBD`.
+
+Any narrower partner-, risk-, or category-specific restriction, its configuration mechanism, operational authority, and technical enforcement remain `To be confirmed` by Payments / Risk / Product / Operations and their formal owners. DOC-07 owns user-facing disclosure of the applicable maximum and any current narrower restriction; it does not own eligibility, restriction logic, configuration, Admin authority, or enforcement.
 
 ---
 
@@ -385,7 +488,7 @@ PayPlus must distinguish four user-facing concepts:
 | --- | --- | --- |
 | Normal due-date reminder | Reminder based on bill, rent, or obligation due date; payment flow has not started. | Bill/rent/obligation detail. |
 | User manual reminder | Reminder date or offset set by user for a bill, rent, or obligation. | Bill/rent/obligation detail. |
-| Payment Instruction action alert | The user deliberately created a pay-later arrangement and action is now due. | Instruction detail or the related Checkout. |
+| Payment Instruction action alert | The user deliberately created a pay-later arrangement and action is now due. | An instruction-related notification enters `NOTIFICATION-DETAIL`; after current revalidation, an owner-approved CTA may invoke the DOC-09 Checkout Resolver. |
 | Incomplete Checkout continuation alert | Immediate payment execution started but the Checkout Target remains partly unfunded. This is not a Payment Instruction. | The preserved Checkout context. |
 
 Bill/rent reminder cycles, custom reminder dates, reminder toggles, and reminder deletion/disabling must be described as reminder tools only. They must not imply automatic recurring payment, stored authorization, card authorization, gateway submission, payout readiness, or payment completion.
@@ -398,7 +501,8 @@ Payment Instruction wording must explain:
 - intended amount and funding arrangement where applicable;
 - expiry or required action deadline;
 - that amount, promotion, card eligibility, fee, destination, or timing may need to be revalidated before Provider Submission;
-- that execution of a deliberate instruction occurs through a Checkout and still requires payer authorization.
+- that `Pay Now` invokes the DOC-09 Checkout Resolver without predetermining New or Resume Checkout identity, creating silent funding/submission, or carrying forward payer authorization;
+- that every applicable Provider Submission still requires current payer authorization.
 
 Incomplete Checkout wording must explain:
 
@@ -410,18 +514,20 @@ Incomplete Checkout wording must explain:
 
 ---
 
-## 13. Payment, Settlement, and Payout Timing Disclosure
+## 13. Authorization, Payment, Settlement, and Payout Meaning
 
-PayPlus should distinguish:
+PayPlus must distinguish the following source-owned semantic conditions. They are not final user-facing labels, persistent-status definitions, or implementation enums.
 
-| Term | User-Facing Meaning |
+| Semantic condition | Required communicated meaning |
 | --- | --- |
-| Payment authorized | Payer approved the payment. |
-| Payment processing | PayPlus or its payment partner is processing the card payment. |
-| Payment completed | Card payment has completed according to the relevant payment system record. |
-| Settlement pending | Funds have not yet settled from the upstream payment partner. |
-| Payout pending | Payout to payee has not yet completed. |
-| Payout completed | Payout has completed through the approved payout method. |
+| Payer authorization supplied | The payer authorized only the applicable Provider Submission. Authorization is not submission, provider evidence, confirmed Payment, full funding, Settlement, or Payout. |
+| Provider Submission initiated | A provider-bound attempt was initiated. Its result is not established merely because the user left or returned from a provider surface. |
+| Provider evidence unresolved | No definitive success or failure may be communicated until authoritative evidence is evaluated. Unsafe retry or alternate submission must not be implied. |
+| Funding Leg successfully confirmed | The applicable confirmed Funding Leg produces one immutable Payment under DOC-09. Other legs and Remaining Checkout Target remain separate. |
+| Checkout partially funded | Confirmed value is above zero and below Checkout Target. Confirmed Payments remain authoritative; unconfirmed value and Remaining Checkout Target remain distinct. |
+| Checkout fully funded | Confirmed obligation-funded value equals Checkout Target. This does not imply Settlement or Payout completion. |
+| Settlement pending or completed | Use only the current Settlement meaning supplied by DOC-10; do not infer it from authorization, provider return, Payment, or Checkout funding. |
+| Payout pending or completed | Use only the current Payout meaning supplied by DOC-10 and the applicable payout owner. |
 
 PayPlus should disclose that payment gateway settlement is expected to be T+1 to T+3 and that payout is expected on the same day after upstream settlement, subject to review, risk checks, bank processing, partner rules, and exceptions.
 
@@ -450,7 +556,9 @@ DOC-07 owns the user-facing disclosure points:
 | Stage | Disclosure Requirement |
 | --- | --- |
 | Before authorization | Show high-level refund, cancellation, and dispute limitations where material. |
-| After failed payment | Explain that payment failed and no successful payment was completed, unless partial multi-card behavior applies. |
+| Provider evidence unresolved | Explain the known pending facts without claiming success or definitive failure, and do not imply a safe retry or alternate submission unless the owner currently permits it. |
+| Authoritatively unsuccessful attempt | Explain the affected attempt or Funding Leg, that it produced no Payment, any confirmed value from other legs, any separate unconfirmed value, Remaining Checkout Target, and only an owner-permitted recovery after revalidation. |
+| Partial funding | Preserve confirmed Payment facts and distinguish confirmed value, unconfirmed value, Remaining Checkout Target, continuation availability, and closing consequences. |
 | After cancellation | Explain whether payment was not processed, reversed, or pending operational review. |
 | Refund requested | Explain request status and expected review path. |
 | Dispute opened | Explain that the case is under review and may require evidence. |
@@ -507,43 +615,40 @@ DOC-06B owns screen behavior. User-facing content must:
 - explain that profile edit/archive does not change an accepted request or authorized payment destination;
 - warn the payer before authorization when the effective destination differs from an accepted payee-created request.
 
-### 15.2 Authentication Outcome, Resolution, Message, and CTA Matrix
+### 15.2 Authentication Bounded Domain Slice
 
-PayPlus must maintain one canonical Authentication Outcome, Resolution, Message, and CTA Matrix for `ENTRANCE-ROOT`, `AUTH-LOGIN-FAST`, `AUTH-LOGIN-FULL`, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, `ACCOUNT-ACTIVATION`, and their approved child flows.
+PayPlus must maintain an Authentication Bounded Domain Slice for `ENTRANCE-ROOT`, `AUTH-LOGIN-FAST`, `AUTH-LOGIN-FULL`, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, `ACCOUNT-ACTIVATION`, and their approved child flows.
 
-The mechanism and capability-aware resolution model are confirmed requirements. Exact Outcome IDs, Message IDs, approved user-facing messages, CTA IDs, notification mappings, and final technical mappings remain open and must not be invented during implementation. Until those decisions are approved, route documents should define the Outcome meaning and permitted Resolution Strategies but must not create competing message copy.
+The Slice is a reference-only navigation, coverage, transition, and validation view over authoritative contracts. It must not become a second Semantic owner, redefine route behavior, copy source-owned business/security logic, or require one wide record that couples Semantic, exact Copy, Surface, CTA, technical mapping, audit, and acceptance maturity.
 
-The matrix must distinguish:
+The capability-aware Outcome and Resolution relationship remains confirmed. The Slice must keep these concepts distinct:
 
-- an **Outcome Type ID**, identifying a reusable failure, cancellation, expiry, conflict, restriction, or unavailable condition;
-- a **Resolution Strategy**, identifying the owner-approved continue, restart, redirect, wait, Support, or stop handling permitted for the current context;
-- a **Message ID**, identifying the approved user-facing message and CTA treatment;
-- an **Occurrence or Correlation ID**, identifying one actual attempt, incident, or support/audit record.
+- an owner-defined **Outcome**, representing the operation or evaluation result;
+- an owner-permitted **Resolution Strategy**, representing the current continue, restart, redirect, wait, Support, or stop handling;
+- a DOC-07 **Semantic Contract**, **Disclosure Contract**, and **CTA Contract** governing communicated meaning;
+- **Copy**, **Locale Variant**, and **Presentation Mapping** expressing accepted meaning when approved;
+- a DOC-08 Notification relationship or `None` with reason;
+- a DOC-18 occurrence/correlation and audit handoff; and
+- a DOC-20 acceptance handoff.
 
-Multiple internal outcomes may map to one approved user-facing message where separate wording would expose whether an account, identifier, credential, provider link, or security restriction exists.
+Multiple internal Outcomes may map to one neutral user-facing Semantic and Copy expression where separate wording would expose whether an account, identifier, credential, provider link, or security restriction exists.
 
-The matrix must contain:
+The Slice must provide or reference the following layered coverage. Separate tables or views may be used when they remain linked to one authority; not every presentation-dependent or technical field must be final before the Semantic is governed.
 
-| Field | Requirement |
-| --- | --- |
-| Outcome Type ID | Stable identifier for the reusable outcome class. |
-| Outcome Classification | Failure, cancellation, expiry, conflict, restriction, or unavailable. |
-| Originating Route | Route or child flow where the outcome may occur. |
-| User Action / Step | Action or step that produced the outcome. |
-| Internal Condition | Controlled description of the underlying condition; internal-only detail must not be copied into user text. |
-| Disclosure Level | What may be disclosed before and after the user proves control of the identifier or login method. |
-| Resolution Strategy | Owner-approved next handling, eligible alternatives, capability and assurance conditions, selection rule, and no-safe-path treatment. |
-| Message ID | Stable identifier for the approved user-facing wording. |
-| Approved Message | Exact message displayed to the user after content approval. |
-| Primary and Secondary Actions | Permitted CTA labels, including Retry, Recovery, Login, Create Account, Try Another Method, Support, or Cancel where applicable. |
-| Destination | Route or safe fallback opened by each action. |
-| Return Behavior | Prior context, safe root, or protected destination restored after resolution. |
-| Retry / Restriction Rule | Permitted retry, cooldown, expiry, or lockout treatment without exposing security-sensitive values. |
-| Event / Audit Mapping | DOC-18 event and occurrence/correlation linkage required for the outcome. |
-| Notification Requirement | Whether DOC-08 defines a separate external or Inbox notification; ordinary in-flow messages are not notifications. |
-| Admin / Support Visibility | Permitted operational visibility, reason category, and correlation lookup under DOC-22. |
+| Layered coverage | Requirement | Current owner or handoff |
+| --- | --- | --- |
+| Source and context | Source requirement, owning route/domain, Outcome, actor/assurance context, and originating action. | Applicable route/domain owner. |
+| Outcome and Resolution | Outcome classification, owner-permitted Resolution Strategy, eligible alternatives, and no-safe-path treatment. | Applicable route/domain/security owner. |
+| Semantic and Disclosure | Required meaning, prohibited implication/reveal, disclosure level, and masking constraints. | DOC-07 with DOC-15/DOC-19 constraints. |
+| CTA Contract | Action intent, owner-defined destination/capability, revalidation, safe return, and unavailable-action treatment. | DOC-07 mapping; capability/route owner retains availability and behavior. |
+| Copy and Locale | Approved expression or explicit `TBD`; meaning-preservation and variable constraints. | DOC-07; final Copy/Locale review remains open. |
+| Presentation Mapping | Owner-defined surface/component/slot reference, hierarchy, accessibility, and responsive evidence or explicit `TBD`. | DOC-06B surface owner with DOC-07 mapping. |
+| Notification | DOC-08 relationship or `None`; an in-flow message is not automatically a Notification. | DOC-08. |
+| Runtime and audit | Occurrence/correlation, event, version, lineage, and implementation handoff or explicit `TBD`. | DOC-18/DOC-19. |
+| Support and operations | Controlled Support/Admin visibility and handoff without granting an override. | DOC-21/DOC-22. |
+| Acceptance | Semantic, negative-path, accessibility, localization, revalidation, and implementation evidence or explicit `TBD`. | DOC-20 and applicable acceptance owners. |
 
-The matrix must cover, at minimum:
+The Slice must cover, at minimum:
 
 - registration attempt interruption, expiry, identifier conflict, and atomic account-creation failure;
 - provider-login unavailable, unlinked, conflict, cancellation, and authentication failure;
@@ -553,9 +658,9 @@ The matrix must cover, at minimum:
 - payment-passcode Set mismatch/failure, Change authentication/failure, Reset reauthentication/phone-OTP/recovery failure, and unknown save result;
 - protected-return invalid, expired, consumed, unauthorized, or unavailable outcomes.
 
-Exact Outcome Type IDs, Message IDs, Action IDs, notification mappings, and approved copy remain open. DOC-07 must assign them before AI implementation; route or domain documents must not invent competing message identifiers.
+Exact Outcome Type IDs, Message IDs, Action IDs, approved Copy, Locale Variants, CTA labels/hierarchy, Presentation Mappings, notification mappings, and technical mappings remain open. They must not be invented during implementation. Route or domain documents must not create competing message identifiers or copy.
 
-DOC-07 owns Message IDs, approved user-facing wording, disclosure level, and CTA presentation. DOC-06B owns route-level Outcome meaning, permitted Resolution Strategies, route placement, destination, and return behavior. DOC-08 owns notification eligibility and delivery. DOC-18 owns occurrence/correlation records and event mapping. DOC-19 owns technical authentication outcome codes, retry, lockout, session, provider, biometric, and security handling. DOC-20 owns test coverage, DOC-21 owns Support procedure, and DOC-22 owns permitted admin handling.
+DOC-06B and applicable route/domain owners retain Outcome meaning, permitted Resolution Strategies, route placement, destination, and return behavior. DOC-07 owns the governed user-facing Semantic, Disclosure, CTA, approved Copy, Locale constraints, and Presentation references. DOC-08 owns Notification identity, trigger, recipient, channel eligibility, templates, delivery, retry, delivery evidence, and read/archive behavior. DOC-18 owns occurrence/correlation records and event mapping. DOC-19 owns technical authentication, retry, lockout, session, provider, biometric, and security handling. DOC-20 owns detailed acceptance, DOC-21 owns Support procedure, and DOC-22 owns permitted future Admin operations.
 
 #### 15.2.1 Authentication Slice Order
 
@@ -592,47 +697,86 @@ Multiple internal Outcomes may map to the same public-neutral message. The exact
 
 ## 16. Notification and Communication Content Boundary
 
-DOC-07 defines what must be disclosed and authorized.
+DOC-07 owns governed Semantic, Disclosure, CTA, and approved Copy requirements within its accepted scope. Subject to TA-21, the exact canonical/base-Copy relationship with DOC-08-owned channel-template expression remains `Open`. DOC-08 owns Notification:
 
-DOC-08 owns notification:
+- identity and event definition;
+- trigger and eligibility;
+- recipient;
+- channel eligibility and preference treatment;
+- channel-template expression;
+- delivery and retry;
+- delivery evidence;
+- read/archive behavior;
+- receipt and statement communication rules; and
+- mandatory `NOTIFICATION-DETAIL`-first entry for instruction-related notifications.
 
-- templates;
-- channel-specific wording;
-- delivery rules;
-- retry rules;
-- receipt wording;
-- statement wording;
-- WhatsApp, SMS, email, push, and app notification behavior.
+Every instruction-related notification must enter `NOTIFICATION-DETAIL`. Notification Detail revalidates current state, authenticated payer, permission, target, and action availability before an owner-approved current CTA may invoke the DOC-09 Checkout Resolver. Notification content, delivery, read/archive state, and stored snapshots do not establish current Checkout eligibility, payer authorization, Provider Confirmation, Payment, or payment result.
 
-DOC-07 requirements must be reflected in DOC-08 templates.
+Any future mapping between DOC-07-owned requirements and DOC-08-owned channel-template expression remains subject to TA-21 and must not transfer Notification ownership to DOC-07.
+
+**Open decision — canonical/base Copy and channel-template relationship:** The boundary among DOC-07 canonical Semantic and base-Copy authority, DOC-08 channel-template expression, Locale and platform variants, version relationships, and approval relationships remains `Open`. Owners: Product / Content / DOC-08 Owner / Design / Legal / Compliance as applicable. This open item does not reopen DOC-08 ownership listed above or the mandatory Detail-first entry contract.
 
 ---
 
-## 17. Admin-Configurable Content
+## 17. Communication Control and Change Authority
 
-The admin dashboard or configuration layer should support controlled updates to:
+The Authority Gradient permits greater expression flexibility in later layers but never permits a later layer to contradict an earlier authoritative layer. `Propose`, `Approve`, and `Activate` are separate authorities:
 
-- service fee rates;
-- payer/payee fee allocation text;
-- promotion, coupon, discount, or subsidy labels;
-- reward, voucher, miles, membership, eligibility, expiry, and benefit-entitlement wording;
-- multi-card maximum card count;
-- category-specific evidence guidance;
-- OCR/autofill review guidance;
-- duplicate/reused evidence warning text;
-- rent-specific evidence guidance;
-- payout timing notes;
-- refund/cancellation/dispute policy links;
-- maintenance or exception banners;
-- notification channel availability messages.
+- **Propose** means generating or suggesting an expression or mapping.
+- **Approve** means confirming that it preserves the authoritative contracts and applicable review requirements.
+- **Activate** means making an already-approved variant effective through a separately authorized future mechanism.
 
-Content changes that affect legal, payment, privacy, or financial meaning must follow approval workflow before publication.
+AI may propose bounded expression but must not redefine intent, approve its own output, or activate content.
+
+| Layer | Owner | Authority | Mutability | Risk | Generatability |
+| --- | --- | --- | --- | --- | --- |
+| Source condition, Outcome, or Resolution | Applicable route/domain owner | Product/domain truth and permitted handling | Low | Critical | AI may summarize only. |
+| Semantic Contract | DOC-07, constrained by source owners | User-relevant communicated meaning | Low | Critical | AI may propose expression, not meaning. |
+| Composition Rule | DOC-07 | Non-executable assembly structure | Controlled | High | AI may propose within approved contracts. |
+| Disclosure Contract | DOC-07, constrained by the obligation owner | Mandatory communicated meaning | Low | Critical | AI may propose expression only. |
+| CTA Contract | DOC-07, constrained by the capability/route owner | User-facing action intent and reference | Low | Critical | AI may propose label or mapping only. |
+| Copy | DOC-07 within its accepted scope; notification-channel expression remains subject to TA-21 | Approved expression | Controlled | Variable | Human or AI may propose. |
+| Locale Variant | DOC-07 within its accepted scope, with applicable locale/privacy review; notification-channel expression remains subject to TA-21 | Meaning-preserving localized expression | Controlled | Variable; high for material content | Qualified human or AI may propose. |
+| Presentation Mapping | DOC-07 mapping; surface owner defines the surface | Placement of approved expression | Higher | Medium to high | Design, Content, or AI may propose. |
+
+This matrix defines logical responsibility boundaries only. Formal documentation ownership, review, approval, and release remain governed by DOC-00 and the canonical PayPlus Documentation Development Workflow. No operational activation authority is granted by DOC-07. Final operational actors, mechanisms, permissions, publication controls, and enforcement remain `TBD` under DOC-22 and applicable technical owners.
+
+| Layer | Propose | Approve | Activate | Approval class | Audit unit | Rollback unit |
+| --- | --- | --- | --- | --- | --- | --- |
+| Source condition, Outcome, or Resolution | Source owner or bounded analysis | Source owner and Founder where material | Effective only through the owning source under DOC-00 and the canonical Workflow. | Material source decision | Source requirement or decision | Accepted prior source version |
+| Semantic Contract | DOC-07 owner or bounded analysis | DOC-07 owner, source owner, required reviewers, and Founder where material | Effective only through DOC-00 and the canonical Workflow. | Material communication meaning | Contract provision | Superseded prior contract |
+| Composition Rule | Content/Design or bounded AI | DOC-07 owner and affected reviewers | Effective only through DOC-00 and the canonical Workflow. | Governance/content rule | Rule provision | Prior approved rule |
+| Disclosure Contract | DOC-07 and applicable specialist inputs | Applicable owners/reviewers and Founder where material | Effective only through DOC-00 and the canonical Workflow. | Financial/legal/privacy/risk-sensitive | Disclosure provision | Prior approved disclosure |
+| CTA Contract | DOC-07, Content, or Design | DOC-07 plus capability/route/domain owner | Effective only through DOC-00 and the canonical Workflow; current action still requires source-owner revalidation. | Protected-action mapping | CTA provision | Prior approved mapping |
+| Copy | Human or AI | DOC-07 owner and risk-proportionate reviewers | No operational activation authority granted; future mechanism and role TBD. | Copy/content approval | Copy variant | Prior approved variant |
+| Locale Variant | Qualified human or AI | DOC-07 and applicable locale/risk reviewers | No operational activation authority granted; future mechanism and role TBD. | Localization/content approval | Locale variant | Prior approved Locale Variant |
+| Presentation Mapping | Route/Design/Content owner or AI | Surface owner plus DOC-07 where meaning may change | No operational activation authority granted; future mechanism and role TBD. | UX/content approval | Mapping provision | Prior approved mapping |
+
+Service-fee rates and allocation, promotion/entitlement calculations, the confirmed six-card maximum, narrower card restrictions, eligibility, and policy rules are source facts, not editable communication semantics. Communication changes may express only current owner-supplied values and constraints.
+
+Final Admin roles, permissions, technical enforcement, publication workflow, approval screens, activation mechanism, and implemented rollback remain `TBD` under DOC-22 / DOC-18 / Security / Operations. This section grants no Admin or implementation authority.
 
 ---
 
 ## 18. Audit and Evidence Requirements
 
 PayPlus must be able to prove what the user saw and accepted at key moments.
+
+The logical architecture must preserve traceability across:
+
+```text
+Authoritative Source Contract
+    -> Semantic Contract
+    -> Disclosure Contract
+    -> CTA Contract
+    -> approved Copy
+    -> Locale Variant
+    -> Presentation Mapping
+    -> applicable Notification template or channel variant
+    -> user-facing authorization or acceptance evidence
+```
+
+The traceability requirement is logical and applies even where final Copy, Locale, Presentation, runtime, or acceptance evidence remains pending. Physical schema, runtime/database representation, storage mechanics, technical version keys, implemented rollback, and audit-event implementation remain future DOC-18/DOC-22 handoffs.
 
 Required audit evidence includes:
 
@@ -644,14 +788,14 @@ Required audit evidence includes:
 | Request creation | Request creator, content version, category, evidence, and confirmation statement. |
 | Evidence verification | OCR/autofill notice, extracted-field review, user correction, duplicate warning, verification outcome, and review status where applicable. |
 | Payer review | Request details and disclosure version shown to payer. |
-| Payment authorization | Final amount, fee, payment method summary, authorization text/version, timestamp, and result. |
+| Payment authorization | Applicable Provider Submission; Semantic, Disclosure, and CTA Contract references; approved Copy/Locale/Presentation references; current amount, fee, benefit, masked funding, destination, timing, evidence and material-change references; timestamp; and result. |
 | Promotion authorization | Promotion quote, applied discount, service-fee benefit, coupon/voucher selection, reward entitlement, and related wording shown before authorization where applicable. |
 | Multi-card authorization | Card split, total charge, per-card amount, and reauthorization event where applicable. |
 | Receiving Info add/edit/archive | Profile ID/version, permitted masked summary, ownership declaration, proof requirement/status, confirmation method, outcome, and notification evidence. |
 | Destination selection/change | Destination source and version shown, request or obligation linkage, payer/payee actor, linked-payee notification where applicable, difference warning, and authorization or reauthorization evidence. |
 | Refund/dispute/chargeback case | User-facing status, case messages, evidence submitted, and admin actions. |
 
-Detailed event schema belongs in DOC-18.
+Detailed event schema, physical version keys, storage, runtime linkage, and audit-event implementation belong in DOC-18. Operational activation, rollback, and administrative audit workflow belong in DOC-22. These handoffs do not transfer user-facing Semantic authority.
 
 ---
 
@@ -676,7 +820,7 @@ This document does not interpret those sources as final legal advice.
 | --- | --- | --- | --- |
 | OQ-07-001 | What final legal wording is required for payer authorization? | Legal / Product | Open |
 | OQ-07-002 | What final privacy notice wording is required at registration, evidence upload, eKYC/KYB, payment authorization, and support touchpoints? | Legal / Privacy | Open |
-| OQ-07-003 | What exact fee, promotion, coupon, discount, refund, and reversal wording should be configurable in admin? | Product / Commercial | Open |
+| OQ-07-003 | What exact fee, promotion, coupon, discount, refund, and reversal wording is required, and what separately authorized operational configuration should later be supported? | Product / Commercial | Open |
 | OQ-07-004 | What maximum number of credit cards per payment/profile should be shown at launch? | Product / Payments | Answered: 6 |
 | OQ-07-005 | What wording should explain T+1 to T+3 upstream settlement and same-day-after-settlement payout without overpromising? | Payments / Legal / Product | Open |
 | OQ-07-006 | What category-specific disclosure is required for rent and tenancy payments? | Legal / Risk / Product | Open |
@@ -687,7 +831,22 @@ This document does not interpret those sources as final legal advice.
 | OQ-07-011 | What wording should explain SMS OTP, new-device 2FA, dormant-login reauthentication, payment passcode, material-change confirmation, and security notifications? | Product / Security / Legal | Open |
 | OQ-07-012 | What exact wording should explain deferred payment instruction, pending funding legs, partial funding, partial payout, remaining unpaid amount, and payment completion boundary? | Product / Legal / Payments | Open |
 | OQ-07-013 | What wording should explain quote expiry, promotion reservation, recalculation, and changed checkout terms when a payer returns to a deferred payment instruction? | Product / Legal / Growth | Open |
-| OQ-07-014 | What exact Outcome Type IDs, Resolution Strategy codes/mappings, Message IDs, approved messages, disclosure levels, CTA labels, destinations, notification treatment, and technical/event mappings should populate the mandatory Authentication Outcome, Resolution, Message, and CTA Matrix? | Product / Content / Design / Security / Privacy / Support | Open; mechanism and required fields confirmed |
+| OQ-07-014 | What exact Outcome Type IDs, Resolution Strategy codes/mappings, Message IDs, approved messages, disclosure levels, CTA labels, destinations, notification treatment, and technical/event mappings should populate the Authentication Bounded Domain Slice and its linked contracts? | Product / Content / Design / Security / Privacy / Support | Open; layered mechanism and coverage confirmed |
+
+### 20.1 Communication Architecture Open Items
+
+| Open item | Owner | Status |
+| --- | --- | --- |
+| TA-21 boundary among DOC-07 canonical Semantic/base Copy, DOC-08 channel-template expression, Locale/platform variants, version relationships, and approval relationships. This does not reopen any DOC-08-owned notification behavior. | Product / Content / DOC-08 Owner / Design / Legal / Compliance | Open |
+| Final authorization statement, CTA label, hierarchy, surface, and presentation. | Legal / Compliance / Payments / Product / Design | TBD pending prototype evidence |
+| Exact approved Copy and Locale Variants for governed contracts. | Product / Content / Design / Legal / Privacy as applicable | Open |
+| Final Presentation Mappings, responsive treatment, focus, announcement, and visual prominence. | DOC-06B Owner / Design / Content / Accessibility | TBD pending prototype evidence |
+| Exact fee and allocation authority where not established by current sources. | Product / Commercial / Payments | Open |
+| Narrower partner-, risk-, or category-specific card restrictions and their configuration mechanism. | Payments / Risk / Product / Operations | Open |
+| Final Admin roles, permissions, approval/activation workflow, publication controls, and operational rollback. | DOC-22 Owner / Operations / Security / Compliance | Open |
+| Physical Registry/Reference representation, schema, runtime keys, version linkage, storage, audit events, and implemented rollback. | DOC-18 Owner / Engineering / Data / DOC-22 Owner | Open |
+| Detailed acceptance, UAT, accessibility, localization, implementation, and release evidence. | DOC-20 Owner / QA / Product / Design | Open |
+| Exact later impacts, if any, to the DOC-07 Specialist Guide and Outcome/Message/Notification Framework after change-impact and duplicate-definition analysis. | Documentation Lead / Product / Founder | Open; separate authorization required |
 
 ---
 
@@ -698,6 +857,7 @@ DOC-07 is acceptable when:
 - user-facing product language is aligned with PayPlus positioning;
 - prohibited wallet, cashout, P2P, remittance, and stored-value language is excluded;
 - payer authorization requirements are explicit;
+- every applicable Provider Submission requires current payer authorization without relying on a fixed final screen or prior authorization;
 - payer review disclosure fields are defined;
 - payee-created request content requirements are defined;
 - rent and tenancy disclosure requirements are defined;
@@ -709,7 +869,12 @@ DOC-07 is acceptable when:
 - payment, settlement, and payout timing wording is cautious and accurate;
 - refund, cancellation, dispute, chargeback, and reversal disclosure touchpoints are defined;
 - privacy and data collection notice touchpoints are identified;
-- the mandatory Authentication Outcome, Resolution, Message, and CTA Matrix mechanism, fields, ownership, and open exact-copy/ID boundary are defined;
+- governed material communication, ordinary-copy exclusions, and the central-contract / Domain-Slice / composition / reference / governance architecture are defined;
+- Semantic, Outcome/Resolution, Composition, Disclosure, CTA, Copy, Locale, Presentation, Reference, Registry, and Authority Gradient boundaries are defined without executable business logic;
+- the Authentication Bounded Domain Slice mechanism, layered coverage, ownership, and open exact-copy/ID boundary are defined;
+- DOC-08 ownership and mandatory instruction-related `NOTIFICATION-DETAIL`-first entry remain explicit;
+- the confirmed six-card MVP maximum remains `Answered: 6` while narrower restrictions and configuration remain open;
+- logical traceability from source authority through user-facing authorization or acceptance evidence is defined, with physical implementation deferred;
 - content audit evidence is defined;
 - open questions are clear and do not block continued drafting.
 
@@ -719,6 +884,7 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.10.0 | 2026-08-04 | Drafted the accepted communication semantic architecture in DOC-07, including logical central contracts, bounded Domain Slices, layered composition, Reference/Registry governance, layer-level control, per-Provider-Submission authorization semantics, Detail-first notification entry, logical traceability, preserved six-card baseline, and explicit prototype/technical/Admin/acceptance deferrals. |
 | 0.9.13 | 2026-07-31 | Aligned Request, Payment Instruction, incomplete Checkout, confirmed Payment, obligation coverage, and downstream Payout disclosure boundaries with DOC-09. |
 | 0.9.12 | 2026-07-29 | Added owner-approved Resolution Strategy between Outcome and user presentation, established capability-aware AUTH slice sequencing, and added the preliminary `AUTH-RECOVERY` outcome/resolution inventory while leaving exact IDs, copy, CTA hierarchy, and notification mappings open. |
 | 0.9.11 | 2026-07-28 | Aligned identity wording with the five approved labels and context-aware actions, prohibited voluntary re-verification after Verified, and defined the mandatory authentication outcome categories while keeping exact IDs and copy open. |

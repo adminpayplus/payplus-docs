@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.47
+version: 0.1.48
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-04
+last_updated: 2026-08-05
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -40,12 +40,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.47` |
+| **Version** | `0.1.48` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-04` |
+| **Last Updated** | `2026-08-05` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -344,7 +344,7 @@ The reusable child-flow behavior is defined in Sections 5.17.4.2 and 5.17.4.3. A
 
 Normal successful login opens `HOME-ROOT`. An approved protected deeplink resumes its intended destination only after authentication and current access revalidation; invalid, expired, consumed, or unauthorized destinations fall back to the safest owning root or Home without exposing protected content. Logout returns to `ENTRANCE-ROOT` and clears protected route history.
 
-DOC-07 owns the future canonical Authentication Outcome, Resolution, Message, and CTA Matrix. The mechanism, Outcome inventory, owner-approved Resolution Strategy field, and required matrix fields are mandatory, but exact IDs, approved copy, and final mappings remain open. DOC-06B owns the route-level Outcome meaning, permitted Resolution Strategies, action destination, and return behavior consumed by that matrix. In-flow authentication messages are not Inbox notifications unless DOC-08 separately defines a notifiable event.
+DOC-07 owns the Authentication Bounded Domain Slice and its linked Semantic, Disclosure, and CTA Contracts for governed user-facing communication. Exact Outcome, Message, and CTA IDs, approved Copy, Locale Variants, Presentation Mappings, Notification mappings, runtime/audit mappings, and acceptance mappings remain open with their applicable owners. DOC-06B owns route-level Outcome meaning, permitted Resolution Strategies, component and placement, action destination, entry and return behavior, and adaptive presentation referenced by those contracts. In-flow authentication messages are not Inbox notifications unless DOC-08 separately defines a notifiable event.
 
 DOC-06A owns journey sequence, DOC-07 owns user-facing content and disclosure, DOC-13 owns referral attribution, DOC-15 owns account/privacy handling, DOC-18 owns attempt/event/correlation data, DOC-19 owns security mechanics, DOC-20 owns detailed test implementation, and DOC-22 owns admin/support handling and Entrance content configuration.
 
@@ -2859,6 +2859,7 @@ No numerical accessibility, performance, or usability threshold is established h
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.48 | 2026-08-05 | Replaced the superseded mandatory Authentication Matrix reference with the DOC-07 Authentication Bounded Domain Slice and linked Semantic, Disclosure, and CTA Contracts while preserving route, placement, destination, entry/return, adaptive-presentation ownership and open downstream mappings. |
 | 0.1.47 | 2026-08-04 | Defined Instruction `Pay Now` and instruction-notification entry through the owner-approved Checkout Resolver, required `NOTIFICATION-DETAIL` and current revalidation before any notification payment CTA, removed the X01/X02 route-level authority gaps, and preserved separate Payment Instruction/Checkout identity, retained history, no stale authorization, and no silent funding/submission behavior. |
 | 0.1.46 | 2026-08-03 | Removed superseded mandatory Payment Profile wording and aligned profile presentation with owner-confirmed current-Checkout allocation, capability-aware direct entry, and required within-capability selection or configuration. |
 | 0.1.45 | 2026-08-03 | Added mechanical cross-references from the reviewed Checkout Workspace contract to the derived route map and permanent Open Question IDs while preserving the accepted UI/UX and DOC-09 meaning. |
