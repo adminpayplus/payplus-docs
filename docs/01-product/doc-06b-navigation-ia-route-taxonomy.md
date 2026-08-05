@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.48
+version: 0.1.49
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -40,7 +40,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.48` |
+| **Version** | `0.1.49` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
@@ -75,7 +75,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 | Route taxonomy and ID standard | Working baseline | Stable product destination rules are defined; the canonical destination inventory is maintained in `docs/traceability/route-register.md`. |
 | Non-Bills route registry | Working baseline | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, Me core child routes, Receiving Info, and the Archive hub/document route have route-level baselines; undefined destinations remain visible in the route register. |
 | Notifications | Defined baseline | `NOTIFICATION-ROOT`, Inbox, Detail, and Settings behavior, entry/return rules, filters, archive visibility, and owning-domain handoffs are defined. Final visual styling remains open. |
-| Payment Checkout | Partially defined | `PAYMENT-CHECKOUT` is defined as one persistent Checkout Workspace with Bill/Rent resolver entry, adaptive presentation, funding, review, execution, resolution, protected return, accessibility, and owner handoffs. |
+| Payment Checkout | Defined baseline | `PAYMENT-CHECKOUT` is one persistent Checkout Workspace whose human-readable route behavior is decision-complete for continued alignment. Final visual and component design, exact Copy and identifiers, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical contracts, prototype and accessibility/user-validation evidence, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending with their formal owners. |
 
 ---
 
@@ -2395,7 +2395,7 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 
 ### 5.20 `PAYMENT-CHECKOUT` Checkout Workspace
 
-`PAYMENT-CHECKOUT` is the existing, `Partially defined` flow/screen group for one persistent Checkout Workspace. It is not a new route family, a sequence of child routes, a Payment, a Payment Instruction, a Settlement, or a Payout. Internal presentations are replaceable views of the same Workspace and must not redefine the unique domain truth owned by DOC-09.
+`PAYMENT-CHECKOUT` is the existing, `Defined baseline` flow/screen group for one persistent Checkout Workspace. Its human-readable route behavior is decision-complete enough for continued alignment; final visual design, exact expression and mappings, technical specification, prototype and validation evidence, implementation, acceptance, and operational readiness remain pending with their formal owners. It is not a new route family, a sequence of child routes, a Payment, a Payment Instruction, a Settlement, or a Payout. Internal presentations are replaceable views of the same Workspace and must not redefine the unique domain truth owned by DOC-09.
 
 DOC-06B owns the route-level UI/UX described in this section. The accepted payment-domain baseline remains DOC-09 v1.1.1 at `docs/02-payment-domain/doc-09-payment-domain-architecture.md`. This section presents DOC-09 facts without redefining their object, lifecycle, status, event, audit, authorization, provider, or financial meaning.
 
@@ -2616,7 +2616,7 @@ flowchart TD
 - Fully funded completion exposes no Funding, Continue, adjust, retry, wait, or `Close Checkout` action.
 - Pending exposes no retry or alternate-funding submission while authoritative evidence remains unresolved.
 - Partial and unsuccessful results expose only owner- and condition-permitted actions.
-- `OQ-XDOC-007` and `OQ-XDOC-015` retain their permanent traceability IDs and require downstream register/diagram alignment to their decided dispositions. `PDM-PROP-X01` and `PDM-PROP-X02` remain historical Proposal-evidence aliases only.
+- `OQ-XDOC-007` and `OQ-XDOC-015` retain their permanent traceability IDs; their decided dispositions are aligned across the Open Questions Register and derived route diagrams. `PDM-PROP-X01` and `PDM-PROP-X02` remain historical Proposal-evidence aliases only.
 
 ##### Minimum Adaptive UI Contract
 
@@ -2773,14 +2773,14 @@ The material entry questions recorded under `OQ-XDOC-007` and `OQ-XDOC-015` are 
 - Instruction `Pay Now` invokes the DOC-09 Checkout Resolver and does not unconditionally create, activate, or resume a predetermined Checkout.
 - An instruction-related notification enters `NOTIFICATION-DETAIL`, revalidates current state and permission, and only then exposes an owner-approved current action to that same resolver. It does not bypass Notification Detail.
 
-The permanent Open Questions Register and derived route diagrams require downstream Align updates to record these decided dispositions. `PDM-PROP-X01` and `PDM-PROP-X02` remain historical Proposal-evidence aliases only.
+The permanent Open Questions Register and derived route diagrams already record these decided dispositions. `PDM-PROP-X01` and `PDM-PROP-X02` remain historical Proposal-evidence aliases only.
 
-These decisions do not close their remaining communication, implementation, or validation dependencies. DOC-07 communication semantics, including exact payer-facing terms, disclosures, Outcomes, Messages, authorization copy, and CTA mappings, remain explicitly excluded from this Draft and require a separate Manager-owned work item. No DOC-07 document, specialist guide, framework, runtime registry, schema, or admin-content model is changed here.
+These decisions do not close their remaining exact-expression, implementation, or validation dependencies. DEC-2026-037 records the accepted DOC-07 logical Semantic, Disclosure, CTA, Reference, Registry, non-executable Composition, and Bounded Domain Slice architecture. Exact Copy, IDs, CTA labels, Locale Variants, Presentation Mappings, prototype-dependent treatment, technical mappings, acceptance, implementation, monitoring, support, and operational evidence remain pending with their formal owners. No DOC-07 document, specialist guide, framework, runtime registry, schema, or admin-content model is changed here.
 
 Other downstream dependencies remain explicit:
 
 - DOC-06C: final Bill/Rent source CTA, eligibility, evidence, contextual disclosure, and return contract;
-- DOC-07: exact payer-facing terms, disclosures, outcomes, messages, authorization copy, and CTA mappings;
+- DOC-07: accepted logical communication contracts apply; exact Copy, IDs, CTA labels, Locale Variants, Presentation Mappings, and prototype-dependent treatment remain pending;
 - DOC-08: notification identities, recipients, channels, templates, and approved continuation treatment;
 - DOC-09: payment-domain invariants, authorization boundaries, confirmation, continuation, closure, expiry, and application meaning;
 - DOC-10/DOC-11: payout/reconciliation and any refund, reversal, cancellation, dispute, or chargeback treatment;
@@ -2822,7 +2822,7 @@ No numerical accessibility, performance, or usability threshold is established h
 | Entrance and Authentication | Defined Behavior Baseline / Final Design and Technical Controls Pending | `ENTRANCE-ROOT`, Login, Recovery boundary, Registration, Account Activation, Phone Verification, Identity Verification, Payment Passcode Settings, banners, protected return, and route ownership are defined. Confirm Entrance carousel configuration, final visual design, provider mapping, and DOC-19/DOC-20 technical and test controls. |
 | Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Confirm card-level UI, notice priority, carousel behavior, dashboard activity cap, and empty states. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
-| Payment Checkout | `PAYMENT-CHECKOUT` Partially defined | Complete owner-aligned wording, governed presentation-flow synchronization, and later acceptance/test mappings while preserving the Workspace, resolver, funding, authorization, execution, recovery, and accessibility boundaries in Section 5.20. |
+| Payment Checkout | `PAYMENT-CHECKOUT` Defined baseline | Preserve the decision-complete human-readable Workspace, resolver, funding, authorization, execution, recovery, and accessibility boundaries in Section 5.20 while exact Copy, IDs, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical mappings, prototype and accessibility/user-validation evidence, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending. |
 | Pay+ | `PAYPLUS-ACTION-SHEET` Defined Baseline / Not Final Visual Design | Five MVP actions, role direction, route handoffs, availability behavior, completion rules, and motion principles are defined. Confirm exact iconography, measurements, spacing, blur, motion timing/easing, and future added-button layout. |
 | Offers and Rewards | Defined Behavior / Not Final Visual Design | Offers discovery and child-list behavior are defined. `REWARDS-ROOT` Active/History views, search, filters, ordering, cards, route states, `REWARD-DETAIL`, checkout return, and contextual fulfilment actions are defined. Confirm final styling, Offers label taxonomy, personalization, equal-priority fallback, and partner-specific activation methods. |
 | Me | Core Account, Receiving Info, and Archive Family Defined / Other Child Details Pending | `ME-ROOT`, account/security/privacy routes, the `RECEIVING-INFO` family, `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` are defined. Support/About/Terms detail and final visual design remain open. |
@@ -2859,6 +2859,7 @@ No numerical accessibility, performance, or usability threshold is established h
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.49 | 2026-08-05 | Updated active `PAYMENT-CHECKOUT` references to Defined baseline, recognized completed PDM-WI-003 register/diagram alignment and the DEC-2026-037 logical communication architecture, and retained exact-expression, source-owner, technical, prototype, validation, implementation/UAT, acceptance, monitoring, support, and operational dependencies. |
 | 0.1.48 | 2026-08-05 | Replaced the superseded mandatory Authentication Matrix reference with the DOC-07 Authentication Bounded Domain Slice and linked Semantic, Disclosure, and CTA Contracts while preserving route, placement, destination, entry/return, adaptive-presentation ownership and open downstream mappings. |
 | 0.1.47 | 2026-08-04 | Defined Instruction `Pay Now` and instruction-notification entry through the owner-approved Checkout Resolver, required `NOTIFICATION-DETAIL` and current revalidation before any notification payment CTA, removed the X01/X02 route-level authority gaps, and preserved separate Payment Instruction/Checkout identity, retained history, no stale authorization, and no silent funding/submission behavior. |
 | 0.1.46 | 2026-08-03 | Removed superseded mandatory Payment Profile wording and aligned profile presentation with owner-confirmed current-Checkout allocation, capability-aware direct entry, and required within-capability selection or configuration. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.18
+version: 0.1.19
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-04
+last_updated: 2026-08-05
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -41,12 +41,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.18` |
+| **Version** | `0.1.19` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-04` |
+| **Last Updated** | `2026-08-05` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -1220,7 +1220,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-027 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
 | OQ-06-028 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
 | OQ-06-029 | What exact request-delivery and `Remind Payer` UX should apply inside `BILLS-RECEIVE`, including resend limits, payer acceptance states, wording, and notification-channel rules? | Product / Design / Operations | Open |
-| OQ-06-030 | The reviewed DOC-06B Section 5.20 adaptive UI contract defines route-level `PAYMENT-CHECKOUT` presentation without imposing one fixed screen order. Instruction `Pay Now` now invokes the DOC-09 Checkout Resolver without predetermined Checkout identity, and every instruction-related notification enters `NOTIFICATION-DETAIL` for current revalidation before an owner-approved CTA may invoke that resolver. Which remaining Bill/Rent source handoffs, DOC-07 communication semantics and final copy, technical contracts, prototype and accessibility/user-validation evidence, and implementation/UAT acceptance evidence must the applicable owners complete? | Product / Design / Payments | Partially open; the route-level UI/UX and entry contracts are decided, while named source-owner, communication, implementation, prototype, validation, and acceptance dependencies remain unresolved. |
+| OQ-06-030 | The reviewed DOC-06B Section 5.20 adaptive UI contract and decided Bill/Rent, Instruction `Pay Now`, and `NOTIFICATION-DETAIL`-first entry contracts establish route-level `PAYMENT-CHECKOUT` behavior as a Defined baseline without imposing one fixed screen order. DEC-2026-037 establishes the accepted DOC-07 logical Semantic, Disclosure, CTA, Reference, Registry, non-executable Composition, and Bounded Domain Slice architecture. Which remaining exact Copy, IDs, CTA labels, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical contracts, prototype and accessibility/user-validation evidence, implementation/UAT, and acceptance evidence must the applicable owners complete? | Product / Design / Payments | Partially open; route-level UI/UX, entry contracts, and logical communication architecture are decided, while exact expression and mappings plus named source-owner, technical, prototype, validation, implementation/UAT, and acceptance dependencies remain pending. |
 
 ---
 
@@ -1230,6 +1230,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.19 | 2026-08-05 | Recognized `PAYMENT-CHECKOUT` as a Defined baseline and DEC-2026-037 as the accepted logical communication architecture while retaining exact Copy, identifiers, CTA labels, Locale Variants, Presentation Mappings, Bill/Rent source detail, technical, prototype, validation, implementation/UAT, and acceptance dependencies in OQ-06-030. |
 | 0.1.18 | 2026-08-04 | Recorded the decided Instruction `Pay Now` Checkout Resolver and mandatory `NOTIFICATION-DETAIL` entry contracts while retaining Bill/Rent handoff, DOC-07 communication, technical, prototype, validation, and implementation/UAT dependencies. |
 | 0.1.17 | 2026-08-03 | Aligned the Checkout authorization journey with owner-confirmed current-allocation and Payment Profile capabilities, including direct entry when only one capability is available without silently selecting, confirming, or authorizing funding. |
 | 0.1.16 | 2026-08-03 | Aligned OQ-06-030 with the reviewed DOC-06B adaptive Checkout UI contract while retaining cross-owner entry, copy, technical, prototype, validation, and acceptance dependencies. |

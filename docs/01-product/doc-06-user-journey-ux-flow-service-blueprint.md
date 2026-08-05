@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.32
+version: 0.21.33
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-03
+last_updated: 2026-08-05
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -44,12 +44,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `0.21.32` |
+| **Version** | `0.21.33` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-03` |
+| **Last Updated** | `2026-08-05` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -155,7 +155,7 @@ This matrix prevents the split from creating a false impression that all routes 
 | Bottom Navigation | DOC-06B | Child route owners for destination behavior | Working Baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline is defined; final visuals and remaining child-route detail remain open. |
 | Pay+ Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | Defined Behavior / Not Final Visual Design | Five-action order, role direction, destination handoffs, availability, completion, return, configuration limits, and motion principles are defined. |
 | Bills / Rent / Tenancy | DOC-06C | DOC-06B for route entry/archive family; DOC-06A for lifecycle; DOC-09/DOC-12 for payment/evidence detail | Partially Defined | BILLS-PAY, BILLS-RECEIVE, BILLS-ACTIVITY, BILLS-EVIDENCE, BILLS-REMINDER, and `ARCHIVED-BILLS-LIST` have working baseline rules. |
-| Payment / Checkout | DOC-06B for route-level UI/UX; DOC-09 for Payment Domain architecture | DOC-06A/DOC-06C for source journey, entry, return, and handoff; applicable content, notification, technical, and acceptance owners | `PAYMENT-CHECKOUT` Assigned / Partially Defined | DOC-06B owns the adaptive Checkout Workspace presentation, entry, return, and handoff behavior. DOC-09 owns payment objects, invariants, and authoritative payment meaning. Detailed UI remains in DOC-06B rather than being duplicated here. |
+| Payment / Checkout | DOC-06B for route-level UI/UX; DOC-09 for Payment Domain architecture | DOC-06A/DOC-06C for source journey, entry, return, and handoff; applicable content, notification, technical, and acceptance owners | `PAYMENT-CHECKOUT` Defined Baseline | DOC-06B owns the adaptive Checkout Workspace presentation, entry, return, and handoff behavior. DOC-09 owns payment objects, invariants, and authoritative payment meaning. Detailed UI remains in DOC-06B rather than being duplicated here; exact content, visual, technical, prototype, validation, implementation, acceptance, and operational evidence remain pending with the applicable owners. |
 | Requests | DOC-06B | DOC-06A for request lifecycle; DOC-06C for Bills/rent request implementation; DOC-08 for notification routing | Core Route and Lifecycle Behavior Defined / Not Final Visual Design | `REQUESTS-ROOT`, `REQUESTS-DETAIL`, and `REQUESTS-NEW` are defined. The canonical request lifecycle, role labels, events, evidence gate, obligation-readiness, case, and archive boundaries are confirmed. |
 | Instructions | DOC-06B for route UX; DOC-09 for payment-instruction behavior | DOC-06A/DOC-06C for entry or return touchpoints | Core Route Behavior Defined / Not Final Visual Design | `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` distinguish pending pay-later instructions from incomplete funding, define permitted actions, and hand off to DOC-09 checkout/payment behavior. |
 | Activity and Receipts & Statements | DOC-06B for global route shells | DOC-06A for receipt/history touchpoints; DOC-06C for bill/rent-specific activity; DOC-08 for receipts/statements; DOC-09/DOC-10/DOC-11 for payment/payout/refund facts | Working Baseline / Not Final Visual Design | Global Activity and Receipts & Statements remain separate. `RECEIPTS-ROOT` owns search and the document list; `RECEIPT-DETAIL` / `STATEMENT-DETAIL` open the shared in-app PDF preview, while list-level `Download` acts directly. |
@@ -321,7 +321,7 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | The dashboard flow and layout are designated for MVP discussion, but final UI design, exact component specification, and exact route-level screen specification are not finalized. | Confirmed |
 | Bills tab working baseline uses `To Pay` and `To Receive` views, route/subsection IDs, bill/rent cards, detail pages, bill/rent-specific activity sub-routes, evidence status, archive handoff, and Add Bill / Rent setup flow. Archived obligations are excluded from active Bills filters and belong to `ARCHIVED-BILLS-LIST`. | Working Baseline / Not Final |
 | `BILLS-PAY` is the formal payer-side route replacing the earlier informal `To Pay` view description; `BILLS-RECEIVE` is the formal payee-side request/receive route and must not show payer-side `Pay` actions. | Working Baseline / Not Final |
-| `PAYMENT-CHECKOUT` identifies the `Partially defined` checkout flow/screen group. DOC-06B owns its route-level adaptive Workspace UI/UX, entry, return, and handoff behavior; DOC-09 owns Payment Domain architecture, objects, invariants, and authoritative payment meaning. | Working Baseline / Not Final |
+| `PAYMENT-CHECKOUT` identifies the `Defined baseline` checkout flow/screen group. DOC-06B owns its route-level adaptive Workspace UI/UX, entry, return, and handoff behavior; DOC-09 owns Payment Domain architecture, objects, invariants, and authoritative payment meaning. | Defined Baseline / Final Visual, Technical, and Validation Evidence Pending |
 | Bills activity route uses `BILLS-ACTIVITY` and `BILLS-ACTIVITY-DETAIL` only for payment, payout/transfer, failure, return, refund, and reversal activity linked to one bill/rent/tenancy obligation. Request, evidence, ordinary edit, and internal audit histories remain in their owning domains. | Working Baseline / Not Final |
 | Bills reminder route uses `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, linked reminder IDs, bill/rent setup frequency, reminder defaults, custom override, soft-delete behavior, and DOC-08/DOC-09/DOC-18 ownership boundaries. | Working Baseline / Not Final |
 | Bills evidence route treats evidence as a bill/rent detail sub-flow, using `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`; evidence actions live inside bill/rent detail, extracted fields populate bill/rent details, and evidence status drives payment readiness. | Working Baseline / Not Final |
@@ -366,6 +366,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.33 | 2026-08-05 | Updated the active `PAYMENT-CHECKOUT` family status to Defined baseline under the route-register criterion while preserving DOC-06B/DOC-09 ownership and all pending exact-content, visual, technical, prototype, validation, implementation, acceptance, and operational evidence. |
 | v0.21.32 | 2026-08-03 | Aligned the DOC-06 parent with DOC-06B ownership of `PAYMENT-CHECKOUT` route-level adaptive UI/UX and DOC-09 ownership of Payment Domain architecture and authoritative payment meaning, without duplicating the detailed Checkout contract. |
 | v0.21.31 | 2026-07-31 | Aligned the DOC-06 family map and Request terminology with DOC-09 Payment Domain Architecture and separated Payment Instruction from incomplete Checkout continuation without redefining route UX. |
 | v0.21.30 | 2026-07-29 | Synchronized the DOC-06 family with the capability-aware Outcome-to-Resolution framework and the decision-complete `AUTH-RECOVERY` product baseline without changing existing authentication routes or statuses. |
