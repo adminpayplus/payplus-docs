@@ -55,6 +55,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-036` | `2026-08-04` | Instruction Pay Now Resolver And Notification Detail Entry | Accepted | `DOC-09` / `DOC-08` / `DOC-06B` | `d0d35da995da1347844d11366387fbbf95774bd4` |
 | `DEC-2026-037` | `2026-08-05` | DOC-07 Logical Communication Contracts And Bounded Domain Slices | Accepted | `DOC-07` | `eec4295bdde299d18d17bcaa6bab20a60786aa1f` |
 | `DEC-2026-038` | `2026-08-05` | PAYMENT-CHECKOUT Defined Baseline | Accepted | `DOC-06B` | `d1e9f550e0f49e861132a96a5e48d8cdcc0882ed` |
+| `DEC-2026-039` | `2026-08-06` | HOME-ROOT Logged-In Dashboard Presentation And Navigation Contracts | Accepted | `DOC-06B` | `c14fafe5ef70feedf64ee46c6451ed6e19fd402e` |
 
 ## 4. Decision Record Template
 
@@ -1745,3 +1746,54 @@ None. `DEC-2026-038` records a later route-definition status transition and does
 - Prototype, accessibility, user-validation, implementation, UAT, localization, acceptance, and release evidence.
 - Monitoring, support, Admin, and operational mechanisms.
 - Final commercial, promotion, risk, and partner values or restrictions.
+
+### `DEC-2026-039` - HOME-ROOT Logged-In Dashboard Presentation And Navigation Contracts
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-06` |
+| Status | Accepted |
+| Primary owner | `DOC-06B` HOME-ROOT route-level presentation and navigation |
+| Affected documents | `DOC-05`, `DOC-06`, `DOC-06A`, `DOC-06B`, `DOC-06C`, `DOC-06D`, `DOC-07`, `DOC-08`, `DOC-09`, `DOC-10`, `DOC-11`, `DOC-13`, `DOC-15`, `DOC-22`, Requirements Traceability Matrix, Open Questions Register, Home Route Map, and Offers/Rewards/Referral Route Map |
+| Substantive commit | `c14fafe5ef70feedf64ee46c6451ed6e19fd402e` |
+| Founder approval | PDM-WI-005 accepted Founder decisions and conditional Integrate, Commit, and Push authorization on `2026-08-06`; mandatory records treatment applied under the Documentation Development Workflow |
+
+**Decision**
+
+`HOME-ROOT` remains the existing logged-in root and remains `Partially defined`. Its task-first section order is Header, Important Notice, Shortcut Grid, Home Hot Offer, Upcoming Bills / Rent, and Recent Activity. Greeting has no navigation and uses the accepted local-time bands, neutral timezone fallback, and Nickname then applicable `Mr./Miss + eKYC surname` then surname-only name precedence, with DOC-07 owning exact TC, SC, and EN expression.
+
+Important Notice presents one eligible Inbox-backed notification, consumes source-owned canonical ordering values, uses canonical-session dismissal without changing notification or business state, opens `NOTIFICATION-DETAIL` from the body, and uses only a source-provided current action destination. Home Hot Offer is an Offer-only, Admin-selected surface that may present any canonical Offer status, shows no more than five cards, hides at zero candidates, opens `OFFER-DETAIL`, uses fixed or random Admin ordering and a five-second default rotation with the accepted stop/resume and reduced-motion treatment, and does not derive Offer eligibility or validate content completeness.
+
+Upcoming Bills / Rent consumes active payer-role HKD candidates from DOC-06C, shows up to three, and orders them by due date, amount, type, creation timestamp, and stable source record ID. Recent Activity shows up to five completed source-owned Payment, Partial Payment, Payout, Refund, or Reversal outcomes ordered by canonical timestamp, with amount sign determined by canonical funds-flow direction. HOME-ROOT applies smallest-practical-surface resilience and no separate accessibility mode.
+
+DOC-06B owns Home presentation, selection, ordering, capacity, interaction, navigation, dismissal, and return behavior without acquiring business truth. Source domains retain canonical notification, Bill/Rent, Offer, outcome, timestamp, funds-flow, privacy, technical, acceptance, and Admin meanings. Admin controls approved presentation but cannot alter or suppress canonical business truth.
+
+**Rationale**
+
+The accepted contracts make the existing logged-in Home route decision-ready for later visual, technical, prototype, and validation work while preserving task-first navigation, deterministic source-value consumption, safe disclosure, graceful degradation, and one primary owner per material concept. The owner-first composition model avoids making Home or Admin a duplicate business-content authority.
+
+**Alternatives Considered**
+
+- A combined Featured / What's New / Hot Offer Home carousel was not selected because the accepted HOME-ROOT surface is Offer-only and announcements and notification behavior retain their existing owners.
+- Home-derived display eligibility, ordering normalization, status filtering, or fallback semantics were not selected because HOME-ROOT consumes canonical values and must not reinterpret source truth.
+- Duplicating Home capacity, zero-state, routing, ranking, dismissal, or interaction rules in secondary owners was rejected in favor of bounded owner handoffs.
+- A random final Upcoming Bills/Rent tie-break was replaced by canonical creation timestamp and stable source record ID for deterministic behavior.
+- A route-specific mandatory visible Pause/Play control was not selected; the adopted platform accessibility standard may still require one during later implementation.
+
+**Consequences And Handoffs**
+
+DOC-06A retains journey touchpoints; DOC-06C retains Bill/Rent candidates and source facts; DOC-07 retains exact expression; DOC-08 retains notification identity, lifecycle, Inbox, Detail, and delivery; DOC-09, DOC-10, and DOC-11 retain outcome, timestamp, amount, and funds-flow truth; DOC-13 retains Offer identity, content, status, validity, eligibility, and available-action truth; DOC-15 retains privacy and approved-purpose rules; DOC-18 retains future technical data, status, event, audit, lineage, and reporting; DOC-20 retains detailed acceptance and UAT evidence; and DOC-22 retains Admin configuration, publication quality, audit, and operational controls.
+
+The parent product and journey documents, acceptance mapping, traceability records, open questions, and current route diagrams now reference or project this owner split. The external `for-neng` derivative and Draft Research Memo remain expressly excluded non-authoritative supporting material for this change.
+
+**Supersedes / Superseded By**
+
+Supersedes active HOME-ROOT combined Featured / What's New / Hot Offer terminology and the corresponding decided portions of OQ-05-017, OQ-06-024, OQ-06-025, and OQ-XDOC-011. Historical, archived, and excluded supporting occurrences remain non-operative. No earlier decision record is superseded.
+
+**Remaining Open Items**
+
+- Final HOME-ROOT visual design, prototype, and user-validation evidence.
+- Exact DOC-07 Copy, identifiers, CTA labels, Locale Variants, and presentation mappings.
+- Technical session, cache, freshness, schema, status/event/audit, analytics, retention, cross-device, authentication, security, monitoring, and operational mechanics.
+- Adopted-platform accessibility implementation and detailed DOC-20 acceptance, UAT, implementation, localization, and release evidence.
+- Detailed DOC-22 Admin screens, permissions, approval workflow, implementation fields, and operational evidence.

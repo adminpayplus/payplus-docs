@@ -1360,3 +1360,55 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 - Prototype, accessibility, user-validation, implementation, UAT, localization, acceptance, and release evidence.
 - Monitoring, support, Admin, and operational mechanisms.
 - Final commercial, promotion, risk, and partner values or restrictions.
+
+### `2026-08-06` - HOME-ROOT Logged-In Dashboard Presentation And Navigation Contracts
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `c14fafe5ef70feedf64ee46c6451ed6e19fd402e` |
+| Primary owner | `DOC-06B` HOME-ROOT route-level presentation and navigation |
+| Decision record | `DEC-2026-039` |
+| Founder approval | PDM-WI-005 accepted Founder decisions and conditional Integrate, Commit, and Push authorization on `2026-08-06`; mandatory records treatment applied under the Documentation Development Workflow |
+
+**Files Changed**
+
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-07-content-disclosure-user-authorization-spec.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/02-payment-domain/doc-09-payment-domain-architecture.md`
+- `docs/02-payment-domain/doc-10-payout-reconciliation.md`
+- `docs/02-payment-domain/doc-11-refund-cancellation-chargeback.md`
+- `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`
+- `docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/diagrams/routes/payplus-home-route-map.md`
+- `docs/diagrams/routes/payplus-offers-rewards-referral-route-map.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+
+**Material Changes**
+
+- Established the reviewed HOME-ROOT contracts for Greeting, Important Notice, Home Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation governance while retaining the accepted section order and existing route identity.
+- Preserved DOC-06B as the sole route-level presentation and navigation owner and bounded DOC-06A, DOC-06C, DOC-07, DOC-08, DOC-09, DOC-10, DOC-11, DOC-13, DOC-15, DOC-18, DOC-20, and DOC-22 handoffs to their owned meanings.
+- Replaced active combined `Featured / What's New / Hot Offer` HOME-ROOT terminology with the Offer-only Home Hot Offer surface without rewriting historical, archived, or expressly excluded non-authoritative supporting material.
+- Aligned the product index, journey parent, open questions, requirements traceability, and current Home and Offers/Rewards/Referral route diagrams; formalized the Founder-approved DOC-22 metadata and preserved Admin configuration without duplicating DOC-06B behavior.
+- Kept HOME-ROOT `Partially defined` and preserved PAYMENT-CHECKOUT as its existing `Defined baseline`.
+
+**Checks Performed**
+
+- Passed Stage 9 Verification Review after bounded corrections, completed the eight-file Change Impact alignment, resolved the two supporting-artifact classifications, and passed coordinated revalidation and Stage 13 integration readiness.
+- Verified the exact 18-file scope, `404` insertions and `143` deletions, source-owner boundaries, all eight contract groups, traceability and open-question treatment, 14 metadata/control/history representations, 30 registered diagram route IDs, UTF-8, control characters, Markdown fences, local links, and active-versus-historical terminology.
+- Inspected the exact staged file list, confirmed no unstaged or untracked files, and passed `git diff --cached --check` before substantive commit `c14fafe5ef70feedf64ee46c6451ed6e19fd402e`.
+
+**Remaining Open Items**
+
+- Final HOME-ROOT visual design and any later prototype or user-validation evidence.
+- Exact DOC-07 Copy, identifiers, CTA labels, Locale Variants, and presentation mappings.
+- Technical session, cache, freshness, field/schema, status/event/audit, analytics, retention, cross-device, authentication, security, monitoring, and operational mechanics under their formal owners.
+- Adopted-platform accessibility implementation requirements and detailed DOC-20 acceptance, UAT, implementation, localization, and release evidence.
+- Detailed DOC-22 Admin screens, permissions, approval workflow, implementation fields, and operational evidence.
