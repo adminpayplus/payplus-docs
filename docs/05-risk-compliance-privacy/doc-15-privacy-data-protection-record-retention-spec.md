@@ -1,7 +1,7 @@
 ---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.20
+version: 0.8.21
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-06
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.8.20` |
+| **Version** | `0.8.21` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
 | **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-06` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -397,7 +397,7 @@ PayPlus may use collected and derived data to support:
 
 Derived or aggregated data should retain lineage to source data class, permitted purpose, and access controls. Sensitive personal data should not be exposed in dashboards unless required for approved review or operations.
 
-Dashboard shortcut ordering is an account-level product-operation preference and does not by itself require marketing consent. Placement targeting and Featured / What's New / Hot Offer exposure remain subject to applicable consent, preference, approved-purpose, and role-appropriate visibility rules. User-selected shortcut settings may override the current eligible admin default as defined in DOC-06B, but remain subject to protected access, launch/module availability, account eligibility, risk restrictions, compliance controls, and disabled-module rules. Preference analytics must not expose sensitive route content or internal restriction reasons.
+Dashboard shortcut ordering is an account-level product-operation preference and does not by itself require marketing consent. Placement targeting and Home Hot Offer exposure remain subject to applicable consent, preference, approved-purpose, and role-appropriate visibility rules. User-selected shortcut settings may override the current eligible admin default as defined in DOC-06B, but remain subject to protected access, launch/module availability, account eligibility, risk restrictions, compliance controls, and disabled-module rules. Preference analytics must not expose sensitive route content or internal restriction reasons.
 
 Model features, segments, scores, and AI-generated outputs should retain lineage to source data, approved purpose, sensitivity level, permitted use, retention expectation, access roles, and monitoring requirements. Sensitive identity, raw evidence, medical details, child/family-sensitive education details, precise tenancy/property details, domestic helper employment details, raw support narratives, sanctions/AML results, internal risk notes, and vulnerability or hardship indicators should not be used for marketing models or partner reporting unless separately assessed and approved by legal, privacy, compliance, risk, and the Project Owner.
 
@@ -599,6 +599,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.21` | `2026-08-06` | Product Documentation Team | Replaced the superseded combined Home placement terminology with Home Hot Offer while preserving the existing consent, preference, approved-purpose, role-appropriate visibility, protected-access, eligibility, risk, compliance, and privacy-safe analytics rule. |
 | `0.8.20` | `2026-07-31` | Product Documentation Team | Aligned Request visibility, payment/funding data classification, and DOC-09 title references with the accepted Payment Domain aggregate and derived-value model. |
 | `0.8.19` | `2026-07-29` | Product Documentation Team | Added the disclosure-safe, capability-aware account-recovery privacy boundary and required opaque Outcome, Resolution, and correlation references without changing approved authentication methods. |
 | `0.8.18` | `2026-07-28` | Product Documentation Team | Aligned privacy and account-control rules with HK Phone Verification, the five-state Identity Verification projection, no voluntary re-verification after Verified, admin-required update boundaries, and defined Payment Passcode recovery controls. |

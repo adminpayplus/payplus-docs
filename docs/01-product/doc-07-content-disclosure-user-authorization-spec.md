@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.10.0
+version: 0.10.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-04
+last_updated: 2026-08-05
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `0.10.0` |
+| **Version** | `0.10.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-04` |
+| **Last Updated** | `2026-08-05` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -716,6 +716,28 @@ Any future mapping between DOC-07-owned requirements and DOC-08-owned channel-te
 
 **Open decision — canonical/base Copy and channel-template relationship:** The boundary among DOC-07 canonical Semantic and base-Copy authority, DOC-08 channel-template expression, Locale and platform variants, version relationships, and approval relationships remains `Open`. Owners: Product / Content / DOC-08 Owner / Design / Legal / Compliance as applicable. This open item does not reopen DOC-08 ownership listed above or the mandatory Detail-first entry contract.
 
+### 16.1 HOME-ROOT Content and Disclosure Contract
+
+DOC-07 owns the Traditional Chinese, Simplified Chinese, and English presentation of the following HOME-ROOT semantics. This section defines content meaning and disclosure boundaries; DOC-06B owns placement, interaction, navigation, and route-level state.
+
+#### Greeting
+
+- The presentation must express `Morning` for local time `05:00–11:59`, `Afternoon` for `12:00–17:59`, and `Evening` for `18:00–04:59`.
+- Server time may be used only with an applicable timezone. When no applicable timezone is available, the presentation must use an approved neutral greeting and must not infer a local-time band.
+- The displayed-name precedence is user-defined Nickname; `Mr.` or `Miss` plus eKYC surname where applicable title data exists; surname alone where the surname exists without an applicable title; and no displayed name otherwise.
+- The visual presentation is normally one line. Assistive technology receives the complete rendered greeting even where visual adaptation is required.
+- The greeting must not imply a navigation action.
+- Exact approved Traditional Chinese, Simplified Chinese, and English expressions remain governed Copy and Locale Variants under this document; technical time, timezone, and account-data mechanics remain with their formal owners.
+
+#### Important Notice and Recent Activity expression
+
+- Important Notice content must preserve the owning source's current severity, category, required action, and safe-disclosure meaning. A Home dismissal must not be worded or presented as `Read`, `Resolved`, `Expired`, `Withdrawn`, or as a change to the owning business state.
+- The notice body opens canonical `NOTIFICATION-DETAIL`; an Action Button names and opens only the current source-provided destination. DOC-08 retains notification identity, lifecycle, Inbox-record, and delivery ownership.
+- Promotions, Rewards, marketing, and ordinary feature announcements are not Important Notice content by default.
+- Recent Activity presentation maps only the owner-published completed outcome. Refund and Reversal may share one Home presentation treatment but must not be described as the same source outcome.
+- Amount presentation preserves the canonical funds-flow direction published by DOC-09, DOC-10, or DOC-11. Copy or visual treatment must not infer or reverse the sign from payer/payee role.
+- Exact message, CTA, status-label, masking, and Locale Variant work remains bounded by the applicable source owner, DOC-07 approval, and DOC-15 safe-disclosure rules; HOME-ROOT does not create new source outcomes or notification meanings.
+
 ---
 
 ## 17. Communication Control and Change Authority
@@ -874,6 +896,7 @@ DOC-07 is acceptable when:
 - the Authentication Bounded Domain Slice mechanism, layered coverage, ownership, and open exact-copy/ID boundary are defined;
 - DOC-08 ownership and mandatory instruction-related `NOTIFICATION-DETAIL`-first entry remain explicit;
 - the confirmed six-card MVP maximum remains `Answered: 6` while narrower restrictions and configuration remain open;
+- HOME-ROOT Greeting, Important Notice, and Recent Activity expression boundaries preserve complete locale output, source meaning, notification separation, and canonical funds-flow direction without transferring route or business ownership to DOC-07;
 - logical traceability from source authority through user-facing authorization or acceptance evidence is defined, with physical implementation deferred;
 - content audit evidence is defined;
 - open questions are clear and do not block continued drafting.
@@ -884,6 +907,7 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.10.1 | 2026-08-05 | Added the approved HOME-ROOT Greeting, Important Notice, and Recent Activity content/disclosure contract, including locale ownership, neutral greeting fallback, displayed-name precedence, notification-state separation, and canonical funds-flow-direction presentation. |
 | 0.10.0 | 2026-08-04 | Drafted the accepted communication semantic architecture in DOC-07, including logical central contracts, bounded Domain Slices, layered composition, Reference/Registry governance, layer-level control, per-Provider-Submission authorization semantics, Detail-first notification entry, logical traceability, preserved six-card baseline, and explicit prototype/technical/Admin/acceptance deferrals. |
 | 0.9.13 | 2026-07-31 | Aligned Request, Payment Instruction, incomplete Checkout, confirmed Payment, obligation coverage, and downstream Payout disclosure boundaries with DOC-09. |
 | 0.9.12 | 2026-07-29 | Added owner-approved Resolution Strategy between Outcome and user presentation, established capability-aware AUTH slice sequencing, and added the preliminary `AUTH-RECOVERY` outcome/resolution inventory while leaving exact IDs, copy, CTA hierarchy, and notification mappings open. |

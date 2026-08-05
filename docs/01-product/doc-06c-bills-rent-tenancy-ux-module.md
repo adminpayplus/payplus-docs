@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.19
+version: 0.1.20
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-03
+last_updated: 2026-08-05
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -39,12 +39,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06C` |
 | **Title** | Bills, Rent & Tenancy UX Module |
-| **Version** | `0.1.19` |
+| **Version** | `0.1.20` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-03` |
+| **Last Updated** | `2026-08-05` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -330,6 +330,27 @@ Payee-side detail actions when opened from `BILLS-RECEIVE`:
 The rent detail page should include a `Rental Doc` evidence status area. `Rental Doc` covers tenancy agreements and other approved rent-supporting evidence, such as rent demand, stamp duty document, CR109, HKHA tenancy card, carpark invoice, or property management notice. It should show current evidence status and extracted rental fields approved for display. Evidence management is not a default primary detail action. If evidence is missing, rejected, expired, or otherwise action-required, the status area should show a contextual action that opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD`. Extracted fields that belong to the rent/tenancy record should be displayed in the rent detail area, not duplicated inside evidence detail.
 
 Rent normally should not require a new invoice for each payment cycle unless tenancy evidence expires, changes, is replaced, is rejected, or is flagged by risk/review rules.
+
+#### 5.7.1 HOME-ROOT Upcoming Bills / Rent Source Projection
+
+DOC-06C publishes the active payer-role Bill and Rent candidates consumed by the DOC-06B HOME-ROOT `Upcoming Bills / Rent` section. This is a projection of canonical Bill/Rent records, not a Home-owned obligation or status.
+
+Each candidate must supply canonical:
+
+- Bill or Rent type;
+- active payer-role eligibility;
+- HKD amount for MVP;
+- due date and applicable canonical timezone;
+- creation timestamp; and
+- stable source record ID.
+
+DOC-06C also publishes the canonical card fields and masking treatment, source-route action availability, and the values required for current-state, permission, readiness, and action-availability revalidation before a protected source-route action.
+
+A missing amount or due date is an upstream invariant or retrieval failure. Overdue remains a Bill/Rent business state.
+
+For a Rent reminder, DOC-06C supplies the canonical due timestamp: the effective due date at `23:59` in its canonical timezone. A proposed due-date change does not change this value until applied to the canonical Bill/Rent record.
+
+DOC-06B is the sole normative owner of the HOME-ROOT cap, deterministic ranking and ordering, card presentation, selected Home actions, Home route and return behavior, additional Home masking prohibition, and Important Notice Rent-reminder eligibility window. DOC-06C publishes the canonical source values and revalidation truth above without restating the Home algorithm.
 
 ### 5.8 Bill / Rent Activity Sub-Route
 
@@ -826,6 +847,7 @@ These events should support product analytics, operational monitoring, risk revi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.20 | 2026-08-05 | Added the bounded HOME-ROOT Upcoming Bills / Rent source handoff by publishing active payer-role candidate facts, deterministic source values, canonical card/masking fields, source-route revalidation truth, upstream invariant treatment, and the canonical Rent due timestamp while retaining Home presentation and ordering in DOC-06B. |
 | 0.1.19 | 2026-08-03 | Removed the stale future-draft qualification and aligned Bill/Rent handoff ownership with the reviewed DOC-06B Checkout route-level UI/UX contract and DOC-09 Payment Domain authority. |
 | 0.1.18 | 2026-07-31 | Aligned Bills-to-checkout handoff and Instructions references with DOC-09 Payment Domain Architecture while preserving DOC-06B route-level UX ownership. |
 | 0.1.17 | 2026-07-27 | Aligned `BILLS-PAY` with temporary Pay+ Bill/Fee and Rent/Tenancy selection scopes and defined standalone Pay+ `BILLS-ADD` success/readiness behavior without changing Bills ownership or checkout logic. |

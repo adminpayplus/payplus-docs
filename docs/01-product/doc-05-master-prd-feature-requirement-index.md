@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.18.35
+version: 0.18.36
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-04
+last_updated: 2026-08-06
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.18.35` |
+| **Version** | `0.18.36` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-04` |
+| **Last Updated** | `2026-08-06` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -558,7 +558,7 @@ Archive is a per-user visibility action. It must not change the counterparty's a
 - `Cards` shortcut opens DOC-06B `PAYMENT-PROFILE-ROOT` for tokenized card management and saved split-card profile management; it is not checkout and does not authorize payment;
 - user shortcut display order, visibility preference, and restore-default behavior;
 - permanent `ME-ROOT` access with fixed account-control sections, masked Account Information, security/privacy entry, established-route handoffs, preferences, support, About/Terms, and a bottom Log Out button;
-- Important Notice / Action Required, Featured / What's New / Hot Offer carousel, Upcoming Bills / Rent, and Recent Activity dashboard sections where enabled by DOC-06B;
+- Greeting, Important Notice, Home Hot Offer, Upcoming Bills / Rent, Recent Activity, section-level resilience, accessibility, and presentation-governance dashboard baselines where enabled by DOC-06B; source-owned notification, obligation, outcome, Offer, privacy, and Admin meanings remain with their applicable formal owners;
 - bill/rent reminder management through DOC-06C `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`, including linked reminders, reminder defaults, custom overrides, disable/delete behavior, and notification ownership boundaries;
 - create payment;
 - view payee-created requests that require payer action through DOC-06C `BILLS-PAY`;
@@ -724,7 +724,7 @@ The MVP is acceptable when:
 | OQ-05-014 | Which extracted fields are displayable, masked, or restricted by role and evidence category? | Product / Privacy / Security | Open |
 | OQ-05-015 | What final styling and optional post-replacement Undo behavior should apply to `MORE-ROOT`? The 8-slot maximum, protected More entry, user reorder/remove/add behavior, account-level preference, current-default restore, availability precedence, and secondary-service boundary are defined. | Product / Design / Operations | Partially open |
 | OQ-05-016 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should apply within the confirmed five-action behavior? | Product / Design / Payments | Partially open; action set, order, direction, and handoffs confirmed |
-| OQ-05-017 | What admin controls are required for Important Notice / Action Required, Featured / What's New / Hot Offer carousel, and dashboard placement targeting? | Product / Growth / Operations | Open |
+| OQ-05-017 | What remaining implementation detail and evidence are required for the decided Admin controls supporting Home Hot Offer publication and other approved Home configuration? DOC-06B owns Home presentation; source owners retain canonical business truth; DOC-22 owns Admin publication and configuration controls; technical mechanics and later detailed evidence remain with their formal owners. | Product / Growth / Operations | Partially open; presentation-governance and ownership boundaries decided |
 | OQ-05-018 | Which MVP events and data objects must be captured for product analytics, risk analytics, commercial reporting, and future approved AI/model improvement? | Product / Data / Engineering | Open |
 | OQ-05-019 | What user consent and preference categories are required for personalization, partner offers, marketing communication, and model improvement? | Product / Privacy / Legal | Open |
 | OQ-05-020 | Which data classes, fields, and derived features are prohibited from marketing models, partner reports, or external activation? | Product / Privacy / Risk | Open |
@@ -784,7 +784,7 @@ The MVP is acceptable when:
 | `ENTRANCE-ROOT`, the `AUTH-LOGIN` family, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, and `ACCOUNT-ACTIVATION` are required acceptance-scope destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Behavior Defined |
 | One account uses one unique verified primary email and may explicitly enable email/password, Google, and Apple login methods. Social accounts may set a password later; matching emails never auto-link accounts; a registration attempt reserves no identifier; phone, identity, and six-digit payment-passcode completion remove the registration-level restriction through `ACCOUNT-ACTIVATION`. | Confirmed |
 | `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, and the `NOTIFICATION-ROOT` family have defined behavior baselines and route handoffs. DOC-09 `PAYMENT-CHECKOUT` remains a stable destination with further detail pending. | Working Baseline / Final Visual Design Pending |
-| DOC-06B designated Home Dashboard flow and layout baseline is accepted for MVP discussion, but final UI design and exact component specification remain open. | Confirmed |
+| DOC-06B defines the reviewed `HOME-ROOT` route-level baseline for Greeting, Important Notice, Home Hot Offer, Upcoming Bills / Rent, Recent Activity, section-level resilience, accessibility, and presentation governance. `HOME-ROOT` remains Partially defined while final visual design, exact DOC-07 Copy and identifiers, technical mechanics, and later DOC-20 evidence remain pending with their formal owners. | Working Baseline / Route Behavior Defined |
 | Dashboard shortcut grid, account-level user shortcut preferences, protected `More`, current-default restore, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
 | DOC-06C `BILLS-PAY` and `BILLS-RECEIVE` route split is accepted as the current role-aware Bills-route baseline; checkout/payment screen behavior remains primarily governed by DOC-09. | Working Baseline / Not Final |
 | DOC-06B `PAYMENT-PROFILE-ROOT` is accepted as the current route shell for tokenized card and saved split-card profile management; checkout authorization and funding remain governed by DOC-09. | Working Baseline / Not Final |
@@ -799,6 +799,7 @@ The MVP is acceptable when:
 
 | Version | Date | Summary |
 |---|---|---|
+| v0.18.36 | 2026-08-06 | Aligned the Master PRD with the reviewed `HOME-ROOT` route-level baseline, replaced the superseded combined Home placement terminology with Home Hot Offer, and narrowed OQ-05-017 to residual Admin implementation and evidence dependencies without duplicating DOC-06B or source-owner contracts. |
 | v0.18.35 | 2026-08-04 | Aligned notification-backed Payment Instruction actions with mandatory `NOTIFICATION-DETAIL` entry, current DOC-08 revalidation, and an owner-approved CTA to the DOC-09 Checkout Resolver without creating a direct notification-to-Instructions or Checkout path. |
 | v0.18.34 | 2026-08-03 | Aligned the PAYMENT-CHECKOUT owner split to DOC-06B route-level UI/UX and DOC-09 authoritative Payment Domain meaning, and replaced fixed-screen review wording with the accepted adaptive Workspace composition. |
 | v0.18.33 | 2026-07-31 | Aligned product requirements with DOC-09 Payment Domain Architecture, separated deliberate Payment Instructions from incomplete Checkout Workspaces, and clarified Request, Payment Obligation, Checkout, Payment, Payment Application, coverage, and downstream Payout boundaries. |

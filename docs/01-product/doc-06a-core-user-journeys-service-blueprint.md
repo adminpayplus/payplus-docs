@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.19
+version: 0.1.20
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-05
+last_updated: 2026-08-06
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -41,12 +41,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.19` |
+| **Version** | `0.1.20` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-05` |
+| **Last Updated** | `2026-08-06` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -1214,8 +1214,8 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-021 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should be used within the confirmed five-action order and behavior? | Product / Design / Payments | Partially open; behavior defined in DOC-06B |
 | OQ-06-022 | What route-level IA remains to be defined in DOC-06B for Support and other incomplete secondary routes? Me, More, Offers, Rewards, and Referral route boundaries are defined. | Product / Design | Open |
 | OQ-06-023 | What final styling and optional post-replacement Undo should apply to the defined `MORE-ROOT` behavior? The shortcut maximum, protected More entry, reorder/remove/add behavior, account-level preference, current-default restore, and admin-default mechanism are decided. | Product / Design / Operations | Partially open |
-| OQ-06-024 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
-| OQ-06-025 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
+| OQ-06-024 | What final visual design, exact DOC-07 Copy and identifiers, technical session mechanics, adopted-platform accessibility implementation, and DOC-20 evidence should apply to the decided HOME-ROOT Important Notice baseline? Its Home consumption of source-provided ordering, session dismissal, Detail and source-action routing, return, and zero-state behavior are defined in DOC-06B; DOC-08 and source owners retain notification and business meaning. | Product / Operations / Compliance | Partially open; Home behavior decided, residual owner dependencies pending |
+| OQ-06-025 | What final visual design, exact DOC-07 Copy and identifiers, technical carousel mechanics, adopted-platform accessibility implementation, and DOC-20 evidence should apply to the decided Home Hot Offer baseline? Its Home cap, Admin selection and ordering, rotation and interaction, canonical restrictions, and `OFFER-DETAIL` handoff are defined through DOC-06B and its formal source-owner handoffs. | Product / Growth / Operations | Partially open; Home behavior decided, residual owner dependencies pending |
 | OQ-06-026 | What final user-initiated payee linking or invitation mechanism should be used: user ID, phone search, app link, WhatsApp deeplink, QR code, or another approved flow? | Product / Privacy / Engineering | Open |
 | OQ-06-027 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
 | OQ-06-028 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
@@ -1230,6 +1230,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.20 | 2026-08-06 | Narrowed OQ-06-024 and OQ-06-025 to final visual, Copy/identifier, technical, adopted-platform accessibility-implementation, and DOC-20 evidence dependencies after the HOME-ROOT Important Notice and Home Hot Offer route-level baselines were decided in DOC-06B. |
 | 0.1.19 | 2026-08-05 | Recognized `PAYMENT-CHECKOUT` as a Defined baseline and DEC-2026-037 as the accepted logical communication architecture while retaining exact Copy, identifiers, CTA labels, Locale Variants, Presentation Mappings, Bill/Rent source detail, technical, prototype, validation, implementation/UAT, and acceptance dependencies in OQ-06-030. |
 | 0.1.18 | 2026-08-04 | Recorded the decided Instruction `Pay Now` Checkout Resolver and mandatory `NOTIFICATION-DETAIL` entry contracts while retaining Bill/Rent handoff, DOC-07 communication, technical, prototype, validation, and implementation/UAT dependencies. |
 | 0.1.17 | 2026-08-03 | Aligned the Checkout authorization journey with owner-confirmed current-allocation and Payment Profile capabilities, including direct entry when only one capability is available without silently selecting, confirming, or authorizing funding. |

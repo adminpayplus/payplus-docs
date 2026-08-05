@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.33
+version: 1.0.34
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-04
+last_updated: 2026-08-05
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.33` |
+| **Version** | `1.0.34` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-04` |
+| **Last Updated** | `2026-08-05` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -170,8 +170,8 @@ DOC-08 should reference these documents instead of duplicating their detailed ru
 | Receipt | User-facing transaction confirmation record for a completed transaction. It may be viewed, downloaded, shared where allowed, or re-issued/replaced according to approved rules. |
 | Statement | Periodic or on-demand account/payment summary. It may include payer and payee-side financial activity for the same user account, but should not include unrelated system events. |
 | Dashboard task | Admin or user task shown inside the PayPlus app or admin dashboard. |
-| Important Notice / Action Required | DOC-06B logged-in dashboard section for urgent actions, account messages, system messages, announcements, late payer/payee handling, expiring tenancies, and similar items. It may contain notification-backed and dashboard-only items. |
-| Featured / What's New / Hot Offer | DOC-06B dashboard carousel placement for approved announcements, partner campaigns, feature updates, hot offers, and service events. It is a placement surface, not a notification event by itself. |
+| Important Notice / Action Required | DOC-06B logged-in dashboard section that consumes existing Inbox-backed notification records and DOC-08-published values. It does not create a duplicate Home notification record and is not itself a notification status, business status, or domain event. |
+| Hot Offer | DOC-06B Home carousel placement for canonical Offers selected by Admin. It is a placement surface, not a notification event or Inbox record by itself. |
 
 ---
 
@@ -218,11 +218,31 @@ For DOC-06B dashboard placements:
 
 | Dashboard Surface | Communication Rule |
 | --- | --- |
-| Important Notice / Action Required | May be backed by notification events, system announcements, dashboard-only tasks, or operational action items. User-facing priority, collapse, expiry, and routing rules belong in DOC-06B and DOC-22. |
-| Featured / What's New / Hot Offer | May display approved campaign or announcement content. Promotion eligibility and campaign rules belong in DOC-13; placement configuration belongs in DOC-22. |
+| Important Notice / Action Required | Consumes an existing Inbox-backed notification record without creating a duplicate record. DOC-08 owns notification identity, recipient, lifecycle, Inbox eligibility and categorization, delivery, and preserved source signals; DOC-06B owns Home selection, presentation, dismissal, routing, and return behavior. |
+| Hot Offer | Home presentation does not create a notification event or Inbox record. Canonical Offer content and truth belong in DOC-13; Home placement configuration and publication quality controls belong in DOC-22; notification delivery remains a separate DOC-08 decision. |
 | Inbox icon | Opens `NOTIFICATION-INBOX`, which may show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
 The user-facing notification family is `NOTIFICATION-ROOT`, with `NOTIFICATION-INBOX` as its default child screen, `NOTIFICATION-DETAIL` for one message, and `NOTIFICATION-SETTINGS` for preferences. `NOTIFICATION-LIST` and `NOTIFICATION-CARD` are components, and Archived is an Inbox filter rather than a separate route. DOC-06B owns screen behavior, entry points, and return rules; DOC-08 owns which records exist and how they are categorized, delivered, retained, and controlled.
+
+### 7.1 HOME-ROOT Important Notice Notification Contract
+
+DOC-08 publishes an existing Inbox-backed notification record and its canonical notification values for consumption by the DOC-06B HOME-ROOT Important Notice contract. This handoff does not create a second Home notification record.
+
+DOC-08 owns or preserves, without deriving or reinterpreting:
+
+- notification identity, recipient, Inbox eligibility, record category, and current lifecycle state;
+- the issued timestamp;
+- source-event linkage and the source-provided destination linkage, where one is currently available;
+- the notification-detail identity and data presented through canonical `NOTIFICATION-DETAIL`;
+- Severity;
+- Home category of `System`, `Payment`, `Account`, or `Other Important`;
+- Business Priority Rank;
+- `Unread`, `Read`, `Archived`, expired, withdrawn, and other notification-owned states; and
+- applicable due timestamp and canonical timezone for an eligible Bill/Rent reminder.
+
+The Home category is a source-preserved selection signal and does not replace DOC-08 Inbox presentation grouping or create a domain status. Missing or invalid source values remain upstream contract matters.
+
+DOC-06B is the sole normative owner of HOME-ROOT selection, one-at-a-time presentation, ordering, visibility and zero state, dismissal, body/action interaction, Details-close return branches, and the Rent-reminder Home display window. DOC-08 supplies the canonical notification record and values above and does not restate or derive that Home algorithm.
 
 Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include account-setup completion to `ACCOUNT-ACTIVATION`, phone action to `PHONE-VERIFICATION`, identity action to `IDENTITY-VERIFICATION`, evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, account/profile or closure action to `ACCOUNT-PROFILE`, account-security action to `ACCOUNT-SECURITY` or `PAYMENT-PASSCODE-SETTINGS`, privacy/data action to `PRIVACY-DATA-CONTROLS`, receiving-information action to `RECEIVING-INFO`, `RECEIVING-INFO-DETAILS`, or `RECEIVING-INFO-SETUP`, archive-area access to `ARCHIVED-ROOT`, archived-obligation access to `ARCHIVED-BILLS-LIST`, archived/previous evidence access to `ARCHIVED-DOCS-LIST`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required. `RECEIPT-DETAIL` and `STATEMENT-DETAIL` open the selected PDF in the shared in-app preview defined by DOC-06B.
 
@@ -232,7 +252,7 @@ A user's personal archive or restore of a bill/rent is a visibility action and d
 
 DOC-06B `ACTIVITY-ROOT` may expose direct receipt/proof download actions from an expanded activity card where the file is available and the user has permission. DOC-06B `ACTIVITY-DETAIL` may also expose direct receipt/proof download actions. If receipt/proof is unavailable, the button should be hidden by default or disabled only where useful with clear, non-sensitive wording. Invoice/evidence buttons should be hidden where access is not permitted. DOC-08 owns the communication, delivery, file-availability, and receipt/proof wording rules; DOC-15 owns masking and access boundaries.
 
-### 7.1 Inbox Signal Separation
+### 7.2 Inbox Signal Separation
 
 Every Inbox record must keep these concepts separate:
 
@@ -726,7 +746,7 @@ The admin dashboard or configuration layer should support:
 - message preview;
 - approval workflow for sensitive templates;
 - audit log for configuration changes.
-- dashboard placement linkage for Important Notice / Action Required and Featured / What's New / Hot Offer where the item is also a notification, announcement, or campaign communication;
+- source-preserving Important Notice inspection/audit linkage and separate Hot Offer communication linkage where an Offer also has an independently approved notification or campaign communication;
 
 Admin changes to legal, payment, privacy, fee, refund, chargeback, or payout timing wording should require approval.
 
@@ -780,8 +800,8 @@ Detailed schema belongs in DOC-18.
 | OQ-08-010 | Which DOC-13 promotion, coupon, voucher, referral, membership, miles, entitlement, fulfilment, and clawback events should notify users versus remain app status or admin-only tasks? | Product / Growth / Operations | Open |
 | OQ-08-011 | Which action-alert schedule, channel mix, and final-action wording should apply separately to deliberate Payment Instructions and incomplete Checkout Workspaces, including split-card continuation and expiry cases? | Product / Payments / Operations | Open |
 | OQ-08-012 | What notification wording and channel rules should apply when deferred payment quote, promotion, card eligibility, fee, or timing terms changed before submission? | Product / Growth / Payments | Open |
-| OQ-08-013 | Which Important Notice / Action Required dashboard items should also create notification events, inbox entries, push alerts, email, SMS, or WhatsApp messages? | Product / Operations / Legal | Open |
-| OQ-08-014 | Which Featured / What's New / Hot Offer carousel items require notification consent, marketing consent, inbox entries, or dashboard-only display? | Product / Growth / Privacy | Open |
+| OQ-08-013 | Which eligible Inbox-backed Important Notice notification families also use push, email, SMS, or WhatsApp? | Product / Operations / Legal | Open for channels; Home requires an existing eligible Inbox record |
+| OQ-08-014 | Which Hot Offer communications, independently of Home placement, require notification consent, marketing consent, or Inbox delivery? | Product / Growth / Privacy | Open for communication; Home placement creates no notification or Inbox record |
 
 ---
 
@@ -805,7 +825,8 @@ DOC-08 is acceptable when:
 - referral share actions do not create recipient notifications, while attribution, qualification, entitlement, claim, and issued-reward events route to their defined destinations;
 - deliberate Payment Instruction and incomplete Checkout Workspace action-alert boundaries, deferred action, split-card remaining action, continuation expiry/closure, confirmed Payment, and downstream Payout message boundaries are defined without collapsing them into one status family;
 - deferred payment quote or promotion change notification boundaries are defined without renumbering existing notification IDs;
-- dashboard placement boundaries are defined so Important Notice / Action Required, Inbox, Featured carousel, and notification events remain separate but linkable surfaces;
+- dashboard placement boundaries are defined so Important Notice / Action Required, Inbox, Hot Offer, and notification events remain separate but linkable surfaces;
+- DOC-08 publishes existing Inbox-backed notification records and canonical source signals for DOC-06B consumption, creates no duplicate Home record, and leaves Home selection, ordering, dismissal, routing, and return behavior to DOC-06B;
 - delivery logging and retention expectations are defined;
 - detailed payment, payout, refund, dispute, and data-model logic is left to owning documents.
 
@@ -815,6 +836,7 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.34 | 2026-08-05 | Defined the bounded HOME-ROOT Important Notice notification handoff by publishing the existing Inbox-backed record, notification identity, lifecycle, and source-owned selection/destination values while retaining Home presentation, ordering, dismissal, navigation, return, and reminder-window behavior in DOC-06B. |
 | 1.0.33 | 2026-08-04 | Required every instruction-related notification to enter `NOTIFICATION-DETAIL`, revalidate current state and permission before exposing an owner-approved CTA to the DOC-09 Checkout Resolver, and prohibited notification content or delivery state from establishing current eligibility, authorization or payment result. |
 | 1.0.32 | 2026-07-31 | Aligned notification references with Request-as-linkage and distinct Payment Instruction versus incomplete Checkout continuation contexts without defining new notification IDs. |
 | 1.0.31 | 2026-07-29 | Separated AUTH-RECOVERY Outcomes and Resolution Strategies from notification events, classified reset-link email as controlled delivery, and mapped successful password reset to the existing mandatory account-security communication family. |

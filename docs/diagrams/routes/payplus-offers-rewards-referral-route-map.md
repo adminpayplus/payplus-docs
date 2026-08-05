@@ -2,12 +2,12 @@
 
 Status: Current discussion reference
 Owner: DOC-06B / DOC-13
-Last updated: 2026-07-26
+Last updated: 2026-08-06
 
 ```mermaid
 flowchart TD
   NAV["Bottom navigation Offers"] --> OFFERS["OFFERS-ROOT"]
-  HOME["Home Featured / Hot Offer"] --> OFFERDETAIL["OFFER-DETAIL"]
+  HOME["Home Hot Offer"] --> OFFERDETAIL["OFFER-DETAIL"]
   OFFERS --> OFFERDETAIL
   OFFERS --> CARDLIST["OFFERS-CARD-LIST"]
   OFFERS --> PAYPLUSLIST["OFFERS-PAYPLUS-LIST"]

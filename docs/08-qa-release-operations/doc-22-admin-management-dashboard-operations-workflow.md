@@ -1,4 +1,61 @@
-﻿# DOC-22 - Admin Management Dashboard and Operations Workflow
+﻿---
+document_id: DOC-22
+title: Admin Management Dashboard & Operations Workflow
+version: 0.22.0
+status: Founder Working Baseline
+owner: Operations / Product
+reviewers:
+  - Product Lead
+  - Operations Lead
+  - Payments Lead
+  - Risk Lead
+  - Compliance Lead
+  - Privacy Lead
+  - Security Lead
+  - Engineering Lead
+  - Data Lead
+approvers:
+  - Project Owner
+  - Product Lead
+  - Operations Lead
+  - Compliance Lead
+last_updated: 2026-08-05
+classification: Internal
+related_documents:
+  - DOC-00 Documentation Governance
+  - DOC-05 Master PRD & Feature Requirement Index
+  - DOC-06 User Journey, UX Flow & Service Blueprint
+  - DOC-06B Navigation, IA & Route Taxonomy
+  - DOC-06C Bills, Rent & Tenancy UX Module
+  - DOC-07 Content, Disclosure & User Authorization Specification
+  - DOC-08 Notification, Receipt & Communication Specification
+  - DOC-09 Payment Domain Architecture
+  - DOC-10 Payout & Reconciliation
+  - DOC-11 Refund, Cancellation & Chargeback
+  - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
+  - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
+  - DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification
+  - DOC-15 Privacy, Data Protection & Record Retention Specification
+  - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
+  - DOC-19 Security, Tokenization, Authentication & Admin Control Specification
+  - DOC-20 Testing, UAT & Go-Live Checklist
+  - DOC-21 Monitoring, Incident Response & Operational SOPs
+---
+
+# DOC-22 — Admin Management Dashboard & Operations Workflow
+
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-22` |
+| **Title** | Admin Management Dashboard & Operations Workflow |
+| **Version** | `0.22.0` |
+| **Status** | Founder Working Baseline |
+| **Owner** | Operations / Product |
+| **Reviewers** | Product Lead<br>Operations Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Security Lead<br>Engineering Lead<br>Data Lead |
+| **Approvers** | Project Owner<br>Product Lead<br>Operations Lead<br>Compliance Lead |
+| **Last Updated** | `2026-08-05` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
 ## 1. Purpose
 
@@ -136,8 +193,13 @@ Required capabilities should include:
 - support restore to the current eligible default rather than an obsolete historical default;
 - version default/catalog changes and preserve privacy-safe handling when a previously selected entry becomes unavailable;
 - prevent admin configuration from bypassing destination permissions, feature gates, or PayPlus product boundaries;
-- configure Important Notice / Action Required items, including priority, expiry, collapse behavior, route target, audience, approval status, and audit log;
-- configure Featured / What's New / Hot Offer carousel placements, including priority, start/end date, targeting, offer or announcement linkage, route target, approval status, enable/disable, and audit log;
+- expose operational inspection and audit support for Important Notice / Action Required without altering or suppressing the source-owned Severity, Home category, Business Priority Rank, issued timestamp, lifecycle, due timestamp, audience/permission, or action destination;
+- configure Hot Offer Home selection through `AdminHomePresentationEnabled`, fixed or random ordering, an optional fresh-entry reshuffle for random ordering, and an auto-rotation interval whose default is five seconds;
+- validate Admin-selected candidates against the current DOC-06B-owned Home capacity and zero-state presentation contract without redefining those route-level rules;
+- require publication-quality review and audit for Admin-selected Offer presentation fields, while blank source fields remain blank and are not classified as HOME-ROOT Error;
+- preserve canonical Offer status, validity, redemption eligibility, content, and available-action truth, and prevent Admin configuration from altering, suppressing, reinterpreting, or falsifying that truth;
+- permit Admin-selected presentation of any canonical Offer status, except where an explicit canonical legal, privacy, permission, masking, or prohibited-content restriction forbids presentation;
+- publish only canonical Offer references and Admin presentation configuration for DOC-06B consumption; Home card and CTA destinations, section visibility, and automatic filtering behavior remain governed by DOC-06B, while Admin must not introduce `SourceHomeDisplayEligible`, a multi-gate Home formula, or status-, validity-, or redemption-derived Home filtering;
 - distinguish dashboard placement from notification delivery, inbox entry, campaign eligibility, and promotion entitlement;
 - record admin changes to shortcut defaults, dashboard placements, carousel configuration, and notice/action items.
 
@@ -219,10 +281,11 @@ Required capabilities include:
 
 - assign one Offer ID to one or more discovery collections;
 - configure Featured / Hot placement separately from collection membership;
+- use `AdminHomePresentationEnabled` for Home placement under the complete Home visibility contract in DOC-13;
 - configure the primary `OFFERS-ROOT` placement and suppress unintended repeated root display of the same Offer ID by default;
 - allow an approved, audited override for intentional repeated root placement;
 - configure pinning and display priority separately for each collection;
-- configure offer enablement, display dates, targeting, labels, and publication approval;
+- configure Offer-domain enablement, display dates, targeting, labels, and publication approval without treating those Offer-domain values as additional HOME-ROOT visibility gates;
 - configure whether an offer is payment-method-sensitive and automatically applied or belongs to the separate user-selected coupon/voucher/discount family;
 - configure the approved user-value amount/method and deterministic equal-value or non-comparable tie-break used to auto-select the best eligible Card Offer;
 - audit collection assignment, placement, priority, override, value-comparison, and application-mode changes.
@@ -369,6 +432,7 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.22.0 | 2026-08-05 | Added approved Admin selection, ordering, rotation, publication-quality, and audit controls for source-owned Important Notice signals and Admin-selected Hot Offers; preserved canonical Offer truth and restriction boundaries; and established bounded DOC-06B handoffs for Home capacity, zero-state presentation, and navigation. |
 | 0.21.0 | 2026-07-29 | Aligned future authentication administration with capability-aware Recovery, the Outcome/Resolution/Message/CTA separation, controlled Support recovery cases, dual approval, and explicit administrator prohibitions while leaving security and operational details TBC. |
 | 0.20.0 | 2026-07-28 | Added future admin controls for the five-state identity model, prohibited direct verification/passcode bypass, required dual approval for Verified-to-Not-Verified reset, recorded reset audit fields, preserved support-assisted passcode-recovery TBCs, and added the configurable HK$3,000 step-up baseline. |
 | 0.19.0 | 2026-07-28 | Added future operational controls for temporary registration attempts, authentication outcome/message/correlation lookup, account-activation conflicts, Fast Login/session handling, and approved public Entrance content while preserving DOC-07 ownership of exact IDs and messages. |

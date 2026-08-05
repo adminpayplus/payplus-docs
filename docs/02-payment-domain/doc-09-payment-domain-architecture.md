@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Domain Architecture
-version: 1.1.1
+version: 1.1.2
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-08-04
+last_updated: 2026-08-05
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Domain Architecture |
-| **Version** | `1.1.1` |
+| **Version** | `1.1.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-08-04` |
+| **Last Updated** | `2026-08-05` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
 
@@ -1191,6 +1191,18 @@ These are downstream specifications, not unresolved DOC-09 architecture decision
 
 ---
 
+### 28.1 HOME-ROOT Recent Activity Payment Projection
+
+DOC-09 publishes the canonical completed `Payment Complete` and distinct `Partial Payment` outcomes for consumption by the DOC-06B HOME-ROOT Recent Activity contract. A Partial Payment remains a separate completed Payment-domain outcome and is not collapsed into another Payment or supporting event.
+
+Each published outcome supplies its canonical outcome identity, canonical ordering timestamp, canonical amount, and canonical funds-flow direction. These values retain their DOC-09 meaning at the handoff boundary.
+
+Funding events, Provider Submission or confirmation events, Payment Applications, instructions, requests, failures, intermediate states, and general Bill/Rent changes are not completed Payment outcomes merely because they support one.
+
+DOC-09 does not create a cross-domain activity model. DOC-06B is the sole normative owner of Home inclusion/exclusion, cap, ordering, supporting-event deduplication, shared presentation, navigation, entry, and return behavior. DOC-07 owns user-facing outcome expression; DOC-18 remains the future owner of physical fields, event/status taxonomy, lineage, and audit representation.
+
+---
+
 ## 29. Acceptance Criteria
 
 DOC-09 is satisfied when implementation and downstream specifications demonstrate that:
@@ -1261,6 +1273,7 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 64. A later eligible Checkout may be created only after no active continuable Checkout remains, without erasing, rewriting, invalidating or reactivating an earlier historical Checkout.
 65. Notification content, delivery and stored snapshots do not establish current Checkout eligibility, authorization, Provider Confirmation or payment result.
 66. Checkout resolution creates no silent Funding Leg or Provider Submission and carries forward no stale payer authorization.
+67. DOC-09 publishes canonical completed Payment Complete and distinct Partial Payment outcomes with their ordering timestamp, amount, and funds-flow direction for the DOC-06B HOME-ROOT handoff; supporting events remain separate non-outcomes, and DOC-06B owns Home selection, ordering, deduplication, sign presentation, navigation, and return behavior.
 
 ---
 
@@ -1268,5 +1281,6 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.1.2 | 2026-08-05 | Product Documentation Team | Added the bounded HOME-ROOT Recent Activity Payment handoff by publishing canonical Payment Complete and distinct Partial Payment outcome identity, ordering timestamp, amount, and funds-flow direction while retaining Home inclusion, ordering, deduplication, presentation, navigation, and return behavior in DOC-06B. |
 | 1.1.1 | 2026-08-04 | Product Documentation Team | Defined Instruction `Pay Now` as invoking the Checkout Resolver, including current validation, active-Checkout precedence, eligible later creation, explicit source-owner resolution, retained history, and no stale authorization or silent funding/submission behavior. |
 | 1.1.0 | 2026-07-31 | Product Documentation Team | Established the Founder Working Baseline for the Payment Domain Architecture, including the accepted architecture, canonical terminology, invariants, decision coverage, acceptance criteria, and canonical filename. |

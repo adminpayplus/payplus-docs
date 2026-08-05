@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 0.7.4
+version: 0.7.5
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-05
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,12 +43,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-10` |
 | **Title** | Payout & Reconciliation |
-| **Version** | `0.7.4` |
+| **Version** | `0.7.5` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Finance |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-05` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -632,6 +632,14 @@ Examples:
 | Payout Held | Admin task required; user messaging depends on reason and policy. |
 | Reconciliation Break | Admin/internal only. |
 
+### 20.1 HOME-ROOT Recent Activity Payout Projection
+
+DOC-10 publishes each canonical completed `Payout Complete` outcome for consumption by the DOC-06B HOME-ROOT Recent Activity contract. Each outcome supplies its canonical outcome identity, canonical ordering timestamp, canonical amount, and canonical funds-flow direction.
+
+Settlement, batch, bank-ingestion, reconciliation, retry, intermediate, failure, and supporting events are not completed Payout outcomes merely because they support one.
+
+DOC-10 does not create a cross-domain activity model. DOC-06B is the sole normative owner of Home eligibility, cap, ordering, cross-domain consumption, deduplication, presentation, navigation, entry, and return behavior. DOC-07 owns user-facing expression; DOC-18 remains the future owner of physical fields, event/status taxonomy, lineage, and audit representation.
+
 ---
 
 ## 21. Open Questions
@@ -672,6 +680,7 @@ DOC-10 is acceptable when:
 - admin controls are defined at business/backend level;
 - detailed integration, privacy, data model, and admin workflow ownership is clearly assigned to DOC-15, DOC-17, DOC-18, and DOC-22.
 - promotion-related reimbursement or reward settlement exceptions are routed to DOC-13, DOC-18, and DOC-22 where applicable.
+- DOC-10 publishes canonical Payout Complete outcomes with their ordering timestamp, amount, and funds-flow direction for the DOC-06B HOME-ROOT handoff; supporting events remain separate non-outcomes, and DOC-06B owns Home eligibility, ordering, deduplication, sign presentation, navigation, and return behavior.
 
 ---
 
@@ -679,6 +688,7 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.7.5 | 2026-08-05 | Added the bounded HOME-ROOT Recent Activity Payout handoff by publishing canonical Payout Complete outcome identity, ordering timestamp, amount, and funds-flow direction while retaining Home eligibility, ordering, deduplication, presentation, navigation, and return behavior in DOC-06B. |
 | 0.7.4 | 2026-07-31 | Aligned the DOC-09 handoff to confirmed Payments and destination facts, removed Checkout-completion and Payment-Instruction payout coupling, and preserved DOC-10 Settlement/Payout ownership. |
 | 0.7.3 | 2026-07-26 | Confirmed payout and reconciliation blockers for obligation archive/restore and preserved payout, destination, and completed-history snapshots across personal archive visibility changes. |
 | 0.7.2 | 2026-07-26 | Replaced ambiguous request-status payout gating with the canonical payee-created request lifecycle and separate linked-case/hold controls, while preserving payer-created no-request payment. |

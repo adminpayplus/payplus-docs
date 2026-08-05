@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.49
+version: 0.1.50
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -40,7 +40,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.49` |
+| **Version** | `0.1.50` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
@@ -440,14 +440,14 @@ The Home Dashboard should use the following MVP section order.
 
 | Order | Section | Definition | Display Rule | Route Relationship |
 | ---: | --- | --- | --- | --- |
-| 1 | Header | Greets the user and provides quick access to high-priority utilities. | Always shown. | Inbox and coupon/rewards icons route to their respective screens. |
-| 2 | Important Notice / Action Required | Combined swipeable section for urgent actions, account messages, system messages, announcements, late handling from payer/payee, expiring tenancies, and other important updates. | Disappears if empty. User may collapse with a close button. Eligible item types are initially defined here and may be expanded later. | Each card routes to the relevant task, detail, or message route. |
+| 1 | Header | Presents the contextual Greeting and quick access to high-priority utilities. | Always shown. | Greeting has no navigation action. Inbox and coupon/rewards icons route to their respective screens. |
+| 2 | Important Notice | Presents one eligible Inbox-backed important notification without creating a duplicate Home notification record. | Zero eligible candidates hides the section. Dismiss is canonical-session-scoped and changes no notification or business state. | Body opens `NOTIFICATION-DETAIL`; Action Button opens the source-provided destination. |
 | 3 | Shortcut Grid | Operational shortcuts for common management tasks. Must not duplicate Pay+ direct payment-start actions. | MVP default and maximum is 8 shortcuts including protected `More`. Users may keep fewer than 7 configurable shortcuts, but `More` remains present. | Each shortcut routes to its related management area. |
-| 4 | Featured / What's New / Hot Offer | One combined carousel for approved PayPlus announcements, partner campaigns, feature updates, hot offers, and service events. | Must be admin-controllable. Use one combined carousel at this stage. | Routes to `OFFERS-ROOT`, `OFFER-DETAIL`, announcement detail, or the relevant feature route. |
-| 5 | Upcoming Bills / Rent | Summary of upcoming bills, fees, rent, tenancy obligations, due reminders, and related next actions. | Show when active or saved obligations exist. Detailed card fields may be refined later. | Routes to Bills area or the specific bill/tenancy detail. |
-| 6 | Recent Activity | Limited list of recent transactions and status records. | Show recent items only, capped by dashboard display rules. | Arrow or View More routes to Recent Activity detail page. |
+| 4 | Hot Offer | Offer-only carousel of canonical Offers selected by Admin for Home presentation. | Maximum five; zero candidates hides the section. | Every card and CTA opens canonical `OFFER-DETAIL`. |
+| 5 | Upcoming Bills / Rent | Presents up to three active payer-role Bill and Rent candidates supplied by DOC-06C. | HKD-only MVP; deterministic canonical ordering. | `Pay Now` and `View Details` enter the source-owning route. |
+| 6 | Recent Activity | Presents up to five completed payment-related outcomes supplied by DOC-09, DOC-10, and DOC-11. | Excludes technical events, intermediate states, failures, instructions, requests, and general Bill/Rent changes. | Item opens `ACTIVITY-DETAIL`; `View More` opens `ACTIVITY-ROOT`. |
 
-Dashboard section order may be refined later only through explicit design review. This baseline intentionally places the Featured / What's New / Hot Offer carousel below shortcuts and above Upcoming Bills / Rent.
+Dashboard section order may be refined later only through explicit design review. This baseline intentionally places Hot Offer below shortcuts and above Upcoming Bills / Rent.
 
 ---
 
@@ -455,9 +455,41 @@ Dashboard section order may be refined later only through explicit design review
 
 | Element | Definition | Route Relationship |
 | --- | --- | --- |
-| Greeting | User recognition area. | No route required, or profile route if tapped. |
+| Greeting | Contextual user-recognition text. | No navigation action. |
 | Inbox icon | Notifications, messages, payment alerts, request updates, support replies, system notices, and announcements. | Opens `NOTIFICATION-INBOX`. Request-related inbox items may route to `REQUESTS-ROOT`, `REQUESTS-DETAIL`, or the linked Bills/rent context depending on item type. |
 | Coupon / rewards icon | Shortcut to the user's issued coupons, vouchers, and other supported rewards. | Opens `REWARDS-ROOT`. |
+
+Greeting uses the applicable local time:
+
+- `05:00–11:59`: Morning;
+- `12:00–17:59`: Afternoon;
+- `18:00–04:59`: Evening.
+
+Server time may be used only with an applicable timezone; otherwise the approved neutral fallback is used. Display-name precedence is:
+
+1. user-defined Nickname;
+2. `Mr./Miss + eKYC surname` when applicable title data exists;
+3. surname only when surname exists without applicable title data;
+4. no displayed name otherwise.
+
+DOC-07 owns TC, SC, and EN presentation. Greeting is normally one visual line, while assistive technology receives the complete rendered greeting. Technical time, timezone, and account-data mechanics remain with their formal owners.
+
+#### Important Notice Contract
+
+Important Notice presents one eligible Inbox-backed notification at a time and does not create a duplicate Home notification record. Promotions, Rewards, marketing, and ordinary feature announcements are ineligible by default.
+
+Eligible candidates are ordered by:
+
+1. Severity;
+2. Category;
+3. source-owned Business Priority Rank;
+4. issued timestamp, newest first.
+
+Category order is System, Payment, Account, then Other Important. Every ordering key is a canonical value supplied by its owning source domain. HOME-ROOT must not derive, normalize, reinterpret, or supply fallback ordering semantics. A missing or invalid ordering value is an upstream contract matter.
+
+The Banner body opens canonical `NOTIFICATION-DETAIL`; the Action Button opens the source-provided destination. Dismiss is canonical-session-scoped and changes no read, resolved, expired, withdrawn, or business state. When Notification Details closes, enter Inbox if another eligible Important Notice exists; otherwise return Home. Zero eligible candidates hides the section.
+
+Rent-reminder eligibility uses the source-provided canonical due timestamp: the effective due date is 23:59 in its canonical timezone; Home eligibility ends 24 hours later; and proposed due-date changes have no effect until applied to the canonical Bill/Rent record. DOC-07 owns severity and user-facing Message/CTA expression; DOC-08 owns notification lifecycle, eligibility, fields, Inbox, Details, and read state; source owners own business state, deadlines, resolution, destination, and Business Priority Rank; DOC-06B owns Home presentation, session-scoped dismiss behavior, and navigation. Technical session mechanics remain outside DOC-06B.
 
 ---
 
@@ -495,64 +527,66 @@ Detailed user behavior is defined in Section 5.18. Admin configuration belongs i
 
 ---
 
-### 5.7 Featured / What's New / Hot Offer Carousel
+### 5.7 Hot Offer Carousel
 
-The dashboard should use one combined promotional and announcement carousel.
+Hot Offer is an Offer-only Home presentation surface. Admin decides which canonical Offers appear on Home. Home may present an Offer when `AdminHomePresentationEnabled` is true, except where an explicit canonical legal, privacy, permission, masking, or prohibited-content restriction forbids presentation. Offer status, validity, and redemption eligibility do not themselves block Home display.
 
-The carousel may include:
+Any canonical Offer status may be displayed, including not-started, active, expired, used-up, paused, and non-redeemable. HOME-ROOT must not automatically filter by Offer status, validity, redemption eligibility, or inferred display eligibility. `SourceHomeDisplayEligible` and the former multi-gate Home formula must not be created or restored. Admin presentation must not alter, suppress, reinterpret, or falsify canonical Offer truth. Every card and CTA opens canonical `OFFER-DETAIL`, which presents current canonical status and available actions.
 
-- PayPlus feature updates;
-- partner announcements;
-- card partner offers;
-- hot offers;
-- service events;
-- category launch announcements;
-- approved campaigns;
-- important non-urgent announcements.
+The carousel displays a maximum of five cards and is hidden when no Admin-selected candidates are available for presentation. Admin may use fixed or random ordering; random ordering may reshuffle on each fresh Home entry. Auto-rotation defaults to five seconds and is Admin-configurable.
 
-The carousel must be admin-controllable, including placement, priority, start/end date, targeting, enable/disable, approval status, and audit log.
+Rotation stops while keyboard focus is inside the carousel, pointer hover is active, touch/swipe/drag/manual navigation is occurring, or assistive/accessibility interaction is active. Rotation may resume only after the interaction ends. After manual interaction, one complete five-second interval must elapse before rotation resumes. A separate visible Pause/Play control is not required unless the adopted platform accessibility standard requires one. Reduced motion removes transition animation but may continue rotation under the same non-disruption rules. Normal platform component practices govern accessible naming, position information, focus, and announcements.
 
-Detailed promotion eligibility, coupon/voucher logic, reward entitlement, campaign budget, and reversal logic belong in DOC-13. Detailed admin placement control belongs in DOC-22. Personalization and marketing data handling belong in DOC-15.
+DOC-06B does not validate Offer-content completeness. Empty fields render blank and are not a HOME-ROOT Error. DOC-13 owns canonical Offer content, status, validity, eligibility, and business truth. DOC-22 owns Admin selection, publication workflow, ordering, interval, and administrative quality controls. Retrieval, source, session, and bootstrap failures retain their owning-domain classification.
 
 ---
 
 ### 5.8 Upcoming Bills / Rent
 
-The Upcoming Bills / Rent section should summarize the user's next relevant obligations.
+Upcoming Bills / Rent consumes active payer-role candidates from DOC-06C, combines Bill and Rent candidates, supports HKD only for MVP, and displays up to three items. Fields follow the canonical Bill/Rent card baseline.
 
-Initial dashboard card information may include:
+HOME-ROOT orders candidates by:
 
-- biller, payee, landlord, or obligation name;
-- category;
-- amount;
-- due date or rent period;
-- payment status;
-- evidence status where relevant;
-- next action.
+1. nearest due date;
+2. higher amount;
+3. Rent before Bill;
+4. canonical creation timestamp, earliest first;
+5. stable source-provided record ID when all preceding values are equal.
 
-Exact card layout, maximum visible items, empty state, and filtering rules remain open and should be refined in later DOC-06B/DOC-06C route-level work.
+HOME-ROOT consumes these canonical values and does not derive their meaning. Only `Pay Now` and `View Details` are authorized. Both enter the source-owning route, which revalidates before any protected action. Missing amount or due date is an upstream invariant or retrieval failure, not a valid Home candidate. Overdue remains a Bill/Rent business state. HOME-ROOT introduces no additional masking beyond canonical privacy and payment-instrument rules.
 
 ---
 
 ### 5.9 Recent Activity
 
-The Recent Activity section should display a capped list of recent transactions and status records.
+Recent Activity displays up to five completed payment-related outcomes:
 
-Activity is the event or lifecycle view of what happened in the user account. Receipt is a transaction confirmation record for a completed transaction. Statement is a periodic or account-level summary record.
+- Payment Complete;
+- Partial Payment;
+- Payout Complete;
+- Refund or Reversal.
 
-Dashboard recent activity items should show:
+Items are ordered by each owner's canonical ordering timestamp, newest first. Technical events, intermediate states, failures, instructions, requests, and general Bill/Rent changes are excluded. Multiple supporting technical events must not duplicate one outcome. Distinct Partial Payment outcomes remain separate. Refund and Reversal share the Home presentation while retaining distinct source meaning.
 
-- date;
-- item;
-- action;
-- amount;
-- status.
+Amount sign follows the canonical funds-flow direction published by DOC-09, DOC-10, or DOC-11. HOME-ROOT must not infer, reverse, or reinterpret the sign from payer/payee role. User-facing expression follows DOC-07 and the status-display reference matrix without creating a new cross-domain outcome model.
 
-The section should include a button or arrow to the Recent Activity detail page.
+`View More` opens `ACTIVITY-ROOT`. Selecting an item opens canonical `ACTIVITY-DETAIL`. Detail returns to Home when opened from Home and to `ACTIVITY-ROOT` when opened from Activity.
 
-User-facing activity statuses must follow `docs/traceability/status-display-reference-matrix.md` so dashboard Recent Activity, global Activity, Bills activity, checkout result, receipts, statements, notifications, and future admin views do not invent conflicting labels for the same system/domain status.
+### Home Resilience Contract
 
-Detailed receipt content, retention, and notification linkage belong in DOC-08, DOC-11, DOC-15, and DOC-18.
+HOME-ROOT uses smallest-practical-surface graceful degradation. Whole-Home handling applies only when the canonical session is invalid or unavailable, authentication or authorization cannot be established, the Home shell/bootstrap cannot be established, or identity/overall presentation authority cannot be safely determined.
+
+Source and technical owners supply cache authorization, freshness, and failure classification. Retry is scoped to the failed section unless a bootstrap exception applies. Successfully loaded zero candidates is Empty; failed retrieval is Error. Blank Hot Offer fields are not Error. Authorized stale/offline data may be shown only with unsafe actions disabled or revalidated through the source route. Accessibility implementation is not part of the resilience contract.
+
+### Home Accessibility Contract
+
+HOME-ROOT does not create a separate accessibility mode or duplicate platform accessibility standards. DOC-06B owns only Home-specific interaction requirements, including complete rendered Greeting output, carousel stop/resume behavior during active interaction, keyboard and non-swipe controls, focus and return behavior, and section-state semantics. Normal platform component practices govern accessible naming, position information, focus, and announcements. DOC-06D maps the requirements; DOC-20 holds later detailed evidence; implementation mechanics remain with platform and technical owners.
+
+### Home Presentation Governance
+
+Admin controls approved presentation, not canonical business truth. Offer status is not itself a Home visibility gate. Existing explicit canonical legal, privacy, permission, masking, and prohibited-content restrictions continue to apply.
+
+Admin must not alter due dates, amounts, permissions, payment status, notification lifecycle, severity, Business Priority Rank, or other business semantics. Admin must not suppress business-owned Upcoming Bills / Rent, Recent Activity, Important Notice truth, payment obligations, or other business-owned facts. Analytics, retention, event policy, configuration versioning, preference history, technical schema, and implementation remain with their formal owners.
 
 ---
 
@@ -579,7 +613,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Referral Route | Define `REFERRAL-ROOT`, referral attribution and progress presentation, role-sensitive entitlement list/detail/claim screens, registration handoff, and issued-reward handoff. Referral campaigns may be discovered through Offers, but Referral remains a separate route. | Child-screen behavior defined / not final visual design |
 | Admin-Configurable UI Marker List | Mark app UI elements that require admin configuration later without drafting admin UI in DOC-06. | Title preserved / DOC-22 owns admin UI |
 
-App UI elements that currently require admin configuration markers include Pay+ action visibility, shortcut visibility/order/defaults, Featured / What's New / Hot Offer carousel placement, Important Notice / Action Required item types, feature/module enablement, request-payment availability, and route-level gating by user type, category, launch phase, risk state, or compliance restriction.
+App UI elements that currently require admin configuration markers include Pay+ action visibility, shortcut visibility/order/defaults, Hot Offer Home presentation, feature/module enablement, request-payment availability, and route-level gating by user type, category, launch phase, risk state, or compliance restriction. Important Notice is source-driven: Admin may support approved inspection and audit but must not alter, suppress, or replace its canonical ordering, lifecycle, audience/permission, due-time, or destination values.
 
 ---
 
@@ -876,7 +910,7 @@ An immediate Checkout that has started execution but has not fully funded its Ch
 | --- | --- |
 | Dashboard shortcut `Instructions` | Opens `INSTRUCTIONS-ROOT`. |
 | Pay+ `Continue Payment` | Disabled when no active pending Payment Instruction or continuable incomplete Checkout Workspace exists; opens `INSTRUCTIONS-DETAIL` for exactly one or `INSTRUCTIONS-ROOT` for more than one. Review-blocked items remain visible but cannot continue. |
-| Important Notice / Action Required card | Opens the relevant `INSTRUCTIONS-DETAIL` where a specific instruction exists. |
+| Important Notice / Action Required | Its body opens `NOTIFICATION-DETAIL`. After current-state and permission revalidation, the source-provided Action Button may open the relevant `INSTRUCTIONS-DETAIL` where a specific instruction exists. |
 | Payment action notification | Opens `NOTIFICATION-DETAIL` first. After current-state and permission revalidation, an owner-approved instruction action may invoke the same DOC-09 Checkout Resolver. It must not bypass Notification Detail or identify a predetermined Checkout. |
 | Checkout flow | Creates or updates a Payment Instruction only when the user deliberately chooses pay later. An interrupted or partly funded immediate Checkout returns as an incomplete Checkout Workspace without conversion into an instruction. |
 
@@ -1514,7 +1548,7 @@ Navigation is defined by transition rather than by assigning an ID to every entr
 | Source | User Action | Destination | Return Behavior |
 | --- | --- | --- | --- |
 | Bottom navigation | Tap `Offers` | `OFFERS-ROOT` | Normal bottom-navigation behavior. |
-| Home Featured / Hot Offer | Tap an offer | `OFFER-DETAIL` | Return to Home and the prior carousel position. |
+| Home Hot Offer | Tap an offer | `OFFER-DETAIL` | Return to Home and the prior carousel position. |
 | `OFFERS-ROOT` | Tap any displayed offer | `OFFER-DETAIL` | Return to the same section and scroll position. |
 | `OFFERS-ROOT` | Tap Card Offers `View More` | `OFFERS-CARD-LIST` | Return to the Card Offers section. |
 | `OFFERS-ROOT` | Tap Pay+ Offers `View More` | `OFFERS-PAYPLUS-LIST` | Return to the Pay+ Offers section. |
@@ -2820,7 +2854,7 @@ No numerical accessibility, performance, or usability threshold is established h
 | Route / Area | Status | Next Required Work |
 | --- | --- | --- |
 | Entrance and Authentication | Defined Behavior Baseline / Final Design and Technical Controls Pending | `ENTRANCE-ROOT`, Login, Recovery boundary, Registration, Account Activation, Phone Verification, Identity Verification, Payment Passcode Settings, banners, protected return, and route ownership are defined. Confirm Entrance carousel configuration, final visual design, provider mapping, and DOC-19/DOC-20 technical and test controls. |
-| Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Confirm card-level UI, notice priority, carousel behavior, dashboard activity cap, and empty states. |
+| Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Bounded Greeting, Important Notice, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance behavior is defined. Confirm final visual design and later DOC-20 evidence. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Payment Checkout | `PAYMENT-CHECKOUT` Defined baseline | Preserve the decision-complete human-readable Workspace, resolver, funding, authorization, execution, recovery, and accessibility boundaries in Section 5.20 while exact Copy, IDs, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical mappings, prototype and accessibility/user-validation evidence, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending. |
 | Pay+ | `PAYPLUS-ACTION-SHEET` Defined Baseline / Not Final Visual Design | Five MVP actions, role direction, route handoffs, availability behavior, completion rules, and motion principles are defined. Confirm exact iconography, measurements, spacing, blur, motion timing/easing, and future added-button layout. |
@@ -2843,8 +2877,8 @@ No numerical accessibility, performance, or usability threshold is established h
 | OQ-06B-001 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should be used within the confirmed two-row five-action baseline? | Product / Design / Payments | Partially open; behavior and action order defined |
 | OQ-06B-002 | What final visual design and remaining child-route UI should apply to Me, Receiving Info, Archived Records, More shortcut management, and Support? More behavior, Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, Receiving Info, and the Archive family behavior are defined. | Product / Design / Privacy / Security / Operations | Partially open |
 | OQ-06B-003 | What final styling and optional post-replacement Undo behavior should apply to the defined `MORE-ROOT` shortcut-management experience? | Product / Design / Operations | Partially open; capacity, protected More, reorder, save, restore, and admin-default behavior defined |
-| OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Open |
-| OQ-06B-005 | What carousel card limit, auto-rotation behavior, ranking, targeting, and admin approval workflow should apply to Featured / What's New / Hot Offer placements? | Product / Growth / Operations | Open |
+| OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Resolved for Home: one Inbox-backed item, source-provided ordering, session-scoped dismiss, canonical Detail/action routing, and zero-state behavior defined; final visual design and DOC-20 evidence pending |
+| OQ-06B-005 | What final visual styling, implementation treatment, and DOC-20 evidence should apply to the defined Home Hot Offer placement? | Product / Design / Growth / Operations | Partially open; Offer-only scope, maximum five, Admin-selected fixed/random order, five-second configurable rotation, interaction stops, canonical restrictions, and `OFFER-DETAIL` handoff are defined |
 | OQ-06B-006 | What exact visual styling, card density, field-level copy, resend/reminder limit, share-button placement, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
 | OQ-06B-007 | What exact visual styling, field density, expiry/archive wording, and card/payment-profile handoff should distinguish deliberate Payment Instructions from incomplete Checkout Workspaces in the shared Instructions route? | Product / Design / Payments / Security | Open |
 | OQ-06B-008 | What exact Payment Profile card styling, field density, empty-state copy, tokenization return UX, and permitted PSP card metadata should be used? Two-tab `Cards` / `Profiles` structure is confirmed. | Product / Design / Payments / Security | Partially open |
@@ -2859,6 +2893,7 @@ No numerical accessibility, performance, or usability threshold is established h
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.50 | 2026-08-05 | Defined the approved HOME-ROOT Greeting, Inbox-backed Important Notice, Admin-selected Hot Offer, payer-only Upcoming Bills / Rent, completed-outcome Recent Activity, section-level resilience, accessibility, and presentation-governance contracts while preserving source ownership, Partially Defined Home status, and Defined PAYMENT-CHECKOUT. |
 | 0.1.49 | 2026-08-05 | Updated active `PAYMENT-CHECKOUT` references to Defined baseline, recognized completed PDM-WI-003 register/diagram alignment and the DEC-2026-037 logical communication architecture, and retained exact-expression, source-owner, technical, prototype, validation, implementation/UAT, acceptance, monitoring, support, and operational dependencies. |
 | 0.1.48 | 2026-08-05 | Replaced the superseded mandatory Authentication Matrix reference with the DOC-07 Authentication Bounded Domain Slice and linked Semantic, Disclosure, and CTA Contracts while preserving route, placement, destination, entry/return, adaptive-presentation ownership and open downstream mappings. |
 | 0.1.47 | 2026-08-04 | Defined Instruction `Pay Now` and instruction-notification entry through the owner-approved Checkout Resolver, required `NOTIFICATION-DETAIL` and current revalidation before any notification payment CTA, removed the X01/X02 route-level authority gaps, and preserved separate Payment Instruction/Checkout identity, retained history, no stale authorization, and no silent funding/submission behavior. |

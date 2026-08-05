@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.27
+version: 0.1.28
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-03
+last_updated: 2026-08-05
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -31,12 +31,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.27` |
+| **Version** | `0.1.28` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-03` |
+| **Last Updated** | `2026-08-05` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist |
 
@@ -89,7 +89,7 @@ Example pattern:
 | --- | --- | --- | --- |
 | Prohibited wallet/stored-value/cashout journeys | DOC-06 / DOC-06A | Ready for high-level blocked-flow criteria | Detailed tests later in DOC-20. |
 | Entrance and authentication routes | DOC-06B / DOC-07 / DOC-15 / DOC-19 | Partial to strong | Entrance/public-content boundaries, Fast/Full Login, Recovery, Registration, non-reserving attempts, restricted-account creation, Account Activation, persistent banners, uniqueness conflicts, protected returns, and failure-message ownership are testable; final carousel design, exact outcome/message mappings, child verification UI, and technical security mechanics remain open. |
-| Home dashboard layout | DOC-06B | Partial | `HOME-ROOT` is assigned; exact card behavior and UI detail remain open. |
+| Home dashboard layout | DOC-06B / DOC-06C / DOC-07 / DOC-08 / DOC-09 / DOC-10 / DOC-11 / DOC-13 / DOC-15 / DOC-22 | Strong human-readable baseline / detailed evidence pending | Greeting, Important Notice, shortcuts, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance behavior are testable at requirement level. Final visual styling, technical session/cache/schema mechanics, exact locale Copy, implementation evidence, accessibility evidence, and UAT remain with their formal owners and DOC-20. |
 | Pay+ action sheet | DOC-06B / DOC-06C / DOC-09 | Partial to strong | Five-action order, payee-to-payer request direction, category-scoped Bills handoffs, Add/Continue behavior, availability, return, configuration limits, and no-side-effect boundary are testable; exact visual specification remains open. |
 | More and shortcut management | DOC-06B / DOC-15 / DOC-18 / DOC-22 | Partial to strong | `MORE-ROOT` Normal/Manage modes, 8-slot maximum, protected More entry, account-level preferences, accessible add/remove/reorder, current-default restore, availability precedence, unsaved-change handling, and secondary-service handoffs are testable; final visual styling and optional replacement Undo remain open. |
 | Notifications route family | DOC-06B / DOC-08 / DOC-15 | Partial to strong | Root/Inbox/Detail/Settings hierarchy, Home/Me entry, reciprocal navigation, filters, read/archive behavior, badge semantics, current-state contextual handoff, preference failure recovery, and signal separation are testable; final styling, provider operations, and template wording remain open. |
@@ -123,7 +123,7 @@ Example pattern:
 | Permissioning | Users must only see data appropriate to their role. |
 | Auditability | Key actions must generate audit events. |
 | Error handling | Failed, blocked, or incomplete actions must show clear next steps. |
-| Accessibility | MVP UX should follow basic accessibility principles. |
+| Accessibility | Apply the adopted platform accessibility standards without a separate accessibility mode. DOC-06B owns Home-specific interaction requirements, DOC-06D maps them, platform/technical owners retain implementation mechanics, and DOC-20 owns detailed evidence. |
 | Mobile readiness | Core flows should be usable on common mobile screen sizes. |
 | Security | Sensitive payment, identity, evidence, and payout details must be protected. |
 | Compliance readiness | UX must support evidence, authorization, review, dispute, and traceability requirements. |
@@ -161,6 +161,27 @@ The DOC-06 user journey scope is satisfied when:
 - phone verification, new-device 2FA, dormant-login reauthentication, and material-change confirmation touchpoints are represented;
 - payers have `HOME-ROOT` as their logged-in dashboard;
 - payees have `HOME-ROOT` as their logged-in dashboard;
+- HOME-ROOT preserves the accepted section order and remains a presentation surface that consumes owner-published business content without becoming its business owner;
+- the Greeting uses local-time `Morning` from `05:00–11:59`, `Afternoon` from `12:00–17:59`, and `Evening` from `18:00–04:59`; server time without an applicable timezone uses the approved neutral fallback;
+- Greeting name precedence is Nickname, applicable `Mr.` or `Miss` plus eKYC surname, surname alone, then no displayed name; the visual is normally one line, assistive technology receives the complete rendered greeting, and the greeting has no navigation action;
+- Important Notice displays at most one eligible Inbox-backed notification, creates no duplicate Home record, excludes promotions, Rewards, marketing, and ordinary feature announcements by default, and hides when no eligible candidate exists;
+- Important Notice ordering uses source-supplied canonical Severity, Home category (`System`, `Payment`, `Account`, `Other Important`), Business Priority Rank, and issued timestamp newest first; Home supplies no derived, normalized, reinterpreted, or fallback ordering semantics;
+- Important Notice body enters `NOTIFICATION-DETAIL`, its Action Button enters the source-provided destination, session dismissal changes no read/archive/lifecycle/business state, and closing Details enters Inbox when another eligible notice exists or otherwise returns Home;
+- an eligible Rent reminder uses the source-provided due timestamp at `23:59` in its canonical timezone, ends Home eligibility 24 hours later, and ignores a proposed due-date change until it is applied to the canonical Bill/Rent record;
+- Hot Offer may present a canonical Offer when `AdminHomePresentationEnabled` is true except where an explicit canonical legal, privacy, permission, masking, or prohibited-content restriction forbids presentation; status, validity, and redemption eligibility do not themselves block Home display;
+- Hot Offer supports any canonical Offer status, no `SourceHomeDisplayEligible` or multi-gate formula, no automatic status/validity/redemption filter, no more than five cards, section hiding at zero, fixed or random Admin ordering, and optional reshuffle on fresh Home entry;
+- every Hot Offer card and CTA enters `OFFER-DETAIL`, where current canonical truth and available actions are presented; Admin does not alter or suppress that truth, blank presentation fields render blank rather than Home Error, and source/retrieval/session/bootstrap failures retain their owning classification;
+- Hot Offer rotation defaults to five seconds and stops during keyboard focus, pointer hover, touch/swipe/drag/manual navigation, or assistive interaction; it resumes only after interaction ends, waits one complete interval after manual interaction, and requires no separate Pause/Play unless the adopted platform standard requires one;
+- reduced motion removes Hot Offer transition animation but may retain rotation under the same non-disruption rules, with platform-standard accessible naming, position, focus, announcement, keyboard, and non-swipe controls;
+- Upcoming Bills / Rent consumes active payer-role Bill and Rent candidates from DOC-06C, supports HKD only for MVP, displays up to three, and orders by nearest due date, higher amount, Rent before Bill, earliest canonical creation timestamp, then stable source record ID;
+- Upcoming uses canonical Bill/Rent card fields and only `Pay Now` and `View Details`; both enter the source-owning route for revalidation, missing amount/due date is an upstream invariant or retrieval failure, overdue retains its Bill/Rent meaning, and Home adds no masking rule;
+- Recent Activity displays up to five owner-published completed outcomes limited to Payment Complete, distinct Partial Payment, Payout Complete, Refund, and Reversal, ordered by canonical ordering timestamp newest first;
+- Recent Activity excludes technical events, intermediate states, failures, instructions, requests, and general Bill/Rent changes; supporting events do not duplicate outcomes, and Refund/Reversal share presentation without losing distinct source meaning;
+- Recent Activity amount sign consumes canonical funds-flow direction from DOC-09, DOC-10, or DOC-11 without payer/payee-role inference; `View More` enters `ACTIVITY-ROOT`, item selection enters `ACTIVITY-DETAIL`, and Detail returns to its Home or Activity origin;
+- Home applies smallest-practical-surface graceful degradation; whole-Home handling is limited to invalid/unavailable session, failed authentication/authorization establishment, failed shell/bootstrap establishment, or unsafe identity/overall-presentation authority;
+- loaded zero candidates is Empty, failed retrieval is Error, blank Offer fields are not Error, Retry is section-scoped except for a bootstrap exception, and authorized stale/offline data disables unsafe actions or revalidates through the source route;
+- Home accessibility is not a separate mode or a resilience state; Home-specific complete Greeting output, carousel stop/resume, keyboard and non-swipe controls, focus/return behavior, section-state semantics, and platform naming/position/announcement practices are mapped here for later DOC-20 evidence;
+- Admin controls approved presentation rather than canonical business truth and cannot alter or suppress due dates, amounts, permissions, payment status, notification lifecycle, severity, Business Priority Rank, Upcoming, Recent Activity, Important Notice, obligations, or other business-owned facts; analytics, retention, event policy, configuration versioning, preference history, schema, and implementation remain with their formal owners;
 - payees can create evidence-backed Requests;
 - payees can send Requests to payers;
 - Pay+ `Request Payment` opens `REQUESTS-NEW` as a payee-to-payer request entry, while payer-to-payee linking begins only from an approved contextual bill/rent/linking action;
@@ -294,6 +315,7 @@ The DOC-06 user journey scope is satisfied when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.28 | 2026-08-05 | Added requirement-level acceptance mapping for the approved HOME-ROOT Greeting, Important Notice, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance contracts while reserving detailed implementation/UAT evidence for DOC-20. |
 | 0.1.27 | 2026-08-03 | Aligned Checkout acceptance readiness with the reviewed adaptive DOC-06B UI baseline, preserved owner-confirmed current-allocation and Payment Profile capability choices, and removed fixed screen/step wording without adding test IDs or technical thresholds. |
 | 0.1.26 | 2026-07-31 | Aligned UX acceptance coverage with the distinct Payment Instruction and incomplete Checkout Workspace model and DOC-09 domain-versus-route ownership. |
 | 0.1.25 | 2026-07-29 | Added acceptance coverage for the capability-aware AUTH-RECOVERY baseline, explicit outcome-resolution separation, neutral recovery messaging, session revocation, safe return, and controlled Support or stop handling. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 0.21.33
+version: 0.21.34
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-05
+last_updated: 2026-08-06
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -44,12 +44,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `0.21.33` |
+| **Version** | `0.21.34` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-05` |
+| **Last Updated** | `2026-08-06` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -151,7 +151,7 @@ This matrix prevents the split from creating a false impression that all routes 
 | Route / Area | Primary Owning Doc | Reference / Handoff Docs | Status | Notes |
 | --- | --- | --- | --- | --- |
 | Entrance and Authentication | DOC-06B | DOC-06A for journey; DOC-07/DOC-15/DOC-19 for presentation, privacy, and security; DOC-20 for derived acceptance tests | Defined Behavior Baseline / Final Design and Technical Controls Pending | `ENTRANCE-ROOT` is the public root; `AUTH-LOGIN` resolves to Fast/Full Login; Recovery, Registration, Account Activation, `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` are assigned. The family uses capability-aware Outcome-to-Resolution handling without changing route or status decisions. `AUTH-RECOVERY` now has a defined product flow and safe continue/restart/redirect/wait/Support/stop baseline. Normal success enters `HOME-ROOT`; approved deeplinks may resume only after revalidation. |
-| Home Dashboard | DOC-06B | DOC-06A for journey touchpoints; DOC-13/DOC-15/DOC-22 where relevant | `HOME-ROOT` Assigned / Partially Defined | Section order, shortcut baseline, Featured carousel, Important Notice, and Recent Activity summary are defined; exact UI and card rules remain open. |
+| Home Dashboard | DOC-06B | DOC-06A for journey touchpoints; DOC-06C, DOC-07, DOC-08, DOC-09, DOC-10, DOC-11, DOC-13, DOC-15, DOC-20, and DOC-22 for owned handoffs | `HOME-ROOT` Assigned / Partially Defined | The reviewed route-level baseline covers Greeting, Important Notice, Home Hot Offer, Upcoming Bills / Rent, Recent Activity, section-level resilience, Home-specific accessibility, and presentation governance. DOC-06B owns Home presentation and navigation; final visual design, exact DOC-07 Copy and identifiers, technical mechanics, and later DOC-20 evidence remain pending with their formal owners. |
 | Bottom Navigation | DOC-06B | Child route owners for destination behavior | Working Baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline is defined; final visuals and remaining child-route detail remain open. |
 | Pay+ Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | Defined Behavior / Not Final Visual Design | Five-action order, role direction, destination handoffs, availability, completion, return, configuration limits, and motion principles are defined. |
 | Bills / Rent / Tenancy | DOC-06C | DOC-06B for route entry/archive family; DOC-06A for lifecycle; DOC-09/DOC-12 for payment/evidence detail | Partially Defined | BILLS-PAY, BILLS-RECEIVE, BILLS-ACTIVITY, BILLS-EVIDENCE, BILLS-REMINDER, and `ARCHIVED-BILLS-LIST` have working baseline rules. |
@@ -312,9 +312,11 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | Pay+ `Continue Payment` is disabled with no active pending Payment Instruction or continuable incomplete Checkout Workspace, opens one `INSTRUCTIONS-DETAIL` when exactly one managed item exists, and opens `INSTRUCTIONS-ROOT` when more than one exists; review-blocked items remain visible but cannot continue. | Confirmed |
 | MVP dashboard shortcuts are Requests, Instructions, Bills & Tenancies, Receipts, Reminders, Cards, Referral, and More. | Designated Layout Baseline |
 | Dashboard shortcuts must be admin-configurable and user-reorderable, with user settings overriding system default and restore-default support. | Confirmed |
-| Important Notice / Action Required is a combined swipeable section, collapsible by user, hidden when empty. | Confirmed |
-| Featured / What's New / Hot Offer is one combined admin-controllable carousel at this stage. | Confirmed |
-| Recent Activity dashboard section displays limited recent transactions with date, item, action, amount, and status. | Confirmed |
+| Important Notice presents one eligible Inbox-backed notification at a time. DOC-06B owns its Home session dismissal and body, source-action, Detail-close, and zero-state route behavior; DOC-08 and source owners retain notification and business meaning. | Defined Behavior / Not Final Visual Design |
+| Home Hot Offer is the Offer-only Home placement selected through DOC-22 Admin controls. DOC-06B owns Home layout, interaction, and `OFFER-DETAIL` handoff; DOC-13 retains canonical Offer truth, while final visual and technical treatment remain pending. | Defined Behavior / Not Final Visual Design |
+| Upcoming Bills / Rent presents a bounded payer-role projection of DOC-06C candidates and hands protected actions back to the source-owning route; DOC-06B owns only Home selection, ordering, cap, presentation, and navigation. | Defined Behavior / Not Final Visual Design |
+| Recent Activity presents a bounded projection of completed outcomes from DOC-09, DOC-10, and DOC-11, with source-published ordering and funds-flow direction and DOC-06B-owned Home navigation. | Defined Behavior / Not Final Visual Design |
+| HOME-ROOT uses section-level graceful degradation and Home-specific accessible interaction under DOC-06B, while source and technical owners retain cache, freshness, session, implementation, and failure classification. Admin presentation cannot alter canonical business truth. | Defined Behavior / Technical and DOC-20 Evidence Pending |
 | Global Activity is an account-level event/lifecycle route, while Receipts & Statements is a file/document route for receipt and statement files. Proof of payment remains a direct document action from the relevant Activity context for MVP. They must not be merged into one generic history hub. | Working Baseline / Not Final UI |
 | Activity root uses accounting-style entries with date, obligation/payment name, counterparty, positive/negative amount direction, and mapped status. Tapping an entry expands available actions before routing to `ACTIVITY-DETAIL`. | Working Baseline / Not Final UI |
 | Receipts & Statements uses `RECEIPTS-ROOT` as the searchable list. `View` opens a shared in-app PDF preview through `RECEIPT-DETAIL` or `STATEMENT-DETAIL`; `Download` downloads directly. Exact PDF design remains open. | Working Baseline / Not Final PDF Design |
@@ -366,6 +368,7 @@ The DOC-06 parent is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| v0.21.34 | 2026-08-06 | Aligned the DOC-06 parent with the reviewed `HOME-ROOT` Greeting, Important Notice, Home Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance baseline while preserving DOC-06B route ownership, source-owner meaning, Partially Defined status, and pending visual, Copy, technical, and DOC-20 evidence. |
 | v0.21.33 | 2026-08-05 | Updated the active `PAYMENT-CHECKOUT` family status to Defined baseline under the route-register criterion while preserving DOC-06B/DOC-09 ownership and all pending exact-content, visual, technical, prototype, validation, implementation, acceptance, and operational evidence. |
 | v0.21.32 | 2026-08-03 | Aligned the DOC-06 parent with DOC-06B ownership of `PAYMENT-CHECKOUT` route-level adaptive UI/UX and DOC-09 ownership of Payment Domain architecture and authoritative payment meaning, without duplicating the detailed Checkout contract. |
 | v0.21.31 | 2026-07-31 | Aligned the DOC-06 family map and Request terminology with DOC-09 Payment Domain Architecture and separated Payment Instruction from incomplete Checkout continuation without redefining route UX. |
