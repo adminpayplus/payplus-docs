@@ -1319,3 +1319,44 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 - DOC-18 runtime, event, audit, and persistent representation; DOC-20 acceptance, UAT, implementation, and release evidence; and DOC-22 operational roles, permissions, activation, publication, enforcement, and rollback remain deferred.
 - Narrower partner, risk, category, and reconciliation card restrictions and their configuration and enforcement remain open with their applicable owners.
 - `PAYMENT-CHECKOUT` remains `Partially defined`; its later acceptance and Defined-status assessment is outside PDM-WI-004.
+
+### `2026-08-05` - PAYMENT-CHECKOUT Defined Baseline
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `d1e9f550e0f49e861132a96a5e48d8cdcc0882ed` |
+| Primary owner | `DOC-06B` route-level adaptive UI/UX; `DOC-09` authoritative Payment Domain architecture and meaning |
+| Decision record | `DEC-2026-038` |
+| Founder approval | PAYMENT-CHECKOUT Definition Closure Assessment, Definition-Status Draft, Stage 9 Review, Align, Validate, Integrate, and conditional Commit, Record, and Push authorization accepted on `2026-08-05` |
+
+**Files Changed**
+
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/route-register.md`
+
+**Material Changes**
+
+- Transitioned `PAYMENT-CHECKOUT` from `Partially defined` to `Defined baseline` under the unchanged criterion that human-readable route behavior is decision-complete enough for continued alignment while final visual design and technical specification may remain open.
+- Aligned the five active status/reference files while preserving `PAYMENT-CHECKOUT` as one existing `Flow / screen group` and one persistent adaptive Checkout Workspace.
+- Preserved Bill/Rent and Instruction `Pay Now` resolver behavior, mandatory instruction-notification `NOTIFICATION-DETAIL`-first entry, adaptive presentation, funding, authorization, progress, result, recovery, and safe-return behavior.
+- Preserved `DOC-06B` route-level UI/UX ownership, `DOC-07` communication-contract ownership, `DOC-08` notification ownership, and `DOC-09` authoritative payment-domain ownership.
+- Kept `OQ-XDOC-007` and `OQ-XDOC-015` `Decided` and retained all exact-expression, source-owner, technical, prototype, accessibility/user-validation, implementation/UAT, acceptance, monitoring, support, operational, commercial, promotion, risk, and partner dependencies with their formal owners.
+- Made no claim of final programme, visual, technical, implementation, validation, release, operational, or Approved-status completion.
+
+**Checks Performed**
+
+- Passed the independent Stage 9 Verification Review, Stage 10 Change Impact Manifest and no-additional-edit Stage 11 Align, Stage 12 Integrated Validation, and Stage 13 Definition of Done and pre-commit assessment.
+- Verified the exact five-file scope, `28` insertions and `25` deletions, validated file hashes, document-control mirrors, route and Open Question inventory, active-versus-historical references, ownership boundaries, UTF-8, Markdown, links, Mermaid references, and whitespace.
+- Inspected the complete staged diff, verified the exact staged names and hashes, and passed `git diff --cached --check` before substantive commit `d1e9f550e0f49e861132a96a5e48d8cdcc0882ed`.
+
+**Remaining Open Items**
+
+- Final Bill/Rent source-owner facts, eligibility, CTA, disclosure, and return detail.
+- Exact Copy, IDs, CTA labels, Locale Variants, and Presentation Mappings.
+- Provider, schema, event, audit, authentication, and security mappings.
+- Prototype, accessibility, user-validation, implementation, UAT, localization, acceptance, and release evidence.
+- Monitoring, support, Admin, and operational mechanisms.
+- Final commercial, promotion, risk, and partner values or restrictions.

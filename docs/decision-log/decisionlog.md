@@ -54,6 +54,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-035` | `2026-08-03` | Adaptive Payment Checkout Workspace UI/UX | Accepted | `DOC-06B` | `afb4bb02b8de6e7ed63e973127a23b09435c2871` |
 | `DEC-2026-036` | `2026-08-04` | Instruction Pay Now Resolver And Notification Detail Entry | Accepted | `DOC-09` / `DOC-08` / `DOC-06B` | `d0d35da995da1347844d11366387fbbf95774bd4` |
 | `DEC-2026-037` | `2026-08-05` | DOC-07 Logical Communication Contracts And Bounded Domain Slices | Accepted | `DOC-07` | `eec4295bdde299d18d17bcaa6bab20a60786aa1f` |
+| `DEC-2026-038` | `2026-08-05` | PAYMENT-CHECKOUT Defined Baseline | Accepted | `DOC-06B` | `d1e9f550e0f49e861132a96a5e48d8cdcc0882ed` |
 
 ## 4. Decision Record Template
 
@@ -1697,3 +1698,50 @@ Supersedes only the mandatory one-wide Authentication Matrix method recorded his
 - DOC-22 operational roles, permissions, activation, publication, enforcement, audit, and rollback.
 - Narrower partner, risk, category, and reconciliation card restrictions and their configuration and enforcement.
 - Monitoring, support, implementation, and operational evidence under their formal owners.
+
+### `DEC-2026-038` - PAYMENT-CHECKOUT Defined Baseline
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-05` |
+| Status | Accepted |
+| Primary owner | `DOC-06B` route-level adaptive UI/UX; `DOC-09` retains authoritative Payment Domain ownership and meaning |
+| Affected documents | `DOC-06`, `DOC-06A`, `DOC-06B`, Open Questions Register, and Product Destination Register |
+| Substantive commit | `d1e9f550e0f49e861132a96a5e48d8cdcc0882ed` |
+| Founder approval | PAYMENT-CHECKOUT Definition Closure Assessment, Definition-Status Draft, Stage 9 Review, Align, Validate, Integrate, and conditional Commit, Record, and Push authorization accepted on `2026-08-05` |
+
+**Decision**
+
+`PAYMENT-CHECKOUT` satisfies the unchanged `Defined baseline` route criterion: its human-readable route behavior is decision-complete enough for continued alignment, while final visual design and technical specification may remain open. It remains one existing `Flow / screen group` containing one persistent adaptive Checkout Workspace. No route, child destination, domain object, state, event, or technical contract is created by this status transition.
+
+`DOC-06B` retains adaptive route-level UI/UX ownership. `DOC-09` retains authoritative Payment Domain architecture and meaning. `DOC-07` retains Semantic, Disclosure, CTA, and Copy ownership, and `DOC-08` retains notification identity, eligibility, delivery, and Detail-first ownership. `OQ-XDOC-007` and `OQ-XDOC-015` remain `Decided`.
+
+**Rationale**
+
+The accepted Checkout Workspace, resolver entry, notification entry, adaptive presentation, funding, authorization, progress, result, recovery, safe-return, mobile, and accessibility behavior now gives continued alignment a decision-complete human-readable route baseline. The status therefore no longer needs to remain `Partially defined`, while owner-controlled expression, technical, validation, implementation, and operational work remains explicitly incomplete.
+
+**Alternatives Considered**
+
+- Keeping `PAYMENT-CHECKOUT` `Partially defined` was rejected because the Definition Closure Assessment found no remaining Category A material route-definition blocker under the existing criterion.
+- Treating `Defined baseline` as final visual, technical, implementation, validation, release, operational, or Approved-status completion was rejected because those concerns remain with their formal owners and later lifecycle evidence.
+
+**Consequences And Handoffs**
+
+The Product Destination Register, DOC-06 parent projection, DOC-06A dependency wording, DOC-06B route-owner status, and Open Questions Register now use the active `Defined baseline` treatment. Route identity, adaptive Checkout behavior, resolver and `NOTIFICATION-DETAIL`-first entry contracts, and the DOC-06B/DOC-07/DOC-08/DOC-09 owner split remain unchanged.
+
+Final Bill/Rent source-owner facts, eligibility, CTA, disclosure, and return detail remain pending. Exact Copy, IDs, CTA labels, Locale Variants, and Presentation Mappings remain pending. Provider, schema, event, audit, authentication, and security mappings remain pending. Prototype, accessibility, and user-validation evidence; implementation, UAT, localization, acceptance, and release evidence; monitoring, support, Admin, and operational mechanisms; and final commercial, promotion, risk, and partner values or restrictions remain pending with their formal owners.
+
+This decision does not claim final visual, implementation, validation, operational, release, or Approved-status completion.
+
+**Supersedes / Superseded By**
+
+None. `DEC-2026-038` records a later route-definition status transition and does not rewrite or invalidate `DEC-2026-035`, `DEC-2026-036`, `DEC-2026-037`, their changelog history, or the historical DOC-06B v0.1.40 revision row.
+
+**Remaining Open Items**
+
+- Final Bill/Rent source-owner facts, eligibility, CTA, disclosure, and return detail.
+- Exact Copy, IDs, CTA labels, Locale Variants, and Presentation Mappings.
+- Provider, schema, event, audit, authentication, and security mappings.
+- Prototype, accessibility, user-validation, implementation, UAT, localization, acceptance, and release evidence.
+- Monitoring, support, Admin, and operational mechanisms.
+- Final commercial, promotion, risk, and partner values or restrictions.
