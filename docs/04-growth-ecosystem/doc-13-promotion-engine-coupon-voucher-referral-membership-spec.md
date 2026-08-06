@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.2.4
+version: 1.2.5
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-08-05
+last_updated: 2026-08-06
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -51,12 +51,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-13` |
 | **Title** | Promotion Engine, Coupon, Voucher, Referral & Membership Specification |
-| **Version** | `1.2.4` |
+| **Version** | `1.2.5` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Growth / Product |
 | **Reviewers** | Product Lead<br>Commercial Lead<br>Finance Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Commercial Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-05` |
+| **Last Updated** | `2026-08-06` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -120,7 +120,7 @@ DOC-13 does not own:
 | External vouchers | Launch-supported reward type; each partner method must be configured and operationally ready before activation. QR, deeplink, code, API, file, webhook, or manual fulfilment may be supported. |
 | Stacking | Configurable by offer and campaign, with conservative defaults. |
 | Dashboard placement | Hot Offer is a DOC-06B HOME-ROOT carousel placement. DOC-13 owns canonical Offer content and truth, including campaign, Offer, eligibility, entitlement, budget, and reversal logic; DOC-22 owns Admin Home-presentation and publication-quality controls. |
-| Public Entrance placement | `ENTRANCE-CAROUSEL` may show approved public, non-personalized promotion, offer, announcement, or feature content. DOC-06B owns placement and `ENTRANCE-PROMOTION-DETAIL`; DOC-13 owns any campaign/offer meaning; DOC-22 owns future admin placement controls. No personalized eligibility or user-specific claim may be exposed before authentication. |
+| Public Entrance placement | `ENTRANCE-CAROUSEL` may show only approved public, non-personalized Promotion or Feature content. A Promotion placement may reference canonical Promotion or Offer source truth. DOC-06B owns the Carousel and `ENTRANCE-PROMOTION-DETAIL` presentation; DOC-13 or the applicable Promotion/Offer owner retains source meaning; the applicable formal Feature owner retains Feature truth; and DOC-22 owns Feature Management and central Entrance placement workflow/configuration only. Announcement is excluded, and no personalized eligibility or user-specific claim may be exposed before authentication. |
 | Promotion intelligence | Promotion analytics, offer ranking, campaign measurement, and partner reporting must follow DOC-15 data-use tiers and DOC-18 event, lineage, and model-readiness rules. |
 
 ---
@@ -1025,6 +1025,23 @@ The legal, privacy, permission, masking, and prohibited-content exceptions above
 
 If future AI or model-assisted ranking is used outside the approved Admin-selected Home ordering, DOC-13 should define business eligibility and benefit rules, while DOC-15 defines permitted data use and DOC-18 defines event, feature, model, lineage, and reporting metadata. It must not silently replace the approved Home contract. Human review or approval should remain available for sensitive campaign categories, partner-funded targeting, and exception handling.
 
+### 12.1.1 Public Entrance Source and Placement Timing Boundary
+
+Public Entrance placement remains separate from Promotion and Offer business truth. DOC-13 or the applicable Promotion/Offer owner supplies the current canonical Promotion or Offer identity, period, validity, eligibility, entitlement, available-action, content, and other business meaning. DOC-06B defines the public Carousel and detail-route presentation. DOC-22 owns the authorized Feature Management and central Entrance Carousel placement workflow without becoming Promotion, Offer, or Feature business-truth owner.
+
+For a Promotion source, central Entrance Carousel Management provides a `Use Promotion Period` checkbox:
+
+- when checked, the Entrance placement follows the current canonical Promotion period and manual `Display From` / `Display To` values are read-only;
+- when unchecked, the administrator enters separate `Display From` and `Display To` values for Entrance placement.
+
+For a Feature source, `Display From` and `Display To` are manually managed and `Use Promotion Period` does not apply. These controls govern Entrance placement only. They do not create or redefine Promotion validity, eligibility, entitlement, available-action truth, campaign, Offer, Feature meaning, or any user-specific right. Activity or feature dates shown to the user remain source content and are not silently replaced by Entrance placement dates.
+
+Entrance placement may reference zero or one action already approved by the applicable source and route owners. Placement must not invent, broaden, or reinterpret an action or destination.
+
+A referenced Promotion or Offer source that is withdrawn, no longer authorized for public display, prohibited by an applicable legal, privacy, permission, masking, or content restriction, or materially changed after the placement's last approved preview/publication requires the associated Entrance placement to be suspended. Suspension removes the item from active Entrance presentation without deleting the canonical source record or historical placement evidence. Return requires updated preview and republication through the authorized DOC-22 workflow.
+
+Exact date storage, timezone, synchronization, validation, scheduling, event/audit schema, and implementation mechanics remain deferred to DOC-18, DOC-22, and the applicable technical and operational owners.
+
 ---
 
 ## 13. Affected and Related Documents
@@ -1068,7 +1085,7 @@ If future AI or model-assisted ranking is used outside the approved Admin-select
 | OQ-13-011 | What membership tier formula, conversion ratio, downgrade rule, and grace period apply? | Product / Growth / Commercial | Open |
 | OQ-13-012 | What partner reimbursement, tax, and accounting treatment applies to partner-funded offers? | Finance / Legal / Commercial | Open |
 | OQ-13-013 | Which promotion types may be hard-reserved for DOC-09 deferred payment instructions, and what expiry, budget-release, and user-notice rules apply? | Product / Growth / Finance | Open |
-| OQ-13-014 | Which promotion, partner, announcement, referral, or feature items may appear in the public Entrance carousel, and what approval, public-content, and action-destination rules apply? | Product / Growth / Privacy | Open for public Entrance; HOME-ROOT Offer placement resolved by `AdminHomePresentationEnabled` and canonical restrictions |
+| OQ-13-014 | What final technical synchronization, date/time handling, approval implementation, and operational evidence should implement the decided public Entrance Promotion/Feature source and placement boundary? | Product / Growth / Privacy / Operations / Engineering | Partially open; Promotion and Feature are the only content classes, source truth remains with its formal owner, timing and optional-action boundaries are defined, and source changes require placement suspension and republication |
 | OQ-13-015 | What data may be used for offer ranking, placement personalization, campaign lift measurement, and partner-funded offer reporting? | Product / Growth / Privacy | Open |
 | OQ-13-016 | What aggregation, de-identification, report approval, and partner-contract controls are required before campaign performance data is shared externally? | Growth / Privacy / Legal | Open |
 | OQ-13-017 | When a reward is held, does expiry continue, pause, extend, or lead to reversal, and what user notice and admin authority apply? | Product / Growth / Risk / Operations | Open |
@@ -1098,6 +1115,7 @@ DOC-13 is acceptable when:
 - affected documents are clearly marked for follow-up alignment.
 - dashboard placement boundaries are clear for the DOC-06B Hot Offer HOME-ROOT carousel without turning DOC-13 into a UI specification.
 - HOME-ROOT may present any Admin-selected canonical Offer status without treating eligibility, validity, or redemption availability as a visibility gate, while canonical truth and explicit legal, privacy, permission, masking, and prohibited-content restrictions remain authoritative.
+- public Entrance supports only Promotion and Feature content, preserves source-owned Promotion/Offer/Feature truth, keeps source and placement periods distinct through the approved `Use Promotion Period` boundary, and requires suspended changed or unauthorized sources to be previewed and republished before returning to Entrance.
 
 This document should remain a compact promotion engine specification. It should not become a final campaign plan, pricing sheet, tax memo, partner contract, UI copy deck, API specification, or database schema.
 
@@ -1107,6 +1125,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.5 | 2026-08-06 | Defined the public Entrance source boundary: Promotion and Feature only, Promotion/Offer and Feature truth retained by their formal owners, `Use Promotion Period` versus manual placement timing, source-owned optional actions, and mandatory suspension/republication after material or authorization-affecting source changes without introducing technical schema or implementation mechanics. |
 | 1.2.4 | 2026-08-05 | Defined the bounded HOME-ROOT Hot Offer source contract: `AdminHomePresentationEnabled`, canonical restriction exceptions, any-status selection, no derived display-eligibility object or multi-gate formula, and canonical Offer content, status, validity, redemption, and available-action truth, with Home carousel mechanics retained in DOC-06B and Admin controls in DOC-22. |
 | 1.2.3 | 2026-08-03 | Aligned Checkout promotion presentation with DOC-13 promotion-rule ownership, DOC-09 payment-domain meaning, and DOC-06B adaptive Workspace presentation without changing promotion eligibility, priority, stacking, reservation, budget, quote, or recalculation logic. |
 | 1.2.2 | 2026-07-31 | Updated the related-document title to DOC-09 Payment Domain Architecture without changing promotion-engine decisions. |

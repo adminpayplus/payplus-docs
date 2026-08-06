@@ -2,7 +2,7 @@
 
 Status: Working alignment reference
 Owner: Product / Founder
-Last updated: 2026-08-05
+Last updated: 2026-08-06
 Classification: Internal
 
 This register is the canonical inventory of PayPlus product destinations. Owning documents define behavior; this register tracks identity, parentage, type, ownership, and definition status without restating detailed requirements.
@@ -20,7 +20,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | Destination | Parent | Type | Purpose | Primary Owner | Status |
 | --- | --- | --- | --- | --- | --- |
 | `ENTRANCE-ROOT` | App launch / logout | Unauthenticated root screen | Present public non-personalized content and the Log In / Create Account entry actions. | DOC-06B | Defined baseline |
-| `ENTRANCE-PROMOTION-DETAIL` | `ENTRANCE-ROOT` public carousel | Child public detail screen | Show one approved public offer, promotion, or feature and its permitted action. | DOC-06B | Partially defined |
+| `ENTRANCE-PROMOTION-DETAIL` | `ENTRANCE-ROOT` public carousel | Child public detail screen | Show one approved public Promotion or Feature item and an optional permitted action. A Promotion may reference an applicable Offer-owned source, but Offer is not a separate Entrance content class. | DOC-06B | Partially defined |
 | `AUTH-LOGIN` | `ENTRANCE-ROOT` / protected deeplink | Route family / entry resolver | Select Fast Login when eligible; otherwise open Full Login. | DOC-06B | Defined baseline |
 | `AUTH-LOGIN-FAST` | `AUTH-LOGIN` | Child authentication screen / sheet | Authenticate an eligible remembered account through enabled biometric or password fallback. | DOC-06B | Defined baseline |
 | `AUTH-LOGIN-FULL` | `AUTH-LOGIN` / Log In With Another Account | Child authentication screen | Authenticate an existing user through an explicitly linked email/password, Google, or Apple login method. | DOC-06B | Defined baseline |

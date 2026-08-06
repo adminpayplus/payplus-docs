@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-22
 title: Admin Management Dashboard & Operations Workflow
-version: 0.22.0
+version: 0.23.0
 status: Founder Working Baseline
 owner: Operations / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Operations Lead
   - Compliance Lead
-last_updated: 2026-08-05
+last_updated: 2026-08-06
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-22` |
 | **Title** | Admin Management Dashboard & Operations Workflow |
-| **Version** | `0.22.0` |
+| **Version** | `0.23.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Operations / Product |
 | **Reviewers** | Product Lead<br>Operations Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Security Lead<br>Engineering Lead<br>Data Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Operations Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-05` |
+| **Last Updated** | `2026-08-06` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
@@ -207,16 +207,76 @@ Detailed final admin screens, permission matrix, approval workflow, and implemen
 
 #### 18.1.0 Public Entrance Content Configuration
 
-Future full DOC-22 drafting must support controlled public content for `ENTRANCE-ROOT` and `ENTRANCE-PROMOTION-DETAIL`.
+DOC-22 owns the Admin workflow and configuration for controlled public content on `ENTRANCE-ROOT` and `ENTRANCE-PROMOTION-DETAIL`. It does not own the public route/component behavior or become Promotion, Offer, or Feature business truth.
 
-Required capabilities should include:
+##### Source Areas and Ownership
 
-- configure public, non-personalized carousel content, publication status, start/end dates, priority, language, image, approved action, and route or external target;
-- prevent pre-login targeting from using protected account, payment, identity, evidence, card, receiving, risk, or behavioral data;
-- require approval, version history, rollback, and audit records for public Entrance content and target changes;
-- keep Log In, Create Account, language, Support, and Terms access outside campaign suppression or commercial targeting controls.
+Promotion and Feature are the only supported Entrance Carousel content classes. Announcement is excluded.
 
-Exact carousel capacity, rotation, targeting, and supported action types remain open in DOC-06B and must be configurable only after the product decision is finalized.
+- Promotion and Offer content remains in the applicable Promotion or Offer Management source governed by DOC-13 or another applicable formal owner.
+- Feature content uses an independent Feature Management source area.
+- Every Feature identifies its formal product or business-truth owner. Feature Management records approved public presentation content and evidence; it does not replace that formal owner.
+- Central Entrance Carousel Management references source content. It must not copy, alter, suppress, reinterpret, or independently own canonical Promotion, Offer, or Feature truth.
+
+##### Feature Management
+
+The minimum human-level Feature content record includes:
+
+- an identifiable Feature reference;
+- formal owner/source reference;
+- public name;
+- `1080 x 1350` (`4:5`) image;
+- image alternative/accessibility description;
+- activity/feature date presentation value;
+- summary;
+- Terms content or an approved Terms reference;
+- optional source-approved action intent and destination;
+- locale variants;
+- content approval/readiness evidence.
+
+Feature Management does not own `Display on Entrance`, placement dates, priority, manual order, Entrance preview, Entrance publication, removal, or common Carousel behavior. Exact record schema, field types, workflow states, permissions, and implementation remain deferred.
+
+##### Central Entrance Carousel Management
+
+Central Entrance Carousel Management must provide one common location to:
+
+- select an eligible Promotion or Feature source reference;
+- enable or disable `Display on Entrance`;
+- view every active or suspended Entrance placement without turning the view into source content management;
+- manage the approved placement period;
+- designate at most one priority item, which appears first;
+- arrange all remaining items in one deterministic manual order;
+- prevent random Entrance ordering;
+- enforce no more than five active Entrance items;
+- preview the full-width `4:5` image crop, image-only Carousel treatment, dots, sequence, detail entry, inline Terms, optional action, and same-item return;
+- publish or remove an item from Entrance without deleting its source;
+- manage common Carousel placement behavior without changing DOC-06B route/component meaning.
+
+For a Promotion source, the placement editor provides a `Use Promotion Period` checkbox:
+
+- when checked, Entrance placement follows the current canonical Promotion period and manual `Display From` / `Display To` are read-only;
+- when unchecked, the administrator enters separate `Display From` and `Display To` values.
+
+For a Feature source, `Display From` and `Display To` are manually managed and `Use Promotion Period` does not apply. The checkbox and placement dates control Entrance placement only. They do not redefine Promotion validity, eligibility, entitlement, available-action truth, Feature business truth, or the source-owned activity/feature date shown to the user.
+
+The Carousel detail supports zero or one source- and route-owner-approved CTA. Admin placement cannot invent or broaden the action, destination, eligibility, entitlement, or user-specific benefit. Exact CTA Copy and presentation remain with DOC-07.
+
+Zero active placements omit the Carousel and dots while preserving Header and horizontal Login / Registration. One active placement is static and does not require rotation, a swipe cue, or a dot control. Two to five active placements use the complete DOC-06B Carousel behavior. Log In, Create Account, language, Support, and Terms access remain outside campaign suppression or commercial targeting controls.
+
+Public Entrance content is identical for all unauthenticated users. Entrance placement must not use protected account, payment, identity, evidence, card, receiving, risk, or behavioral data for targeting or personalization.
+
+##### Source-Change Safety, Publication, and Evidence
+
+An Entrance placement must be suspended when its Promotion or Feature source is:
+
+- withdrawn;
+- no longer authorized for public display;
+- prohibited by an applicable legal, privacy, permission, masking, or content restriction; or
+- materially changed after the placement's last approved preview/publication.
+
+Suspension removes the item from active Entrance presentation without deleting its source record or historical placement evidence. Return requires the updated presentation to be previewed and republished through the authorized Admin workflow.
+
+Public Entrance source selection, placement configuration, preview, approval, publication, removal, suspension, republication, and rollback require version history and audit evidence proportionate to the change. Detailed roles, permission names, approval steps, source-change detection, date storage, timezone, synchronization, validation, scheduler behavior, audit/event schema, monitoring, and implementation mechanics remain for later DOC-18, DOC-19, DOC-21, and full DOC-22 technical and operational work.
 
 #### 18.1.1 Pay+ Action Availability Configuration
 
@@ -426,12 +486,25 @@ Detailed workflow, screen design, and permission matrix will be drafted in full 
 
 ## 26. MVP Acceptance Criteria
 
+For the human-level Public Entrance Admin contract, future detailed acceptance and UAT evidence must demonstrate that:
+
+- Promotion and Feature are the only selectable content classes and every selection retains an identifiable formal source owner;
+- Feature Management contains the approved minimum public-content fields without acquiring business truth or placement ownership;
+- `Use Promotion Period` and manual placement dates follow the source-specific rules without changing source validity or user-facing activity dates;
+- one optional priority item precedes deterministic manual order, random ordering is unavailable, and the five-item active limit is enforced;
+- preview covers the source image crop, dots, sequence, detail entry, inline Terms, optional CTA, and same-item return before publication;
+- a materially changed, withdrawn, unauthorized, or prohibited source is suspended from active Entrance presentation and cannot return without updated preview and republication;
+- public Entrance configuration remains non-personalized and cannot suppress the permanent public navigation and authentication actions.
+
 ## 27. Open Questions
+
+Exact Admin role names, permission matrix, approval routing, source-change detection mechanism, date/time storage and synchronization, scheduler behavior, technical validation, audit/event schema, monitoring, and implementation evidence remain open for their later formal owners. These open implementation matters do not change the human-level source, placement, timing, sequence, publication, or suspension contract above.
 
 ## 28. Revision History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.23.0 | 2026-08-06 | Defined independent Feature Management and central Entrance Carousel Management for Promotion/Feature-only public content, including minimum Feature fields, source-reference ownership, `Use Promotion Period` and manual placement dates, one-priority-plus-manual ordering, five-item capacity, preview/publication/removal, optional-action boundaries, non-personalization, and source-change suspension/republication without inventing technical schema, events, permissions, or scheduler mechanics. |
 | 0.22.0 | 2026-08-05 | Added approved Admin selection, ordering, rotation, publication-quality, and audit controls for source-owned Important Notice signals and Admin-selected Hot Offers; preserved canonical Offer truth and restriction boundaries; and established bounded DOC-06B handoffs for Home capacity, zero-state presentation, and navigation. |
 | 0.21.0 | 2026-07-29 | Aligned future authentication administration with capability-aware Recovery, the Outcome/Resolution/Message/CTA separation, controlled Support recovery cases, dual approval, and explicit administrator prohibitions while leaving security and operational details TBC. |
 | 0.20.0 | 2026-07-28 | Added future admin controls for the five-state identity model, prohibited direct verification/passcode bypass, required dual approval for Verified-to-Not-Verified reset, recorded reset audit fields, preserved support-assisted passcode-recovery TBCs, and added the configurable HK$3,000 step-up baseline. |
