@@ -1797,3 +1797,50 @@ Supersedes active HOME-ROOT combined Featured / What's New / Hot Offer terminolo
 - Technical session, cache, freshness, schema, status/event/audit, analytics, retention, cross-device, authentication, security, monitoring, and operational mechanics.
 - Adopted-platform accessibility implementation and detailed DOC-20 acceptance, UAT, implementation, localization, and release evidence.
 - Detailed DOC-22 Admin screens, permissions, approval workflow, implementation fields, and operational evidence.
+
+### `DEC-2026-040` - Entrance Promotion Detail, Carousel, And Placement Management
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-06` |
+| Status | Accepted |
+| Primary owner | `DOC-06B` Entrance Carousel and ENTRANCE-PROMOTION-DETAIL route-level behavior; `DOC-13` Promotion/Offer source truth and placement-timing boundary; `DOC-22` Feature Management and central Entrance placement workflow |
+| Affected documents | `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`, `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`, `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`, `docs/traceability/route-register.md`, `docs/traceability/open-questions-register.md` |
+| Substantive commit | `cebe5fce140e41cddfae131193d51d059e3fd424` |
+| Founder approval | PDM-WI-006 accepted Founder decisions, Stage 9 review, Stages 10–12 alignment and validation, Stage 13 integration, and conditional Commit, Record, and Push authorization on `2026-08-06`; mandatory records treatment applied under the Documentation Development Workflow |
+
+**Decision**
+
+Entrance supports only the `Promotion` and `Feature` content classes. `Offer` is not a separate Entrance class; a Promotion may reference an applicable Offer-owned source while remaining a Promotion for Entrance placement and presentation. `Announcement` is excluded from active Entrance scope. `ENTRANCE-ROOT` remains the Defined public unauthenticated root, `ENTRANCE-CAROUSEL` remains a component, and `ENTRANCE-PROMOTION-DETAIL` remains the existing Partially defined child route.
+
+The public contract is Header, a full-width 4:5 image-only Carousel, interactive dots, and horizontally arranged Login / Registration buttons. The Carousel uses the accepted five-second Crossfade, dot selection, horizontal swipe with a swipe-versus-tap threshold, full timer interval after manual interaction, fixed first-use swipe affordance with reduced-motion treatment, and zero, one, and multiple-item behavior. Placement allows at most five active items and one optional priority item first, with deterministic manual ordering for the remainder and no random ordering.
+
+Detail uses one visible Back control, no separate Close control, platform Back with the same result, an image-first 4:5 presentation, name, activity date, Summary, inline Terms, one continuous vertical scroll, and same-item-and-position restoration. Detail supports zero or one source- and route-owner-approved CTA; no CTA produces informational detail and Admin placement cannot invent an action or destination.
+
+Central Entrance Carousel Management owns placement selection, Display on Entrance, timing choice, priority, manual order, preview, publication, and removal. For a Promotion, `Use Promotion Period` checked follows the canonical Promotion period while manual placement dates are read-only; unchecked uses separately managed placement dates. Feature placement always uses manually managed dates. Feature content has an independent Feature Management source area with an identifiable reference, formal product/business-truth owner, public name, 1080 × 1350 image, accessibility description, activity/feature date value, summary, Terms content or approved reference, optional source-approved action intent and destination, locale variants, and content-readiness evidence. Placement fields are not duplicated into Feature source management.
+
+Placement is suspended when its Promotion or Feature source is withdrawn, prohibited from public display, no longer authorized, or materially changed after approved preview/publication. Suspension removes the item from active Entrance presentation while preserving the source record and historical placement evidence; restoration requires updated preview and republication.
+
+**Rationale**
+
+The accepted contract preserves a simple public unauthenticated entry experience while keeping route presentation, Promotion/Offer truth, Feature truth, and Admin placement responsibilities separate. Central placement management gives one controlled location for common Entrance sequencing and publication without making DOC-06B or DOC-22 a source-truth owner.
+
+**Alternatives Considered**
+
+No new product alternatives were selected at the records stage. The Founder-approved Carousel, detail, timing, sequence, navigation, action, Terms, Feature Management, source-safety, and ownership decisions are recorded as the accepted direction; the substantive commit contains the bounded comparison and recommendation evidence from Proposal.
+
+**Consequences And Handoffs**
+
+DOC-06B owns route-level presentation, interaction, navigation, and return behavior; DOC-13 retains Promotion/Offer identity, content, validity, eligibility, entitlement, and available-action truth; and DOC-22 owns Admin workflow and configuration without becoming business-truth owner. DOC-07 retains exact Copy and CTA expression/presentation. DOC-18–DOC-21 and later DOC-22 work retain technical data, status/event/audit, security, testing, acceptance, monitoring, support, and operational mechanisms. Design, platform accessibility, validation, and implementation evidence remain deferred. No prototype, route-status advancement, technical implementation, or roadmap update is included.
+
+**Supersedes / Superseded By**
+
+Supersedes active traceability wording that treated Offer as a separate Entrance class and the decided portions of the broad Entrance open question that are now resolved. Historical append-only decision, changelog, and other historical records remain unchanged. No earlier decision record is renumbered or rewritten.
+
+**Remaining Open Items**
+
+- Exact DOC-07 Copy, CTA labels, accessibility expression, and presentation details.
+- Responsive and reduced-motion implementation, gesture thresholds, cue persistence, and visual validation.
+- Exact date storage, timezone, synchronization, validation, scheduler, source-change detection, permissions, audit/events, monitoring, UAT, acceptance, and release mechanisms under their later formal owners.
+- Later DOC-22 operational and technical workflow detail, plus Design, platform, accessibility, validation, and implementation evidence.
+- `ENTRANCE-PROMOTION-DETAIL` remains `Partially defined`; no route or document status advancement is recorded.

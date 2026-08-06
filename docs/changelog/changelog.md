@@ -1412,3 +1412,41 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 - Technical session, cache, freshness, field/schema, status/event/audit, analytics, retention, cross-device, authentication, security, monitoring, and operational mechanics under their formal owners.
 - Adopted-platform accessibility implementation requirements and detailed DOC-20 acceptance, UAT, implementation, localization, and release evidence.
 - Detailed DOC-22 Admin screens, permissions, approval workflow, implementation fields, and operational evidence.
+
+### `2026-08-06` - Entrance Promotion Detail, Carousel, And Placement Management
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `cebe5fce140e41cddfae131193d51d059e3fd424` |
+| Primary owner | `DOC-06B` route-level Entrance Carousel and ENTRANCE-PROMOTION-DETAIL behavior; `DOC-13` Promotion/Offer source truth; `DOC-22` Feature Management and central Entrance placement |
+| Decision record | `DEC-2026-040` |
+| Founder approval | PDM-WI-006 accepted Founder decisions and conditional Integrate, Commit, Record, and Push authorization on `2026-08-06`; mandatory records treatment applied under the Documentation Development Workflow |
+
+**Files Changed**
+
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/traceability/route-register.md`
+- `docs/traceability/open-questions-register.md`
+
+**Material Changes**
+
+- Recorded the accepted public Entrance contract: Promotion and Feature only, with Announcement excluded and Offer references remaining beneath Promotion source ownership.
+- Recorded the image-only 4:5 Carousel, five-second Crossfade, dots, swipe/tap separation, first-use affordance, manual-interaction timer behavior, deterministic priority/manual sequence, and zero/one/multiple-item behavior.
+- Recorded the image-first ENTRANCE-PROMOTION-DETAIL anatomy, Back-only navigation, same-item return, inline Terms, optional source-approved CTA, and Partially defined route status.
+- Recorded central Entrance placement management, Promotion `Use Promotion Period` timing treatment, independent Feature Management, and source-change suspension with preview and republication.
+- Preserved source truth, route presentation, Admin placement, exact Copy/CTA, technical, acceptance, accessibility, validation, implementation, and operational ownership boundaries. No route, document, or definition status advancement, prototype, technical implementation, or roadmap update is included.
+
+**Checks Performed**
+
+- Passed Stage 9 Review, bounded Stages 10–11 alignment, Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE`, and Stage 13 `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL`.
+- Verified the exact five-file substantive scope, accepted-decision fidelity, owner separation, traceability treatment, metadata and Markdown consistency, and `git diff --check` before commit `cebe5fce140e41cddfae131193d51d059e3fd424`.
+- Applied the mandatory append-only Record treatment with the next unused decision ID `DEC-2026-040`; no historical record was rewritten.
+
+**Remaining Open Items**
+
+- Exact DOC-07 Copy, CTA labels, accessibility expression, and presentation details.
+- Responsive, reduced-motion, gesture-threshold, cue-persistence, and visual-validation implementation.
+- Exact date storage, timezone, synchronization, validation, scheduler, source-change detection, permissions, audit/events, monitoring, UAT, acceptance, and release mechanisms under their formal owners.
+- Later DOC-22 operational and technical workflow detail, plus Design, platform accessibility, validation, and implementation evidence.
