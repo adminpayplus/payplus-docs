@@ -1450,3 +1450,34 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 - Responsive, reduced-motion, gesture-threshold, cue-persistence, and visual-validation implementation.
 - Exact date storage, timezone, synchronization, validation, scheduler, source-change detection, permissions, audit/events, monitoring, UAT, acceptance, and release mechanisms under their formal owners.
 - Later DOC-22 operational and technical workflow detail, plus Design, platform accessibility, validation, and implementation evidence.
+
+### `2026-08-06` - ENTRANCE-PROMOTION-DETAIL Defined Baseline
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `ec9b97bb4cf9b2e5b03992f4a23c546146de97e6` |
+| Primary owner | `DOC-06B` route status and route-level UX; `DOC-13` and `DOC-22` retain source and placement ownership |
+| Decision record | `DEC-2026-041` |
+| Founder approval | PDM-WI-006 Founder-authorized status-only transition after Stage 9 Review, corrected Align, Stage 12 validation, and Stage 13 Integration on `2026-08-06`; Commit, Record, and Push authorized |
+
+**Files Changed**
+
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/traceability/route-register.md`
+- `docs/traceability/payplus-documentation-management-roadmap.md`
+
+**Material Changes**
+
+- Changed the active `ENTRANCE-PROMOTION-DETAIL` status from `Partially defined` to `Defined baseline` because its human-readable route behavior is decision-complete enough for continued alignment.
+- Synchronized the Route Register and Management Roadmap to 74 registered destinations, 69 Defined baseline destinations, and 5 Partially defined destinations: `HOME-ROOT`, `BILLS-LINKING`, `SUPPORT-ROOT`, `ABOUT-ROOT`, and `TERMS-ROOT`.
+- Preserved `OQ-06B-012` as open and non-blocking, `OQ-XDOC-011` as open and unchanged, and all Copy, responsive/accessibility, technical, prototype, implementation, testing/UAT, acceptance, release, monitoring, support, Admin, and operational deferrals.
+- This status-only change introduced no new route behavior, technical implementation, or ownership. No additional route or document status was changed.
+
+**Checks Performed**
+
+- Confirmed the exact three-file scope, active status alignment, 74/69/5 inventory, historical revision rows, append-only records, and untouched pre-existing PDM-WI-002 coordination wording; passed `git diff --check` apart from non-failing line-ending advisories.
+- The mandatory records-only follow-up changes only this changelog and the decision log; it does not update the Management Roadmap or any other file after the substantive commit.
+
+**Remaining Open Items**
+
+- Final DOC-07 Copy, CTA, disclosure, localization, accessibility expression, responsive and motion implementation, technical scheduling and synchronization, source-change detection, permissions, schema, events, audit, monitoring, security, DOC-20 testing/UAT/acceptance/release evidence, and later DOC-22 operational and technical detail remain with their formal owners.
