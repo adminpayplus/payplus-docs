@@ -1844,3 +1844,45 @@ Supersedes active traceability wording that treated Offer as a separate Entrance
 - Exact date storage, timezone, synchronization, validation, scheduler, source-change detection, permissions, audit/events, monitoring, UAT, acceptance, and release mechanisms under their later formal owners.
 - Later DOC-22 operational and technical workflow detail, plus Design, platform, accessibility, validation, and implementation evidence.
 - `ENTRANCE-PROMOTION-DETAIL` remains `Partially defined`; no route or document status advancement is recorded.
+
+### `DEC-2026-041` - Workflow Draft Review Handoff And Review Convergence
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-11` |
+| Status | Accepted |
+| Primary owner | `docs/documentation-system/payplus-documentation-development-workflow.md` §§4.5.3, 4.5.4, and 6.3 |
+| Affected documents | `docs/documentation-system/payplus-documentation-development-workflow.md` |
+| Substantive commit | `9072e00fffe3f3329dbf522c8965500e78d56b21` |
+| Founder approval | Founder-approved minimal Workflow-only Proposal with automatic progression through Align, Validate, Integrate, and Commit when canonical gates pass on `2026-08-11`; Push not authorized |
+
+**Decision**
+
+The existing Stage 8 Draft exit and handoff condition is strengthened so the Draft Review handoff and coverage materials must self-prove substantive completeness within the accepted boundary before Stage 9 Review. Stage 9 independently confirms or refutes that claim against the approved Proposal, authoritative sources, and approved coverage materials.
+
+Each Review `FAIL` containing accepted-scope findings creates one consolidated Draft correction scope for that Review phase and its permitted finding boundary. Only corrections restoring fidelity to the approved Proposal or accepted design within the authorized Draft boundary are included. New design decisions return to Proposal, evidence gaps return to Explore, and findings outside the accepted design or scope remain in the Review result rather than being absorbed into Draft correction.
+
+Valid owner-backed `TBD`, `Open`, and deferred items remain visible. Material uncovered, unknown, ownerless, or substantive-completeness gaps block Stage 8 exit. Mutation scope remains distinct from broader read-only assessment scope. The change creates no new lifecycle stage, gate, Evidence Pack system, numeric failure counter, expanded prompt machinery, or agent-count requirement.
+
+**Rationale**
+
+The accepted change closes the existing Draft-to-Review handoff ambiguity while preserving the canonical Workflow as the sole lifecycle authority. It makes completeness evidence explicit, keeps independent Review meaningful, and preserves routing for design and evidence uncertainty without expanding the approved Workflow-only boundary.
+
+**Alternatives Considered**
+
+- A new lifecycle stage or gate was not selected because the accepted direction strengthens the existing Stage 8 exit and Stage 9 Review contracts.
+- A permanent Evidence Pack, numeric failure counter, expanded prompt system, or new agent-count rule was not selected because execution evidence and existing independent-review requirements remain sufficient.
+- Supporting-document mutations were not selected because read-only impact assessment found no contradictory or materially incomplete governed reference requiring alignment.
+
+**Consequences And Handoffs**
+
+The canonical Workflow remains the sole owner of lifecycle stages, gates, validation authority, records treatment, and Git completion rules. Supporting references remain unchanged and continue to route to the Workflow. The substantive commit is followed by this immediate records-only commit. Push requires separate explicit authorization.
+
+**Supersedes / Superseded By**
+
+Supersedes the prior Stage 8 handoff wording that ended at a pre-Primary Review representation check. No product, domain, technical, route, status, ownership, or source-of-truth definition is superseded.
+
+**Remaining Open Items**
+
+- Push remains unauthorized and is outside this Commit executor task.
+- No new unresolved product or governance decision remains from this accepted Workflow-only change.
