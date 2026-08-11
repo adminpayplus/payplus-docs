@@ -358,8 +358,10 @@ Convert approved Proposal decisions or an equivalent explicit Founder instructio
 - primary-owner documentation implementing the approved meaning;
 - traceability from the approved decisions or exact Founder instruction to the drafted content;
 - visible assumptions, `TBD`, `Open`, or `To be confirmed` items that remain unresolved;
-- a Draft Review handoff identifying the implemented scope and any blocked design discovery.
+- a Draft Review handoff identifying the implemented scope, any blocked design discovery, the affected-scope semantic assessment, cross-document impact, residuals and dependencies, qualifications, and whether substantive completeness is self-proven for Stage 9;
 - a coverage matrix mapping each approved decision or requirement to its normative section, required table, materially useful tree or Mermaid representation, Acceptance Criteria, primary owner, and downstream handoff; use justified `N/A` where a representation would not materially improve or govern meaning.
+
+The Draft Review handoff and coverage matrix are the existing Stage 8 coverage materials. They are execution evidence in the task context or existing execution record only and do not create a permanent Evidence Pack artifact.
 
 ##### Allowed Actions
 
@@ -388,9 +390,12 @@ Draft exits only when:
 - the implementation remains within the accepted boundary;
 - approved terminology, ownership, architecture, and requirements are preserved;
 - traceability to the approved Proposal or equivalent Founder instruction is visible;
-- unresolved items remain explicit;
-- any new design discovery has been returned to Proposal rather than resolved in Draft.
-- the coverage matrix is complete and ready for a pre-Primary Review representation check.
+- unresolved items remain explicit, including valid owner-backed `TBD`, `Open`, or deferred items;
+- any new design discovery has been returned to Proposal rather than resolved in Draft;
+- the Draft Review handoff and coverage matrix together self-prove substantive completeness within the accepted boundary before Stage 9, including decision coverage, affected-scope semantic assessment, cross-document impact, residuals and dependencies, and qualifications;
+- no material uncovered, unknown, ownerless, or substantive-completeness gap remains; any such gap blocks Stage 8 exit;
+- the mutation scope is separately identified from the broader read-only assessment, and assessed-but-unmutated references are not treated as writable authority;
+- the coverage materials are complete and ready for independent Stage 9 Review.
 
 #### 4.5.4 Review Stage Contract
 
@@ -409,6 +414,7 @@ Validate the primary-owner draft against its approved decision, authoritative so
 - authoritative sources and applicable specialist checks;
 - requested review lens and acceptance expectations.
 - the Draft Plan and Decision Coverage Matrix for material work.
+- the Draft Review handoff, including its substantive-completeness claim, affected-scope assessment, cross-document impact, residuals, dependencies, and qualifications.
 
 ##### Outputs
 
@@ -418,6 +424,7 @@ Validate the primary-owner draft against its approved decision, authoritative so
 - design issues routed to Explore or Proposal;
 - Draft Review PASS/FAIL conclusion and unresolved items.
 - named findings and the review phase: Primary Review, Verification Review, or Final Verification.
+- an independent confirmation or refutation of the Draft's substantive-completeness claim against the approved Proposal, authoritative sources, and approved coverage materials.
 
 ##### Allowed Actions
 
@@ -441,6 +448,9 @@ Review **MUST NOT**:
 - **Primary Review** may identify any evidence-backed defect.
 - **Verification Review** verifies named findings and accepted corrections. It may add a finding only for a regression, previously hidden contradiction, or material safety or implementation blocker.
 - **Final Verification** is closure-led. New findings are limited to objective blockers, regressions, or bounded closure defects.
+- Each Review `FAIL` containing accepted-scope findings creates one consolidated Draft correction scope for that Review phase and its permitted finding boundary. The correction scope includes only findings whose correction restores fidelity to the approved Proposal or accepted design within the authorized Draft boundary.
+- Findings outside the accepted design or authorized Draft scope remain in the Review result and route to Proposal when a new design decision is required or to Explore when an evidence gap requires further understanding; they are not absorbed into the Draft correction scope.
+- This convergence contract introduces no agent-count requirement. Existing applicable independent-review requirements remain unchanged.
 
 After Proposal approval, an alternative preference is a non-blocking backlog observation unless the accepted design is contradictory, unsafe, impossible, or unimplementable. An alternative design that requires reconsideration returns to Explore or Proposal; it does not remain an open-ended review blocker.
 
@@ -452,7 +462,8 @@ Review exits only when:
 - corrections within the approved design are separated from new design questions;
 - design issues are routed to Explore when more understanding is required or Proposal when a decision recommendation is required;
 - the review states PASS or FAIL and identifies what blocks progression to Align.
-- the applicable convergence phase has respected its new-finding boundary.
+- the applicable convergence phase has respected its new-finding boundary;
+- when the result is `FAIL` with accepted-scope findings, one consolidated Draft correction scope is identified for that phase, while findings outside the accepted design or scope remain separately routed and unresolved.
 
 #### 4.5.5 Align Stage Contract
 
@@ -706,7 +717,7 @@ If drafting reveals a material design decision not covered by the approval, stop
 
 ### 6.3 Draft Review Gate
 
-Before integration, confirm:
+Before handing the Draft to Stage 9 Review, confirm:
 
 1. the primary owner contains the accepted meaning;
 2. superseded wording in the owner has been replaced;
@@ -716,9 +727,14 @@ Before integration, confirm:
 6. each material definition remains traceable to the approved Proposal or equivalent Founder instruction;
 7. the review covers correctness, completeness, ambiguity, inconsistency, documentation quality, and implementation fidelity.
 8. the coverage matrix has been checked against prose, tables, trees and Mermaid diagrams, cardinality, formulas and monetary relationships, lifecycle and status terminology, Acceptance Criteria, and downstream handoffs, with justified `N/A` where applicable;
-9. Primary, Verification, and Final Verification work follows the convergence limits in Section 4.5.4.
+9. Primary, Verification, and Final Verification work follows the convergence limits in Section 4.5.4;
+10. the Draft Review handoff and coverage matrix together self-prove substantive completeness within the accepted boundary, rather than merely asserting that the Draft is complete;
+11. the affected scope has been semantically assessed, including assessed-but-unmutated references, cross-document impact, residuals, dependencies, and qualifications;
+12. valid owner-backed `TBD`, `Open`, and deferred items remain visible, while material uncovered, unknown, ownerless, or substantive-completeness gaps block the Stage 8 handoff;
+13. mutation scope and broader read-only assessment scope are explicitly separate, and read-only assessment has not expanded writable authority;
+14. the Stage 8 handoff is execution evidence in the task context or existing execution record only; no permanent Evidence Pack artifact has been created.
 
-Review validates the Draft; it does not redesign it. Corrections that restore fidelity to the approved design may be recommended. A finding that requires wider investigation returns to Explore, and a finding that requires a new recommendation or material decision returns to Proposal.
+Review validates the Draft; it does not redesign it. Stage 9 independently confirms or refutes the Draft’s substantive-completeness claim against the approved Proposal, authoritative sources, and approved coverage materials. The Stage 8 self-validation and handoff are evidence for this Draft gate only; they are not a Stage 9 Review result or the later lifecycle Validate stage. Corrections that restore fidelity to the approved design may be recommended. A `FAIL` containing accepted-scope findings returns as one consolidated Draft correction scope for that Review phase and its permitted finding boundary. Findings outside the accepted design or scope remain in the Review result and route to Explore or Proposal as applicable; they are not absorbed into Draft correction scope. This does not introduce a numeric failure counter or expanded prompt machinery.
 
 ## 7. Align and Integrate Approved Work
 
