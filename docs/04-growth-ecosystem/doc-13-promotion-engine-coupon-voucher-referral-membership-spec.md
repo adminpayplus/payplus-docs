@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.2.5
+version: 1.2.7
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-08-06
+last_updated: 2026-08-13
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -51,12 +51,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-13` |
 | **Title** | Promotion Engine, Coupon, Voucher, Referral & Membership Specification |
-| **Version** | `1.2.5` |
+| **Version** | `1.2.7` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Growth / Product |
 | **Reviewers** | Product Lead<br>Commercial Lead<br>Finance Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Commercial Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-06` |
+| **Last Updated** | `2026-08-13` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -280,17 +280,17 @@ Rules should be grouped by purpose instead of placing every condition under gene
 
 ### 5.1 Eligibility Rules
 
-Eligibility rules answer: **Can this user, request, payment method, or transaction enter the offer?**
+Eligibility rules answer: **Can this payer, authoritative Bill/Rent source context, payment method, or transaction enter the offer?**
 
 Common eligibility dimensions:
 
-- user status;
+- payer/account status where applicable;
 - KYC/KYB status;
 - risk status;
-- new or existing user;
-- request origin;
-- bill category;
-- payee type;
+- new or existing payer;
+- authoritative Bill/Rent source context;
+- accepted Bill Category or separate Rent context;
+- economic-Payee/source-context facts where an owner-approved offer rule expressly uses them (not PayPlus User or entitlement-participant status);
 - evidence verification status;
 - payment method;
 - selected payment card or applicable split-payment funding leg;
@@ -520,7 +520,7 @@ Checkout calculation sequence:
 
 After the payer selects a payment card or Payment Profile where applicable, DOC-13 owns promotion eligibility, selection, quote, and recalculation rules; DOC-09 owns payment-domain and authorization meaning; and DOC-06B owns presentation within the Checkout Workspace. The Workspace must identify the automatically applied Card Offer, allow a separate eligible coupon/voucher/discount selection, and present the recalculated fee, discount, benefit, and final total before authorization. These facts may be adaptively combined or separated within the Checkout Workspace and are not required to use one fixed screen or step. Changing the payment card, profile, funding allocation, amount, or other material eligibility input invalidates the prior promotion quote and triggers re-evaluation.
 
-Material changes require recalculation. Material changes include payment amount, category, payee, evidence status, selected card, card split, service fee, discount, campaign status, usage entitlement, or budget availability.
+Material changes require recalculation. Material changes include payment amount, category, economic-Payee/source-context facts where an owner-approved offer rule uses them (not User or participant status), evidence status, selected card, card split, service fee, discount, campaign status, usage entitlement, or budget availability.
 
 For DOC-09 deferred payment instructions, the original promotion quote should be retained for audit. PayPlus should not assume campaign quota, budget, coupon/voucher availability, card-linked eligibility, membership status, or reward entitlement remains valid when the user returns to submit payment unless the campaign explicitly reserves that benefit.
 
@@ -534,7 +534,7 @@ Reservation behavior must be configurable:
 Promotion quote should include:
 
 - promotion quote ID;
-- request ID;
+- payer and source/transaction context references where applicable;
 - payment quote ID;
 - campaign ID;
 - offer ID;
@@ -619,14 +619,14 @@ Campaign: SIM Credit Card Rent Campaign
 Offer A: Service Fee Waiver
 Offer Type: Card-linked offer + service fee waiver
 Application Path: Direct Checkout Application
-Eligibility: rent category, tokenized SIM credit card
+Eligibility: separate Rent payment context, tokenized SIM credit card
 Qualification: payment amount >= HK$5,000
 Benefit: service fee waiver on eligible amount cap HK$20,000
 
 Offer B: HK$150 PayPlus Coupon
 Offer Type: spending reward + coupon issuance
 Application Path: Instrument Issuance
-Eligibility: rent category, same tokenized SIM credit card
+Eligibility: separate Rent payment context, same tokenized SIM credit card
 Qualification: accumulated eligible spend reaches HK$15,000 in entitlement period
 Entitlement: not already entitled to this coupon in the same calendar month
 Benefit: HK$150 PayPlus coupon
@@ -798,11 +798,11 @@ Promotion quote reservation records whether a quote benefit is not reserved, sof
 
 Benefit application is the actual confirmed use of a benefit after authorization, payment completion, or other configured trigger.
 
-Promotion quote, reservation, and benefit application records must link to campaign, offer, user, request, payment instruction where applicable, funding leg where applicable, payment, funding source, applied amount, and reversal status.
+Promotion quote, reservation, and benefit application records must link to campaign, offer, payer and source/transaction context where applicable, Payment Instruction where applicable, Funding Leg where applicable, Payment, funding source, applied amount, and reversal status. DOC-09 owns the underlying Payment, Payment Instruction, Funding Leg, and Payment Application meaning; DOC-13 does not redefine that topology.
 
 ### 8.7 Reward Instrument and Redemption / Fulfilment
 
-Reward instrument exists only when something is issued to the user.
+Reward instrument exists only when an approved offer issues it to an eligible PayPlus Payer/User under DOC-13 policy. Economic Payee status alone never creates promotion eligibility, entitlement, reward-instrument ownership, referral participation, membership status, or recipient capability.
 
 Instrument types:
 
@@ -820,7 +820,7 @@ Reward records must not overload one `reward type` field with unrelated meanings
 | --- | --- | --- |
 | Instrument type | What was issued and how it may be used or fulfilled. | Cash coupon, discount code, voucher, external benefit, miles entitlement. |
 | Earning source | Why the user earned or received it. | Referral, spending, membership, partner campaign, approved administration. |
-| Participant role | Which role earned the entitlement where role-sensitive. | Referrer, referee, payer, payee, not applicable. |
+| Participant role | Which eligible promotion role earned the entitlement where role-sensitive. | Referrer, referee, eligible Payer/User, or not applicable; economic Payee alone is not an entitlement participant. |
 | Program context | Which business program produced the entitlement. | Referral Program, membership program, partner promotion. |
 | Campaign and offer source | Which approved campaign, offer, and entitlement created the instrument. | Campaign ID, Offer ID, Entitlement ID. |
 | Fulfilment method | How authoritative use or delivery is confirmed. | Checkout, QR, code, partner link, API, file, portal, manual, miles credit. |
@@ -1125,6 +1125,8 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.7 | 2026-08-13 | Qualified economic-Payee facts as owner-approved source context only and restricted reward instruments and participant roles to eligible Payer/User or promotion roles, without adding Payee-user eligibility or runtime behavior. |
+| 1.2.6 | 2026-08-13 | Removed active Request/request-origin and Rent-as-Category assumptions, aligned promotion lineage to payer and authoritative source/transaction context, and preserved DOC-09 owner handoffs without adding runtime or schema behavior. |
 | 1.2.5 | 2026-08-06 | Defined the public Entrance source boundary: Promotion and Feature only, Promotion/Offer and Feature truth retained by their formal owners, `Use Promotion Period` versus manual placement timing, source-owned optional actions, and mandatory suspension/republication after material or authorization-affecting source changes without introducing technical schema or implementation mechanics. |
 | 1.2.4 | 2026-08-05 | Defined the bounded HOME-ROOT Hot Offer source contract: `AdminHomePresentationEnabled`, canonical restriction exceptions, any-status selection, no derived display-eligibility object or multi-gate formula, and canonical Offer content, status, validity, redemption, and available-action truth, with Home carousel mechanics retained in DOC-06B and Admin controls in DOC-22. |
 | 1.2.3 | 2026-08-03 | Aligned Checkout promotion presentation with DOC-13 promotion-rule ownership, DOC-09 payment-domain meaning, and DOC-06B adaptive Workspace presentation without changing promotion eligibility, priority, stacking, reservation, budget, quote, or recalculation logic. |

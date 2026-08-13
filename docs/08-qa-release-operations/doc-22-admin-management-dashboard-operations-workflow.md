@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-22
 title: Admin Management Dashboard & Operations Workflow
-version: 0.23.0
+version: 0.24.0
 status: Founder Working Baseline
 owner: Operations / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Operations Lead
   - Compliance Lead
-last_updated: 2026-08-06
+last_updated: 2026-08-12
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,18 +48,22 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-22` |
 | **Title** | Admin Management Dashboard & Operations Workflow |
-| **Version** | `0.23.0` |
+| **Version** | `0.24.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Operations / Product |
 | **Reviewers** | Product Lead<br>Operations Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Security Lead<br>Engineering Lead<br>Data Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Operations Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-06` |
+| **Last Updated** | `2026-08-12` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
 ## 1. Purpose
 
 ## 2. Scope
+
+DOC-22 describes only operational execution, configuration, queue and audit work that a formal owner has specifically permitted. It does not own or decide product policy, source/Evidence truth, payment or Payout truth, risk outcome, privacy/retention, security proof, route access, notification eligibility/delivery, or financial correction/reissue outcome. Those matters remain with DOC-05 through DOC-15, DOC-19, DOC-21 and the applicable specialist owner.
+
+The active product is Payer-only. An economic Payee need not be a User. Request, Linking, To Receive, Receiving Info, Payee-user, production legacy data, readers, adapters, fallbacks and deep links are retired. DOC-22 must not restore them through configuration, queues, workflows or permissions.
 
 ## 3. Out of Scope
 
@@ -71,77 +75,37 @@ related_documents:
 
 ## 7. Operations Queues
 
-### 7.1 Account Review Queue
-### 7.2 Payee Review Queue
-### 7.3 Evidence Review Queue
+### 7.1 Account Review
+### 7.2 Intended-Payee/Destination Review
+### 7.3 Evidence Review
 
-Future full DOC-22 drafting must define admin queue behavior for DOC-06C Bills evidence routes.
+Where a formal owner specifically permits an operational workflow, DOC-22 may execute it and record operational evidence. DOC-22 does not assign or override Evidence, readiness, risk, Payment, Payout, privacy, retention or Archive truth, and does not define queue contents, statuses, permissions, dispositions, Archive/Restore or version presentation.
 
-Required items to be updated include:
+Detailed representation belongs in DOC-18; user routes in DOC-06; Evidence verification in DOC-12; risk escalation in DOC-14.
 
-- review evidence submitted from `BILLS-EVIDENCE-UPLOAD`;
-- view the current active evidence set from `BILLS-EVIDENCE-DETAIL`;
-- assign or override evidence-processing status, including `Pending Review`, `Accepted`, `Correction Needed`, `Update Needed`, `Rejected`, and `Duplicate Suspected`; archive visibility and previous-version history must remain separate;
-- capture reason codes, reviewer identity, timestamp, and affected bill/rent readiness status;
-- manage archive-not-delete behavior, per-user archive projections, parent-obligation archive/restore eligibility and blockers, non-restorable previous versions, expired non-restorable archives, retention disposition, and controlled access to prior evidence versions without mutating the counterparty projection or canonical obligation;
-- route status changes to DOC-08 notifications or dashboard-only action items where applicable;
-- audit all evidence view, status-change, archive, override, and sensitive-field reveal actions.
+### 7.4 Retired Request Identifier
 
-Detailed schema and event taxonomy belong in DOC-18. User-facing evidence routes belong in DOC-06. Evidence verification rules belong in DOC-12. Risk escalation rules belong in DOC-14.
+No active Request Review Queue exists. The retired stable identifiers are documentation provenance only and create no runtime queue, action, permission, disposition, notification or delivery requirement.
 
-### 7.4 Request Review Queue
+No active Request lifecycle, state, delivery, reminder, sharing, linking, Archive or permission configuration exists. DOC-22 must not convert any owner outcome into a retired Request state.
 
-Future full DOC-22 drafting must present request review without one overloaded status field.
+### 7.5 Risk Workflow Handoff
+### 7.6 Duplicate-Detection Workflow Handoff
+### 7.7 Dispute Workflow Handoff
 
-Required items to be updated include:
+DOC-11 owns adjustment/case meaning. DOC-22 may execute a specifically permitted workflow and must not redefine case lifecycle, approvals, holds or outcomes.
+### 7.8 Clarification Workflow Handoff
+### 7.9 Failed-Payment Workflow Handoff
+### 7.10 Payout-Exception Workflow Handoff
 
-- filter and display the canonical request lifecycle: `Draft`, `Pending Evidence Verification`, `Pending Receiver Action`, `Accepted`, `Rejected`, `Expired`, and `Cancelled`;
-- display sender/receiver role-facing projections separately from the underlying lifecycle state;
-- preserve request events, timestamps, actors, reasons, delivery/share history, reminders, party linking, archive, and restore history;
-- display evidence status, obligation readiness, linked support/dispute case, payment/payout status, and archive visibility as separate fields or linked records;
-- prevent admin overrides from silently converting an event, evidence outcome, readiness result, case status, payment outcome, or archive action into a request lifecycle state;
-- audit every permitted lifecycle correction, case/hold action, visibility change, and reason code.
-
-Detailed request state and event structures belong in DOC-18. Product lifecycle meaning belongs in DOC-06A; route display belongs in DOC-06B; evidence, readiness, case, payment, payout, and notification meaning remain in their owning documents.
-
-### 7.5 Risk Review Queue
-### 7.6 Duplicate Detection Queue
-### 7.7 Dispute Queue
-
-Disputes and clarification work must use the linked case lifecycle `Open`, `Pending Information`, `Under Review`, `Resolved`, and `Closed`. Operational actions and outcomes such as approval, rejection, processing, completion, failure, escalation, or hold application must be recorded separately and must not overwrite request lifecycle state.
-### 7.8 Clarification Queue
-### 7.9 Failed Payment Queue
-### 7.10 Payout Exception Queue
-
-Future full DOC-22 drafting must distinguish destination-attributable exceptions that a user or reviewer can correct from transient bank, rail, provider, or system exceptions. Only the former should make a Receiving Info profile `Action Required`; both remain visible in the appropriate payout/operations queue.
-### 7.11 Refund/Reversal Queue
-### 7.12 Compliance Escalation Queue
-### 7.13 Campaign and Promotion Review Queue
-### 7.14 Reward Entitlement and Voucher Exception Queue
+DOC-10 and specialist owners determine destination/Payout exception meaning. DOC-22 does not create a Receiving Info profile, user-facing status or exception policy.
+### 7.11 Refund/Reversal Workflow Handoff
+### 7.12 Compliance-Escalation Workflow Handoff
+### 7.13 Campaign and Promotion Workflow Handoff
+### 7.14 Reward-Entitlement Workflow Handoff
 ### 7.15 Authentication and Account Activation Review
 
-Future full DOC-22 drafting must support controlled authentication and Account Activation operations without exposing credentials, OTPs, passcodes, raw provider payloads, or unnecessary identity data.
-
-Required capabilities should include:
-
-- locate permitted registration-attempt, authentication, session, and Account Activation events by user/account reference, attempt ID, occurrence/event ID, or correlation ID;
-- show approved operational Outcome classifications, selected Resolution Strategies, and reason categories separately from persistent account status and user-facing message text;
-- use the DOC-07 Authentication Bounded Domain Slice and linked communication contracts for future Message ID, disclosure, action, destination, notification-treatment, and DOC-22 operational-handoff alignment;
-- support authorized review of primary-email, phone, identity, provider-link, and account-creation uniqueness conflicts without automatically merging or linking accounts;
-- inspect Fast Login eligibility renewal/revocation and current-device session revocation without storing or revealing plaintext passwords or protected device secrets;
-- configure and monitor registration-attempt expiry, OTP invalidation, rate limits, abuse controls, and cleanup while ensuring temporary attempts do not reserve identifiers or grant account rights;
-- apply the five user-facing identity projections `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required` without presenting raw provider states as product statuses;
-- prohibit administrators from directly setting identity status to `Verified`, bypassing Account Activation, reading OTPs/passcodes, selecting a replacement passcode, or marking phone verification complete without the approved verification result;
-- permit an authorized administrator to set identity status to `Not Verified` or `Update Required`; changing `Verified` to `Not Verified` requires dual approval for MVP;
-- record requester, approver, prior status, new status, reason, timestamp, and case/provider reference for every identity-status reset or required-update decision;
-- configure the HK$3,000 additional external/risk step-up baseline without weakening mandatory payment-passcode, payer-authorization, PSP/acquirer, card-network, regulatory, or risk controls;
-- preserve controlled support-assisted payment-passcode recovery for unavailable registered phones; exact proof and waiting-period rules remain TBC for the full DOC-19/DOC-22 drafting;
-- preserve controlled account-recovery cases with case and correlation IDs, disclosure-safe available-capability summaries, proof and retained-evidence references, risk/reason category, reviewer and approver assignment, cooling-off treatment, permitted recovery authorization, notifications, and complete audit history;
-- require dual approval where established recovery channels are unavailable, subject to final DOC-19/DOC-21/DOC-22 proof, role, and waiting-period decisions;
-- prohibit administrators from choosing passwords or passcodes, reading recovery secrets, directly creating authenticated sessions, linking providers, bypassing phone/identity/activation controls, or promising recovery where ownership assurance cannot be established;
-- preserve full audit history for permitted support, security, review, and override actions.
-
-The exact authentication Outcome Type IDs, Resolution Strategy codes/mappings, Message IDs, user-facing messages, CTA mappings, and notification treatment remain open in DOC-07. Exact recovery proof, cooling-off, restricted-account treatment, reviewer/approver roles, and technical security controls remain open in DOC-19/DOC-21/DOC-22. DOC-22 must preserve the lookup and operational-control mechanism but must not invent or override those decisions.
+DOC-19, DOC-21 and applicable identity/security owners determine authentication, recovery, session, status, proof, access and audit requirements. DOC-22 may execute only their expressly permitted workflow and must not expose secrets, change security truth or define a recovery, outcome, message, queue, role, approval, technical or notification policy.
 
 ## 8. Admin Review Workflows
 
@@ -151,16 +115,7 @@ The exact authentication Outcome Type IDs, Resolution Strategy codes/mappings, M
 
 ## 11. Payment Operations Workflows
 
-Admin dashboard must support DOC-09 user payment instruction review at operations level.
-
-Required capabilities should include:
-
-- view payment instruction status;
-- view single-card or split-card funding leg progress;
-- view deferred funding date, selected payee transfer date, payment instruction action-alert status, partial funding, remaining unpaid amount, and partial payout linkage;
-- view payment quote, promotion quote, reservation status, revalidation result, changed-term acknowledgement, and expiry where applicable;
-- distinguish partially funded instruction from completed payment;
-- trigger permitted action alert, user action, hold, cancellation, expiry, or escalation workflow according to approved policy.
+DOC-09 owns Payment Instruction and Checkout semantics. DOC-22 may execute a specifically owner-permitted workflow using approved facts; it must not define partial funding, instruction status, quotes, alerts, holds, cancellation, expiry or escalation policy.
 
 ## 12. Payout and Reconciliation Workflows
 
@@ -176,281 +131,51 @@ Required capabilities should include:
 
 ## 18. Campaign, Promotion, Coupon, Voucher, Reward, and Referral Operations
 
-Detailed promotion-engine rules belong in DOC-13. Admin workflows should support campaign setup, offer setup, eligibility rule configuration, qualification and entitlement review, coupon/voucher issuance, miles fulfilment status, external voucher exception handling, reward reversal, and approval/audit workflow where promotions are enabled.
+DOC-13 owns promotion, offer, referral, qualification, entitlement and Reward truth. DOC-22 may execute an expressly owner-permitted operational workflow and record approved evidence only; it does not define campaign, eligibility, placement, entitlement, Reward, approval or presentation policy.
 
 ### 18.1 Dashboard Shortcut and Placement Configuration
 
-Admin dashboard must support configuration hooks for the DOC-06B designated Home Dashboard flow where enabled.
-
-Required capabilities should include:
-
-- maintain an approved shortcut and secondary-service catalog without creating, renaming, or redirecting product destinations;
-- configure the current default Home set and order up to the 8-slot maximum, including protected `More`;
-- keep `More` enabled, present, and final so users retain access to shortcut management;
-- enable, disable, hide, or gate catalog entries by feature, module, category, market, account/role eligibility, risk/compliance restriction, or launch phase;
-- preserve account-level user order and visibility preferences where still eligible;
-- resolve the effective Home set in DOC-06B precedence order: protected rules, eligibility/availability, approved catalog, current default, then user preference;
-- support restore to the current eligible default rather than an obsolete historical default;
-- version default/catalog changes and preserve privacy-safe handling when a previously selected entry becomes unavailable;
-- prevent admin configuration from bypassing destination permissions, feature gates, or PayPlus product boundaries;
-- expose operational inspection and audit support for Important Notice / Action Required without altering or suppressing the source-owned Severity, Home category, Business Priority Rank, issued timestamp, lifecycle, due timestamp, audience/permission, or action destination;
-- configure Hot Offer Home selection through `AdminHomePresentationEnabled`, fixed or random ordering, an optional fresh-entry reshuffle for random ordering, and an auto-rotation interval whose default is five seconds;
-- validate Admin-selected candidates against the current DOC-06B-owned Home capacity and zero-state presentation contract without redefining those route-level rules;
-- require publication-quality review and audit for Admin-selected Offer presentation fields, while blank source fields remain blank and are not classified as HOME-ROOT Error;
-- preserve canonical Offer status, validity, redemption eligibility, content, and available-action truth, and prevent Admin configuration from altering, suppressing, reinterpreting, or falsifying that truth;
-- permit Admin-selected presentation of any canonical Offer status, except where an explicit canonical legal, privacy, permission, masking, or prohibited-content restriction forbids presentation;
-- publish only canonical Offer references and Admin presentation configuration for DOC-06B consumption; Home card and CTA destinations, section visibility, and automatic filtering behavior remain governed by DOC-06B, while Admin must not introduce `SourceHomeDisplayEligible`, a multi-gate Home formula, or status-, validity-, or redemption-derived Home filtering;
-- distinguish dashboard placement from notification delivery, inbox entry, campaign eligibility, and promotion entitlement;
-- record admin changes to shortcut defaults, dashboard placements, carousel configuration, and notice/action items.
-
-Detailed final admin screens, permission matrix, approval workflow, and implementation fields will be drafted in full DOC-22 and DOC-18.
+DOC-06B owns Home routes, shortcuts, entry behaviour and presentation. DOC-13 owns Offer truth. Any operational configuration must be expressly permitted by those owners; DOC-22 cannot create a route, destination, availability rule, placement, priority, eligibility, CTA, status or presentation requirement.
 
 #### 18.1.0 Public Entrance Content Configuration
 
-DOC-22 owns the Admin workflow and configuration for controlled public content on `ENTRANCE-ROOT` and `ENTRANCE-PROMOTION-DETAIL`. It does not own the public route/component behavior or become Promotion, Offer, or Feature business truth.
-
-##### Source Areas and Ownership
-
-Promotion and Feature are the only supported Entrance Carousel content classes. Announcement is excluded.
-
-- Promotion and Offer content remains in the applicable Promotion or Offer Management source governed by DOC-13 or another applicable formal owner.
-- Feature content uses an independent Feature Management source area.
-- Every Feature identifies its formal product or business-truth owner. Feature Management records approved public presentation content and evidence; it does not replace that formal owner.
-- Central Entrance Carousel Management references source content. It must not copy, alter, suppress, reinterpret, or independently own canonical Promotion, Offer, or Feature truth.
-
-##### Feature Management
-
-The minimum human-level Feature content record includes:
-
-- an identifiable Feature reference;
-- formal owner/source reference;
-- public name;
-- `1080 x 1350` (`4:5`) image;
-- image alternative/accessibility description;
-- activity/feature date presentation value;
-- summary;
-- Terms content or an approved Terms reference;
-- optional source-approved action intent and destination;
-- locale variants;
-- content approval/readiness evidence.
-
-Feature Management does not own `Display on Entrance`, placement dates, priority, manual order, Entrance preview, Entrance publication, removal, or common Carousel behavior. Exact record schema, field types, workflow states, permissions, and implementation remain deferred.
-
-##### Central Entrance Carousel Management
-
-Central Entrance Carousel Management must provide one common location to:
-
-- select an eligible Promotion or Feature source reference;
-- enable or disable `Display on Entrance`;
-- view every active or suspended Entrance placement without turning the view into source content management;
-- manage the approved placement period;
-- designate at most one priority item, which appears first;
-- arrange all remaining items in one deterministic manual order;
-- prevent random Entrance ordering;
-- enforce no more than five active Entrance items;
-- preview the full-width `4:5` image crop, image-only Carousel treatment, dots, sequence, detail entry, inline Terms, optional action, and same-item return;
-- publish or remove an item from Entrance without deleting its source;
-- manage common Carousel placement behavior without changing DOC-06B route/component meaning.
-
-For a Promotion source, the placement editor provides a `Use Promotion Period` checkbox:
-
-- when checked, Entrance placement follows the current canonical Promotion period and manual `Display From` / `Display To` are read-only;
-- when unchecked, the administrator enters separate `Display From` and `Display To` values.
-
-For a Feature source, `Display From` and `Display To` are manually managed and `Use Promotion Period` does not apply. The checkbox and placement dates control Entrance placement only. They do not redefine Promotion validity, eligibility, entitlement, available-action truth, Feature business truth, or the source-owned activity/feature date shown to the user.
-
-The Carousel detail supports zero or one source- and route-owner-approved CTA. Admin placement cannot invent or broaden the action, destination, eligibility, entitlement, or user-specific benefit. Exact CTA Copy and presentation remain with DOC-07.
-
-Zero active placements omit the Carousel and dots while preserving Header and horizontal Login / Registration. One active placement is static and does not require rotation, a swipe cue, or a dot control. Two to five active placements use the complete DOC-06B Carousel behavior. Log In, Create Account, language, Support, and Terms access remain outside campaign suppression or commercial targeting controls.
-
-Public Entrance content is identical for all unauthenticated users. Entrance placement must not use protected account, payment, identity, evidence, card, receiving, risk, or behavioral data for targeting or personalization.
-
-##### Source-Change Safety, Publication, and Evidence
-
-An Entrance placement must be suspended when its Promotion or Feature source is:
-
-- withdrawn;
-- no longer authorized for public display;
-- prohibited by an applicable legal, privacy, permission, masking, or content restriction; or
-- materially changed after the placement's last approved preview/publication.
-
-Suspension removes the item from active Entrance presentation without deleting its source record or historical placement evidence. Return requires the updated presentation to be previewed and republished through the authorized Admin workflow.
-
-Public Entrance source selection, placement configuration, preview, approval, publication, removal, suspension, republication, and rollback require version history and audit evidence proportionate to the change. Detailed roles, permission names, approval steps, source-change detection, date storage, timezone, synchronization, validation, scheduler behavior, audit/event schema, monitoring, and implementation mechanics remain for later DOC-18, DOC-19, DOC-21, and full DOC-22 technical and operational work.
+DOC-13 and other formal owners determine any public-content truth. DOC-22 may execute an expressly owner-permitted operational workflow without creating publication, placement, targeting, accessibility, timing, approval, status, route, CTA, Copy or retention requirements.
 
 #### 18.1.1 Pay+ Action Availability Configuration
 
-Future full DOC-22 drafting must support controlled availability for the five DOC-06B `PAYPLUS-ACTION-SHEET` actions:
-
-- enable or disable an action by module, category, market, launch phase, or approved user segment;
-- distinguish globally unavailable/unlaunched actions, which may be hidden, from user-specific, temporary, or review restrictions, which should remain visible but disabled with safe user-facing explanation;
-- preserve the confirmed meanings, order, and destinations for `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, `Continue Payment`, and payee-to-payer `Request Payment`;
-- prevent admin users from renaming, reordering, or redirecting those action semantics or bypassing destination evidence, eligibility, risk, authorization, payment, or payout gates;
-- record configuration version, actor, reason, effective scope, timestamp, and rollback/audit information.
-
-Exact admin screen, permission, approval, and implementation-field design remains for full DOC-22 drafting.
+DOC-06B owns Pay+ actions, availability and presentation. DOC-22 may not create, configure, rename, order or redirect an action; retired Request Payment remains unavailable.
 
 ### 18.2 Reminder Default Configuration
 
-Admin dashboard must support configuration hooks for DOC-06C bill/rent reminder defaults where enabled.
+DOC-06C owns reminder behaviour and DOC-08 notification behaviour. DOC-22 may execute only an expressly owner-permitted workflow and does not define reminder timing, eligibility, channel or preference policy.
 
-Required capabilities should include:
+### 18.3 Retired Request Configuration
 
-- configure default reminder timing for rent, monthly bills, and one-off invoices;
-- configure allowed reminder cycles, offsets, and custom-date availability by category or module;
-- enable, disable, or gate reminder features by feature, category, user type, eligibility, risk state, launch phase, or compliance restriction;
-- configure whether system/default reminders may be disabled, reset, or replaced by user custom override;
-- configure reminder notification channel availability in coordination with DOC-08;
-- audit changes to reminder defaults, eligibility, channel linkage, and feature gating.
-
-Detailed reminder data structures belong in DOC-18. User-facing reminder route behavior belongs in DOC-06.
-
-### 18.3 Request Creation and Delivery Configuration
-
-Admin dashboard must support future configuration hooks for DOC-06B `REQUESTS-NEW`, `REQUESTS-DETAIL`, and request-delivery controls where enabled.
-
-Required capabilities should include:
-
-- configure request feature/module availability by user type, category, risk state, launch phase, or compliance restriction;
-- configure request expiry, resend eligibility, reminder cooldown, maximum reminders per period, and cancellation rules;
-- configure whether specific categories require admin review or approved exception before evidence-gated request delivery;
-- configure approved request delivery and sharing channels, including in-app, app link, WhatsApp deeplink, QR code, or other approved channels;
-- distinguish request reminders from new request creation;
-- audit request creation, evidence-gated send, resend, reminder, cancellation, share-link generation, and channel-configuration changes.
+No active Request creation or delivery configuration exists. DOC-22 must not create a replacement action, delivery path, recipient model, queue or historical-runtime reader.
 
 ### 18.4 Payment Profile and Tokenized Card Configuration
 
-Admin dashboard must support future configuration and operations hooks for DOC-06B `PAYMENT-PROFILE-ROOT`, DOC-09 payment profile use, and DOC-19 tokenization controls where enabled.
-
-Required items to be updated include:
-
-- configure controls for the MVP maximum of 6 cards per payment profile and checkout split;
-- configure default confirmation behavior, optional user-enabled payment-passcode confirmation, and risk/PSP/security step-up rules for card removal/update;
-- view masked tokenized card and payment profile status without exposing raw card data, CVV, sensitive authentication data, or full token secrets;
-- view profile action-required reasons such as removed, expired, suspended, invalid, or unavailable card;
-- support permitted suspend/reactivate/flag workflows for risk, support, or partner requirements;
-- audit card add, tokenization return, card removal/archive, default-card change, profile create/edit/remove, profile star/unstar, and profile action-required resolution.
-
-Detailed Payment Profile route behavior belongs in DOC-06B. Checkout use belongs in DOC-09. Tokenization and card-security controls belong in DOC-19. Notification routing belongs in DOC-08. Data, state, and audit-event taxonomy belongs in DOC-18.
+DOC-06B owns route presentation, DOC-09 payment behaviour and DOC-19 security controls. DOC-22 may execute an owner-permitted workflow using approved facts only; it does not define card limit, confirmation, step-up, status, lifecycle, access, audit or tokenization policy.
 
 ### 18.5 Offers Collection, Placement, and Application Configuration
 
-Future full DOC-22 drafting must support the confirmed DOC-06B, DOC-09, and DOC-13 Offers behavior without redefining promotion logic.
-
-Required capabilities include:
-
-- assign one Offer ID to one or more discovery collections;
-- configure Featured / Hot placement separately from collection membership;
-- use `AdminHomePresentationEnabled` for Home placement under the complete Home visibility contract in DOC-13;
-- configure the primary `OFFERS-ROOT` placement and suppress unintended repeated root display of the same Offer ID by default;
-- allow an approved, audited override for intentional repeated root placement;
-- configure pinning and display priority separately for each collection;
-- configure Offer-domain enablement, display dates, targeting, labels, and publication approval without treating those Offer-domain values as additional HOME-ROOT visibility gates;
-- configure whether an offer is payment-method-sensitive and automatically applied or belongs to the separate user-selected coupon/voucher/discount family;
-- configure the approved user-value amount/method and deterministic equal-value or non-comparable tie-break used to auto-select the best eligible Card Offer;
-- audit collection assignment, placement, priority, override, value-comparison, and application-mode changes.
-
-Detailed eligibility, stacking, value comparison, and benefit calculation belong in DOC-13. Same-screen checkout behavior belongs in DOC-09. Final data objects and events belong in DOC-18.
+DOC-13 owns Offers, eligibility, entitlement, placement truth and all promotion decisions; DOC-09 owns payment behaviour; DOC-06B owns route presentation. DOC-22 may execute only an expressly owner-permitted operational workflow using approved facts. It does not define eligibility, collection, placement, priority, targeting, application, benefit, audit, data or event requirements.
 
 ### 18.6 Referral Program, Campaign, and Qualification Configuration
 
-Future full DOC-22 drafting must support the confirmed DOC-06B and DOC-13 Referral baseline without redefining referral or reward logic.
-
-Required capabilities include:
-
-- enable or disable the PayPlus Referral Program and individual campaigns;
-- support one MVP campaign and preserve support for multiple future campaigns;
-- configure separate referrer and referee offers and beneficiary-role entitlements;
-- configure qualifying conditions, source events, payment/risk finality, qualification periods, campaign end, claim deadlines, reward usage expiry, quotas, and per-user limits as separate controls;
-- reserve quota/value when each role-sensitive entitlement is created and preserve the applicable campaign, offer, benefit, and terms snapshot;
-- keep reusable user-linked referral codes non-expiring by default while preserving optional future validity controls;
-- configure campaign availability, terms, share channels, and campaign-specific registration context;
-- review privacy-safe attribution and qualification records without exposing unnecessary bills, evidence, payments, cards, KYC data, payees, or internal risk reasons;
-- hold, release, reject, reverse, or claw back referral entitlements or issued rewards according to approved permissions, reason codes, and audit rules; an authorized hold on a claimed item must support the inactive `Under Review` History presentation defined by DOC-06B without exposing internal reasons;
-- reconcile duplicate, concurrent, retried, or uncertain claim submissions against the existing entitlement-to-instrument issuance result without creating another reward;
-- support controlled attribution correction only if later approved, with reason capture, authorization, and full audit history;
-- audit campaign changes, rule changes, qualification decisions, manual overrides, entitlement actions, claim outcomes, and reward issuance linkages.
-
-Detailed Referral route behavior belongs in DOC-06B. Referral, qualification, entitlement, and reward rules belong in DOC-13. Privacy and masking belong in DOC-15. Final objects, identifiers, statuses, events, and lineage belong in DOC-18.
+DOC-13 owns Referral, qualification, entitlement and Reward truth; DOC-06B owns route presentation; DOC-15 owns privacy; and DOC-18 owns future representation. DOC-22 may execute an expressly owner-permitted operational workflow only. It does not define campaign, qualification, entitlement, reward, timing, status, access, notification, audit, data or event policy.
 
 ### 18.7 Reward Instrument and Fulfilment Operations
 
-Future full DOC-22 drafting must support the confirmed canonical reward lifecycle without redefining DOC-13 business rules.
-
-Required capabilities include:
-
-- manage activation and operational readiness for launch-supported external-voucher and miles fulfilment methods;
-- view instrument type, earning source, participant role where applicable, program, campaign/offer/entitlement source, fulfilment method, and canonical status as separate dimensions;
-- review Action Required, In Progress, Under Review, unknown-result, partner-failure, duplicate-use, and reconciliation exceptions;
-- perform permitted hold, release, reverse, void, restore, reissue, or fulfilment-retry actions with permission, reason, user-notice, and audit controls;
-- prevent duplicate issuance or use by reconciling repeated, concurrent, retried, and uncertain operations against the authoritative result;
-- configure the seven-calendar-day expiring-soon default and later approved fixed-count usage where enabled;
-- define hold-versus-expiry behavior after the open DOC-13 policy decision is resolved;
-- restrict credential reveal, export, partner payload, and internal reason access according to DOC-15 and DOC-19.
-
-Detailed reward logic and status meaning belong in DOC-13 and the status-display reference matrix. User-facing screens belong in DOC-06B, checkout selection in DOC-09, privacy in DOC-15, and final objects/events in DOC-18.
+DOC-13 owns Reward truth and any lifecycle outcome. DOC-22 may execute only an expressly owner-permitted operational workflow; it does not define actions, expiry, status, credential access, user notices or fulfilment policy. DOC-06B owns presentation, DOC-15 privacy, DOC-19 security and DOC-18 future representation.
 
 ### 18.8 Me Route, Account-Control, and Receiving Info Configuration
 
-Future full DOC-22 drafting must support the confirmed DOC-06B `ME-ROOT` baseline without turning the admin dashboard into the owner of user-facing route behavior.
-
-Required controls include:
-
-- preserve `ME-ROOT` as a permanent MVP bottom-navigation destination;
-- prevent ordinary configuration from hiding core Account Information, Security & Privacy, Help & Support, About PayPlus, Terms and Policies, or Log Out controls;
-- enable or disable optional module rows, including Membership, while preserving the MVP `RECEIVING-INFO` capability and permitted access to retained user records;
-- manage account and identity-verification action-required cases, provider exceptions, retries, and the five-state mapping without exposing provider payloads or internal reasons in user-facing routes or creating duplicate verification submissions;
-- support controlled recovery where a user cannot access the registered phone or email, with identity checks, reason capture, approval, notification, and audit evidence;
-- support contact-change exception handling and audit for the confirmed cross-channel phone/email verification flows;
-- resolve duplicate-primary-email and external-provider-link conflicts through controlled support or security workflows without automatically merging accounts by email;
-- support audited Google/Apple login-method link and unlink exceptions, first-password setup state, and the safeguard that prevents removal of an account's final usable login method;
-- expose restricted-account and Account Activation gate outcomes for authorized support and operations roles without allowing admin configuration to bypass phone, identity, passcode, payer-verification, or authorization requirements;
-- manage privacy requests through controlled queues using `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete` user-facing projections, with internal reasons, service timelines, assignee, and evidence retained separately;
-- issue, revoke, expire, and audit protected in-app data exports without sending the export as an ordinary email attachment;
-- manage account-closure blockers, cancellation before finalization, operational finalization, session termination, login disablement, retained-record access, and completion notice without treating closure as immediate deletion;
-- support trusted-device removal and session revocation audit, including current-device logout behavior;
-- preserve optional direct-marketing, personalization, and approved partner-data-use choices while preventing users or administrators from disabling mandatory service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
-- configure enabled receiving methods and method-specific fields without inventing unsupported provider validation;
-- support multiple user-linked Receiving Info profiles, optional nicknames, version/archive history, and masked operational views;
-- configure identity-name normalization and evidence requirements used to propose `Ready to Receive`, without presenting that result as external bank validation;
-- route third-party, company, ownership-mismatch, and proof-deficient profiles to controlled review with permitted approval or `Action Required` outcomes;
-- keep the private Receiving Info library separate from request, obligation, payment, and payout destination snapshots;
-- ensure source-profile edit or archive does not rewrite accepted or payer-authorized snapshots;
-- distinguish destination-attributable payout failures from transient bank, rail, provider, or system failures;
-- support linked-payee destination-change notifications and optional controlled save-to-Receiving-Info without adding payee approval or payout delay;
-- audit profile add, edit, version, archive, proof submission, review, status change, destination selection, snapshot creation, destination difference acknowledgement, linked-party notification, and payer reauthorization;
-- support `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` operational handoffs without merging obligation archive, evidence processing, payment readiness, or retention disposition;
-- prevent standalone archive of the sole current evidence linked to an active obligation;
-- preserve accepted replacement lineage, mark prior versions non-restorable, project current evidence into Archived Documents whenever its parent obligation is archived, and recheck evidence validity when an eligible archived obligation is restored;
-- distinguish obligations archived while eligible for later restore from already-expired obligations that are manually archived and non-restorable;
-- keep archive/restore user-scoped, prevent it from cancelling or releasing active request/payment/payout/refund/dispute/risk/legal processes, and audit the blocker or override reason;
-- define admin restore-on-behalf permission, reason, approval, user-notice, and audit rules in the full DOC-22 before enabling that capability; the product route baseline does not grant it implicitly;
-- support controlled archived/previous evidence access, denial, legal hold, retention, and disposition audit under DOC-06C, DOC-12, DOC-15, and DOC-18;
-- audit sensitive reveal, account/profile changes, privacy requests, receiving-destination changes, optional-row configuration, and account restriction or closure operations;
-- preserve the separate More boundary for dashboard shortcut management, reorder/arrangement, restore-default, overflow, and secondary services.
-
-Detailed `ME-ROOT` and `RECEIVING-INFO` route behavior belongs in DOC-06B. Notification preferences belong in DOC-08, payout-destination rules in DOC-10, evidence in DOC-06C/DOC-12, risk in DOC-14, privacy in DOC-15, and final objects/events in DOC-18.
+`ME-ROOT` route behaviour belongs in DOC-06B. Consumer Receiving Info is retired. Account, privacy, security, notification, destination, Evidence, risk, Payout, Archive and representation requirements remain with DOC-08, DOC-10, DOC-12, DOC-14, DOC-15, DOC-18, DOC-19 and the applicable formal owner. DOC-22 may execute only a specifically owner-permitted operational workflow and cannot establish a route, status, Archive/Restore rule, profile, access rule, notification or override policy.
 
 ### 18.9 Notification Configuration and Operations
 
-Future full DOC-22 drafting must support the DOC-06B/DOC-08 Notifications baseline without making the admin dashboard the owner of domain status or user-route behavior.
-
-Required capabilities include:
-
-- maintain stable notification event definitions and approved `System`, `Service`, `Transaction`, or `Promotion` category assignment;
-- map each recipient-specific message to its event type, source event/object, recipient and role, template version, registered route target, correlation/causation/deduplication references, and optional batch/campaign/manual/support/scheduled-job reference;
-- search by notification message ID, event ID, batch ID, source reference, recipient, template, route target, channel attempt, provider reference, and permitted time range;
-- distinguish recipient Inbox `Unread` / `Read` / `Archived` presentation from delivery status, owning-domain status, and owning-domain Action Required;
-- prevent manual/admin actions from inventing or clearing a domain status or Action Required condition;
-- configure event enablement, channel availability, working service classification, fallback/retry, quiet hours, scheduling, rate limits, duplicate suppression, and retention subject to DOC-08/DOC-15;
-- label mandatory service communications as required and prevent preference/admin configuration from disabling them contrary to approved policy;
-- keep direct-marketing, personalization, and approved partner-data-use consent in `PRIVACY-DATA-CONTROLS`, while notification settings govern permitted delivery;
-- support approved templates, versioning, preview, legal/compliance approval, rollback, and audit;
-- log each channel attempt and outcome separately from the Inbox message record;
-- support safe unavailable-target handling and current-state revalidation before a user-facing action remains available;
-- preserve read/archive history, message snapshots, provider outcomes, and admin actions according to approved retention and access rules.
-
-DOC-08 owns event eligibility, user communication rules, channels, templates, and preferences. DOC-06B owns user-facing routes and return behavior. Domain owners and the status-display reference matrix govern displayed status meaning. DOC-18 owns final schema, lineage, and event taxonomy. Final provider selection, permission matrix, scheduling UI, operational SLA, and retention/disposition workflow remain open for full DOC-22 drafting.
+DOC-08 owns notification identity, eligibility, recipients, channels, templates, preferences and delivery. DOC-06B owns routes; domain owners own status; DOC-15 owns approved-purpose retention/access; DOC-18 owns future representation. DOC-22 may execute an expressly owner-permitted workflow and record operational evidence without defining an event, category, route, status, channel, template, schedule, provider, retention or notification mechanism.
 
 ## 19. Audit Logging Requirements
 
@@ -462,48 +187,27 @@ DOC-08 owns event eligibility, user communication rules, channels, templates, an
 
 ## 23. Security and Access Control Requirements
 
-Admin access must be role-based and aligned with DOC-15 and DOC-19. Sensitive identity, evidence, payment, payout, risk, promotion, support, and authentication/security data should use masking, controlled reveal, reason capture, and audit logging.
-
-Admin users should not access raw card data, CVV, sensitive authentication data, full token secrets, or unrestricted identity/evidence files unless explicitly approved under the final security and privacy model.
+DOC-19 owns security and access policy and DOC-15 owns approved-purpose privacy and retention requirements. DOC-22 may execute an expressly owner-permitted operational workflow only; it cannot define access, masking, reveal, credential, evidence, payment, Payout, risk, promotion, support or audit policy.
 
 ## 24. Privacy and Data Handling Requirements
 
-Admin screens must respect DOC-15 data classification and DOC-18 field metadata.
-
-Required admin data-handling controls should include:
-
-- field-level visibility by role, queue, and approved purpose;
-- masking and reveal rules for sensitive fields;
-- access reason capture for sensitive data views, exports, downloads, overrides, and corrections;
-- audit logging for access, change, export, review, hold, release, override, and deletion actions;
-- audit logging for dashboard shortcut configuration, dashboard placement configuration, notice/action configuration, carousel configuration, restore-default configuration, and reminder default configuration;
-- privacy-safe duplicate/reused evidence warnings that do not reveal another user's private data;
-- export controls for reports, bank files, payout batches, evidence packages, dispute files, and promotion/partner reports.
-
-Detailed workflow, screen design, and permission matrix will be drafted in full DOC-22.
+DOC-15 owns data classification, approved-purpose access, masking and retention requirements; DOC-18 owns approved representation. DOC-22 may execute only a specifically owner-permitted workflow using approved facts and must not establish fields, visibility, queue, reveal, export, audit, evidence, deletion or permission requirements.
 
 ## 25. Monitoring and Incident Response Linkage
 
 ## 26. MVP Acceptance Criteria
 
-For the human-level Public Entrance Admin contract, future detailed acceptance and UAT evidence must demonstrate that:
-
-- Promotion and Feature are the only selectable content classes and every selection retains an identifiable formal source owner;
-- Feature Management contains the approved minimum public-content fields without acquiring business truth or placement ownership;
-- `Use Promotion Period` and manual placement dates follow the source-specific rules without changing source validity or user-facing activity dates;
-- one optional priority item precedes deterministic manual order, random ordering is unavailable, and the five-item active limit is enforced;
-- preview covers the source image crop, dots, sequence, detail entry, inline Terms, optional CTA, and same-item return before publication;
-- a materially changed, withdrawn, unauthorized, or prohibited source is suspended from active Entrance presentation and cannot return without updated preview and republication;
-- public Entrance configuration remains non-personalized and cannot suppress the permanent public navigation and authentication actions.
+Detailed acceptance and UAT evidence belong to DOC-20. This document supplies only the owner-permitted execution boundary: an Admin workflow may execute an approved owner outcome, but cannot create source truth, acceptance criteria, route, presentation, publication, notification, data, permission, audit or security requirements.
 
 ## 27. Open Questions
 
-Exact Admin role names, permission matrix, approval routing, source-change detection mechanism, date/time storage and synchronization, scheduler behavior, technical validation, audit/event schema, monitoring, and implementation evidence remain open for their later formal owners. These open implementation matters do not change the human-level source, placement, timing, sequence, publication, or suspension contract above.
+Exact Admin workflow, queue, permission, approval, technical, monitoring and implementation detail remains with the applicable formal owners. These open matters do not authorize DOC-22 to establish product, security, privacy, route, notification, source, payment, Payout, risk or representation policy.
 
 ## 28. Revision History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.24.0 | 2026-08-12 | Reframed DOC-22 as owner-permitted operational execution only; retired Request configuration/queue meaning; and aligned Admin scope with the Payer-only baseline. |
 | 0.23.0 | 2026-08-06 | Defined independent Feature Management and central Entrance Carousel Management for Promotion/Feature-only public content, including minimum Feature fields, source-reference ownership, `Use Promotion Period` and manual placement dates, one-priority-plus-manual ordering, five-item capacity, preview/publication/removal, optional-action boundaries, non-personalization, and source-change suspension/republication without inventing technical schema, events, permissions, or scheduler mechanics. |
 | 0.22.0 | 2026-08-05 | Added approved Admin selection, ordering, rotation, publication-quality, and audit controls for source-owned Important Notice signals and Admin-selected Hot Offers; preserved canonical Offer truth and restriction boundaries; and established bounded DOC-06B handoffs for Home capacity, zero-state presentation, and navigation. |
 | 0.21.0 | 2026-07-29 | Aligned future authentication administration with capability-aware Recovery, the Outcome/Resolution/Message/CTA separation, controlled Support recovery cases, dual approval, and explicit administrator prohibitions while leaving security and operational details TBC. |

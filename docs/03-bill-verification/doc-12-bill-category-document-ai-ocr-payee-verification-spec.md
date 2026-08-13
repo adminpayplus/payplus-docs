@@ -1,7 +1,7 @@
 ---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.7.8
+version: 0.8.2
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-12
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-12` |
 | **Title** | Bill Category, Document AI/OCR & Payee Verification Specification |
-| **Version** | `0.7.8` |
+| **Version** | `0.8.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Risk |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Operations Lead<br>Payments Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Risk Lead<br>Compliance Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-12` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -60,9 +60,9 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines PayPlus MVP rules for bill category verification, document AI/OCR extraction, autofill, evidence validation, duplicate detection, payee/payout validation, and human-review routing.
+This document defines PayPlus MVP rules for controlled Bill Category support, document AI/OCR extraction, autofill, Evidence verification, duplicate detection, Evidence-to-Payee matching, and owner-governed human-review routing.
 
-Bill verification is a core PayPlus capability. It improves the user experience by reading bills, invoices, tenancy agreements, contracts, and other evidence, then auto-filling request fields while preserving evidence, traceability, compliance controls, and risk review.
+Bill verification is a core PayPlus capability. It improves the Payer journey by reading bills, invoices, tenancy agreements, contracts, and other Evidence, then autofilling permitted Bill/Rent source facts while preserving Evidence, traceability, compliance controls, and risk review.
 
 This document is not a final database schema, AI model design, OCR provider API specification, fraud rulebook, admin dashboard design, or legal/privacy policy.
 
@@ -88,7 +88,7 @@ Detailed specifications belong to:
 
 | Topic | Owning Document |
 | --- | --- |
-| Product evidence requirements and MVP request rules | DOC-05 |
+| Product Evidence requirements and MVP source rules | DOC-05 |
 | User journey, UX screens, review/correction flow | DOC-06A, DOC-06C |
 | User-facing evidence, privacy, and authorization wording | DOC-07 |
 | Notifications and review alerts | DOC-08 |
@@ -101,7 +101,7 @@ Detailed specifications belong to:
 | Evidence data model, document store, audit events, reporting schema | DOC-18 |
 | Access control, encryption, authentication, and evidence security | DOC-19 |
 | Monitoring, support, escalation, and operations runbooks | DOC-21 |
-| Admin review queues, override workflow, configuration, permissions | DOC-22 |
+| Owner-permitted Admin workflow execution, configuration and permissions | DOC-22 |
 
 ---
 
@@ -109,14 +109,14 @@ Detailed specifications belong to:
 
 | Area | Baseline |
 | --- | --- |
-| Product model | PayPlus is an evidence-backed, payer-authorized bill, invoice, fee, rent, domestic service, and approved obligation payment platform. |
+| Product model | PayPlus is an evidence-backed, payer-authorized controlled Bill Category and separate Rent payment platform for approved obligations. |
 | Bill verification | Important MVP capability for better UX, autofill, evidence quality, and risk control. |
 | Evidence types | Bill, invoice, tenancy, rent demand, contract, service agreement, payment statement, and other approved evidence. |
-| AI/OCR role | System should read evidence, capture fields, classify documents, and autofill request fields where confidence is acceptable. |
+| AI/OCR role | System should read Evidence, capture fields, classify documents, and autofill permitted Bill/Rent source facts where confidence is acceptable. |
 | User correction | Users must be able to review and correct autofilled fields before submission. |
 | Human review | Most evidence should be system-processed; unclear, inconsistent, duplicate, reused, sensitive, or risky cases route to human review. |
 | Data asset | Extracted evidence data is an important PayPlus data asset, but it is only one component of the broader PayPlus data profile and must remain classified, purpose-linked, and governed under DOC-15 and DOC-18. |
-| Configuration | Category fields, confidence thresholds, duplicate strictness, red flags, and review routing should be configurable in admin. |
+| Configuration | Category fields, confidence thresholds, duplicate strictness, red flags, and review-routing policy remain owner-governed; DOC-22 may execute only permitted configuration/workflow. |
 
 Unconfirmed items should remain editable assumptions or gated requirements and should not block continued documentation drafting.
 
@@ -126,7 +126,7 @@ Unconfirmed items should remain editable assumptions or gated requirements and s
 
 | Principle | Requirement |
 | --- | --- |
-| Evidence-backed payments | Each Payment must apply to an evidence-backed Payment Obligation unless an approved exception applies. A payee-created Request establishes or accepts the related Bill/Rent linkage before payment from that request; a payer-created payment does not require a Request. Checkout never executes directly against Evidence or Request. |
+| Evidence-backed payment context | Evidence supports owner-governed verification of authoritative Bill/Rent source facts and intended-Payee facts. It is not the authoritative source and does not create or become a Payable Basis, Payment Obligation, Checkout, or Payment. A Payment Application, not Evidence, applies confirmed obligation value from a Payment to a Payment Obligation. The authoritative Bill/Rent source supplies payment-relevant facts through the DOC-09 Payable Basis; Checkout never executes directly against Evidence or the Bill/Rent source. |
 | UX assist, not blind automation | AI/OCR may autofill fields, but users must review and correct material fields before submission. |
 | Extractable does not mean displayable | Sensitive fields may be extracted and stored under controls without being shown broadly in the UI. |
 | Data layer separation | Evidence document data must be labeled as document-derived data, not as the entire user profile. |
@@ -137,9 +137,34 @@ Unconfirmed items should remain editable assumptions or gated requirements and s
 
 ---
 
-## 5. Evidence Category Model
+## 5. Controlled Bill Category and Evidence Model
 
-MVP and candidate evidence categories include:
+### 5.1 Accepted Launch Bill Category Inventory
+
+DOC-05 is the normative product owner of the accepted controlled Bill Category inventory. DOC-12 consumes that inventory for Evidence and verification planning:
+
+| # | Accepted Bill Category |
+| --- | --- |
+| 1 | 會計費用 |
+| 2 | 法律費用 |
+| 3 | 醫療費用 |
+| 4 | 電訊、流動電話及寬頻費 |
+| 5 | 物業管理費 |
+| 6 | 學費 |
+| 7 | 安老院、殘疾人士院舍及受規管照顧服務 |
+| 8 | 其他專業費用 |
+| 9 | 車輛維修費 |
+| 10 | 小型工程及樓宇維修費 |
+| 11 | 註冊幼兒中心及育嬰園費用 |
+| 12 | 寵物醫療及寄養費 |
+
+Rent is a separate journey and is not a Bill Category. The list does not decide Category-specific eligibility, Evidence criteria, field sets, thresholds, detailed labels, or Directory contents. Those remain explicit owner-backed work for DOC-05, DOC-12, DOC-06C, DOC-07, DOC-14, and the applicable later owners.
+
+### 5.2 Evidence Types
+
+Potential Evidence types are examples only. They may support verification within an already accepted controlled Bill Category or the separate Rent journey; they do not decide eligibility, establish a Category mapping, determine Directory membership, or define Category-specific Evidence criteria.
+
+Potential Evidence types include:
 
 | Evidence Category | Typical Use | Notes |
 | --- | --- | --- |
@@ -148,11 +173,11 @@ MVP and candidate evidence categories include:
 | Tenancy agreement | Rent and property-related payment. | Contract/relationship evidence; sensitive category requiring enhanced extraction, duplicate checks, and review rules. |
 | Stamp duty document or CR109 | Rent and tenancy support evidence. | May support tenancy relationship, property details, parties, or rent period where approved. |
 | Rent demand or rent statement | Rent payment evidence. | May support a rent obligation or supplement full tenancy evidence where approved. |
-| HKHA tenancy card, carpark invoice, or property management notice | Rent or property-related support evidence. | May support a rent, property, carpark, or management-fee obligation where category rules allow. |
-| Contract or service agreement | Domestic helper, driver, personal service, or other contractual obligation. | Field requirements depend on category. |
+| HKHA tenancy card, carpark invoice, or property management notice | Rent or property-related support evidence. | May be recognised as Evidence only when it supports the separate Rent journey or an already accepted controlled Bill Category. It does not establish a Carpark Category, Category mapping, eligibility, or Evidence criteria. |
+| Contract or service agreement | Contractual evidence within an accepted controlled Bill Category or the separate Rent journey. | Field requirements remain owner-governed and depend on the applicable scope. |
 | Payment statement | Statement showing amount due or payment schedule. | Must be linked to approved obligation and payee/payout destination where applicable. |
 | Official notice | Formal fee, levy, or demand notice where category is approved. | May require institution or issuer validation. |
-| Other approved obligation evidence | Admin-approved document or record. | Requires documented exception and review rule. |
+| Other source evidence | Supplementary document for an already accepted controlled Bill Category or separate Rent journey. | Evidence recognition does not establish eligibility; any exception requires owner-governed policy within the accepted scope. |
 
 Unsupported or prohibited categories must follow DOC-01, DOC-03, DOC-04, DOC-05, and DOC-14.
 
@@ -162,7 +187,7 @@ Unsupported or prohibited categories must follow DOC-01, DOC-03, DOC-04, DOC-05,
 
 DOC-12 defines the following verification flow:
 
-1. User creates or edits a request or obligation record.
+1. Payer creates or edits temporary Bill/Rent source capture or an established Bill/Rent source.
 2. User uploads or links evidence.
 3. System validates file type, file size, malware/safety checks, and required metadata where applicable.
 4. System runs OCR/text extraction.
@@ -170,13 +195,13 @@ DOC-12 defines the following verification flow:
 6. System extracts candidate fields.
 7. System assigns field-level and document-level confidence.
 8. System normalizes extracted values.
-9. System autofills eligible request fields.
-10. User reviews and corrects autofilled fields.
-11. System compares extracted values, user-corrected values, selected payee, payer, request amount, category, and history.
+9. System autofills eligible Bill/Rent source fields.
+10. Payer reviews and corrects autofilled fields.
+11. System compares extracted values, user-corrected values, intended Payee, Payer, source amount, Category, and relevant prior Evidence signals.
 12. System applies duplicate, mismatch, same-party, and risk rules.
 13. System assigns verification outcome.
 14. Low-risk cases proceed to payment eligibility gates in DOC-09.
-15. Red-flag cases route to admin/human review under DOC-22.
+15. Red-flag cases route to the applicable owner-governed human review; DOC-22 may execute only the permitted workflow.
 
 The UX flow belongs in DOC-06. Provider API details belong in DOC-17. Data objects and audit events belong in DOC-18.
 
@@ -197,31 +222,26 @@ DOC-12 owns the document-derived evidence data layers:
 | User-Corrected Evidence Fields | Values changed or confirmed by user before submission. |
 | Verification Signals | Match/mismatch results, confidence scores, completeness checks, and duplicate indicators. |
 | Evidence Risk Flags | Document-derived risk signals that may require review. |
-| Human Review Layer | Admin review decision, reason, notes, evidence, and outcome. |
+| Human Review Layer | Applicable owner-governed review decision, permitted workflow reason/notes, Evidence, and outcome. |
 | Final Evidence Snapshot | The version of evidence and fields used for payer review and payment authorization. |
 | Analytics Layer | Aggregated or permitted data used for product quality, OCR performance, risk analytics, and category insights. |
 
-Other PayPlus data layers, such as payment behavior, spending patterns, user relationships, referral/member-get-member activity, refunds, chargebacks, support behavior, and payout history, belong in DOC-18 and later analytics specifications.
+Other PayPlus data layers, such as payment behavior, spending patterns, owner-governed source and economic-Payee context, risk-derived association facts, referral/member-get-member activity, refunds, chargebacks, support behavior, and payout history, belong in DOC-18 and later analytics specifications.
 
 Each evidence layer and material field should carry DOC-15 classification metadata in DOC-18, including data class, sensitivity, displayability, masking rule, retention policy, owner, approved purpose, access role, audit requirement, source, and lineage. Evidence-derived data is normally Evidence and Obligation Data, but some extracted fields may also support KYC/KYB, payout/payee, risk/compliance, payment, analytics, or derived-data classifications depending on use.
 
-### 7.1 Evidence Source and Obligation Relationship Model
+### 7.1 Evidence Source and Payment Handoff Boundary
 
-Evidence handling must distinguish obligation records, contract/relationship records, and evidence source records.
-
-Working model:
+Evidence handling distinguishes the authoritative Bill/Rent source, Evidence, and any applicable tenancy or relationship context. This is a conceptual verification boundary, not a parent-child model, lifecycle, schema, event sequence, or technical materialization rule.
 
 ```text
-Customer profile
--> Obligation record
--> Contract / relationship record where applicable
--> Evidence source record
--> Extracted, corrected, verified, and final evidence fields
--> Payment activity
--> Receipt / proof
+Payer -> authoritative Bill/Rent source
+Evidence and any applicable tenancy/relationship context -> support owner-governed verification of source and intended-Payee facts
+authoritative Bill/Rent source -> payment-relevant facts through the DOC-09 Payable Basis
+DOC-09 -> owns later materialization, Payment Obligation, Checkout, Funding, Payment, and Payment Application behavior
 ```
 
-Bills, invoices, fee notices, and rent demands usually support a specific obligation or payment cycle. Tenancy agreements and similar documents usually support a contract or relationship from which rent obligations may be created. Supporting rent evidence may supplement, renew, or validate the tenancy context without replacing the underlying relationship record.
+Bills, invoices, fee notices, and rent demands may support owner-governed verification of source facts for a specific payment context. Tenancy agreements and similar documents may support verification of tenancy context without replacing the authoritative Bill/Rent source. Applicable tenancy or relationship context may precede individual Payment Obligations; DOC-09 owns any later Payable Basis, Payment Obligation, Checkout, and Payment lifecycle behavior.
 
 Detailed logical and physical schema belongs in DOC-18. DOC-06C owns the user-facing evidence source selection and Bills route behavior.
 
@@ -253,18 +273,18 @@ For bills and invoices, PayPlus should extract and validate:
 | Field | Use |
 | --- | --- |
 | Biller or supplier name | Payee/payout validation and payer review. |
-| Customer or payer name | Relationship and evidence validation where applicable. |
+| Customer or payer name | Source-context and Evidence validation where applicable. |
 | Bill, invoice, or reference number | Duplicate detection and reconciliation. |
 | Issue date | Freshness and audit. |
 | Due date | User reminder, eligibility, and payout timing context. |
-| Amount due | Request amount autofill and mismatch check. |
+| Amount due | Bill/Rent source amount autofill and mismatch check. |
 | Currency | Payment and settlement validation. |
 | Description or service details | Category and obligation support. |
 | Billing or service period | Recurring and duplicate checks. |
 | Payment destination details | Payee verification and payout destination support where applicable. |
 | Business or issuer identifier where shown | Business/institution validation where applicable. |
 
-Display in UI should be limited to fields needed for request creation, payer review, and user confirmation. Sensitive or unnecessary extracted fields should be masked, hidden, or restricted according to DOC-15 and DOC-19.
+Display in UI should be limited to fields needed for Bill/Rent source capture, Payer review, and user confirmation. Sensitive or unnecessary extracted fields should be masked, hidden, or restricted according to DOC-15 and DOC-19.
 
 ---
 
@@ -302,27 +322,27 @@ Detailed UX display rules belong in DOC-06A, DOC-06C, and DOC-07. Privacy, maski
 
 ## 11. Contract and Service Evidence Field Set
 
-For contracts, service agreements, domestic helper/driver evidence, personal service evidence, and similar obligations, PayPlus should extract:
+For contracts, service agreements, and similar obligation Evidence, PayPlus should extract:
 
 | Field | Use |
 | --- | --- |
-| Service provider or payee name | Payee/payout validation and request validation. |
-| Customer, employer, or payer name | Relationship validation where applicable. |
+| Service provider or payee name | Evidence-to-Payee and payout-destination review where applicable. |
+| Customer, employer, or payer name | Source-context validation where applicable. |
 | Contract or service description | Category and obligation support. |
 | Contract/reference number where shown | Duplicate detection and audit. |
 | Service period | Recurrence, amount, and duplicate checks. |
-| Amount payable | Request amount autofill and mismatch check. |
+| Amount payable | Bill/Rent source amount autofill and mismatch check. |
 | Due date or payment schedule | Reminder and payment timing context. |
 | Payment destination details | Payee verification and payout support where applicable. |
 | Supporting identity/contact fields where shown | Review-only validation where required. |
 
-Domestic helper, driver, and personal service payment categories are MVP scope where supported by acceptable evidence and enabled controls. Exact evidence standards, review thresholds, privacy visibility, and category configuration remain subject to legal, compliance, risk, product, and operations confirmation.
+This Evidence type does not itself enable a Bill Category. Exact Category-specific Evidence standards, review thresholds, privacy visibility, and configuration remain subject to the accepted DOC-05 inventory and the applicable legal, compliance, risk, product, and operations owner work.
 
 ---
 
 ## 12. Autofill and User Correction Rules
 
-AI/OCR-extracted fields may autofill request fields when confidence and category rules permit.
+AI/OCR-extracted fields may autofill Bill/Rent source fields when owner-governed confidence and Category rules permit.
 
 Rules:
 
@@ -343,7 +363,7 @@ The system should compare extracted, user-entered, selected, and historical data
 
 | Validation Area | Rule |
 | --- | --- |
-| Amount match | Compare extracted amount with user-entered/request amount. |
+| Amount match | Compare extracted amount with user-entered Bill/Rent source amount. |
 | Evidence-to-payee validation | Compare extracted payee/biller/landlord/supplier name with selected payee or payout destination. |
 | Payer match | Compare extracted payer/customer/tenant name with payer where applicable. |
 | Category match | Compare extracted document type with selected category. |
@@ -370,9 +390,9 @@ Rules:
 - users should be alerted in the UI when the evidence appears to have been used before, subject to privacy and anti-tipping-off review;
 - duplicate strictness must be configurable by category, document type, payee type, amount, risk tier, and launch phase;
 - lower-risk business bills or business-entity fee payments may use softer handling where compliance and risk approve;
-- admin should be able to disable, soften, or strengthen duplicate rules by category or configuration, with audit trail.
+- owner-governed duplicate policy may be executed through permitted DOC-22 configuration/workflow, with audit trail.
 
-Duplicate detection must not disclose another user's sensitive details. Risk-routing framework belongs in DOC-14. Final threshold configuration and admin review workflow belong in DOC-22, with supporting data model in DOC-18.
+Duplicate detection must not disclose another user's sensitive details. Risk-routing framework belongs in DOC-14. DOC-22 executes only owner-permitted configuration and review workflow; DOC-18 owns the approved representation.
 
 ---
 
@@ -395,7 +415,7 @@ The system should route evidence to human review when one or more red flags occu
 | New or unverified payee | Payee lacks sufficient verification for category. |
 | Destination mismatch | Extracted payment destination conflicts with registered payout destination. |
 
-Review routing must produce clear status, admin queue entry, reason code, evidence package, and audit trail.
+Review routing must produce an owner-governed outcome, permitted workflow handoff, Evidence package, and audit trail. DOC-22 does not independently determine Evidence policy, outcome, or status truth.
 
 ---
 
@@ -408,13 +428,11 @@ Evidence verification should produce one of the following outcomes:
 | Auto-Verified | Required checks pass within configured thresholds. |
 | Auto-Verified with Warning | Checks pass but minor warning or low-severity issue is recorded. |
 | Pending User Clarification | User must provide missing information, correction, or additional evidence. |
-| Pending Admin Review | Human review required before payment eligibility. |
-| Approved by Admin | Admin approves evidence after review. |
-| Rejected by Admin | Evidence is invalid, unsupported, insufficient, or prohibited. |
+| Pending Owner Review | Owner-governed human review is required before an applicable downstream gate may proceed. |
+| Accepted after Owner Review | The applicable owner accepts Evidence after review. |
+| Rejected after Owner Review | The applicable owner determines Evidence is invalid, unsupported, insufficient, or prohibited. |
 | Duplicate Suspected | Evidence appears duplicate or reused and requires review or approved exception. |
-| Fraud/Risk Escalated | Evidence or relationship pattern is escalated to risk/compliance review. |
-| Evidence Replaced | An accepted replacement becomes current; the prior accepted version is retained as a non-restorable previous version. |
-| Evidence Expired | Evidence is too old or no longer valid under category rules. |
+| Fraud/Risk Escalated | Evidence or source-context pattern is escalated to risk/compliance review. |
 
 Payment eligibility gates in DOC-09 must consume the final verification outcome.
 
@@ -427,19 +445,15 @@ DOC-12 verification outcomes must map cleanly to the DOC-06C user-facing evidenc
 | Auto-Verified | `Accepted`. |
 | Auto-Verified with Warning | `Accepted` if warning is low severity; otherwise `Pending Review` or `Correction Needed` according to risk/category rule. |
 | Pending User Clarification | `Correction Needed` or `Update Needed`. |
-| Pending Admin Review | `Pending Review`. |
-| Approved by Admin | `Accepted`. |
-| Rejected by Admin | `Rejected`. |
+| Pending Owner Review | DOC-06C consumes the owner outcome as `Pending Review` where the applicable owner-controlled review affects readiness. |
+| Accepted after Owner Review | DOC-06C consumes the owner outcome as `Accepted`. |
+| Rejected after Owner Review | DOC-06C consumes the owner outcome as `Rejected`. |
 | Duplicate Suspected | `Duplicate Suspected`. |
 | Fraud/Risk Escalated | `Pending Review` or risk hold according to DOC-14. |
-| Evidence Replaced | New version enters the applicable status; prior version is retained and hidden from normal bill/rent UI. |
-| Evidence Expired | `Update Needed`. |
 
-DOC-06C owns the user-facing payment-readiness mapping: `Ready to Pay`, `Action Required`, and `Under Review`. `Paid` / `Received` are linked payment outcomes, `Archived` is visibility, and due-state labels are date-derived. DOC-09 consumes the accepted payment-facing Bill/Rent facts and applicable readiness result when deriving Projection, materializing Payment Obligations, and evaluating Checkout eligibility. Settlement and Payout remain downstream under DOC-10.
+DOC-12 publishes Evidence and Evidence-to-Payee outcomes. DOC-06C owns the user-facing payment-readiness mapping and consumes only the applicable owner outcomes. DOC-09 consumes payment-facing Bill/Rent facts and applicable readiness outcomes when deriving Projection, materializing Payment Obligations, and evaluating Checkout eligibility. Settlement and Payout remain downstream under DOC-10.
 
-Evidence should normally have one current evidence set per active bill/rent record. The sole current set cannot be archived independently. While a replacement is reviewed, the existing accepted evidence remains current unless already invalid; once the replacement is accepted, it becomes current and the prior version becomes non-restorable `Previous version` history.
-
-Archiving a bill/rent archives its current linked evidence, where one exists, through the same user's parent-obligation archive projection. This applies whether the obligation is later restorable or non-restorable. Restoring an eligible obligation restores only its last current evidence and rechecks current validity, expiry, verification, recipient, compliance, and risk requirements. If evidence expires after an otherwise restore-eligible archive, the obligation may still be restored but returns as `Action Required` or `Under Review` until evidence requirements pass. Previous versions cannot be restored. An expired obligation does not auto-archive; if already expired when manually archived, it is non-restorable. Archived or previous evidence must not be subject to ad hoc hard deletion and remains available through DOC-06B `ARCHIVED-DOCS-LIST`, subject to DOC-06C obligation behavior, DOC-15 lawful retention/disposition, and DOC-18 versioning and audit requirements.
+Evidence replacement, expiry, Archive, Restore, prior-version, Evidence-version, replacement-source, retention, and presentation behaviour are not defined here. High-level source/non-erasure policy belongs in DOC-05; route and Bills/Rent presentation belongs in DOC-06B/DOC-06C; Evidence criteria belong in DOC-12; retention/access belongs in DOC-15; and approved representation/lineage belongs in DOC-18.
 
 Extracted fields approved for display should populate the bill/rent detail record in DOC-06C. Evidence detail screens should avoid duplicating those fields except where needed for evidence review, correction, or status explanation.
 
@@ -455,46 +469,22 @@ Rules:
 - extracted payment destination data should support payout destination review where shown;
 - landlord, property manager, business payee, institution, and higher-risk payees may require enhanced review;
 - mismatch between extracted payee and selected payee should route to review unless approved category rules allow it;
-- payee-created Requests should require evidence equal to or stronger than payer-created obligations/payments for the same category;
-- requests created through DOC-06B `REQUESTS-NEW` must not be delivered to the receiver until required evidence is verified or approved by exception;
-- evidence-to-payee validation, duplicate detection, and risk checks must not be treated as automatic user-to-user matching; participant linking belongs to DOC-06A/DOC-06C and DOC-18 and requires approved user or operational action.
+- Evidence-to-Payee validation, duplicate detection, and risk checks must not be treated as automatic user-to-user matching, account creation, Payee acceptance, reciprocal visibility, or Payment authorization;
+- Payee type and any governed Individual-Payee eligibility outcome are supplied by their applicable owners. DOC-12 does not make an independent legal, operational, or Admin determination of Payee type.
 
-### 17.1 Receiving Info Proof and Matching
+### 17.1 Destination-Fact Handoff
 
-DOC-06B `RECEIVING-INFO` is an optional payee-side profile library. A selected profile may supply a destination to a request or obligation, but the selected destination must be preserved as a separate context snapshot. Evidence extraction must not silently overwrite either the source profile or an accepted/authorized snapshot.
+Evidence extraction may support owner-governed matching of intended-Payee and destination facts for one controlled Bill/Rent source. It does not establish bank-account validity, payout readiness, a reusable destination library, a Payee account, or a payment authorization.
 
-The verification baseline is:
-
-- a personal-account name that matches the user's verified identity under configured normalization rules may support `Ready to Receive`, but does not prove external bank-account validity;
-- a third-party personal account, company account, ownership mismatch, or material evidence mismatch requires supporting proof and `Under Review`;
-- document AI/OCR and rules may assist extraction and matching, with human review available for low confidence, mismatch, exception, or configured categories;
-- a proof defect or destination-attributable payout failure may produce `Action Required`; a transient bank, rail, or system failure must not change the source profile status;
-- where a destination change after payer acceptance requires a new request and bill/rent context, approved evidence may be linked to the replacement context with preserved lineage and must not be treated as a duplicate solely because it supports both versions.
-
-KYC/KYB, sanctions, and fraud rules belong in DOC-14 and DOC-19. Payout destination controls belong in DOC-10. Data schema belongs in DOC-18.
+The applicable owner must resolve Evidence-to-Payee and destination mismatches under the relevant Evidence, payout, risk, privacy, and security policies. DOC-10 owns payout destination readiness and the immutable authorization-time destination snapshot; DOC-14 and DOC-19 own applicable risk/security controls; DOC-15 owns approved-purpose access and retention; DOC-18 owns representation and lineage; and DOC-22 executes only owner-permitted workflow.
 
 ---
 
-## 18. Admin Configuration Requirements
+## 18. Owner-Permitted Configuration and Execution Handoff
 
-Admin configuration should support:
+DOC-12 defines the Evidence-domain policy needs that may require approved configuration, such as controlled Category support, Evidence fields, extraction scope, matching, duplicate handling, and review routing. It does not define generic Admin capability, queue, permission, override, threshold, or disposition design.
 
-- enabled evidence categories;
-- mandatory and optional fields by category;
-- extractable fields by category;
-- UI-displayable fields by role;
-- confidence thresholds;
-- amount mismatch thresholds;
-- payee/payer/name matching thresholds;
-- duplicate strictness;
-- red-flag routing rules;
-- review queue assignment;
-- category enablement or disablement;
-- OCR/autofill enablement or disablement;
-- user warning behavior;
-- manual override permissions and reason codes.
-
-Detailed admin screens, permissions, workflow, and audit controls belong in DOC-22.
+The applicable product, Evidence, risk, privacy, security, payment, and payout owners retain their policy and decision authority. DOC-22 may execute only the workflow/configuration specifically permitted by those owners, while DOC-18 owns the approved representation and audit/lineage requirements.
 
 ---
 
@@ -511,7 +501,7 @@ DOC-12 analytics signals may include:
 - mismatch type;
 - duplicate/reuse rate;
 - review outcome;
-- admin rejection reason;
+- owner-governed review outcome reason;
 - evidence age;
 - category conversion rate;
 - fraud or risk escalation rate;
@@ -519,7 +509,7 @@ DOC-12 analytics signals may include:
 - payment success after verification;
 - refund, dispute, or chargeback linkage where applicable.
 
-Evidence-derived data must be labeled separately from broader PayPlus user lifecycle data such as payment behavior, user spending behavior, payer/payee relationships, referral/member-get-member data, support history, refund behavior, and payout history.
+Evidence-derived data must be labeled separately from broader PayPlus user lifecycle data such as Payment behavior, Payer spending behavior, authoritative source and economic-Payee context, owner-governed risk-derived association facts, referral/member-get-member data, support history, refund behavior, and payout history.
 
 Evidence-derived model features, analytics signals, or AI training inputs must preserve lineage to raw, extracted, corrected, verified, and final evidence layers. Raw evidence text, tenancy/property details, medical details, identity document data, domestic helper employment details, and other sensitive fields should not be used for marketing models, partner reporting, external activation, credit scoring, or insurance underwriting unless separately assessed, approved, and documented under DOC-15 and the relevant source documents.
 
@@ -535,10 +525,10 @@ Requirements:
 
 - role-based access control is required;
 - sensitive extracted fields should be masked or hidden by default where not needed;
-- raw evidence access should be limited to users, payees, admins, systems, or partners with approved purpose;
+- raw Evidence access should be limited to authorized Payers, owner-permitted personnel/workflows, systems, or partners with an approved purpose;
 - UI display must show only the fields needed for the relevant user task;
-- evidence access, extraction, correction, review, download, deletion, and override actions must be logged where applicable;
-- data retention and deletion must follow legal, privacy, audit, tax, finance, and dispute requirements.
+- evidence access, extraction, correction, review, download, privacy-request and override actions must be logged where applicable;
+- every Evidence record is retained indefinitely under the Founder decision; DOC-15 supplies approved-purpose access, masking and lawful handling controls without a destruction schedule.
 
 Detailed privacy and retention rules belong in DOC-15. Security and access controls belong in DOC-19.
 
@@ -546,7 +536,7 @@ Detailed privacy and retention rules belong in DOC-15. Security and access contr
 
 ## 21. UX and Document Alignment Impact
 
-DOC-06C now defines the user-facing Bills evidence sub-route model. Future DOC-12 refinements should remain aligned with DOC-06C for:
+DOC-06C defines the user-facing Bills Evidence sub-route model. DOC-12 must remain aligned with DOC-06C for:
 
 - AI/OCR evidence capture;
 - autofill from extracted fields;
@@ -554,9 +544,9 @@ DOC-06C now defines the user-facing Bills evidence sub-route model. Future DOC-1
 - extractable versus displayable field distinction;
 - duplicate/reused evidence warning;
 - pending user clarification;
-- pending admin review;
+- pending owner review;
 - payer review of final evidence summary before authorization;
-- one current evidence set, accepted replacement and non-restorable previous versions, parent-obligation archive/restore behavior, archive-not-delete treatment, and controlled access through `ARCHIVED-DOCS-LIST`.
+- Evidence-to-Payee outcome consumption, while leaving Archive, Restore, prior-version, Evidence-version, replacement-source, retention, and presentation behaviour to their respective owners.
 
 DOC-06 remains the parent UX source map; DOC-06C should remain a user-facing Bills UX document. It should not copy all DOC-12 field tables or data-layer rules.
 
@@ -567,15 +557,15 @@ DOC-06 remains the parent UX source map; DOC-06C should remain a user-facing Bil
 | ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
 | OQ-12-001 | Which OCR/document AI provider will be used for MVP? | Product / Engineering | High | Open |
-| OQ-12-002 | Which evidence categories are enabled at MVP launch? | Product / Compliance / Risk | High | Open |
+| OQ-12-002 | Retired: the accepted DOC-05 twelve-category Bill inventory is fixed and Rent is separate. Category-specific eligibility, Evidence criteria, field sets, thresholds, detailed labels, and Directory contents remain with their named owners. | DOC-05 / DOC-12 / DOC-06C / DOC-07 / DOC-14 | High | Decided inventory; detailed owner work remains Open |
 | OQ-12-003 | What exact mandatory fields apply by category? | Product / Operations / Compliance | High | Open |
-| OQ-12-004 | What confidence thresholds trigger user warning or admin review? | Risk / Product / Engineering | High | Open |
+| OQ-12-004 | What confidence thresholds trigger user warning or owner-governed review? | Risk / Product / Engineering | High | Open |
 | OQ-12-005 | What duplicate strictness applies to tenancy, invoice, business fee, and low-risk categories? | Risk / Compliance / Product | High | Open |
-| OQ-12-006 | What sensitive tenancy fields may be extracted, stored, masked, displayed, or deleted? | Privacy / Legal / Compliance | High | Open |
+| OQ-12-006 | What sensitive tenancy fields may be extracted, stored, masked or displayed under approved-purpose access while the underlying Evidence record remains retained indefinitely? | Privacy / Legal / Compliance | High | Open |
 | OQ-12-007 | What user warning wording is allowed for duplicate/reused evidence without disclosing another user's information? | Legal / Product / Risk | Medium | Open |
 | OQ-12-008 | Can evidence-derived data be used for model improvement, analytics, and risk training? | Privacy / Legal / Data | High | Open |
-| OQ-12-009 | What exact evidence standards, field requirements, and review thresholds apply to domestic helper, driver, and personal service obligations? | Legal / Compliance / Risk / Product | Medium | Open |
-| OQ-12-010 | What admin override permissions and reason codes are required for evidence approval? | Operations / Risk / Product | Medium | Open |
+| OQ-12-009 | Retired as a current launch-Category question: no domestic-helper, driver, or personal-service Category is inferred outside the accepted DOC-05 inventory. Any future Category proposal requires its own Founder-approved scope and owner evidence rules. | Product / Compliance / Risk | Medium | Not current scope |
+| OQ-12-010 | What owner-permitted DOC-22 workflow/configuration and reason capture are required for Evidence review? | Operations / Risk / Product | Medium | Open |
 | OQ-12-011 | Which evidence-derived fields and model features are prohibited from marketing, partner reporting, external activation, credit scoring, or insurance-related targeting? | Privacy / Legal / Risk | High | Open |
 | OQ-12-012 | What final mapping, reason codes, and exception rules should connect DOC-12 verification outcomes to DOC-06C evidence status and bill/rent payment readiness? | Product / Risk / Operations / Engineering | High | Open |
 
@@ -596,11 +586,11 @@ DOC-12 is acceptable when it clearly defines:
 - red flags and human-review routing;
 - verification outcomes;
 - payee verification linkage;
-- admin configuration requirements;
+- owner-permitted configuration and execution handoff;
 - analytics and data asset rules;
 - evidence-derived model-use and prohibited-use boundaries;
 - privacy, security, and access-control expectations;
-- related documents for detailed UX, API, data model, risk, privacy, admin, and operations specifications.
+- related documents for detailed UX, API, data model, risk, privacy, owner-permitted workflow, and operations specifications.
 
 This document must remain a compact bill verification and evidence-domain specification.
 
@@ -610,7 +600,7 @@ It should not become:
 - final database schema;
 - final fraud rulebook;
 - final privacy policy;
-- final admin dashboard workflow;
+- final Admin dashboard workflow;
 - final UX screen design;
 - final legal opinion.
 
@@ -620,6 +610,9 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.8.2` | `2026-08-12` | Product Documentation Team | Applied the Founder-settled indefinite-retention rule to Evidence records and reframed the sensitive-tenancy open question around approved-purpose access and masking without changing Evidence ownership. |
+| `0.8.1` | `2026-08-12` | Product Documentation Team | Clarified Evidence as verification support rather than source or Payment lifecycle, constrained Evidence examples from creating Category eligibility, and retained economic-Payee association as source context only. |
+| `0.8.0` | `2026-08-12` | Product Documentation Team | Consumed the accepted DOC-05 twelve-category Bill inventory and separate Rent boundary; replaced active Request and Receiving Info runtime, generic Admin authority, and defined Archive/version presentation with Payer-only source, Evidence-to-Payee, owner-permitted execution, and explicit owner-handoff boundaries. |
 | `0.7.8` | `2026-07-31` | Product Documentation Team | Aligned Evidence, Request, Bill/Rent, Payment Obligation, Checkout eligibility, and downstream Settlement/Payout boundaries with DOC-09. |
 | `0.7.7` | `2026-07-27` | Product Documentation Team | Aligned evidence-parity wording by distinguishing payee-created payment requests from direct payer-created obligations/payments. |
 | `0.7.6` | `2026-07-26` | Product Documentation Team | Clarified that parent archive projects current evidence into Archived Documents for both restorable and non-restorable obligations, while restore remains obligation-level and previous versions remain non-restorable. |

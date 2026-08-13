@@ -8,11 +8,11 @@ They do not define new routes, statuses, controls, or product behavior. The form
 
 | Diagram | Purpose | Primary sources |
 | --- | --- | --- |
-| [`01-app-overview.png`](01-app-overview.png) | Simple product map from access to the five main navigation areas and key Home shortcuts. | DOC-06A, DOC-06B, DOC-06C |
-| [`02-payer-journey.png`](02-payer-journey.png) | Core payer journey from choosing or adding an obligation through evidence/readiness checks, checkout, authorization, and receipt. | DOC-06A, DOC-06C, DOC-09, DOC-12 |
-| [`03-payee-request-journey.png`](03-payee-request-journey.png) | Core payee-created request journey from request creation through payer acceptance, payer authorization, payout, and shared records. | DOC-06A, DOC-06B, DOC-09, DOC-10, DOC-12 |
+| Former app-overview journey | Superseded and unavailable; no current image is registered. | Historical provenance only |
+| Former payer journey | Superseded and unavailable; no current image is registered. | Historical provenance only |
+| Former payee-request journey | Superseded and unavailable; no current image is registered for the retired Request runtime. | Historical provenance only |
 
-Editable Mermaid sources are stored beside each rendered PNG and SVG as `.mmd` files.
+Editable Mermaid sources, when present, are stored beside their rendered PNG or SVG as `.mmd` files.
 
 ## How to Read the Flows
 
@@ -25,9 +25,7 @@ Editable Mermaid sources are stored beside each rendered PNG and SVG as `.mmd` f
 
 ## Product Boundaries Preserved
 
-- A payment request is not a payment.
-- Payer acceptance of a payee-created request does not authorize payment.
 - Payer authorization is required before payment processing.
 - Evidence status and payment readiness remain separate concepts.
-- Payer-created payments do not require payee acceptance by default, but evidence, payee/payout, risk, compliance, and authorization gates still apply.
+- Category-bound source and Evidence gates remain separate from payment readiness.
 - PayPlus is not shown as a wallet, cashout product, remittance product, or unrestricted peer-to-peer transfer app.

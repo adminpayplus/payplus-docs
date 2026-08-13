@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 0.1.51
+version: 0.1.57
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-06
+last_updated: 2026-08-13
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -25,11 +25,14 @@ related_documents:
   - DOC-08 Notification, Receipt & Communication Rules
   - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
+  - DOC-11 Refund, Cancellation & Chargeback
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
+  - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization & Authentication
+  - DOC-20 Testing, UAT & Release Readiness
   - DOC-21 Monitoring, Incident Response & Operational SOPs
   - DOC-22 Admin Management Dashboard Operations Workflow
 ---
@@ -40,16 +43,58 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `0.1.51` |
+| **Version** | `0.1.57` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-06` |
+| **Last Updated** | `2026-08-13` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
+
+## Current Wave 2 Payer-only Route and IA Baseline
+
+This Stage 8 Draft is the current normative DOC-06B baseline. Current active sections state Payer-only navigation, the four-action Pay+ sheet, BILLS-PAY, and owner handoffs directly. Prior Request, Linking, Receive, Consumer Receiving Info and pre-Checkout Save meaning may appear only in append-only version history or concise non-active documentation registers of retired stable IDs; it is not active or runtime behavior. Stable destination IDs and append-only history are preserved. No Route Register or route-status change is made in this Draft.
+
+### Global route and entry rules
+
+- Consumer Users are Payers only. A Payee is an economic recipient who may be an individual or institution/company and need not be a PayPlus User. DOC-06B does not create Payee-user navigation, account invitation, reciprocal visibility, Request or Linking routes.
+- A durable Bill/Rent ID is not established merely by opening a route. ID establishment consumes an owner-governed source/Evidence preservation eligibility outcome. DOC-06B defines route/journey timing and does not independently define the technical persistence threshold or exact minimum fields required for the authoritative identity. The outcome establishes the ID before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or a payment-facing handoff requires stable source identity, including before immediate-pay Checkout; deliberate Setup consumes the same outcome before giving the same ID an Active/reusable projection. Pending Evidence, mismatch or scoped Admin review does not automatically prevent ID establishment once the outcome permits it. ID establishment alone does not imply accepted Evidence, verified Payee, destination/Payout readiness, risk clearance, Payment Obligation or Checkout readiness, payer authorization, Payment success, Save or any Active/Archived/history-only projection.
+- Directory and Provide Payee myself are bounded Bill-flow views/actions after selection of one of the twelve Founder-confirmed launch controlled Bill Categories in DOC-05, not new roots. Category-specific eligibility, Evidence criteria, detailed labels and Directory contents remain owner-backed deferrals. Rent is not a Bill Category; it is a separate journey and bypasses Category and Directory mechanics.
+- Immediate pay-now has no Save prompt before Checkout. After confirmed Payment with a separate Payment ID linked to the same source, Payment Result preserves an existing saved/Active projection without duplicate Save. For an otherwise unsaved source, it hands to the owner-controlled optional Save resolver before Activity, Payment History, Receipt or ordinary safe exit: selected Save makes the same ID Active/reusable, while declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes it history-only. Payment, Activity and Receipt exist independently of Save but do not bypass the projection resolution. Setup may give the same ID an Active/reusable projection before Payment because Setup is deliberate reuse/collection intent; Active is Payer reuse/visibility only.
+- An established source may remain unprojected only when immediate pay ends or fails before confirmed Payment, or deliberate Setup ends before its Active/reusable projection is completed. It receives no Active, Archived or history-only Bills/Rent route, Activity Save action or new visible status solely because the ID exists. After a newly confirmed Payment for an otherwise unsaved source, closing or leaving Payment Result without selecting Save is skipped Save and produces history-only before downstream handoff; the source cannot remain unprojected. Archive is an existing projection for saved sources; exact Restore, prior-version, Evidence-version and replacement-source presentation remain deferred. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts for legitimately unprojected sources.
+
+### Current route outcomes
+
+| Route/surface | Wave 2 outcome |
+| --- | --- |
+| HOME-ROOT | Retain/re-scope Payer-only; remove active Request shortcut/Request destination. Do not invent a replacement shortcut. |
+| PAYPLUS-ACTION-SHEET | Retain; remove Request Payment; preserve the remaining four actions without reordering or materially renaming. |
+| BILLS-ROOT / BILLS-PAY | Retain/re-scope as the Payer Bills area and stable Payer destination; remove mixed To Pay/To Receive presentation. |
+| BILLS-RECEIVE | Retire active Consumer Payee view; stable ID remains non-active documentation lineage only. |
+| BILLS-DETAIL-BILL / BILLS-DETAIL-RENT / BILLS-ADD | Retain/re-scope Payer-only; Category-first controlled Bill flow, separate Rent, source-ID timing and specialist handoffs. |
+| BILLS-ACTIVITY / BILLS-ACTIVITY-DETAIL | Retain/re-scope; Activity behind a visible source projection; history-only Payment remains in global Activity/Receipt without a Bill/Rent route. |
+| REQUESTS-ROOT / REQUESTS-DETAIL / REQUESTS-NEW | Retire active navigation and behavior; stable IDs remain non-active documentation lineage only. No runtime reader, adapter or fallback exists or is required. |
+| BILLS-LINKING | Retire active flow; preserve stable ID as non-active documentation lineage and neutral future seams only. |
+| RECEIVING-INFO family | Retire active Consumer Payee presentation; do not repurpose as a Payer destination library. |
+| ARCHIVED-ROOT / ARCHIVED-BILLS-LIST | Retain/re-scope Payer-only for saved sources; ordinary Archive removes the same source from active Bills/Rent visibility and exposes its Archived projection through the active Archive route family without erasing history. |
+| ARCHIVED-DOCS-LIST | Retain provisionally under the Founder-approved W2-FD-05 decision in this PDM-WI-008 Stage 7 authorization (Option A); this does not change route status. Exact evidence-version/prior-version/Restore presentation is deferred. |
+| NOTIFICATION-ROOT family | Retain Payer-facing notification shell; optional Individual-Payee notification is a governed one-way capability, not a route or Request. |
+| Unaffected auth, Instructions, Checkout, payment-profile, Offers/Rewards/Referral, Support/About/Terms and generic privacy/security routes | Retain; remove only local mixed-role wording where found. |
+
+### Notification ownership rule
+
+The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. DOC-06B consumes that eligibility outcome and does not determine Payee type or make an Admin determination. Institution/company and unresolved/insufficient Individual determination leave notification unavailable. A governed Individual determination plus Payer choice may expose the informational one-way capability. Payer contact responsibility does not remove PayPlus obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. It creates no Request, Linking, acceptance, consent proof, invitation, reciprocal visibility, payment authorization or payment-state change. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity/channel/template/preference/delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 represents approved data/audit requirements; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
+
+No new route ID, root, tab, replacement action, Directory root, self-provided root, legacy adapter, status or route-register entry is introduced.
+
+---
+
+## Active Normative Baseline
+
+The route and IA sections below are active current requirements for Payer-only navigation and compatible route contracts. Retired Request, Linking, Receive and Consumer Receiving Info identifiers appear only in concise non-active documentation registers or append-only Version History; they do not define a runtime reader or current route behavior.
 
 ## 1. Purpose
 
@@ -70,10 +115,10 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 | Entrance and authentication | Defined behavior baseline | `ENTRANCE-ROOT`, the Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL`, the Login family, Registration, Recovery, and Account Activation handoffs have defined human-level behavior. Exact Copy, final prototype/visual evidence, technical implementation, and security mechanics remain open with their formal owners; `ENTRANCE-PROMOTION-DETAIL` remains Partially defined. |
 | Bottom navigation | Working baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline exists; final visual design remains open. |
 | Home dashboard | Partially defined | `HOME-ROOT` and section order exist; final card and visual details remain open. |
-| Pay+ action sheet | Defined baseline | `PAYPLUS-ACTION-SHEET`, its five MVP actions, role direction, destination handoffs, availability behavior, and motion principles are defined; exact visual specification remains open. |
+| Pay+ action sheet | Defined baseline | `PAYPLUS-ACTION-SHEET`, its four retained Payer-only actions, destination handoffs, availability behavior, and motion principles are defined; Request Payment is retired and exact visual specification remains open. |
 | Shortcut grid and More | Defined baseline | Home supports a default and maximum of 8 shortcuts including protected `More`; `MORE-ROOT` manages account-level shortcut preferences and approved secondary-service entry. Final visual design remains open. |
 | Route taxonomy and ID standard | Working baseline | Stable product destination rules are defined; the canonical destination inventory is maintained in `docs/traceability/route-register.md`. |
-| Non-Bills route registry | Working baseline | Requests, Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, Me core child routes, Receiving Info, and the Archive hub/document route have route-level baselines; undefined destinations remain visible in the route register. |
+| Non-Bills route registry | Working baseline | Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral and Me core child routes have route-level baselines. `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST` retain active Payer-only route baselines; `ARCHIVED-DOCS-LIST` remains a provisional taxonomy identity with behavior deferred. Requests, BILLS-LINKING and Consumer Receiving Info remain retired stable IDs as non-active documentation evidence only; undefined destinations remain visible in the route register. |
 | Notifications | Defined baseline | `NOTIFICATION-ROOT`, Inbox, Detail, and Settings behavior, entry/return rules, filters, archive visibility, and owning-domain handoffs are defined. Final visual styling remains open. |
 | Payment Checkout | Defined baseline | `PAYMENT-CHECKOUT` is one persistent Checkout Workspace whose human-readable route behavior is decision-complete for continued alignment. Final visual and component design, exact Copy and identifiers, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical contracts, prototype and accessibility/user-validation evidence, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending with their formal owners. |
 
@@ -81,16 +126,18 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 
 ## 4. Route Object Taxonomy
 
+Stable IDs and taxonomy terms are retained for traceability. Only concise non-active documentation registers, append-only version-history rows and stable IDs explicitly marked retired may preserve prior Request, Linking, Receive, Consumer Receiving Info, replacement-action or pre-Checkout Save meaning. They create no runtime historical reader. Every other active section is a current Payer-only requirement and must be read on its own; no unlabelled active clause is silently superseded.
+
 | Type | Definition |
 | --- | --- |
-| Area | Broad product area such as Home, Bills, Offers, Me, Requests, Instructions, Receipts, Cards, or Support. |
+| Area | Broad product area such as Home, Bills, Offers, Me, Instructions, Receipts, Cards, or Support. Retired Request identifiers may remain only in explicitly marked historical registers. |
 | Route | Navigable destination or deep-link target. |
 | Screen | Full-page UI view rendered inside a route. |
 | Tab / View | Role-aware, state-aware, or filtered view inside a screen. |
 | Sheet / Modal | Temporary focused interaction, such as the Pay+ action sheet or confirmation modal. |
 | Component | Reusable UI unit such as a card, badge, action row, timeline entry, or carousel card. |
 | Flow | Ordered multi-step journey that may span routes, screens, sheets, and system touchpoints. |
-| Action | User-triggered behavior such as Pay, Request, Remind Payer, Upload Evidence, Set Reminder, or Archive. |
+| Action | User-triggered behavior such as Pay, Upload Evidence, Set Reminder, or Archive. Former Request/Linking actions remain retired IDs in non-active documentation only. |
 | System Touchpoint | Automated validation, notification, audit event, risk routing, status update, OCR/autofill step, or integration handoff. |
 
 ### 4.1 Route Registry Table Standard
@@ -102,7 +149,7 @@ Route and screen registry tables should use this structure where practical.
 | ID | Stable route, screen, component, or action ID. |
 | Type | Area, Route, Screen, Tab/View, Sheet/Modal, Component, Flow, Action, or System Touchpoint. |
 | Area | Parent product area. |
-| Role | Payer, payee, admin, system, or mixed. |
+| Role | Payer, Payee-as-recipient, admin, system, or non-active historical documentation context. |
 | Opened By | Navigation element, action, notification, deep link, or system state. |
 | User Purpose | Why the user is here. |
 | Allowed Actions | Actions available from this object. |
@@ -133,8 +180,8 @@ Each route must have one primary owner. DOC-06B may list related documents, but 
 | Route Work Item | DOC-06B Owns | Reference / Handoff Owner |
 | --- | --- | --- |
 | Route shell | Route ID, route purpose, entry points, destination relationship, major sections, empty state, and high-level allowed actions. | N/A |
-| Request lifecycle | Route entry and where request lists open. | DOC-06A owns lifecycle, status meaning, acceptance, rejection, expiry, cancellation, and any later clarification/dispute extension if enabled. |
-| Bills/rent request implementation | Global shortcut and route relationship. | DOC-06C owns `BILLS-PAY`, `BILLS-RECEIVE`, cards, details, request/remind-payer actions, and Bills-route handoff. |
+| Request lifecycle | No active route, runtime reader, legacy adapter or fallback. Retired IDs remain non-active documentation lineage only. | Documentation governance only; no dormant Request product. |
+| Bills/rent acquisition and source projection | Global entry/return and route relationship. | DOC-06C owns Payer-only Bills/Rent views, Category-first acquisition, same-ID projections, Save/Archive visibility and specialist handoffs. |
 | Payment/checkout route | Route ID, screen structure, entry/return behavior, interaction presentation, and handoffs. | DOC-09 owns Payment Domain architecture, monetary invariants, obligations, Checkout Workspace, funding execution, payer-authorization boundaries, Payments, and Payment Applications. DOC-07 owns Outcomes/Messages/CTAs; DOC-18 owns machine implementation. |
 | Payment Profile route | Route shell, entry points, major screens, card/profile management purpose, and route handoff. | DOC-09 owns payment-time Funding Allocation and execution semantics. DOC-19 owns tokenization and security mechanics. |
 | Notification destination | Route target for a notification tap. | DOC-08 owns notification IDs, channels, templates, preferences, and delivery rules. |
@@ -165,7 +212,7 @@ When this document or another route owner defines, renames, replaces, or materia
 | `AUTH-REGISTRATION` | Child registration flow | Complete Google, Apple, or email account creation and create a restricted account only after all account-creation gates pass. | Screen and account-creation baseline defined |
 | `ACCOUNT-ACTIVATION` | Reusable orchestration flow | Coordinate the remaining phone, identity, and payment-passcode requirements for full registration. | Route, banner, and child handoffs defined |
 | `PHONE-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Verify or replace the account phone number through the approved method; Account Activation may invoke initial verification contextually. | Defined behavior baseline; security constants remain with DOC-19 |
-| `IDENTITY-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Complete first-time verification, resume processing, retry a failed attempt, or respond to an admin-required update; Account Activation may invoke it contextually. | Defined behavior baseline; provider mapping remains TBC |
+| `IDENTITY-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Complete first-time verification, resume processing, retry a failed attempt, or respond to an identity/security-owner-required update executed through a permitted Admin workflow; Account Activation may invoke it contextually. | Defined behavior baseline; provider mapping remains TBC |
 | `PAYMENT-PASSCODE-SETTINGS` | Reusable `ACCOUNT-SECURITY` child flow | Set, change, or reset the six-digit payment passcode and manage the permitted card/profile confirmation preference; Account Activation may invoke Set contextually. | Defined behavior baseline; technical controls remain with DOC-19 |
 | `HOME-ROOT` | Logged-in root screen | Provide the task-first dashboard after successful login or restricted-account creation. | Dashboard baseline defined; final UI pending |
 
@@ -199,7 +246,7 @@ The current AUTH-family resolution baseline is:
 | `AUTH-REGISTRATION` | Attempt validity, provider/email verification, uniqueness, consent, and account-creation result. | Continue, restart, redirect to Login/Recovery, try another method, cancel, or stop account creation. |
 | `ACCOUNT-ACTIVATION` | Missing phone, identity, and passcode requirements and each child result. | Invoke a missing child, wait for processing, permit retry/help, remain restricted, or complete and return after revalidation. |
 | `PHONE-VERIFICATION` | Phone input, possession verification, replacement controls, expiry, restriction, and interruption. | Continue, resend, restart, wait, use Support, or stop where controls prohibit continuation. |
-| `IDENTITY-VERIFICATION` | Current five-state identity status, provider processing, retry eligibility, and admin-required update. | Start/continue, wait and view status, retry/get help, perform an approved update, or remain blocked. |
+| `IDENTITY-VERIFICATION` | Current five-state identity status, provider processing, retry eligibility, and identity/security-owner-required update executed through a permitted Admin workflow. | Start/continue, wait and view status, retry/get help, perform an approved update, or remain blocked. |
 | `PAYMENT-PASSCODE-SETTINGS` | Set/Change/Reset mode, matching entry, reauthentication, registered-phone access, restriction, and save result. | Continue, correct, retry, use controlled recovery, wait for reconciliation, cancel, or return safely. |
 
 These mappings refine handling only. They do not change existing login, account-creation, activation, verification, passcode, security, or return decisions.
@@ -260,7 +307,7 @@ The detail route may be informational and therefore show no CTA. Where a CTA exi
 
 An Entrance placement must be suspended when its Promotion or Feature source is withdrawn, is no longer authorized for public display, becomes prohibited by an applicable legal, privacy, permission, masking, or content restriction, or is materially changed after the placement's last approved preview/publication. A suspended placement is removed from the active Entrance presentation without deleting the source record or historical placement evidence. Return requires the updated presentation to be previewed and republished through the authorized DOC-22 workflow.
 
-DOC-13 or the applicable Promotion/Offer owner retains Promotion and Offer validity, eligibility, entitlement, available-action, and business truth. The applicable formal Feature owner retains Feature business truth. DOC-22 owns Feature Management and central Entrance placement workflow/configuration only. Exact date storage, timezone, source synchronization, scheduler behavior, data/events/audit schema, permissions, monitoring, technical implementation, exact Copy, and later acceptance evidence remain with DOC-07 and DOC-18 to DOC-22 as applicable.
+DOC-13 or the applicable Promotion/Offer owner retains Promotion and Offer validity, eligibility, entitlement, available-action, and business truth. The applicable formal Feature owner retains Feature business truth. DOC-22 owns only permitted Feature Management and central Entrance placement workflow/configuration execution. DOC-07 owns exact Copy; DOC-18 owns data/event/audit representation; DOC-19 owns applicable access and security controls; DOC-20 owns acceptance evidence; DOC-21 owns monitoring and operations; and DOC-22 represents only the permitted Admin execution surface. Exact storage, timezone, source synchronization, scheduler and implementation mechanics remain with their applicable formal owners.
 
 #### 5.0.2 Login Route Family
 
@@ -337,7 +384,7 @@ A trusted device, phone number, identity record, or provider-returned email may 
 - Anonymous reset requests must not revoke sessions, lock the account, change credentials, or reveal account/login-method existence.
 - Successful reset revokes active sessions, refresh tokens, Fast Login eligibility, remembered authentication context, biometric login binding, effective device trust, and sensitive pending authorization state. Device records remain where required for audit.
 - Google and Apple credential recovery remains provider-owned. A usable linked provider may authenticate normally, after which first-password setup remains an authenticated `ACCOUNT-SECURITY` flow.
-- If the primary email is unavailable and no linked login method works, Recovery hands off to controlled Support. Detailed proof, cooling-off, approval, restriction, and case handling remain with DOC-19, DOC-21, and DOC-22.
+- If the primary email is unavailable and no linked login method works, Recovery hands off to controlled Support. DOC-19 owns security/recovery proof, cooling-off and restriction policy; DOC-21 owns support and case handling; DOC-15 owns approved-purpose privacy/access requirements; and DOC-22 executes only the permitted Support/Admin workflow under those owner decisions.
 - PayPlus may securely remember only an opaque intended destination during Recovery. After successful login, the destination and current permissions must be revalidated before return. Credentials, provider payloads, authorization results, and payment submission state must not be preserved.
 - A payment return must revalidate the obligation, evidence, amount, fees, benefit selection, payment method, receiving destination, activation, payer authorization, and risk controls. Payment must never auto-submit after Recovery.
 
@@ -358,7 +405,7 @@ Before restricted-account creation, PayPlus records a temporary registration att
 - it creates no account ID, dashboard, Inbox, user profile, referral attribution, login right, or financial permission;
 - proposed email, phone, provider identity, and other login identifiers remain immediately available and are not reserved or occupied;
 - killing or abandoning the app does not block an immediate new attempt using the same identifier;
-- an old attempt may remain for up to 30 minutes of inactivity for cleanup and security purposes, without reserving an identifier; a new attempt may invalidate an earlier OTP and remains subject to rate limits;
+- an old attempt may remain usable for up to 30 minutes of inactivity for security and continuation handling, without reserving an identifier; after that window it is expired/inactive for continuation and a new attempt may be required. The attempt record is retained indefinitely and is not deleted, purged, erased, anonymised or disposed; a new attempt may invalidate an earlier OTP and remains subject to rate limits;
 - final restricted-account creation atomically rechecks verified primary-email and provider-identity uniqueness, required verification, Terms/Privacy acceptance, and attempt validity;
 - only the successful creation transaction claims the identifiers and creates referral attribution where applicable.
 
@@ -384,7 +431,7 @@ All banner actions enter `ACCOUNT-ACTIVATION`, which focuses the applicable inco
 
 One verified primary email, one verified phone number, and one verified individual identity may each belong to only one active individual account. A phone or identity conflict discovered after restricted-account creation blocks activation and routes to Login, Recovery, or controlled Support handling without automatic account merging.
 
-The reusable child-flow behavior is defined in Sections 5.17.4.2 and 5.17.4.3. Account Activation must consume those flows without duplicating their screens or statuses. Final OTP constants, provider contracts, credential storage, retry/lockout controls, support-assisted recovery proof, and other technical security mechanics remain with DOC-17, DOC-19, and DOC-22 as stated below.
+The reusable child-flow behavior is defined in Sections 5.17.4.2 and 5.17.4.3. Account Activation must consume those flows without duplicating their screens or statuses. DOC-17 owns applicable provider-integration contracts and mappings; DOC-19 owns OTP, credential, retry/lockout and recovery security policy; DOC-21 owns support handling; DOC-15 owns approved-purpose privacy/access requirements; and DOC-22 executes only owner-permitted workflow/configuration. Exact technical mechanics remain outside DOC-06B.
 
 #### 5.0.6 Return, Failure, and Ownership Rules
 
@@ -392,13 +439,13 @@ Normal successful login opens `HOME-ROOT`. An approved protected deeplink resume
 
 DOC-07 owns the Authentication Bounded Domain Slice and its linked Semantic, Disclosure, and CTA Contracts for governed user-facing communication. Exact Outcome, Message, and CTA IDs, approved Copy, Locale Variants, Presentation Mappings, Notification mappings, runtime/audit mappings, and acceptance mappings remain open with their applicable owners. DOC-06B owns route-level Outcome meaning, permitted Resolution Strategies, component and placement, action destination, entry and return behavior, and adaptive presentation referenced by those contracts. In-flow authentication messages are not Inbox notifications unless DOC-08 separately defines a notifiable event.
 
-DOC-06A owns journey sequence, DOC-07 owns user-facing content and disclosure, DOC-13 owns referral attribution, DOC-15 owns account/privacy handling, DOC-18 owns attempt/event/correlation data, DOC-19 owns security mechanics, DOC-20 owns detailed test implementation, and DOC-22 owns admin/support handling and Entrance content configuration.
+DOC-06A owns journey sequence, DOC-07 owns user-facing content and disclosure, DOC-13 owns referral attribution, DOC-15 owns account/privacy handling, DOC-18 owns attempt/event/correlation data, DOC-19 owns security mechanics, DOC-20 owns detailed test implementation, DOC-21 owns support handling, and DOC-22 owns permitted Admin execution and Entrance content configuration.
 
 ### 5.1 Design Intent
 
 The logged-in Home Dashboard is the default landing screen after login.
 
-It must be task-first. It should prioritize urgent user actions, payment-related obligations, request status, payment instructions, and recent payment records before promotional discovery.
+It must be task-first. It should prioritize urgent Payer actions, payment-related obligations, owner-controlled outcome or action-required meaning, payment instructions, and recent payment records before promotional discovery.
 
 The dashboard is not a marketing page. Promotions, partner offers, hot offers, PayPlus events, and feature announcements may appear only through controlled placements and must not obscure payment tasks or status visibility.
 
@@ -407,7 +454,7 @@ This section defines the designated dashboard flow and layout baseline for MVP d
 Visual references:
 
 - `docs/diagrams/payplus-home-dashboard-mvp-wireframe.svg` is a companion wireframe for this section. It supports human and AI understanding of layout hierarchy but does not override this document.
-- `docs/diagrams/routes/payplus-app-route-map.md` is the Level 0 Mermaid navigation map. Detailed Home, Bills, Requests, Instructions, Payment Profile, Activity/Receipts, Offers/Rewards/Referral, Me, and Archive route families are maintained in separate maps listed in `docs/diagrams/README.md`. They are discussion and alignment aids, not final UI design.
+- `docs/diagrams/routes/payplus-app-route-map.md` is the Level 0 Mermaid navigation map. Detailed Home, Bills, Instructions, Payment Profile, Activity/Receipts, Offers/Rewards/Referral, Me, and Archive route families are maintained in separate maps listed in `docs/diagrams/README.md`; retired Request identifiers may remain only as historical alignment evidence. These diagrams are discussion and alignment aids, not final UI design.
 
 ---
 
@@ -418,8 +465,8 @@ MVP bottom navigation should use five primary destinations.
 | Nav Item | Definition | Route Relationship | Current Status |
 | --- | --- | --- | --- |
 | Home | Default task-first dashboard. | Opens `HOME-ROOT`. | Discussion baseline |
-| Bills | Bill, fee, rent, tenancy, and obligation record management area. | Opens Bills area covering saved bill/rent/tenancy records and their DOC-06C sub-routes. Requests, instructions, receipts, cards, referral, and More remain separate management routes or shortcut destinations unless explicitly embedded as contextual handoffs. | Discussion baseline |
-| Pay+ | Central payment and request action. | Opens `PAYPLUS-ACTION-SHEET` for payment, setup, continuation, and payee-to-payer request-payment actions. | Defined behavior / final visual design open |
+| Bills | Saved Bill/Rent source and tenancy-context management area, with contextual handoffs to owner-governed obligation and payment actions. | Opens Bills area covering saved Bill/Rent sources and their DOC-06C sub-routes. Instructions, receipts, cards, referral, and More remain separate management routes or shortcut destinations unless explicitly embedded as contextual handoffs; retired Request identifiers are non-active documentation lineage only. | Discussion baseline |
+| Pay+ | Central Payer action-sheet entry. | Opens `PAYPLUS-ACTION-SHEET` for the four retained Payer-only actions defined in Section 5.3.2: `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment`, preserving their accepted order and material meaning. Request Payment is retired; no replacement Request or Linking action is introduced. | Defined behavior / final visual design open |
 | Offers | Promotion and partner-offer discovery area. | Opens `OFFERS-ROOT`. Issued rewards and referral participation remain separate routes reached through contextual handoffs. | Working baseline |
 | Me | Permanent account and user-control area. | Opens `ME-ROOT` for account information, security and privacy, Bills access, payments and records, rewards, Referral, preferences, support, About PayPlus, terms, and logout. | Core account child routes defined / other details pending |
 
@@ -433,39 +480,39 @@ Tapping `Pay+` should open `PAYPLUS-ACTION-SHEET`, a slide-up action sheet rathe
 
 The sheet contains user-friendly entry actions only. It creates no request, obligation, instruction, payment, or payout by itself and must not expose internal implementation terms.
 
-#### 5.3.1 MVP Layout and Motion Principles
+#### 5.3.1 Wave 2 Layout and Motion Principles
 
 The designated baseline is:
 
 1. the sheet animates upward over the current screen;
 2. the background is dimmed and blurred to focus attention while preserving context;
-3. five icon-and-label actions use a two-row grid:
+3. four retained icon-and-label actions use the existing two-row grid:
    - first row: `Pay a Bill`, `Pay Rent`;
-   - second row: `Add Bill / Rent`, `Continue Payment`, `Request Payment`;
+   - second row: `Add Bill / Rent`, `Continue Payment`;
 4. action icons and labels enter with the sheet animation;
 5. the center `Pay+` button toggles the sheet open and closed;
 6. closing reverses the opening motion.
 
-The design must support reduced-motion accessibility and future additional action rows without changing the five MVP action meanings. Exact iconography, measurements, spacing, blur strength, motion duration, easing, and final styling remain open.
+The design must support reduced-motion accessibility. No replacement action, fifth action, reorder or material rename is introduced by this Draft. Exact iconography, measurements, spacing, blur strength, motion duration, easing, and final styling remain open.
 
 #### 5.3.2 Action and Destination Rules
 
 | Action | Destination | Required Behavior |
 | --- | --- | --- |
-| `Pay a Bill` | `BILLS-PAY` | Open a temporary Bill/Fee/non-rent selection scope without overwriting the user's saved Bills filters. After selection, the Bill Pay action resolves the current Payable Basis, current eligibility, and current Checkout condition under Section 5.20. It may begin a new Checkout only when eligible and no active continuable Checkout exists for the same basis; otherwise it resumes/resolves the existing Checkout or remains in the source-owner context. |
-| `Pay Rent` | `BILLS-PAY` | Open a temporary Rent/Tenancy selection scope with the same saved-filter rule, then apply the same Checkout resolver rule while preserving rent/tenancy context. |
+| `Pay a Bill` | `BILLS-PAY` | Open a temporary Bill/Fee/non-rent selection scope without overwriting the user's saved Bills filters. After selection, hand the Bill source to the owner-controlled resolver for the applicable Payable Basis, current eligibility and Checkout condition under Section 5.20. A new Checkout may begin only when DOC-09 permits and no active continuable Checkout exists for the same basis; otherwise the journey resumes/resolves the existing Checkout or remains in the source-owner context. |
+| `Pay Rent` | `BILLS-PAY` | Open a temporary Rent/Tenancy selection scope with the same saved-filter rule, then hand the Rent source to the same owner-controlled Checkout resolver while preserving Rent/tenancy context. |
 | `Add Bill / Rent` | `BILLS-ADD` | Start evidence-backed setup. QR scan, file/photo upload, and manual entry remain inside this flow and are not standalone Pay+ payment actions. |
-| `Continue Payment` | `INSTRUCTIONS-DETAIL` or `INSTRUCTIONS-ROOT` | Count active pending Payment Instructions and continuable incomplete Checkout Workspaces, including visible review-blocked items. With none, show the action disabled; with one, open its detail; with more than one, open the list. Review-blocked items remain visible but cannot continue until the blocking condition is resolved. |
-| `Request Payment` | `REQUESTS-NEW` | Start a payee-to-payer Request linked to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation. This action is available by default to all users because one account may act as payer and payee. |
+| `Continue Payment` | `INSTRUCTIONS-DETAIL` or `INSTRUCTIONS-ROOT` | Count active pending Payment Instructions and continuable incomplete Checkout Workspaces, including items blocked by an applicable owner-controlled review. With none, show the action disabled; with one, open its detail; with more than one, open the list. An item blocked by an applicable owner-controlled review remains visible but cannot continue until that blocking condition is resolved. A label-only Company/Individual review does not qualify when every concrete owner-controlled gate passes. |
+| Retired Request Payment | None | The former payee-to-payer Request action is retired from active MVP. No replacement action or route is created by this Draft. |
 
-`Request Payment` in this sheet does not start a payer-to-payee linking request. A payer may create a separate optional linking request from the relevant bill/rent detail, `BILLS-LINKING`, or another approved contextual request action. That request may create shared visibility or communication after acceptance, but it is not payment authorization and is not required for a payer-created direct obligation or payment.
+The remaining four actions preserve their existing order and meaning. Bill entry remains Category-first; Rent remains a separate journey. Save is an action/projection, not a route. No fifth action, replacement Request flow, Directory root or self-provided root is introduced.
 
 #### 5.3.3 Completion, Availability, and Return Rules
 
-- Standalone Pay+ `BILLS-ADD` completion should show a success state with `Pay Now` when the new obligation is payment-ready and `Back to Home`. If it is not payment-ready, show the current verification/readiness state and do not enable `Pay Now`.
-- If `BILLS-ADD` was opened from `REQUESTS-NEW`, preserve the request-creation return behavior instead of showing the standalone Pay+ completion state.
-- Completed, cancelled, archived, and terminally expired instructions are excluded from `Continue Payment` eligibility.
-- A globally unavailable or unlaunched action may be hidden. A user-specific, temporary, or review restriction should leave the action visible but disabled with a safe explanation that does not expose internal risk logic.
+- Standalone Pay+ `BILLS-ADD` completion may offer the existing `Pay Now` action only when the applicable specialist-owner outcomes permit payment continuation for the established Bill/Rent source; `Back to Home` remains available. Otherwise, present the applicable owner-governed verification or readiness outcome without enabling `Pay Now`. This route rule does not treat the Bill/Rent source as a Payment Obligation or define a new status.
+- No historical Request reader or Request-origin `BILLS-ADD` return is defined.
+- Completed or cancelled Payment Instructions, and closed or expired incomplete Checkout Workspaces, are excluded from `Continue Payment` eligibility.
+- A globally unavailable or unlaunched action may be hidden. A user-specific, temporary, or applicable owner-controlled blocking restriction should leave the action visible but disabled with a safe explanation that does not expose internal risk logic. A label-only Company/Individual review does not create such a restriction when every concrete owner-controlled gate passes.
 - Selecting an action closes the sheet and hands control to the owning route. Cancelling or closing the sheet returns to the unchanged originating screen and must not reopen the sheet.
 - Opening the sheet must not silently discard unsaved work or interrupt external authorization. The app should block opening or require a leave confirmation where needed.
 - The sheet and destination routes must prevent duplicate activation, and every destination must revalidate evidence, eligibility, risk, authorization, payment, and payout gates owned by the relevant documents.
@@ -474,7 +521,7 @@ The Pay+ action sheet must not create wallet, stored-value, cashout, unsupported
 
 #### 5.3.4 Configuration and Data Handoffs
 
-DOC-22 may enable or disable actions by module, category, market, launch phase, or approved user segment and must audit configuration changes. Admin controls must not rename, reorder, or redirect the confirmed action semantics or bypass destination gates.
+DOC-22 may execute only product- and specialist-owner-approved enablement settings by module, category, market, launch phase, or approved user segment and must record configuration changes under the applicable audit requirements. Admin controls must not rename, reorder, or redirect the confirmed action semantics or bypass destination gates.
 
 Material privacy-safe signals for later DOC-18 specification include sheet opened, sheet dismissed, action availability evaluated, action selected, blocked-reason category, and destination-handoff result. These signals must not contain sensitive evidence, identity, card, bank, request, or payment values.
 
@@ -502,14 +549,14 @@ Dashboard section order may be refined later only through explicit design review
 | Element | Definition | Route Relationship |
 | --- | --- | --- |
 | Greeting | Contextual user-recognition text. | No navigation action. |
-| Inbox icon | Notifications, messages, payment alerts, request updates, support replies, system notices, and announcements. | Opens `NOTIFICATION-INBOX`. Request-related inbox items may route to `REQUESTS-ROOT`, `REQUESTS-DETAIL`, or the linked Bills/rent context depending on item type. |
+| Inbox icon | Payer-facing notifications, messages, payment alerts, support replies, system notices, and announcements. | Opens `NOTIFICATION-INBOX` only. No Request-era routing, runtime reader, adapter or fallback is defined. |
 | Coupon / rewards icon | Shortcut to the user's issued coupons, vouchers, and other supported rewards. | Opens `REWARDS-ROOT`. |
 
 Greeting uses the applicable local time:
 
-- `05:00–11:59`: Morning;
-- `12:00–17:59`: Afternoon;
-- `18:00–04:59`: Evening.
+- 05:00 - 11:59: Morning;
+- 12:00 - 17:59: Afternoon;
+- 18:00 - 04:59: Evening.
 
 Server time may be used only with an applicable timezone; otherwise the approved neutral fallback is used. Display-name precedence is:
 
@@ -549,11 +596,10 @@ MVP shortcut grid:
 
 | Shortcut | Definition | Route Relationship |
 | --- | --- | --- |
-| Requests | Requests that ask another party to accept, link to, review, or reject a bill, rent, tenancy, fee, invoice, or approved obligation context. A request is not a payment. | Opens `REQUESTS-ROOT`. |
 | Instructions | Payment instructions / 付款指示 for pending pay-later setups, incomplete split-card payments, pending funding legs, expired instructions, and action-required instruction items. | Opens `INSTRUCTIONS-ROOT`. |
-| Bills & Tenancies | Saved bills, fee records, rent records, tenancy records, evidence status, due dates, and obligation details. | Opens `BILLS-ROOT`. |
+| Bills & Tenancies | Saved Bill/Rent sources and tenancy contexts, Evidence-status handoffs, due-date presentation and contextual links to applicable owner-governed obligations. | Opens `BILLS-ROOT`. |
 | Receipts | Payment receipts and statements. Proof of payment remains available from relevant Activity contexts for MVP. | Opens `RECEIPTS-ROOT`. |
-| Reminders | User-set due reminders for bills, rent, tenancy obligations, and manual reminders. | Opens `BILLS-REMINDER-LIST`. |
+| Reminders | User-set due reminders for Bill/Rent source contexts, explicitly owner-permitted obligation references, and manual reminders. | Opens `BILLS-REMINDER-LIST`. |
 | Cards | Payment Profile route for managing tokenized cards and saved split-card profiles. The shortcut is an entry point, not checkout. | Opens `PAYMENT-PROFILE-ROOT`. |
 | Referral | Referral entry point for sharing the user's reusable referral link, monitoring attributed-referee qualification, and managing corresponding referrer or referee rewards where enabled. | Opens `REFERRAL-ROOT`. Referral campaigns may be promoted in `OFFERS-ROOT`, but attribution, progress, and referral reward claiming remain owned by the Referral route. |
 | More | Opens remaining or secondary shortcuts and services. | Opens `MORE-ROOT`. |
@@ -565,25 +611,25 @@ Shortcut display must support:
 - an admin-managed approved catalog, default set, default order, and availability rules;
 - a maximum of 7 user-configurable Home shortcuts plus protected `More`;
 - fewer than 7 configurable shortcuts where the user prefers;
-- account-level user order and visibility preferences overriding the eligible admin default;
+- account-level user order and visibility preferences overriding the eligible owner-approved default;
 - `More` remaining present as the final shortcut and recovery entry;
-- restore to the current eligible admin default.
+- restore to the current eligible owner-approved default.
 
-Detailed user behavior is defined in Section 5.18. Admin configuration belongs in DOC-22. User preference, visibility, and privacy/data handling belong in DOC-15 and DOC-18.
+Detailed user behavior is defined in Section 5.18. DOC-22 may execute only DOC-06B-owner-approved shortcut configuration. User preference, visibility, and privacy/data handling belong in DOC-15 and DOC-18.
 
 ---
 
 ### 5.7 Hot Offer Carousel
 
-Hot Offer is an Offer-only Home presentation surface. Admin decides which canonical Offers appear on Home. Home may present an Offer when `AdminHomePresentationEnabled` is true, except where an explicit canonical legal, privacy, permission, masking, or prohibited-content restriction forbids presentation. Offer status, validity, and redemption eligibility do not themselves block Home display.
+Hot Offer is an Offer-only Home presentation surface. DOC-22 executes the product-owner-approved selection of which canonical Offers appear on Home; it does not decide Offer truth or eligibility. Home may present an Offer when `AdminHomePresentationEnabled` is true, except where an explicit canonical legal, privacy, permission, masking, or prohibited-content restriction forbids presentation. Offer status, validity, and redemption eligibility do not themselves block Home display.
 
 Any canonical Offer status may be displayed, including not-started, active, expired, used-up, paused, and non-redeemable. HOME-ROOT must not automatically filter by Offer status, validity, redemption eligibility, or inferred display eligibility. `SourceHomeDisplayEligible` and the former multi-gate Home formula must not be created or restored. Admin presentation must not alter, suppress, reinterpret, or falsify canonical Offer truth. Every card and CTA opens canonical `OFFER-DETAIL`, which presents current canonical status and available actions.
 
-The carousel displays a maximum of five cards and is hidden when no Admin-selected candidates are available for presentation. Admin may use fixed or random ordering; random ordering may reshuffle on each fresh Home entry. Auto-rotation defaults to five seconds and is Admin-configurable.
+The carousel displays a maximum of five cards and is hidden when no owner-approved, Admin-selected candidates are available for presentation. DOC-22 may execute the approved fixed or random ordering configuration; random ordering may reshuffle on each fresh Home entry. Auto-rotation defaults to five seconds and is Admin-configurable within the approved presentation policy.
 
 Rotation stops while keyboard focus is inside the carousel, pointer hover is active, touch/swipe/drag/manual navigation is occurring, or assistive/accessibility interaction is active. Rotation may resume only after the interaction ends. After manual interaction, one complete five-second interval must elapse before rotation resumes. A separate visible Pause/Play control is not required unless the adopted platform accessibility standard requires one. Reduced motion removes transition animation but may continue rotation under the same non-disruption rules. Normal platform component practices govern accessible naming, position information, focus, and announcements.
 
-DOC-06B does not validate Offer-content completeness. Empty fields render blank and are not a HOME-ROOT Error. DOC-13 owns canonical Offer content, status, validity, eligibility, and business truth. DOC-22 owns Admin selection, publication workflow, ordering, interval, and administrative quality controls. Retrieval, source, session, and bootstrap failures retain their owning-domain classification.
+DOC-06B does not validate Offer-content completeness. Empty fields render blank and are not a HOME-ROOT Error. DOC-13 owns canonical Offer content, status, validity, eligibility, and business truth. DOC-22 executes only owner-approved selection, publication workflow, ordering, interval and administrative quality controls. Retrieval, source, session, and bootstrap failures retain their owning-domain classification.
 
 ---
 
@@ -614,7 +660,7 @@ Recent Activity displays up to five completed payment-related outcomes:
 
 Items are ordered by each owner's canonical ordering timestamp, newest first. Technical events, intermediate states, failures, instructions, requests, and general Bill/Rent changes are excluded. Multiple supporting technical events must not duplicate one outcome. Distinct Partial Payment outcomes remain separate. Refund and Reversal share the Home presentation while retaining distinct source meaning.
 
-Amount sign follows the canonical funds-flow direction published by DOC-09, DOC-10, or DOC-11. HOME-ROOT must not infer, reverse, or reinterpret the sign from payer/payee role. User-facing expression follows DOC-07 and the status-display reference matrix without creating a new cross-domain outcome model.
+Amount sign follows the canonical funds-flow direction published by DOC-09, DOC-10, or DOC-11. HOME-ROOT must not infer, reverse, or reinterpret the sign from Consumer Payer or economic-Payee classification. User-facing expression follows DOC-07 and the status-display reference matrix without creating a new cross-domain outcome model.
 
 `View More` opens `ACTIVITY-ROOT`. Selecting an item opens canonical `ACTIVITY-DETAIL`. Detail returns to Home when opened from Home and to `ACTIVITY-ROOT` when opened from Activity.
 
@@ -644,276 +690,37 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | --- | --- | --- |
 | Entrance and Authentication Routes | Maintain the defined `ENTRANCE-ROOT`, Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL`, Login family, Registration, Recovery boundary, Account Activation, Phone Verification, Identity Verification, and Payment Passcode behavior; finalize exact Copy, provider mapping, technical/security implementation, prototype and accessibility evidence, and tests. | Human-level behavior defined / `ENTRANCE-PROMOTION-DETAIL` remains Partially defined / downstream evidence pending |
 | Bottom Navigation Route Map | Define how `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me relate to top-level routes and deep links. | Working baseline; final visual design open |
-| Pay+ Action Sheet Detail | Maintain the confirmed five-action behavior, destinations, availability, completion, return, and configuration boundaries; finalize only the remaining exact visual specification. | Defined behavior / final visual design open |
+| Pay+ Action Sheet Detail | Maintain the confirmed four-action Payer-only behavior after `Request Payment` retirement, destinations, availability, completion, return, and configuration boundaries; finalize only the remaining exact visual specification. | Defined behavior / final visual design open |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
 | Offers and Rewards IA | Define `OFFERS-ROOT` discovery, category collection routes, `OFFER-DETAIL`, separate issued-reward management, referral handoff, and placement behavior. | Offers child-list baseline defined / not final visual design |
 | Me Area IA | `ME-ROOT` is the permanent account-control route. Its section order, established-route handoffs, core account child-route behavior, masking, reveal, state, and return boundaries are defined in Section 5.17. | Core account child routes defined / other details pending |
 | More Shortcuts IA | Maintain `MORE-ROOT` shortcut management, reorder/arrangement, restore-default behavior, approved secondary-service entry, and protected access to More. | Defined baseline / final visual design open |
-| Requests Route | Define standalone Requests route shell, creation flow, entry points, list grouping, high-level actions, and handoff to request lifecycle or Bills/rent request detail. The route is for party-linking and request management, not payment processing. | Working baseline / not finalized |
-| Instructions Route | Define payment instruction / 付款指示 route shell, deliberate Payment Instruction versus incomplete Checkout Workspace display, edit boundaries, cancellation/archive behavior, and checkout handoff. | Working baseline / not finalized |
-| Bills & Tenancies Route | Define saved obligation list, tenancy detail, evidence status, payee/landlord detail, due dates, and linked payment actions. | Title preserved / not finalized |
-| Activity Route | Define global account-level financial activity route shell, including role-aware `Paid` / `Received` views, single-entry transaction lifecycle behavior, and status-display matrix handoff. | Route shell defined / not final UI |
+| Requests Route | Preserve stable IDs as non-active documentation lineage only; no active route shell, runtime reader, deep-link adapter, creation flow, party-linking, request lifecycle or replacement action. | Retired active MVP / mandatory Wave 6 artifact alignment |
+| Instructions Route | Define payment instruction / 付款指示 route shell, deliberate Payment Instruction versus incomplete Checkout Workspace display, Payment Instruction cancellation, Checkout continuation/Close/Expiry, and checkout handoff. | Working baseline / not finalized |
+| Bills & Tenancies Route | Define saved Bill/Rent source projections, tenancy detail, Evidence-status handoff, Payee/landlord detail, due dates and linked payment actions without collapsing a source into one Payment Obligation. | Title preserved / not finalized |
+| Activity Route | Define the global Payer account-level financial activity route shell, single-entry transaction lifecycle behavior, and status-display matrix handoff. | Route shell defined / not final UI |
 | Receipts & Statements Route | Define the searchable receipt/statement list, direct download, shared PDF preview, return behavior, and re-issue handoff. | Root and preview behavior defined / not final PDF design |
 | Reminders Route | Define due reminders, user-set reminders, notification settings, and reminder destinations. | Title preserved / not finalized |
 | Payment Profile Route | Define tokenized card management, saved split-card profile management, card status, default card, profile action-required behavior, and checkout/instruction handoff. | Route shell defined / not final UI |
 | Referral Route | Define `REFERRAL-ROOT`, referral attribution and progress presentation, role-sensitive entitlement list/detail/claim screens, registration handoff, and issued-reward handoff. Referral campaigns may be discovered through Offers, but Referral remains a separate route. | Child-screen behavior defined / not final visual design |
-| Admin-Configurable UI Marker List | Mark app UI elements that require admin configuration later without drafting admin UI in DOC-06. | Title preserved / DOC-22 owns admin UI |
+| Admin-Configurable UI Marker List | Mark app UI elements that require permitted Admin execution later without drafting Admin UI in DOC-06. | Title preserved / DOC-22 owns only the permitted execution UI under the applicable product and specialist owners |
 
-App UI elements that currently require admin configuration markers include Pay+ action visibility, shortcut visibility/order/defaults, Hot Offer Home presentation, feature/module enablement, request-payment availability, and route-level gating by user type, category, launch phase, risk state, or compliance restriction. Important Notice is source-driven: Admin may support approved inspection and audit but must not alter, suppress, or replace its canonical ordering, lifecycle, audience/permission, due-time, or destination values.
-
----
+App UI elements that currently require Admin execution markers include owner-approved Pay+ action availability, shortcut visibility/order/defaults, Hot Offer Home presentation, feature/module enablement and route-level application of owner-controlled user-type, Category, launch-phase, risk or compliance availability outcomes. Important Notice is source-driven: Admin may support approved inspection and audit but must not alter, suppress, or replace its canonical ordering, lifecycle, audience/permission, due-time or destination values.
 
 ---
 
-### 5.11 Requests Route Shell
+---
 
-DOC-06B owns the standalone Requests route shell. DOC-06A owns request lifecycle, status meaning, acceptance, rejection, expiry, and cancellation rules. DOC-06C owns Bills/rent/tenancy-specific implementation when the request is linked to a bill, fee, rent, tenancy, invoice, or obligation record. DOC-08 owns notification routing and delivery rules.
+### 5.11 Non-Active Documentation Register - Retired Requests and Linking IDs
 
-#### 5.11.1 Route Definition
+The following concise register preserves retired stable IDs only as non-active documentation evidence. Founder confirmation establishes that no production Request/Payee-role runtime or legacy Request deep-link data exists. It is not a route, runtime reader, action, notification, Linking flow, adapter or fallback.
 
-| Item | Requirement |
-| --- | --- |
-| Route label | Requests |
-| Product destination | `REQUESTS-ROOT` |
-| Purpose | Let users create, view, manage, and respond to requests that connect parties to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation context. |
-| Boundary | A request is not a payment. The route must not authorize, process, capture, settle, or complete payment. |
-| Default behavior | Open `Received` unless the user's last selected Requests view is available. Action-required received requests should be visually prioritized inside `Received`, not treated as a separate route. |
-
-#### 5.11.2 Request Definition
-
-A request is a payer-created or payee-created acceptance/linking request sent to the other party for an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation context.
-
-Requests do not equal payment. A payer may pay a valid payee or payout destination without payee acceptance where evidence, verification, risk, payout, and authorization gates pass. If the payer-created record is not accepted or linked by a PayPlus payee user, the payee should not receive in-app visibility or in-app notifications for that record. A payee-created request requires payer acceptance before the payer can authorize payment from that request.
-
-MVP request types include:
-
-| Request Type | Sender | Recipient | Meaning |
-| --- | --- | --- | --- |
-| Payee-created acceptance request | Payee, landlord, biller, or recipient | Payer | Recipient is asked to accept or reject an evidence-backed bill/rent/fee request before payment can proceed from that request. |
-| Payer-created linking request | Payer | Payee, landlord, biller, or recipient | Recipient is asked to accept linkage to a payer-created evidence-backed bill/rent/fee context for two-sided visibility and communication. |
-| Request reminder | Sender or system | Pending recipient | Recipient is reminded to act on an existing request. A reminder must not create a new request. |
-
-Accepted requests link the parties to the accepted context and may enable later payment readiness where all other gates pass. Acceptance must not be treated as payment authorization.
-
-#### 5.11.3 Request Lifecycle and Display Labels
-
-The canonical request lifecycle and user-facing labels are:
-
-| Underlying State | Sender Sees | Receiver Sees | Visibility Rule |
-| --- | --- | --- | --- |
-| `Draft` | `Draft` | Not visible | Sender can continue, edit, or discard. |
-| `Pending Evidence Verification` | `Waiting for Verification` | Not visible | Request must not be delivered until evidence is verified. |
-| `Pending Receiver Action` | `Reviewing` | `Awaiting` | Receiver can review and act. |
-| `Accepted` | `Accepted` | `Accepted` | Parties are linked to the accepted context. |
-| `Rejected` | `Rejected` | `Rejected` | Rejection reason should be retained where provided. |
-| `Expired` | `Expired` | `Expired` | Sender may resend where allowed. |
-| `Cancelled` | `Cancelled` | `Cancelled` where already visible | Sender cancelled the request. |
-
-`Archived` is a visibility state, not a request status.
-
-`Received`, `Sent`, and `Archived` are route views. Submission, sending, sharing, viewing, reminding, archiving, and restoration are request events or visibility transitions. Evidence status, obligation readiness, payment/payout status, and linked support/dispute case status remain governed by their owning domains.
-
-#### 5.11.4 Entry Points
-
-| Entry Point | Route Behavior |
-| --- | --- |
-| Dashboard `Requests` shortcut | Opens `REQUESTS-ROOT`. |
-| Header Inbox icon | Opens Inbox first; request-related inbox items may route to `REQUESTS-ROOT`, `REQUESTS-DETAIL`, or linked Bills/rent context depending on item type. |
-| Request notification | Routes to `REQUESTS-DETAIL` by default when a specific request exists. It may route to `REQUESTS-ROOT`, `BILLS-PAY`, `BILLS-RECEIVE`, or linked bill/rent detail only where DOC-08 routing rules require it. |
-| `+ Create Request` in `REQUESTS-ROOT` | Opens `REQUESTS-NEW`. |
-| Pay+ `Request Payment` | Opens `REQUESTS-NEW` for a payee-to-payer Request. It must not create an open money request, start a payer-to-payee linking request, or bypass evidence-backed context setup. |
-| `Request` action on Bills/rent card or detail | Creates, sends, resends, or updates a request record for the selected verified context. It does not open `REQUESTS-ROOT` by default. |
-| `Remind Payer` action on Bills/rent card or detail | Creates or sends a request reminder event against the existing request; it does not create a payment action or a new request. |
-| App link, WhatsApp deeplink, QR code, or approved channel | Opens onboarding/login first where required, then routes to `REQUESTS-DETAIL` for the relevant request context. |
-
-#### 5.11.5 `REQUESTS-ROOT` List Screen
-
-`REQUESTS-ROOT` is the request inbox and management list. It should not show payment actions, evidence editing actions, or bill/rent edit actions directly.
-
-Recommended screen order:
-
-1. Header: `Requests`.
-2. Top-right `+ Create Request` action.
-3. Search and filter controls.
-4. Segmented views: `Received`, `Sent`, `Archived`.
-5. Request cards.
-6. Empty state.
-
-`Received`, `Sent`, and `Archived` are views or filters inside `REQUESTS-ROOT`, not separate routes. Exact visual design, filter density, and sort options remain open.
-
-#### 5.11.6 Request Card
-
-A request card should show enough information for the user to identify the request without exposing unnecessary sensitive details.
-
-MVP card fields:
-
-- received date or sent date;
-- linked bill, fee, rent, or tenancy name;
-- counterparty name;
-- category: bill, fee, or rent;
-- amount where applicable;
-- payment due date where applicable;
-- request expiry date where applicable;
-- request status using role-aware display labels;
-- primary action label: `Review` for received requests and `View` for sent requests.
-
-Payment due date and request expiry date are separate fields. Payment due date relates to the underlying bill/rent/fee obligation. Request expiry date relates to the acceptance/linking request.
-
-Sensitive fields must follow DOC-15 masking and role-based display rules. Detailed linked bill/rent fields remain in DOC-06C.
-
-Card-level material actions such as accept, reject, cancel, resend, or remind should not appear directly on the card. Selecting a request card opens `REQUESTS-DETAIL`.
-
-#### 5.11.7 Request Detail Screen
-
-`REQUESTS-DETAIL` is its own DOC-06B screen. It must not be replaced by the linked DOC-06C bill/rent detail screen, because the request is a party-linking and request-management object, not the bill/rent record itself and not a payment.
-
-| Item | Requirement |
-| --- | --- |
-| Product destination | `REQUESTS-DETAIL` |
-| Optional traceability screen reference | `SCREEN-06B-REQUESTS-DETAIL` |
-| Purpose | Let the user understand, respond to, or manage one request before opening any linked bill/rent/tenancy context. |
-| Boundary | The screen manages request status and request actions only. Payment authorization, checkout, evidence editing, and bill/rent record maintenance remain in the owning routes. |
-| Linked-context handoff | If a linked bill/rent/tenancy exists, show a clear button such as `View Bill Detail`, `View Rent Detail`, or `View Tenancy`. That button opens the relevant DOC-06C detail route. |
-| Return behavior | If the user opens DOC-06C bill/rent detail from `REQUESTS-DETAIL`, editing, saving, or backing out should return the user to `REQUESTS-DETAIL` and refresh the request summary. |
-| Payment handoff | If the linked context is payment-ready, the screen may show a handoff to the relevant payment entry point, but payment flow remains governed by DOC-09 and the related DOC-06C route. |
-
-Recommended detail screen order:
-
-1. Status header: request status, direction, request expiry date, and payment due date where relevant.
-2. Request summary: category, sender or recipient, linked bill/rent/tenancy name, amount, and message/note.
-3. Linked context section: `View Bill Detail`, `View Rent Detail`, or `View Tenancy`.
-4. Action area.
-5. Request activity.
-6. Secondary archive action where allowed.
-
-Role-aware detail actions:
-
-| User Context | Primary Actions |
-| --- | --- |
-| Recipient / received pending request | Accept, reject with reason, open linked bill/rent detail where available. |
-| Sender / draft request | Send, edit, cancel. |
-| Sender / waiting for verification | View, edit where allowed, cancel. |
-| Sender / pending receiver action | View, remind, cancel, share where allowed. |
-| Sender / rejected or expired request | Edit, resend, cancel or archive where allowed. |
-| Accepted request | View details, archive where allowed. |
-| Archived request | Restore where allowed, view retained request detail subject to DOC-15 visibility and retention rules. |
-
-`Remind` must create a notification/event against the existing request, not a new request. Reminder limits, cooldowns, expiry, escalation wording, and channel eligibility belong to DOC-08 and DOC-22.
-
-Request activity may show system-visible request events such as created, submitted for verification, verified and sent, viewed, reminded, accepted, rejected with reason, expired, cancelled, archived, or restored.
-
-#### 5.11.8 `REQUESTS-NEW` Creation Flow
-
-`REQUESTS-NEW` is the controlled request creation flow. It may be opened from the `+ Create Request` action in `REQUESTS-ROOT`, Pay+ `Request Payment` for payee-to-payer Requests, or an approved contextual Bills/rent request action. Payer-to-payee linking begins contextually and must not be mistaken for the Pay+ action.
-
-The flow must not create an open money request. It must link to an evidence-backed bill, fee, rent, tenancy, invoice, or approved obligation before sending. It must not perform payment quote, checkout, authorization, funding, settlement, payout, or refund actions.
-
-| Field | Requirement |
-| --- | --- |
-| Product destination | `REQUESTS-NEW` |
-| Optional traceability screen reference | `SCREEN-06B-REQUESTS-NEW` |
-| Route type | Controlled creation flow / screen group |
-| Primary owner | DOC-06B |
-| Linked owner | DOC-06C owns `BILLS-ADD` and Bills/rent detail handoff. DOC-08 owns notification and delivery-channel rules. DOC-12 owns evidence verification. DOC-15 owns privacy and counterparty lookup boundaries. |
-| Primary user goal | Create a request that asks another party to accept or link to an eligible evidence-backed obligation context. |
-| Boundary | A request is not a payment. This route prepares and sends the request only after the required evidence gate passes. |
-
-The route should use the following section order:
-
-| Order | Section | What User Sees / Does | Route Behavior |
-| ---: | --- | --- | --- |
-| 1 | Start Request | Header `Create Request`; short context that the request must link to a bill, fee, or rent item. | Preserve entry source for return behavior and analytics. |
-| 2 | Category and Direction | Category selection: bill, fee, or rent. Direction should be inferred where possible from role and entry source. | Payee-to-payer requires payer acceptance before payment from that request. Payer-to-payee is for optional linking/adoption unless a gate requires payee action. |
-| 3 | Linked Context | Select existing bill/rent/tenancy context, or create a new one. | Existing context stays in `REQUESTS-NEW`. New context opens `BILLS-ADD`; completion returns to `REQUESTS-NEW` with the created context selected. |
-| 4 | Linked Detail Review | Compact summary: name, category, amount, due date, counterparty/payee/payer where applicable, evidence status, and readiness/status badge. | If evidence is missing, rejected, expired, or action-required, route to the relevant DOC-06C evidence/setup path before submission. |
-| 5 | Counterparty and Delivery | Select counterparty by PayPlus user ID or phone-number identifier; add optional note; select allowed delivery method where available. | Lookup must be privacy-safe. Delivery options may include in-app, app link, WhatsApp deeplink, QR code, or approved channel. |
-| 6 | Review and Submit | Final review of request summary, linked context, receiver, delivery method, expiry/due information where applicable, and notices. | Primary CTA should be `Submit and send after verification`. If evidence is already accepted, the system may send immediately. |
-
-Counterparty lookup rules:
-
-- lookup may use PayPlus user ID or phone-number identifier;
-- lookup should confirm that a potential receiver exists only with minimal, privacy-safe display;
-- lookup must not expose unnecessary account, KYC/KYB, evidence, payment, risk, or relationship data before acceptance;
-- if no PayPlus user is found or the receiver is not onboarded, the sender may use an approved share/invitation method where enabled;
-- final privacy, masking, and authentication controls belong to DOC-15 and DOC-19.
-
-Evidence gate and send rules:
-
-- the request must not be sent to the receiver before linked evidence is verified or approved by exception;
-- the receiver must not be notified or shown the request while evidence verification is pending;
-- if evidence is already accepted, the request may be sent immediately after user submission;
-- if evidence becomes accepted after submission, the system should send the request automatically using the approved delivery method;
-- if evidence is rejected or requires correction, the sender should see action required and the receiver should not receive the request;
-- the request should remain linked to the evidence verification outcome for audit and support.
-
-Share and delivery rules:
-
-- in-app delivery is preferred where both parties are active PayPlus users;
-- app link, WhatsApp deeplink, QR code, or other approved channel may be offered where enabled;
-- external share content must avoid sensitive request, evidence, payment, identity, and account details;
-- accepted share links should route through authentication or onboarding before opening `REQUESTS-DETAIL`;
-- share-link expiry, resend limits, reminder cooldown, and channel eligibility belong to DOC-08 and DOC-22.
-
-Return behavior:
-
-- from `BILLS-ADD`, successful creation returns to `REQUESTS-NEW` with the created context selected;
-- cancelling `BILLS-ADD` returns to `REQUESTS-NEW` without changing the selected context;
-- opening linked bill/rent detail from request review should return to `REQUESTS-NEW` or `REQUESTS-DETAIL` according to the entry source;
-- after request submission, the user should route to `REQUESTS-DETAIL` for the created request.
-
-Primary state behavior:
-
-| State | Sender View | Receiver View |
+| Retained identifier or record | Preservation location | Current treatment |
 | --- | --- | --- |
-| Draft | Editable draft. | Not visible. |
-| Pending evidence verification | Waiting for verification; edit/cancel where allowed. | Not visible. |
-| Action required | Evidence or linked detail correction required. | Not visible. |
-| Sent / reviewing | Request detail shows sent status and allowed remind/share actions. | Request appears as awaiting review. |
-| Accepted / rejected / expired / cancelled | Request detail shows final or current request state and available follow-up actions. | Same underlying state, role-appropriate actions only. |
+| REQUESTS-ROOT, REQUESTS-DETAIL, REQUESTS-NEW, BILLS-RECEIVE, BILLS-LINKING and associated actions | Stable IDs and prior actor-role/lineage meanings in append-only documentation history | Retired active MVP; no production data, route, runtime reader, action, notification, adapter, fallback, acceptance, Linking, reciprocal visibility or replacement behavior |
+| Former Request/Linking status and response concepts | Append-only documentation history only | Retired terminology and lineage evidence; no production facts, authorized runtime reader, active lifecycle or participant state machine |
 
-#### 5.11.9 Empty, Action-Required, and Archive Behavior
 
-| State | Behavior |
-| --- | --- |
-| Empty `Received` | Explain that requests sent to the user will appear here. |
-| Empty `Sent` | Explain that requests the user sends will appear here. Creation must happen through `REQUESTS-NEW` or the relevant bill/rent/request flow, not as a free-floating open money request. |
-| Empty `Archived` | Explain that archived requests will appear here. |
-| Archived | Archived requests disappear from active views but remain retrievable subject to retention, audit, and role-based access rules. |
-| Expiring soon | Show priority in `Received` or `Sent` and route to `REQUESTS-DETAIL`. |
-
-#### 5.11.10 Data and Intelligence Signals
-
-DOC-06B should identify route-level signals only. Final event taxonomy, schema, lineage, model eligibility, and analytics ownership remain DOC-18.
-
-Material signals include:
-
-- Requests route opened;
-- request card viewed;
-- request detail opened;
-- request creation started;
-- existing bill/rent selected for request;
-- new bill/rent setup opened from `REQUESTS-NEW`;
-- request submitted for evidence verification;
-- request auto-sent after evidence verification;
-- request accepted, rejected, cancelled, expired, archived, or restored where applicable;
-- request reminder sent;
-- request shared through approved channel;
-- request notification opened;
-- request led to linked bill/rent context opened;
-- request led to payment-start handoff in `BILLS-PAY` where applicable.
-
-These signals should support service quality, funnel analysis, risk review, support investigation, and future approved AI-driven payment intelligence without turning Requests into a payment or open P2P feature.
-
-#### 5.11.11 Open Items
-
-| Item | Owner | Status |
-| --- | --- | --- |
-| Final visual card density, tab style, sort/filter design, and empty-state wording | Product / Design | Open |
-| Final `REQUESTS-DETAIL` visual layout, field density, copy, and button order | Product / Design | Open |
-| Final `REQUESTS-NEW` visual styling, field-level validation copy, counterparty lookup display copy, and share-button placement | Product / Design / Privacy / Security | Open |
-| Resend, reminder cooldown, expiry, and escalation rules | Product / Operations / DOC-08 / DOC-22 | Open |
-
----
 
 ### 5.12 Payment Instructions Route
 
@@ -928,7 +735,7 @@ The route manages two distinct item kinds: deliberate pay-later Payment Instruct
 | Optional traceability screen reference | `SCREEN-06B-INSTRUCTIONS-DETAIL` |
 | Primary owner | DOC-06B owns route shell, list/detail layout, entry points, high-level actions, and route handoff. |
 | Payment owner | DOC-09 owns Payment Instruction and Checkout Workspace business meaning, funding and monetary invariants, payer-authorization boundaries, confirmed Payment creation, Payment Application, and continuation rules. DOC-06B owns route-level screen behavior and presentation. |
-| Related owners | DOC-08 owns notification delivery; DOC-13 owns promotion quote impact; DOC-15 owns masking/privacy; DOC-18 owns schema/events; DOC-19 owns security/tokenization; DOC-22 owns admin controls. |
+| Related owners | DOC-08 owns notification delivery; DOC-13 owns promotion quote impact; DOC-15 owns masking/privacy; DOC-18 owns schema/events; DOC-19 owns security/tokenization. DOC-22 may execute only DOC-09- and specialist-owner-permitted Admin configuration/workflows; it owns no Payment Instruction, funding, monetary, authorization or continuation policy. |
 
 #### 5.12.1 Instruction Definition
 
@@ -939,14 +746,14 @@ Payment instruction is created only where:
 - the user intentionally creates a pay-later instruction within the allowed instruction window;
 - the instruction requires user action before payment can proceed.
 
-An immediate Checkout that has started execution but has not fully funded its Checkout Target remains an incomplete Checkout Workspace. It may appear in this route for continuation or archive behavior, but it retains its own Checkout identity and lifecycle. Normal completed payments belong to receipt/activity surfaces. A user who wants an alert without creating a pay-later arrangement should create a normal reminder.
+An immediate Checkout that has started execution but has not fully funded its Checkout Target remains an incomplete Checkout Workspace. It may appear in this route only for continuation or, when DOC-09 makes it non-continuable, historical Checkout presentation after Close or Expiry; it retains its own Checkout identity and lifecycle. Close or Expiry is not source Archive. If it contains a newly confirmed Payment linked to an otherwise unsaved source, the owner-controlled Payment Result/Save resolver must establish same-ID Active/reusable or history-only before any ordinary return from that result to Instructions, Activity, Receipt or another safe exit; an already saved/Active source retains its projection. Normal completed payments belong to receipt/activity surfaces. A user who wants an alert without creating a pay-later arrangement should create a normal reminder.
 
 #### 5.12.2 Instruction Types
 
 | Managed Item | Meaning | User Edit Boundary |
 | --- | --- | --- |
 | Pending Payment Instruction | User intentionally set up a future/pay-later arrangement and no Provider Submission has been initiated for the related Checkout. | User may update the instruction's permitted setup before execution. When Checkout begins, DOC-09 target-lock and authorization rules apply. |
-| Incomplete Checkout Workspace | Immediate payment execution started but the immutable Checkout Target was not fully funded. It is not a Payment Instruction. | User may continue or close/archive the continuable Checkout presentation. Confirmed Payments and Payment Applications remain immutable; the locked Checkout Target and Obligation Allocations cannot be reduced or redefined. |
+| Incomplete Checkout Workspace | Immediate payment execution started but the immutable Checkout Target was not fully funded. It is not a Payment Instruction. | User may continue or, where DOC-09 permits, Close Checkout; Expiry ends continuation. Neither outcome is source Archive. Confirmed Payments and Payment Applications remain immutable; the locked Checkout Target and Obligation Allocations cannot be reduced or redefined. |
 
 `Pay Now` is not an instruction type and does not identify a predetermined Checkout. It is a Payment Instruction action that invokes the DOC-09 Checkout Resolver. Every attempt may have session, provider, or audit records, but only deliberate pay-later arrangements are Payment Instructions.
 
@@ -955,7 +762,7 @@ An immediate Checkout that has started execution but has not fully funded its Ch
 | Entry Point | Route Behavior |
 | --- | --- |
 | Dashboard shortcut `Instructions` | Opens `INSTRUCTIONS-ROOT`. |
-| Pay+ `Continue Payment` | Disabled when no active pending Payment Instruction or continuable incomplete Checkout Workspace exists; opens `INSTRUCTIONS-DETAIL` for exactly one or `INSTRUCTIONS-ROOT` for more than one. Review-blocked items remain visible but cannot continue. |
+| Pay+ `Continue Payment` | Disabled when no active pending Payment Instruction or continuable incomplete Checkout Workspace exists; opens `INSTRUCTIONS-DETAIL` for exactly one or `INSTRUCTIONS-ROOT` for more than one. Items blocked by an applicable owner-controlled review remain visible but cannot continue; label-only Company/Individual review does not block when every concrete owner-controlled gate passes. |
 | Important Notice / Action Required | Its body opens `NOTIFICATION-DETAIL`. After current-state and permission revalidation, the source-provided Action Button may open the relevant `INSTRUCTIONS-DETAIL` where a specific instruction exists. |
 | Payment action notification | Opens `NOTIFICATION-DETAIL` first. After current-state and permission revalidation, an owner-approved instruction action may invoke the same DOC-09 Checkout Resolver. It must not bypass Notification Detail or identify a predetermined Checkout. |
 | Checkout flow | Creates or updates a Payment Instruction only when the user deliberately chooses pay later. An interrupted or partly funded immediate Checkout returns as an incomplete Checkout Workspace without conversion into an instruction. |
@@ -968,7 +775,7 @@ Recommended screen order:
 
 1. Header: `Payment Instructions` or `付款指示`.
 2. Top action: `+ Add Instruction`.
-3. Filter row: `All`, `Pay Later`, `Incomplete`, `Archived`.
+3. Filter row: `All`, `Pay Later`, `Incomplete`.
 4. Managed-item card list.
 5. Empty state.
 
@@ -1045,9 +852,9 @@ For an incomplete Checkout Workspace, show:
 Incomplete Checkout actions:
 
 - `Continue Payment`, routing to DOC-09 checkout/review for remaining eligible action;
-- `Archive`.
+- `Close Checkout` only where DOC-09 permits it.
 
-Incomplete Checkout must not allow reduction or redefinition of the locked Checkout Target, Obligation Allocations, confirmed Payments, or Payment Applications. Permitted changes to unexecuted funding arrangements must remain within the locked Checkout Target and follow DOC-09 allocation-version and renewed-authorization rules. Closing or expiry ends continuation only and does not rewrite confirmed financial facts.
+Incomplete Checkout must not allow reduction or redefinition of the locked Checkout Target, Obligation Allocations, confirmed Payments, or Payment Applications. Permitted changes to unexecuted funding arrangements must remain within the locked Checkout Target and follow DOC-09 allocation-version and renewed-authorization rules. Closing or expiry ends continuation only and does not rewrite confirmed financial facts. Where a newly confirmed Payment exists for an otherwise unsaved source, any user-facing close or ordinary safe return must first complete the owner-controlled same-ID Save/projection resolution; this route does not offer Save itself.
 
 #### 5.12.6 Add Instruction Flow
 
@@ -1055,7 +862,7 @@ Incomplete Checkout must not allow reduction or redefinition of the locked Check
 
 The flow should:
 
-1. require the user to select an existing eligible bill, fee, rent, or approved obligation;
+1. require the Payer to select an existing eligible Bill/Rent source; DOC-09 determines any current Payable Basis and Payment Obligation required for instruction setup;
 2. route to `BILLS-ADD` if the user needs to add a new bill/rent first;
 3. route into DOC-09 payment setup rules for amount, payment profile/card allocation, timing, quote, eligibility, and authorization boundary;
 4. create a pending instruction only when the user confirms a pay-later setup within the allowed instruction window.
@@ -1074,7 +881,7 @@ A payment instruction may generate app notifications, action-required alerts, an
 
 This avoids duplicate user functions:
 
-- Reminders mean "remind me about an obligation."
+- Reminders mean "remind me about a Bill/Rent source context or an explicitly owner-permitted obligation reference."
 - Payment Instructions mean "finish or manage a pending payment setup."
 - Checkout means "submit payment."
 
@@ -1091,7 +898,7 @@ Allowed route behavior:
 - show if a selected card or profile is unavailable, expired, failed, or requires action;
 - for pending single-card instructions, provide `Choose Card` or `Update Card`;
 - for pending split-card instructions, provide `Choose Profile` or `Edit Profile`;
-- for incomplete Checkout Workspaces, preserve confirmed Payment and Payment Application facts and route only to permitted continuation, closure, or correction actions.
+- for incomplete Checkout Workspaces, preserve confirmed Payment and Payment Application facts and route only to permitted continuation, closure, or correction actions; where a newly confirmed Payment belongs to an otherwise unsaved source, complete the owner-controlled same-ID Save/projection resolution before closure or an ordinary safe return.
 
 Handoff behavior:
 
@@ -1116,7 +923,7 @@ Material signals include:
 - pending instruction updated;
 - pending instruction cancelled;
 - incomplete Checkout Workspace continued;
-- incomplete Checkout Workspace archived from active presentation;
+- incomplete Checkout Workspace closure or Expiry presented;
 - instruction expired;
 - payment profile/card issue displayed;
 - user routed from instruction to Payment Profile;
@@ -1132,7 +939,7 @@ These signals support funnel analysis, payment-friction analysis, support invest
 | Item | Owner | Status |
 | --- | --- | --- |
 | Final visual layout, field density, and exact button labels distinguishing Payment Instruction cards from incomplete Checkout Workspace cards | Product / Design | Open |
-| Final expiry window, expiry countdown wording, cancellation/archive rules, and restore rules | Product / Payments / Operations | Open |
+| DOC-09-owned continuation-period countdown presentation, and distinction between instruction cancellation and Checkout Close/Expiry presentation | Product / Payments / Operations | Open |
 | Exact visual copy, placement, and return-state UI for handoff among `INSTRUCTIONS-DETAIL`, `PAYMENT-PROFILE-ROOT`, and DOC-09 checkout. Route direction is clarified in `docs/diagrams/routes/payplus-instructions-route-map.md` and `docs/diagrams/routes/payplus-payment-profile-route-map.md`. | Product / Payments / Security | Open |
 | Exact user-facing notification/message/CTA wording and semantics, plus timing, delivery, eligibility, and current action availability for Payment Instruction action alerts | DOC-07 for wording and CTA semantics; DOC-08 for timing, delivery, eligibility, and current action availability; Product / Payments as applicable | Open |
 
@@ -1150,7 +957,7 @@ The route manages reusable payment setup objects. It is not checkout, not a wall
 | Primary owner | DOC-06B owns route shell, entry points, major screens, route handoff, and high-level user actions. |
 | Payment owner | DOC-09 owns actual checkout selection, payment quote, split-card allocation for a payment, authorization, funding-leg submission, and payment states. |
 | Security owner | DOC-19 owns PSP/acquirer tokenization, card-data security, PCI boundary, authentication, and token handling. |
-| Related owners | DOC-07 owns wording; DOC-08 owns notifications; DOC-13 owns card-linked benefit rules; DOC-15 owns masking/privacy; DOC-18 owns schema/events; DOC-22 owns admin controls. |
+| Related owners | DOC-07 owns wording; DOC-08 owns notifications; DOC-13 owns card-linked benefit rules; DOC-15 owns masking/privacy; DOC-18 owns schema/events; DOC-19 owns token/security controls. DOC-22 may execute only owner-permitted Admin configuration/workflows and owns no payment, card/profile or security policy. |
 
 #### 5.13.1 Route Structure
 
@@ -1206,7 +1013,7 @@ Card list items should show:
 
 A default card may be set for single-card checkout. It may be pre-selected in checkout, but the user must be able to change it before authorization.
 
-Removing or updating a card should show a confirmation prompt by default. Payment-passcode confirmation should be optional where the user enables it in user settings. Additional step-up may still apply where PSP/acquirer, risk, or security rules require it. Removal should be implemented as archive/soft delete, not hard deletion.
+Removing or updating a card should show a confirmation prompt by default. Payment-passcode confirmation should be optional where the user enables it in user settings. Additional step-up may still apply where PSP/acquirer, risk, or security rules require it. Removal should use a non-destructive inactive/archive marker; no hard deletion is introduced.
 
 #### 5.13.5 Profiles Tab
 
@@ -1304,13 +1111,13 @@ These signals support checkout-friction analysis, card/profile usability, suppor
 
 Activity is the event and lifecycle view of what happened in a user's PayPlus account. It is not the same as a receipt, statement, internal audit log, or bill/rent-specific activity timeline.
 
-DOC-06B owns the global Activity route shell. DOC-06C owns `BILLS-ACTIVITY` for one selected bill/rent record. DOC-08 owns receipt and statement communication. DOC-09, DOC-10, and DOC-11 own payment, payout, refund, reversal, and failure status meaning. DOC-18 owns final event taxonomy, IDs, schema, lineage, and analytics. DOC-22 owns admin operations and internal review history.
+DOC-06B owns the global Activity route shell. DOC-06C owns `BILLS-ACTIVITY` for one selected Bill/Rent source. DOC-08 owns receipt and statement communication. DOC-09, DOC-10 and DOC-11 own payment, payout, refund, reversal and failure meaning. DOC-18 owns final event taxonomy, IDs, schema, lineage, analytics and approved internal-review-history representation. DOC-22 owns permitted Admin operations only.
 
 | Field | Requirement |
 | --- | --- |
 | User-facing route label | `Activity` |
 | Product destinations | `ACTIVITY-ROOT`, `ACTIVITY-DETAIL` |
-| Purpose | Let a user review account-level financial activity across payer and payee roles. |
+| Purpose | Let a Payer review account-level financial activity for Bill/Rent Payments and related outcomes. |
 | Boundary | Activity lists events and lifecycle status. It must not become the receipt/statement file library, the bill/rent-specific timeline, or an internal audit log. |
 
 #### 5.14.1 Entry Points
@@ -1319,20 +1126,22 @@ DOC-06B owns the global Activity route shell. DOC-06C owns `BILLS-ACTIVITY` for 
 | --- | --- |
 | Dashboard Recent Activity arrow / View More | `ACTIVITY-ROOT` |
 | `ME-ROOT` / Activity row | `ACTIVITY-ROOT` |
-| Payment, payout, refund, return, or reversal notification | `ACTIVITY-DETAIL` where a specific transaction exists; otherwise `ACTIVITY-ROOT` |
-| Checkout or payment result where activity review is needed | `ACTIVITY-DETAIL` for the submitted transaction where available |
+| Payment, payout, refund, return, or reversal notification | `ACTIVITY-DETAIL` where a specific transaction exists; otherwise `ACTIVITY-ROOT`. A notification cannot bypass any required unsaved-source projection resolution. |
+| Checkout or Payment Result where activity review is needed | `ACTIVITY-DETAIL` for the submitted transaction where available, only after an existing saved/Active projection is retained or the owner-controlled Save resolver has made an otherwise unsaved source Active/reusable or history-only. |
 
 Bill/rent `View Activities` opens DOC-06C `BILLS-ACTIVITY`, not `ACTIVITY-ROOT`. `BILLS-ACTIVITY` stays contextual to one bill/rent record.
 
+Activity never offers Save. For a newly confirmed Payment linked to an otherwise unsaved source, Payment Result must resolve selected Save to same-ID Active/reusable or declined/skipped/dismissed Save to same-ID history-only before `ACTIVITY-ROOT` or `ACTIVITY-DETAIL` becomes the downstream destination. A source already saved/Active before Payment retains that projection without duplicate Save.
+
 #### 5.14.2 Root Views
 
-`ACTIVITY-ROOT` should use role-aware views:
+`ACTIVITY-ROOT` is a Payer-only account-level view. It does not provide a Payee role, receiving view, reciprocal visibility or participant navigation:
 
 | View | Meaning |
 | --- | --- |
-| `All` | Mixed payer and payee account-level financial activity. |
-| `Paid` | User acted as payer or funded a payment. |
-| `Received` | User acted as payee/recipient and received or expects transfer/payout visibility. |
+| `All` | Payer account-level Bill/Rent Payment activity and related outcomes. |
+| `Paid` | Payer-submitted or Payer-authorized Payment activity. |
+| Retired identifier lineage | Request, Linking or receiving identifiers remain non-active documentation evidence only; no runtime or active view is created. |
 
 Refunds, reversals, returns, failures, and rejected outcomes should appear in the relevant view with mapped status labels. They should not have a separate top-level MVP view unless later product usage justifies it.
 
@@ -1343,7 +1152,7 @@ Refunds, reversals, returns, failures, and rejected outcomes should appear in th
 Recommended screen order:
 
 1. Header: `Activity`.
-2. Segmented views: `All`, `Paid`, `Received`.
+2. Payer activity view: `All` and `Paid` as applicable to the current product surface.
 3. Optional search or filter row if enabled.
 4. Activity list, newest first, grouped by date where useful.
 5. Empty state where no activity exists.
@@ -1353,19 +1162,18 @@ Each collapsed activity entry should show:
 | Field | Requirement |
 | --- | --- |
 | Date | Activity or transaction date. |
-| Rent / bill / fee name | Linked obligation, payment, or activity name. |
-| Payee / payer name | Counterparty name, role-aware and masked where required. |
-| Amount | Display as positive or negative to show debit/credit direction. |
+| Rent / bill / fee name | Authoritative Bill/Rent source name or, where the entry is owned at another layer, the linked Payment Obligation, Payment or activity name. |
+| Payee name | Intended or matched Payee name, masked where required. |
+| Amount | Display the Payer-side amount and applicable outcome direction. |
 | Status | User-facing mapped status from `docs/traceability/status-display-reference-matrix.md`. |
 
 Amount direction should follow the user's account perspective:
 
 | Scenario | Display Direction |
 | --- | --- |
-| User paid as payer | Negative amount, such as `-HK$8,000`. |
-| User received as payee | Positive amount, such as `+HK$8,000`. |
-| Refund returned to payer | Positive amount. |
-| Return, reversal, or adjustment | Direction should follow the actual user account impact and mapped status. |
+| User paid as Payer | Payment amount and mapped outcome direction. |
+| Refund returned to Payer | Refund amount and mapped outcome direction. |
+| Return, reversal, or adjustment | Direction follows the Payer account impact and mapped status. |
 
 Interaction behavior:
 
@@ -1407,7 +1215,7 @@ One transaction should normally appear as one activity entry. Payment, settlemen
 - bill/rent/fee/payment name;
 - counterparty;
 - amount with positive/negative direction from the user's account perspective;
-- role/action label: `Paid` or `Received`;
+- payer action/outcome label, such as `Paid`, where applicable;
 - user-facing status from the status display reference matrix;
 - linked bill/rent detail where applicable;
 - masked payment method summary where allowed;
@@ -1438,7 +1246,7 @@ Route exit and return behavior:
 
 The detail screen may show lifecycle milestones, but it must not expose raw backend status names as user-facing labels. Timeline wording should follow the status display reference matrix and the owning domain documents.
 
-The Activity detail route should not display a linked request as the main context after a request has become an accepted bill/rent/payment context. If a request is relevant for support or audit, that relationship belongs in system records and controlled detail views, not the default activity list.
+The Activity detail route displays the current Bill/Rent and Payment context. Retired Request or Linking identifiers remain non-active documentation lineage only and are not an Activity context, runtime reader or navigation surface.
 
 #### 5.14.5 Data and Intelligence Signals
 
@@ -1461,7 +1269,7 @@ Material route signals include:
 
 Receipt is a transaction confirmation record for a completed transaction. Statement is a periodic or account-level summary record. Activity is the event/lifecycle view and remains separate.
 
-DOC-06B owns the route, list, search, preview handoff, and entry points. DOC-08 owns receipt/statement content, notification, delivery, and re-issue communication. DOC-15 owns masking, retention, and privacy access. DOC-18 owns final document IDs, file metadata, versioning schema, lineage, and audit events. DOC-22 owns admin re-issue and correction operations.
+DOC-06B owns the route, list, search, preview handoff, and entry points. DOC-08 owns receipt/statement content, notification, delivery, and re-issue communication. The applicable Payment, Payout, refund/dispute and Finance owners determine transaction-document truth and permitted correction or re-issue outcomes. DOC-15 owns masking, retention and approved-purpose access. DOC-18 owns final document IDs, file metadata, versioning representation, lineage and audit events. DOC-22 may execute only an explicitly owner-permitted correction or re-issue workflow and cannot rewrite immutable financial facts.
 
 | Field | Requirement |
 | --- | --- |
@@ -1482,6 +1290,8 @@ DOC-06B owns the route, list, search, preview handoff, and entry points. DOC-08 
 | `ACTIVITY-DETAIL` receipt action | Direct file download or `RECEIPT-DETAIL` where an in-app PDF preview is needed |
 | `ACTIVITY-DETAIL` proof action | Direct file download for MVP |
 | DOC-06C `BILLS-ACTIVITY-DETAIL` receipt/proof action | Direct file download by default |
+
+Receipt and statement routes do not offer Save and cannot bypass Payment Result projection resolution. A receipt or statement entry associated with a newly confirmed Payment for an otherwise unsaved source is a downstream destination only after the owner-controlled resolver makes the source Active/reusable or history-only; an already saved/Active source retains its projection.
 
 #### 5.15.2 Root Screen and Views
 
@@ -1515,7 +1325,7 @@ Receipt items should show:
 - bill/fee/rent name;
 - counterparty;
 - amount;
-- role indicator `Paid` or `Received`;
+- payer action/outcome indicator, such as `Paid`;
 - `View` button;
 - `Download` button.
 
@@ -1551,8 +1361,8 @@ If a receipt or statement is wrong, replaced, or re-issued:
 - prior versions must be retained where required for audit, tax, support, and dispute handling;
 - version number or issue timestamp should be stored;
 - affected users should be notified where material;
-- admin workflow and re-issue controls belong in DOC-22;
-- final document metadata, lineage, versioning, and retention schema belong in DOC-18;
+- explicitly permitted Admin workflow and re-issue execution belongs in DOC-22; transaction-document truth and permitted correction/re-issue outcomes remain with the applicable Payment, Payout, refund/dispute and Finance owners;
+- final document metadata, lineage and versioning representation belong in DOC-18, while DOC-15 owns retention governance and requirements and DOC-18 represents those approved requirements in the data model;
 - notification and wording rules belong in DOC-08.
 
 #### 5.15.7 Open Items
@@ -1561,7 +1371,7 @@ If a receipt or statement is wrong, replaced, or re-issued:
 | --- | --- | --- |
 | Final Activity visual styling, field density, search/filter behavior, grouping behavior, and empty-state copy | Product / Design | Open |
 | Final receipt/statement PDF layout, visual design, export naming, and sharing controls | Product / Design / Finance / Legal | Open |
-| Final receipt/statement re-issue policy and admin workflow | Product / Finance / Operations / DOC-22 | Open |
+| Final receipt/statement correction/re-issue policy and permitted Admin workflow | Applicable Payment, Payout, refund/dispute and Finance owners for truth and permitted outcomes; DOC-21 for operations; DOC-22 for owner-permitted execution only | Open |
 
 ### 5.16 Offers and Rewards Routes
 
@@ -1652,7 +1462,7 @@ All three child collection screens use this shared behavior:
 
 Child-list ordering controls discovery position only. After mandatory approval, display-period, market, privacy, consent, targeting, compliance, and enablement gates, apply collection-specific admin pinning/priority, permitted personalization within that priority band, and then a deterministic fallback. Preserve the resulting order during the browsing session. Child lists do not randomize or provide user sorting for MVP; the limited root Card Offers carousel remains a separate placement behavior.
 
-Label-filter values for Pay+ and Partner Offers remain open. Each relevant offer must carry one or more approved category/label references so filtering can be supported. DOC-13 owns the business metadata requirement, DOC-18 owns final schema, and DOC-22 owns label administration and placement controls.
+Offer label-filter values for Pay+ Offers and Partner Offers remain open. This concerns Offer filtering only and does not reopen the settled four-action `PAYPLUS-ACTION-SHEET` labels, order or destinations. Each relevant offer must carry one or more approved category/label references so filtering can be supported. DOC-13 owns the business metadata requirement, DOC-18 owns final schema, and DOC-22 owns label administration and placement controls.
 
 Back from a collection route returns to `OFFERS-ROOT` at the originating section and prior scroll position. Back from `OFFERS-ROOT` returns to the prior app context where one exists; otherwise it returns to Home.
 
@@ -1807,13 +1617,13 @@ Claim submission must prevent duplicate taps and present only transient progress
 
 ##### Referral Reward Status Presentation
 
-Normal user-facing labels are `Available to Claim`, `Issued`, `Expired`, and `Reversed`. `Under Review` is not a normal list tab or claim-processing state. If an administrator explicitly holds an already-claimed entitlement or issued reward, the item remains in `History`, becomes visually inactive, and may display `Under Review` until resolved. Internal processing and review reasons must not be exposed.
+Normal user-facing labels are `Available to Claim`, `Issued`, `Expired`, and `Reversed`. `Under Review` is not a normal list tab or claim-processing state. If a DOC-13 or other applicable formal-owner outcome requires an already-claimed entitlement or issued reward to be held, the item remains in `History`, becomes visually inactive, and may display `Under Review` until resolved; DOC-22 may execute only the owner-permitted handling. Internal processing and review reasons must not be exposed.
 
 #### 5.16.6 Placement, Control, and Data Boundaries
 
 DOC-13 owns campaign, offer, qualification, entitlement, benefit, instrument, redemption, stacking, budget, quota, reversal, and fulfilment logic. DOC-06B owns only the route presentation and handoffs defined here.
 
-DOC-22 should later define admin controls for offer approval, placement, priority, scheduling, targeting, enable/disable, category/label filters, and exception handling. Dashboard What's New administration remains a separate placement concern. DOC-15 owns consent, permitted personalization, masking, and partner-data boundaries. Sensitive evidence-derived data must not be used for offer targeting unless expressly approved under DOC-15.
+DOC-22 should later define only the permitted execution controls for owner-approved Offer placement, priority, scheduling, targeting, enable/disable, Category/label filters and exception handling; DOC-13 and the applicable product/commercial owners retain Offer approval and business truth. Dashboard What's New administration remains a separate placement concern. DOC-15 owns consent, permitted personalization, masking, and partner-data boundaries. Sensitive evidence-derived data must not be used for offer targeting unless expressly approved under DOC-15.
 
 Material route-level signals for later DOC-18 specification include offer impression, search/filter use, offer open, claim attempt/result, reward open, use action, checkout handoff, referral handoff, referral share action, registration attribution, qualification outcome, entitlement availability, referral claim/issuance result, external fulfilment handoff, and return outcome. A share action is not proof of delivery or recipient identity. DOC-18 owns final event IDs, schema, lineage, analytics, and model-use metadata.
 
@@ -1822,24 +1632,24 @@ Material route-level signals for later DOC-18 specification include offer impres
 | Item | Owner | Status |
 | --- | --- | --- |
 | Final My Rewards icon | Product / Design | Open; user-facing label confirmed |
-| Final Pay+ and Partner Offer label taxonomy and launch visibility | Product / Growth / Design | Open |
+| Final Offer label taxonomy and launch visibility for Pay+ Offers and Partner Offers; this does not change the settled Pay+ action composition | Product / Growth / Design | Open |
 | Final offer/reward card styling, density, and empty-state copy | Product / Design | Open |
 | Final personalized ranking and targeting scope | Product / Growth / Privacy | Open |
 | Final membership-program route destination | Product / Growth | Open |
 | Final launch partner activation, credential, fulfilment, and reconciliation method for each external reward | Product / Commercial / Operations / Engineering | Open; launch capability confirmed |
-| Final referral campaign reward values, qualification conditions, payment/risk finality, technical deeplink/QR format, and multi-campaign visual design | Product / Growth / Risk / Design / Engineering | Open; admin-configurable baseline defined |
+| Final referral campaign reward values, qualification conditions, payment/risk finality, technical deeplink/QR format, and multi-campaign visual design | Product / Growth / Risk / Design / Engineering | Open; owner-approved, Admin-executable configuration baseline defined |
 
 ### 5.17 Me Route
 
 #### 5.17.1 Route Definition
 
-`ME-ROOT` is the permanent mixed-role account and user-control destination opened by the bottom-navigation `Me` button. It must remain present for MVP and must not be hidden, disabled, or replaced by `More`.
+`ME-ROOT` is the permanent Payer-only Consumer User account and control destination opened by the bottom-navigation `Me` button. It must remain present for MVP and must not be hidden, disabled, or replaced by `More`.
 
 | Field | Definition |
 | --- | --- |
 | Route ID | `ME-ROOT` |
 | Type | Top-level root route |
-| Role | Mixed; one account may act as payer, payee, or both |
+| Role | Payer-only Consumer User |
 | Purpose | Let users view account information and reach account controls, records, settings, preferences, support, and established feature routes. |
 | Primary owner | DOC-06B |
 | Boundary | `ME-ROOT` is not a dashboard, inbox, payment/checkout route, wallet, balance screen, or owner of the feature behavior it links to. |
@@ -1851,11 +1661,11 @@ The route uses a vertically grouped settings-style list. It does not use payer/p
 The MVP screen order is:
 
 1. **Header** - title `Me`; no Back button when opened through bottom navigation.
-2. **Action Required** - compact banner for account, identity-verification, security, or Receiving Info issues only; hidden when empty.
+2. **Action Required** - compact banner for account, identity-verification, or security issues only; hidden when empty.
 3. **Account Information** - masked account summary; opens `ACCOUNT-PROFILE`.
 4. **Security & Privacy** - `Login & Security` opens `ACCOUNT-SECURITY`; `Privacy & Data` opens `PRIVACY-DATA-CONTROLS`.
 5. **Bills & Tenancies** - opens `BILLS-ROOT` without moving Bills ownership into Me.
-6. **Payments & Records** - Payment Profile, Receiving Info, Activity, Receipts & Statements, and Archived Records.
+6. **Payments & Records** - Payment Profile, Activity, Receipts & Statements, and Archived Records. Archived Records opens the active Payer-only `ARCHIVED-ROOT`; `ARCHIVED-DOCS-LIST` is not an active user-facing row or entry. Retired Receiving Info identifiers remain non-active documentation lineage only.
 7. **Rewards & Programs** - `My Rewards` opens `REWARDS-ROOT`; Membership remains hidden until its destination and launch behavior are defined and enabled.
 8. **Referral Program** - opens `REFERRAL-ROOT` as a separate program area.
 9. **Preferences & Settings** - Notification Settings, Language, and Theme.
@@ -1871,20 +1681,17 @@ The following register defines the new or newly confirmed Me destinations. Estab
 
 | Destination | Parent / Entry Context | Type | Purpose | Primary Route Owner | Definition Status |
 | --- | --- | --- | --- | --- | --- |
-| `ME-ROOT` | Bottom navigation | Root route | Permanent mixed-role account, records, settings, preferences, and support entry. | DOC-06B | Route shell defined; visual design pending |
+| `ME-ROOT` | Bottom navigation | Root route | Permanent Payer account, records, settings, preferences, and support entry. | DOC-06B | Route shell defined; visual design pending |
 | `ACCOUNT-PROFILE` | `ME-ROOT` Account Information | Child route | View permitted account/profile information, identity-verification status, controlled contact changes, and account closure. | DOC-06B | Route behavior defined; final visual design pending |
 | `PHONE-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Verify or replace the account's primary phone number; Account Activation may invoke initial verification contextually. | DOC-06B | Defined behavior baseline; technical security constants pending |
-| `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Complete first-time verification, resume processing, retry after failure, or respond to an admin-required update; Account Activation may invoke the same flow contextually. | DOC-06B | Defined behavior baseline; provider mapping pending |
+| `IDENTITY-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable controlled flow | Complete first-time verification, resume processing, retry after failure, or respond to an identity/security-owner-required update executed through a permitted Admin workflow; Account Activation may invoke the same flow contextually. | DOC-06B | Defined behavior baseline; provider mapping pending |
 | `ACCOUNT-SECURITY` | `ME-ROOT` Security & Privacy | Child route | Manage enabled login methods, password setup/change, payment-passcode entry, permitted two-step verification, biometric unlock, trusted devices, and recovery/support entry. | DOC-06B | Route behavior defined; final visual design pending |
 | `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` Payment Passcode | Reusable child flow | Set, change, or reset the payment passcode and manage the optional passcode-confirmation preference for card/payment-profile changes; Account Activation may invoke Set contextually. | DOC-06B | Defined behavior baseline; technical security controls pending |
-| `PRIVACY-DATA-CONTROLS` | `ME-ROOT` Security & Privacy | Child route | Manage approved privacy choices, access/export, correction, retention/deletion requests, and request history. | DOC-06B | Route behavior defined; legal/provider detail pending |
-| `RECEIVING-INFO` | `ME-ROOT` Payments & Records | Child route / route family | Manage the user's private reusable receiving-information profiles. | DOC-06B | Route behavior defined; final visual design pending |
-| `RECEIVING-INFO-LIST` | `RECEIVING-INFO` | Initial list screen | Display saved receiving-information cards and entry to add another profile. It renders immediately when the route opens and is not an additional navigation hop. | DOC-06B | Screen behavior defined; final visual design pending |
-| `RECEIVING-INFO-DETAILS` | `RECEIVING-INFO-LIST` | Child detail route | View one masked receiving-information profile, its readiness, linked-context references, and permitted actions. | DOC-06B | Screen behavior defined; final visual design pending |
-| `RECEIVING-INFO-SETUP` | `RECEIVING-INFO`, `RECEIVING-INFO-DETAILS`, or approved request context | Child setup flow | Add or edit one receiving-information profile, including method-specific fields, review, proof where required, confirmation, and return. | DOC-06B | Flow behavior defined; method/provider details pending |
-| `ARCHIVED-ROOT` | `ME-ROOT` Payments & Records | Child root route | Enter the account archive area for archived obligations and archived/previous evidence documents. | DOC-06B | Defined baseline; final visual design pending |
-| `ARCHIVED-BILLS-LIST` | `ARCHIVED-ROOT` | Child list screen | Search, filter, and review the user's archived bill/fee and rent obligations. | DOC-06C | Defined baseline; final visual design pending |
-| `ARCHIVED-DOCS-LIST` | `ARCHIVED-ROOT` | Child list screen | Search, filter, and review archived or previous evidence documents under controlled access. | DOC-06B | Defined baseline; final visual design pending |
+| `PRIVACY-DATA-CONTROLS` | `ME-ROOT` Security & Privacy | Child route | Manage approved privacy choices, access/export, correction, privacy requests, and request history without changing indefinite record retention. | DOC-06B | Route behavior defined; legal/provider detail pending |
+| `RECEIVING-INFO` and child identifiers | Non-active documentation lineage | Retired stable identifiers only | Preserve prior actor-role meaning in append-only documentation history; no Consumer Payee profile library, runtime reader, add/edit flow or Request-context entry is defined. | DOC-06B | Retired active behavior |
+| `ARCHIVED-ROOT` | `ME-ROOT` Payments & Records / Archived Records | Child root route | Active Payer-only Archive parent for archived saved-source projections; route access is retained while final visual design and detailed future Archive/Restore behavior remain deferred. | DOC-06B | Active Payer-only route baseline; final visual design open |
+| `ARCHIVED-BILLS-LIST` | `ARCHIVED-ROOT` Archived Bills &amp; Rent | Child route | Active Payer-visible list of the Archived projection of previously saved/Active Bill/Rent sources; detailed Bills/Rent contents and UX remain with DOC-06C. | DOC-06C | Active route and accessibility retained; detailed UX owned by DOC-06C |
+| `ARCHIVED-DOCS-LIST` | `ARCHIVED-ROOT` | Provisional child route identity | Stable route identity for a possible archived-document projection; exact contents, presentation and interaction remain deferred to DOC-06B/DOC-06C with DOC-10 payout/reconciliation blockers, DOC-11 refund/dispute/chargeback/case blockers and DOC-12/DOC-15/DOC-18 Evidence, privacy/retention and data/lineage handoffs. | DOC-06B | Provisional identity only; behavior deferred |
 | `NOTIFICATION-SETTINGS` | `NOTIFICATION-ROOT`; direct entry from `ME-ROOT` Preferences & Settings | Child route | Manage permitted notification-channel and communication preferences. | DOC-06B / DOC-08 | Defined baseline; final visual design pending |
 | `SUPPORT-ROOT` | `ME-ROOT` Help & Support | Root route | Enter the user support area. | DOC-06B | Purpose defined; detailed UI pending |
 | `ABOUT-ROOT` | `ME-ROOT` About PayPlus | Root route | View PayPlus and app information. | DOC-06B | Purpose defined; content and detailed UI pending |
@@ -1907,19 +1714,11 @@ Domain rules and content remain with the reference owners named in Sections 5.17
 | `PRIVACY-DATA-CONTROLS` | Change notification channels | `NOTIFICATION-SETTINGS` | Return with the channel-preference summary refreshed. |
 | Bills & Tenancies | Tap row | `BILLS-ROOT` | Return to the same Me position; Bills retains its own route state. |
 | Payments & Records | Tap Payment Profile | `PAYMENT-PROFILE-ROOT` | Return with refreshed card/profile data and prior Me position preserved. |
-| Payments & Records | Tap Receiving Info | `RECEIVING-INFO`, rendering `RECEIVING-INFO-LIST` | Return with the list state refreshed and prior Me position preserved. |
-| `RECEIVING-INFO-LIST` | Tap `+` | `RECEIVING-INFO-SETUP` in add mode | Save returns to the refreshed list; Cancel returns without creating a profile. |
-| `RECEIVING-INFO-LIST` | Tap a `RECEIVING-INFO-CARD` | `RECEIVING-INFO-DETAILS` | Back returns to the same list position and card state. |
-| `RECEIVING-INFO-LIST` | Swipe left on a card | Reveal trailing `Edit` and `Archive` contextual actions | Swipe right, tap outside, or open another card to restore the normal card state. |
-| `RECEIVING-INFO-DETAILS` | Tap `Edit` | `RECEIVING-INFO-SETUP` in edit mode | Save creates a new retained version and returns with refreshed details; Cancel preserves the current version. |
-| Approved request or bill/rent context | Add or select receiving information | `RECEIVING-INFO` or `RECEIVING-INFO-SETUP` as required | Completion returns to the originating context without exposing the user's other saved profiles to the payer. |
 | Payments & Records | Tap Activity | `ACTIVITY-ROOT` | Return with the prior Me position preserved. |
 | Payments & Records | Tap Receipts & Statements | `RECEIPTS-ROOT` | Return with the prior Me position preserved. |
-| Payments & Records | Tap Archived Records | `ARCHIVED-ROOT` | Return with the prior Me position preserved. |
-| `ARCHIVED-ROOT` | Tap Archived Bills & Rent | `ARCHIVED-BILLS-LIST` | Return with the archive-root position preserved. |
-| `ARCHIVED-ROOT` | Tap Archived Documents | `ARCHIVED-DOCS-LIST` | Return with the archive-root position preserved. |
-| `ARCHIVED-DOCS-LIST` | Tap an archived-document entry | Open the route-local read-only document preview | Close/Back restores list position, search, and filters. |
-| Archived-document preview | Tap View Linked Bill/Rent where permitted | Applicable `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` | Back restores the same archived-document preview and list state. |
+| Payments & Records | Tap Archived Records | `ARCHIVED-ROOT` | Back returns to the prior Payments & Records position in `ME-ROOT`. |
+| `ARCHIVED-ROOT` | Tap Archived Bills &amp; Rent | `ARCHIVED-BILLS-LIST` | Back returns to the prior `ARCHIVED-ROOT` position. |
+| `ARCHIVED-ROOT` | `ARCHIVED-DOCS-LIST` | Provisional child identity relationship only; exact archived-document contents, presentation and interaction remain deferred. | No user-facing action or return contract is defined here. |
 | Rewards & Programs | Tap My Rewards | `REWARDS-ROOT` | Return with prior Rewards state and Me origin preserved. |
 | Referral Program | Tap row | `REFERRAL-ROOT` | Return with prior Referral state and Me origin preserved. |
 | Preferences & Settings | Tap Notification Settings | `NOTIFICATION-SETTINGS` | Return with updated preference summaries. |
@@ -1935,10 +1734,10 @@ Dashboard shortcuts and `ME-ROOT` may both link to an established route. The sho
 
 ##### 5.17.4.1 Shared Child-Route Rules
 
-- `ACCOUNT-PROFILE`, `ACCOUNT-SECURITY`, and `PRIVACY-DATA-CONTROLS` are mixed-role account routes; they do not use payer/payee tabs.
+- `ACCOUNT-PROFILE`, `ACCOUNT-SECURITY`, and `PRIVACY-DATA-CONTROLS` are Payer account routes; they do not use payer/payee tabs.
 - Normal authenticated entry shows only permitted masked information and does not require payment-passcode entry merely to open a route.
-- Revealing approved masked sensitive values in a prominent account or Receiving Info surface requires the existing PayPlus payment passcode or approved reauthentication, with stronger step-up where DOC-14, DOC-15, DOC-19, or provider rules require it.
-- Changing existing sensitive identity, contact, security, credential, or receiving information requires payment passcode or approved reauthentication before the route-specific OTP, provider, review, or confirmation steps. First-time identity verification invoked during `ACCOUNT-ACTIVATION` does not require a payment passcode that the user may not yet have created.
+- Revealing approved masked sensitive values in a permitted current account context requires the existing PayPlus payment passcode or approved reauthentication, with stronger step-up where DOC-14, DOC-15, DOC-19, or provider rules require it.
+- Changing existing sensitive identity, contact, security or credential information requires payment passcode or approved reauthentication before the route-specific OTP, provider, review, or confirmation steps. Payer-entered destination facts are changed only through the applicable Bill/Rent journey and owner controls. First-time identity verification invoked during `ACCOUNT-ACTIVATION` does not require a payment passcode that the user may not yet have created.
 - Ordinary evidence, invoice, receipt, statement, and payment-proof viewing or downloading within an authenticated permitted context does not require an extra passcode or step-up solely because the document is opened or downloaded.
 - Payment-passcode confirmation does not make every stored field revealable. Passwords, payment passcodes, identity documents, provider payloads, secrets, raw credentials, evidence content, unrestricted audit data, and internal risk reasons remain unavailable.
 - Revealed information must re-mask on route exit, app backgrounding, session expiry, or the future configured reveal timeout.
@@ -1983,36 +1782,36 @@ For phone replacement, the old phone remains authoritative until the full sequen
 
 ###### `IDENTITY-VERIFICATION`
 
-The flow supports first-time verification, resuming incomplete provider capture, provider processing, retry after `Failed`, an admin-required `Update Required` response, and read-only status confirmation when `Verified`.
+The flow supports first-time verification, resuming incomplete provider capture, provider processing, retry after `Failed`, an identity/security-owner-required `Update Required` response executed through a permitted Admin workflow, and read-only status confirmation when `Verified`.
 
 | Screen | Required elements | Behavior |
 | --- | --- | --- |
 | Status and introduction | Back, title, current approved status, purpose, provider disclosure, privacy link, preparation requirements | Present only approved user-facing status and safe guidance. |
 | Review and consent | Information categories, provider handoff explanation, consent or acknowledgement | Record required consent/acknowledgement before external capture. |
-| Provider handoff | Approved Jumio or equivalent capture flow | Preserve origin, attempt, and correlation references without copying raw provider payload into route analytics. |
+| Provider handoff | The selected identity-verification provider's approved or equivalent capture flow, with provider selection subject to the applicable formal owner | Preserve origin, attempt, and correlation references without copying raw provider payload into route analytics. |
 | Processing return | `Processing`, safe Close, View Status | Returning from the provider means submitted/processing, not successful verification; prevent duplicate submission. |
 | Result | Approved status, safe explanation, applicable action | Use the mapping below and return to the invoking parent with refreshed state. |
 
 | User-facing status | System meaning | User action |
 | --- | --- | --- |
-| `Not Verified` | Verification has not started, capture is incomplete, or an authorized admin reset the status. | `Verify Now` or `Continue Verification`. |
+| `Not Verified` | Verification has not started, capture is incomplete, or an identity/security-owner-permitted Admin workflow executed the reset. | `Verify Now` or `Continue Verification`. |
 | `Processing` | Submission was acquired and the authoritative provider result or PayPlus policy decision is pending. | `View Status`; no duplicate submission. |
 | `Verified` | Authoritative provider result and PayPlus policy checks passed. | No verification action. |
 | `Failed` | Provider verification or a PayPlus policy check failed, including duplicate identity. | `Verify Again` and `Get Help`, subject to retry controls. |
-| `Update Required` | An authorized admin review requires updated information. | `Update Verification`. |
+| `Update Required` | An applicable identity/security-owner outcome, executed through a permitted Admin review workflow, requires updated information. | `Update Verification`. |
 
 First-time verification from Account Activation requires an authenticated restricted account but no pre-existing payment passcode. Returning from the provider does not prove success: an authoritative callback or retrieval plus PayPlus policy checks sets the final state. A duplicate identity fails PayPlus policy even if it is not a provider failure; safe copy may state that the identity is registered with another PayPlus account without exposing account details.
 
-Once `Verified`, a user cannot voluntarily correct or repeat identity verification. An authorized administrator may set the status to `Not Verified` or `Update Required` under DOC-22 controls but cannot directly set `Verified`; `Verified` to `Not Verified` requires dual approval for MVP. Admin-required update may require payment passcode or approved reauthentication before new provider capture.
+Once `Verified`, a user cannot voluntarily correct or repeat identity verification. Where the applicable identity/security owner permits it, an authorized administrator may execute a transition to `Not Verified` or `Update Required` through DOC-22 controls but cannot directly set `Verified`; `Verified` to `Not Verified` requires the existing dual-approval control for MVP. An owner-required update may require payment passcode or approved reauthentication before new provider capture.
 
-While processing, Home shows a dismissible banner below the header with `View Status`. A successful result shows a dismissible completion banner. `Failed` or `Update Required` shows an Action Required banner. Dismissal changes presentation only, not the underlying state or activation gate. Exact provider-result-to-PayPlus mapping remains TBC until provider selection and is owned by DOC-17, DOC-18, and DOC-22. Account Information never shows legal name, ID reference, identity attributes, identity documents, provider payloads, or internal risk reasons.
+While processing, Home shows a dismissible banner below the header with `View Status`. A successful result shows a dismissible completion banner. `Failed` or `Update Required` shows an Action Required banner. Dismissal changes presentation only, not the underlying state or activation gate. Exact provider-result-to-PayPlus mapping remains TBC until provider selection and belongs to DOC-17 integration, DOC-18 status/data representation and DOC-19 security ownership; DOC-22 executes only any permitted Admin handling. Account Information never shows legal name, ID reference, identity attributes, identity documents, provider payloads, or internal risk reasons.
 
-Account closure remains a controlled Account Information flow, not a Privacy & Data action and not immediate deletion. It must:
+Account closure remains a controlled Account Information flow, not a Privacy & Data action and not record destruction. It must:
 
-1. explain the loss of future payment, request, and account activity and continuing record-retention duties;
+1. explain the loss of future payment and account activity and continuing record-retention duties;
 2. check unresolved instructions, payments, payouts, refunds, disputes, chargebacks, investigations, reviews, and legal/compliance holds;
 3. require payment passcode plus 2FA;
-4. create a closure request and confirmation record;
+4. create an account-closure submission and confirmation record;
 5. allow cancellation until operational finalization begins;
 6. on completion, block new activity, terminate active sessions, notify verified channels, disable login, and retain required records.
 
@@ -2051,7 +1850,7 @@ Tapping Payment Passcode opens `PAYMENT-PASSCODE-SETTINGS`. Account Activation o
 
 The passcode is a masked six-digit numeric secret. Entries clear when the app backgrounds, the session expires, or the route closes. A mismatch saves neither entry. Cancel Set leaves activation incomplete; Cancel Change or Reset preserves the current passcode. Existing passcodes are never displayed or recoverable. Unknown save results must be reconciled before another attempt.
 
-Email OTP alone is insufficient to reset a payment-authorizing passcode. If the registered phone is unavailable, the user enters controlled support-assisted recovery; its final proof and waiting-period rules remain TBC for DOC-19 and DOC-22. An administrator cannot read, select, retrieve, or reset a user's passcode.
+Email OTP alone is insufficient to reset a payment-authorizing passcode. If the registered phone is unavailable, the user enters controlled support-assisted recovery. DOC-19 owns recovery proof, factors, waiting-period and security policy; DOC-21 owns support/operations; DOC-15 owns approved-purpose privacy/access requirements; and DOC-22 executes only the permitted Support/Admin workflow under those owner decisions. An administrator cannot read, select, retrieve or reset a user's passcode.
 
 The card/payment-profile passcode preference defaults to ordinary confirmation. Enabling it may use ordinary confirmation; disabling it requires the current passcode or approved reauthentication. Setting a passcode does not authorize payment. DOC-09 still requires a fresh payment passcode before payment authorization. Successful Change and Reset generate mandatory security notifications under DOC-08. Weak-code rules, retries, lockout, hashing, storage, recovery factors, and session revocation remain with DOC-19.
 
@@ -2069,182 +1868,38 @@ The user-facing title is `Privacy & Data`. The MVP screen order is:
 2. Optional Data-Use Choices;
 3. Request My Data;
 4. Correct My Data;
-5. Retention and Deletion;
+5. Retention and Record Handling;
 6. Privacy-Request History;
 7. contextual link to account closure in `ACCOUNT-PROFILE`.
 
 Only genuine optional choices may use toggles. Launch-capable categories are direct marketing, personalization, and approved partner-data use, subject to final legal/privacy wording and enablement. Required account, service, payment, security, risk, fraud, compliance, tax, audit, dispute, and retention processing is explained but is not disableable.
 
-Notification-channel selection remains in `NOTIFICATION-SETTINGS`; Privacy & Data owns the underlying consent or approved-purpose choice. Directly editable profile fields hand off to `ACCOUNT-PROFILE`. Correction of KYC, verified, historical, payment, payout, or evidence data creates a governed correction request and preserves the original audit record. A verified identity may reopen `IDENTITY-VERIFICATION` only after an authorized admin sets `Update Required` or `Not Verified`; the user cannot initiate voluntary re-verification.
+Notification-channel selection remains in `NOTIFICATION-SETTINGS`; Privacy & Data owns the underlying consent or approved-purpose choice. Directly editable profile fields hand off to `ACCOUNT-PROFILE`. Correction of KYC, verified, historical, payment, payout, or Evidence data creates a governed correction request and preserves the original audit record. A verified identity may reopen `IDENTITY-VERIFICATION` only after an applicable identity/security-owner outcome permits an authorized Admin to execute `Update Required` or `Not Verified`; the user cannot initiate voluntary re-verification.
 
-Privacy-request history is a route-local section, not another route. User-facing request labels are `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete`; internal states and service timelines remain TBC. Completed exports use authenticated, time-limited in-app download after reauthentication and must not be attached to ordinary email. Account closure and deletion of eligible data remain separate processes.
+Privacy-request history is a route-local section, not another route. User-facing request labels are `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete`; internal states and service timelines remain TBC. Completed exports use authenticated, time-limited in-app download after reauthentication and must not be attached to ordinary email. Privacy requests and account closure remain separate processes, and neither destroys an underlying PayPlus record.
 
-#### 5.17.5 Payments, Receiving Info, and Archived Records
+#### 5.17.5 Payments, Historical Receiving Info, and Archived Records
 
-`ACTIVITY-ROOT` already shows account-level financial activity across payer and payee roles. No separate receiving-activity route is required.
+Consumer Receiving Info is retired from active MVP. Payer-entered destination facts remain inside the controlled Bill/Rent journey under DOC-10, DOC-12, DOC-14 and DOC-15. `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST` remain active Payer-only routes for archived saved-source projections; `ARCHIVED-DOCS-LIST` remains provisionally retained under the Founder-approved W2-FD-05 Option A decision with no active entry or interaction contract. Exact Restore, prior-version and Evidence-version contents and presentation remain deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs.
 
-`RECEIVING-INFO` has a different purpose: it is the user's private library of reusable receiving-information profiles. A profile is an efficient source for selecting a destination when the user acts as payee; it is not the only valid source of payout information and is not the payout source of truth. A payer may use a valid recipient destination supplied outside PayPlus, including where the payee is not a PayPlus user.
+`ACTIVITY-ROOT` remains the account-level Payer financial activity route. No separate receiving-activity route is active.
 
-The route should be available to eligible users because one account may act as payer, payee, or both. It is configuration, not transaction history, a wallet, a balance, a cashout feature, or a destination marketplace. Payers must not browse another user's saved profiles. A payer may see only the destination selected for a linked request, bill, rent, or payment context.
+#### 5.17.6 Non-Active Documentation Register - Retired Receiving and Archive IDs
 
-##### 5.17.5.1 Route and Screen Model
+| Retained identifier or record | Preservation location | Current treatment |
+| --- | --- | --- |
+| RECEIVING-INFO identifiers and retired mixed-role archive/document identifiers | Append-only documentation history and retired stable IDs only | No active Consumer Payee or Payer destination-library route or runtime reader; ARCHIVED-DOCS-LIST remains provisional under W2-FD-05 Option A while detailed Restore/prior-version/Evidence-version presentation is deferred |
+| Prior archive/document meanings | Append-only documentation history only | Does not define Restore, revalidation, version presentation, route, UI or replacement behavior |
 
-| Item | Rule |
-| --- | --- |
-| `RECEIVING-INFO` | Product route and entry destination from Me or an approved contextual flow. |
-| `RECEIVING-INFO-LIST` | Initial screen rendered by the route; no separate user action is required to enter it. |
-| `RECEIVING-INFO-CARD` | Reusable list component, not a route. |
-| `RECEIVING-INFO-DETAILS` | Child route for one saved profile. |
-| `RECEIVING-INFO-SETUP` | Child add/edit flow. |
 
-Each saved profile must have a stable receiving-info ID linked to the user. Multiple active profiles are allowed. Editing creates a new retained version; archiving removes the profile from the active list but does not hard-delete it or change any existing request, obligation, payment, or payout snapshot.
 
-##### 5.17.5.2 `RECEIVING-INFO-LIST`
-
-The screen order is:
-
-1. Header with Back and title `Receiving Info`.
-2. Action Required banner, hidden when empty.
-3. Saved `RECEIVING-INFO-CARD` list.
-4. `+` action opening `RECEIVING-INFO-SETUP`.
-5. Empty state with `Add Receiving Info`.
-
-Each card should show:
-
-- readiness status;
-- optional user-defined nickname;
-- recipient name;
-- receiving method, such as bank or FPS;
-- bank or provider name, which does not require masking;
-- masked account number or receiving identifier.
-
-Cards use the standard **swipe-to-reveal contextual actions** pattern, also called trailing swipe actions. Swipe left reveals `Edit` and `Archive`; swipe right, tapping outside, or opening another card restores the normal state. Only one card should expose actions at a time. `Archive` requires confirmation.
-
-##### 5.17.5.3 `RECEIVING-INFO-DETAILS`
-
-The detail route should show:
-
-1. readiness status;
-2. optional nickname;
-3. recipient name;
-4. receiving method;
-5. bank or provider name;
-6. masked account number or receiving identifier;
-7. linked bill/rent references where applicable;
-8. supporting-proof status where applicable;
-9. last-updated date;
-10. `Edit` and `Archive`.
-
-Linked bill/rent references are informational. Editing or archiving the profile must not bulk-update or invalidate those records. Normal detail display remains masked. Edit mode may show the permitted full current values needed for correction; saving creates a new profile version rather than rewriting history.
-
-Revealing permitted full current values or entering edit mode requires payment passcode or approved reauthentication. Opening the masked list or masked detail route does not.
-
-##### 5.17.5.4 `RECEIVING-INFO-SETUP`
-
-The add/edit flow is:
-
-1. Select an enabled receiving method.
-2. Enter method-specific details, including recipient name and the applicable bank, account, FPS, cheque, EPS, or future approved fields.
-3. Review a masked destination summary and ownership declaration.
-4. Run configured name matching, AI-assisted checks, and rule checks.
-5. Upload supporting proof where a third-party personal account, company account, mismatch, or risk rule requires it.
-6. Complete payment-passcode or approved reauthentication, plus any risk- or provider-required step-up.
-7. Confirm and save.
-8. Return to `RECEIVING-INFO` or the originating request/bill context with refreshed status.
-
-AI or text matching may support review but must not be represented as bank validation. Exact method fields, provider checks, proof requirements, confidence thresholds, and review operations belong to DOC-10, DOC-12, DOC-14, DOC-18, DOC-19, and DOC-22.
-
-##### 5.17.5.5 Readiness and Action Rules
-
-| Condition | User-Facing Handling |
-| --- | --- |
-| Recipient name matches the user's verified identity under configured matching rules | `Ready to Receive`; this means PayPlus profile checks passed, not that the bank independently validated the account. |
-| Third-party personal or company account requires proof/review | `Under Review`. |
-| Review is approved | `Ready to Receive`. |
-| Proof is missing/rejected, or a destination-attributable payout failure requires correction | `Action Required`. |
-| Profile is archived | Hidden from the active list and retained as `Archived`. |
-| Bank, rail, or system failure is transient and not attributable to the destination | Do not change profile readiness; keep the failure on the payout transaction. |
-
-Internal risk, provider, and review reasons must not be displayed. Action Required should show only the permitted correction or support action.
-
-##### 5.17.5.6 Request, Obligation, and Payment Boundary
-
-Selecting a saved profile for a request, bill, rent, or payment must create a separate versioned destination snapshot for that context. The profile, obligation snapshot, and payment/payout snapshot are distinct records.
-
-- A payee-created request must select a destination before sending. Only the selected destination is disclosed to the payer.
-- Before payer acceptance, the payee may change the selected destination and send the latest request version.
-- After payer acceptance, the payee cannot silently replace the destination. A changed destination requires a new request and new bill/rent record, which may link to the same evidence. The prior record is not auto-archived.
-- A payer-created record with no linked PayPlus payee may use or change a valid destination without a request or payee handling, subject to normal recipient, evidence, payout, risk, compliance, and authorization checks.
-- Where a payer-created record is linked to a PayPlus payee, the payer may change the destination without payee approval. The payee must be notified and may be offered a controlled option to review and save that destination to Receiving Info.
-- A payer-selected destination that differs from an accepted payee-created request must not rewrite the accepted request. It is recorded separately on the payer's bill/payment context, shown to the payer before authorization, and notified to the linked payee.
-- Payment authorization freezes the destination snapshot for that payment. A change after authorization requires renewed payer authorization and must not silently redirect the payout.
-- Editing or archiving a source profile never changes an accepted request, existing obligation, authorized payment, or payout snapshot.
-
-The accepted-request destination and any later payer-selected destination must remain traceable. DOC-06A owns journey lifecycle, DOC-06C owns Bills/rent implementation, DOC-09 owns authorization, and DOC-10 owns destination and payout rules.
-
-##### 5.17.5.7 Archive Route Family
-
-`ARCHIVED-ROOT`, labelled `Archived Records`, is a compact Me child hub for two different retained object types. It shows two permanent rows in this order:
-
-1. `Archived Bills & Rent`, opening `ARCHIVED-BILLS-LIST`;
-2. `Archived Documents`, opening `ARCHIVED-DOCS-LIST`.
-
-Each row may show a privacy-safe count. A zero count does not hide the row. The root is navigation only and must not duplicate either child list, offer a global Restore action, or merge obligations with evidence.
-
-`ARCHIVED-BILLS-LIST` contains archived bill/fee and rent obligations. A bill/fee is an obligation backed by an invoice or equivalent supporting document. Rent is an obligation backed by a tenancy or other rental document. Those source documents remain evidence and appear separately in `ARCHIVED-DOCS-LIST`; tenancy is not a duplicate archived obligation.
-
-`ARCHIVED-DOCS-LIST`, labelled `Archived Documents`, contains:
-
-- current evidence archived with its parent obligation, regardless of whether the archived obligation is later restorable; and
-- evidence versions replaced by an accepted newer version.
-
-`ARCHIVED-DOCS-LIST` must not contain active evidence, archived obligations themselves, receipts, statements, payment proof, requests, instructions, or financial activity. It uses a flat newest-first list rather than payer/payee tabs, folders, or obligation grouping.
-
-The MVP screen order is:
-
-1. header with Back, title `Archived Documents`, search icon, and filter icon;
-2. applied-filter summary when applicable;
-3. newest-first archived-document list;
-4. the applicable empty, no-result, loading, unavailable, offline, or error state.
-
-Search opens inline and may match permitted displayed metadata, including document/evidence label, linked bill/rent/tenancy name, permitted masked counterparty, evidence context, relevant date, and history label. It must not expose hidden OCR output, full identity or account data, or restricted extracted fields.
-
-The route-local filter sheet supports:
-
-- history label: `Archived` or `Previous version`;
-- document context: `Bill` or `Tenancy`;
-- date range;
-- `Apply`, `Clear All`, and `Close`.
-
-Each list entry represents one retained evidence set/version, which may contain one or more files. It shows the document/evidence label, linked obligation name, document context, permitted masked counterparty where applicable, relevant date, archive or supersession date, history label, and retained historical evidence outcome where useful. `Archived` and `Previous version` are history/visibility descriptors, not evidence-processing statuses.
-
-Tapping an entry opens a route-local read-only preview, not another product destination for MVP. The preview may show the exact retained version, its files, permitted linked context, dates, history label, retained evidence outcome, and safe file metadata. Actions are `Download`, `View Linked Bill/Rent` when the linked obligation remains accessible, and `Close` / `Back`. `View Linked Bill/Rent` opens the applicable active or archived `BILLS-DETAIL-BILL` / `BILLS-DETAIL-RENT` mode and returns to the prior document-list state. The preview must not offer Restore, Edit, Upload, Share, Pay, Request, or ad hoc hard delete.
-
-State behavior is:
-
-| State | User-Facing Behavior |
-| --- | --- |
-| Empty | `No archived documents yet`; no upload action. |
-| No results | `No matching archived documents`; offer Clear Search or Clear Filters. |
-| Loading | Stable placeholders that do not reveal sensitive metadata. |
-| List or preview failure | Neutral message with Retry where appropriate. |
-| Permission changed | Explain that the document is no longer available without exposing restricted detail. |
-| Offline | Permitted cached masked summaries may appear; preview/download remains unavailable unless securely supported. |
-| Download failure | Keep the preview open and allow Retry. |
-
-Ordinary permitted view/download does not require an additional passcode solely for document access. Every preview and download must still pass current session, ownership, role/linkage, approved-purpose, privacy, retention, and legal-restriction checks. Legal hold or retention may preserve a record but does not expand visibility.
-
-Archive is a per-user visibility action. Archiving or restoring a linked obligation for one user must not archive it for the counterparty, break party linkage, rewrite the shared obligation, cancel completed history, or send a counterparty notification solely because of that personal visibility change.
-
-DOC-06C owns `ARCHIVED-BILLS-LIST`, archived-detail mode, archive eligibility, restore, and readiness effects. DOC-12 owns evidence version and verification meaning. DOC-15 owns access, masking, retention, and lawful disposition. DOC-18 owns final canonical objects, per-user archive projections, version lineage, access/audit events, and analytics-safe metadata. DOC-22 owns future admin access, holds, overrides, and disposition workflow.
-
-#### 5.17.6 Visibility, State, and Return Rules
+#### 5.17.7 Visibility, State, and Return Rules
 
 - `ME-ROOT` itself has no global empty state because core account controls always exist.
 - The MVP section order is fixed and is not user-reorderable.
 - Core Account Information, Security & Privacy, Help & Support, About PayPlus, Terms and Policies, and Log Out access must not be hidden by ordinary admin placement controls.
-- Optional rows may follow module enablement, launch phase, account restriction, and retained-record requirements. When retained records require user access, the relevant route should remain available in permitted read-only form.
-- The Action Required banner must not duplicate bill, payment, request, reward, or evidence-specific task lists. It is limited to account, identity-verification, security, or Receiving Info issues and must not expose internal risk reasons.
+- Optional rows may follow module enablement, launch phase, account restriction, and retained-record requirements. The active `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST` route chain remains accessible from Payments & Records; the provisional `ARCHIVED-DOCS-LIST` identity alone does not authorize user-facing access behavior. Any permitted read-only treatment for other retained records remains subject to the applicable owner and deferred scope.
+- The Action Required banner must not duplicate bill, payment, reward, or evidence-specific task lists. It is limited to account, identity-verification or security issues and must not expose internal risk reasons.
 - A dependent-service failure should affect only the relevant row or child route and should provide retry or clear unavailable behavior; it must not blank `ME-ROOT`.
 - Restricted accounts should retain access to security, privacy, permitted records, terms, and support where legally and operationally allowed.
 - Offline behavior may show approved cached masked summaries but must block sensitive reveal, export, material changes, or other actions requiring current validation.
@@ -2252,24 +1907,24 @@ DOC-06C owns `ARCHIVED-BILLS-LIST`, archived-detail mode, archive eligibility, r
 
 `More` remains separate from Me. Me governs account information, records, settings, preferences, and support. More governs dashboard shortcut management, reorder/arrangement, restore-default behavior, approved secondary-service entry, and protected access to shortcut management. Detailed behavior is defined in Section 5.18.
 
-#### 5.17.7 Notification, Data, and Admin Handoffs
+#### 5.17.8 Notification, Data, and Admin Handoffs
 
 `NOTIFICATION-SETTINGS` manages permitted channel and communication preferences under DOC-08 and is a child of `NOTIFICATION-ROOT`. `ME-ROOT` is a direct entry point to Settings; it does not change route ownership. Settings is not the Inbox and must not allow mandatory service, security, payment, receipt, risk, compliance, or legal messages to be universally disabled.
 
-Material route-level signals for later DOC-18 specification include Me opened, destination selected, account-action item opened, sensitive reveal attempted/completed/failed, preference changed, Receiving Info list/detail/setup opened, profile added/edited/archived, proof submitted, profile status changed, destination selected for a request or obligation, archived-document access, and logout completed. These signals must not copy sensitive values into analytics events. DOC-18 owns final event IDs, schema, lineage, audit classification, and model-use metadata.
+Material route-level signals for later DOC-18 specification include Me opened, destination selected, account-action item opened, sensitive reveal attempted/completed/failed, preference changed, proof submitted, profile status changed, destination selected for a Bill/Rent or Payment context, and logout completed. These signals must not copy sensitive values into analytics events. DOC-18 owns final event IDs, schema, lineage, audit classification, and model-use metadata; the provisional `ARCHIVED-DOCS-LIST` identity does not imply an access signal.
 
-DOC-22 may configure optional module visibility but must not hide `ME-ROOT` or the core account, security, privacy, support, legal, and logout controls. Exact admin workflow remains deferred to DOC-22.
+DOC-22 may execute only DOC-06B-owner-approved optional module visibility configuration and must not hide `ME-ROOT` or the core account, security, privacy, support, legal and logout controls. Exact permitted Admin execution workflow remains deferred to DOC-22; route availability policy remains with DOC-06B and applicable specialist owners.
 
-#### 5.17.8 Open Items
+#### 5.17.9 Open Items
 
 | Item | Owner | Status |
 | --- | --- | --- |
-| Final visual design for Account Information, Login & Security, Privacy & Data, Receiving Info, Archived Records/Documents, Support, About, and Terms | Product / Design / Privacy / Security / Operations | Open; route behavior defined where stated |
+| Final visual design for Account Information, Login & Security, Privacy & Data, the active Archived Records and Archived Bills &amp; Rent routes, any later-authorized archived-document presentation, Support, About, and Terms | Product / Design / Privacy / Security / Operations | Open; active Archive root/list access is retained, while detailed Restore and version presentation and all `ARCHIVED-DOCS-LIST` behavior remain deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs |
 | External provider results and PayPlus policy outcomes mapped to `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required` | Product / Compliance / Security / Data | Open pending provider selection; five user-facing labels confirmed |
 | Final privacy-request internal states, service timelines, export format/expiry, and legal wording | Privacy / Legal / Operations / Security | Open; route labels and protected delivery confirmed |
 | Final authentication retry, lockout, session, recovery-factor, and reveal-timeout mechanics | Security / Engineering / Risk | Open; DOC-19 owner |
-| Exact method-specific Receiving Info fields, external validation capability, identity-name normalization, third-party/company proof requirements, risk-based step-up rules, and review SLA | Payments / Operations / Privacy / Security | Open; route and core behavior defined |
-| Final visual styling, density, and copy for `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and archived detail mode | Product / Design / Privacy | Open; route behavior defined |
+| Any future destination-profile requirements, external validation capability, identity-name normalization, third-party/company proof requirements, risk-based step-up rules, and review SLA | Payments / Operations / Privacy / Security | Open; no active Consumer Payee destination library is defined in Wave 2 |
+| Final visual styling, density, and copy for active `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST`, and any later-authorized presentation for provisional `ARCHIVED-DOCS-LIST` | DOC-06B/DOC-06C; DOC-10/DOC-11 blockers; DOC-12/DOC-15/DOC-18 handoffs | Open; active root/list route behavior and ordinary parent return are retained, while detailed Archive/Restore, prior-version and Evidence-version behavior and all `ARCHIVED-DOCS-LIST` interaction remain deferred |
 | Final language options, theme options, selection controls, and accessibility behavior | Product / Design / Engineering | Open |
 | Final support, About PayPlus, terms, policies, and app-version content | Product / Support / Legal / Design | Open |
 | Final Membership route and launch behavior | Product / Growth | Open; hidden until defined and enabled |
@@ -2298,7 +1953,7 @@ The Home default and maximum capacity is 8 shortcuts: up to 7 configurable short
 | `MORE-ROOT` Normal mode | Tap `Edit` | Enter Manage Shortcuts mode in the same route. | Save or discard returns to Normal mode. |
 | `MORE-ROOT` Normal mode | Tap an approved entry | Open the entry's owning destination. | Back returns to More with prior scroll/search context where practical. |
 | Manage Shortcuts mode | Tap `Save` | Apply the effective account-level shortcut preference and return to Normal mode. | A later Back returns to Home, where the refreshed shortcut grid is visible. |
-| Manage Shortcuts mode | Tap `Restore Default` | Load the current eligible admin default into the editable arrangement. | The restored arrangement is not applied until `Save`. |
+| Manage Shortcuts mode | Tap `Restore Default` | Load the current eligible owner-approved default into the editable arrangement. | The restored arrangement is not applied until `Save`. |
 
 #### 5.18.2 Normal Mode
 
@@ -2310,7 +1965,7 @@ The screen order is:
 
 Search should find approved entries by user-facing label or approved keyword without changing Home preferences. Tapping an entry opens its owning route. The default Other list excludes entries already on Home; if search returns one, it should be identified as `On Home` rather than presented as another addable object.
 
-Initial approved secondary-service entries may include Activity, My Rewards, Receiving Info, Archived Records, and Support where enabled. Their owning routes remain authoritative.
+Initial approved secondary-service entries may include Activity, My Rewards, and Support where enabled. Their owning routes remain authoritative. Archive remains accessible through Me / Payments & Records and no Archive shortcut is added to More; `ARCHIVED-DOCS-LIST` is not an approved secondary-service entry. Retired Receiving Info identifiers remain non-active documentation lineage only.
 
 #### 5.18.3 Manage Shortcuts Mode
 
@@ -2328,7 +1983,7 @@ Users may:
 - add an eligible shortcut by dragging it into `Home Shortcuts`;
 - use accessible `Add`, `Remove`, `Move Up`, and `Move Down` controls instead of drag-and-drop;
 - save fewer than 7 configurable shortcuts;
-- restore the current eligible admin default.
+- restore the current eligible owner-approved default.
 
 If all 7 configurable positions are occupied and the user adds another shortcut, the last configurable shortcut returns to `Other Shortcuts & Services`. Protected `More` is never displaced. Exact replacement animation and an optional post-replacement Undo remain open visual/product decisions.
 
@@ -2339,7 +1994,7 @@ An entry that is visible in More but unavailable for Home must not appear action
 - Changes take effect only after `Save`.
 - Back with no unsaved changes returns to the prior context.
 - Back with unsaved changes prompts `Save Changes`, `Discard Changes`, or `Continue Editing`.
-- `Restore Default` loads the current admin default after filtering for launched, enabled, account-eligible, and permitted entries. It does not load an obsolete historical default and remains pending until `Save`.
+- `Restore Default` loads the current owner-approved default after filtering for launched, enabled, account-eligible, and permitted entries. It does not load an obsolete historical default and remains pending until `Save`.
 - Successful save returns to Normal mode, refreshes the Home shortcut grid, and keeps `More` as the final shortcut.
 - Shortcut preferences are account-level and should follow the user across approved devices.
 - Opening a destination from More and returning should restore the More scroll and search context where practical.
@@ -2353,8 +2008,8 @@ The effective shortcut set is resolved in this order:
 
 1. protected PayPlus access and product-boundary rules;
 2. launch, module, account, role, market, eligibility, risk, and compliance availability;
-3. the admin-approved shortcut catalog;
-4. the current eligible admin default set and order;
+3. the owner-approved shortcut catalog;
+4. the current eligible owner-approved default set and order;
 5. the user's saved order and visibility preferences.
 
 User preferences cannot expose a disabled, unlaunched, ineligible, or prohibited route. When a previously selected shortcut becomes unavailable, Home removes it from the effective set while preserving a privacy-safe preference reference where appropriate. More should explain unavailability without exposing internal risk or compliance logic.
@@ -2363,7 +2018,7 @@ User preferences cannot expose a disabled, unlaunched, ineligible, or prohibited
 
 Material privacy-safe signals for later DOC-18 specification include More opened, search used, manage mode entered, shortcut added/removed/reordered, save attempted/completed/failed, default restored, unavailable entry encountered, and destination opened. Events must not include sensitive destination data or internal risk reasons.
 
-DOC-22 owns the approved catalog, current default, availability rules, configuration versioning, rollback, audit, and protection of `More`. DOC-15 owns preference-data classification, approved-purpose use, and cross-device privacy. DOC-06D owns acceptance coverage. Exact layout measurements, iconography, animation, density, and styling remain open.
+DOC-06B owns the approved shortcut catalog, current default and product availability rules for `More`. DOC-22 may execute only permitted configuration, versioning, rollback and audit under that policy; it does not set product policy. DOC-15 owns preference-data classification, approved-purpose use, and cross-device privacy. DOC-06D owns acceptance coverage. Exact layout measurements, iconography, animation, density, and styling remain open.
 
 ### 5.19 Notifications Route
 
@@ -2464,12 +2119,12 @@ Mandatory service Inbox records remain available even where optional channels ar
 
 Material notification signals include root/inbox/detail/settings opened, search/filter used, message read/unread/archived/restored, Mark All Read, setting-change success/failure, contextual action opened, unavailable target encountered, and external entry resolved. These signals must reference the notification record and owning object without copying sensitive message content into ordinary analytics.
 
-DOC-08 owns event IDs, category assignment, message eligibility, channels, templates, preference policy, message/batch/source identifiers, delivery attempts, and retention. The status-display reference matrix governs user-facing domain labels; the owning domain remains authoritative for status and action-required meaning. DOC-15 owns consent, masking, approved-purpose use, and retention boundaries. DOC-18 must define the final object, event, lineage, correlation, recipient projection, and delivery-attempt model. DOC-22 must define admin lookup, batch/campaign/support traceability, template/configuration approval, audit, scheduling, and delivery operations.
+DOC-08 owns event IDs, category assignment, message eligibility, channels, templates, preference policy, message/batch/source identifiers, delivery attempts and notification retention requirements. The status-display reference matrix governs user-facing domain labels; the owning domain remains authoritative for status and action-required meaning. DOC-14 owns abuse/rate-limit and applicable risk controls; DOC-15 owns lawful-purpose, consent, masking, approved-purpose use and retention governance; DOC-18 must define the final object, event, lineage, correlation, recipient projection and delivery-attempt model; DOC-19 owns security; DOC-21 owns support and delivery operations; and DOC-22 owns only permitted Admin lookup, template/configuration execution, scheduling and audit handling under those owners.
 
 #### 5.19.7 Open Items
 
 - final visual styling, density, iconography, preview length, and filter-chip behavior;
-- exact search matching, archive retention/disposition, and offline cache policy;
+- exact search matching, archive visibility/presentation/access controls, and offline cache policy; Archive is not a retention or disposition decision;
 - final provider capabilities, quiet hours, retry/fallback thresholds, and admin workflow;
 - final template content and legally validated mandatory-service classifications.
 
@@ -2477,7 +2132,7 @@ DOC-08 owns event IDs, category assignment, message eligibility, channels, templ
 
 `PAYMENT-CHECKOUT` is the existing, `Defined baseline` flow/screen group for one persistent Checkout Workspace. Its human-readable route behavior is decision-complete enough for continued alignment; final visual design, exact expression and mappings, technical specification, prototype and validation evidence, implementation, acceptance, and operational readiness remain pending with their formal owners. It is not a new route family, a sequence of child routes, a Payment, a Payment Instruction, a Settlement, or a Payout. Internal presentations are replaceable views of the same Workspace and must not redefine the unique domain truth owned by DOC-09.
 
-DOC-06B owns the route-level UI/UX described in this section. The accepted payment-domain baseline remains DOC-09 v1.1.1 at `docs/02-payment-domain/doc-09-payment-domain-architecture.md`. This section presents DOC-09 facts without redefining their object, lifecycle, status, event, audit, authorization, provider, or financial meaning.
+DOC-06B owns the route-level UI/UX described in this section. The accepted payment-domain baseline is the current DOC-09 Founder Working Baseline at `docs/02-payment-domain/doc-09-payment-domain-architecture.md`. This section presents DOC-09 facts without redefining their object, lifecycle, status, event, audit, authorization, provider, or financial meaning.
 
 The derived [Payment Checkout route map](../diagrams/routes/payplus-payment-checkout-route-map.md) is the current discussion-reference projection of this accepted route-level UI/UX. It does not override this section, DOC-09, or the route register and must not be read as a mandatory wizard, a set of child routes, or a domain state model.
 
@@ -2521,11 +2176,11 @@ Terms such as `pending evidence`, `interrupted`, `unsuccessful presentation`, `r
 
 #### 5.20.3 Checkout Resolver Entry and New Checkout Context
 
-Bill/Rent Pay is a Checkout resolver, not unconditional Checkout creation. After the source owner has identified the current Bill/Rent and its Payable Basis, the transition must resolve current eligibility and the current Checkout condition:
+Bill/Rent Pay is a Checkout resolver, not unconditional Checkout creation. After the source owner has identified the current Bill/Rent source and DOC-09 has established the applicable Payable Basis, the transition must resolve current eligibility and the current Checkout condition:
 
 | Resolver result | Route-level treatment |
 | --- | --- |
-| Eligible and no active continuable Checkout exists for the same Payable Basis | A new Checkout may begin. Establish the Bill/Rent obligation, Payable Basis, payee or landlord context, Checkout Target, current eligibility/evidence context, source-aware return context, and available funding actions. |
+| Eligible and no active continuable Checkout exists for the same Payable Basis | A new Checkout may begin. Carry the authoritative Bill/Rent source reference, the DOC-09-owned Payable Basis and its applicable Payment Obligation reference or references together with Payee or landlord context, Checkout Target, current eligibility/Evidence context, source-aware return context and available funding actions. |
 | An active continuable Checkout exists for the same Payable Basis | Do not create another Checkout. Resolve or intentionally resume the existing Checkout after revalidation. |
 | Not currently eligible | Remain in the Bill/Rent source-owner context with an explicit owner-supplied unavailable or resolution treatment. Do not create or resume Checkout merely to show an error. |
 
@@ -2661,30 +2316,38 @@ flowchart TD
     A --> E["5. Funding Leg progress"]
     E --> C{"Authoritative result"}
 
-    C -->|"Fully funded"| D["6. Fully funded completion and safe exit"]
+    C -->|"Fully funded"| D["6. Payment Result / fully funded completion"]
     C -->|"Partially funded"| P["6. Partial result"]
     C -->|"Evidence pending"| W["6. Pending result"]
     C -->|"Unsuccessful"| U["6. Unsuccessful result"]
 
     P -->|"Continue or adjust if permitted"| F
     P -->|"Wait where evidence remains pending"| W
-    P -->|"Close if permitted"| H
-    P -->|"Safe return; continuation preserved"| X["Safe return or approved later continuation"]
+    P -->|"Close if permitted"| G
+    P -->|"Safe return; continuation preserved"| G
 
     W -. "Authoritative evidence update" .-> C
-    W -->|"Safe return"| X
+    W -->|"Safe return"| G
 
     U -->|"Owner-confirmed recovery"| F
-    U -->|"Close if permitted"| H
-    U -->|"Safe return"| X
+    U -->|"Close if permitted"| G
+    U -->|"Safe return"| G
+
+    D --> G{"Newly confirmed Payment on otherwise unsaved source?"}
+    G -->|"No; source already projected or no Payment confirmed"| X["Safe return or approved later continuation"]
+    G -->|"Yes"| S["Owner-controlled optional Save resolver"]
+    S -->|"Save selected"| SA["Same ID Active/reusable"]
+    S -->|"Declined, skipped, dismissed, or leave Result"| SH["Same ID history-only"]
+    SA --> X
+    SH --> X
 
     classDef journey fill:#eaf3ff,stroke:#285b8f,stroke-width:2px,color:#172b3a;
     classDef decision fill:#fff4ce,stroke:#8a6d1d,stroke-width:2px,color:#222;
     classDef completion fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#153d18;
     classDef resolution fill:#f3f4f6,stroke:#5f6368,stroke-width:2px,color:#202124;
-    class B,I,N0,ND,N,O,F,SC,MC,V,A,E,P,W,U journey;
-    class R,C decision;
-    class D completion;
+    class B,I,N0,ND,N,O,F,SC,MC,V,A,E,P,W,U,S journey;
+    class R,C,G decision;
+    class D,SA,SH completion;
     class H,X resolution;
 ```
 
@@ -2693,7 +2356,7 @@ flowchart TD
 - A Resume proceeds to Funding only when Funding is the next permitted task. Otherwise, the preceding decision map and the Minimum Adaptive UI Contract restore the applicable Review, progress, pending, result, or safe-return presentation.
 - Protected return revalidates and restores the safest valid presentation; its detailed resolution remains in the preceding decision map.
 - Late confirmation remains outside ordinary Checkout continuation and is intentionally not a normal-flow branch here.
-- Fully funded completion exposes no Funding, Continue, adjust, retry, wait, or `Close Checkout` action.
+- Fully funded completion exposes no Funding, Continue, adjust, retry, wait, or `Close Checkout` action. Before Activity, Receipt, source return or ordinary safe exit, an otherwise unsaved source with a newly confirmed Payment must pass through the owner-controlled Save resolver; an already saved/Active source keeps its existing projection, and Activity never offers Save.
 - Pending exposes no retry or alternate-funding submission while authoritative evidence remains unresolved.
 - Partial and unsuccessful results expose only owner- and condition-permitted actions.
 - `OQ-XDOC-007` and `OQ-XDOC-015` retain their permanent traceability IDs; their decided dispositions are aligned across the Open Questions Register and derived route diagrams. `PDM-PROP-X01` and `PDM-PROP-X02` remain historical Proposal-evidence aliases only.
@@ -2732,15 +2395,17 @@ The information hierarchy below describes semantic priority, not fixed vertical 
 | Review and authorize | Required before every Provider Submission, including revised execution after a material change. | Required: (1) persistent source and Checkout Target; (2) current Funding Leg obligation-funded amount; (3) masked funding method; (4) accepted/confirmed, submitted-pending, or estimated payer charge as applicable; (5) fee/benefit facts; (6) confirmed/unconfirmed/remaining position; (7) destination/timing/evidence and material-change disclosures; (8) authorization consequence. | Required: provide the applicable payer authorization for the next Provider Submission. Authorization applies only to that submission and must not be inferred from prior review, profile selection, Resume, or provider return. | Recommended before submission: return to eligible unexecuted funding changes or safe return. Back/cancel does not submit. Once submission begins, route to Funding Leg progress and do not offer cancellation through generic Back. Disabled authorization requires an owner-approved explanation/resolution. | DOC-07 final wording/CTA; DOC-09 authorization and lock; DOC-19 security. Final review layout and authentication component remain open. |
 | Funding Leg progress | Required after authorization while the current Provider Submission or authoritative confirmation evaluation is unresolved or while sequential legs remain. | Required: (1) current leg identity/position within the funding arrangement; (2) submitted obligation-funded value and payer charge category; (3) confirmed value; (4) unconfirmed value; (5) Remaining Checkout Target; (6) prior leg results; (7) current authoritative evidence meaning; (8) next available action, if any. | Required: no generic primary action while authoritative evidence is unresolved. When the current condition permits another action, present only that condition-specific action after evaluation. | Provider/3DS return revalidates before restoring progress, pending, or result. Back/safe return does not cancel the submission. Prevent duplicate activation and unsafe retry. Announce leg/evidence/remaining-value changes accessibly. | DOC-09 execution semantics; DOC-17 provider evidence; DOC-18 technical states/events; DOC-07 payer wording. Final progress visualization remains open. |
 
+Every Back, close, source-return or safe-return treatment in this adaptive table is subject to the source-projection guard. Before any confirmed Payment exists, no post-Payment Save outcome is created and legitimate pre-confirmation unprojected treatment may continue. If the current Workspace contains a newly confirmed Payment linked to an otherwise unsaved source, an ordinary return or exit first hands to the owner-controlled Save resolver for same-ID Active/reusable or history-only. An already saved/Active source retains its existing projection. Activity and Receipt never supply the missing Save action.
+
 Result and resolution presentations must not share one generic action set:
 
 | Result or resolution presentation | Activation condition | Minimum information hierarchy and persistent context | Primary action | Secondary, closing, return, and unavailable treatment | Owners and intentionally open visual detail |
 | --- | --- | --- | --- | --- | --- |
-| Fully funded completion | Required when authoritative confirmed obligation-funded value equals Checkout Target. | Required: (1) fully funded Checkout meaning; (2) Checkout Target and confirmed value; (3) applicable confirmed payer-charge facts; (4) confirmed Funding Leg/Payment summary without implying Settlement or Payout completion; (5) Bill/Rent/source context; (6) available receipt/activity or source-return handoff where owner-confirmed. | Required: complete the payer task through the approved safe exit or source return. | Optional: view owner-confirmed detail, receipt, or Activity handoff. Do not expose Funding, Continue, adjust, retry, wait, or `Close Checkout`. Back must not reopen setup. | DOC-09 confirmation/full-funding meaning; DOC-07 completion wording; DOC-10 payout separation. Final celebration, illustration, and layout remain open. |
-| Partially funded result and recovery | Required when confirmed value is above zero and below Checkout Target. | Required: (1) original Checkout Target; (2) confirmed value and immutable Payment facts; (3) unconfirmed value; (4) Remaining Checkout Target; (5) complete Funding Leg progress; (6) continuation expiry; (7) locked versus eligible unexecuted funding; (8) consequence of wait, continue/change, safe return, or closing. | Required: one current condition-permitted action—continue eligible unexecuted funding, wait for authoritative evidence, or another owner-confirmed recovery. Pending evidence takes precedence over a retry/continue action where duplicate submission risk exists. | Recommended where permitted: modify eligible unexecuted funding, `Close Checkout`, or safe return/later continuation. Closing requires clear consequences and never rewrites Target or confirmed Payments. Unavailable actions remain disabled/omitted with owner-approved resolution. | DOC-09 partial funding/closure; DOC-07 consequence wording; DOC-17 evidence; DOC-19 risk/security. Final recovery component layout remains open. |
-| Pending-evidence result | Required whenever authoritative submission/confirmation evidence is unresolved, including after provider/3DS return or later evidence update. | Required: (1) known submitted leg/value; (2) no-success/no-definitive-failure meaning; (3) confirmed value from other legs; (4) unconfirmed value; (5) Remaining Checkout Target; (6) what is being awaited; (7) whether any safe action is currently available. | Required: wait or another owner-confirmed non-submission action. There is no retry, alternate-funding submission, or success action while duplicate-submission risk remains unresolved. | Safe return may preserve the pending context. Back does not cancel or reclassify. On authoritative evidence update, re-evaluate before composing progress or result. Any unavailable retry remains absent or clearly disabled with a safe explanation. | DOC-17 evidence; DOC-09 confirmation; DOC-07 wording; DOC-21 support. Final pending illustration, timing text, and refresh mechanism remain owner-controlled/open. |
-| Unsuccessful result and permitted recovery | Required only after authoritative evidence supports an unsuccessful attempt or Funding Leg result. | Required: (1) affected leg and unsuccessful meaning; (2) no Payment for that unsuccessful attempt; (3) any confirmed value from other legs; (4) unconfirmed value, if any separate evidence remains pending; (5) Remaining Checkout Target; (6) locked/unexecuted funding facts; (7) owner-supplied recovery availability. | Required: only a currently permitted recovery after revalidation, such as using eligible unexecuted funding. Do not expose a generic retry. | Where permitted, secondary actions may include change eligible unexecuted funding, `Close Checkout`, support, or safe return. If no recovery is permitted, foreground explicit resolution rather than a disabled dead end. | DOC-09 attempt/leg meaning; DOC-17 evidence; DOC-14/DOC-19 risk/security; DOC-07 wording. Final error illustration and component styling remain open. |
-| Historical or source-owner resolution | Required when Checkout is inactive, ineligible, non-continuable, closed/expired with no ordinary continuation, or Bill/Rent resolution must remain with its owner. | Required: (1) recorded Checkout condition; (2) original Checkout Target; (3) preserved confirmed Payment facts where applicable; (4) no-continuation meaning; (5) source Bill/Rent context; (6) owner-confirmed resolution or support handoff. Historical facts must remain authoritative and unchanged. | Required: the applicable source-owner, historical-detail, support, or safe-exit action. | Do not expose Funding, Review/authorize, Continue, adjust, retry, or ordinary Checkout composition. Back returns safely to the source/history context and does not reactivate Checkout. | DOC-06C source resolution; DOC-09 history/continuability; DOC-07 wording; DOC-21 support. Final historical-detail composition remains open. |
+| Fully funded completion | Required when authoritative confirmed obligation-funded value equals Checkout Target. | Required: (1) fully funded Checkout meaning; (2) Checkout Target and confirmed value; (3) applicable confirmed payer-charge facts; (4) confirmed Funding Leg/Payment summary without implying Settlement or Payout completion; (5) Bill/Rent/source context; (6) source-projection handoff before any receipt/activity or source-return handoff. | Required: retain an existing saved/Active projection, or for an otherwise unsaved source resolve selected Save to same-ID Active/reusable or declined/skipped/dismissed Save to same-ID history-only before approved safe exit or source return. | Optional detail, receipt, or Activity handoff is available only after that projection outcome. Do not expose Funding, Continue, adjust, retry, wait, `Close Checkout`, or Save from Activity. Back must not reopen setup. | DOC-09 confirmation/full-funding meaning; DOC-05/DOC-06C Save policy; DOC-07 completion wording; DOC-10 payout separation. Final celebration, illustration, and layout remain open. |
+| Partially funded result and recovery | Required when confirmed value is above zero and below Checkout Target. | Required: original Checkout Target, confirmed value and immutable Payment facts, unconfirmed value, Remaining Checkout Target, complete Funding Leg progress, continuation expiry, locked versus eligible unexecuted funding, and consequence of wait, continue/change, safe return, or closing. | Required: one current condition-permitted action: continue eligible unexecuted funding, wait for authoritative evidence, or another owner-confirmed recovery. Pending evidence takes precedence where duplicate submission risk exists. | Where the result contains a newly confirmed Payment for an otherwise unsaved source, any Close Checkout, source return, Activity, Receipt or ordinary safe exit first hands to the owner-controlled Save resolver; selected Save produces Active/reusable and declined/skipped/dismissed Save produces history-only. Recommended recovery actions remain owner-permitted. | DOC-09 partial funding/closure; DOC-05/DOC-06C projection policy; DOC-07 consequence wording; DOC-17 evidence; DOC-19 risk/security. Final recovery component layout remains open. |
+| Pending-evidence result | Required whenever authoritative submission/confirmation evidence is unresolved, including after provider/3DS return or later evidence update. | Required: (1) known submitted leg/value; (2) no-success/no-definitive-failure meaning; (3) confirmed value from other legs; (4) unconfirmed value; (5) Remaining Checkout Target; (6) what is being awaited; (7) whether any safe action is currently available. | Required: wait or another owner-confirmed non-submission action. There is no retry, alternate-funding submission, or success action while duplicate-submission risk remains unresolved. | If no Payment is confirmed, no post-Payment Save outcome exists. If another leg created a newly confirmed Payment for an otherwise unsaved source, any safe return, Activity or Receipt handoff first resolves same-ID Active/reusable or history-only through the owner-controlled Save resolver. Back does not cancel or reclassify. | DOC-17 evidence; DOC-09 confirmation; DOC-05/DOC-06C projection policy; DOC-07 wording; DOC-21 support. Final pending illustration, timing text, and refresh mechanism remain owner-controlled/open. |
+| Unsuccessful result and permitted recovery | Required only after authoritative evidence supports an unsuccessful attempt or Funding Leg result. | Required: (1) affected leg and unsuccessful meaning; (2) no Payment for that unsuccessful attempt; (3) any confirmed value from other legs; (4) unconfirmed value, if any separate evidence remains pending; (5) Remaining Checkout Target; (6) locked/unexecuted funding facts; (7) owner-supplied recovery availability. | Required: only a currently permitted recovery after revalidation, such as using eligible unexecuted funding. Do not expose a generic retry. | If no Payment is confirmed, no post-Payment Save outcome exists. If another leg created a newly confirmed Payment for an otherwise unsaved source, any Close Checkout, safe return, Activity or Receipt handoff first resolves same-ID Active/reusable or history-only through the owner-controlled Save resolver. | DOC-09 attempt/leg meaning; DOC-05/DOC-06C projection policy; DOC-17 evidence; DOC-14/DOC-19 risk/security; DOC-07 wording. Final error illustration and component styling remain open. |
+| Historical or source-owner resolution | Required when Checkout is inactive, ineligible, non-continuable, closed/expired with no ordinary continuation, or Bill/Rent resolution must remain with its owner. | Required: (1) recorded Checkout condition; (2) original Checkout Target; (3) preserved confirmed Payment facts where applicable; (4) no-continuation meaning; (5) source Bill/Rent context; (6) owner-confirmed resolution or support handoff. Historical facts must remain authoritative and unchanged. | Required: the applicable source-owner, historical-detail, support, or safe-exit action. | If this resolution contains a newly confirmed Payment for an otherwise unsaved source, the owner-controlled Save resolver must first produce same-ID Active/reusable or history-only. Otherwise preserve the existing projection or legitimate pre-confirmed/incomplete-Setup unprojected treatment. Do not expose ordinary Checkout composition or invent Archived-source behavior. | DOC-06C source/projection resolution; DOC-09 history/continuability; DOC-07 wording; DOC-21 support. Final historical-detail composition remains open. |
 
 Where adaptive presentations are combined, the more restrictive current condition controls action availability. A composed surface must not hide required context or make two mutually incompatible actions appear concurrently primary. Final visual hierarchy may vary by viewport and task only within these constraints.
 
@@ -2796,7 +2461,7 @@ The payer-facing financial position must keep these concepts distinct:
 
 Sequential execution must keep visible the current Funding Leg, completed confirmed progress, any submitted value awaiting evidence, unsuccessful or unexecuted funding, Remaining Checkout Target, applicable payer charge, current Checkout condition, and valid next actions. The presentation may emphasize the current leg while retaining access to the complete leg list and holistic financial position.
 
-A provider or 3DS return is non-authoritative. On return, the Workspace revalidates and presents pending, execution, or result context only after evaluating authoritative current evidence. A confirmed Funding Leg advances progress using its immutable Payment and updated remaining target. Completed single-card funding presents the applicable successful completion; it must not reopen funding setup.
+A provider or 3DS return is non-authoritative. On return, the Workspace revalidates and presents pending, execution, or result context only after evaluating authoritative current evidence. A confirmed Funding Leg advances progress using its immutable Payment and updated remaining target. Completed single-card funding presents the applicable Payment Result; if the source was otherwise unsaved, the owner-controlled Save resolver must establish same-ID Active/reusable or history-only before Activity, Receipt, source return or ordinary safe exit. It must not reopen funding setup.
 
 #### 5.20.8 Partial Funding, Pending Evidence, Recovery, Closure, and Expiry
 
@@ -2810,7 +2475,9 @@ For a partially funded Checkout, the UI may expose only currently permitted acti
 - `Close Checkout` for remaining continuation;
 - return safely and use an approved later continuation entry.
 
-`Close Checkout` ends remaining continuation under DOC-09. It does not mean or cause a refund, reversal, Bill/Rent obligation cancellation, Payment Instruction cancellation, invalidation of confirmed Payments, rewrite of the original Checkout Target, rewrite of Payment Applications, or rewrite/erasure/reactivation of Checkout history.
+Because a partially funded Checkout contains at least one confirmed Payment, `Close Checkout`, safe return, source return, Activity, Receipt, or later-continuation handoff must first preserve the source projection. A source already saved/Active retains that projection without duplicate Save. For an otherwise unsaved source, present the applicable owner-controlled Payment Result and resolve the optional Save decision before the exit or handoff: selected Save makes the same ID Active/reusable, while declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes it history-only. Activity and Receipt never provide the missing Save action.
+
+`Close Checkout` ends remaining continuation under DOC-09. It does not mean or cause a refund, reversal, cancellation of the authoritative Bill/Rent source or an applicable DOC-09 Payment Obligation, Payment Instruction cancellation, invalidation of confirmed Payments, rewrite of the original Checkout Target, rewrite of Payment Applications, or rewrite/erasure/reactivation of Checkout history.
 
 Pending-evidence presentation must:
 
@@ -2824,7 +2491,7 @@ Interruption never authorizes Resume automatically. After revalidation, an activ
 
 #### 5.20.9 Late Confirmation
 
-A delayed or late accepted provider confirmation follows an independent controlled-resolution path. It creates or returns exactly one immutable Payment for the confirmed Funding Leg while the historical Checkout remains closed, expired, or otherwise non-continuable. The confirmed Payment may remain unapplied pending controlled resolution.
+A delayed or late accepted provider confirmation follows an independent controlled-resolution path. It creates or returns exactly one immutable Payment for the confirmed Funding Leg while the historical Checkout remains closed, expired, or otherwise non-continuable. The confirmed Payment may remain unapplied pending controlled resolution. This route does not decide when that resolution becomes a user-facing Payment Result; when an owner-controlled result is presented for a newly confirmed Payment linked to an otherwise unsaved source, the same Save/projection resolution applies before Activity, Receipt or ordinary safe exit. No Archived-source behavior is inferred.
 
 Late confirmation must not reopen Checkout, recreate reservations, rewrite the historical Checkout Target, authorize another submission, or expose ordinary Checkout actions such as Continue Payment, change unexecuted funding, retry, close, or restart. Activity, notification, payer disclosure, support, application, and operations treatment remains with the applicable formal owners.
 
@@ -2877,6 +2544,7 @@ Later acceptance evidence must demonstrate:
 - New Checkout and Intentional Resume present their distinct required first-view context without forcing Resume into Funding;
 - the persistent Workspace and financial position remain available across Funding, Review, execution, and result compositions;
 - fully funded, partial, pending-evidence, unsuccessful, and historical/source-owner presentations expose only their condition-permitted actions;
+- every user-facing result containing a newly confirmed Payment retains an existing saved/Active projection or resolves an otherwise unsaved source to same-ID Active/reusable or history-only before Activity, Receipt, source return or ordinary safe exit, with no Save action in Activity;
 - no dead-end in the primary payer journey;
 - no loss of valid Checkout context through cancel, back, card/Profile support, provider/3DS, or reauthentication return;
 - no duplicate or unsafe Provider Submission;
@@ -2903,42 +2571,47 @@ No numerical accessibility, performance, or usability threshold is established h
 | Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Bounded Greeting, Important Notice, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance behavior is defined. Confirm final visual design and later DOC-20 evidence. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Payment Checkout | `PAYMENT-CHECKOUT` Defined baseline | Preserve the decision-complete human-readable Workspace, resolver, funding, authorization, execution, recovery, and accessibility boundaries in Section 5.20 while exact Copy, IDs, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical mappings, prototype and accessibility/user-validation evidence, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending. |
-| Pay+ | `PAYPLUS-ACTION-SHEET` Defined Baseline / Not Final Visual Design | Five MVP actions, role direction, route handoffs, availability behavior, completion rules, and motion principles are defined. Confirm exact iconography, measurements, spacing, blur, motion timing/easing, and future added-button layout. |
+| Pay+ | `PAYPLUS-ACTION-SHEET` Payer-only re-scope / Not Final Visual Design | Four retained actions remain in their existing order and material meaning; Request Payment is retired and no replacement action is introduced. Confirm only exact iconography, measurements, spacing, blur, motion timing/easing, responsive treatment and accessibility implementation in later authorized work. |
 | Offers and Rewards | Defined Behavior / Not Final Visual Design | Offers discovery and child-list behavior are defined. `REWARDS-ROOT` Active/History views, search, filters, ordering, cards, route states, `REWARD-DETAIL`, checkout return, and contextual fulfilment actions are defined. Confirm final styling, Offers label taxonomy, personalization, equal-priority fallback, and partner-specific activation methods. |
-| Me | Core Account, Receiving Info, and Archive Family Defined / Other Child Details Pending | `ME-ROOT`, account/security/privacy routes, the `RECEIVING-INFO` family, `ARCHIVED-ROOT`, `ARCHIVED-BILLS-LIST`, and `ARCHIVED-DOCS-LIST` are defined. Support/About/Terms detail and final visual design remain open. |
-| Requests | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, sort/filter behavior, field-level copy, resend/reminder limits, and detailed channel controls. `REQUESTS-NEW` section order, route boundary, evidence gate, counterparty lookup boundary, share routing, and DOC-06C handoff are defined. |
-| Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/archive rules, and payment-profile handoff behavior. |
+| Me | Core Account Defined / Active Archive root and Bills/Rent list / Archived-document identity provisional / Receiving Info retired from active Consumer Payee presentation | `ME-ROOT` and account/security/privacy routes remain defined. `ARCHIVED-ROOT` and DOC-06C-owned `ARCHIVED-BILLS-LIST` retain active Payer-only route access for archived saved-source projections; `ARCHIVED-DOCS-LIST` remains a provisional identity with no active entry or interaction. Detailed Archive/Restore and version presentation remain deferred. `RECEIVING-INFO` is retained only as a retired stable ID in non-active documentation. Support/About/Terms detail and final visual design remain open. |
+| Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/closure presentation, and payment-profile handoff behavior. |
 | Activity | Route Shell Defined / Not Final UI | Screen order, accounting-style list behavior, expandable activity cards, amount direction, core detail sections, and download actions are defined. Confirm final visual styling, field density, search/filter behavior, grouping behavior, and empty-state copy. |
-| Receipts & Statements | Root and Preview Behavior Defined / Not Final PDF Design | `RECEIPTS-ROOT` search, list, role indicator, empty state, direct download, shared PDF preview, and return behavior are defined. Confirm PDF layout/design, export naming, sharing controls, statement schedule, and re-issue workflow. |
+| Receipts & Statements | Root and Preview Behavior Defined / Not Final PDF Design | `RECEIPTS-ROOT` search, list, Payer-facing transaction-direction indicator, empty state, direct download, shared PDF preview, and return behavior are defined. Confirm PDF layout/design, export naming, sharing controls, statement schedule, and re-issue workflow. |
 | Reminders | Partially Defined in DOC-06C | Ordinary bill/rent reminders remain separate from payment instruction action alerts. |
 | Payment Profile / Cards | Two-Tab Route Baseline Defined / Not Final Visual Design | Confirm final card styling, field density, empty-state copy, PSP tokenization return behavior, and permitted card metadata. |
 | Referral | Child-Screen Behavior Defined / Not Final Visual Design | `REFERRAL-ROOT`, role-sensitive entitlement list/detail/claim screens, registration attribution handoff, reusable sharing, qualification display, privacy boundary, two-tab reward list, exceptional admin hold presentation, and canonical issued-reward handoff are defined. Confirm final styling and open campaign parameters. |
-| Notifications | Defined Baseline / Not Final Visual Design | `NOTIFICATION-ROOT`, Inbox, Detail, Settings, entry/return behavior, filters, cards, read/archive behavior, signal separation, and domain handoffs are defined. Confirm final styling, search matching, archive retention, provider operations, and templates. |
+| Notifications | Defined Baseline / Not Final Visual Design | `NOTIFICATION-ROOT`, Inbox, Detail, Settings, entry/return behavior, filters, cards, read/archive behavior, signal separation, and domain handoffs are defined. Confirm final styling, search matching, archive visibility/access presentation, provider operations, and templates; notification records remain retained indefinitely. |
 | More | Defined Baseline / Not Final Visual Design | `MORE-ROOT` Normal and Manage modes, 8-slot maximum, protected More entry, account-level preferences, current-default restore, availability precedence, secondary-service handoffs, accessibility, and save/return behavior are defined. Confirm final styling and optional replacement Undo. |
 
 ## 7. Local Open Questions
 
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
-| OQ-06B-001 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should be used within the confirmed two-row five-action baseline? | Product / Design / Payments | Partially open; behavior and action order defined |
-| OQ-06B-002 | What final visual design and remaining child-route UI should apply to Me, Receiving Info, Archived Records, More shortcut management, and Support? More behavior, Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, Receiving Info, and the Archive family behavior are defined. | Product / Design / Privacy / Security / Operations | Partially open |
-| OQ-06B-003 | What final styling and optional post-replacement Undo behavior should apply to the defined `MORE-ROOT` shortcut-management experience? | Product / Design / Operations | Partially open; capacity, protected More, reorder, save, restore, and admin-default behavior defined |
+| OQ-06B-001 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, responsive treatment and accessibility implementation should be used within the confirmed four-action Payer-only baseline? | Product / Design / Payments | Partially open; composition, order, material meaning and Request Payment retirement are settled |
+| OQ-06B-002 | What final visual design and remaining child-route UI should apply to Me, the active `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST` route chain, any later-authorized `ARCHIVED-DOCS-LIST` presentation, More shortcut management, and Support, while preserving the retired Consumer Receiving Info boundary? More behavior, Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, and active Archive root/list access are defined; detailed Archive/Restore and version presentation remain deferred and Receiving Info remains non-active documentation lineage only. | Product / Design / Privacy / Security / Operations | Partially open |
+| OQ-06B-003 | What final styling and optional post-replacement Undo behavior should apply to the defined `MORE-ROOT` shortcut-management experience? | Product / Design / Operations | Partially open; capacity, protected More, reorder, save, restore, owner-approved default and permitted Admin-configuration behavior defined |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Resolved for Home: one Inbox-backed item, source-provided ordering, session-scoped dismiss, canonical Detail/action routing, and zero-state behavior defined; final visual design and DOC-20 evidence pending |
 | OQ-06B-005 | What final visual styling, implementation treatment, and DOC-20 evidence should apply to the defined Home Hot Offer placement? | Product / Design / Growth / Operations | Partially open; Offer-only scope, maximum five, Admin-selected fixed/random order, five-second configurable rotation, interaction stops, canonical restrictions, and `OFFER-DETAIL` handoff are defined |
-| OQ-06B-006 | What exact visual styling, card density, field-level copy, resend/reminder limit, share-button placement, and filter/sort design should apply to the Requests route? | Product / Design / Operations | Open |
-| OQ-06B-007 | What exact visual styling, field density, expiry/archive wording, and card/payment-profile handoff should distinguish deliberate Payment Instructions from incomplete Checkout Workspaces in the shared Instructions route? | Product / Design / Payments / Security | Open |
+| OQ-06B-006 | Retired: Founder confirmed there is no production Request runtime or legacy Request deep-link data requiring a reader, adapter or fallback. | Product / Design / Operations | Answered/retired |
+| OQ-06B-007 | What exact visual styling, field density, expiry/closure wording, and card/payment-profile handoff should distinguish deliberate Payment Instructions from incomplete Checkout Workspaces in the shared Instructions route? | Product / Design / Payments / Security | Open |
 | OQ-06B-008 | What exact Payment Profile card styling, field density, empty-state copy, tokenization return UX, and permitted PSP card metadata should be used? Two-tab `Cards` / `Profiles` structure is confirmed. | Product / Design / Payments / Security | Partially open |
 | OQ-06B-009 | What exact Activity visual styling, field density, search/filter behavior, grouping behavior, empty-state copy, lifecycle timeline wording, and transaction-detail display should be used? Screen order, expandable entry behavior, amount direction, and core actions are defined. | Product / Design / Payments / Operations | Partially open |
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
-| OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Pay+ and Partner Offer label taxonomy, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed. | Product / Design / Growth / Privacy / Commercial | Partially open |
+| OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Offer label taxonomy for Pay+ Offers and Partner Offers, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed, and this question does not reopen the settled Pay+ action composition. | Product / Design / Growth / Privacy / Commercial | Partially open |
 | OQ-06B-012 | What final responsive measurements, short-viewport treatment, first-use-cue persistence and animation implementation, exact Copy/CTA presentation, screen-reader behavior, technical scheduling/synchronization, and DOC-20 evidence should implement the defined Entrance Carousel and `ENTRANCE-PROMOTION-DETAIL` behavior? | Product / Design / Content / Growth / Security / Privacy / Engineering / QA / Operations | Partially open; capacity, sequence, timing, interaction, Promotion/Feature scope, image-first detail, Back, inline Terms, optional CTA, source-change suspension, and same-item return are defined |
-| OQ-06B-013 | What final OTP constants, provider-result mapping, weak-code/retry/lockout rules, support-assisted passcode-recovery proof and waiting period, credential storage, session-revocation mechanics, and final visual design apply to the defined `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` flows? DOC-17/DOC-19/DOC-22 own those technical and operational decisions; DOC-20 must derive implementation tests. | Security / Engineering / Compliance / QA / Operations | Partially open; product behavior, five identity labels, HK-only phone baseline, six-digit passcode flows, and return behavior confirmed |
+| OQ-06B-013 | What final OTP constants, provider-result mapping, weak-code/retry/lockout rules, support-assisted passcode-recovery proof and waiting period, credential storage, session-revocation mechanics, and final visual design apply to the defined `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` flows? DOC-17 owns applicable provider-integration mappings; DOC-19 owns technical/security/recovery policy; DOC-15 owns approved-purpose privacy/access requirements; DOC-21 owns support operations; DOC-22 owns only owner-permitted queue/workflow/configuration execution; and DOC-20 must derive implementation tests. | Security / Engineering / Compliance / Privacy / QA / Operations | Partially open; product behavior, five identity labels, HK-only phone baseline, six-digit passcode flows, and return behavior confirmed |
 | OQ-06B-014 | What exact Authentication Outcome IDs, Resolution mappings, Message IDs, approved user-facing messages, CTA mappings, disclosure levels, notification treatment, and technical outcome/event mappings should populate the mandatory DOC-07 Authentication slice? | Product / Content / Design / Security / Privacy / Support | Open; route-level Outcomes and Resolution Strategies defined, exact DOC-07/DOC-08/DOC-18 mappings pending |
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.57 | 2026-08-13 | Clarified registration-attempt expiry versus indefinite record retention and made identity-provider handoff wording provider-neutral without selecting a provider. |
+| 0.1.55 | 2026-08-12 | Stage 8 correction: removed Archive treatment from incomplete Checkouts and Payment Instructions, including the Archived filter/action; retained DOC-09 continuation, Close and Expiry semantics; and replaced the stale DOC-09 v1.1.1 pin with the current Founder Working Baseline reference. |
+| 0.1.56 | 2026-08-12 | Applied the Founder-settled indefinite-retention boundary to Privacy & Data route wording without adding a deletion or disposition mechanism. |
+| 0.1.54 | 2026-08-12 | Stage 8 correction: removed retired Requests references from active shortcut and completion-status tables, restored the pre-existing `payment instructions / 付款指示` Copy provenance, and retained pay-later as a Payment Instruction concept rather than a newly selected route/header label. |
+| 0.1.53 | 2026-08-12 | Stage 8 ownership correction: removed residual generic or joint DOC-22 policy authority from Payment Instruction, Payment Profile, receipts/statements, identity and passcode-recovery handoffs; retained formal-owner policy and truth while limiting DOC-22 to owner-permitted execution. |
+| 0.1.52 | 2026-08-12 | Stage 8 Wave 2 Draft: preserved the settled four-action Pay+, Category-first Bill and separate Rent routes; removed nonexistent Request runtime/readers/deep-link handling; corrected active/historical structure; and retained the same-ID Save/Activity and Archive three-way boundaries without adding a route, action, status or ID. |
 | 0.1.51 | 2026-08-06 | Defined the public Entrance Carousel and `ENTRANCE-PROMOTION-DETAIL` human-level UI/UX: full-width `4:5` image-only presentation, dots, five-second Crossfade, swipe/tap separation, first-use cue, five-item priority/manual sequence, Promotion/Feature-only scope, Back-only image-first detail, inline Terms, optional CTA, same-item return, source-change suspension, and bounded owner handoffs while preserving route statuses and authentication behavior. |
 | 0.1.50 | 2026-08-05 | Defined the approved HOME-ROOT Greeting, Inbox-backed Important Notice, Admin-selected Hot Offer, payer-only Upcoming Bills / Rent, completed-outcome Recent Activity, section-level resilience, accessibility, and presentation-governance contracts while preserving source ownership, Partially Defined Home status, and Defined PAYMENT-CHECKOUT. |
 | 0.1.49 | 2026-08-05 | Updated active `PAYMENT-CHECKOUT` references to Defined baseline, recognized completed PDM-WI-003 register/diagram alignment and the DEC-2026-037 logical communication architecture, and retained exact-expression, source-owner, technical, prototype, validation, implementation/UAT, acceptance, monitoring, support, and operational dependencies. |

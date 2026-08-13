@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.20
+version: 0.1.23
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,13 +14,14 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-05
+last_updated: 2026-08-12
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
   - DOC-06A Core User Journeys & Service Blueprint
   - DOC-06B Navigation, IA & Route Taxonomy
   - DOC-06D UX Requirements, Acceptance Criteria & Test Matrix
+  - DOC-07 Content, Disclosure & User Authorization Specification
   - DOC-08 Notification, Receipt & Communication Rules
   - DOC-09 Payment Domain Architecture
   - DOC-10 Payout & Reconciliation
@@ -30,6 +31,8 @@ related_documents:
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization & Authentication
+  - DOC-20 Testing, UAT & Release Readiness
+  - DOC-21 Monitoring, Incident Response & Operational SOPs
   - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
@@ -39,26 +42,71 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06C` |
 | **Title** | Bills, Rent & Tenancy UX Module |
-| **Version** | `0.1.20` |
+| **Version** | `0.1.23` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-05` |
+| **Last Updated** | `2026-08-12` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
+## Current Wave 2 Payer-only Bills/Rent UX Baseline
+
+This Stage 8 Draft is the current normative DOC-06C baseline. Active sections define Payer-only Bills/Rent UX, Category-bound acquisition, separate Rent, same-ID Save/projections, and specialist handoffs. Retired identifiers appear only in concise non-active documentation registers; no obsolete route, runtime reader, action or workflow is active. Stable IDs and append-only history remain preserved. No Route Register or route-status change is made here.
+
+### Source identity and purpose timing
+
+- Opening Pay a Bill/Rent or Setup a Bill/Rent creates temporary pre-validation capture/session state only; it does not establish a durable authoritative Bill/Rent ID.
+- ID establishment consumes an owner-governed source/Evidence preservation eligibility outcome. DOC-06C defines the Bills/Rent journey boundary and does not independently define the technical persistence threshold or exact minimum fields required to establish the authoritative Bill/Rent identity. The outcome establishes the ID before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or a payment-facing handoff requires stable source identity, including before immediate-pay Checkout or before deliberate Setup gives the same ID an Active/reusable projection. Pending Evidence, mismatch or scoped Admin review does not automatically prevent ID establishment once the outcome permits it. ID establishment alone does not imply accepted Evidence, verified Payee, destination/Payout readiness, risk clearance, Payment Obligation or Checkout readiness, payer authorization, successful Payment, Save or Active/Archived/history-only projection.
+- Immediate pay-now never asks for Save before Checkout. After confirmed Payment with its separate Payment ID linked to the source, show Payment Result. A source already saved/Active before Payment keeps that projection without duplicate Save. For an otherwise unsaved source, resolve the optional Save decision before Activity, Payment History, Receipt or ordinary safe exit: selected Save makes the same ID Active/reusable; declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes it history-only. Payment, Activity and Receipt remain available independently of Save but do not bypass the projection resolution.
+- Deliberate Setup Bill/Rent consumes the owner-governed source/Evidence preservation eligibility outcome, establishes the same source ID and gives it an Active/reusable projection because Setup is deliberate reuse/collection intent, without a Payment or Payment ID. Active/reusable means Payer Save/reuse intent and visibility only; a later Payment is created only under DOC-09 fresh checks and payer authorization.
+- Failure or abandonment after ID establishment may leave the source unprojected only when immediate pay ends before confirmed Payment, or deliberate Setup ends before Active/reusable projection is completed. That outcome does not expose a Bills/Rent route or list entry or create a user-facing incomplete-source status. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts. A newly confirmed Payment for an otherwise unsaved source cannot remain unprojected merely because the Payer closes or leaves Payment Result; that is skipped Save and produces history-only before downstream handoff.
+
+### Controlled Bill journeys
+
+1. Select one of the twelve Founder-confirmed launch controlled Bill Categories in DOC-05 first. The inventory is accepted; Category-specific eligibility, Evidence criteria, detailed labels, Directory contents and Copy remain with their named owners and are not inferred here.
+2. Use either the Category-scoped Directory (institutional Payee discovery/pre-trust only) or Provide Payee myself. Neither method is unrestricted and self-provided never bypasses Category or substantive owner controls.
+3. Directory unpublication stops new discovery only; it does not hide, disable, rename or invalidate a saved Bill/Rent source or correct Payee/payment facts. Category disassociation, programme/risk suspension, invalid destination, fraud, sanctions, legal prohibition and security compromise remain separate substantive restrictions that apply across both acquisition methods.
+4. Retain bounded acquisition provenance (Directory-selected or Self-provided, stable institution/Directory reference if one already exists, acquisition Category, timestamp and relevant lineage reference) for audit/troubleshooting only; it does not govern live eligibility, visibility or commercial authority.
+5. For self-provided Bills, the Payer selects Company or Individual before Evidence. DOC-12 then recognizes Evidence and may derive an apparent type; only after that recognition may a mismatch prompt appear. Preserve the Payer choice, AI-apparent assessment, Payer accept/decline response and scoped Admin determination without overwriting provenance.
+6. DOC-12 owns Category/Evidence/OCR/extraction/verification/Evidence-to-Payee matching; DOC-10 owns destination readiness/Payout/reconciliation; DOC-09 owns Payment Obligation/Checkout/payer authorization/Payment invariants; DOC-14 owns risk/sanctions/fraud/anti-cashout; DOC-15 owns privacy/masking/retention requirements; DOC-18 represents approved data/status/event/audit/lineage requirements; DOC-22 executes only permitted Admin review under those owner outcomes.
+
+### Separate Rent journey
+
+Rent is independent of the controlled-Bill Directory. A Payer does not select a Bill Category or choose Directory versus Provide Payee myself for Rent. Rent may pay an individual or institutional Payee who need not be a PayPlus User. Tenancy context and applicable Evidence may be reused until expiry, replacement or material change; expiry/replacement/material change requires renewed Evidence treatment. Destination, risk, readiness, period-specific obligation facts and fresh payer authorization remain payment-specific.
+
+### Save, visibility, Activity and Archive
+
+- Setup is deliberate reuse/collection intent and, after the owner-governed source identity outcome establishes the ID, may give that same ID an Active/reusable projection before Payment. Active/reusable expresses Payer Save/reuse intent and visibility only.
+- A confirmed Payment for an otherwise unsaved source followed by declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes that same ID history-only; it is neither Active nor Archived and has no Bills/Rent UI entry or detail route. A source already saved/Active before Payment keeps its projection without duplicate Save. An established but unprojected source is limited to pre-confirmed immediate-pay or incomplete-Setup abandonment. The Payment remains visible in global Activity, Payment History and Receipt after projection resolution. No Save-from-Activity and no separate Unsave action exists.
+- Post-payment Save activates the same existing Bill/Rent ID; it creates no second source and moves/recreates no Payment lineage.
+- Ordinary Archive applies to an already saved source and changes Payer visibility/projection only. It never erases or rewrites Evidence, completed financial history, destination/payment snapshots, Payout, reconciliation or audit lineage.
+- ARCHIVED-DOCS-LIST remains provisionally retained under the Founder-approved W2-FD-05 decision in this PDM-WI-008 Stage 7 authorization (Option A); this does not change route status. Exact Restore eligibility, revalidation, prior-version/Evidence-version/replacement-source presentation and detailed Archive/Restore UI remain deferred to DOC-06B/DOC-06C with DOC-10 payout/reconciliation blockers, DOC-11 refund/dispute/chargeback/case blockers and DOC-12/DOC-15/DOC-18 Evidence, privacy/retention and data/lineage handoffs.
+
+### Active retirement and notification handoff
+
+Active Request, BILLS-LINKING, BILLS-RECEIVE, Remind Payer, Payee-user and Consumer Receiving Info behavior is retired. Retired stable IDs and prior meanings remain non-active documentation evidence only. Founder confirmation establishes that no production Request/Payee-role runtime or legacy Request deep-link data exists; no runtime reader, adapter, fallback, dormant runtime or replacement Request product is created.
+
+The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. DOC-06C consumes this outcome and does not independently determine Payee type or make an Admin determination. Institution/company and unresolved/insufficient Individual determination leave notification unavailable. A governed Individual determination plus Payer choice may expose the informational one-way capability. Payer contact responsibility does not remove PayPlus obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. The capability is not Request, Linking, acceptance, consent proof, invitation, reciprocal visibility, payment authorization or a payment-state change. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity/channel/template/preference/delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 represents approved data/audit requirements; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
+
+---
+
+## Active Normative Baseline
+
+The route and detail sections below are active current requirements for the Payer-only Bills/Rent UX. Retired BILLS-RECEIVE, Request, Linking, Receive and Payee-user identifiers appear only in concise non-active documentation registers or append-only Version History; they create no runtime reader or current product behavior.
+
 ## 1. Purpose
 
-DOC-06C governs the PayPlus Bills, rent, tenancy, fee, obligation, reminder, activity, evidence, and role-aware Bills-route UX module.
+DOC-06C governs the PayPlus Payer-facing Bills, rent, tenancy, fee, obligation, reminder, activity and evidence UX module.
 
-It is the owning document for BILLS-PAY, BILLS-RECEIVE, BILLS-ACTIVITY, BILLS-ACTIVITY-DETAIL, BILLS-ADD, BILLS-EVIDENCE-DETAIL, BILLS-EVIDENCE-UPLOAD, BILLS-REMINDER-LIST, BILLS-REMINDER-DETAIL, and ARCHIVED-BILLS-LIST at the human-readable UX level.
+It is the owning document for the Payer-facing BILLS-ROOT/BILLS-PAY, BILLS-ACTIVITY, BILLS-ACTIVITY-DETAIL, BILLS-ADD, BILLS-EVIDENCE-DETAIL, BILLS-EVIDENCE-UPLOAD, BILLS-REMINDER-LIST, BILLS-REMINDER-DETAIL, and ARCHIVED-BILLS-LIST human-readable UX. BILLS-RECEIVE and BILLS-LINKING remain only as retired stable IDs in non-active documentation; they are not routes or runtime readers.
 
 ## 2. Scope Boundary
 
-DOC-06C owns the user-facing Bills module route behavior, card/detail actions, role separation, evidence sub-flow, reminder management, activity timeline, archived-obligation list/detail behavior, and route handoffs.
+DOC-06C owns the user-facing Payer Bills module route behavior, card/detail actions, evidence sub-flow, reminder management, activity timeline, archived-source visibility boundary and route handoffs.
 
 DOC-06C does not own detailed checkout/payment processing, evidence verification algorithms, final data schema, final event taxonomy, privacy masking rules, notification templates, risk thresholds, or admin queue design. Those remain with DOC-08, DOC-09, DOC-12, DOC-14, DOC-15, DOC-18, DOC-19, and DOC-22 as applicable.
 
@@ -67,16 +115,16 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | Area | Status | Notes |
 | --- | --- | --- |
 | BILLS-PAY payer-side route | Working baseline | Card/detail actions defined; final visual UI remains open. |
-| BILLS-RECEIVE payee-side route | Working baseline | Request/remind-payer actions defined; resend limits and exact wording remain open. |
+| BILLS-RECEIVE retired ID | Retired active MVP | Stable ID remains non-active documentation lineage only; no Consumer Payee route, runtime reader or Request/Remind Payer behavior. |
 | Bill/rent cards and details | Working baseline | Field set defined; final density, masking, and visual hierarchy remain open. |
 | Activity sub-route | Working baseline | Payment activity and limited milestones defined; global Activity and Receipts & Statements routes remain separate under DOC-06B. |
 | Add Bill / Rent flow | Working baseline | Evidence capture methods and required fields defined; source selection UX remains open. |
 | Evidence sub-route | Working baseline | Evidence detail/upload behavior and status mapping defined; data model remains DOC-18. |
-| Archived Bills & Rent | Working baseline | Mixed-role archived-obligation list, read-only detail mode, archive eligibility, restore, evidence cascade, and blocker behavior are defined; final visual design remains open. |
-| Reminder list/detail route | Working baseline | Linked reminders, defaults, custom override, toggle, and soft-delete defined; payment-instruction action alerts remain outside Bills reminder management. |
-| User-to-user linking | Partially defined | Automatic matching is not allowed; invitation/linking mechanism remains open. |
+| Archived Bills & Rent | Working baseline / Payer-only re-scope | Saved-source visibility projection and non-erasure are current; exact Restore, evidence-version and prior-version behavior remains deferred. |
+| Reminder list/detail route | Working baseline | Linked reminders, defaults, custom override, toggle, and non-destructive deactivation defined; payment-instruction action alerts remain outside Bills reminder management. |
+| User-to-user Linking | Retired active MVP | Retired stable ID and neutral future seams only; no participant Linking flow or runtime reader. |
 
-## 4. Product Destination and Legacy Traceability Map
+## 4. Product Destination and Retired-ID Traceability Map
 
 | Product Destination ID | Legacy DOC-06C Traceability Alias |
 | --- | --- |
@@ -92,7 +140,7 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | BILLS-REMINDER-DETAIL | ROUTE-06C-BILLS-REMINDER-DETAIL |
 | ARCHIVED-BILLS-LIST | N/A - stable destination added after modularization |
 
-The product destination IDs in the first column are the stable route names for human documents, diagrams, and later AI build-execution conversion. The DOC-06C-prefixed aliases are retained only as legacy traceability references and must not replace the product destination names or be extended as a separate route taxonomy.
+The product destination IDs in the first column are stable references for human documents, diagrams, and later AI build-execution conversion; current active treatment is governed by the normative route sections below. `BILLS-RECEIVE` is a retired stable ID in append-only documentation history only and is not made active by this map. The DOC-06C-prefixed aliases are retained only as traceability references and must not replace the product destination names or be extended as a separate route taxonomy.
 
 ---
 
@@ -103,6 +151,8 @@ This section defines the working baseline for the `Bills` bottom-navigation rout
 Route-level UI drafting rule: each route should define user-facing behavior and identify material events/data signals required for AI-ready data-engine support. Detailed schema, event taxonomy, lineage, model registry, and warehouse design remain owned by DOC-18.
 
 ### 5.1 Route and Subsection IDs
+
+The active route table contains only current Payer routes, views and components. Retired BILLS-RECEIVE, Request, Remind Payer, Linking and Consumer Payee identifiers are preserved separately in the non-active documentation register in Section 5.14 and do not define routes, actions or runtime readers.
 
 For DOC-06, a route ID may represent a full screen, tab/view, modal/sheet, section, or reusable card component. The type should be stated so later AI build documents do not duplicate screens or confuse components with navigation destinations.
 
@@ -120,80 +170,71 @@ Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER
 | ID | Type | Route / Section | Opened By | Definition |
 | --- | --- | --- | --- | --- |
 | `BILLS-ROOT` | Screen | Bills route | Bottom nav `Bills` | Top-level Bills tab screen. |
-| `BILLS-PAY` | Tab / view | To Pay view | `To Pay` tab inside `BILLS-ROOT`, Pay+ `Pay a Bill`, Pay+ `Pay Rent`, dashboard items, reminders, or action-required notifications | Payer-oriented selection and management route for bills, fees, rent, and requests the user needs or expects to pay. Pay+ may open a temporary Bill/Fee or Rent/Tenancy selection scope without changing saved Bills filters. This replaces the earlier informal "To Pay view" description. It is not the checkout/payment route. |
-| `BILLS-RECEIVE` | Tab / view | To Receive view | `To Receive` tab inside `BILLS-ROOT`, payee-side request status, dashboard items, or action-required notifications | Payee-oriented request and receive-management route for bills, fees, rent, and requests the user expects to receive. It must not show payer-side `Pay` actions. |
-| `BILLS-CARD-BILL` | Card component | Bill / fee card | Rendered inside `BILLS-PAY` or `BILLS-RECEIVE` | Summary card for a bill, invoice, fee, or approved non-rent obligation. |
-| `BILLS-CARD-RENT` | Card component | Rent / tenancy card | Rendered inside `BILLS-PAY` or `BILLS-RECEIVE` | Summary card for rent or tenancy-linked obligation. |
-| `BILLS-DETAIL-BILL` | Screen | Bill / fee detail | `Details` on `BILLS-CARD-BILL` | Detail page for bill, invoice, fee, or approved obligation record. |
+| `BILLS-PAY` | Tab / view | Payer Bills view | `BILLS-ROOT`, Pay+ `Pay a Bill`, Pay+ `Pay Rent`, dashboard items, reminders, or action-required notifications | Payer-oriented selection and management route for saved or setup Bill/Rent sources. Pay+ may open a temporary Bill or Rent selection scope without changing saved Bills filters. It is not the checkout/payment route. |
+| `BILLS-CARD-BILL` | Card component | Bill / fee card | Rendered inside `BILLS-PAY` | Summary card for a controlled Bill, invoice or fee source. |
+| `BILLS-CARD-RENT` | Card component | Rent / tenancy card | Rendered inside `BILLS-PAY` | Summary card for a Rent or tenancy-linked source. |
+| `BILLS-DETAIL-BILL` | Screen | Bill / fee detail | `Details` on `BILLS-CARD-BILL` | Detail page for the selected controlled Bill, invoice or fee source. |
 | `BILLS-DETAIL-RENT` | Screen | Rent / tenancy detail | `Details` on `BILLS-CARD-RENT` | Detail page for rent record and linked tenancy context. |
 | `BILLS-ACTIVITY` | Sub-route / screen or sheet | Bill/rent activity timeline | `View Activities` from bill/rent detail pages | User-facing payment, payout/transfer, failure, return, refund, and reversal activity for one selected bill/rent record. This is not request history, evidence management, global history, or an internal audit log. |
 | `BILLS-ACTIVITY-DETAIL` | Sub-route / screen or sheet | Activity entry detail | Tapping one entry in `BILLS-ACTIVITY` | Detail view for one selected payment/activity entry, with reference number, receipt/proof access, and optional link to the payment detail route where needed. |
-| `BILLS-ADD` | Flow / screen group | Add Bill / Rent flow | `Add Bill / Rent` button or Pay+ action sheet | Setup flow for new bill, fee, rent, tenancy, or evidence-backed obligation. |
+| `BILLS-ADD` | Flow / screen group | Add Bill / Rent flow | `Add Bill / Rent` button or Pay+ action sheet | Setup flow for a new controlled Bill source or separate Rent/tenancy source. |
 | `BILLS-EVIDENCE` | Sub-flow group / shorthand | Evidence sub-flow | Detail-page evidence area, `BILLS-ADD`, or evidence action-required state | Shorthand for bill/rent evidence actions. Evidence is a supporting attachment/status layer of a bill/rent record, not a standalone user object. |
 | `BILLS-EVIDENCE-DETAIL` | Screen or sheet | Evidence detail | Evidence section inside `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` | View and manage the current active evidence set for one bill/rent record. |
 | `BILLS-EVIDENCE-UPLOAD` | Flow / screen group | Evidence upload/update | `Upload` or `Update` from evidence detail, or evidence step inside `BILLS-ADD` | Upload file, take photo, scan QR, or enter evidence manually; supports OCR/autofill and user correction through the bill/rent setup/detail flow. |
-| `BILLS-REMINDER-LIST` | Screen | Reminder management | Dashboard shortcut `Reminders` | Alarm-style reminder management screen for reminders linked to bill, fee, rent, tenancy, or obligation records. |
-| `BILLS-REMINDER-DETAIL` | Sheet or screen | Reminder setup/edit | `Set Reminder`, `Edit Reminder`, or `+ Add Reminder` | Create or edit one reminder linked to a specific bill, fee, rent, tenancy, or obligation. |
-| `BILLS-LINKING` | Flow / sheet | Participant linking/invitation | Optional link/invite action where enabled | User-initiated or user-accepted payer/payee linking. Must not perform automatic user-to-user matching. |
+| `BILLS-REMINDER-LIST` | Screen | Reminder management | Dashboard shortcut `Reminders` | Alarm-style reminder management screen for reminders linked to a Bill/Rent source or an applicable owner-governed obligation reference. |
+| `BILLS-REMINDER-DETAIL` | Sheet or screen | Reminder setup/edit | `Set Reminder`, `Edit Reminder`, or `+ Add Reminder` | Create or edit one reminder linked to a specific Bill/Rent source or applicable owner-governed obligation reference without treating their identities as interchangeable. |
 
 Initial route ownership:
 
 | User Action | Source | Destination / Behavior |
 | --- | --- | --- |
-| Tap `Bills` bottom nav | App bottom navigation | Opens `BILLS-ROOT`, defaulting to the last used or system-default `To Pay` / `To Receive` view. |
-| Tap `To Pay` | `BILLS-ROOT` | Opens `BILLS-PAY`. |
-| Tap `To Receive` | `BILLS-ROOT` | Opens `BILLS-RECEIVE`. |
-| Tap `Pay a Bill` / `Pay Rent` | `PAYPLUS-ACTION-SHEET` | Opens `BILLS-PAY` with the applicable temporary category scope. A payment-ready selection may continue to DOC-09 `PAYMENT-CHECKOUT`; a non-ready selection opens the applicable bill/rent detail or resolution context. |
-| Tap `Add Bill / Rent` | `BILLS-ROOT`, Pay+ action sheet, or `REQUESTS-NEW` create-new path | Opens `BILLS-ADD`. If opened from `REQUESTS-NEW`, successful completion must return to `REQUESTS-NEW` with the created bill/rent context selected; cancellation returns to `REQUESTS-NEW` without changing the selected context. |
+| Tap `Bills` bottom nav | App bottom navigation | Opens `BILLS-ROOT` with the Payer `BILLS-PAY` view. |
+| Tap `To Pay` | `BILLS-ROOT` | Retained only as a compatible label/reference for `BILLS-PAY`; no mixed-role tab pair is active. |
+| Tap `Pay a Bill` / `Pay Rent` | `PAYPLUS-ACTION-SHEET` | `Pay a Bill` opens `BILLS-PAY` with a temporary supported controlled Bill Category scope; `Pay Rent` opens the separate Rent/tenancy selection scope without a Bill Category or Directory choice. A payment-ready selection may continue to DOC-09 `PAYMENT-CHECKOUT`; a non-ready selection opens the applicable Bill/Rent detail or owner-approved resolution context. |
+| Tap `Add Bill / Rent` | `BILLS-ROOT` or Pay+ action sheet | Opens `BILLS-ADD`. Category-first controlled Bill setup or separate Rent setup establishes the source ID only after the owner-governed source/Evidence preservation eligibility outcome; no active Request-origin return is created. |
 | Tap `Pay` on a payer-side card/detail | `BILLS-PAY`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. DOC-06C owns the entry point and route handoff only. |
-| Tap `Request` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Creates, sends, resends, or opens request-delivery action for a verified bill/rent/tenancy context before counterparty acceptance. The action creates or updates a request record that may appear in `REQUESTS-ROOT` and be managed in `REQUESTS-DETAIL`; it does not open `REQUESTS-ROOT` by default. Where the user must select receiver, delivery method, or share channel, route through DOC-06B `REQUESTS-NEW`. A request must not be delivered before required evidence is verified or approved by exception. Exact request delivery method and notification behavior must follow DOC-08 and later DOC-22 controls. |
-| Tap `Remind Payer` on a payee-side card/detail | `BILLS-RECEIVE`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens or triggers an approved payer reminder action for the selected request. This is a payee-to-payer request reminder, not a payment action and not the user's own `BILLS-REMINDER-LIST` reminder record unless later explicitly linked. |
 | Tap `Details` | Bill/rent card | Opens the relevant detail screen. |
 | Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Opens `BILLS-REMINDER-DETAIL` for the selected linked record. |
 | Tap `Reminders` shortcut | Dashboard shortcut grid | Opens `BILLS-REMINDER-LIST`. |
-| Tap `+ Add Reminder` | `BILLS-REMINDER-LIST` | User selects an existing bill, fee, rent, tenancy, or obligation, then opens `BILLS-REMINDER-DETAIL`. |
+| Tap `+ Add Reminder` | `BILLS-REMINDER-LIST` | Payer selects an existing Bill/Rent source context, then opens `BILLS-REMINDER-DETAIL`; any linked Payment Obligation reference remains distinct and owner-governed. |
 | Tap `View Activities` | Detail page | Opens `BILLS-ACTIVITY`. |
 | Tap one activity entry | `BILLS-ACTIVITY` | Opens `BILLS-ACTIVITY-DETAIL` or a later payment detail route if separately defined. |
 | Tap contextual `View` evidence action | Evidence status area inside bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` for the selected bill/rent record. |
 | Tap `Upload` / `Update` evidence | `BILLS-EVIDENCE-DETAIL` or evidence step in `BILLS-ADD` | Opens `BILLS-EVIDENCE-UPLOAD`. |
 | Tap evidence action-required prompt | Bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD` depending on whether evidence exists. |
-| Tap `Archive` | Detail page | Applies the archive eligibility rules below, removes the obligation from this user's active Bills views, and returns to the relevant active Bills list. The retained obligation is later accessible through DOC-06B `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST`. |
-| Tap optional `Invite / Link Payee` or `Invite / Link Payer` | Detail page or request context where enabled | Opens `BILLS-LINKING`; linking requires approved user or operational action. |
+| Tap `Archive` | Detail page for a saved/Active source | Applies ordinary Archive to the same authoritative Bill/Rent source, removes its Active-list projection, and returns to the relevant active Bills/Rent list. The same source remains Payer-accessible through DOC-06B `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST`; Archive does not erase or rewrite its Evidence, Payment, destination, Payout, reconciliation or audit lineage. Exact Archive eligibility, Restore, prior-version and Evidence-version behavior remains deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs. |
 
 Payment/checkout ownership rule:
 
 - DOC-06C owns the user-facing entry point, route handoff, back/return behavior expectation, and the fact that payer-side `Pay` opens checkout.
-- DOC-06B owns the reviewed global `PAYMENT-CHECKOUT` route-level adaptive Workspace UI/UX, including presentation, entry, return, and handoff behavior. DOC-09 owns the underlying Payment Domain architecture and business invariants, including Payment Obligations, Checkout Workspace, monetary and funding allocations, Provider Submission, confirmed Payments, Payment Applications, deliberate Payment Instructions, and incomplete Checkout continuation. DOC-06B `PAYMENT-PROFILE-ROOT` owns reusable card/profile management when Checkout or instruction flows need a card/profile management handoff. DOC-06C continues to own Bill/Rent selection, payer-side `Pay` entry, source facts and readiness, contextual treatment, and source-aware return behavior; it does not own Checkout composition or payment-domain meaning.
+- DOC-06B owns the reviewed global `PAYMENT-CHECKOUT` route-level adaptive Workspace UI/UX, including presentation, entry, return, and handoff behavior. DOC-09 owns the underlying Payment Domain architecture and business invariants, including Payment Obligations, Checkout Workspace, monetary and funding allocations, Provider Submission, confirmed Payments, Payment Applications, deliberate Payment Instructions, and incomplete Checkout continuation. DOC-06B `PAYMENT-PROFILE-ROOT` owns reusable card/profile management when Checkout or instruction flows need a card/profile management handoff. DOC-06C continues to own Bill/Rent selection, payer-side `Pay` entry, source facts, consumption of the combined owner-controlled readiness presentation, contextual treatment, and source-aware return behavior; it does not own Checkout composition or payment-domain meaning.
 - DOC-07 owns required user-facing wording and disclosures; DOC-08 owns checkout-related notifications and receipts; DOC-13 owns promotion/coupon/voucher checkout treatment; DOC-15 owns masking and data visibility; DOC-19 owns authentication/security controls; DOC-18 owns route events and data signals.
 
-Standalone `BILLS-ADD` started from Pay+ should end on a success state with `Pay Now` only when the new obligation is payment-ready and `Back to Home`. If it is not payment-ready, show the current verification/readiness state and no active `Pay Now`. This does not replace the existing `REQUESTS-NEW` return behavior when setup originated from request creation.
+Standalone `BILLS-ADD` started from Pay+ hands to the applicable Payer success or payment context under DOC-09. It does not create a Request-origin return; exact incomplete-source treatment remains with DOC-09/DOC-15/DOC-18.
 
-### 5.2 Top-Level Views
+### 5.2 Top-Level Payer Views
 
-`To Pay` and `To Receive` must always appear. If the user currently has no payee-side records, `To Receive` should show an empty state instead of disappearing.
+The current Payer Bills area uses the stable `BILLS-PAY` destination. The former `To Pay` / `To Receive` role-tab pair is not active Wave 2 presentation. No replacement tab or route is invented. A no-Save source is not shown in the active Bills list.
 
 | View | User Meaning | Includes | Does Not Include |
 | --- | --- | --- | --- |
-| `To Pay` | Things the user needs, expects, or has been requested to pay. | Payer-created bills/rent, payee-created requests awaiting payer action, due obligations, payment readiness, payment history, receipts. | Payee-side payout management. |
-| `To Receive` | Things the user expects to receive as payee, landlord, biller, or service provider. | Payee-created bill/rent/request records, request status, payer response, payout-received status, payee evidence management. | Payer-side received requests that require the user to pay. |
+| `BILLS-PAY` | Payer-visible saved Bill/Rent sources and permitted active source projections. | Saved controlled Bills/Rent, source details, Evidence handoff, payment entry, reminders, Activity and Archive handoffs. | Consumer Payee, Request, Linking, payout-management or history-only source routes. |
 
-A payer receiving a request from a payee belongs in `To Pay`, because the user is receiving a request to pay. It should not be shown under `To Receive`.
+Request and Payee-user concepts are not active Bills views. Retired IDs and prior meanings remain append-only documentation history only; no production runtime records or readers exist.
 
-`BILLS-PAY` and `BILLS-RECEIVE` may render the same bill/rent card component types, but the action set must be role-aware:
+`BILLS-PAY` renders Payer-only bill/rent card types. `BILLS-RECEIVE` is retired from active MVP and is not a second role tab.
 
 | Context | Governed User Intent | Primary Actions |
 | --- | --- | --- |
-| `BILLS-PAY` | User is acting as payer. | Pay, review request where payer acceptance is required, view details, set reminder, update detail when action-required. |
-| `BILLS-RECEIVE` | User is acting as payee, landlord, biller, or recipient. | Request before payer acceptance, view details, remind payer, edit detail where allowed, archive. |
+| `BILLS-PAY` | User is acting as Payer. | Select supported Category, Directory/self-provided acquisition, view details, deliberately Setup for reuse where offered, Pay, Activity, Set Reminder, Archive. Immediate pay has no pre-Checkout Save; optional Save for an otherwise unsaved source is resolved only after Payment Result, and Activity never offers Save. |
 
-The detail route may remain `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT`, but its visible actions must follow the context from which it was opened. A detail page opened from `BILLS-RECEIVE` must not show the payer-side `Pay` action.
+The detail route may remain `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT`, with visible actions determined by the active Payer source context. `BILLS-RECEIVE` has no active entry or action and is preserved only as a retired stable ID in Section 5.14.
 
 ### 5.3 Filters
 
 | View | MVP Filters | Rule |
 | --- | --- | --- |
-| `To Pay` | All, Action Required, Due Soon, Paid | Archived records are excluded and belong to `ARCHIVED-BILLS-LIST`. |
-| `To Receive` | All, Action Required, Due Soon, Received | Archived records are excluded and belong to `ARCHIVED-BILLS-LIST`. |
+| `BILLS-PAY` | All, Action Required, Due Soon, Paid | Archived records are excluded and belong to `ARCHIVED-BILLS-LIST`; no mixed-role filter is active. |
 
 Action-required items should be visible through a filter and through status badges on the relevant card.
 
@@ -201,7 +242,7 @@ Action-required items should be visible through a filter and through status badg
 
 `BILLS-CARD-BILL` should show the minimum information needed for quick recognition and action:
 
-- category: Bill, Fee, Invoice, or approved obligation;
+- controlled Bill Category and source type, such as Bill, Fee or Invoice;
 - bill name, required;
 - latest amount;
 - next due date;
@@ -212,18 +253,21 @@ Payer-side card actions when rendered in `BILLS-PAY`:
 
 | Action | Route / Behavior |
 | --- | --- |
-| Pay | Opens payment/checkout flow for the selected obligation, subject to DOC-09 eligibility and authorization rules. |
+| Pay | Opens payment/Checkout handoff for the selected Bill source; DOC-09 owns any applicable Payable Basis, Payment Obligation, eligibility and authorization rules. |
 | View Details | Opens `BILLS-DETAIL-BILL`. |
-| Set Reminder | Opens `BILLS-REMINDER-DETAIL` for this obligation. |
+| Set Reminder | Opens `BILLS-REMINDER-DETAIL` for this Bill source or an applicable owner-governed obligation reference without treating their identities as interchangeable. |
 | Update Detail | Replaces normal edit/detail prompt when the card is action-required due to rejected, missing, expired, or inconsistent information. |
 
-Payee-side card actions when rendered in `BILLS-RECEIVE`:
+Former Payee-side card actions remain append-only documentation history only; no BILLS-RECEIVE action or runtime reader is available.
 
-| Action | Route / Behavior |
-| --- | --- |
-| Request | Available before payer acceptance; sends, resends, or opens request-delivery action for the selected verified request. Disappears after payer acceptance. |
-| View Details | Opens `BILLS-DETAIL-BILL` in payee-side context. |
-| Remind Payer | Opens or triggers approved payer reminder action for the selected request, subject to DOC-08 and DOC-22 controls. |
+
+### Non-Active Documentation Register - Retired Payee-Side Card Action IDs
+
+| Retired documentation evidence | Preservation location | Current treatment |
+| --- | --- | --- |
+| Former BILLS-RECEIVE card/action IDs and prior actor-role meanings | Append-only documentation history | Retired Consumer Payee, Request and Remind Payer behavior; no runtime reader or replacement action |
+
+
 
 ### 5.5 Bill / Fee Detail Page
 
@@ -244,20 +288,21 @@ Payer-side detail actions when opened from `BILLS-PAY`:
 | Action | Route / Behavior |
 | --- | --- |
 | Pay | Opens payment/checkout flow. |
-| View Activities | Opens `BILLS-ACTIVITY` for payment and related payout/refund/reversal activity for this obligation. |
-| Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this obligation. |
+| View Activities | Opens `BILLS-ACTIVITY` for payment and related payout/refund/reversal activity linked to this Bill source. |
+| Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this Bill source or an applicable linked obligation without changing their identity. |
 | Edit Details | Opens editable bill/payee/detail fields subject to verification and audit rules. |
-| Archive | Archives the record; user-facing delete should not be the default MVP action. |
+| Archive | Applies ordinary Archive to this saved/Active Bill source; it changes the Payer visibility projection without deleting the source or its history. Exact eligibility and Restore behavior remain deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs. |
 
-Payee-side detail actions when opened from `BILLS-RECEIVE`:
+Former Payee-side detail actions remain append-only documentation history only; no BILLS-RECEIVE action or runtime reader is available.
 
-| Action | Route / Behavior |
-| --- | --- |
-| Request | Available before payer acceptance; sends, resends, or opens request-delivery action. Disappears after payer acceptance. |
-| View Activities | Opens `BILLS-ACTIVITY` for payment and related payout/refund/reversal activity for this obligation. |
-| Set Reminder / Edit Reminder | Opens reminder behavior for the selected record where the reminder belongs to the current user; payer-facing request reminders are governed by DOC-08 and DOC-22. |
-| Edit Details | Opens editable bill/payee/detail fields subject to verification and audit rules. |
-| Archive | Archives the record; user-facing delete should not be the default MVP action. |
+
+### Non-Active Documentation Register - Retired Payee-Side Bill Detail IDs
+
+| Retired documentation evidence | Preservation location | Current treatment |
+| --- | --- | --- |
+| Former BILLS-RECEIVE bill-detail action IDs and prior meanings | Append-only documentation history | Retired behavior; no runtime reader, replacement action or workflow |
+
+
 
 The bill detail page should include a `Bill / Invoice` evidence status area. It should show current evidence status and extracted bill/invoice fields approved for display. Evidence management is not a default primary detail action. If evidence is missing, rejected, expired, or otherwise action-required, the status area should show a contextual action that opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD`. Extracted fields that belong to the bill/invoice record should be displayed in the bill detail area, not duplicated inside evidence detail.
 
@@ -265,7 +310,7 @@ The bill detail page should include a `Bill / Invoice` evidence status area. It 
 
 `BILLS-CARD-RENT` should show:
 
-- category: Rent;
+- journey/source type: Rent; no Bill Category applies;
 - bill/rent name, required;
 - rent amount;
 - rent period;
@@ -277,24 +322,27 @@ Payer-side card actions when rendered in `BILLS-PAY`:
 
 | Action | Route / Behavior |
 | --- | --- |
-| Pay | Opens payment/checkout flow for the rent obligation, subject to DOC-09 eligibility and authorization rules. |
+| Pay | Opens payment/Checkout handoff for the selected Rent source; DOC-09 owns any applicable Payable Basis, Payment Obligation, eligibility and authorization rules. |
 | View Details | Opens `BILLS-DETAIL-RENT`. |
 | Set Reminder | Opens `BILLS-REMINDER-DETAIL` for this rent record. |
 | Update Detail | Replaces normal edit/detail prompt when the card is action-required. |
 
-Payee-side card actions when rendered in `BILLS-RECEIVE`:
+Former Payee-side rent-card actions remain append-only documentation history only; no BILLS-RECEIVE action or runtime reader is available.
 
-| Action | Route / Behavior |
-| --- | --- |
-| Request | Available before payer acceptance; sends, resends, or opens request-delivery action for the selected verified rent request. Disappears after payer acceptance. |
-| View Details | Opens `BILLS-DETAIL-RENT` in payee-side context. |
-| Remind Payer | Opens or triggers approved payer reminder action for the selected rent request, subject to DOC-08 and DOC-22 controls. |
+
+### Non-Active Documentation Register - Retired Payee-Side Rent Card IDs
+
+| Retired documentation evidence | Preservation location | Current treatment |
+| --- | --- | --- |
+| Former BILLS-RECEIVE rent-card action IDs and prior actor-role meanings | Append-only documentation history | Retired behavior; no runtime reader, replacement action or workflow |
+
+
 
 ### 5.7 Rent / Tenancy Detail Page
 
 `BILLS-DETAIL-RENT` should show:
 
-- category: Rent;
+- journey/source type: Rent; no Bill Category applies;
 - bill/rent name, required;
 - property address, masked or limited where required;
 - rent amount;
@@ -312,26 +360,27 @@ Payer-side detail actions when opened from `BILLS-PAY`:
 | Action | Route / Behavior |
 | --- | --- |
 | Pay | Opens payment/checkout flow. |
-| View Activities | Opens `BILLS-ACTIVITY` for payment and related payout/refund/reversal activity for this rent record. |
+| View Activities | Opens `BILLS-ACTIVITY` for payment and related payout/refund/reversal activity linked to this Rent source. |
 | Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this rent record. |
 | Edit Details | Opens editable rent/landlord/payment detail fields subject to verification and audit rules. |
-| Archive | Archives the record; user-facing delete should not be the default MVP action. |
+| Archive | Applies ordinary Archive to this saved/Active Rent source; it changes the Payer visibility projection without deleting the source or its history. Exact eligibility and Restore behavior remain deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs. |
 
-Payee-side detail actions when opened from `BILLS-RECEIVE`:
+Former Payee-side rent-detail actions remain append-only documentation history only; no BILLS-RECEIVE action or runtime reader is available.
 
-| Action | Route / Behavior |
-| --- | --- |
-| Request | Available before payer acceptance; sends, resends, or opens request-delivery action. Disappears after payer acceptance. |
-| View Activities | Opens `BILLS-ACTIVITY` for payment and related payout/refund/reversal activity for this rent record. |
-| Set Reminder / Edit Reminder | Opens reminder behavior for the selected record where the reminder belongs to the current user; payer-facing request reminders are governed by DOC-08 and DOC-22. |
-| Edit Details | Opens editable rent/landlord/payment detail fields subject to verification and audit rules. |
-| Archive | Archives the record; user-facing delete should not be the default MVP action. |
+
+#### 5.7.1 Rent Evidence Presentation
 
 The rent detail page should include a `Rental Doc` evidence status area. `Rental Doc` covers tenancy agreements and other approved rent-supporting evidence, such as rent demand, stamp duty document, CR109, HKHA tenancy card, carpark invoice, or property management notice. It should show current evidence status and extracted rental fields approved for display. Evidence management is not a default primary detail action. If evidence is missing, rejected, expired, or otherwise action-required, the status area should show a contextual action that opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD`. Extracted fields that belong to the rent/tenancy record should be displayed in the rent detail area, not duplicated inside evidence detail.
 
 Rent normally should not require a new invoice for each payment cycle unless tenancy evidence expires, changes, is replaced, is rejected, or is flagged by risk/review rules.
 
-#### 5.7.1 HOME-ROOT Upcoming Bills / Rent Source Projection
+#### 5.7.2 Non-Active Documentation Register - Retired Payee-Side Rent Detail IDs
+
+| Retired documentation evidence | Preservation location | Current treatment |
+| --- | --- | --- |
+| Former BILLS-RECEIVE rent-detail action IDs and prior actor-role meanings | Append-only documentation history | Retired behavior; no runtime reader, replacement action or workflow |
+
+#### 5.7.3 HOME-ROOT Upcoming Bills / Rent Source Projection
 
 DOC-06C publishes the active payer-role Bill and Rent candidates consumed by the DOC-06B HOME-ROOT `Upcoming Bills / Rent` section. This is a projection of canonical Bill/Rent records, not a Home-owned obligation or status.
 
@@ -354,7 +403,7 @@ DOC-06B is the sole normative owner of the HOME-ROOT cap, deterministic ranking 
 
 ### 5.8 Bill / Rent Activity Sub-Route
 
-`BILLS-ACTIVITY` is a user-facing sub-route for one selected bill/rent record. It should be opened from `View Activities` inside `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT`.
+`BILLS-ACTIVITY` is a user-facing sub-route for one selected saved/Active bill/rent record. It should be opened from `View Activities` inside `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT`. It never offers Save and cannot bypass Payment Result projection resolution; a newly confirmed Payment for an otherwise unsaved source reaches global Activity/Payment History/Receipt only after same-ID Active/reusable or history-only resolution.
 
 Primary owner: DOC-06C.
 
@@ -370,7 +419,7 @@ Related ownership:
 | Evidence approval/rejection meaning | DOC-12 |
 | Masking and role-based visibility | DOC-15 |
 | Full event, audit, data model, and lineage | DOC-18 |
-| Admin/internal audit and evidence review history | DOC-22 |
+| Evidence-review history and internal audit representation | DOC-12 for Evidence meaning; DOC-15 for approved-purpose access; DOC-18 for data/audit/lineage representation; DOC-22 for permitted Admin execution |
 
 `BILLS-ACTIVITY` should include:
 
@@ -390,7 +439,7 @@ Related ownership:
 - admin audit trail;
 - global transaction history;
 - global receipt or statement library;
-- evidence view, update, upload, or archive actions, which belong to `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`;
+- Evidence view, update or upload actions, which belong to `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`; exact Evidence archive/version presentation remains deferred to its formal owners;
 - payment processing logic, which belongs to DOC-09;
 - payout and reconciliation logic, which belongs to DOC-10.
 
@@ -410,8 +459,7 @@ Initial payment-lifecycle display mapping:
 
 | Role | Example User-Facing Labels | Owning Detail |
 | --- | --- | --- |
-| Payer | `Paid`, `Transferred`, `Failed`, `Returned`, `Refunded`, `Reversed`, `Under Review` | DOC-09 / DOC-10 / DOC-11 / DOC-14 / DOC-22 |
-| Payee | `Processing`, `Received`, `Rejected`, `Returned`, `Reversed`, `Under Review` | DOC-09 / DOC-10 / DOC-11 / DOC-14 / DOC-22 |
+| Payer | `Paid`, `Transferred`, `Failed`, `Returned`, `Refunded`, `Reversed`, `Under Review` | DOC-09 / DOC-10 / DOC-11 / DOC-14 own the applicable outcome; DOC-22 executes only owner-permitted Admin handling and does not make `Under Review` apply where a label-only disagreement is nonblocking. DOC-18 owns later status representation. |
 
 Tapping one activity entry should open `BILLS-ACTIVITY-DETAIL` or a later payment detail route if separately defined.
 
@@ -431,22 +479,22 @@ Tapping one activity entry should open `BILLS-ACTIVITY-DETAIL` or a later paymen
 
 Activity detail may show system lifecycle milestones, but user-facing labels must follow the status display reference matrix. Do not expose raw backend milestones such as payment authorization, settlement readiness, payout processing, reversal handling, or review queue status as independent user-facing status labels unless mapped and approved.
 
-Request lifecycle belongs to DOC-06A/DOC-06B. Evidence lifecycle and management belong to `BILLS-EVIDENCE-DETAIL`, `BILLS-EVIDENCE-UPLOAD`, DOC-12, DOC-18, and DOC-22. Neither belongs in `BILLS-ACTIVITY`.
+Former Request lifecycle text is historical only; no active Request lifecycle belongs in `BILLS-ACTIVITY`. `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD` are route surfaces for Payer Evidence presentation and owner-approved action handoff. DOC-12 owns Evidence, extraction, verification and Evidence-to-Payee meaning; DOC-15 owns approved-purpose access and retention governance; DOC-18 represents approved data, status, event, audit and lineage requirements; and DOC-22 performs only specifically owner-permitted Admin execution. Neither Evidence-policy meaning nor Admin execution belongs in `BILLS-ACTIVITY`.
 
 ### 5.9 Add Bill / Rent Flow
 
-`BILLS-ADD` should support:
+`BILLS-ADD` is a Payer-only setup flow and should support:
 
-1. Select category: Bill / Fee or Rent.
-2. Capture evidence where category rules require it, or enter details manually where permitted.
-3. Use `BILLS-EVIDENCE-UPLOAD` for upload file, take photo, scan QR code, or manual evidence input.
-4. Process AI/OCR classification and extraction where enabled.
-5. Autofill extracted fields into the bill/rent setup fields.
-6. Let user review and correct bill/rent details before submission.
-7. Submit the bill/rent setup and linked evidence for system verification, user clarification, or admin review according to DOC-12 and DOC-14.
-8. Create the initial evidence status and bill/rent payment readiness status.
+1. For a controlled Bill, select one of the twelve accepted launch Categories in DOC-05 first. Category-specific eligibility, Evidence criteria, detailed labels and Directory contents remain owner-backed deferrals.
+2. For a Bill, choose the Category-scoped Directory or Provide Payee myself. For Rent, enter the separate tenancy journey and do not show Bill Directory mechanics.
+3. Capture required source/Evidence input through the applicable Evidence flow; use `BILLS-EVIDENCE-UPLOAD` only as the bounded capture surface.
+4. Process OCR/extraction, verification and Evidence-to-Payee matching only through DOC-12-owned handoffs.
+5. Let the Payer review owner-approved facts and provenance without turning Payer-selected Company/Individual type into Payee truth.
+6. Consume the owner-governed source/Evidence preservation eligibility outcome and establish the authoritative Bill/Rent ID before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or payment handoff requires stable source identity; DOC-06C does not define the technical threshold or exact minimum fields.
+7. In deliberate Setup, the same ID becomes Active/reusable without Payment. In immediate pay-now, hand off to payment-specific gates and Checkout without a Save prompt.
+8. After confirmed Payment, preserve an existing saved/Active projection without duplicate Save; for an otherwise unsaved source, show Payment Result and resolve optional Save on the same ID before downstream handoff. Selected Save makes it Active/reusable, while skipped, declined, dismissed, closed or otherwise abandoned Save resolution makes it history-only; only then may Activity/Payment History/Receipt or ordinary safe exit follow.
 
-Minimum setup fields:
+Illustrative capture areas (not a technical persistence threshold or exact minimum-field rule):
 
 | Field Area | Bill / Fee | Rent |
 | --- | --- | --- |
@@ -459,24 +507,26 @@ Minimum setup fields:
 
 QR scanning belongs inside `BILLS-ADD` and `BILLS-EVIDENCE-UPLOAD` as a setup and evidence-capture aid. It must not allow unsupported instant payment without evidence, verification, and payer authorization.
 
-Account / Payout Details belong to the bill/rent context. A payer may enter a valid destination for a non-user payee. A payee creating a request may select one private profile from DOC-06B `RECEIVING-INFO`; the selected version is copied into the bill/rent/request context, and the payer must not browse the payee's other profiles. Editing or archiving the source profile must not change an existing bill/rent, accepted request, authorized payment, or payout snapshot.
+Destination and Payout facts are specialist-owned. A Payer may provide source/Payee facts for a non-user recipient inside the Category-bound controlled Bill flow or the separate Rent/tenancy flow. DOC-10 owns destination readiness, Payout and reconciliation, and DOC-15 owns privacy/masking/retention. No Consumer Payee Receiving Info route or Request copy behavior is active. The capture-area table does not establish ID persistence, Evidence acceptance or Payment readiness.
 
 Frequency supports due-date display, reminder defaults, bill/rent management, analytics, and payment-readiness UX. It must not be represented as automatic recurring payment, recurring card authorization, or recurring gateway submission unless a separate approved recurring payment model is later defined.
 
-### 5.10 Evidence Sub-Route
+### 5.10 Evidence Sub-Route - DOC-12 Handoff
 
 Evidence is proof supporting a bill/rent/tenancy obligation. It is not itself an obligation, activity, or standalone user-facing card.
 
-An accepted request may connect the parties and its evidence-backed context to the resulting obligation. A request is not required for this relationship: a payer-created bill/rent/tenancy obligation may link directly to evidence and proceed to payment and payout without payee acceptance where all applicable evidence, verification, risk, payout, compliance, and payer-authorization gates pass.
+An active Request is not required or available for this relationship: a Payer-created Bill/Rent source may link directly to Evidence and proceed to Payment where all applicable owner gates pass.
+
+DOC-12 owns Evidence truth, OCR/extraction, verification, Category and Evidence-to-Payee matching. DOC-06C defines only capture/view handoffs and must not decide Evidence-version presentation, Restore, expiry, revalidation, retention or technical lifecycle mechanics.
 
 Core model:
 
 | Item | Rule |
 | --- | --- |
-| Main object | Bill/rent record. |
+| Main object | Authoritative Bill/Rent source record. |
 | Supporting object | One active evidence set for the bill/rent record under normal operation. |
-| Versioning | Evidence updates create new versions; the newest accepted version becomes active. |
-| Previous evidence | Previous or archived evidence is hidden from normal bill/rent UI and retained under controlled records access. |
+| Versioning | DOC-12 owns Evidence replacement and current-version meaning; DOC-18 represents approved version and lineage requirements when drafted. DOC-06C defines no version rule or presentation. |
+| Previous evidence | Detailed presentation and controlled access remain deferred to DOC-12/DOC-15/DOC-18; no new route or prior-version rule is introduced here. |
 | Extracted data | Extracted fields should populate bill/rent detail fields where displayable; evidence detail should not duplicate those fields. |
 
 User-facing evidence labels:
@@ -522,24 +572,24 @@ Upload/update flow:
 5. User reviews and corrects bill/rent details.
 6. User submits.
 7. System sets evidence status.
-8. Bill/rent payment readiness updates based on evidence status and other gates.
+8. DOC-12-owned Evidence status becomes one input to the combined owner-controlled readiness evaluation and user-facing presentation; it does not itself establish Payment Obligation, destination/Payout, risk, Checkout or authorization readiness.
 
 Permitted evidence viewing and downloading within an authenticated session does not require an extra payment-passcode or step-up prompt solely because the document is opened or downloaded. Role, approved-purpose, masking, stale-session, and access-control rules still apply under DOC-15 and DOC-19.
 
-Evidence replacement, archive, and restoration behavior:
+Evidence replacement, Archive and Restore behavior is not defined in detail here. DOC-06B owns later route presentation, DOC-12 owns Evidence eligibility/revalidation/version meaning, DOC-15 owns retention and approved-purpose access requirements, and DOC-18 represents approved data, version, event, audit and lineage requirements. DOC-06C preserves only the high-level source/projection and non-erasure boundary.
 
-- the sole current evidence set linked to an active bill/rent cannot be archived independently, regardless of verification outcome;
-- where evidence is missing, pending, rejected, expired, or update-required, the bill/rent uses the applicable `Action Required` or `Under Review` handling and the user must upload, update, or replace evidence; this is not an archived-evidence flow;
-- while a replacement is being reviewed, the existing accepted evidence remains current unless it is already invalid;
-- when the replacement is accepted, it becomes current and the replaced version is retained as `Previous version` in DOC-06B `ARCHIVED-DOCS-LIST`;
-- archiving a bill/rent also moves its current linked evidence, where one exists, into this user's archived-document projection; the obligation appears in `ARCHIVED-BILLS-LIST` and its evidence appears in `ARCHIVED-DOCS-LIST`, including when the obligation itself is non-restorable;
-- an eligible archived bill/rent may later be restored only through the archived obligation flow; its last current evidence returns with it and is rechecked for current validity, expiry, verification, and risk requirements;
-- if restored evidence remains valid and accepted, readiness may return to `Ready to Pay`; otherwise the restored bill/rent becomes `Action Required` or `Under Review` as applicable;
-- previous evidence versions cannot be restored or promoted over a newer accepted version;
-- an expired bill/rent does not auto-archive and instead remains visible with the applicable expired/action-required handling so the user can update details or provide new evidence;
-- a bill/rent that was already expired when manually archived is non-restorable;
-- archive and restoration do not rewrite completed payment, payout, receipt, or activity history;
-- archived and previous evidence remains retained under DOC-15 and DOC-18 and is available only through controlled access.
+
+#### 5.10.1 Non-Active Documentation Register - Retired Evidence and Version IDs
+
+| Retired documentation evidence | Preservation location | Current treatment |
+| --- | --- | --- |
+| Former evidence-version, replacement and Restore IDs and prior meanings | Append-only documentation history | Retired detail; no runtime reader, and detailed Restore, revalidation and version presentation are not defined here |
+
+
+
+#### 5.10.2 Active Evidence and Readiness Presentation Handoffs
+
+The following Evidence and readiness labels are illustrative display handoffs only. DOC-12 owns Evidence status and matching; DOC-09 owns Payment Obligation/Checkout/authorization readiness; DOC-10 owns destination/Payout readiness; DOC-14 owns sanctions/fraud/anti-cashout risk; DOC-18 owns later authoritative taxonomy and representation.
 
 Evidence statuses:
 
@@ -553,101 +603,48 @@ Evidence statuses:
 | `Rejected` | Evidence cannot support the bill/rent. |
 | `Duplicate Suspected` | Evidence may be reused/duplicate and needs review. |
 
+#### 5.10.3 Bill/Rent Payment Readiness
+
 Bill/rent payment readiness statuses:
 
 | Payment Readiness | Meaning |
 | --- | --- |
-| `Ready to Pay` | Evidence and required gates pass. |
+| `Ready to Pay` | The combined owner-controlled outcome confirms the Evidence dimension and every applicable pre-payment Payment Obligation, destination/Payout, risk, Checkout-eligibility and authorization-readiness condition. It does not mean Payer authorization has already occurred. |
 | `Action Required` | User must fix evidence, details, payment setup, or another required item. |
-| `Under Review` | System, admin, or risk review is pending. |
+| `Under Review` | An applicable owner-controlled Evidence, destination/Payout, risk, Checkout or authorization review that currently prevents `Ready to Pay` is pending. |
 
-`Paid` / `Received` are payment-activity outcomes, not readiness states. `Archived` and `Previous version` are visibility/history descriptors, while `Due Soon` is a date-derived filter or label. None is an evidence-processing status or request lifecycle state.
+A pending label-only Company/Individual review does not by itself select `Under Review`, create a user-facing payment-review state or block otherwise eligible payment when every applicable concrete owner-controlled gate passes. Concrete Evidence, intended-Payee, destination, beneficiary/agent, Category, sanctions, fraud, anti-cashout, Payout, readiness or authorization defects may still produce the applicable owner-controlled blocking or action-required presentation.
 
-Evidence-to-readiness mapping:
+`Paid` is a Payer payment-activity outcome, not a readiness state. `Archived` is a visibility/history descriptor, while `Due Soon` is a date-derived filter or label. Prior-version presentation remains deferred. None is an Evidence-processing status or Request lifecycle state.
 
-| Evidence Status | Bill/Rent Payment Readiness |
+Evidence-status contribution to combined readiness presentation:
+
+| Evidence Status | Evidence-dimension presentation input; not combined Payment readiness |
 | --- | --- |
 | `Not Provided` | `Action Required`. |
 | `Pending Review` | `Under Review`. |
-| `Accepted` | `Ready to Pay`, if other gates pass. |
+| `Accepted` | The Evidence dimension may be satisfied; `Ready to Pay` may appear only when the combined owner-controlled outcome confirms every applicable gate. |
 | `Correction Needed` | `Action Required`. |
 | `Update Needed` | `Action Required`. |
 | `Rejected` | `Action Required`. |
 | `Duplicate Suspected` | `Under Review` or `Action Required`, depending review rule. |
 
-Evidence status and bill/rent readiness must be managed through system automation, AI/OCR classification, rules engine checks, admin/manual review, user correction, and lifecycle events. DOC-12 owns extraction, verification, duplicate/reused evidence, and evidence review logic. DOC-14 owns risk triggers. DOC-15 owns privacy, masking, retention, and access boundaries. DOC-18 owns final data objects, status taxonomy, audit events, and analytics. DOC-22 owns admin review and configuration workflow.
+Evidence status is one specialist-owned input and is not itself Bill/Rent Payment readiness. DOC-12 owns extraction, verification, duplicate/reused Evidence, Evidence status and Evidence-to-Payee matching. DOC-09 owns Payment Obligation, Checkout and payer-authorization readiness; DOC-10 owns destination/Payout readiness and reconciliation; DOC-14 owns sanctions, fraud and anti-cashout risk. The user-facing readiness presentation consumes their combined owner-controlled outcome without collapsing those dimensions. DOC-15 owns privacy, masking, retention and access boundaries; DOC-18 owns final data objects, status taxonomy, audit events and analytics; DOC-22 owns approved Admin review/configuration execution.
 
-### 5.11 Archived Bills & Rent
+### 5.11 Archived Bills & Rent - Current Projection Boundary
 
-`ARCHIVED-BILLS-LIST` is the mixed-role list of obligations the current user archived from active Bills views. It is not another payer/payee account, evidence list, payment history, or request archive.
+Archive is a Payer visibility projection of an already saved authoritative Bill/Rent source. It never creates a new source or erases or rewrites Evidence, Payment, destination, Payout, reconciliation or audit history. This document does not define detailed Restore, eligibility, revalidation, prior-version or Evidence-version behavior. DOC-10 payout/reconciliation blockers and DOC-11 refund/dispute/chargeback/case blockers remain effective; DOC-06C consumes those owner outcomes without defining them.
 
-Screen order:
+`ARCHIVED-BILLS-LIST` is the Payer visibility projection for authoritative Bill/Rent sources that were saved/Active before Archive and now have the Archived projection. It is not a mixed-role list, evidence archive, payment history or Request archive. Exact Restore eligibility, revalidation, prior-version, Evidence-version, replacement-source presentation and detailed Archive/Restore UI remain deferred to DOC-06B/DOC-06C presentation work and the applicable DOC-10, DOC-11, DOC-12, DOC-15 and DOC-18 owner outcomes.
 
-1. header with Back, title `Archived Bills & Rent`, search icon, and filter icon;
-2. applied-filter summary where applicable;
-3. newest-archive-first obligation list;
-4. empty, no-result, loading, unavailable, offline, or error state.
 
-Search may match permitted displayed metadata such as bill/rent name, masked counterparty, category, amount, due date or rent period, and archive date. Filters are:
+#### 5.11.1 Non-Active Documentation Register - Retired Archive IDs
 
-- `Bill / Fee`;
-- `Rent / Tenancy`;
-- `Pay`;
-- `Receive`;
-- `Restore available`.
-
-The list remains one mixed-role list. `Pay` and `Receive` are filters, not separate routes or tabs. Do not show a `Cannot be restored` filter or status.
-
-Each archived-obligation card should show:
-
-- category and bill/rent name;
-- `Archived`;
-- role context: `Pay` or `Receive`;
-- permitted masked counterparty;
-- amount;
-- due date or rent period;
-- archive date;
-- `Restore available` only when current restore eligibility is true.
-
-Tapping a card opens the existing `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` in archived read-only mode. This is not a new detail route. Archived detail may show the retained obligation summary, permitted counterparty and destination snapshot, readiness/evidence snapshot at archive time, archive date, and a neutral explanation where restore is unavailable.
-
-Allowed archived-detail actions are:
-
-- `Back`;
-- `View Activities`;
-- `View Archived Documents`, opening `ARCHIVED-DOCS-LIST` scoped to the obligation and preserving return context;
-- `Restore`, only when current restore eligibility passes.
-
-Archived detail must suppress `Pay`, `Request`, `Remind`, `Edit`, `Upload`, `Link`, `Archive`, `Share`, and ad hoc hard-delete actions.
-
-Archive eligibility:
-
-| Condition at Archive Time | Archive | Restore Handling |
+| Retired documentation evidence | Preservation location | Current treatment |
 | --- | --- | --- |
-| Active obligation with current evidence status `Accepted`, evidence still valid, and no blocker | Allowed | Restore may be offered after current eligibility recheck. |
-| Active recurring obligation with completed history and current eligible evidence | Allowed | Restore may be offered; completed history remains unchanged. |
-| Evidence missing, rejected, expired, `Correction Needed`, or `Update Needed` | Whole obligation may be archived | Non-restorable; replacing evidence while active is the normal correction path. |
-| Obligation already expired | Allowed | Non-restorable. Expiry alone does not auto-archive. |
-| Completed one-off obligation | Allowed | Non-restorable. |
-| Evidence, identity, recipient, compliance, manual, or risk review is unresolved | Archive unavailable until the review resolves. | No restore action. |
-| Active request, payment instruction, submitted funding leg, payment, payout, refund, dispute, chargeback, restriction, or legal hold materially depends on the obligation | Archive unavailable until the owning process resolves or explicitly permits archive. | Restore remains blocked while the condition applies. |
+| Former mixed-role Archive/Restore IDs and prior meanings | Append-only documentation history | Retired detail; no runtime reader, and detailed Restore, revalidation and version presentation are not defined here |
 
-Restore eligibility is assigned from the archive-time obligation class and then rechecked for current operational blockers. If an obligation was restore-eligible when archived but its evidence later expires or becomes outdated, Restore remains available; after restore, evidence revalidation makes the obligation `Action Required` or `Under Review` until corrected.
 
-Restore behavior:
-
-1. User taps `Restore` in archived detail.
-2. Show a confirmation and perform a fresh online eligibility check.
-3. Restore the user's obligation projection and its last current evidence; previous evidence versions remain in `ARCHIVED-DOCS-LIST`.
-4. Revalidate evidence validity, expiry, verification, recipient, risk, compliance, and other readiness gates.
-5. Remove the obligation from `ARCHIVED-BILLS-LIST`.
-6. Open the active bill/rent detail in its original `Pay` or `Receive` context.
-
-No payment passcode is required solely to restore an eligible obligation, and restore is not payment authorization. If the restored evidence is no longer `Accepted` and valid, the obligation returns as `Action Required` or `Under Review`, not `Ready to Pay`.
-
-Archive disables this user's linked reminders. Restore does not reactivate reminders, instructions, scheduled actions, prior authorizations, or prior payment attempts. The user must recreate or re-enable those items where allowed.
-
-Archive and restore are user-scoped visibility actions. They do not affect the counterparty's active view, party linkage, the canonical shared obligation, destination/payment snapshots, completed activities, receipts, or payout history, and they do not create a counterparty notification solely for the visibility change.
 
 ### 5.12 Reminder Route
 
@@ -660,7 +657,7 @@ Reminder routes must use specific route IDs:
 
 Reminder source type should be stored internally without overexposing technical labels to users. MVP source types should include system due-date reminder, user manual reminder, and user custom override reminder. Payment instruction action alerts are not ordinary Bills reminder records and should not appear in `BILLS-REMINDER-LIST`.
 
-Every Bills reminder must have a `reminderID` and link to exactly one existing bill, fee, rent, tenancy, or obligation record ID. A reminder created from a bill/rent card or detail page should automatically inherit the linked record ID. A reminder created from `BILLS-REMINDER-LIST` through `+ Add Reminder` must first require the user to select an existing bill, fee, rent, tenancy, or obligation record. Free-floating reminders are not MVP scope.
+Every Bills reminder must have a `reminderID` and link to exactly one existing Bill/Rent source ID or, where the applicable owner permits, one linked obligation reference. The reminder must not treat those identities as interchangeable. A reminder created from a Bill/Rent card or detail page should inherit its governing source context. A reminder created from `BILLS-REMINDER-LIST` through `+ Add Reminder` must first require the Payer to select an existing Bill/Rent source context. Free-floating reminders are not MVP scope.
 
 `BILLS-REMINDER-LIST` should use the following rough screen order:
 
@@ -675,7 +672,7 @@ Every Bills reminder must have a `reminderID` and link to exactly one existing b
 Reminder cards should show, in compact order:
 
 - reminder summary;
-- linked bill/rent name, category, and current readiness/status badge;
+- linked Bill/Rent name, the controlled Bill Category where applicable or Rent journey/source type, and the current owner-governed readiness/status presentation;
 - amount and due date;
 - reminder timing and next reminder date;
 - on/off toggle on the right side.
@@ -691,9 +688,9 @@ Tapping the non-toggle area of a reminder card opens `BILLS-REMINDER-DETAIL`.
 5. Reminder offset or custom date/time.
 6. Notification note: app notification and push notification are MVP where permission is granted; email, SMS, and WhatsApp routing are governed by DOC-08.
 7. Save and cancel actions.
-8. Delete or disable action where applicable.
+8. Disable or deactivate action where applicable; underlying reminder records remain retained indefinitely.
 
-Smart default values should be configurable in the admin dashboard under DOC-22:
+DOC-06C owns the approved reminder-default product policy. DOC-22 may expose and execute only permitted Admin configuration of those approved defaults; it does not set the product policy:
 
 | Record Type | Default Reminder |
 | --- | --- |
@@ -710,19 +707,19 @@ Reminder status and lifecycle:
 | Linked bill/rent is archived | Reminder becomes inactive. |
 | One-off invoice is fully paid | Reminder becomes inactive. |
 | Reminder date has passed and reminder is not recurring | Reminder becomes expired or inactive. |
-| Evidence is expired, invalid, rejected, or requires review | Reminder remains valid; the linked bill/rent readiness changes to action-required. |
+| Evidence is expired, invalid, rejected, or requires review | Reminder remains valid; the DOC-12 Evidence input becomes action-required, and the linked bill/rent presentation consumes the resulting combined owner-controlled readiness outcome. |
 
-Reminder deletion should be supported from `BILLS-REMINDER-LIST`:
+Reminder deactivation should be supported from `BILLS-REMINDER-LIST`:
 
 1. User long-presses a reminder card.
 2. Screen enters selection mode and automatically selects the tapped card.
 3. Checkboxes appear on reminder cards.
 4. A bottom action bar slides up and stays fixed at the bottom area.
 5. User may select multiple reminders.
-6. Delete requires confirmation.
-7. User-facing delete should be implemented as soft delete for audit, support, analytics, and abuse investigation.
+6. Deactivation requires confirmation.
+7. User-facing deactivation must preserve the reminder record for audit, support, analytics and abuse investigation; no hard deletion is introduced.
 
-User-created or custom reminder records may be deleted. System/default due-date reminders should normally be disabled rather than hard-deleted. Payment instruction action alerts are excluded from this deletion flow.
+User-created or custom reminder records may be disabled or deactivated. System/default due-date reminders should normally be disabled. Payment instruction action alerts are excluded from this reminder-management flow; no reminder record is destroyed.
 
 Due soon, overdue, evidence rejected, and payment-readiness action states belong primarily to the linked bill/rent card and detail page. Reminder cards should focus on reminder state such as next reminder date, reminder off, reminder expired, or custom reminder set.
 
@@ -732,16 +729,22 @@ DOC-08 owns notification IDs, channel matrix, templates, user preferences, retry
 
 Evidence handling must distinguish the obligation, the relationship/contract, and the source evidence.
 
-Working conceptual structure:
+Working conceptual relationship — DOC-09 remains authoritative:
 
 ```text
-Customer profile
--> Obligation record
--> Contract / relationship record where applicable
--> Evidence source record
--> Extracted, corrected, verified, and final evidence fields
--> Payment activity
--> Receipt / proof
+Authoritative Bill/Rent source
+-> Contract / relationship context and owner-governed Evidence facts where applicable
+-> one or more DOC-09 Payable Bases where materialized
+-> one or more DOC-09 Payment Obligations where materialized
+
+DOC-09 Checkout Workspace against one Payable Basis
+-> Checkout-owned Obligation Allocations referencing applicable Payment Obligations
+-> Funding Legs
+-> each successfully confirmed Funding Leg produces one immutable Payment
+-> Payment Applications apply confirmed obligation value to applicable Payment Obligations
+
+Activity / Payment History / Receipt are projections of the applicable authoritative source and confirmed Payment facts.
+A controlled late-confirmed Payment may temporarily have zero Payment Applications.
 ```
 
 For bills, invoices, and fees, the evidence usually supports a specific obligation or payment cycle.
@@ -750,30 +753,15 @@ For rent, tenancy evidence usually supports a contract or relationship. Rent obl
 
 The Bills route should therefore support evidence source detection or selection inside `BILLS-EVIDENCE-UPLOAD` when the category or document type is not obvious, instead of assuming every rent flow equals tenancy agreement and every bill flow equals invoice.
 
-### 5.14 Payer-Created and Payee-Created Logic
+### 5.14 Non-Active Documentation Register - Retired Two-Sided IDs
 
-| Scenario | UX Rule | Linking Rule |
+The records below preserve retired stable IDs and prior meanings only as non-active documentation evidence. Founder confirmation establishes that no production Request/Payee-role runtime or legacy Request deep-link data exists. They define no runtime reader, screen, action, notification, Linking, acceptance, destination change, Restore, adapter, fallback or event behavior.
+
+| Retired identifier or concept | Preservation location | Current treatment |
 | --- | --- | --- |
-| Payer creates bill/rent for own payment | Payee acceptance is not required before the payer may proceed, provided required evidence, verification, risk, payout, and authorization gates pass. | If the payee is also a PayPlus user, optional linking may be initiated or accepted through an approved user action. |
-| Payee creates bill/rent/request for payer | Payer acceptance is required after verification and before payment authorization. | The payer is linked only after in-app acceptance or approved invitation/deeplink flow. |
-| Both parties are PayPlus users | Both sides may view the same linked bill, tenancy, request, or payment context after accepted linking, subject to role-based permissions. | Linking must be user-initiated or user-accepted; automatic user-to-user matching is not allowed as a UX assumption. |
-| Payee is not a PayPlus user | Payer may still pay an approved evidence-backed obligation to a valid payee record or payout destination. | The payee may remain a non-user payee record unless invited and onboarded later. |
+| Former BILLS-RECEIVE, Request, Linking and Payee-side Bill/Rent IDs | Append-only documentation history | Retired active MVP; no production data, route, runtime reader, action, reciprocal visibility or replacement behavior |
+| Prior destination, archive and Evidence-version meanings | Append-only documentation history | Archive remains the same-source Payer visibility projection under W2-FD-05 Option A; detailed Restore, revalidation, prior-version and Evidence-version presentation remains deferred to DOC-06/DOC-10/DOC-11/DOC-12/DOC-15/DOC-18 |
 
-Phone number, user ID, app link, WhatsApp deeplink, QR code, or other approved invitation mechanisms remain to be defined. Search, invitation, and acceptance design must follow DOC-15 privacy and DOC-19 security controls.
-
-Destination rules:
-
-- a payee-created request must select a destination before sending;
-- before payer acceptance, the payee may change the destination and send the latest request version;
-- after payer acceptance, a payee destination change requires a new request and new bill/rent record, which may link to the same evidence; the prior record is not auto-archived;
-- a payer-created bill/rent with no linked PayPlus payee may change destination without a request or payee handling, subject to normal recipient, evidence, risk, payout, compliance, and authorization checks;
-- where the bill/rent is linked to a PayPlus payee, a payer destination change notifies that payee but does not require payee approval;
-- a payer-selected destination different from an accepted payee-created request must remain a separate bill/payment-context snapshot and must not rewrite the accepted request;
-- the bill/rent detail should make the effective destination and its source clear to the payer before payment;
-- any destination change after payment authorization requires renewed payer authorization under DOC-09;
-- a linked payee may be offered a controlled option to review and save a payer-selected destination into `RECEIVING-INFO`, but this does not delay payout and does not auto-approve that profile.
-
-When a user opens `BILLS-ADD` from DOC-06B `REQUESTS-NEW`, `BILLS-ADD` owns the bill/rent/evidence setup steps and must preserve the request-creation context. Successful setup returns the created context to `REQUESTS-NEW`; cancellation returns without creating or selecting a new context. If a user opens `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` from `REQUESTS-DETAIL`, save/back behavior should return to `REQUESTS-DETAIL` and refresh the linked request summary. If a user opens linked bill/rent detail from `REQUESTS-NEW` review, save/back behavior should return to `REQUESTS-NEW`.
 
 ### 5.15 Action-Required UX
 
@@ -781,14 +769,14 @@ Action-required states must be visible before the user attempts payment where po
 
 Examples:
 
-- evidence pending verification;
+- evidence needs Payer correction or additional input;
 - evidence not provided;
 - evidence rejected;
 - evidence expired;
 - missing required field;
 - material mismatch between user-entered and extracted evidence data;
 - duplicate or reused evidence warning;
-- payee/payout detail requires review;
+- payee/payout detail requires Payer correction or another owner-approved action;
 - payment instruction requires user action;
 - reminder/action deadline is approaching.
 
@@ -800,7 +788,7 @@ Bills route interactions should produce structured events or signals for later D
 
 - route opened and view selected;
 - filter selected;
-- obligation card viewed;
+- Bill/Rent card viewed;
 - detail opened;
 - evidence source selected;
 - input method selected: upload, photo, QR scan, or manual entry;
@@ -808,18 +796,13 @@ Bills route interactions should produce structured events or signals for later D
 - evidence upload or update started;
 - evidence submitted;
 - evidence status changed;
-- evidence version replaced or archived through its parent obligation;
-- archived obligation restored with evidence validity rechecked;
 - evidence verification outcome displayed;
-- bill/rent readiness changed due to evidence;
+- combined bill/rent readiness presentation changed after an owner-controlled Evidence input changed;
 - action-required state displayed;
 - action-required state resolved;
 - payer-created record created;
-- payee-created request received and accepted/rejected;
-- user-initiated participant invitation sent;
-- participant invitation accepted or declined;
 - payment started from card or detail page;
-- reminder created, edited, disabled, deleted, fired, opened, ignored/dismissed, or followed by payment start;
+- reminder created, edited, disabled, deactivated, fired, opened, ignored/dismissed, or followed by payment start;
 - record archived;
 - bill/rent activity timeline opened;
 - activity entry detail opened;
@@ -828,25 +811,24 @@ Bills route interactions should produce structured events or signals for later D
 
 These events should support product analytics, operational monitoring, risk review, support investigation, and future approved AI/payment-intelligence use under DOC-15 and DOC-18. They must not create automatic user-to-user matching or overexpose sensitive evidence data.
 
----
-
----
-
 ## 6. Local Open Questions
 
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
-| OQ-06C-001 | Which exceptional payer-created categories, if any, require payee adoption before payment can proceed despite the default rule that payer-created payments do not require payee acceptance? | Product / Operations / Risk | Open |
+| OQ-06C-001 | Which later owner-controlled Category eligibility and risk conditions apply to supported controlled Bill Categories, without introducing Payee acceptance or an unrestricted recipient journey? | Product / Operations / Risk | Deferred to DOC-05/DOC-12/DOC-14 and later authorized work |
 | OQ-06C-002 | Which rent and tenancy journey controls must be ready before initial launch enablement? | Product / Legal / Risk | Open |
-| OQ-06C-003 | What final user-initiated payee linking or invitation mechanism should be used: user ID, phone search, app link, WhatsApp deeplink, QR code, or another approved flow? | Product / Privacy / Engineering | Open |
+| OQ-06C-003 | What, if any, future participant Linking or invitation capability should be proposed as a separately governed domain after MVP? | Product / Privacy / Engineering | Deferred; no active Linking or invitation behavior is authorized |
 | OQ-06C-004 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
 | OQ-06C-005 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
-| OQ-06C-006 | What exact request-delivery and Remind Payer UX should apply inside BILLS-RECEIVE, including resend limits, payer acceptance states, wording, and notification-channel rules? | Product / Design / Operations | Open |
+| OQ-06C-006 | Retired: Founder confirmed there is no production BILLS-RECEIVE/Request runtime or legacy deep-link data requiring a reader, adapter or fallback. | Product / Design / Operations | Answered/retired |
 
 ## 7. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.23 | 2026-08-12 | Applied the Founder-settled indefinite-retention boundary to reminder controls without introducing a deletion mechanism. |
+| 0.1.22 | 2026-08-12 | Stage 8 correction: made the conceptual Payment Domain relationship DOC-09-faithful and restored the bounded DOC-12/DOC-15/DOC-18/DOC-22 Evidence ownership handoff without introducing technical design. |
+| 0.1.21 | 2026-08-12 | Stage 8 Wave 2 Draft: aligned to the accepted Category inventory and separate Rent journey, removed nonexistent Request-runtime/readers/deep-link obligations, structurally separated active readiness from non-active history, preserved source-to-Payment separation, and retained DOC-10/DOC-11 Archive owner blockers. |
 | 0.1.20 | 2026-08-05 | Added the bounded HOME-ROOT Upcoming Bills / Rent source handoff by publishing active payer-role candidate facts, deterministic source values, canonical card/masking fields, source-route revalidation truth, upstream invariant treatment, and the canonical Rent due timestamp while retaining Home presentation and ordering in DOC-06B. |
 | 0.1.19 | 2026-08-03 | Removed the stale future-draft qualification and aligned Bill/Rent handoff ownership with the reviewed DOC-06B Checkout route-level UI/UX contract and DOC-09 Payment Domain authority. |
 | 0.1.18 | 2026-07-31 | Aligned Bills-to-checkout handoff and Instructions references with DOC-09 Payment Domain Architecture while preserving DOC-06B route-level UX ownership. |

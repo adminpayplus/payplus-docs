@@ -4,7 +4,7 @@ Status: Current discussion reference
 Owner: DOC-06B
 Last updated: 2026-08-04
 
-This map owns the five `PAYPLUS-ACTION-SHEET` handoffs. Destination internals belong to their route-family maps. It defines behavior, not final visual design.
+This map owns the four accepted `PAYPLUS-ACTION-SHEET` handoffs. Destination internals belong to their route-family maps. It defines behavior, not final visual design.
 
 ```mermaid
 flowchart TD
@@ -14,12 +14,10 @@ flowchart TD
   SHEET --> RENT["Pay Rent"]
   SHEET --> ADD["Add Bill / Rent"]
   SHEET --> CONTINUE["Continue Payment"]
-  SHEET --> REQUEST["Request Payment<br/>payee to payer"]
 
   BILL --> BILLPAY["BILLS-PAY<br/>temporary Bill / Fee scope"]
   RENT --> RENTPAY["BILLS-PAY<br/>temporary Rent / Tenancy scope"]
   ADD --> BILLSADD["BILLS-ADD"]
-  REQUEST --> REQUESTNEW["REQUESTS-NEW"]
 
   CONTINUE --> COUNT{"Active Payment Instructions or<br/>incomplete Checkout Workspaces"}
   COUNT -->|"None"| DISABLED["Action disabled"]
@@ -39,13 +37,12 @@ flowchart TD
   BILLPAY -. "See Bills route map" .-> BILLSFAMILY["Bills route family"]
   RENTPAY -. "See Bills route map" .-> BILLSFAMILY
   BILLSADD -. "See Bills route map" .-> BILLSFAMILY
-  REQUESTNEW -. "See Requests route map" .-> REQUESTFAMILY["Requests route family"]
   ROOT -. "See Instructions route map" .-> INSTRUCTIONFAMILY["Instructions route family"]
   DETAIL -. "See Instructions route map" .-> INSTRUCTIONFAMILY
 
 ```
 
-`Request Payment` is the payee-to-payer request action. Optional payer-to-payee linking starts from an approved bill/rent or linking context and is not a Pay+ action-sheet destination.
+The Pay+ sheet contains only the accepted Bill, Rent, Add Bill / Rent, and Continue Payment actions. Retired Request and Linking runtime is not a current Pay+ destination.
 
 After `Continue Payment` reaches `INSTRUCTIONS-DETAIL`, only an incomplete Checkout that remains active, eligible, and continuable may follow the connected continuation edge to the existing `PAYMENT-CHECKOUT`.
 

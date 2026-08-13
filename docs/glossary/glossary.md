@@ -13,30 +13,24 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
-| PayPlus | A controlled application for evidence-backed bill, fee, rent, tenancy, and other approved-obligation payments. It is not a wallet, stored-value account, cashout, remittance, lending, or unrestricted P2P product. | DOC-01 / DOC-05 |
+| PayPlus | A controlled application for evidence-backed payments in the twelve accepted Bill Categories plus separate Rent. It is not a wallet, stored-value account, cashout, remittance, lending, or unrestricted P2P product. | DOC-01 / DOC-05 |
 | Payer | The user who reviews the payment context and gives the final payment authorization. | DOC-05 / DOC-06A |
 | Payee | The person or business intended to receive a payout. A payee may or may not be a PayPlus user. | DOC-05 / DOC-10 |
-| Linked Counterparty | A payer or payee user connected to an accepted obligation context through an approved user or operational action. Linking creates permitted visibility/communication, not payment authorization. | DOC-06A / DOC-06C |
+| Economic Payee Context | Factual source or transaction context identifying the economic recipient. It does not make the Payee a PayPlus User or create a participant, linking, entitlement, or notification role. | DOC-05 / DOC-09 / DOC-13 |
 | Non-Member Payee | A payee without a PayPlus account. A payer may still create and pay a valid evidence-backed obligation to the designated destination where all gates pass. | DOC-05 / DOC-10 |
 
-## Obligation, Evidence, and Request Terms
+## Obligation and Evidence Terms
 
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
-| Obligation | A real-world bill, fee, rent, tenancy-linked payment, invoice, or other approved amount that a payer intends or is required to pay. | DOC-05 / DOC-06C |
-| Bill / Fee Record | A user-facing obligation record for a bill, invoice, fee, or approved non-rent payment purpose. | DOC-06C |
+| Obligation | A real-world payment obligation arising from one of the twelve controlled Bill Categories or the separate Rent journey that a payer intends or is required to pay. | DOC-05 / DOC-06C |
+| Bill / Fee Record | A user-facing obligation record for an accepted controlled Bill Category. | DOC-06C |
 | Rent / Tenancy Record | A user-facing obligation record for rent supported by tenancy, rental, or other approved relationship evidence. | DOC-06C |
 | Evidence | A document or approved source proving or supporting an obligation. Evidence is not itself an obligation, request, or financial activity. | DOC-12 / DOC-06C |
 | Evidence Set | The current supporting evidence linked to one obligation, with retained prior versions where accepted updates occur. | DOC-06C / DOC-12 |
 | Evidence Status | The lifecycle or review condition of evidence, separate from bill/rent payment readiness. | DOC-12 / DOC-06C |
 | Previous Evidence Version | A retained, read-only evidence version superseded by an accepted newer version. It cannot be restored or promoted over the newer version. | DOC-06C / DOC-12 |
 | Payment Readiness | The user-facing condition showing whether an obligation is ready to pay, needs action, or remains under review. Evidence status may affect readiness but is not the same status. | DOC-06C |
-| Request | A payer-created or payee-created acceptance/linking request for an evidence-backed obligation context. A request is not a payment and does not authorize funds movement. | DOC-06A / DOC-06B |
-| Payee-Created Request | A request from a payee asking a payer to accept an evidence-backed obligation. Payer acceptance is required before payment can proceed from that request. | DOC-05 / DOC-06A |
-| Payer-Created Linking Request | An optional invitation asking a payee to link to a payer-created obligation for shared visibility and communication. The payer-created payment does not require payee acceptance by default where all gates pass. | DOC-06A / DOC-06B |
-| Request Lifecycle State | The canonical condition of a request: `Draft`, `Pending Evidence Verification`, `Pending Receiver Action`, `Accepted`, `Rejected`, `Expired`, or `Cancelled`. While receiver action is pending, the sender sees `Reviewing` and the receiver sees `Awaiting`. | DOC-06A / DOC-06B |
-| Request Event | An occurrence such as sent, viewed, reminded, or shared. An event is not automatically a request status. | DOC-06A / DOC-18 |
-| Participant Linking | User-initiated, user-accepted, or approved operational connection of parties to an obligation. Automatic user-to-user matching is not allowed as a product assumption. | DOC-06C / DOC-15 |
 
 ## Payment, Funding, and Payout Terms
 
@@ -68,9 +62,7 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Effective Coverage | The derived portion of a Payment Obligation's Due Amount that remains covered by confirmed Payment Applications after effective coverage-reducing adjustments. | DOC-09 |
 | Outstanding Amount | The Payment Obligation's derived unpaid amount: Due Amount minus Effective Coverage. | DOC-09 |
 | Settlement Ready | A DOC-10-owned internal condition indicating a confirmed Payment satisfies applicable Settlement and Payout preparation rules. It is not a generic user-facing payment label. | DOC-10 |
-| Receiving Info | A payee's private reusable library of receiving-information profiles. It is optional and not the sole payout source of truth. | DOC-06B / DOC-10 |
-| Receiving Info Profile | One user-linked, versioned, reusable bank/FPS/cheque/EPS destination profile with readiness and proof metadata where required. | DOC-06B / DOC-10 |
-| Destination Snapshot | An immutable context-specific copy of receiving information selected or entered for a Request, obligation, Checkout, Payment, or Payout. Later source-profile edits must not mutate it. | DOC-10 / DOC-15 / DOC-18 |
+| Destination Snapshot | An immutable context-specific copy of approved destination information selected or entered for an obligation, Checkout, Payment, or Payout. Later source changes must not mutate it. | DOC-09 / DOC-10 / DOC-15 / DOC-18 |
 | Effective Payout Destination Snapshot | The authorization-time destination snapshot frozen for a Checkout and referenced by each resulting Payment. Later Bill/Rent, payee-profile, or payout-configuration changes must not silently mutate it. | DOC-09 / DOC-10 / DOC-18 |
 | Payout | PayPlus's transfer of settlement-ready funds to the designated payee destination. | DOC-10 |
 | Payout Rail | The operational method used for payout. FPS, cheque, and EPS are accepted Hong Kong rails, subject to operating-bank support and enablement. | DOC-10 |
@@ -81,14 +73,14 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
 | Activity | A user-facing event or transaction lifecycle view. Global Activity is account-level; Bills Activity is limited to payment-related events for one obligation. | DOC-06B / DOC-06C |
-| Bills Activity | Payment, payout/transfer, failure, return, refund, and reversal activity linked to one bill/rent/tenancy obligation. It excludes request and evidence lifecycle history. | DOC-06C |
+| Bills Activity | Payment, payout/transfer, failure, return, refund, and reversal activity linked to one bill/rent/tenancy obligation. It excludes evidence lifecycle history. | DOC-06C |
 | Receipt | A transaction confirmation record for a completed transaction. | DOC-08 / DOC-06B |
 | Statement | A periodic or account-level summary of payer/payee financial activity, not a standalone activity event. | DOC-08 / DOC-06B |
 | System Status | The canonical domain or backend state owned by the applicable domain specification. | Domain owner / DOC-18 |
 | User-Facing Label | Approved wording projected from a system/domain state for a specific role and surface. It must follow the status-display reference matrix. | Status display reference matrix |
 | Action Required | A user-facing readiness or resolution label indicating that the user must take a permitted action. It is not one universal backend status. | Relevant domain owner |
 | Under Review | A user-facing label indicating pending approved review without exposing internal risk, provider, fraud, or operational reasons. | Relevant domain owner |
-| Linked Case | A support, query, dispute, or exception case associated with a request, obligation, payment, payout, or evidence context. Its lifecycle is `Open`, `Pending Information`, `Under Review`, `Resolved`, or `Closed` and does not replace the linked object's lifecycle state. | DOC-11 |
+| Linked Case | A support, query, dispute, or exception case associated with an obligation, payment, payout, or evidence context. Its lifecycle is `Open`, `Pending Information`, `Under Review`, `Resolved`, or `Closed` and does not replace the linked object's lifecycle state. | DOC-11 |
 | Archived | A visibility/history descriptor that hides an item from normal active UI without itself deciding hard deletion, retention expiry, or legal hold. | Relevant domain owner / DOC-15 |
 | Archived Records | `ARCHIVED-ROOT`, the Me route separating archived bill/fee and rent obligations from archived or previous evidence documents. | DOC-06B |
 | Archive Projection | A per-user visibility record that hides an obligation and its current linked evidence from that user's active views without changing the canonical obligation, counterparty visibility, party linkage, or completed history. | DOC-06B / DOC-06C / DOC-18 |
@@ -149,7 +141,7 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Nickname / Display Name | Optional editable account-profile text used for user-facing recognition. It is not a login identifier and does not change an authentication method. | DOC-06B / DOC-15 |
 | Masked Display | A permitted projection that conceals sensitive values while retaining enough context for recognition. | DOC-15 |
 | Sensitive Reveal | Temporary display of an approved masked sensitive value after payment passcode or approved reauthentication. Prohibited fields remain unavailable. | DOC-15 / DOC-19 |
-| Material Sensitive Change | A change to existing identity, contact, security, credential, or Receiving Info data requiring payment passcode or approved reauthentication before route-specific controls. First-time identity verification during Account Activation is not treated as a change to an existing identity record. | DOC-15 / DOC-19 |
+| Material Sensitive Change | A change to existing identity, contact, security, credential, or approved destination data requiring payment passcode or approved reauthentication before route-specific controls. First-time identity verification during Account Activation is not treated as a change to an existing identity record. | DOC-15 / DOC-19 |
 | Ordinary Document Access | Permitted evidence, invoice, receipt, statement, or payment-proof view/download within an authenticated approved-purpose context. It does not require an extra prompt solely because the file is opened or downloaded. | DOC-15 |
 | Route | A navigable product destination or deep-link target. | DOC-06B |
 | Screen | A full-page UI view rendered inside a route. | DOC-06B |

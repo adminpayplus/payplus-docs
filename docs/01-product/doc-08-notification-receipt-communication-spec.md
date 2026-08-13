@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 1.0.34
+version: 1.2.2
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-05
+last_updated: 2026-08-12
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `1.0.34` |
+| **Version** | `1.2.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-05` |
+| **Last Updated** | `2026-08-12` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -84,7 +84,7 @@ DOC-08 covers:
 - email;
 - SMS;
 - WhatsApp;
-- dashboard tasks;
+- admin/operational task notification triggers;
 - notification event registry;
 - notification channel matrix;
 - receipt content rules;
@@ -93,7 +93,7 @@ DOC-08 covers:
 - evidence verification, correction, duplicate warning, and admin review communication triggers;
 - promotion, coupon, voucher, reward, referral, membership, miles, and entitlement communication triggers;
 - delivery retry and fallback rules;
-- admin-configurable notification settings;
+- notification parameters that a formal owner may expressly permit for operational configuration;
 - audit, logging, and retention requirements.
 
 ### 2.2 Out of Scope
@@ -116,10 +116,14 @@ Those topics belong in DOC-07, DOC-09, DOC-10, DOC-11, DOC-12, DOC-13, DOC-14, D
 
 ## 3. Current Decision Baseline
 
+DOC-08 owns notification identity, recipient eligibility consumption, channels, templates, preferences, delivery, retry and delivery evidence. It consumes — but does not decide — source, payment, risk, privacy, support and route outcomes. The Consumer User is Payer-only. An economic Payee may be an individual or institution/company and need not be a User.
+
+The only accepted Payee-directed concept in this Draft is an optional, one-way Individual notification when upstream owner-governed eligibility permits it. This does not create a Payee account, Request, Linking, To Receive, Receiving Info, route, event contract, reciprocal visibility, channel, template or runtime relationship. No production Request/Payee-role legacy data, reader, adapter, fallback or deep-link exists.
+
 | Area | Baseline |
 | --- | --- |
 | Notification channels | App, push, email, SMS, and WhatsApp are candidate user channels. |
-| Dashboard tasks | Admin and operational queues are required for review and exception work. |
+| Admin/operational task notifications | Owner-governed review and exception notifications may be emitted; DOC-22 may execute only expressly owner-permitted workflows. |
 | Payment status vs notification | Every important lifecycle event should be recorded as a status or system event, but not every event must notify the user. |
 | Notification IDs | Every user-facing or admin-facing notification event should have a stable notification ID. |
 | Channel configuration | Each notification event should support channel-level enablement or disablement. |
@@ -127,7 +131,7 @@ Those topics belong in DOC-07, DOC-09, DOC-10, DOC-11, DOC-12, DOC-13, DOC-14, D
 | Promotion communication | Reward, coupon, voucher, miles, referral, membership, and entitlement messages should be event-driven and consent-aware. |
 | Mandatory service messages | Critical account, security, payment, receipt, and compliance messages may be mandatory and not fully user-disableable. |
 | Fee and payout wording | Fee, promotion, multi-card, refund, and payout timing wording should align with DOC-07. |
-| Record retention | Receipt, payment, account, tax, and audit records are expected to be retained for 7 years, subject to final privacy and legal review. |
+| Record retention | Every PayPlus notification, receipt, statement, payment, account, tax and audit record is retained indefinitely under the Founder decision. DOC-08 consumes DOC-15 access, masking and lawful handling requirements and does not define storage or disposition mechanics. |
 
 ---
 
@@ -148,7 +152,7 @@ Those topics belong in DOC-07, DOC-09, DOC-10, DOC-11, DOC-12, DOC-13, DOC-14, D
 | Security, masking, and access control | DOC-19 |
 | Provider integrations | DOC-17 |
 | Operational monitoring and incident handling | DOC-21 |
-| Admin dashboard workflow and configuration | DOC-22 |
+| Admin dashboard workflow and configuration | DOC-22 executes only expressly owner-permitted operational workflows; DOC-08 and applicable owners retain policy authority. |
 
 DOC-08 should reference these documents instead of duplicating their detailed rules.
 
@@ -168,8 +172,8 @@ DOC-08 should reference these documents instead of duplicating their detailed ru
 | Template | Channel-specific message content and variables. |
 | Delivery log | Record of attempted delivery, result, timestamp, recipient, channel, and template version. |
 | Receipt | User-facing transaction confirmation record for a completed transaction. It may be viewed, downloaded, shared where allowed, or re-issued/replaced according to approved rules. |
-| Statement | Periodic or on-demand account/payment summary. It may include payer and payee-side financial activity for the same user account, but should not include unrelated system events. |
-| Dashboard task | Admin or user task shown inside the PayPlus app or admin dashboard. |
+| Statement | Periodic or on-demand Payer account/payment summary. It should not include unrelated system events. |
+| Dashboard task | Notification representation for an owner-governed Admin or user task; DOC-08 does not define the dashboard or task workflow. |
 | Important Notice / Action Required | DOC-06B logged-in dashboard section that consumes existing Inbox-backed notification records and DOC-08-published values. It does not create a duplicate Home notification record and is not itself a notification status, business status, or domain event. |
 | Hot Offer | DOC-06B Home carousel placement for canonical Offers selected by Admin. It is a placement surface, not a notification event or Inbox record by itself. |
 
@@ -180,7 +184,7 @@ DOC-08 should reference these documents instead of duplicating their detailed ru
 | Principle | Requirement |
 | --- | --- |
 | Status first | The system must record the underlying event even if no notification is sent. |
-| Configurable delivery | Notification events and channels should be configurable in admin. |
+| Configurable delivery | Notification events and channels may identify parameters expressly permitted for operational configuration by the applicable formal owner. |
 | No false certainty | Do not say payment, payout, refund, or settlement is complete before confirmed. |
 | Role-specific | Payer, payee, and admin messages should show only role-appropriate information. |
 | Minimal sensitive data | SMS, WhatsApp, and push should avoid sensitive payment, ID, evidence, or card details. |
@@ -212,7 +216,7 @@ Example:
 | --- | --- |
 | Payment authorized | Status required; notification may be app-only or disabled externally. |
 | Payment completed | Status required; app, email, SMS, or WhatsApp may be enabled. |
-| Payout completed | Status required; notify payee through approved channels. |
+| Payout completed | Status required; any recipient notification is owner-governed and does not imply a Payee account or route. |
 
 For DOC-06B dashboard placements:
 
@@ -244,11 +248,11 @@ The Home category is a source-preserved selection signal and does not replace DO
 
 DOC-06B is the sole normative owner of HOME-ROOT selection, one-at-a-time presentation, ordering, visibility and zero state, dismissal, body/action interaction, Details-close return branches, and the Rent-reminder Home display window. DOC-08 supplies the canonical notification record and values above and does not restate or derive that Home algorithm.
 
-Where DOC-06B or DOC-06C defines a route ID, user-facing action notifications should store or resolve to the relevant route destination. Where DOC-06C defines a more specific sub-route ID, notification routing should use that specific ID rather than a broad shorthand label. Examples include account-setup completion to `ACCOUNT-ACTIVATION`, phone action to `PHONE-VERIFICATION`, identity action to `IDENTITY-VERIFICATION`, evidence correction or upload to `BILLS-EVIDENCE-UPLOAD`, evidence review or status viewing to `BILLS-EVIDENCE-DETAIL`, bill/rent reminder management to `BILLS-REMINDER-LIST`, bill/rent reminder editing to `BILLS-REMINDER-DETAIL`, optional participant linking to `BILLS-LINKING`, payer-side list actions to `BILLS-PAY`, payee-side request or receive-management actions to `BILLS-RECEIVE`, account/profile or closure action to `ACCOUNT-PROFILE`, account-security action to `ACCOUNT-SECURITY` or `PAYMENT-PASSCODE-SETTINGS`, privacy/data action to `PRIVACY-DATA-CONTROLS`, receiving-information action to `RECEIVING-INFO`, `RECEIVING-INFO-DETAILS`, or `RECEIVING-INFO-SETUP`, archive-area access to `ARCHIVED-ROOT`, archived-obligation access to `ARCHIVED-BILLS-LIST`, archived/previous evidence access to `ARCHIVED-DOCS-LIST`, card/profile action-required items to `PAYMENT-PROFILE-ROOT` or the relevant payment card/profile screen, receipt notifications to `RECEIPT-DETAIL`, statement notifications to `STATEMENT-DETAIL`, transaction-lifecycle notifications to `ACTIVITY-DETAIL` where a specific activity exists, and general activity-list notifications to `ACTIVITY-ROOT` where no specific transaction detail is required. `RECEIPT-DETAIL` and `STATEMENT-DETAIL` open the selected PDF in the shared in-app preview defined by DOC-06B.
+Where a formal route owner defines an eligible destination, a notification may reference that owner-approved destination and must revalidate current state and permission before action. Active examples are account/identity/security, Evidence, Bill/Rent reminder, Payer Bills, payment-profile, Archive root or archived Bills, receipt, statement and Activity destinations. DOC-08 must not route to retired Request/Linking/Receive/Receiving Info or provisional Archived Documents identities, and it must not decide an action, return, preview, route state or eligibility.
 
 Promotion-discovery notifications should route to the relevant `OFFER-DETAIL`, or to `OFFERS-ROOT` only when no specific offer exists. Issued-reward notifications should route to `REWARDS-ROOT` or the relevant `REWARD-DETAIL`, using user-facing labels from the status-display reference matrix. Notifications must not contain a redeemable QR, full partner/redemption code, secret, internal reference, or internal risk reason. Referral attribution or qualification notifications should route to `REFERRAL-ROOT`; a referrer or referee entitlement-availability notification should route to `REFERRAL-REWARDS-LIST` or the relevant `REFERRAL-ENTITLEMENT-DETAIL`; an issued, reversed, or administrator-held reward notification should route to the canonical `REWARD-DETAIL` where a specific instrument exists. Notifications must not open `REFERRAL-REWARD-CLAIM` directly. Claim-deadline reminders are not required for MVP. A share-sheet action, copied link, or displayed QR is not an invitation delivery event and must not notify an unknown recipient. The notification record should preserve its source and target context without requiring a DOC-06B entry-point ID. Notification routing must not turn `BILLS-PAY` into an Offers sub-route.
 
-A user's personal archive or restore of a bill/rent is a visibility action and does not create a counterparty notification by itself. Existing payment, payout, evidence, risk, request, or legal events continue to notify only under their own event rules.
+A Payer's ordinary Bill/Rent Archive visibility action does not create a counterparty notification. Existing payment, Payout, Evidence, risk or legal events notify only under their own owner-governed rules.
 
 DOC-06B `ACTIVITY-ROOT` may expose direct receipt/proof download actions from an expanded activity card where the file is available and the user has permission. DOC-06B `ACTIVITY-DETAIL` may also expose direct receipt/proof download actions. If receipt/proof is unavailable, the button should be hidden by default or disabled only where useful with clear, non-sensitive wording. Invoice/evidence buttons should be hidden where access is not permitted. DOC-08 owns the communication, delivery, file-availability, and receipt/proof wording rules; DOC-15 owns masking and access boundaries.
 
@@ -285,10 +289,9 @@ Domains:
 | `KYC` | KYC, KYB, verification, and onboarding. |
 | `EVD` | Evidence upload, OCR/autofill, evidence correction, and verification. |
 | `PROM` | Promotion, coupon, voucher, reward, referral, membership, miles, and entitlement. |
-| `REQ` | Request and party-linking lifecycle. |
 | `PAY` | Payment authorization, processing, success, and failure. |
-| `PINS` | User payment instruction, action-required alert, and deferred/incomplete funding action. |
-| `REM` | Ordinary bill, fee, rent, tenancy, or obligation reminders. |
+| `PINS` | Deliberate Payment Instruction owner-supplied alert. |
+| `REM` | Ordinary bill, fee, rent, tenancy, or applicable Bill/Rent Payment Obligation reminders. |
 | `POUT` | Payout and settlement visibility. |
 | `REF` | Refund, reversal, cancellation, and chargeback. |
 | `DISP` | Query, clarification, dispute, and case handling. |
@@ -307,15 +310,15 @@ IDs should remain stable once used in production.
 | `notification_message_id` | Unique recipient-specific Inbox/message record. |
 | `notification_batch_id` | Optional batch, campaign, manual-send, scheduled-job, or support-send grouping. |
 | Source event | Source type plus source event ID. |
-| Source object | Source object type and ID, such as payment, request, payout, reward, or support case. |
-| Recipient | User ID and role projection used for the message. |
+| Source object | Source object type and ID, such as source, payment, Payout, reward or support case. |
+| Recipient | Owner-governed eligible recipient reference; it does not create a role projection. |
 | Template | Template ID and version. |
 | Destination | Registered route and permitted target object. |
 | Correlation controls | Correlation, causation, and deduplication references where applicable. |
 | Timestamps | Created, scheduled, sent, read, and archived timestamps as applicable. |
 | Delivery attempts | Separate per-channel attempt ID, provider reference, status, timestamp, retry, and failure outcome. |
 
-System-triggered, scheduled, campaign, manual, and support messages should use this common model. DOC-18 owns the final schema and lineage; DOC-22 owns operational lookup, approved manual/batch actions, and audit workflow.
+System-triggered, scheduled, campaign, manual, and support messages should use this common model. DOC-18 owns the final schema and lineage; DOC-22 may execute only expressly owner-permitted operational lookup, approved manual/batch actions, and audit workflow using approved policy and facts.
 
 ---
 
@@ -332,19 +335,11 @@ System-triggered, scheduled, campaign, manual, and support messages should use t
 | WhatsApp | Short service alert, receipt prompt, or fallback where consented. | Avoid sensitive details; link back to app where practical. |
 | Dashboard task | Admin or user task requiring action. | Show role-permitted operational details. |
 
-### 9.2 Channel Configuration
+### 9.2 Notification Parameter and Operational-Configuration Boundary
 
-Admin configuration should support:
+DOC-08 owns the notification policy semantics and requirements for event and channel eligibility, mandatory/important/optional/disabled classification, recipient role, template and version, fallback, retry, preference overrides, quiet-hour treatment where applicable, and approval requirements for legally sensitive communication. These requirements remain normative even when an owner permits selected parameters to be operationally configured.
 
-- event enabled or disabled;
-- channel enabled or disabled;
-- mandatory or optional classification;
-- default recipient role;
-- template version;
-- fallback channel;
-- retry rule;
-- user preference override where allowed;
-- approval status for legally sensitive templates.
+Where DOC-08 or another applicable formal owner expressly permits a parameter to be configured, DOC-22 may execute the owner-permitted Admin workflow using the approved policy and facts. DOC-08 does not prescribe an Admin dashboard, Admin UI, queue, permission model, configuration screen, approval workflow, or other DOC-22 mechanism. DOC-22 may not invent, broaden, or change notification policy independently of DOC-08 or the applicable formal owner.
 
 ---
 
@@ -373,7 +368,7 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 | `NOTIF-ACCT-003` | Security or account change | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-004` | New-device login or 2FA challenge | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-005` | Dormant-login reauthentication required or completed | App, email optional, SMS optional | Mandatory service |
-| `NOTIF-ACCT-006` | Material account, contact, login-method/credential, payment profile, or Receiving Info change | App, email, SMS optional | Mandatory service |
+| `NOTIF-ACCT-006` | Material account, contact, login-method/credential or payment-profile change | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-007` | Account closure request submitted or cancelled | App, email | Mandatory service |
 | `NOTIF-ACCT-008` | Account closure requires action or cannot proceed | App, email, push optional | Mandatory service |
 | `NOTIF-ACCT-009` | Account closure completed | Email, SMS optional | Mandatory service |
@@ -392,56 +387,17 @@ First password setup, password change, payment-passcode Change/Reset, and Google
 
 `AUTH-RECOVERY` capability decisions, link-validation results, retry paths, and unavailable-method handling are in-flow Outcomes and Resolution Strategies, not notification events. The password-reset email is a controlled authentication delivery and does not prove reset success. A completed password reset must use the mandatory account-security communication family, currently `NOTIF-ACCT-006`, without creating a separate ID unless later operational review requires one. Exact recovery delivery events, Message IDs, CTA mappings, and notification-template treatment remain governed by the DOC-07 authentication slice and future DOC-18/DOC-19 implementation specifications.
 
-### 11.1A Receiving Info Events
+### 11.1A Retired Receiving Info Identifiers
 
-| ID | Event | Default Channels | Classification |
-| --- | --- | --- | --- |
-| `NOTIF-RCV-001` | Receiving Info profile added, updated, or archived | App, email optional | Important service |
-| `NOTIF-RCV-002` | Receiving Info profile under review, approved, or action required | App, push optional, email optional | Important service |
-| `NOTIF-RCV-003` | Effective destination changed for a linked request, bill, or rent | App, push optional | Important service |
+Receiving Info identifiers are retired from active notification behavior. They may remain only in append-only revision provenance and do not define a notification, recipient, route, link, delivery obligation or historical-runtime reader.
 
-Receiving Info messages must use the approved user-facing readiness labels and must not imply bank validation. A payer sees only the destination selected for the relevant context. A linked payee notification may offer review and controlled save to `RECEIVING-INFO`, but it must not become a payee-approval gate or delay a payer-authorized payout.
+No Receiving Info notification event is active. Payout, destination and Individual-notification eligibility remain with their formal owners; DOC-08 consumes an owner-approved notification only when one is defined.
 
-Where a payee changes the destination after payer acceptance, the resulting new request uses the normal request-created/received events and must not present the old accepted request as amended. A destination-attributable payout failure uses `NOTIF-POUT-004` and should notify the payer plus the linked PayPlus payee where applicable. Transient bank/rail failures must not create a Receiving Info `Action Required` notification unless the user can correct the destination.
+### 11.2 Retired Request Identifiers
 
-### 11.2 Request Events
+Request identifiers are retired from active notification behavior. No Request creation, delivery, acceptance, reminder, routing, recipient or deep-link event is defined by DOC-08. Ordinary privacy, support and account requests retain their separately owned ordinary-language meaning.
 
-Request notifications are about request creation, delivery, viewing, acceptance, rejection, expiry, cancellation, reminders, sharing, and party-linking. A request notification is not a payment notification unless it separately references a linked payment event.
-
-Notification IDs are event-driven and do not define request lifecycle states. DOC-06A owns the canonical request lifecycle and role-facing labels; evidence, obligation readiness, linked case, payment, payout, and archive states remain in their owning domains.
-
-| ID | Event | Default Channels | Classification |
-| --- | --- | --- | --- |
-| `NOTIF-REQ-001` | Payer-created linking request created | App | Important service |
-| `NOTIF-REQ-002` | Payee-created Request created for evidence-backed obligation acceptance/linkage | App | Important service |
-| `NOTIF-REQ-003` | Request received | App, push optional, email optional, WhatsApp optional | Important service |
-| `NOTIF-REQ-004` | Request viewed | App or disabled | Optional service |
-| `NOTIF-REQ-005` | Request submitted for evidence verification | App | Important service |
-| `NOTIF-REQ-006` | Request evidence verified and sent | App; receiver channel follows `NOTIF-REQ-003` | Important service |
-| `NOTIF-REQ-007` | Request accepted | App | Important service |
-| `NOTIF-REQ-008` | Request rejected | App, email optional | Important service |
-| `NOTIF-REQ-009` | Request cancelled | App, email optional | Important service |
-| `NOTIF-REQ-010` | Request expired | App, email optional | Optional service |
-| `NOTIF-REQ-011` | Payee invitation or linking request sent | App, push optional, WhatsApp optional, email optional | Important service |
-| `NOTIF-REQ-012` | Payee linking accepted or declined | App | Important service |
-| `NOTIF-REQ-013` | Payer-created record available for optional payee linking | App or disabled external channels | Optional service |
-
-Payer-created payment may proceed without payee acceptance where DOC-06A/DOC-06C and DOC-09 gates allow it. Optional payee linking notifications must not imply the payer is blocked from payment unless a specific category, risk, payout, or compliance gate requires payee action.
-
-Pay+ `Request Payment` is a payee-to-payer payment-request entry. Payer-to-payee linking requests are contextual linking actions and must use linking language; they must not be presented as payment authorization or as a required gate for a direct payer-created obligation/payment.
-
-Payee-side `Request` and `Remind Payer` actions in DOC-06C `BILLS-RECEIVE` should use the `REQ` notification domain unless a later document defines a more specific request-reminder event. These actions should create or update request records and route recipients to `REQUESTS-DETAIL` by default when a specific request exists. They may route to `REQUESTS-ROOT`, payer-side Bills context, or linked bill/rent detail only where the notification type requires a broader list, payment-readiness handoff, or linked-context destination. Resend limits, cooldowns, escalation wording, and channel eligibility remain open for DOC-06C, DOC-08, and DOC-22 alignment.
-
-Requests created through DOC-06B `REQUESTS-NEW` must not notify or display to the receiver until required evidence is verified or approved by exception. Once verified, the request should be sent immediately through the approved delivery method. If evidence is already accepted at submission, request delivery may occur immediately after submission.
-
-`REQUESTS-NEW` delivery and share behavior must follow these communication rules:
-
-- in-app delivery is preferred where both parties are active PayPlus users;
-- app link, WhatsApp deeplink, QR code, SMS, email, or other approved external channel may be used only where enabled by product, privacy, risk, and admin configuration;
-- external message content must avoid sensitive request, evidence, identity, payment, account, card, KYC/KYB, risk, or relationship details;
-- external links should route through authentication or onboarding before opening `REQUESTS-DETAIL`;
-- pending-evidence requests must not trigger receiver notifications, external share links, or receiver-visible request records;
-- rejected or correction-required evidence should notify only the sender unless an approved support/admin workflow requires otherwise.
+No Request notification registry, action, recipient, delivery, reminder, route, sharing or deep-link behaviour is active. The retired identifiers are documentation provenance only. Ordinary privacy, support and account requests retain their separately owned ordinary-language meaning.
 
 ### 11.3 Evidence Verification Events
 
@@ -486,10 +442,10 @@ Marketing campaign messages must be consent-based. Service messages that affect 
 | `NOTIF-PAY-006` | Payment held for review | App, email optional | Important service |
 | `NOTIF-PINS-001` | Payment instruction created | App | Important service |
 | `NOTIF-PINS-002` | Deferred payment action due | App, push optional, email optional | Important service |
-| `NOTIF-PINS-003` | Split-card remaining payment action due | App, push optional, email optional | Important service |
-| `NOTIF-PINS-004` | Payment instruction partially funded | App, push optional | Important service |
-| `NOTIF-PINS-005` | Payment instruction expired or cancelled | App, email optional | Important service |
-| `NOTIF-PINS-006` | Partial payout sent for funded portion | App, email optional | Important service |
+| `NOTIF-PINS-003` | Retired instruction identifier; incomplete Checkout continuation is owner-governed | Owner-governed | Documentation provenance |
+| `NOTIF-PINS-004` | Retired instruction identifier; incomplete/partial Checkout is not a Payment Instruction | N/A | Documentation provenance |
+| `NOTIF-PINS-005` | Owner-supplied Payment Instruction cancellation/expiry outcome, if defined | Owner-governed | Service boundary |
+| `NOTIF-PINS-006` | Owner-supplied Payout outcome, if defined; it is not an instruction event | Owner-governed | Service boundary |
 | `NOTIF-PINS-007` | Deferred payment quote or promotion changed before submission | App, push optional | Important service |
 
 Payment authorization may require a status update without an external notification. Payment completion usually requires a receipt or confirmation message.
@@ -511,7 +467,7 @@ On Detail entry, the notification experience must consume current owner-supplied
 - the authenticated payer's permission to view and act on the Payment Instruction;
 - whether the instruction and its target remain current, valid and available;
 - whether the notification's stored action remains permitted; and
-- the applicable current obligation, evidence, eligibility, timing and control conditions before exposing a payment CTA.
+- the applicable current Bill/Rent Payment Obligation, Evidence, eligibility, timing and control conditions before exposing a payment CTA.
 
 Where current validation permits an instruction payment action, the Detail CTA invokes the DOC-09 Instruction `Pay Now` Checkout Resolver. It does not identify a predetermined Checkout, establish current eligibility, carry forward prior authorization, or itself create, activate, resume, fund or submit a Checkout.
 
@@ -519,7 +475,7 @@ A stale, withdrawn, expired, ineligible or unavailable notification target remai
 
 Notification content, delivery success, read/archive state, and stored status/action/quote snapshots are historical communication evidence only. They are not authoritative proof of current Checkout eligibility, payer authorization, Provider Confirmation, Payment, or payment result.
 
-Normal due-date reminders and user manual bill/rent reminders continue to route to the bill/rent/obligation detail screen. No new notification ID is required solely because an instruction later needs card, Payment Profile, quote, fee, benefit, eligibility, or other current resolution. Exact user-facing message and CTA wording remains with DOC-07; DOC-08 owns the notification entry and action-availability contract.
+Normal due-date reminders and user manual bill/rent reminders continue to route to the bill/rent/Payment Obligation detail screen. No new notification ID is required solely because an instruction later needs card, Payment Profile, quote, fee, benefit, eligibility, or other current resolution. Exact user-facing message and CTA wording remains with DOC-07; DOC-08 owns the notification entry and action-availability contract.
 
 ### 11.5A Bill/Rent Reminder Events
 
@@ -527,7 +483,7 @@ Normal due-date reminders and user manual bill/rent reminders continue to route 
 | --- | --- | --- | --- |
 | `NOTIF-REM-001` | Bill/rent reminder created or updated | App | Optional service |
 | `NOTIF-REM-002` | Bill/rent reminder due | App, push where permission granted | Optional service |
-| `NOTIF-REM-003` | Bill/rent reminder disabled, deleted, expired, or inactive | App or disabled external channels | Optional service |
+| `NOTIF-REM-003` | Bill/rent reminder disabled, deactivated, expired, or inactive | App or disabled external channels | Optional service |
 
 Ordinary reminder events are governed by DOC-06C `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. App notification and push notification are MVP where permission is granted. Email, SMS, and WhatsApp may be enabled through the channel matrix, but should avoid sensitive bill, rent, evidence, account, and payee details outside the authenticated app. Payment instruction action alerts remain under `NOTIF-PINS-*` and must not create ordinary bill/rent reminder records.
 
@@ -541,9 +497,9 @@ Ordinary reminder events are governed by DOC-06C `BILLS-REMINDER-LIST` and `BILL
 | `NOTIF-POUT-004` | Payout failed | App, email, dashboard task | Mandatory service |
 | `NOTIF-POUT-005` | Payout held for review | App, email optional, dashboard task | Important service |
 
-Payout messages must not overpromise timing. They should align with the T+1 to T+3 upstream settlement and same-day-after-settlement payout baseline.
+Payout messages must not overpromise timing. They should use only settlement and payout timing confirmed by DOC-10 and applicable PSP, bank, risk, legal, partner and reconciliation owners.
 
-`NOTIF-POUT-004` should route the payer to the relevant activity or bill/rent context. Where the payee is linked and the failure is destination-attributable, notify the payee and route to `RECEIVING-INFO-DETAILS` or `RECEIVING-INFO-SETUP` only when that profile requires user correction. Otherwise route to the relevant activity context.
+`NOTIF-POUT-004` may use only an owner-approved Payer destination. It creates no economic-Payee, Receiving Info or corrective route.
 
 ### 11.7 Refund, Reversal, Dispute, and Chargeback Events
 
@@ -568,16 +524,16 @@ Detailed policy and operational handling belong in DOC-11 and DOC-21.
 | --- | --- | --- | --- |
 | `NOTIF-RCPT-001` | Payment receipt available | App, email | Mandatory service |
 | `NOTIF-RCPT-002` | Proof of payment available | App, email optional | Important service |
-| `NOTIF-RCPT-003` | Payee statement available | App, email optional | Important service |
-| `NOTIF-RCPT-004` | Payer statement available | App, email optional | Important service |
-| `NOTIF-RCPT-005` | Receipt or statement re-issued / replaced | App, email | Mandatory service |
+| `NOTIF-RCPT-003` | Retired Payee statement identifier; no active notification behaviour | N/A | Documentation provenance |
+| `NOTIF-RCPT-004` | Payer statement available where an owner-approved statement exists | App, email optional | Important service |
+| `NOTIF-RCPT-005` | Owner-governed transaction-document correction outcome, if any | Owner-governed | Service boundary |
 
 ### 11.9 Admin Events
 
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
-| `NOTIF-ADM-001` | Request requires review | Dashboard task | Admin-only |
-| `NOTIF-ADM-002` | High-risk request detected | Dashboard task | Admin-only |
+| `NOTIF-ADM-001` | Owner-governed review requirement | Owner-permitted workflow | Admin-only |
+| `NOTIF-ADM-002` | Owner-governed high-risk outcome | Owner-permitted workflow | Admin-only |
 | `NOTIF-ADM-003` | Missing or invalid evidence | Dashboard task | Admin-only |
 | `NOTIF-ADM-004` | Duplicate suspected | Dashboard task | Admin-only |
 | `NOTIF-ADM-005` | Payment failed and requires review | Dashboard task | Admin-only |
@@ -611,7 +567,6 @@ Detailed policy and operational handling belong in DOC-11 and DOC-21.
 A payment receipt should include:
 
 - receipt ID;
-- request ID where applicable;
 - payment ID where available;
 - payer display name or payer reference;
 - payee display name or payee reference;
@@ -623,11 +578,11 @@ A payment receipt should include:
 - payment date and time;
 - masked payment method summary;
 - multi-card split summary where applicable;
-- bill, invoice, rent, or obligation reference;
+- accepted controlled Bill/Rent Payment Obligation reference;
 - payout or settlement status where appropriate;
 - support or dispute reference path.
 
-PDF is the MVP receipt preview/download format. Any additional export formats remain to be confirmed.
+Receipt access, format and presentation remain with the applicable route, content, privacy, representation and acceptance owners; DOC-08 does not define a preview or download contract.
 
 ### 12.2 Proof of Payment
 
@@ -635,29 +590,21 @@ Proof of payment should be available only when the relevant payment outcome is c
 
 It should not imply payout is complete unless payout completion is separately confirmed.
 
-### 12.3 Receipt Re-Issue and Replacement
+### 12.3 Transaction-Document Corrections
 
-If receipt content is wrong, corrected, replaced, or re-issued:
-
-- create a new receipt version;
-- retain the prior version where required;
-- log the re-issue or replacement reason;
-- notify affected users where material.
-
-The latest valid receipt version should be shown by default in DOC-06B `RECEIPTS-ROOT` and `RECEIPT-DETAIL`. `View` opens the in-app PDF preview and `Download` may download the PDF directly from `RECEIPTS-ROOT` or the preview. Prior versions must remain retained where required for audit, tax, support, dispute, refund, reversal, and chargeback handling. Final document metadata, versioning, lineage, and retention schema belong in DOC-18; admin re-issue workflow belongs in DOC-22.
+Applicable financial owners determine transaction-document truth and any permitted correction/reissue outcome. DOC-15 owns privacy/retention requirements, DOC-18 future representation/lineage, and DOC-22 may execute only a specifically owner-permitted workflow. DOC-08 creates no version, preview, reissue or delivery mechanism.
 
 ---
 
 ## 13. Statement Rules
 
-Statements should be available to registered payers and registered payees with qualifying account activity. A statement may include both payer-side and payee-side financial activity for the same user account.
+Statements, if defined by their formal owners, are Payer account/payment summaries; an economic Payee is not a statement-holder user role.
 
 Statement content should include:
 
 - statement period;
-- payer or payee account reference;
+- Payer account reference;
 - completed payments;
-- received payments and payout records where applicable;
 - refunds;
 - reversals;
 - chargebacks where applicable;
@@ -665,9 +612,7 @@ Statement content should include:
 - discounts or promotions;
 - downloadable format where supported.
 
-PDF is the MVP statement preview/download format. Any additional export formats remain to be confirmed.
-
-Statement notifications should route to DOC-06B `STATEMENT-DETAIL`, which opens the selected statement PDF in the shared in-app preview. The `Receipts & Statements` route may display statements together with receipts in `RECEIPTS-ROOT`, where `View` opens the preview and `Download` downloads the PDF directly. Statements remain periodic/account financial summary records, not request histories, failed-attempt logs, or unrelated system-event records. If a statement is wrong or replaced, PayPlus should re-issue a new statement version, retain the prior version where required, and notify affected users where material. Final statement schedule, PDF layout/design, naming, versioning, and admin re-issue workflow remain open.
+Statement access, format, correction and delivery remain owner-governed. DOC-08 does not define PDF, route, preview, version, reissue or Admin workflow behaviour.
 
 ---
 
@@ -684,7 +629,7 @@ Notifications must avoid unnecessary sensitive data.
 | Extracted evidence fields | Avoid sensitive field values in unauthenticated or external channels. |
 | Risk decisions | Use neutral user-facing wording. |
 | Admin notes | Do not expose to users unless approved. |
-| Payer/payee personal data | Show only role-appropriate information. |
+| Payer/economic-Payee source-context data | Show only approved-purpose information. |
 | DOC-15 classified data | Channel content must respect data class, sensitivity, consent, masking, and approved-purpose rules. |
 
 ---
@@ -726,29 +671,15 @@ Notification delivery should support:
 - failure logging;
 - admin visibility for important failed service messages.
 
-Do not repeatedly send the same message if the user already acted on the underlying request.
+Do not repeatedly send the same message if the user already acted on the underlying owner-governed matter.
 
 ---
 
-## 17. Admin Configuration
+## 17. Operational Configuration Handoff
 
-The admin dashboard or configuration layer should support:
+DOC-08 remains the owner of notification identity, event and channel requirements, recipient and template semantics, classification, preference, fallback, retry, delivery, delivery evidence, and communication approval requirements. The policy may identify parameters that are expressly permitted to be operationally configured, but it does not define the Admin dashboard, Admin UI, queue, permissions, configuration workflow, approval workflow, preview mechanism, provider mechanism, or other DOC-22 implementation behavior.
 
-- notification event enablement;
-- per-channel enablement;
-- mandatory, important, optional, admin-only, or disabled classification;
-- template version selection;
-- provider selection where applicable;
-- fallback rules;
-- retry settings;
-- user preference override rules;
-- quiet-hour settings where applicable;
-- message preview;
-- approval workflow for sensitive templates;
-- audit log for configuration changes.
-- source-preserving Important Notice inspection/audit linkage and separate Hot Offer communication linkage where an Offer also has an independently approved notification or campaign communication;
-
-Admin changes to legal, payment, privacy, fee, refund, chargeback, or payout timing wording should require approval.
+DOC-22 may execute only a workflow expressly authorized by DOC-08 or another applicable formal owner, using approved policy and source facts. DOC-22 must not invent or change notification policy, recipient eligibility, channel semantics, template meaning, fallback/retry requirements, preference rules, delivery requirements, approval requirements, or audit meaning. Source-preserving Important Notice and independently approved Offer communication remain owner-governed notification relationships; DOC-08 does not own their source truth or route presentation.
 
 ---
 
@@ -774,11 +705,11 @@ PayPlus should log:
 - created, scheduled, sent, read, and archived timestamps where applicable;
 - failure reason where available;
 - retry count;
-- related request, payment, payout, receipt, dispute, or account ID.
+- related source, Payment, Payout, receipt, dispute or account ID.
 - related evidence or verification event ID where applicable.
 - related campaign, offer, promotion quote, reward entitlement, instrument, redemption, or fulfilment ID where applicable.
 
-Receipt, payment, account, tax, and audit records are expected to be retained for 7 years, subject to final privacy and legal review.
+Receipt, payment, account, tax, and audit records remain retained indefinitely under the Founder decision. DOC-08 consumes DOC-15 access, masking and lawful handling requirements; notification delivery or account closure does not erase the underlying record.
 
 Detailed schema belongs in DOC-18.
 
@@ -795,7 +726,7 @@ Detailed schema belongs in DOC-18.
 | OQ-08-005 | What SMS consent, fallback, and cost controls are required? | Product / Operations | Open |
 | OQ-08-006 | What additional receipt or statement export formats, if any, are required beyond the MVP PDF? | Product / Finance | Open |
 | OQ-08-007 | What notification delivery failure threshold should create an admin alert? | Operations / Engineering | Open |
-| OQ-08-008 | What retention exceptions, deletion rules, and masking rules apply beyond the 7-year baseline? | Legal / Privacy | Open |
+| OQ-08-008 | Which approved-purpose access, masking, audit and privacy-request handling controls apply by notification-record class while every record remains retained indefinitely under the Founder decision? | Legal / Privacy | Open |
 | OQ-08-009 | Which evidence verification events should notify users versus remain app status or admin-only dashboard tasks? | Product / Operations / Legal | Open |
 | OQ-08-010 | Which DOC-13 promotion, coupon, voucher, referral, membership, miles, entitlement, fulfilment, and clawback events should notify users versus remain app status or admin-only tasks? | Product / Growth / Operations | Open |
 | OQ-08-011 | Which action-alert schedule, channel mix, and final-action wording should apply separately to deliberate Payment Instructions and incomplete Checkout Workspaces, including split-card continuation and expiry cases? | Product / Payments / Operations | Open |
@@ -816,7 +747,7 @@ DOC-08 is acceptable when:
 - `NOTIFICATION-ROOT`, Inbox, Detail, and Settings ownership and handoffs align with DOC-06B;
 - read/archive actions do not change owning-domain state and contextual actions revalidate current state;
 - default channels are defined without forcing every status to notify users;
-- admin configurability is defined;
+- the boundary for parameters expressly permitted for operational configuration is defined without assigning Admin policy authority;
 - mandatory, optional, disabled, and admin-only messages are distinguished;
 - sensitive data rules are clear;
 - receipt and statement rules are defined;
@@ -836,6 +767,10 @@ DOC-08 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.1 | 2026-08-12 | Consolidated DOC-22 execution-only, notification-policy, Payment Obligation, timing and retention-boundary corrections while preserving delivery semantics. |
+| 1.2.2 | 2026-08-12 | Applied the Founder-settled indefinite-retention rule to notification and receipt records and reframed the retention open question around access, masking and privacy-request controls. |
+| 1.2.0 | 2026-08-12 | Clarified DOC-08 notification policy ownership and converted Admin dashboard/configuration wording to an expressly owner-permitted DOC-22 execution handoff while preserving fallback, retry, preference, channel, template, delivery and evidence semantics. |
+| 1.1.0 | 2026-08-12 | Retired active Request and Receiving Info notification runtime and aligned DOC-08 with Payer-only communication ownership and governed one-way Individual notification eligibility. |
 | 1.0.34 | 2026-08-05 | Defined the bounded HOME-ROOT Important Notice notification handoff by publishing the existing Inbox-backed record, notification identity, lifecycle, and source-owned selection/destination values while retaining Home presentation, ordering, dismissal, navigation, return, and reminder-window behavior in DOC-06B. |
 | 1.0.33 | 2026-08-04 | Required every instruction-related notification to enter `NOTIFICATION-DETAIL`, revalidate current state and permission before exposing an owner-approved CTA to the DOC-09 Checkout Resolver, and prohibited notification content or delivery state from establishing current eligibility, authorization or payment result. |
 | 1.0.32 | 2026-07-31 | Aligned notification references with Request-as-linkage and distinct Payment Instruction versus incomplete Checkout continuation contexts without defining new notification IDs. |

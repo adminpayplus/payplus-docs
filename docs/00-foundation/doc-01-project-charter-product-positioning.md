@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.10.5
+version: 0.12.2
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-08-05
+last_updated: 2026-08-12
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -35,12 +35,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-01` |
 | **Title** | Product Overview & Positioning |
-| **Version** | `0.10.5` |
+| **Version** | `0.12.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Commercial Lead |
 | **Approvers** | Product Lead<br>Project Owner |
-| **Last Updated** | `2026-08-05` |
+| **Last Updated** | `2026-08-12` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -58,68 +58,62 @@ This document does not define detailed product requirements, technical architect
 
 ---
 
+
 ## 2. Product Summary
 
-PayPlus is a controlled card-funded bill, fee, rent, invoice, and approved obligation payment platform.
+PayPlus is an Evidence-Backed Bill/Rent Payment App. Consumer Users act as Payers and use cards to pay eligible real-world obligations supported by Evidence, specialist-owned verification and risk controls, and fresh Payer authorization.
 
-It enables eligible users to pay eligible real-world bills or approved payment obligations by card, while PayPlus or its payment partners route payment value to approved payees through supported payout or settlement methods.
+A Payee is the economic recipient. The Payee may be an individual or an institution/company and does not need to be a PayPlus User.
 
-PayPlus supports two controlled request models:
+MVP scope is limited to:
 
-| Request Model | Summary |
-| --- | --- |
-| Payer-created payment | A payer creates an evidence-backed bill, invoice, fee, rent, or approved obligation payment context, reviews fees and disclosures, authorizes card payment, and PayPlus routes the approved payout after upstream settlement and reconciliation. Payee acceptance is not required unless the payer separately initiates optional linking. |
-| Payee-created request | An approved payee creates a bill, invoice, fee, rent, or approved obligation request. The payer must accept the request and separately authorize payment before any card funding or payout occurs. |
+- Rent through a separate tenancy/relationship journey; and
+- specified supported controlled Bill Categories.
 
-Payee-created requests are allowed only where the payee is onboarded or approved, the request is evidence-backed, the category is supported, risk controls pass, and the payer explicitly authorizes payment.
+For Bills, the Payer either uses a Category-scoped Payee Directory or selects `Provide Payee myself`. Both methods remain governed by the already selected supported Bill Category. Neither method creates an open Payee marketplace or authorizes arbitrary payment.
 
-PayPlus should not be positioned as a wallet, stored-value account, cashout service, peer-to-peer transfer app, remittance service, lending product, or open invoice marketplace unless separately assessed, approved, and documented.
+PayPlus must not be positioned as a wallet, stored-value account, cashout service, peer-to-peer transfer app, remittance service, lending product, open invoice marketplace or arbitrary company-payment service.
 
-PayPlus should also be designed as a data-disciplined payment platform. Each material account, evidence, request, payment, payout, risk, promotion, support, communication, and admin action should create structured, classified, auditable, and purpose-linked data where appropriate. This data foundation may support product improvement, risk control, operational analytics, commercial reporting, consented personalization, and future approved AI or model improvement.
-
-This data strategy does not approve PayPlus to operate as an advertising network, data broker, offsite audience-activation platform, credit scoring product, insurance underwriting product, or unrestricted financial profiling product. Any partner marketing, external data collaboration, clean-room use, model training, or user-level data sharing must be separately assessed under privacy, legal, compliance, risk, security, and partner-contract requirements.
+PayPlus should remain data-disciplined. Material account, Evidence, Bill/Rent, acquisition, payment, payout, risk, promotion, support, communication and Admin actions should create structured, classified, auditable and purpose-linked data where appropriate. This does not approve advertising-network, data-broker, offsite activation, credit-scoring, insurance-underwriting or unrestricted profiling behavior.
 
 ### 2.1 Current MVP Decision Baseline
 
-The founding-stage MVP baseline includes:
-
 | Decision | Baseline |
-| --- | --- |
-| Payer-created obligations and payments | MVP scope. A direct payer-created payment does not require a request or payee acceptance by default. |
-| Payer-created linking requests | MVP scope where optional party linking is enabled; acceptance creates shared visibility or communication, not payment authorization. |
-| Payee-created Requests | MVP scope; payer acceptance establishes the obligation linkage required before payment from that Request. The Request is not payment authorization. |
-| Bill and fee payments | MVP scope, subject to evidence, payee, payment, payout, and risk controls. |
-| Tenancy and rent payments | MVP scope, subject to tenancy or lease evidence and rent-specific controls. |
-| Domestic helper, driver, and personal service payments | MVP scope where tied to evidence-backed salary, fee, invoice, contract, or approved obligation records. |
+|---|---|
+| Consumer actor | Consumer Users are Payers only. |
+| Economic Payee | An individual or institution/company recipient; PayPlus membership is not required. |
+| Product families | Rent and specified supported controlled Bill Categories only. |
+| Bill acquisition | Category-scoped Directory or `Provide Payee myself`; both remain controlled by the selected Category. |
+| Rent | Separate tenancy/relationship journey; no controlled-Bill Directory use in MVP. |
+| Institutional Programme and Directory | Bounded product policy belongs to DOC-05. Enrolment, Category association and Directory publication remain separate from transaction controls. |
+| Bill/Rent identity and Save | One authoritative source identity may become Active through deliberate Setup or post-Payment Save, may become history-only only after confirmed Payment without Save, or may become Archived after ordinary Archive of a saved/Active source. Save records reuse intent on the same identity. |
+| Request/BILLS-LINKING | Active behavior is retired. Only append-only documentation history and retired stable IDs remain as non-active evidence; no production runtime, historical reader, adapter or fallback exists. |
+| Bill and Rent payments | MVP scope, subject to Evidence, Payee, destination, Payment, Payout, risk and authorization controls. |
 | First launch jurisdiction | Hong Kong. |
-| Initial card transaction classification assumption | Expected to be treated as bill payment or ordinary online card purchase, subject to acquirer confirmation. |
-| Acquirer / MCC | Acquirer is undecided; PayPlus expects to seek an appropriate or special MCC from the acquirer. |
-| Payout model | PayPlus expects to pay from its operating bank account after upstream settlement; Hong Kong payout rails include FPS, cheque, and EPS, with final operating-bank setup to be confirmed. |
-| Multi-card support | Multi-card payment is MVP scope with a confirmed maximum of 6 cards per payment/profile. Narrower partner-, risk-, category-, or reconciliation-specific restrictions may apply only under current owner rules; their configuration and enforcement remain to be confirmed by the applicable owners. |
-| User payment instruction | MVP scope. A user may pay immediately or save a deferred payment instruction for single-card or split-card payment, subject to DOC-09 validity, reminder, quote revalidation, funding-leg, and payout rules. This is not recurring payment. |
-| Settlement timing | Payment gateway settlement is expected to be T+1 to T+3; payout is expected to occur on the same day after funds are settled by the upstream counterparty. |
-| KYC/KYB baseline | Individual eKYC is expected through a service provider such as Jumio, with name verification, SMS phone verification, email capture, and ID copy submission. Business KYB is expected to require a Business Registration document and owner ID. |
-| Notification channels | Candidate channels include app notifications, push notifications, email, SMS, and WhatsApp. |
-| Record retention | Payment receipt, statement, proof of payment, account, tax, and audit records are expected to be retained for 7 years, subject to final privacy and legal review. |
-| Independent feature controls | Each major function and module must be independently configurable or disableable. |
-| Data and AI readiness | MVP design should preserve structured events, field classification, source lineage, auditability, consent/preference state, and approved-purpose metadata so downstream analytics and future AI use can be governed under DOC-15 and DOC-18. |
-| Unresolved launch details | Treat as assumptions, dependencies, open questions, or gated requirements until confirmed. |
+| Initial card transaction classification assumption | Expected bill payment or ordinary online card purchase treatment, subject to acquirer confirmation. |
+| Acquirer / MCC | Acquirer undecided; appropriate or special MCC treatment remains subject to acquirer confirmation. |
+| Payout model | Expected operating-bank payout after upstream settlement; Hong Kong candidate rails include FPS, cheque and EPS, subject to final setup. |
+| Multi-card support | MVP maximum of 6 cards per payment/profile, with narrower owner-controlled restrictions where applicable. |
+| User Payment Instruction | MVP scope under DOC-09; not recurring payment. |
+| Settlement timing | Expected T+1 to T+3 upstream settlement and same-day downstream payout after settlement, subject to approval. |
+| KYC/KYB | Provider and final depth remain open; institutional programme enrolment is not transaction eligibility. |
+| Notification | Institutional/company Payees are not notified. A governed individual may receive an optional Payer-initiated one-way notification under specialist controls. |
+| Record retention | Every PayPlus record is retained indefinitely. No scheduled expiry, deletion, purge, erasure, anonymisation, de-identification or other destruction is caused merely by elapsed time, ended purpose, source Archive or account closure; DOC-15 owns access and lawful handling controls without reopening the duration. |
+| Independent feature controls | Major functions must remain independently configurable or disableable under their owners. |
+| Data and AI readiness | Structured events, classification, lineage, auditability and approved-purpose metadata remain required where relevant. |
+| Unresolved launch details | Remain assumptions, dependencies, open questions or gated requirements until confirmed. |
 
-This baseline does not remove the need for legal, compliance, PSP/acquirer, payout, risk, privacy, security, commercial, or operational approval before production launch.
+This baseline does not remove legal, compliance, PSP/acquirer, payout, risk, privacy, security, commercial or operational approval before production launch.
 
 ---
 
 ## 3. Market Problem
 
-Many users want to pay bills, rent, invoices, fees, domestic helper, driver, or personal service obligations by card for convenience, liquidity management, rewards, recordkeeping, or payment flexibility.
+Many Payers want to pay eligible Bills or Rent by card for convenience, liquidity management, rewards, recordkeeping or payment flexibility, while many economic Payees do not directly accept cards.
 
-However, many billers and payees do not directly accept cards.
+PayPlus addresses this gap by allowing eligible card-funded payment to be routed to the intended individual or institutional recipient while preserving Evidence, Payer authorization, Payee and destination checks, risk controls, reconciliation and auditability.
 
-PayPlus addresses this gap by allowing eligible card-funded payments to be routed to approved billers or payees, while maintaining evidence, payer authorization, payee validation, settlement controls, risk controls, reconciliation, and auditability.
-
-Some legitimate payees, such as landlords, schools, utilities, billers, property managers, and service providers, may also need a controlled way to request payment from payers.
-
-PayPlus supports this only where the request is evidence-backed, payer-authorized, and subject to PayPlus controls.
+The product does not depend on a Payee becoming a Consumer User, creating a Request or accepting a participant link.
 
 ---
 
@@ -127,185 +121,126 @@ PayPlus supports this only where the request is evidence-backed, payer-authorize
 
 PayPlus should be positioned as:
 
-> A controlled payer-authorized card-funded payment service that enables eligible users to pay eligible verified bills, fees, rent, invoices, domestic helper, driver, or personal service obligations through approved payment and payout rails.
+> An Evidence-Backed Bill/Rent Payment App that lets Payers use cards for eligible Rent and supported controlled Bill Categories while PayPlus applies verification, risk, payout, reconciliation and audit controls.
 
-Where payee-created requests are enabled, PayPlus may also be positioned as:
+Allowed language may include:
 
-> A controlled evidence-backed bill payment service that lets approved payees ask payers to accept an eligible obligation linkage while the payer remains in control of separate payment authorization.
+- Card-funded Bill and Rent payment.
+- Pay eligible supported Bills by card.
+- Pay eligible Rent by card where tenancy and relationship controls pass.
+- Select an eligible institutional Payee from a Category-scoped Directory.
+- Provide an individual or institutional Payee within the already selected supported Bill Category.
+- Track payment status, receipts and Evidence-backed payment history.
+- Privacy-safe payment intelligence for approved product, risk and operations purposes.
 
-PayPlus should also be described as a payer-authorized push payment model. Traditional card acceptance is usually a merchant-initiated pull flow where the merchant requests payment from the cardholder. PayPlus is different: even when a payee sends a bill, invoice, fee, rent, or obligation request, that request is only an invitation to pay. Payment occurs only when the payer gives the payment command and authorizes the transaction.
+Prohibited positioning includes wallet, stored value, cash advance, cash withdrawal, cashout, unrestricted P2P, remittance, free transfer to any account, bank-account top-up, self-payment, open marketplace, arbitrary company payment, open money request, automatic payer charging, sale of financial data, financial surveillance, and unapproved credit or insurance decisioning.
 
-Allowed positioning language may include:
-
-- Card-funded bill payment.
-- Bill payment facilitation.
-- Pay eligible bills by card.
-- Pay eligible invoices, rent, fees, and approved obligations by card.
-- Receive and pay eligible bill requests from approved payees.
-- Approved payees can request payment for eligible bills, invoices, fees, or rent obligations.
-- Pay rent or approved fees by card where supported and verified.
-- Pay approved domestic helper, driver, or personal service obligations by card where supported and verified.
-- Split or combine eligible card payments for an approved bill, where supported.
-- Track bill payment status, receipts, and payment evidence.
-- Privacy-safe payment intelligence for PayPlus product, risk, operations, and approved partner-offer use cases.
-- Evidence-backed payment insights, where aggregated, consented, or otherwise approved.
-
-Prohibited positioning language includes:
-
-- Wallet.
-- Stored value.
-- Cash advance.
-- Cash withdrawal.
-- Cashout.
-- Convert card limit to cash.
-- Peer-to-peer transfer.
-- Remittance.
-- Send money freely to any account.
-- Bank account top-up.
-- Pay yourself by card.
-- Turn invoices into cash.
-- Open invoice marketplace.
-- Request money from anyone for any reason.
-- Auto-charge tenants or payers without authorization.
-- Sell user financial data.
-- Financial surveillance platform.
-- Credit scoring or insurance underwriting engine unless separately assessed and approved.
-- Offsite advertising audience network unless separately assessed and approved.
-
-Final public language must be reviewed in `DOC-07 Content, Disclosure & User Authorization Specification`.
+Final public language belongs to DOC-07.
 
 ---
 
-## 5. Target Users
+## 5. Target Users and Actors
 
-Candidate target users include:
+| Actor | High-level meaning |
+|---|---|
+| Payer | The sole Consumer User for MVP; pays eligible Evidence-backed Bills or Rent by card. |
+| Economic Payee | Individual or institution/company recipient. A PayPlus User account is not required. |
+| Admin and Operations | Internal actors applying owner-approved reviews, configuration and exception handling. |
+| Partners | PSPs, acquirers, payout providers, banks, OCR, KYC/KYB, risk, notification and approved commercial service providers. |
 
-| User Type | Description |
-| --- | --- |
-| Payers | Individuals or approved users who want to pay eligible bills, invoices, rent, fees, domestic helper, driver, or personal service obligations by card. |
-| Payees | Approved billers, landlords, schools, utilities, service providers, property managers, or businesses that may receive Payouts or create Requests where enabled. |
-| Admin and operations users | Internal users who review bills, payees, risk alerts, exceptions, payouts, refunds, disputes, and reconciliation. |
-| Partners | PSPs, acquirers, payout providers, banks, bill payment aggregators, OCR providers, KYC/KYB providers, risk providers, or commercial partners. |
-
-Final user segmentation belongs in `DOC-05 Master PRD & Feature Requirement Index`.
+DOC-05 owns detailed product-policy roles. An institution may enrol in the bounded Institutional Payee Programme without becoming a Consumer User.
 
 ---
 
 ## 6. Core Use Cases
 
-PayPlus supports the following core use cases, subject to approval and downstream specification.
-
 | Use Case | Description |
-| --- | --- |
-| Payer-created payment | Payer uploads or enters bill, invoice, fee, rent, domestic helper, driver, or personal service obligation details, PayPlus verifies eligibility and payee, payer authorizes card payment, and PayPlus routes the approved payout after upstream settlement and reconciliation. |
-| Payee-created Request | Approved payee creates an eligible bill, invoice, fee, rent, or obligation context and sends a Request; payer acceptance establishes the permitted linkage, after which the payer may separately authorize Payment; PayPlus then routes eligible Payout after downstream Settlement and reconciliation. |
-| Bill and evidence verification | PayPlus validates bill category, payee, amount, evidence, and eligibility before payout. |
-| Card-funded payment | Payer funds the approved request using a supported card funding source. |
-| Multi-card payment | Payer may split one approved bill across a confirmed MVP maximum of 6 cards per payment/profile, subject to any current owner-defined narrower partner, risk, category, or reconciliation restriction. The configuration and enforcement of narrower restrictions remain to be confirmed by the applicable owners. |
-| User payment instruction | Payer may choose immediate payment or save a deferred payment instruction within DOC-09 limits. Deferred instructions must return the user to checkout for funding submission and revalidation where required. |
-| Payout and settlement | PayPlus receives upstream settlement, applies approved fees or margins where applicable, reconciles the transaction, and pays the approved amount or balance to the approved payee through a supported method. |
-| Request delivery | Requests or invitations may be delivered through in-app message, app link, WhatsApp deeplink, QR code, or other approved channel. |
-| Refund, cancellation, rejection, query, and dispute handling | PayPlus supports controlled lifecycle actions before or after payment, depending on request state. |
-| Receipt, status, and audit trail | PayPlus records request, funding, payout, reconciliation, receipt, and audit evidence. |
-| Manual review and risk monitoring | PayPlus reviews higher-risk requests, payees, documents, categories, or transaction patterns. |
+|---|---|
+| Directory-selected Bill payment | Payer selects a supported controlled Bill Category, chooses a published institutional Payee for that Category, provides Evidence and authorizes an eligible payment after all applicable controls pass. |
+| Self-provided Bill payment | Payer selects a supported controlled Bill Category, provides an institutional or individual Payee within that Category, supplies Evidence and authorizes an eligible payment after all applicable controls pass. |
+| Rent payment | Payer uses the separate tenancy/relationship journey and Rent-specific Evidence and controls. |
+| Bill/Rent verification | PayPlus evaluates applicable Category, Evidence and Payee facts without treating Directory state as transaction truth. |
+| Save or no-Save | Deliberate Setup makes the same authoritative Bill/Rent identity Active/reusable without Payment. In immediate pay-now, an otherwise-unsaved source becomes Active/reusable or history-only only after confirmed Payment, Payment Result and the optional Save resolution. Save never creates payment authorization. |
+| Card-funded payment | Payer funds an eligible Payment through a supported card source. |
+| Multi-card payment | Payer may use up to 6 cards per payment/profile subject to narrower owner controls. |
+| User Payment Instruction | Payer may pay immediately or create a deliberate deferred instruction under DOC-09. |
+| Payout and reconciliation | PayPlus applies approved settlement, payout and reconciliation controls for the intended economic Payee. |
+| Receipt, Activity and audit | Payment remains visible through Activity/Payment History/Receipt even when its Bill/Rent source is history-only. |
+| Optional individual notification | Payer may initiate a separately permitted one-way notification to a governed individual Payee; it is not Request, Linking, acceptance or authorization. |
+| Manual review and monitoring | Higher-risk or mismatched facts follow their specialist-owned review and blocking rules. |
 
-Detailed requirements belong in downstream documents, especially `DOC-05`, `DOC-09`, `DOC-10`, `DOC-11`, `DOC-12`, and `DOC-14`.
+Detailed requirements belong to DOC-05 and the applicable domain owners.
 
 ---
 
-## 7. MVP and Candidate Bill Categories
+## 7. MVP and Accepted Launch Bill Categories
 
-MVP and candidate bill or obligation categories include:
+MVP consists of two product families:
 
-| Category | Notes |
-| --- | --- |
-| Utilities, telecom, and internet | Generally strong bill evidence and payee traceability. |
-| Rent and property-related payments | MVP scope; stable recurring expense category; requires tenancy or lease evidence, landlord/payee verification where applicable, relationship validation, limits, review rules, and anti-cashout controls. |
-| Education fees | Requires institution validation and fee evidence. |
-| Domestic helper, driver, and personal service payments | MVP scope where supported by employment, service, invoice, fee, salary, or obligation evidence. |
-| Medical bills | Requires institution validation and fee evidence. |
-| Loan or financing payments | May be restricted by partner, card network, or regulatory requirements. |
-| Business invoices | Requires business validation, invoice evidence, payer acceptance, dispute handling, and anti-collusion controls. |
+| Family | Boundary |
+|---|---|
+| Supported controlled Bill Categories | The Founder-confirmed launch inventory is the twelve Categories listed below and normatively owned by DOC-05 Section 3.1.1. Every Bill acquisition method remains within its selected supported Category. |
+| Rent | Separate tenancy/relationship journey requiring Rent-specific Evidence, relationship, Payee, destination, risk and authorization controls. It does not use the Bill Directory. |
 
-Categories remain subject to launch gating even when included in MVP scope.
+| Order | Accepted launch Category name |
+|---|---|
+| 1 | 會計費用 |
+| 2 | 法律費用 |
+| 3 | 醫療費用 |
+| 4 | 電訊、流動電話及寬頻費 |
+| 5 | 物業管理費 |
+| 6 | 學費 |
+| 7 | 安老院、殘疾人士院舍及受規管照顧服務 |
+| 8 | 其他專業費用 |
+| 9 | 車輛維修費 |
+| 10 | 小型工程及樓宇維修費 |
+| 11 | 註冊幼兒中心及育嬰園費用 |
+| 12 | 寵物醫療及寄養費 |
 
-Each category must be assessed under:
+The inventory names establish controlled Bill scope only. Category-specific eligibility, Evidence criteria, Directory contents and detailed labels remain with DOC-05 and DOC-12; Bills UX consumes their outcomes under DOC-06C, and approved Copy remains with DOC-07. Rent is not a Bill Category.
 
-- `DOC-03 Regulatory, PSP & Acquirer Assessment`.
-- `DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification`.
-- `DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification`.
-
-Payee-created request support must be configurable by category, payee type, and risk tier.
+Each Category remains subject to DOC-03, DOC-12 and DOC-14 assessment and applicable payment, payout, privacy, operations and acceptance owners.
 
 ---
 
 ## 8. MVP Definition
 
-The MVP should be a narrow, controlled launch.
+The narrow controlled MVP includes:
 
-MVP should include:
-
-| Area | MVP Treatment |
-| --- | --- |
-| User registration and authentication | In scope. |
-| Basic user profile | In scope. |
-| Payer-created bill, invoice, fee, rent, and approved obligation payment | In scope. |
-| Payee-created Requests | In scope; production use is gated by approved onboarding, evidence, payer acceptance, separate payment authorization, risk, privacy, support, and reconciliation controls. |
-| Bill upload and manual bill entry | In scope. |
-| Bill category eligibility checks | In scope. |
-| Payee verification | In scope. |
-| Card payment | In scope through approved PSP/acquirer. |
-| Payment quote and fee disclosure | In scope. |
-| Payout to approved payee | In scope through approved payout or settlement method. |
-| Receipt and lifecycle notifications | In scope. |
-| Refund and cancellation process | In scope at minimum viable process level. |
-| Admin review console | In scope for manual review and exceptions. |
-| Reconciliation reporting | In scope. |
-| Risk monitoring | In scope. |
-| OCR/document AI | Optional; may start as manual or assisted workflow. |
-| Multi-card payment | MVP scope; must support a maximum of 6 cards per payment/profile, subject to current owner-defined narrower partner, risk, category, reconciliation, and operational controls. The configuration and enforcement of narrower restrictions remain to be confirmed by the applicable owners. |
-| Promotion engine | Optional; should not block MVP unless commercially required. |
+| Area | MVP treatment |
+|---|---|
+| Payer registration and authentication | In scope. |
+| Supported controlled Bill and separate Rent payment | In scope for the accepted twelve-category inventory and the separate Rent journey; Category-specific readiness remains owner-gated. |
+| Category-scoped Directory and `Provide Payee myself` | In scope for Bills; Category remains governing in both methods. |
+| Institutional Payee Programme | Bounded enrolment, Category association and publication policy in DOC-05; detailed execution and commercial terms remain owner-gated. |
+| Evidence capture and verification | In scope under DOC-12. |
+| Authoritative Bill/Rent source and projections | In scope; Save, history-only and Archive meanings follow DOC-05. |
+| Card payment, quote and fee disclosure | In scope through approved partners and DOC-09. |
+| Payout and reconciliation | In scope under DOC-10. |
+| Receipt and lifecycle notifications | Payer notifications in scope; individual-Payee notification only within the approved one-way boundary. |
+| Refund, cancellation and dispute | Minimum viable process under DOC-11. |
+| Admin review | In scope as controlled execution, not product-policy authority. |
+| OCR/document AI | Optional assisted capability under DOC-12. |
+| Multi-card payment | Up to 6 cards per payment/profile, subject to owner controls. |
+| Promotion engine | Optional and not an MVP blocker unless commercially required. |
+| Active Request and BILLS-LINKING | Retired from target MVP; no dormant product stack. |
 | Partner advertisements | Out of initial MVP unless separately approved. |
-
-Recommended MVP categories should have:
-
-- clear bill evidence;
-- verified payee identity;
-- lower cashout risk;
-- clear payout path;
-- PSP/acquirer acceptance;
-- regulatory feasibility;
-- operational review capacity;
-- commercial viability.
-
-Lower-risk launch candidates may include:
-
-- utilities;
-- telecom or internet bills;
-- education fees;
-- rent and property-related payments with tenancy or lease evidence;
-- domestic helper, driver, or personal service obligations with supporting evidence;
-- medical bills.
-
-Categories requiring stronger assessment, including business invoices or loan repayment, may require stronger controls and may be rolled out in phases even when they remain part of MVP scope.
-
-Because rent is MVP scope, PayPlus must define tenancy or lease evidence requirements, landlord onboarding where applicable, payer-landlord relationship validation, duplicate request detection, limits, and risk/manual review rules.
 
 ### 8.1 Gated MVP Requirements
 
-Some MVP capabilities are confirmed as product scope but remain gated for production use.
-
-| Area | Gating Requirement |
-| --- | --- |
-| Launch jurisdiction | Hong Kong is the initial launch jurisdiction; local legal, regulatory, payment, privacy, tax, audit, and operational requirements must be assessed before production launch. |
-| PSP/acquirer model | Acquirer is undecided; selected PSP/acquirer must support the intended bill payment or ordinary online card purchase treatment, fee, authorization, MCC/classification, and settlement flow. |
-| Payout model | Operating-bank payout is the baseline; FPS, cheque, and EPS are acceptable Hong Kong payout rails, while final bank setup, timing, exceptions, and reconciliation must be approved. |
-| KYC/KYB and payee verification | Baseline checks are highly confirmed; final provider, check depth, exceptions, sanctions, category rules, and risk-tier requirements remain to be confirmed. |
-| Rent and tenancy payments | Must meet rent-specific evidence, relationship, verification, limit, and review controls. |
-| Payee-created requests | Must be independently enableable by payee, category, and risk tier. |
-| Fees and disclosures | Must be approved before payer authorization. |
-| Multi-card payment | MVP scope with a maximum of 6 cards per payment/profile. Partner rules, risk checks, and reconciliation handling remain subject to confirmation. |
-| Refund, dispute, and chargeback handling | Product must support admin-dashboard status options and case handling; detailed operations should follow approved policies and may be finalized in operations documentation. |
+| Area | Gating requirement |
+|---|---|
+| Launch jurisdiction | Hong Kong legal, regulatory, payment, privacy, tax, audit and operational assessment. |
+| PSP/acquirer model | Support for intended transaction treatment, fees, authorization, MCC/classification and settlement. |
+| Payout model | Approved operating-bank setup, rails, timing, exceptions and reconciliation. |
+| KYC/KYB and Payee verification | Approved provider depth, sanctions, exceptions, Category and risk-tier rules. |
+| Controlled Categories | Each enabled Category requires owner-confirmed Evidence, Payee, destination, risk, payment, payout, privacy and operational readiness. |
+| Institutional Programme and Directory | Enrolment, Category association and publication remain separately governed and do not replace transaction checks. |
+| Self-provided acquisition | Must remain Category-bound and subject to the same specialist controls. |
+| Rent | Must meet tenancy, relationship, verification, limit and review controls. |
+| Fees and disclosures | Must be approved before Payer authorization. |
+| Multi-card | Maximum 6; partner, risk and reconciliation restrictions remain owner-controlled. |
+| Refund, dispute and chargeback | Controlled handling under approved policy. |
 
 ---
 
@@ -313,462 +248,317 @@ Some MVP capabilities are confirmed as product scope but remain gated for produc
 
 ### 9.1 In Scope
 
-Candidate in-scope capabilities include:
-
-- user registration and authentication;
-- user profile and eligibility checks;
-- payee onboarding and payee profile creation;
-- payee type and capability permissioning;
-- bill, invoice, fee, rent, or obligation request creation;
-- payer-created obligations and payments;
-- optional payer-created linking requests;
-- approved payee-created Requests that establish or accept an evidence-backed obligation linkage before payment from that Request;
-- request delivery or invitation to payer;
-- request delivery by in-app message, app link, WhatsApp deeplink, QR code, or other approved channel;
-- payer review, acceptance, rejection, query, or dispute before authorization;
-- bill and evidence capture;
-- bill category classification;
-- payee validation;
-- payment quote and service fee calculation;
-- card payment authorization and capture;
-- multi-card payment with configurable card-count limit;
-- payout or settlement to approved payees;
-- receipts and notifications;
-- refund, cancellation, dispute, chargeback, reversal, and exception handling;
-- promotion eligibility where approved;
-- audit trail and reconciliation reporting;
-- risk review and manual review workflows;
-- compliance evidence retention.
+- Payer registration, authentication, profile and eligibility;
+- supported controlled Bill Categories;
+- separate Rent journey;
+- Category-scoped institutional Directory;
+- Category-bound self-provided individual or institutional Payee acquisition;
+- bounded Institutional Payee Programme;
+- Evidence capture and verification;
+- authoritative Bill/Rent source identity and Save/history-only/Archive projections;
+- payment quote, card authorization, multi-card payment and Payment Instructions;
+- payout, settlement, receipts, reconciliation and audit;
+- optional individual-only one-way notification under specialist controls;
+- refunds, cancellations, disputes, chargebacks and exceptions;
+- risk, privacy and manual-review controls;
+- append-only documentation history and retired Request/Linking stable IDs as non-active governance evidence, with no runtime reader, adapter or fallback.
 
 ### 9.2 Out of Scope Unless Separately Approved
 
-PayPlus must not support the following unless separately assessed, approved, and documented:
-
-- wallet balance;
-- stored value;
-- cash withdrawal;
-- cash advance;
-- card-to-bank-account cashout;
-- bank account top-up;
-- peer-to-peer transfers;
-- unrestricted transfers to arbitrary recipients;
-- crypto purchases or transfers;
-- gambling or gaming top-ups;
-- lending or credit issuance by PayPlus;
-- bill payments without sufficient evidence;
-- payout to unverified recipients;
-- user-directed payout unrelated to a verified bill or approved obligation;
-- open invoice or money-request marketplace;
-- payee-created requests by unverified, blocked, restricted, or ineligible payees;
-- payee-created requests for fake, inflated, circular, self-dealing, collusive, or unsupported obligations;
-- automatic payer charging without explicit payer authorization;
-- payee modification of material request terms after payer authorization without renewed payer review and authorization.
+- wallet, stored value, cash withdrawal or cash advance;
+- self-cashout, remittance or unrestricted transfer;
+- arbitrary recipient or arbitrary company payment;
+- open Payee, invoice or money-request marketplace;
+- active Payee-user navigation, Request or BILLS-LINKING behavior;
+- reciprocal visibility or Payee-user notifications;
+- dormant Request/Linking queues, APIs, jobs, flags or tests;
+- Directory state as Evidence truth or transaction authorization;
+- cross-Category or unrestricted `Provide Payee myself`;
+- automatic charging without fresh Payer authorization;
+- payout unrelated to a supported Evidence-backed obligation.
 
 ---
 
 ## 10. Product Principles
 
-PayPlus should follow these principles:
-
 | Principle | Meaning |
-| --- | --- |
-| Verified obligation first | Payment should be tied to a valid bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved payment obligation. |
-| Approved payee only | Payout should go only to a verified or approved payee. |
-| Payer authorization required | No payee-created request should result in funding or payout without explicit payer authorization. |
-| Evidence parity | Payee-created Requests should reference evidence meeting the same standard as payer-created obligations/payments for the same category. |
-| Request-origin clarity | Product should distinguish a payee-created Request from an optional payer-created linking Request and from a payer-created direct obligation/payment. Neither Request is itself a payment. |
-| Permissioned payee capability | Payees should only create request types and categories they are approved to create. |
-| No unrestricted cashout | Product must not enable card-funded cash withdrawal or unrestricted transfer. |
-| Transparent pricing | Payers should see service fees and total cost before payment confirmation. |
-| Traceable lifecycle | Each request must have its own traceable lifecycle; any resulting obligation, payment, payout, reconciliation, and receipt must remain linked but separately traceable. |
-| Risk-based controls | Higher-risk categories or behavior should trigger stronger review and limits. |
-| Privacy-bound visibility | Payers and payees should only see information appropriate to their role and authorization level. |
-| Data-engine readiness by design | Material product actions should create structured, classified, auditable, and purpose-linked data so PayPlus can support service operation, risk controls, analytics, reporting, and future approved AI use. |
-| Trust-preserving intelligence | Data and AI use should improve user value, risk control, operations, and approved partner offers without turning PayPlus into a data broker, surveillance platform, or unrestricted marketing network. |
+|---|---|
+| Evidence-backed obligation | Each Payment traces to an eligible Evidence-backed Bill/Rent source. |
+| Payer-only Consumer model | Consumer product behavior belongs to the Payer; Payee is an economic role. |
+| Controlled acquisition | Category precedes and governs both Bill acquisition methods. |
+| Separation of meaning | Programme enrolment, Category association, publication, acquisition provenance and transaction controls remain distinct. |
+| Fresh Payer authorization | No Directory, notification, Save or Admin action authorizes Payment. |
+| No unrestricted cashout | Wallet, cashout, remittance and arbitrary transfer behavior remain prohibited. |
+| One authoritative source | A Bill/Rent source receives stable identity only after the owner-governed preservation outcome establishes it for durable reference, before Save/reuse materialization or payment-facing handoff requires that identity. Identity establishment alone creates no Evidence acceptance, readiness, Payment or visibility projection. |
+| Projection separation | Save, no-Save and Archive change visibility/reuse intent without rewriting immutable history. |
+| Traceable lifecycle | Bill/Rent, Payable Basis, obligation, Checkout, Payment, Payment Application and Payout remain linked but distinct. |
+| Risk-based controls | Concrete Evidence, Payee, destination, sanctions, fraud and anti-cashout issues retain specialist blocking effect. |
+| Privacy-bound access | Display, notification, payment-history and support access remain approved-purpose and controlled. |
+| Data-engine readiness | Material actions should produce governed, classified and auditable data. |
 
 ---
 
-## 11. High-Level Transaction Lifecycle
-
-### 11.1 Payer-Created Obligation and Payment
+## 11. High-Level Payer Lifecycle
 
 1. Payer signs in.
-2. Payer creates a bill, invoice, fee, rent, domestic helper, driver, personal service, or other approved obligation/payment context.
-3. Payer enters details and/or uploads evidence.
-4. PayPlus checks category, payee, evidence, limits, risk, and eligibility.
-5. Payer reviews quote, fee, disclosures, timing, and terms.
-6. Payer authorizes card payment.
-7. PSP/acquirer authorizes and captures the payment.
-8. PayPlus receives or awaits upstream settlement and performs final payout readiness checks.
-9. PayPlus applies approved fees or margins where applicable and pays the approved amount or balance to the approved payee.
-10. PayPlus records funding, payout, reconciliation, receipt, and audit evidence.
+2. Payer selects Rent or a supported controlled Bill Category.
+3. For a Bill, Payer uses the Category-scoped Directory or `Provide Payee myself`; Rent remains separate.
+4. Payer provides permitted source and Evidence inputs; the applicable owners evaluate their facts.
+5. The owner-governed source/Evidence preservation outcome may establish one authoritative Bill/Rent source ID for durable identification and reference before Save/reuse materialization or payment-facing handoff requires it. ID establishment alone creates no Evidence acceptance, Payee verification, destination or Payout readiness, risk clearance, Payment Obligation or Checkout readiness, Payment, Active, Archived or history-only projection.
 
-### 11.2 Payee-Created Request
+The high-level lifecycle then follows the Payer's chosen purpose:
 
-1. Payee completes onboarding and verification.
-2. PayPlus grants approved request capabilities by payee type and category.
-3. Payee creates an eligible bill, invoice, fee, rent, or obligation request.
-4. Payee provides required details and evidence.
-5. PayPlus checks payee permission, category, evidence, amount, payer identification, risk, and eligibility.
-6. Request remains `Pending Evidence Verification` while evidence correction, rejection, duplicate/risk review, or manual review is required.
-7. Once the evidence gate passes, PayPlus delivers the request to the payer by an approved channel and moves it to `Pending Receiver Action`.
-8. Payer reviews request origin, payee identity, amount, evidence summary, service fee, total charge, timing, refund/cancellation terms, and PayPlus role.
-9. Payer accepts the request and may proceed to separate payment authorization where remaining gates pass, rejects it, raises a linked query/dispute case, or lets it expire.
-10. If authorized, PSP/acquirer authorizes and captures the card payment.
-11. PayPlus receives or awaits upstream settlement and performs final payout readiness checks.
-12. PayPlus applies approved fees or margins where applicable and pays the approved amount or balance to the approved payee.
-13. PayPlus records funding, payout, reconciliation, receipt, status updates, and audit evidence.
+- **Deliberate Setup:** the same source ID becomes Active/reusable because the Payer deliberately chose setup/reuse. No Payment or Payment ID exists. Any later Payment receives fresh applicable Evidence, Payee, destination, Payout, risk, readiness, Checkout and Payer-authorization checks.
+- **Immediate pay-now:** no Save decision occurs before Checkout. The Payer reviews current quote, fee, disclosures, timing and material facts, supplies fresh authorization, and proceeds through DOC-09/DOC-10 Payment and Payout controls. A confirmed Payment has its own Payment ID linked to the source. Payment Result then precedes the optional Save resolution for an otherwise-unsaved source: selected Save makes the same source Active/reusable; declined, skipped, dismissed or closed Save makes it history-only. That projection resolution occurs before ordinary continuation to Activity, Payment History, Receipt or safe exit. Payment history remains visible regardless of Save.
+- **Pre-confirmed failure or abandonment:** an established source may remain unprojected. It is not Active, Archived or history-only and receives no invented visible status or route. DOC-09 owns applicable payment-lifecycle continuation or recovery, DOC-15 owns retention requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts.
 
-Detailed lifecycle, state machine, settlement, refund, and chargeback rules belong in `DOC-09`, `DOC-10`, and `DOC-11`.
+Detailed state, settlement, Payout, refund and chargeback rules belong to DOC-09, DOC-10 and DOC-11. Archive and source-list visibility never erase financial history.
 
 ---
 
 ## 12. Commercial Model Summary
 
-Potential revenue sources include:
+Potential revenue sources remain subject to DOC-02 and separate approval:
 
-- payer-paid service fees;
-- payee-paid request, collection, platform, subscription, onboarding, or payout fees;
-- biller-paid or partner-paid fees;
-- campaign-funded subsidies;
-- partner-funded promotions;
-- revenue share with approved partners.
+- Payer-paid service fees;
+- contractually supported institutional, biller or partner fees;
+- programme enrolment, platform or payout fees only if separately approved;
+- campaign-funded subsidies or partner-funded promotions;
+- approved partner revenue share.
 
-Payer-created payments and payee-created requests may use different fee presentation models.
+Potential fee allocations may involve the Payer, an institution/biller or a partner. This charter does not decide pricing, fee level, allocation, margin, contract, Institutional Programme pricing or commercial approval.
 
-Potential models include:
-
-- payer pays the service fee;
-- payee absorbs the fee;
-- fee is split between payer and payee;
-- biller, merchant, or partner funds the fee;
-- blended or promotional fee model.
-
-The commercial model must account for:
-
-- card processing fees;
-- scheme and acquirer fees;
-- PSP fees;
-- payout and bank transfer fees;
-- refund and chargeback losses;
-- fraud losses;
-- promotion costs;
-- onboarding and verification costs;
-- manual review and support costs;
-- reconciliation and operations costs;
-- compliance, security, and audit costs.
-
-Detailed commercial assumptions belong in `DOC-02 Business Model & Unit Economics`.
+The model must account for processing, payout, refunds, chargebacks, fraud, promotions, institutional enrolment and verification where applicable, Evidence review, support, reconciliation, compliance, security and audit costs.
 
 ---
 
 ## 13. Compliance and Risk Positioning
 
-PayPlus must be assessed before launch against applicable legal, regulatory, card network, PSP, acquirer, banking, privacy, AML, consumer protection, and advertising requirements.
+PayPlus requires applicable legal, regulatory, network, partner, privacy, AML, consumer-protection and advertising assessment before launch.
 
-Key compliance and risk positioning assumptions:
+Key boundaries:
 
-- PayPlus is intended as a bill payment facilitation service.
-- PayPlus may support direct payer-created obligations/payments, optional payer-to-payee linking Requests, and approved payee-created Requests only where assessed and approved. Requests establish or accept linkage and do not authorize payment.
-- PayPlus must avoid wallet and stored-value behavior unless separately approved.
-- PayPlus must avoid unrestricted money transmission behavior unless licensed, exempt, sponsored, or otherwise approved.
-- PayPlus must not enable card-funded cashout.
-- PayPlus must maintain evidence that funded payments correspond to valid bills or approved obligations.
-- PayPlus must maintain evidence that payout recipients are approved payees.
-- PayPlus must require payer authorization before payment on payee-created requests.
-- PayPlus must use approved payment partners and settlement models.
-- PayPlus must maintain appropriate disclosures, consent, records, reconciliation evidence, and audit trail.
+- PayPlus is intended as Evidence-backed Bill/Rent payment facilitation.
+- Directory publication and acquisition provenance do not establish transaction eligibility.
+- Self-provided acquisition cannot bypass Category, Evidence, Payee, destination, sanctions, fraud, anti-cashout, payout or authorization controls.
+- PayPlus must not enable wallet, stored value, unrestricted transmission or card-funded cashout.
+- Each Payment requires applicable Evidence, intended-Payee/destination checks and fresh Payer authorization.
+- Company/Individual label disagreement remains distinct from concrete defects.
+- Optional individual notification remains one-way and subject to privacy, abuse, wrong-recipient, suppression, security, delivery-record and support controls.
+- Appropriate disclosures, records, reconciliation and audit remain required.
 
-Key risk themes include:
-
-- cashout risk;
-- fake bill, fake invoice, or fake rent request risk;
-- collusive payee or related-party abuse risk;
-- payee-created request spam or harassment risk;
-- payer confusion or misleading communication risk;
-- chargeback, refund, and dispute risk;
-- AML or suspicious activity risk;
-- sensitive document handling risk;
-- payer/payee privacy boundary risk;
-- partner or card network rule violation risk;
-- reconciliation failure risk;
-- negative unit economics risk.
-
-Detailed assessments and controls belong in `DOC-03`, `DOC-04`, `DOC-14`, and `DOC-15`.
+Key risks include category bypass, Directory over-trust, fake Evidence, collusion, label/risk conflation, wrong-recipient notification, chargeback, AML, sensitive-document handling, partner-rule breach, reconciliation failure and negative unit economics.
 
 ---
 
 ## 14. Partner and Payment Model Summary
 
-PayPlus may require the following partner types:
+Potential partners include PSP, acquirer, processor, payout provider, bank, bill-payment aggregator, OCR, KYC/KYB, institutional enrolment, fraud/risk, notification, cloud, reconciliation and support providers.
 
-- PSP;
-- acquirer;
-- card processor;
-- payment facilitator or sponsored merchant provider;
-- payout provider;
-- bank partner;
-- bill payment aggregator;
-- OCR/document AI provider;
-- KYC/KYB provider;
-- payee onboarding provider;
-- fraud and risk provider;
-- notification provider;
-- cloud infrastructure provider;
-- reconciliation or ledger provider;
-- customer support tooling provider.
+Assessment must consider geography, controlled Categories, network rules, transaction treatment, MCC, economic-Payee classification, institutional programme requirements, payout, refunds, compliance, privacy, security, costs, reserves, reporting, reconciliation, operations, contracts and exit risk.
 
-Partner assessment must consider:
-
-- supported geographies;
-- supported categories;
-- card network rules;
-- PSP and acquirer acceptance;
-- payee-created request support;
-- MCC treatment;
-- payee role classification;
-- settlement and payout flows;
-- refund and chargeback handling;
-- compliance obligations;
-- data sharing and privacy obligations;
-- security standards;
-- fees, reserves, and reporting;
-- reconciliation files;
-- SLAs and operational support;
-- contract restrictions;
-- exit and migration risk.
-
-Detailed partner assessment belongs in `DOC-03 Regulatory, PSP & Acquirer Assessment`.
+No partner capability or commercial term is approved by this charter.
 
 ---
 
 ## 15. Key Assumptions
 
 | Assumption ID | Assumption | Validation Owner | Status |
-| --- | --- | --- | --- |
-| `ASM-DOC01-001` | Users have demand for card-funded bill payment in at least one launch category. | Product / Commercial | Open |
-| `ASM-DOC01-002` | At least one PSP/acquirer model can support the intended card-funded bill payment flow. | Product / Compliance / Payments | Open |
-| `ASM-DOC01-003` | Eligible bill categories can be verified with acceptable evidence and operational effort. | Product / Operations / Risk | Open |
-| `ASM-DOC01-004` | Payee verification can sufficiently reduce cashout and fraud risk. | Risk / Compliance / Operations | Open |
-| `ASM-DOC01-005` | Unit economics can remain positive after card costs, payout costs, support, risk losses, and promotions. | Commercial / Finance | Open |
-| `ASM-DOC01-006` | Manual review can support early MVP operations before full automation. | Operations | Open |
-| `ASM-DOC01-007` | Payee-created requests can be supported without converting PayPlus into an unrestricted money request, cashout, wallet, or remittance product. | Product / Legal / Compliance | Open |
-| `ASM-DOC01-008` | Approved payees can provide sufficient evidence for created requests, including tenancy or lease evidence for rent where required. | Product / Risk / Operations | Open |
-| `ASM-DOC01-009` | Payers will understand and accept payee-created requests only after clear review, disclosure, and authorization flow. | Product / Design / Legal | Open |
-| `ASM-DOC01-010` | Partner and payment data can support reliable reconciliation and audit requirements. | Finance / Engineering / Operations | Open |
-| `ASM-DOC01-011` | Structured product, evidence, payment, payout, risk, promotion, and support data can support analytics and future approved AI/model improvement without undermining privacy, trust, or product boundaries. | Product / Data / Privacy | Open |
+|---|---|---|---|
+| `ASM-DOC01-001` | Payers have demand for card-funded Bill/Rent payment in at least one launch Category. | Product / Commercial | Open |
+| `ASM-DOC01-002` | At least one PSP/acquirer model supports the intended flow. | Product / Compliance / Payments | Open |
+| `ASM-DOC01-003` | Eligible Categories can be verified with acceptable Evidence and operational effort. | Product / Operations / Risk | Open |
+| `ASM-DOC01-004` | Payee and destination controls can sufficiently reduce cashout and fraud risk. | Risk / Compliance / Operations | Open |
+| `ASM-DOC01-005` | Unit economics can remain positive after full costs. | Commercial / Finance | Open |
+| `ASM-DOC01-006` | Manual review can support early MVP operations. | Operations | Open |
+| `ASM-DOC01-007` | Original active Payee-created Request assumption. | Product / Legal / Compliance | Retired under Payer-only target |
+| `ASM-DOC01-008` | Original Payee-created Request Evidence assumption. | Product / Risk / Operations | Retired under Payer-only target |
+| `ASM-DOC01-009` | Original Payer acceptance of Payee-created Requests assumption. | Product / Design / Legal | Retired under Payer-only target |
+| `ASM-DOC01-010` | Partner and payment data can support reliable reconciliation and audit. | Finance / Engineering / Operations | Open |
+| `ASM-DOC01-011` | Governed structured data can support approved analytics and future model improvement. | Product / Data / Privacy | Open |
+| `ASM-DOC01-012` | A bounded Institutional Programme and Category-controlled acquisition model can operate without becoming an open marketplace. | Product / Compliance / Risk | Open |
 
 ---
 
 ## 16. Key Constraints
 
 | Constraint ID | Constraint | Impact | Owner |
-| --- | --- | --- | --- |
-| `CON-DOC01-001` | PayPlus must not operate as a wallet or stored-value product unless separately approved. | Limits product architecture and UX. | Product / Compliance |
-| `CON-DOC01-002` | PayPlus must not enable unrestricted card-funded cashout. | Requires bill and payee verification. | Risk / Compliance |
-| `CON-DOC01-003` | Supported categories must be approved by compliance and payment partners. | Limits category rollout. | Product / Compliance |
-| `CON-DOC01-004` | Payout recipients must be verified or approved before payout. | Requires payee verification workflow. | Risk / Operations |
-| `CON-DOC01-005` | PSP/acquirer capabilities may limit multi-card payments, payout timing, refunds, and chargebacks. | May constrain MVP scope. | Payments / Engineering |
-| `CON-DOC01-006` | Sensitive documents and personal data must be handled under approved privacy controls. | Requires data handling and retention controls. | Privacy / Security |
-| `CON-DOC01-007` | Transaction records must support audit and reconciliation. | Requires ledger and reporting design. | Finance / Engineering |
-| `CON-DOC01-008` | Payee-created request capability must be disabled unless approved payee onboarding, evidence, risk, payout, privacy, support, and reconciliation controls are in place. | Requires feature gating and launch control. | Product / Compliance / Risk |
-| `CON-DOC01-009` | Payee-created requests must not charge or bind the payer without explicit payer authorization. | Requires payer acceptance and authorization controls. | Product / Legal / Payments |
-| `CON-DOC01-010` | Landlord-created rent requests require approved landlord onboarding and tenancy or lease evidence where required. | Requires rent-specific onboarding, evidence, and risk controls. | Product / Risk / Operations |
-| `CON-DOC01-011` | AI, analytics, personalization, partner reporting, and commercial data use must remain purpose-linked, privacy-governed, permissioned, and traceable. | Requires data classification, consent/preference controls, lineage, model governance, and partner-sharing approval. | Product / Privacy / Data |
+|---|---|---|---|
+| `CON-DOC01-001` | No wallet or stored-value product without separate approval. | Limits product architecture and UX. | Product / Compliance |
+| `CON-DOC01-002` | No unrestricted card-funded cashout. | Requires Evidence, Payee and destination controls. | Risk / Compliance |
+| `CON-DOC01-003` | Supported Categories require owner and partner approval. | Limits rollout. | Product / Compliance |
+| `CON-DOC01-004` | Payout recipients and destinations require applicable checks. | Requires specialist workflow. | Risk / Operations |
+| `CON-DOC01-005` | Partner capabilities may constrain multi-card, timing, refunds and chargebacks. | May constrain MVP. | Payments / Engineering |
+| `CON-DOC01-006` | Sensitive data requires approved privacy controls. | Requires governed handling and retention. | Privacy / Security |
+| `CON-DOC01-007` | Records must support audit and reconciliation. | Requires data and ledger design. | Finance / Engineering |
+| `CON-DOC01-008` | Original Payee-created Request enablement constraint. | Superseded by formal retirement. | Product / Compliance / Risk |
+| `CON-DOC01-009` | Original Payee-created Request authorization constraint. | Superseded by formal retirement. | Product / Legal / Payments |
+| `CON-DOC01-010` | Original landlord-created Request constraint. | Superseded; Rent remains separately controlled. | Product / Risk / Operations |
+| `CON-DOC01-011` | Data and AI use must remain purpose-linked, permissioned and traceable. | Requires governance and approval. | Product / Privacy / Data |
+| `CON-DOC01-012` | Both Bill acquisition methods remain within the selected supported Category. | Prevents arbitrary payment escape. | Product / Risk |
+| `CON-DOC01-013` | Directory publication cannot replace transaction controls. | Prevents false trust and bypass. | Product / Compliance / Risk |
 
 ---
 
 ## 17. Key Dependencies
 
 | Dependency ID | Dependency | Required For | Owner | Status |
-| --- | --- | --- | --- | --- |
-| `DEP-DOC01-001` | PSP/acquirer feasibility assessment. | Card payment acceptance. | Payments / Compliance | Open |
-| `DEP-DOC01-002` | Payout provider or settlement partner selection. | Payee payment execution. | Payments / Operations | Open |
-| `DEP-DOC01-003` | Regulatory assessment by launch jurisdiction. | Product launch approval. | Legal / Compliance | Open |
-| `DEP-DOC01-004` | Bill category approval framework. | Category rollout. | Product / Risk / Compliance | Open |
-| `DEP-DOC01-005` | Payee verification process. | Anti-cashout control. | Risk / Operations | Open |
-| `DEP-DOC01-006` | Privacy and data retention model. | Bill document handling. | Privacy / Security | Open |
-| `DEP-DOC01-007` | Risk rules and manual review workflow. | MVP launch controls. | Risk / Operations | Open |
-| `DEP-DOC01-008` | Reconciliation and transaction ledger model. | Finance and audit readiness. | Finance / Engineering | Open |
+|---|---|---|---|---|
+| `DEP-DOC01-001` | PSP/acquirer feasibility assessment. | Card acceptance. | Payments / Compliance | Open |
+| `DEP-DOC01-002` | Payout provider or settlement model. | Payout execution. | Payments / Operations | Open |
+| `DEP-DOC01-003` | Jurisdictional regulatory assessment. | Launch approval. | Legal / Compliance | Open |
+| `DEP-DOC01-004` | Bill Category approval framework. | Category rollout. | Product / Risk / Compliance | Open |
+| `DEP-DOC01-005` | Payee and destination verification process. | Anti-cashout control. | Risk / Operations | Open |
+| `DEP-DOC01-006` | Privacy access, masking and lawful-handling controls under the Founder-settled indefinite-retention rule. | Evidence and contact handling. | Privacy / Security | Open |
+| `DEP-DOC01-007` | Risk and manual-review rules. | Launch controls. | Risk / Operations | Open |
+| `DEP-DOC01-008` | Reconciliation and ledger model. | Finance and audit. | Finance / Engineering | Open |
 | `DEP-DOC01-009` | Content and disclosure approval. | User-facing launch. | Product / Legal / Compliance | Open |
-| `DEP-DOC01-010` | Payee onboarding and capability model. | Payee-created requests and payee payout. | Product / Compliance / Risk | Open |
-| `DEP-DOC01-011` | Payer identification and invitation mechanism. | Payee-created request delivery to payer. | Product / Engineering / Privacy | Open |
-| `DEP-DOC01-012` | Payer response and pre-authorization linked-case workflow. | Payee-created request acceptance/rejection and separate query/dispute case handling. | Product / Operations / Legal | Open |
-| `DEP-DOC01-013` | Data and AI governance model covering event taxonomy, classification, lineage, consent, model inputs, analytics use, partner reporting, and AI decision-support boundaries. | Data-engine readiness, future AI use, analytics, and partner intelligence. | Data / Privacy / Engineering | Open |
+| `DEP-DOC01-010` | Institutional enrolment, Category association and Directory publication operating model. | Programme/Directory execution. | Product / Compliance / Operations | Open |
+| `DEP-DOC01-011` | Original Payer invitation mechanism for Requests. | Retired active behavior. | Product / Engineering / Privacy | Retired |
+| `DEP-DOC01-012` | Original Payer response workflow for Requests. | Retired active behavior. | Product / Operations / Legal | Retired |
+| `DEP-DOC01-013` | Data and AI governance model. | Analytics and future approved AI. | Data / Privacy / Engineering | Open |
+| `DEP-DOC01-014` | Data and operations design must make the Founder-approved history-only source auditable without creating a new user route. | Implementation and acceptance evidence for the accepted architecture. | Data / Operations | Open downstream evidence |
 
 ---
 
 ## 18. Key Risks
 
 | Risk ID | Risk | Impact | Initial Mitigation | Owner | Status |
-| --- | --- | --- | --- | --- | --- |
-| `RISK-DOC01-001` | Product is perceived or used as card-to-cash cashout. | Regulatory, partner, fraud, and financial loss risk. | Bill verification, payee verification, limits, monitoring, and communication controls. | Risk / Compliance | Open |
-| `RISK-DOC01-002` | Unsupported legal or money transmission classification. | Launch delay, enforcement, partner rejection, or licensing requirement. | Jurisdiction and partner assessment before launch. | Legal / Compliance | Open |
-| `RISK-DOC01-003` | PSP/acquirer rejects business model or category. | Product cannot process payments as designed. | Early partner due diligence and category review. | Payments / Commercial | Open |
-| `RISK-DOC01-004` | Fake bills, fake invoices, fake rent requests, or collusive payees are used for abuse. | Fraud losses and cashout risk. | Evidence validation, payee verification, velocity limits, relationship checks, and manual review. | Risk / Operations | Open |
-| `RISK-DOC01-005` | Chargeback or refund process creates financial loss. | Revenue leakage, disputes, and operational burden. | Define refund, chargeback, and evidence handling rules. | Payments / Risk / Operations | Open |
-| `RISK-DOC01-006` | Multi-card funding increases complexity or partner risk. | Delayed MVP or higher reconciliation risk. | Defer unless clearly supported. | Product / Engineering / Payments | Open |
-| `RISK-DOC01-007` | User disclosures are unclear or misleading. | User complaints, regulatory risk, and chargebacks. | Content and legal review before launch. | Product / Legal | Open |
-| `RISK-DOC01-008` | Unit economics are negative after full cost allocation. | Unsustainable business model. | Model costs and minimum fee thresholds in `DOC-02`. | Commercial / Finance | Open |
-| `RISK-DOC01-009` | Manual review operations do not scale. | Delays, errors, and user dissatisfaction. | Limit MVP volume and automate high-confidence checks over time. | Operations / Product | Open |
-| `RISK-DOC01-010` | Sensitive bill documents are mishandled. | Privacy, security, and reputation risk. | Apply privacy, security, access, retention, and deletion controls. | Privacy / Security | Open |
-| `RISK-DOC01-011` | Payer misunderstands payee-created request as mandatory, already paid, or automatically charged. | Complaints, disputes, trust loss, and consumer protection risk. | Clear request-origin messaging, explicit payer acceptance, and no auto-charge behavior. | Product / Legal | Open |
-| `RISK-DOC01-012` | Payee sees sensitive payer payment, card, or risk information. | Privacy, security, and trust risk. | Role-based access, masking, approved-purpose visibility, and payee-safe status messaging. | Privacy / Security | Open |
-| `RISK-DOC01-013` | PayPlus data or AI strategy is perceived as selling or exploiting sensitive financial, evidence, payer-payee, or risk data. | User trust, privacy, regulatory, partner, and reputation risk. | Keep data use purpose-linked, consent-aware, masked, aggregated where possible, and subject to DOC-15, DOC-18, legal, privacy, compliance, risk, and security controls. | Product / Privacy / Data |
-| `RISK-DOC01-014` | Partner marketing, insurance, banking, or offsite advertising use expands beyond approved PayPlus scope. | Product-boundary, privacy, compliance, and partner-contract risk. | Treat external activation, user-level sharing, insurance-related targeting, and clean-room collaboration as future gated capabilities requiring separate approval. | Commercial / Legal / Privacy |
+|---|---|---|---|---|---|
+| `RISK-DOC01-001` | Product is perceived or used as card-to-cash. | Regulatory, partner, fraud and loss risk. | Evidence, Payee, destination, limits and monitoring. | Risk / Compliance | Open |
+| `RISK-DOC01-002` | Unsupported legal or transmission classification. | Delay, rejection or licensing consequence. | Assessment before launch. | Legal / Compliance | Open |
+| `RISK-DOC01-003` | PSP/acquirer rejects model or Category. | Payment model unavailable. | Early due diligence. | Payments / Commercial | Open |
+| `RISK-DOC01-004` | Fake Evidence or collusive Payees enable abuse. | Fraud and cashout risk. | Verification, limits and review. | Risk / Operations | Open |
+| `RISK-DOC01-005` | Chargeback/refund creates loss. | Revenue leakage and burden. | Owner-defined handling. | Payments / Risk / Operations | Open |
+| `RISK-DOC01-006` | Multi-card funding increases complexity. | Reconciliation or partner risk. | Owner controls within confirmed cap. | Product / Engineering / Payments | Open |
+| `RISK-DOC01-007` | Disclosures are unclear. | Complaints and regulatory risk. | DOC-07 and legal review. | Product / Legal | Open |
+| `RISK-DOC01-008` | Full-cost economics are negative. | Unsustainable model. | DOC-02 viability gates. | Commercial / Finance | Open |
+| `RISK-DOC01-009` | Manual review does not scale. | Delay and error. | Controlled volume and automation. | Operations / Product | Open |
+| `RISK-DOC01-010` | Sensitive Evidence is mishandled. | Privacy/security harm. | DOC-15/DOC-19 controls. | Privacy / Security | Open |
+| `RISK-DOC01-011` | Original Payee-created Request confusion risk. | Superseded active product risk. | Active behavior retired. | Product / Legal | Retired |
+| `RISK-DOC01-012` | Original reciprocal Payer/Payee visibility risk. | Superseded active product risk. | Active Payee-user visibility retired. | Privacy / Security | Retired |
+| `RISK-DOC01-013` | Data or AI use appears exploitative. | Trust and regulatory risk. | Purpose limitation and governance. | Product / Privacy / Data | Open |
+| `RISK-DOC01-014` | External activation exceeds approved scope. | Product and privacy breach. | Separate approval gate. | Commercial / Legal / Privacy | Open |
+| `RISK-DOC01-015` | Self-provided acquisition bypasses Category policy. | Open-transfer and control failure. | Category selected before acquisition and continuously enforced. | Product / Risk | Open |
+| `RISK-DOC01-016` | Directory is treated as verification or payment eligibility. | False trust and control bypass. | Explicit discovery-only meaning and specialist revalidation. | Product / Compliance / Risk | Open |
+| `RISK-DOC01-017` | Individual notification reaches the wrong person or creates hidden Request semantics. | Privacy, abuse and support harm. | Governed Individual determination and one-way boundary. | Privacy / Risk / Product | Open |
+| `RISK-DOC01-018` | Save/projection confusion hides or rewrites financial history. | Audit and user-trust harm. | One source identity and immutable lineage. | Product / Data / Operations | Open |
 
 ---
 
 ## 19. Launch Readiness Themes
 
-PayPlus should not launch until the following are sufficiently addressed:
+PayPlus should not launch until:
 
-- product scope is approved;
-- launch categories are approved;
-- product positioning is approved;
-- PSP/acquirer model is approved;
-- payout or settlement model is approved;
-- regulatory and compliance assessment is completed for launch jurisdiction;
-- risk and anti-cashout controls are defined;
-- bill and payee verification process is defined;
-- payee onboarding and capability controls are defined if payee-created requests are enabled;
-- payer acceptance and authorization flow is defined if payee-created requests are enabled;
-- rent evidence and landlord verification controls are defined if rent is enabled;
-- privacy and data retention controls are defined;
-- data classification, approved-purpose, consent/preference, lineage, analytics, and AI/model-improvement boundaries are defined where relevant;
-- payer/payee data visibility boundaries are defined;
-- security model is defined;
-- payment, payout, refund, and reconciliation workflows are defined;
-- user disclosures are approved;
-- customer support and incident workflows are defined;
-- MVP test cases and UAT results are acceptable;
-- operational owners are assigned;
-- evidence retention and audit trail requirements are defined.
+- scope and positioning are approved, and each Category in the accepted twelve-category inventory meets its applicable owner-controlled launch gates;
+- PSP/acquirer, payout and jurisdictional models are approved;
+- Category, Evidence, Payee, destination, risk and anti-cashout controls are defined;
+- Institutional Programme enrolment, Category association and Directory publication operations are defined if enabled;
+- Rent Evidence and relationship controls are defined;
+- Bill/Rent source identity and projection behavior is specified downstream;
+- privacy, notification, data, security and approved-purpose record-access controls are defined;
+- payment, Payout, refund, reconciliation, support and incident workflows are defined;
+- disclosures and Acceptance Criteria are approved;
+- operational owners and evidence are assigned.
 
-Detailed launch gates belong in `DOC-04` and `DOC-20`.
+Detailed launch gates belong to DOC-04 and DOC-20.
 
 ---
 
 ## 20. Success Criteria
 
-Candidate success criteria include:
-
 | Metric | Description |
-| --- | --- |
-| Activated users | Users who complete registration and become eligible to submit or pay bill payments. |
-| Onboarded payees | Payees approved to receive payouts or create requests where enabled. |
-| Submitted requests | Number of bill payment or payment obligation requests created. |
-| Payer-created obligations/payments | Number of direct evidence-backed obligations or payment contexts created by payers. |
-| Payer-created linking requests | Number of optional linking requests sent by payers. |
-| Payee-created requests | Number of requests created by approved payees. |
-| Payee request acceptance rate | Percentage of payee-created requests accepted by payers. |
-| Payee request rejection and linked-case rate | Percentage of payee-created requests rejected or associated with a pre-authorization query/dispute case. |
-| Accepted requests | Number and percentage of payee-created requests accepted by the payer after required evidence verification. |
-| Completed payments | Number and value of successfully funded and paid bills. |
-| Payment success rate | Percentage of card payments successfully authorized and captured. |
-| Payout success rate | Percentage of payouts successfully completed to approved payees. |
-| Manual review rate | Percentage of transactions requiring manual review. |
-| Refund, cancellation, and chargeback rate | Percentage of transactions refunded, cancelled, or charged back. |
-| Fraud loss rate | Fraud losses as a percentage of processed volume. |
-| Payee-created request abuse rate | Rate of requests flagged for fake invoice, fake rent, duplicate, collusive, or spam behavior. |
-| Contribution margin | Revenue after variable payment, payout, promotion, risk, support, onboarding, verification, and operations costs. |
-| Complaint rate | Complaints per transaction, user, or payee. |
-| Repeat usage rate | Percentage of users who submit or pay more than one approved bill payment. |
-| Data quality readiness | Percentage of material events and fields with required classification, source lineage, owner, approved purpose, masking, retention, and audit metadata. |
-| Analytics readiness | Availability of governed product, risk, payment, evidence, promotion, and operational reporting without exposing unnecessary sensitive data. |
+|---|---|
+| Activated Payers | Consumer Users eligible to submit payment. |
+| Evidence-backed sources | Eligible Bill/Rent contexts preserved for verification, Save or payment. |
+| Controlled Bill/Rent completion | Eligible Payer-created Bill and Rent contexts that progress through applicable owner-controlled gates. |
+| Enrolled institutions | Institutional programme participation reported separately from Category association and publication. |
+| Completed Payments | Number and value successfully funded and applied. |
+| Payment and Payout success | Owner-defined successful processing measures. |
+| Active versus history-only sources | Projection distribution without loss of financial traceability. |
+| Repeat use | Payers completing more than one eligible Payment. |
+| Manual review | Owner-defined Evidence, type, Payee, destination and risk review burden. |
+| Notification safety | Permitted individual notifications, delivery/suppression and wrong-recipient/support outcomes under DOC-08/DOC-15. |
+| Refund, cancellation and chargeback | Transaction-level outcome rates. |
+| Fraud loss | Loss as a percentage of processed volume. |
+| Contribution margin | Revenue after full attributable costs. |
+| Data quality and analytics readiness | Governed lineage, classification, ownership and auditability. |
 
-Metric definitions should be finalized in `DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification`.
+Exact metric definitions belong to DOC-18.
 
 ---
 
 ## 21. Downstream Document Impact
 
-`DOC-01` guides downstream documents as follows:
-
 | Document | Impact |
-| --- | --- |
-| `DOC-02` | Validate service fee, payee fee, partner fee, promotion, onboarding, verification, support, and unit economics assumptions. |
-| `DOC-03` | Assess regulatory, PSP, acquirer, category, payment rail, payee feasibility, payee-created request model, and request creator implications. |
-| `DOC-04` | Define launch gates, compliance controls, payee onboarding controls, payer authorization controls, evidence, and approval workflow. |
-| `DOC-05` | Convert candidate capabilities into prioritized PRD requirements, including data-engine readiness expectations for material product events and objects. |
-| `DOC-06` | Define payer, payee, admin, and service blueprint flows. |
-| `DOC-07` | Define product language, request-origin language, disclosures, and payer authorization content. |
-| `DOC-08` | Define lifecycle notifications, request invitation messages, status messaging, and receipt language. |
-| `DOC-09` | Define Payment Domain architecture and business invariants from payment-facing Bill/Rent facts through obligations, checkout, funding execution, confirmed Payments, and Payment Applications. Requests remain upstream linkage concepts; Settlement and Payout remain downstream under `DOC-10`. |
-| `DOC-10` | Define payout execution, payee payout status, and reconciliation rules. |
-| `DOC-11` | Define cancellation, request withdrawal, payer rejection, query, refund, dispute, chargeback, and reversal rules. |
-| `DOC-12` | Define category eligibility, document AI/OCR, evidence validation, rent evidence, invoice evidence, payee onboarding, and payee verification. |
-| `DOC-13` | Define promotion eligibility, reward handling, campaign rules, funded offers, partner campaign reporting, and consent-aware placement boundaries. |
-| `DOC-14` | Define AML, anti-cashout, fraud, velocity, payee-created request abuse, relationship risk, manual review, risk controls, and future AI/model-assisted risk governance. |
-| `DOC-15` | Define privacy, payer/payee data visibility, sensitive document handling, retention, deletion, data rights, consent, marketing/personalization boundaries, and approved-purpose data use. |
-| `DOC-16` | Define technical architecture aligned to product boundaries, controls, event capture, analytics, model-service boundaries, and data governance. |
-| `DOC-17` | Define API and third-party integration requirements, including OCR/document AI, analytics, partner reporting, clean-room, and campaign integrations where approved. |
-| `DOC-18` | Define data model, request creator type, payee-created request object, ledger, reporting, audit trail, event taxonomy, warehouse/data marts, lineage, feature/model metadata, and metric definitions. |
-| `DOC-19` | Define security, tokenization, authentication, encryption, access control, payer/payee RBAC, analytics access controls, pseudonymization, and partner-sharing controls. |
-| `DOC-20` | Define test coverage, UAT, launch checklist, and release readiness. |
-| `DOC-21` | Define monitoring, support, payee onboarding operations, incident response, and operational runbook. |
-| `DOC-22` | Define admin dashboard permissions, review queues, configuration, overrides, uploads, and operations workflows. |
+|---|---|
+| `DOC-02` | Align commercial assumptions to Payer-created payment, controlled acquisition and bounded institutional programme costs without active Request economics. |
+| `DOC-03` / `DOC-04` | Assess regulatory boundaries, external approvals and launch controls. |
+| `DOC-05` | Own detailed Payer-only product policy, Institutional Programme, Directory, acquisition, Save and retirement meanings. |
+| `DOC-06A` | Define Payer-only Bill/Rent journeys. |
+| `DOC-06B` | Align navigation, Activity/History/Receipt and active Request/Linking route retirement. |
+| `DOC-06C` | Define Bills/Rent acquisition, visibility, Save, Archive and Rent presentation. |
+| `DOC-06D` | Map end-to-end UX Acceptance Criteria after preceding journey alignment. |
+| `DOC-07` / `DOC-08` | Define user-facing language and notification delivery within the approved boundary. |
+| `DOC-09` / `DOC-10` / `DOC-11` | Preserve Payment invariants; define payout, reconciliation, refund and dispute behavior. |
+| `DOC-12` | Define Categories, Evidence/OCR, Payee match and verification outcomes. |
+| `DOC-13` | Define promotion and reward behavior without using Directory provenance as eligibility truth. |
+| `DOC-14` / `DOC-15` | Define risk, anti-cashout, privacy, contact and approved-purpose record-access controls. |
+| `DOC-18` | Represent approved IDs, data, events, audit, lineage and metrics; it does not create a Request-runtime reader. |
+| `DOC-20` / `DOC-21` | Define acceptance, monitoring, support and incident evidence. |
+| `DOC-22` | Execute approved Admin policy through governed queues, permissions and configuration; no product-policy ownership. |
 
 ---
 
 ## 22. Open Questions
 
 | Question ID | Question | Owner | Priority | Status |
-| --- | --- | --- | --- | --- |
-| `OQ-DOC01-001` | What Hong Kong-specific legal, regulatory, payment, privacy, tax, audit, and operational requirements apply before launch? | Project Owner / Legal | Critical | Open |
-| `OQ-DOC01-002` | Which MVP categories are enabled at initial launch versus held behind operational or risk gates? | Product / Compliance / Risk | Critical | Open |
-| `OQ-DOC01-003` | Which PSP/acquirer will support the intended bill payment or ordinary online card purchase treatment and appropriate MCC/classification? | Payments / Commercial | Critical | Open |
-| `OQ-DOC01-004` | Which operating bank setup will be used for FPS, cheque, and EPS payouts? | Payments / Operations | Critical | Open |
-| `OQ-DOC01-005` | What partner, risk, and reconciliation controls apply to the confirmed MVP maximum of 6 cards per payment/profile? | Product / Payments / Engineering | High | Partially open |
-| `OQ-DOC01-006` | What final KYC/KYB provider, check depth, sanctions screening, exception process, and risk-tier rules apply to the baseline onboarding model? | Legal / Compliance / Risk | High | Open |
-| `OQ-DOC01-007` | What transaction limits should apply at MVP? | Risk / Compliance / Product | High | Open |
-| `OQ-DOC01-008` | What exact percentage service fee, payer/payee fee allocation, subsidy, coupon, promotion, discount, refund, and reversal treatment will be used? | Commercial / Finance | High | Open |
-| `OQ-DOC01-009` | What user disclosures are required before payment confirmation? | Product / Legal / Compliance | High | Open |
-| `OQ-DOC01-010` | What evidence must be retained for each transaction? | Compliance / Privacy / Operations | High | Open |
-| `OQ-DOC01-011` | Which payee-created request modules are enabled at initial launch, and which are disabled by configuration until controls are ready? | Project Owner / Product / Compliance | Critical | Open |
-| `OQ-DOC01-012` | Which payee types can create Requests linked to evidence-backed obligations? | Product / Risk / Compliance | Critical | Open |
-| `OQ-DOC01-013` | Which rent and landlord-request controls are required before initial launch enablement? | Product / Legal / Risk | Critical | Open |
-| `OQ-DOC01-014` | What evidence is required for landlord-created rent requests? | Product / Legal / Risk / Operations | Critical | Open |
-| `OQ-DOC01-015` | How will a payee identify or invite a payer? | Product / Engineering / Privacy | High | Open |
-| `OQ-DOC01-016` | What payer response options are supported for payee-created requests? | Product / Operations / Legal | High | Open |
-| `OQ-DOC01-017` | What information from a payee-created request can be shown to the payer and payee? | Product / Privacy / Security | High | Open |
-| `OQ-DOC01-018` | What monitoring is required to detect fake invoices, fake rent requests, related-party abuse, and payee-created request spam? | Risk / Compliance / Operations | Critical | Open |
-| `OQ-DOC01-019` | Are recurring payee-created rent or invoice requests allowed, or must each request be individually created and authorized? | Product / Legal / Payments | High | Open |
-| `OQ-DOC01-020` | What PayPlus data classes may be used for analytics, model improvement, segmentation, personalization, partner reporting, or AI decision support? | Product / Privacy / Data | High | Open |
-| `OQ-DOC01-021` | Which data classes and fields are prohibited from marketing, partner reporting, model training, or external activation? | Privacy / Legal / Risk | High | Open |
-| `OQ-DOC01-022` | What governance is required before PayPlus supports clean-room collaboration, offsite advertising activation, insurance-related offers, or user-level partner data sharing? | Founder / Legal / Privacy / Compliance | High | Open |
+|---|---|---|---|---|
+| `OQ-DOC01-001` | What Hong Kong legal, regulatory, payment, privacy, tax, audit and operational requirements apply before launch? | Project Owner / Legal | Critical | Open |
+| `OQ-DOC01-002` | Original question asking which controlled Bill Categories form the initial launch inventory. | Product / Compliance / Risk | Critical | Answered by the Founder-confirmed twelve-category inventory in DOC-05 Section 3.1.1; retained for lineage |
+| `OQ-DOC01-003` | Which PSP/acquirer supports the intended treatment and MCC/classification? | Payments / Commercial | Critical | Open |
+| `OQ-DOC01-004` | Which operating-bank setup supports approved payout rails? | Payments / Operations | Critical | Open |
+| `OQ-DOC01-005` | Which partner, risk and reconciliation controls apply within the six-card cap? | Product / Payments / Engineering | High | Partially open |
+| `OQ-DOC01-006` | What KYC/KYB provider, depth, sanctions, exceptions and risk tiers apply? | Legal / Compliance / Risk | High | Open |
+| `OQ-DOC01-007` | What transaction limits apply? | Risk / Compliance / Product | High | Open |
+| `OQ-DOC01-008` | What pricing, fee allocation, subsidy, promotion, refund and reversal treatment applies? | Commercial / Finance | High | Open |
+| `OQ-DOC01-009` | What disclosures are required before payment confirmation? | Product / Legal / Compliance | High | Open |
+| `OQ-DOC01-010` | Which Evidence and record classes must be captured and what approved-purpose access, masking and audit controls apply to each transaction under the Founder-settled indefinite-retention rule? | Compliance / Privacy / Operations | High | Open |
+| `OQ-DOC01-011` | Original active Payee-created Request module question. | Project Owner / Product / Compliance | Critical | Retired under Payer-only target |
+| `OQ-DOC01-012` | Original Payee Request-creator eligibility question. | Product / Risk / Compliance | Critical | Retired under Payer-only target |
+| `OQ-DOC01-013` | Original landlord-created Rent Request control question. | Product / Legal / Risk | Critical | Retired; Rent remains separately governed |
+| `OQ-DOC01-014` | Original landlord-created Rent Request Evidence question. | Product / Legal / Risk / Operations | Critical | Retired; Rent Evidence remains owner-controlled |
+| `OQ-DOC01-015` | Original Payee-to-Payer invitation question. | Product / Engineering / Privacy | High | Retired |
+| `OQ-DOC01-016` | Original Payer response options for Payee-created Requests. | Product / Operations / Legal | High | Retired |
+| `OQ-DOC01-017` | Original reciprocal Request visibility question. | Product / Privacy / Security | High | Retired |
+| `OQ-DOC01-018` | Original active Request-abuse monitoring question. | Risk / Compliance / Operations | Critical | Retired; fake Evidence and collusion remain governed |
+| `OQ-DOC01-019` | Original recurring Payee-created Request question. | Product / Legal / Payments | High | Retired |
+| `OQ-DOC01-020` | Which data classes may support approved analytics, model improvement and personalization? | Product / Privacy / Data | High | Open |
+| `OQ-DOC01-021` | Which data classes and fields are prohibited from external or model use? | Privacy / Legal / Risk | High | Open |
+| `OQ-DOC01-022` | What governance applies before external data collaboration or activation? | Founder / Legal / Privacy / Compliance | High | Open |
 
 ---
 
 ## 23. Acceptance Criteria
 
-`DOC-01` is acceptable when it clearly defines:
+DOC-01 is acceptable when it:
 
-- PayPlus product summary;
-- market problem;
-- product positioning;
-- target users;
-- core use cases;
-- candidate bill categories;
-- MVP definition;
-- product boundaries;
-- product principles;
-- data and AI positioning boundaries;
-- high-level payer-created obligation/payment lifecycle;
-- high-level payee-created request lifecycle;
-- commercial model summary;
-- compliance and risk positioning;
-- partner and payment model summary;
-- key assumptions;
-- key constraints;
-- key dependencies;
-- key risks;
-- launch readiness themes;
-- success criteria;
-- downstream document impact;
-- open questions.
+1. defines PayPlus as an Evidence-Backed Bill/Rent Payment App;
+2. states that Consumer Users are Payers only;
+3. defines Payee as an individual or institution/company economic recipient that need not be a PayPlus User;
+4. limits MVP to Rent and specified supported controlled Bill Categories;
+5. states both Bill acquisition methods and the continuing Category restriction;
+6. keeps Rent separate from the Bill Directory;
+7. states the bounded Institutional Programme/Directory and specialist-owner boundary;
+8. distinguishes deliberate Setup from immediate pay-now, prohibits pre-Checkout Save in immediate pay-now, and places Payment Result before optional same-ID Save/history-only resolution and downstream Activity/Payment History/Receipt;
+9. keeps pre-confirmed established-but-abandoned sources unprojected and leaves their lifecycle, retention and representation to DOC-09, DOC-15 and DOC-18;
+10. preserves high-level same-ID Save and Archive meaning without treating identity establishment as Evidence, readiness, Payment or projection truth;
+11. states the optional individual-notification boundary without Request/Linking semantics;
+12. formally retires active Request/BILLS-LINKING product behavior while preserving only append-only documentation history and retired stable IDs as non-active evidence;
+13. preserves wallet, cashout, remittance, arbitrary payment and marketplace prohibitions;
+14. records the accepted twelve-category inventory while keeping Category-specific eligibility, Evidence criteria, Directory contents, detailed labels, UI, routes, Copy, schemas, technical mechanisms, commercial terms and legal conclusions with their owners.
 
-This document should remain a concise foundation product overview and should not become a detailed PRD, legal memo, payment specification, risk policy, or technical architecture.
+This document remains a concise charter and must not become a detailed PRD, legal memo, payment specification, risk policy or technical architecture.
 
 ---
 
@@ -776,6 +566,10 @@ This document should remain a concise foundation product overview and should not
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.12.1` | `2026-08-12` | Product Documentation Team | Corrected the high-level Payer lifecycle to distinguish deliberate Setup, immediate pay-now and pre-confirmed unprojected abandonment; placed optional same-ID Save/history-only resolution after confirmed Payment Result; and aligned Acceptance Criteria without adding technical lifecycle detail. |
+| `0.12.2` | `2026-08-12` | Product Documentation Team | Applied the Founder-settled indefinite-retention rule to the charter and reframed the retained-record open question around capture, access, masking and audit controls without adding a disposition mechanism. |
+| `0.12.0` | `2026-08-12` | Product Documentation Team | Recorded the Founder-confirmed twelve-category launch inventory and separate Rent boundary, answered `OQ-DOC01-002`, and removed nonexistent Request/Linking runtime-reader assumptions while preserving retired IDs and append-only documentation history. |
+| `0.11.0` | `2026-08-10` | Product Documentation Team | Drafted the Founder-approved Payer-only charter alignment for controlled Bill/Rent scope, economic Payee meaning, Category-bound acquisition, institutional programme, same-ID Save, individual notification and active Request/BILLS-LINKING retirement. |
 | `0.10.5` | `2026-08-05` | Product Documentation Team | Aligned three stale configurable/TBC card-cap statements with the confirmed MVP maximum of 6 cards per payment/profile while preserving narrower partner, risk, category, reconciliation, configuration, and enforcement controls as source-owned or open. |
 | `0.10.4` | `2026-07-31` | Product Documentation Team | Aligned charter terminology and downstream ownership with DOC-09 Payment Domain Architecture, clarified Request as upstream linkage rather than payment, and preserved DOC-10 Settlement/Payout ownership. |
 | `0.10.3` | `2026-07-27` | Product Documentation Team | Replaced obsolete payer-created payment-request wording with direct payer-created obligation/payment terminology, preserved optional payer-to-payee linking requests as a separate concept, and aligned evidence, lifecycle, traceability, and metric language. |

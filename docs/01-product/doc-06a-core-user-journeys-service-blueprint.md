@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 0.1.20
+version: 0.1.23
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-06
+last_updated: 2026-08-12
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -31,6 +31,7 @@ related_documents:
   - DOC-15 Privacy, Data Protection & Record Retention
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization & Authentication
+  - DOC-20 Testing, UAT & Release Readiness
   - DOC-21 Monitoring, Incident Response & Operations Runbook
   - DOC-22 Admin Management Dashboard Operations Workflow
 ---
@@ -41,22 +42,83 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `0.1.20` |
+| **Version** | `0.1.23` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-06` |
+| **Last Updated** | `2026-08-12` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
+
+## Current Wave 2 Payer-only Journey Baseline
+
+This Stage 8 Draft is the current normative DOC-06A baseline. Its active Payer-only journey rules stand independently and retire mixed-role, payee-user, Request, Linking, and pre-Checkout Save behavior. Explicitly labelled non-active registers and append-only decisions or revision history preserve documentation lineage only; they do not define, supplement, or override current runtime behavior.
+
+### Actor and journey boundary
+
+- A Consumer User is a Payer only. The Payee is an economic recipient who may be an individual or institution/company and need not be a PayPlus User. DOC-06A does not create a Consumer Payee login, dashboard, Request or reciprocal-visibility journey.
+- MVP covers a Payer-created Evidence-backed payment for one of the twelve Founder-confirmed launch controlled Bill Categories in DOC-05 or the separate Rent/tenancy journey. Category-specific eligibility, Evidence criteria, detailed labels and Directory contents remain with their named owners. Unrestricted P2P, arbitrary company payment, remittance, cashout and open Payee marketplace behavior are prohibited.
+- Bill journeys select the supported Category before the Category-scoped Directory or Provide Payee myself. Rent is independent of the Bill Directory and does not use Bill Category selection or either Bill acquisition method.
+
+### Bill identity and purpose timing
+
+Opening Pay a Bill/Rent or Setup a Bill/Rent creates temporary pre-validation capture/session state only. ID establishment consumes an owner-governed source/Evidence preservation eligibility outcome. DOC-06A defines the journey boundary and does not independently define the technical persistence threshold or exact minimum fields required to establish the authoritative Bill/Rent identity. The outcome establishes the ID before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or a payment-facing handoff requires stable source identity, including before immediate-pay Checkout or before deliberate Setup becomes Active. Pending Evidence, mismatch or scoped Admin review does not automatically prevent ID establishment once the outcome permits it. ID establishment alone does not imply accepted Evidence, verified Payee, destination or Payout readiness, risk clearance, Payment Obligation or Checkout readiness, payer authorization, successful Payment, Save, Active, Archived or history-only projection.
+
+Immediate pay-now journey:
+
+1. select supported Bill Category or enter separate Rent;
+2. for a self-provided Bill, capture the Payer's Company/Individual selection before Evidence without treating it as Payee truth; for Directory-selected Bills and Rent, continue with the applicable Payee/tenancy context;
+3. resolve/provide Payee and provide/recognize required Evidence; only after Evidence recognition may an AI-apparent type assessment and mismatch prompt appear, after which preserve the Payer's accept/decline response and any scoped Admin determination without overwriting provenance;
+4. consume the owner-governed source/Evidence preservation eligibility outcome and establish the authoritative Bill/Rent ID before Payable Basis or Payment Obligation materialization and before payment-facing Checkout requires stable source identity;
+5. complete DOC-10 destination/Payout, DOC-14 risk/sanctions/fraud/anti-cashout, DOC-09 obligation/Checkout/authorization and other applicable owner gates;
+6. complete Payment, whose separate Payment ID links to the Bill/Rent ID;
+7. show Payment Result with the separate Payment ID already linked to the same Bill/Rent ID;
+8. if the source was already saved/Active before Payment, retain that projection without duplicate Save; for an otherwise unsaved source, resolve the optional Save decision before downstream handoff: selected Save makes the same ID Active/reusable, while declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes the same ID history-only;
+9. only after that existing-projection or Save-resolution outcome, continue to Activity, Payment History, Receipt or ordinary safe exit. Payment, Activity and Receipt existence does not depend on Save, but those destinations do not bypass the projection resolution.
+
+Failure or abandonment after Bill/Rent ID establishment may leave the source unprojected only when immediate pay ends before confirmed Payment, or deliberate Setup ends before its Active/reusable projection is completed. Such an outcome does not by itself expose a Bills/Rent route or list entry or create a user-facing incomplete-source status. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts. After a newly confirmed Payment for an otherwise unsaved source, closing or leaving Payment Result without selecting Save is skipped Save and produces same-ID history-only before Activity, Payment History, Receipt or ordinary safe exit; it cannot remain unprojected.
+
+Deliberate Setup Bill/Rent journey:
+
+1. enter setup purpose and provide source/Evidence input;
+2. consume the owner-governed source/Evidence preservation eligibility outcome and establish the authoritative Bill/Rent ID before Setup gives the source an Active projection and before any Payable Basis or Payment Obligation materialization requires stable source identity;
+3. make that same ID Active/reusable because Setup is deliberate reuse/collection intent, without a Payment or Payment ID; Active/reusable expresses Payer Save/reuse intent and visibility only and does not imply Evidence acceptance, Payee verification, destination readiness, Payment eligibility or authorization;
+4. create a later Payment only through DOC-09 under fresh payment-specific gates.
+
+### Journey handoffs and notification
+
+DOC-06A defines journey order, visible choices, continuation, Back/Close/return and owner-approved unavailable treatment only. DOC-12 owns Category, Evidence, OCR/extraction, verification and Evidence-to-Payee matching; DOC-09 owns Payment Obligation, Checkout, payer authorization and Payment invariants; DOC-10 owns destination readiness, Payout and reconciliation; DOC-14 owns risk/sanctions/fraud/anti-cashout; DOC-15 owns privacy/masking/retention; DOC-18 represents approved data/status/event/audit/lineage/reporting requirements; DOC-22 owns only permitted Admin execution under the applicable owner outcomes.
+
+The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. DOC-06 consumes that eligibility outcome and does not determine Payee type, convert Payer-selected type into truth or make an Admin determination. Institution/company Payees are not notified; unresolved or insufficient Individual determination leaves notification unavailable. Where governed Individual determination exists, the Payer may choose the optional one-way informational notification. It is not Request, Linking, acceptance, consent proof, account invitation, reciprocal visibility, payment authorization or a payment-state change. DOC-06A does not define channel, provider, template, contact provenance, lawful basis, consent, suppression/opt-out, delivery evidence, retention, security or support mechanics.
+
+### Accepted journey set
+
+| Journey | Current Wave 2 treatment |
+| --- | --- |
+| Category-first controlled Bill / Directory-selected Payee | Active Payer journey; Directory is bounded discovery/pre-trust only. |
+| Category-first controlled Bill / Provide Payee myself | Active Payer journey; remains Category-bound and Evidence-led. |
+| Separate Rent/tenancy | Active Payer journey; no Bill Directory or Category selection. |
+| Company/Individual provenance and scoped Admin review | Active handoff; label-only disagreement may be asynchronous/non-user-facing; concrete defects remain owner-controlled. |
+| Immediate pay-now Save | No Save before Checkout. After confirmed Payment, an already saved/Active source retains its projection; an otherwise unsaved source resolves selected Save to same-ID Active/reusable or declined/skipped/dismissed Save to same-ID history-only before downstream handoff. |
+| Deliberate Setup Bill/Rent | Owner-governed source/Evidence preservation eligibility establishes the same ID; Setup gives it Active/reusable projection before Payment without implying acceptance or readiness. |
+| No-Save/history-only | A confirmed Payment followed by skipped, declined, dismissed, closed or otherwise abandoned Save resolution produces same-ID history-only; an established but unprojected source is limited to pre-confirmed immediate-pay or incomplete-Setup abandonment. Payment remains visible in Activity/History/Receipt after projection resolution. |
+| Archive | Ordinary Archive only for saved sources; non-erasure; detailed Restore/prior-version behavior deferred. |
+| Request/BILLS-LINKING | Active behavior retired; append-only documentation history and retired stable IDs only; no runtime reader, adapter, fallback or dormant runtime. |
+
+---
+
+## Active Normative Baseline
+
+The sections below are active current requirements for Payer-only journeys and compatible authentication, Checkout, Instructions, Activity, Receipts, failure and return contracts. Retired Request, Linking and Payee-user identifiers appear only in non-active documentation registers or append-only Version History. They define no runtime reader. Append-only Version History remains historical evidence and is not current product behavior.
 
 ## 1. Purpose
 
 DOC-06A is the DOC-06 child document for core PayPlus user journeys and service blueprint touchpoints.
 
-It governs payer, payee, admin, operations, system, evidence, review, authorization, status, visibility, notification, receipt, failure, cancellation, dispute, and exception journeys at the human-readable product level.
+It governs Payer journeys, Payee-as-recipient handoffs, Admin/operations/system touchpoints, Evidence/review/authorization boundaries, visibility, notification, receipt, failure and exception journeys at the human-readable product level. It does not create an active Consumer Payee journey.
 
 ## 2. Scope Boundary
 
@@ -69,10 +131,11 @@ Detailed navigation and route taxonomy belong to DOC-06B. Detailed Bills/rent/te
 | Area | Status | Notes |
 | --- | --- | --- |
 | Core account journeys | Working baseline | Needs later route and screen linkage. |
-| Payee-created and payer-created journeys | Working baseline | Detailed request and payment state models remain linked to DOC-09 and DOC-18. |
+| Payer-created Bill/Rent journeys | Current Wave 2 baseline | Category-first Bill and separate Rent journeys consume owner-governed source identity outcomes and hand off to specialist domains. |
+| Former Payee-created Request journeys | Retired active MVP / documentation history only | Stable IDs remain non-active documentation lineage; no Request runtime, runtime reader, adapter, fallback, replacement route, Linking or Payee-user journey. |
 | Evidence and review journeys | Working baseline | Detailed verification remains DOC-12. |
 | Authorization and status visibility | Working baseline | Checkout behavior remains DOC-09. |
-| Exception journeys | Working baseline | Refund/dispute/chargeback detail remains DOC-11 and DOC-22. |
+| Exception journeys | Working baseline | DOC-11 owns refund/dispute/chargeback meaning; DOC-21 owns support/operations and DOC-22 owns only permitted Admin execution. |
 
 ## 4. Service Blueprint Ownership
 
@@ -98,32 +161,28 @@ The MVP must support the following essential journeys:
 | # | Journey | Required for MVP |
 | ---: | --- | ---: |
 | 1 | Payer registration and login | Yes |
-| 2 | Payee registration and login | Yes |
-| 3 | Payer dashboard | Yes |
-| 4 | Payee dashboard | Yes |
-| 5 | Payee-created Request flow | Yes |
-| 6 | Payer-created payment flow | Yes |
-| 7 | Payee-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup | Yes |
-| 8 | Payer-created bill, invoice, fee, tenancy, rent, domestic service, or obligation setup | Yes |
-| 9 | Optional payee adoption or linking of payer-created record | Yes |
-| 10 | Payer review of payee-created request | Yes |
-| 11 | Evidence upload, OCR/autofill review, correction, and verification | Yes |
-| 12 | Accept, reject, and exception/support flows | Yes |
-| 13 | Payer payment authorization | Yes |
-| 14 | User payment instruction and deferred payment action | Yes |
-| 15 | Payment and payout status visibility | Yes |
-| 16 | Linked payer/payee visibility | Yes |
-| 17 | Admin review and operations touchpoints | Yes |
-| 18 | Notification touchpoints | Yes |
-| 19 | Receipt and history touchpoints | Yes |
-| 20 | Failure, cancellation, dispute, and exception touchpoints | Yes |
+| 2 | Payer dashboard and account journey | Yes |
+| 3 | Category-first controlled Bill payment with Directory/self-provided acquisition | Yes |
+| 4 | Separate Rent/tenancy setup and payment | Yes |
+| 5 | Evidence recognition, OCR/autofill review, correction and verification handoff | Yes |
+| 6 | Company/Individual provenance and scoped Admin review handoff | Yes |
+| 7 | Payer payment authorization and Checkout handoff | Yes |
+| 8 | Confirmed Payment, Payment Result, Activity, Payment History and Receipt | Yes |
+| 9 | Deliberate Setup Bill/Rent and same-ID Active projection | Yes |
+| 10 | Immediate pay-now optional post-payment Save and same-ID activation | Yes |
+| 11 | No-Save internal history-only source treatment | Yes |
+| 12 | Archive projection and non-erasure boundary | Yes |
+| 13 | Governed informational Individual-Payee notification handoff | Yes |
+| 14 | Admin, risk, privacy, payout and support handoffs | Yes |
+| 15 | Retired Request/BILLS-LINKING ID and documentation-lineage treatment | Yes |
+| 16 | Failure, cancellation, dispute and exception touchpoints | Yes |
 | 21 | Referral registration attribution and qualification tracking | Yes, where Referral campaign is enabled |
 
 ---
 
 ### Progressive Account Creation and Financial Activation
 
-Payer and payee registration use one mixed-role account model:
+Payer registration uses the current account model:
 
 1. enter through `ENTRANCE-ROOT`, then use email, Google, or Apple through the defined DOC-06B Login or Registration routes;
 2. establish one unique verified primary email and at least one usable login method;
@@ -146,11 +205,11 @@ Authentication journeys use capability-aware resolution without changing their a
 
 #### Payer Account Journey
 
-#### Purpose
+##### Purpose
 
-Allows a payer to access PayPlus, create payments, review requests, authorize payment, and track payment history.
+Allows a Payer to access PayPlus, create controlled Bill/Rent contexts, authorize eligible Payment and track Payment history.
 
-#### Required Payer Capabilities
+##### Required Payer Capabilities
 
 A payer must be able to:
 
@@ -161,14 +220,12 @@ A payer must be able to:
 - confirm material account, credential, payment profile, or contact changes using password, payment passcode, 2FA, or approved confirmation;
 - access a payer dashboard;
 - create a payer-initiated payment;
-- create or link a bill, invoice, tenancy, agreement, statement, or obligation record;
-- enter or select payee details;
+- create a controlled Bill or separate Rent/tenancy source context;
+- select a supported Bill Category and then Directory or Provide Payee myself for a Bill;
+- enter or resolve Payee details within the applicable Evidence-led flow;
 - upload or link evidence;
 - review and correct autofilled evidence fields where applicable;
-- receive payee-created Requests for evidence-backed obligation acceptance/linkage;
-- review evidence before payment;
-- accept a request;
-- reject a request;
+- review Evidence and owner-controlled outcomes before payment;
 - escalate a query, dispute, or support issue through the approved exception flow where applicable;
 - authorize payment;
 - enter payment passcode before proceeding with payment authorization;
@@ -176,65 +233,33 @@ A payer must be able to:
 - view failed payment status;
 - view completed payment status;
 - view receipts or confirmations;
-- view request and payment history.
+- view Payment, Activity, Receipt and history-only source lineage without a Bills/Rent UI entry when unsaved.
 
-#### Payer Entry Points
+##### Payer Entry Points
 
-The payer journey may begin when:
+The Payer journey may begin when:
 
 - the payer registers directly;
 - the payer logs in to create a payment;
-- the payer receives an invitation from a payee-created request;
-- the payer receives a notification for a bill, invoice, tenancy, or Request;
+- the payer opens Pay a Bill/Rent or Setup a Bill/Rent;
+- the payer receives an owner-approved informational notification without creating a Request or Linking relationship;
 - the payer returns to view status or history.
 
 ---
 
-#### Payee Account Journey
+#### Payee Recipient Boundary
 
-#### Purpose
+##### Purpose
 
-Allows a payee to access PayPlus, create requests, upload evidence, send requests to payers, adopt payer-created records, and track payment or payout status.
+The Payee is an economic recipient. A Payee may be an individual or institution/company and need not be a PayPlus User. DOC-06A does not define a Consumer Payee account, dashboard, Request, Linking, Receiving Info or reciprocal-visibility journey.
 
-#### Required Payee Capabilities
+##### Required Payee Capabilities
 
-A payee must be able to:
+Payee facts, destination, payout, risk, privacy and notification treatment are consumed from DOC-05 and specialist owners. No active Request or Linking behavior is defined here.
 
-- register;
-- create a restricted account with a unique verified primary email and complete `ACCOUNT-ACTIVATION` before full registration;
-- log in;
-- complete new-device 2FA and dormant-login reauthentication where required;
-- confirm material account, credential, payout destination, or contact changes using password, payment passcode, 2FA, or approved confirmation;
-- access a payee dashboard;
-- create a Request linked to an evidence-backed obligation;
-- create or link a bill, invoice, tenancy, agreement, statement, or obligation record;
-- enter or select payer details;
-- upload or link evidence;
-- review and correct autofilled evidence fields where applicable;
-- manage multiple private Receiving Info profiles and select one destination for a payee-created request;
-- send a request to a payer;
-- receive payer-created bill/payment records;
-- review payer-created records;
-- accept or adopt payer-created records where applicable;
-- reject payer-created records where applicable;
-- escalate a query, dispute, or support issue through the approved exception flow where applicable;
-- respond to disputes where applicable;
-- view request status;
-- view payment status;
-- view payout or settlement status where applicable;
-- view receipts or confirmations;
-- view request and payment history.
+##### Payee Entry Points
 
-#### Payee Entry Points
-
-The payee journey may begin when:
-
-- the payee registers directly;
-- the payee logs in to create a request;
-- the payee receives an invitation from a payer-created record;
-- the payee receives notification of payment status;
-- the payee returns to respond to a support, query, dispute, or exception case;
-- the payee returns to view history.
+No Consumer Payee entry route or runtime historical reader is part of the Wave 2 journey set. Prior actor-role meanings remain only in append-only documentation history and retired stable IDs.
 
 ---
 
@@ -255,308 +280,16 @@ Referral attribution is not payer/payee participant linking, a Request, payment 
 
 ---
 
-### Payee-Created Request Flow
+### Non-Active Documentation Register - Retired Request and Two-Sided IDs
 
-#### Purpose
+This concise register preserves retired stable IDs and prior actor-role meanings only as non-active documentation evidence. PayPlus has no production Request/Payee-role runtime or legacy Request deep-link data. This register is not a route, runtime reader, notification, Linking or Payee-user journey.
 
-Allows a payee to create an evidence-backed obligation context and send a Request to a payer for review and acceptance. The Request establishes linkage only; Checkout and payer authorization remain separate.
-
-Within DOC-06A, a request is not a payment. A request asks another party to review, accept, link to, or reject a bill, tenancy, rent, invoice, fee, or approved obligation context. A query, clarification, or dispute opens a linked case without replacing the request lifecycle state. Acceptance links the parties to that accepted context and may support later payment readiness, but it does not authorize, process, or complete payment.
-
-This is a core MVP journey.
-
----
-
-#### Primary Flow
-
-1. Payee logs in.
-2. Payee selects **Request Payment**.
-3. Payee enters or selects payer information.
-4. Payee enters request details:
-   - amount;
-   - due date;
-   - category;
-   - description;
-   - reference number where applicable.
-5. Payee creates or links an obligation record, such as:
-   - bill;
-   - invoice;
-   - tenancy agreement;
-   - rent demand;
-   - payment statement;
-   - service agreement;
-   - official notice;
-   - contract;
-   - other acceptable proof of obligation.
-6. Payee uploads or links evidence.
-7. System processes evidence using OCR/document AI where enabled.
-8. System autofills eligible fields and lets payee review or correct them.
-9. System validates required fields, evidence verification outcome, duplicate/reused evidence indicators, and risk routing.
-10. Payee selects a saved Receiving Info profile or enters an approved destination for the request.
-11. System creates a `Draft` Request record and a versioned destination snapshot that discloses only the selected destination to the payer.
-12. System links evidence and final evidence snapshot to the request.
-13. On submission, system assigns `Pending Evidence Verification`; if evidence is already accepted, it may move to `Pending Receiver Action` when delivered.
-14. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
-15. System sends the request notification or invitation to the payer through the selected approved channel only after required evidence is verified or approved by exception and a destination has been selected.
-16. Payer logs in or registers.
-17. Payer reviews:
-    - payee identity/details;
-    - amount;
-    - due date;
-    - category;
-    - description;
-    - evidence;
-    - fees where applicable;
-    - payment terms;
-    - PayPlus disclosures where applicable.
-18. Payer selects one of:
-    - accept;
-    - reject with reason where required.
-19. If payer accepts and remaining readiness gates pass, payer may proceed to the separate payment-authorization flow.
-20. Payer reviews the effective payment destination and explicitly authorizes payment.
-21. System freezes that destination snapshot for the authorized payment.
-22. System processes payment through approved payment partner or sandbox integration.
-23. Payee receives payment according to approved payout or settlement rules.
-24. Payer and payee can view the linked request/payment context.
-25. System stores receipt, status history, destination versions, and audit trail.
-
----
-
-#### Payee-Created Request Lifecycle
-
-The request lifecycle is separate from evidence processing, obligation readiness, payment, payout, case handling, and archive visibility:
-
-```text
-Draft
-  -> Pending Evidence Verification
-  -> Pending Receiver Action
-  -> Accepted or Rejected
-```
-
-`Pending Receiver Action` may also become `Expired` or `Cancelled`. A request with already accepted evidence may move directly from `Draft` to `Pending Receiver Action` when submitted. `Accepted` links the parties to the accepted context but does not mean approved, authorized, processing, or paid.
-
-Submission, sending, sharing, viewing, reminding, acceptance, rejection, expiry, cancellation, archiving, and restoration are events. Evidence verification uses DOC-12 outcomes and DOC-06C evidence labels. Obligation readiness uses `Ready to Pay`, `Action Required`, or `Under Review`. Payment and payout outcomes remain in DOC-09 to DOC-11.
-
-#### Required Controls
-
-| Control | Requirement |
-| --- | --- |
-| Evidence required | Request cannot proceed to payment without required evidence unless an approved exception applies. |
-| Evidence verification | OCR/autofill, user correction, duplicate detection, and verification outcomes follow DOC-12. |
-| Payer review required | Payer must review the request context before payment authorization. |
-| Payer authorization required | Payee-created request must not trigger payment without payer authorization. |
-| Linked records required | Request, evidence, payer, payee, payment, status history, and audit events must be linked. |
-| Destination selected before send | A payee-created request must include one selected destination snapshot before delivery. Other saved Receiving Info profiles remain private. |
-| Payee change before acceptance | Payee may change the selected destination and send the latest request version. |
-| Payee change after acceptance | A different destination requires a new request and new bill/rent record; it may reuse the same evidence, and the prior record is not auto-archived. |
-| Payer-selected replacement | Payer may select a different destination without payee approval. It must not rewrite the accepted request, must be shown before authorization, and must notify a linked PayPlus payee. |
-| Authorization freeze | The destination effective at payer authorization is frozen for that payment. A later change requires renewed payer authorization. |
-| Admin/risk controls | Request may be subject to admin, operational, or risk review. |
-| Unsupported P2P blocked | Request must be tied to a valid evidence-backed obligation. |
-
----
-
----
-
-### Payer-Created Payment Flow
-
-#### Purpose
-
-Allows a payer to create an evidence-backed payment or obligation record, link or invite a payee, and push payment to the payee after required review and authorization.
-
-This is a core MVP journey.
-
-#### Primary Flow
-
-1. Payer logs in.
-2. Payer selects **Create Payment**.
-3. Payer enters or selects payee information.
-4. Payer enters payment details:
-   - amount;
-   - due date;
-   - category;
-   - description;
-   - reference number where applicable.
-5. Payer creates or links an obligation record, such as:
-   - bill;
-   - invoice;
-   - tenancy agreement;
-   - rent demand;
-   - payment statement;
-   - service agreement;
-   - official notice;
-   - contract;
-   - other acceptable proof of obligation.
-6. Payer uploads or links evidence.
-7. System processes evidence using OCR/document AI where enabled.
-8. System autofills eligible fields and lets payer review or correct them.
-9. System validates required fields, evidence verification outcome, duplicate/reused evidence indicators, and risk routing.
-10. System creates an evidence-backed obligation and payment-intent context; it creates a separate linking request only when the payer initiates optional participant linking.
-11. System links evidence and final evidence snapshot to the record.
-12. If the payer chooses linking, the payer initiates an approved invitation/linking flow; the system must not automatically match users.
-13. System sends a notification or invitation where applicable.
-14. A PayPlus payee may log in or register and accept or reject the optional linking request.
-15. Linking acceptance creates shared visibility and communication but is not required for the payer-created payment.
-16. Admin/system reviews the obligation, evidence, and risk controls where applicable.
-17. Payer reviews final payment summary.
-18. Payer explicitly authorizes payment.
-19. System processes payment through approved payment partner or sandbox integration.
-20. Payee receives payment according to approved payout or settlement rules.
-21. Linked users can view the shared payment context subject to permissions; an unlinked payee receives no PayPlus in-app visibility.
-22. System stores receipt, lifecycle history, and audit trail.
-
-#### Payer-Created Obligation and Payment State Separation
-
-A payer-created obligation does not require a request lifecycle unless the payer separately initiates optional participant linking.
-
-```text
-Evidence status
-  -> Obligation readiness
-  -> Payment quote and payer authorization
-  -> Payment, settlement, and payout lifecycle
-```
-
-If optional linking is used, that request follows the canonical request lifecycle independently. Link acceptance or rejection changes shared visibility and communication only; it does not replace evidence, readiness, authorization, payment, or payout states.
-
-#### Required Controls
-
-| Control | Requirement |
-| --- | --- |
-| Evidence required | Payment cannot proceed without required evidence unless an approved exception applies. |
-| Evidence verification | OCR/autofill, user correction, duplicate detection, and verification outcomes follow DOC-12. |
-| Payee record required | Payee must be linked, invited, or represented by a valid payee record and payout destination where required. |
-| Optional payee adoption supported | Payee must be able to accept/adopt payer-created records for linking where applicable, but payer-created payment must not require payee acceptance by default. |
-| Payer authorization required | Payment cannot be processed without explicit payer authorization. |
-| Self-cashout blocked | Payer cannot use PayPlus to cash out to themselves. |
-| Unsupported transfer blocked | Payment must be tied to a valid evidence-backed obligation. |
-| No wallet behavior | System must not create user wallet balances or stored-value accounts. |
-
----
-
----
-
-### Shared Bill, Tenancy, Invoice, or Obligation Journey
-
-#### Purpose
-
-Allows either a payer or payee to create an obligation record that can support a Request or a later Payment.
-
-An obligation record may become shared only through an approved user action, such as payer acceptance of a payee-created request or optional payee linking/adoption of a payer-created record. PayPlus should not assume automatic user-to-user matching.
-
-An obligation record may represent:
-
-- bill;
-- invoice;
-- tenancy agreement;
-- rent demand;
-- payment statement;
-- service agreement;
-- official notice;
-- contract;
-- other acceptable proof of payment obligation.
-
-#### Payee-Created Obligation Path
-
-1. Payee logs in.
-2. Payee creates a bill, invoice, tenancy, agreement, statement, or obligation record.
-3. Payee enters payer information.
-4. Payee uploads supporting evidence.
-5. System processes evidence and autofills eligible obligation fields where enabled.
-6. Payee reviews or corrects autofilled fields.
-7. System validates evidence and creates obligation record.
-8. System links evidence and final evidence snapshot to obligation record.
-9. Payee creates or sends a Request linked to the obligation.
-10. Payee selects an available request delivery method, such as in-app message, app link, WhatsApp deeplink, QR code, or other approved channel.
-11. Payer is notified or invited through the selected approved channel.
-12. Payer reviews the obligation, evidence summary, and request.
-13. Payer accepts or rejects the request, with rejection reason where required.
-14. If accepted, payer may authorize payment.
-15. System links payer, payee, request, evidence, and payment records.
-
-#### Payer-Created Obligation Path
-
-1. Payer logs in.
-2. Payer creates a bill, invoice, tenancy, agreement, statement, or obligation record.
-3. Payer enters payee information.
-4. Payer uploads supporting evidence.
-5. System processes evidence and autofills eligible obligation fields where enabled.
-6. Payer reviews or corrects autofilled fields.
-7. System validates evidence and creates obligation record.
-8. System links evidence and final evidence snapshot to obligation record.
-9. Payer may proceed to payment once required evidence, verification, risk, payout, and authorization gates pass.
-10. Payee may be invited or linked where useful, but payee acceptance is not required before payer-created payment unless a category, risk rule, payout rule, or compliance gate explicitly requires it.
-11. If the payee is a PayPlus user and linking is initiated, payee logs in or registers and reviews the obligation context.
-12. Payee may accept/adopt or reject with reason for linkage purposes.
-13. If adopted, payee becomes linked to the shared obligation context.
-14. System links payer, payee, obligation, evidence, and payment records according to permissions.
-
-#### Adoption Rules
-
-| Rule | Requirement |
-| --- | --- |
-| Payer-created payment | Payer-created obligations may proceed without payee acceptance where evidence, verification, risk, payout, and authorization gates pass. |
-| Optional payee adoption | Payee may accept/adopt payer-created obligation records for two-sided visibility, communication, and linked recordkeeping where applicable. |
-| Payer acceptance | Payer may accept payee-created requests before authorizing payment. |
-| Payer destination change | Without a linked PayPlus payee, no payee handling is required. With a linked payee, notify that user but do not require payee approval. The payer must still complete normal destination checks and authorization. |
-| No forced adoption | A recipient should not be forced to accept an inaccurate record. |
-| Rejection support | Recipient may reject an inaccurate record with a reason where required. |
-| Linked context | Once accepted/adopted, both sides should see the linked context subject to permissions. |
-| Audit trail | Adoption and rejection actions must be logged. |
-
----
-
----
-
-### Recipient Review Journey
-
-#### Purpose
-
-Allows the recipient of a request or obligation record to review the details and respond.
-
-#### Recipient Review Matrix
-
-| Creator | Recipient | Recipient Review Actions |
+| Retained record | Preservation location | Current treatment |
 | --- | --- | --- |
-| Payee creates Request | Payer | Accept or reject with reason where required; after acceptance, separately choose whether to enter Checkout and authorize payment. |
-| Payer creates payment/obligation record | Payee | Optional accept/adopt or reject for linkage only; payer payment does not require payee acceptance unless a specific gate requires it. |
+| Request, Payee and participant stable IDs; prior actor-role and lineage meanings | Append-only documentation history only | Retired active MVP; no route, runtime reader, action, notification, adapter, fallback, acceptance or reciprocal visibility |
+| Prior response, consent or invitation concepts | Append-only documentation history only | No production data or active lifecycle/participant state machine |
 
-#### Required Review Information
 
-The recipient should be able to view:
-
-- creator identity or profile details;
-- payer details;
-- payee details;
-- amount;
-- due date;
-- category;
-- description;
-- evidence;
-- obligation type;
-- request status;
-- payment status where applicable;
-- fees where applicable;
-- relevant disclosures;
-- clarification or dispute history where applicable.
-
-#### Recipient Actions
-
-| Action | Description |
-| --- | --- |
-| Accept | Recipient accepts the request or record as valid. |
-| Adopt | Payee accepts a payer-created bill, tenancy, invoice, or payment context as linked to them. |
-| Reject | Recipient rejects the request or record. |
-| Authorize payment | Payer-only action that permits payment processing. |
-
-#### Payment Authorization Boundary
-
-Only the payer can authorize payment.
-
-A payee may accept or adopt a payer-created record for linked visibility and communication, but a payee cannot authorize payment from the payer and payee adoption must not be treated as the payer's payment authorization.
-
----
-
----
 
 ### Evidence Upload and Review Journey
 
@@ -581,105 +314,64 @@ MVP evidence may include:
 - uploaded PDF;
 - uploaded image;
 - manually entered bill details with supporting document;
-- other admin-approved proof of payment obligation.
+- other proof of payment obligation permitted by the applicable DOC-12-owned Evidence policy.
 
 #### Evidence Upload and Verification Flow
 
-1. User creates or updates a request, bill, rent, or obligation record.
+1. Payer creates or updates a controlled Bill or separate Rent source context.
 2. User provides evidence through `BILLS-ADD` or `BILLS-EVIDENCE-UPLOAD` where evidence is required.
 3. System validates file type and required metadata where applicable.
 4. System processes OCR/document AI where enabled.
-5. System extracts eligible fields and autofills the bill/rent/request setup fields.
-6. User reviews and corrects the bill/rent/request details before submission.
+5. System extracts eligible fields and autofills permitted Bill/Rent setup fields.
+6. Payer reviews and corrects the Bill/Rent details before submission.
 7. System stores raw evidence, extraction result, user correction, and final evidence snapshot where applicable.
-8. System links evidence to the request or obligation.
+8. System links Evidence to the Bill/Rent source context under DOC-12 ownership.
 9. System applies duplicate/reused evidence, mismatch, completeness, same-party, and risk checks.
 10. System assigns an evidence status.
-11. Evidence status updates the bill/rent payment readiness status according to the Bills route mapping.
-12. Low-risk accepted evidence becomes available for role-based review and payment eligibility checks.
-13. Red-flag evidence routes to user clarification or admin review.
+11. DOC-12-owned Evidence status becomes one input to the combined owner-controlled readiness evaluation; it does not itself establish Payable Basis, Payment Obligation, destination/Payout readiness, risk clearance, Checkout eligibility or payer authorization.
+12. Accepted Evidence may satisfy the Evidence dimension for role-based review and combined eligibility evaluation. DOC-09 owns Payment Obligation, Checkout and authorization readiness; DOC-10 owns destination/Payout readiness and reconciliation; DOC-14 owns sanctions, fraud and anti-cashout risk. User-facing readiness consumes the combined owner-controlled outcome without collapsing those dimensions.
+13. An owner-controlled red-flag outcome may produce an approved Payer clarification step or a bounded specialist/Admin review handoff.
 
 #### Evidence Review Access
 
 | Role | Evidence Access |
 | --- | --- |
 | Payer | Can review evidence before authorizing payment. |
-| Payee | Can view evidence attached to their own created requests or linked received payments. |
-| Admin / Operations | Can view evidence for review, investigation, support, compliance, and audit. |
-| System | Links evidence to request/payment records and logs actions. |
+| Payee | No active Consumer Payee evidence surface; any permitted recipient view is specialist-owned and controlled. |
+| Admin / Operations | May receive only the Evidence context defined by DOC-12 and fields permitted by DOC-15 for the applicable approved purpose. DOC-22 executes only that permitted Admin access; DOC-06A does not grant access. |
+| System | Links Evidence to Bill/Rent and Payment lineage and logs actions under specialist ownership. |
 
 #### Evidence Rules
 
 | Rule | Requirement |
 | --- | --- |
-| Evidence required | A Request cannot be delivered and a Payment Obligation cannot become eligible without required evidence unless an approved exception applies. |
-| Evidence linked | Evidence links to the Bill/Rent obligation. A Request references that evidence-backed context; Checkout executes only against a Payment Obligation. |
-| OCR/autofill | Where enabled, extracted fields should assist request creation but must not remove user review. |
+| Evidence boundary | Evidence supports a controlled Bill Category or separate Rent journey. Evidence truth, acceptance and matching remain with DOC-12; Evidence alone never creates eligibility outside the approved product boundary. |
+| Evidence linked | Evidence links to the Bill/Rent source and downstream Payment Domain lineage; Checkout executes only through DOC-09 Payment Obligation controls. |
+| OCR/autofill | Where enabled, extracted fields assist Bill/Rent capture but must not remove Payer review. |
 | User correction | Users must be able to correct autofilled fields before submission. |
 | Extractable vs displayable | Sensitive extracted fields may be stored under controls without being shown broadly in UI. |
-| Duplicate warning | Duplicate or reused evidence may trigger user warning and admin review, subject to DOC-12 and privacy rules. |
-| Verification outcome | Pending user clarification, pending admin review, rejected, duplicate suspected, or fraud/risk escalated outcomes must block payment eligibility until resolved. |
+| Duplicate warning | Duplicate or reused Evidence may produce a DOC-12/DOC-14-owner-approved Payer warning or bounded Admin-review handoff, subject to DOC-15 privacy controls. |
+| Verification outcome | Concrete Evidence, intended-Payee, destination, beneficiary/agent, Category, sanctions, fraud, anti-cashout, payout, readiness or authorization defects may block their applicable stage. A label-only Company/Individual disagreement may create asynchronous/non-user-facing Admin review and must not by itself force a payment-review state or block otherwise eligible payment. |
 | Payer review | Payer must be able to review evidence before authorizing payment. |
-| Admin review | Admin must be able to view evidence for review and investigation. |
-| Auditability | Evidence upload, view, update/replacement, archive, and status-change actions must be logged where applicable. |
-| Access control | Evidence visibility must be restricted by role and permissions. |
+| Admin review handoff | Where an applicable owner requires Admin review, DOC-06A hands off the relevant Evidence context without defining access, queue, action or disposition. DOC-12 owns Evidence requirements, DOC-15 owns approved-purpose access and privacy controls, and DOC-22 executes only the permitted Admin workflow under those and other applicable specialist-owner rules. |
+| Auditability | DOC-12 owns the required Evidence meaning, while DOC-18 represents approved Evidence upload, view, update/replacement and review lineage in later data, status/event and audit models. DOC-22 may execute permitted audit-handling steps but does not define the audit requirement or status meaning. |
+| Access control | Evidence visibility follows DOC-15-owned approved-purpose access and masking requirements together with DOC-12 Evidence rules. DOC-22 may execute only the resulting permitted Admin access; DOC-06A and DOC-22 do not independently define permissions. |
 
 ---
 
 ---
 
-### Query, Dispute, and Exception Support Journey
+### Payer Support, Dispute, and Exception Handoff
 
-#### Purpose
+This is a bounded Payer-side support and exception handoff for an Evidence-backed Bill/Rent source, Payment, or applicable Evidence issue. It does not define a Request route, acceptance flow, participant relationship, or reciprocal-visibility journey. Detailed case, dispute, notification, payment-hold, Admin and audit treatment remains with DOC-09, DOC-11, DOC-14, DOC-18, DOC-21 and DOC-22 as applicable.
 
-Allows payer, payee, support, or admin to resolve incomplete, disputed, incorrect, or unclear request information through an exception/support path.
-
-This journey is not the normal `REQUESTS-DETAIL` acceptance path. `REQUESTS-DETAIL` should keep material request actions focused on accept, reject, send, resend, remind, cancel, archive, and linked-detail handoff according to DOC-06B. Queries, disputes, and requests for more information may be available through support, admin review, or exception handling where enabled, and must remain linked to the original request.
-
-#### Query / Additional Information Flow
-
-1. Recipient reviews request or obligation record.
-2. Recipient opens the approved support, query, or exception path where available.
-3. Recipient enters the reason, question, or field requiring additional information.
-4. Recipient may identify the disputed, missing, or unclear field.
-5. System creates or updates a linked support/exception case.
-6. System notifies the other party.
-7. Other party responds with:
-   - text explanation;
-   - corrected field;
-   - additional evidence;
-   - cancellation;
-   - dispute escalation.
-8. System logs all support/exception activity.
-9. Request returns to review, acceptance, rejection, cancellation, or admin-controlled status where allowed.
-
-#### Dispute Flow
-
-1. User reviews request, obligation, payment, or evidence.
-2. User selects **Dispute**.
-3. User enters dispute reason.
-4. User may upload additional evidence.
-5. System creates a linked dispute case with status **Open** without changing the request lifecycle state.
-6. System notifies the other party.
-7. Admin may review the dispute where required.
-8. Other party may respond.
-9. Admin or system may move the linked case through:
-   - pending information;
-   - under review;
-   - resolved;
-   - closed.
-10. Any payment or payout hold is recorded as a separate operational control and event.
-11. System logs all dispute actions.
-
-#### Required Query, Dispute, and Exception Controls
-
-| Control | Requirement |
+| Boundary | Payer-only treatment |
 | --- | --- |
-| Linked thread | Query, dispute, support, and exception activity must remain linked to the original request. |
-| Audit trail | All query, dispute, support, and exception actions must be logged. |
-| Notification | Relevant parties must be notified of material dispute, query, or exception events where enabled. |
-| Admin visibility | Admin must be able to review query, dispute, support, and exception history. |
-| Payment block | A request or obligation with an unresolved material dispute case must not proceed where the approved case policy applies a payment or payout block. |
+| Entry | A Payer may enter an owner-approved support or exception path from the relevant Bill/Rent, Evidence, Checkout, Payment or Activity context where available. |
+| Context | The matter remains linked to applicable Bill/Rent, Evidence and/or Payment lineage; no Request or participant object is created. |
+| Response | The Payer may provide an explanation or additional information where the owning process permits it. |
+| Review | The applicable specialist owner supplies the controlling policy and outcome; permitted Admin or operations staff may execute only the bounded review through DOC-22 and owner-approved processes. DOC-06A does not define case statuses, queues, permissions, dispositions, notifications or payment blocks. |
+| History | Support, dispute and exception history remains auditable through controlled owner readers without creating reciprocal visibility or an active two-sided journey. |
 
 ---
 
@@ -717,9 +409,9 @@ Before authorization, the payer should be shown:
 
 #### Authorization Flow
 
-1. Payer reviews request or payer-created payment.
-2. Payer confirms that evidence and payment details are acceptable.
-3. System displays final payment summary, including the effective destination and a warning where it differs from an accepted payee-created request.
+1. Payer reviews the controlled Bill/Rent source and applicable payment details.
+2. Payer confirms that owner-controlled Evidence and payment details are acceptable.
+3. System displays the final payment summary and effective destination; no Request or Payee acceptance flow is required for the Payer-created journey.
 4. System displays fee, promotion quote, discount, coupon/voucher impact, reward impact, and total charge where applicable.
 5. Payer selects or confirms the applicable funding method. Single-card funding may use an eligible default card. Multi-card funding may use an owner-confirmed current-Checkout allocation or Payment Profile capability. Where exactly one capability is available, the Workspace proceeds directly to that capability without a capability-selection step; direct entry does not silently select a specific profile, confirm an allocation, or authorize funding. Where two or more capabilities are simultaneously available, the payer selects the capability. The payer then completes the applicable funding configuration, review, and authorization.
 6. Payer chooses pay now or creates a deferred payment instruction where enabled.
@@ -738,7 +430,7 @@ Before authorization, the payer should be shown:
 | Rule | Requirement |
 | --- | --- |
 | Explicit consent | Payer must explicitly authorize payment. |
-| No automatic payment | Payee-created request cannot automatically trigger payment. |
+| No automatic payment | Payment requires explicit Payer authorization; no Request or Payee acceptance flow is part of the Payer-created journey. |
 | Evidence visibility | Payer must be able to review evidence before payment. |
 | Fee visibility | Fees charged to payer must be displayed before authorization. |
 | Promotion visibility | Eligible discounts, service-fee benefits, coupons, vouchers, and reward impact must be displayed before authorization where applicable. |
@@ -758,7 +450,7 @@ Before authorization, the payer should be shown:
 
 #### Purpose
 
-Defines what users and admins need to see after payer authorization.
+Identifies Payer-visible outcomes after authorization and the bounded handoff of owner-authorized context to Admin/operations where an applicable owner requires it.
 
 Detailed payment processing, payout, settlement, reconciliation, refund, reversal, chargeback, and exception rules belong in DOC-09, DOC-10, and DOC-11.
 
@@ -767,248 +459,56 @@ Detailed payment processing, payout, settlement, reconciliation, refund, reversa
 | User | Required Visibility |
 | --- | --- |
 | Payer | Authorization result, payment status, failure state, cancellation/refund state where applicable, and receipt/history. |
-| Payee | Request status, payer response, payment completion status, funded portion, payout/settlement visibility where permitted, and exceptions requiring payee action. |
-| Admin | Full request, payment instruction, funding leg, payout, failure, refund, dispute, exception, and audit context. |
+| Admin / operations | Receives only the review context defined by the applicable specialist owner and permitted by DOC-15; DOC-22 executes only the resulting Admin workflow. This journey does not grant object access or define a generic Admin view. |
 
 #### UX Rules
 
 | Rule | Requirement |
 | --- | --- |
-| Status clarity | User-facing labels must distinguish request status, payment status, and payout/settlement status. |
+| Status clarity | User-facing labels must distinguish Payment, payout/settlement and other owner-controlled outcome meaning; no Request status is active. |
 | No false certainty | The UX must not imply payment or payout is complete before the relevant system of record confirms it. |
-| Role-appropriate visibility | Payees must not see sensitive payer payment method, risk, or private account data. |
-| Exception visibility | Failures, holds, cancellations, refunds, and disputes must have clear user-facing states and admin review paths. |
+| Permissioned visibility | Payer and Admin/support views expose only the fields permitted by the owning privacy and domain controls. |
+| Exception visibility | Failures, holds, cancellations, refunds, and disputes must have clear owner-approved user-facing treatment and, only where an applicable owner requires review, a bounded Admin/operations handoff. |
 
 ---
 
 ---
 
-### Linked Records and Matching Journey
+
+### Non-Active Documentation Register - Retired Linking and Request Status IDs
+
+| Retained record | Preservation location | Current treatment |
+| --- | --- | --- |
+| Linking identifiers and prior actor-role/status meanings | Append-only documentation history only | Retired active MVP; no runtime reader, invitation, reciprocal visibility or participant permissions |
+| Prior Request outcome labels and response concepts | Append-only documentation history only | No production data, active Request status model or replacement journey |
+
+
+
+### Admin and Operations Handoff Journey
 
 #### Purpose
 
-Ensures that payer, payee, request, evidence, payment, payout, status, dispute, and audit records remain linked.
+Represents the journey-level handoff when an applicable formal owner requires controlled Admin or operations review of a Payer account, Bill/Rent source, Evidence, risk matter, dispute, Payment, payout, settlement, failure or exception. DOC-22 and the applicable specialist owner govern execution. This handoff does not create a Consumer Payee account view or active Request workflow.
 
-#### Required Linked Objects
+#### Journey-Level Handoff
 
-Each active or completed payment should be linkable to:
-
-- payer user;
-- payee user or payee record;
-- Request, where one established the obligation linkage;
-- obligation record where applicable;
-- evidence record;
-- payment transaction;
-- payout or settlement record where applicable;
-- dispute or clarification thread where applicable;
-- notification records;
-- status history;
-- audit events;
-- admin review actions where applicable.
-
-#### Linking Flow
-
-1. Request or payment record is created.
-2. System checks payee records, payout destination, and evidence consistency required for the payment flow.
-3. System may support user-initiated or user-accepted linking using approved identifiers, app links, deeplinks, QR codes, or invitation records.
-4. If no platform user exists, system may create a non-user payee record, invitation record, or pending participant record.
-5. Recipient registers, logs in, or accepts an invitation where linking is requested.
-6. System links recipient to request or obligation only after the required user action or approved operational action.
-7. System displays shared context to both sides subject to permissions.
-8. System checks for duplicate, suspicious, or conflicting records where applicable.
-9. System logs search, invitation, acceptance, rejection, and linking events.
-
-Automatic user-to-user matching must not be assumed for the user experience. Duplicate detection, payee verification, payout validation, and risk checks may run in the background, but shared user visibility requires an approved linking or acceptance event.
-
-#### Matching Requirements
-
-| Requirement | Description |
+| Journey boundary | Active treatment |
 | --- | --- |
-| Shared request ID | Both payer and payee should reference the same Request when both are users; the Request ID remains distinct from Payment Obligation, Checkout, and Payment IDs. |
-| Linked evidence | Evidence record must link to request and payment context. |
-| Two-sided visibility | Payer and payee must see the same underlying transaction context, subject to permissions. |
-| User-accepted linking | User-to-user linking must be initiated, invited, accepted, or otherwise approved; automatic UX linking is not allowed. |
-| Duplicate detection | System should help detect duplicate bills, requests, or payments. |
-| Status consistency | Payer and payee views must reflect the same underlying status. |
-| Exception linkage | Queries, disputes, support cases, and exception records must remain linked to the original request. |
+| Trigger | The applicable Evidence, payment, payout, refund/reversal, risk, privacy, support or operations owner determines whether controlled review is required. DOC-06A does not create a generic review trigger or queue. |
+| Context handoff | The journey may retain a reference to the affected Payer, Bill/Rent source, Evidence, Payment or other owner-controlled object. The applicable owner and DOC-15 determine which facts may be shown, masked or withheld. |
+| Routing | Review is handed to a DOC-22 workflow or specialist-owned process only where that owner has defined and enabled it. DOC-06A does not select the queue, permission, action, disposition, status or resolution. |
+| Scoped Company/Individual determination | Payer selection, AI-apparent assessment, Payer response and the scoped determination remain separate provenance. `Reviewed` and `Resolved` remain separate. Label-only review may be asynchronous and non-user-facing and does not block otherwise eligible payment when every concrete owner-controlled gate passes. |
+| Owner outcome | The journey consumes the applicable owner-approved outcome without converting it into global Payee truth or independently changing Evidence, risk, Payment, payout, refund/reversal, dispute or account state. |
+| Communication | Any Payer communication remains with the applicable outcome, Copy and notification owners. Payee-facing notification remains unavailable for institution/company or unresolved/insufficient Individual determination and requires governed Individual eligibility plus affirmative Payer choice. |
+| Audit and operations | The applicable domain owner defines the required outcome and audit meaning; DOC-18 represents approved data/event/audit lineage, DOC-21 owns support and escalation, and DOC-22 executes only the permitted Admin queue and handling. DOC-06A defines none of their technical or permission mechanics. |
 
 ---
 
 ---
 
-### Two-Sided Visibility and Permissions
+### Notification Touchpoints  - Governed Individual-Payee Handoff
 
-#### Purpose
-
-Allows both payer and payee to view linked request/payment context while protecting sensitive information.
-
-#### Shared Visibility
-
-Both payer and payee should be able to view:
-
-- request ID where applicable;
-- obligation type;
-- amount;
-- due date;
-- category;
-- description;
-- evidence, subject to permissions;
-- current request status;
-- current payment status;
-- clarification status;
-- dispute status;
-- completed payment confirmation;
-- relevant history;
-- relevant notifications.
-
-#### Role-Based Visibility Boundaries
-
-| Data | Payer View | Payee View | Admin View |
-| --- | --- | --- | --- |
-| Request details | Yes | Yes | Yes |
-| Evidence | Yes, if linked to request/payment | Yes, if creator or linked participant | Yes |
-| Payer identity | Yes | Yes, limited as appropriate | Yes |
-| Payee identity | Yes | Yes | Yes |
-| Payment method details | Yes, masked/limited | No | Limited/controlled |
-| Payout account details | No or masked | Yes, masked/limited | Limited/controlled |
-| Fees charged to payer | Yes | Limited or as applicable | Yes |
-| Payout status | Limited or as applicable | Yes | Yes |
-| Audit events | Limited user-facing history | Limited user-facing history | Yes |
-| Risk flags | No | No | Yes |
-
-#### Privacy and Permission Rules
-
-| Rule | Requirement |
-| --- | --- |
-| Least privilege | Users should only see information needed for their role in the transaction. |
-| Sensitive data masking | Payment and payout instrument details must be masked or restricted. |
-| Admin access controls | Admin access must be permissioned and logged. |
-| Evidence privacy | Evidence visibility must be limited to authorized users. |
-| Consistent status | Status should remain consistent across payer and payee views. |
-
----
-
----
-
-### Request Status UX
-
-#### Canonical Request Lifecycle States
-
-The MVP request lifecycle is:
-
-| Underlying State | Meaning |
-| --- | --- |
-| `Draft` | Sender started the request but has not submitted it. |
-| `Pending Evidence Verification` | Submitted request is blocked from delivery until evidence passes or an approved exception applies. |
-| `Pending Receiver Action` | Request was delivered and awaits receiver acceptance or rejection. |
-| `Accepted` | Receiver accepted the evidence-backed context; this may link the parties but is not payment authorization. |
-| `Rejected` | Receiver rejected the request; retain the reason where provided. |
-| `Expired` | Request validity ended before acceptance. |
-| `Cancelled` | Sender cancelled the request where permitted. |
-
-Role-facing labels are `Draft`, `Waiting for Verification`, sender-side `Reviewing`, receiver-side `Awaiting`, `Accepted`, `Rejected`, `Expired`, and `Cancelled`. The receiver cannot see a draft or evidence-gated request.
-
-`Submitted`, `Sent`, `Shared`, `Viewed`, `Reminded`, `Archived`, and `Restored` are events or visibility transitions, not request lifecycle states. Evidence labels, obligation readiness, case statuses, payment statuses, and payout statuses remain in their owning domains.
-
-If payment status is displayed near a request, it should be labelled as linked payment status, not request status.
-
-#### Status Rules
-
-| Rule | Requirement |
-| --- | --- |
-| Payer authorization | No payment may be processed without payer authorization. |
-| Evidence gate | Request cannot move to `Pending Receiver Action` without accepted evidence or an approved exception. |
-| Verification gate | A request remains `Pending Evidence Verification` while DOC-12 requires correction, admin review, duplicate review, rejection handling, or fraud/risk escalation. |
-| Admin/risk gate | Requests may require admin or risk approval before payment. |
-| Rejection handling | Rejected requests cannot be paid unless recreated or reopened under approved rules. |
-| Dispute handling | A dispute creates a linked case and does not become a request lifecycle state. Any payment or payout block follows the case policy. |
-| Audit trail | Every status change must be logged. |
-| Two-sided consistency | Payer and payee views must reflect the same underlying status. |
-
----
-
----
-
-### Admin and Operations Journey
-
-#### Purpose
-
-Allows internal users to review accounts, requests, evidence, risk, disputes, payouts, settlement, failures, and exceptions.
-
-#### Admin Capabilities
-
-Admins must be able to:
-
-- log in;
-- access an operational dashboard;
-- access sensitive data only through role-based permission, masking, reason capture, and audit logging;
-- view payer accounts;
-- view payee accounts;
-- view Requests;
-- view obligation records;
-- view evidence;
-- review new payees;
-- review high-risk requests;
-- approve requests where applicable;
-- reject requests where applicable;
-- hold requests where applicable;
-- raise a support, query, or dispute case where enabled;
-- investigate duplicates;
-- review disputes;
-- review payment status;
-- review payout or settlement status where applicable;
-- manage failed payment exceptions;
-- manage payout exceptions where applicable;
-- manage refund or reversal workflows where applicable;
-- access audit logs.
-
-#### Admin Review Flow
-
-1. Request, user, evidence, dispute, or payment is flagged for review.
-2. Admin opens review queue.
-3. Admin reviews relevant context:
-   - payer;
-   - payee;
-   - request;
-   - amount;
-   - evidence;
-   - extracted fields and user corrections where applicable;
-   - evidence verification outcome;
-   - status history;
-   - duplicate indicators;
-   - risk indicators;
-   - dispute or clarification history.
-4. Admin selects an action:
-   - approve;
-   - reject;
-   - hold;
-   - raise a support, query, or dispute case where enabled;
-   - escalate;
-   - mark duplicate;
-   - cancel;
-   - resolve.
-5. System updates status where applicable.
-6. System notifies relevant users where applicable.
-7. System logs admin action.
-
-#### Admin Control Rules
-
-| Rule | Requirement |
-| --- | --- |
-| Permissioned access | Admin access must be role-based and controlled. |
-| Sensitive data access | Sensitive identity, evidence, payment, payout, risk, and promotion data must follow DOC-15 classification, masking, reason capture, and audit rules. |
-| Logged actions | Admin actions must be audit logged. |
-| Evidence access | Admin must be able to review evidence. |
-| OCR review support | Admin must be able to review extracted fields, user corrections, verification outcomes, and duplicate indicators where applicable. |
-| Exception handling | Admin must be able to manage operational exceptions. |
-| No silent overrides | Admin overrides must be traceable. |
-| Risk review support | MVP must support manual review where risk rules require it. |
-
----
-
----
-
-### Notification Touchpoints
+DOC-06A consumes the governed Individual-Payee eligibility/determination outcome; it does not determine Payee type or make an Admin determination. Institution/company and unresolved/insufficient Individual determination leave notification unavailable. A governed Individual determination plus Payer choice may expose an optional one-way informational capability only. It is not Request, Linking, acceptance, consent proof, invitation, reciprocal visibility, payment authorization or a payment-state change. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity/channel/template/preference/delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 represents approved data/audit requirements; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners. No Request notification behavior is active.
 
 #### Purpose
 
@@ -1016,16 +516,9 @@ Identifies where notifications are needed in the user journey. Notification cont
 
 #### User Notifications
 
-The MVP should support basic notifications for:
+The Payer-only MVP should support basic notifications for:
 
 - account registration;
-- Request created;
-- Request received;
-- request viewed;
-- request accepted;
-- request rejected;
-- payer-created record available for optional payee adoption/linking;
-- payee adopted payer-created record;
 - payment authorized;
 - payment instruction pending user action;
 - payment instruction partially funded;
@@ -1035,46 +528,19 @@ The MVP should support basic notifications for:
 - payment failed;
 - payout completed where applicable;
 - partial payout completed where applicable;
-- request cancelled;
-- request expired.
+- optional one-way informational notification to an eligible Individual Payee after governed eligibility and Payer choice; institution/company or unresolved/insufficient Individual determination remains unavailable.
 
-#### Admin Notifications or Queues
+#### Admin Notification and Queue Handoff
 
-The MVP should support admin queues or notifications for:
-
-- request requiring review;
-- high-risk request;
-- missing or invalid evidence;
-- evidence verification review required;
-- duplicate or reused evidence warning;
-- new payee review;
-- duplicate suspected;
-- dispute opened;
-- clarification unresolved;
-- payment failed;
-- payout failed where applicable;
-- refund or reversal review where applicable;
-- operational exception.
-
-#### Notification Channels
-
-Notification channels may include:
-
-- app notifications;
-- push notifications;
-- email;
-- SMS;
-- WhatsApp;
-- dashboard task;
-- other approved channels.
-
-Final channel routing, user preferences, templates, retry behavior, consent rules, and audit requirements should be defined in DOC-08 and implementation planning.
+Admin queue and notification eligibility remain owner-controlled. DOC-06A identifies only the broad handoff for Evidence, duplicate, risk, dispute, Payment, payout, refund/reversal and operational exceptions. DOC-09, DOC-10, DOC-11, DOC-12 and DOC-14 retain their respective domain policy and outcomes; DOC-15 governs access and retention; DOC-18 represents approved event and audit requirements; DOC-21 owns support/operations; and DOC-22 owns permitted Admin execution. DOC-06A defines none of their queues, actions, permissions, dispositions, channels, providers, templates, delivery, retry, preference, consent or retention mechanics.
 
 ---
 
 ---
 
-### Receipt and History Touchpoints
+### Receipt and History Touchpoints  - Current Payer Boundary
+
+Confirmed Payment has a separate Payment ID linked to the authoritative Bill/Rent ID. A source already saved/Active before Payment retains that projection without duplicate Save. For an otherwise unsaved source, Payment Result must resolve selected Save to same-ID Active/reusable or declined/skipped/dismissed/closed Save to same-ID history-only before Activity, Payment History, Receipt or ordinary safe exit. Those records exist independently of Save, but they do not provide a bypass; no Save-from-Activity or Unsave action exists. DOC-09 owns Payment lifecycle and record meaning, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage. Retired Request/Linking IDs remain non-active documentation evidence only.
 
 #### Purpose
 
@@ -1082,29 +548,22 @@ Identifies where users and admins need access to prior actions, statuses, confir
 
 #### User History
 
-Payers and payees should be able to view:
+Payers should be able to view:
 
-- created requests;
-- received requests;
-- linked obligation records;
-- evidence records subject to permissions;
-- request status;
+- the authoritative Bill/Rent source and its permitted projections;
+- Evidence records subject to owner-controlled access;
 - payment status;
 - payout status where applicable;
-- clarification history;
 - dispute history;
 - completed payment records;
 - failed payment records;
-- rejected requests;
-- cancelled requests;
-- expired requests;
-- receipts or confirmations.
+- receipts or confirmations. Retired Request/Linking IDs are not an active user or runtime-reader surface.
 
 #### Receipt or Confirmation Contents
 
 A receipt or confirmation should include:
 
-- request ID;
+- Bill/Rent source reference;
 - payment ID where applicable;
 - payer;
 - payee;
@@ -1122,12 +581,12 @@ A receipt or confirmation should include:
 
 | Rule | Requirement |
 | --- | --- |
-| Traceability | User-visible history must link to the underlying request/payment context. |
-| Role permissions | History must show role-appropriate information. |
+| Traceability | User-visible history must link to the authoritative Bill/Rent and Payment context; retired Request IDs remain non-active documentation lineage only. |
+| Role permissions | Payer history and controlled support/Admin readers show only owner-approved information. |
 | Audit separation | User history is not the same as full admin audit logs. |
-| Failed and exception visibility | Failed payment outcomes, rejected/cancelled/expired request states, and linked dispute/support cases must remain visible in their owning surfaces. |
+| Failed and exception visibility | Failed Payment outcomes and linked dispute/support cases remain visible in their owning surfaces; retired Request states are not runtime-reader content. |
 | Receipt storage | Completed payments should have receipt or confirmation records. |
-| Retention baseline | Receipt, payment, account, tax, and audit records are expected to be retained for 7 years, subject to final privacy and legal review. |
+| Retention baseline | DOC-15 owns the Founder-settled indefinite-retention requirement plus privacy classification, access and masking controls; this journey document defines no storage or disposition mechanism. |
 
 ---
 
@@ -1137,47 +596,34 @@ A receipt or confirmation should include:
 
 #### Failed Payment
 
-1. Payment processing fails.
-2. System updates status to **Failed**.
-3. System records failure reason where available.
-4. Payer is notified.
-5. Payee is notified where applicable.
-6. Admin can review failure.
+1. A payment attempt is authoritatively unsuccessful without a confirmed Payment for that attempt.
+2. DOC-09 and the applicable data/status owner record and expose the owner-approved unsuccessful outcome for the affected attempt or Checkout context; DOC-06A does not define a new `Failed` status or assign it to an unspecified object.
+3. An owner-approved failure reason may be presented where available and permitted.
+4. Payer notification follows the applicable owner-defined behavior.
+5. Any Payee-facing notification remains subject to governed Individual eligibility plus affirmative Payer choice; it is not automatic and is unavailable for institution/company or unresolved/insufficient Individual determination.
+6. Where an owner-controlled support or Admin review is required, the journey hands off to the applicable DOC-09/DOC-21/DOC-22 process without defining its queue, permission, action or disposition.
 7. User may retry only if allowed by approved rules.
+8. If no Payment is confirmed, no post-Payment Save outcome is created. Any separate newly confirmed Payment in the same Checkout follows the required existing-projection or Save-resolution boundary before Activity, Receipt or ordinary safe exit.
 
-#### Cancelled Request
+#### Retired Request Concepts
 
-1. Eligible user or admin cancels request.
-2. System checks whether cancellation is allowed.
-3. System updates status to **Cancelled**.
-4. System notifies relevant parties.
-5. System logs cancellation event.
-6. Cancelled request cannot be paid unless recreated or reopened under approved rules.
+Request cancellation, expiry and response meanings remain append-only documentation history only. DOC-06A defines no active Request route, runtime reader, notification, state transition, adapter, fallback, reopening or replacement behavior.
 
-#### Expired Request
+#### Duplicate or Reused Evidence and Source Review
 
-1. Request passes expiry date or expiry condition.
-2. System updates status to **Expired**.
-3. System notifies relevant parties.
-4. Expired request cannot be paid unless renewed, recreated, or reopened under approved rules.
-
-#### Duplicate Request
-
-1. System or admin detects possible duplicate request, duplicate evidence, or reused evidence.
-2. User may be warned that the evidence appears to have been used before, subject to DOC-12 privacy and anti-tipping-off rules.
-3. Request is flagged for review where configured.
-4. Admin reviews duplicate indicators.
-5. Admin may hold, reject, clarify, or allow request.
-6. System logs duplicate review outcome.
+1. Applicable DOC-12 Evidence controls and DOC-14 risk controls may identify duplicate/reused Evidence or source indicators.
+2. The Payer may receive an owner-approved safe clarification where permitted, subject to privacy and anti-tipping-off controls.
+3. Payment progression follows the applicable owner-controlled Evidence, risk and payment gates; DOC-06A does not create a Request object, Request state, queue, lifecycle, acceptance, reopening or replacement runtime, and it does not define Admin dispositions or permissions.
+4. DOC-12 and DOC-14 retain Evidence/risk outcome authority, DOC-18 represents approved audit lineage, and DOC-22 executes only the permitted Admin review under those owner rules.
 
 #### Refund or Reversal
 
 1. Refund or reversal need is identified.
-2. Admin reviews request, payment, evidence, and status history.
-3. Admin follows approved operational process.
-4. System records refund or reversal status.
-5. Payer and payee are notified where applicable.
-6. System logs all actions.
+2. Where DOC-11 requires controlled review, the applicable owner process receives only the authorized case, Payment, Evidence, source and historical-lineage context; DOC-22 executes only the permitted Admin handling.
+3. The journey consumes the owner-controlled review outcome without defining Admin actions, permissions or dispositions.
+4. The applicable DOC-11/DOC-18 owner records and exposes the approved refund or reversal outcome.
+5. Payer notification follows the applicable owner-defined behavior. Any Payee-facing notification remains subject to governed Individual eligibility plus affirmative Payer choice and is never automatic.
+6. DOC-11 defines the required case/outcome lineage, DOC-18 represents the approved audit lineage, and DOC-22 records only its permitted execution under those requirements.
 
 Refund and reversal rules belong in DOC-11. Payment, payout, reconciliation, and admin workflow details belong in DOC-09, DOC-10, DOC-18, DOC-21, and DOC-22.
 
@@ -1187,14 +633,14 @@ Refund and reversal rules belong in DOC-11. Payment, payout, reconciliation, and
 
 ## 6. Local Open Questions
 
-Core journey open questions should remain here when they affect payer/payee/admin/system journeys generally. Cross-document blockers should also be linked in docs/traceability/open-questions-register.md.
+Core journey open questions should remain here when they affect Payer journeys, recipient-policy handoffs, Admin/operations handoffs, or system journeys generally. Cross-document blockers should also be linked in docs/traceability/open-questions-register.md.
 
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
-| OQ-06-001 | What exact UX language should distinguish a Request, Bill/Rent obligation record, Payment Obligation, Checkout Workspace, and confirmed Payment while preserving their accepted domain boundaries? | Product / Design / Payments | Open |
-| OQ-06-002 | Which exceptional payer-created categories, if any, require payee adoption before payment can proceed despite the default rule that payer-created payments do not require payee acceptance? | Product / Operations / Risk | Open |
-| OQ-06-003 | Which payee-created request categories require admin review before payer authorization? | Risk / Operations | Open |
-| OQ-06-004 | Which evidence categories are accepted at MVP launch? | Product / Compliance | Open |
+| OQ-06-001 | Retired under the Payer-only target: no Request-facing UX or runtime record exists. The current Draft distinguishes the authoritative Bill/Rent source, Payable Basis, Payment Obligation, Checkout Workspace and confirmed Payment under their owners. | Product / Design / Payments | Answered/retired; later technical representation remains owner work |
+| OQ-06-002 | Retired under the Payer-only target: no Payee adoption requirement or active Payee-created category is defined by DOC-06A. Any future participant capability requires a separately governed Proposal. | Product / Operations / Risk | Retired |
+| OQ-06-003 | Retired under the Payer-only target: no Payee-created Request category, active Request Admin flow or runtime historical reader is defined by DOC-06A. | Risk / Operations | Retired |
+| OQ-06-004 | What DOC-12-owned Evidence forms and criteria apply to each accepted launch Bill Category and to the separate Rent journey? | DOC-12 / Product / Compliance | Open; the twelve-category inventory itself is settled |
 | OQ-06-005 | Which rent and tenancy journey controls must be ready before initial launch enablement? | Product / Legal / Risk | Open |
 | OQ-06-006 | What final KYC/KYB screens, provider handoff, failure states, exception states, and risk-tier steps are required for the baseline onboarding model? | Compliance / Legal | Open |
 | OQ-06-007 | What payment methods are available to payers at MVP launch? | Payments / Product | Open |
@@ -1203,7 +649,7 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-010 | What detailed dispute case types, action outcomes, service levels, and payment/payout hold rules are required beyond the accepted `Open`, `Pending Information`, `Under Review`, `Resolved`, and `Closed` case lifecycle? | Operations / Legal | Open |
 | OQ-06-011 | What refund or reversal journeys are supported in MVP? | Payments / Operations | Open |
 | OQ-06-012 | What routing, preferences, templates, consent rules, and fallback behavior apply across app, push, email, SMS, and WhatsApp notifications? | Product / Engineering | Open |
-| OQ-06-013 | What admin roles and permission levels are required? | Operations / Security | Open |
+| OQ-06-013 | What permitted Admin execution roles and permission levels must DOC-22 define under the applicable security and DOC-15 privacy/access requirements? | Operations / Security / Privacy | Deferred owner handoff; DOC-06A defines no role or permission |
 | OQ-06-014 | What information should be hidden or masked between payer and payee? | Product / Security / Legal | Open |
 | OQ-06-015 | What duplicate detection signals are required for MVP? | Risk / Engineering | Open |
 | OQ-06-016 | What OCR/autofill review UI is required for each evidence category? | Product / Design | Open |
@@ -1211,25 +657,24 @@ Core journey open questions should remain here when they affect payer/payee/admi
 | OQ-06-018 | What separate dormant-account reauthentication threshold, if any, should apply beyond the confirmed rolling one-month Fast Login eligibility period? | Product / Security | Partially open; Fast Login period defined |
 | OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
 | OQ-06-020 | What exact payment-instruction screen labels, call-to-action wording, and partial-funded visual treatment should be used? | Product / Design / Legal | Open |
-| OQ-06-021 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, and future added-button layout should be used within the confirmed five-action order and behavior? | Product / Design / Payments | Partially open; behavior defined in DOC-06B |
+| OQ-06-021 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, responsive treatment and accessibility implementation should be used within the confirmed four-action Payer-only order and behavior? | Product / Design / Payments | Partially open; composition, order, material meaning and Request Payment retirement are settled in DOC-06B |
 | OQ-06-022 | What route-level IA remains to be defined in DOC-06B for Support and other incomplete secondary routes? Me, More, Offers, Rewards, and Referral route boundaries are defined. | Product / Design | Open |
-| OQ-06-023 | What final styling and optional post-replacement Undo should apply to the defined `MORE-ROOT` behavior? The shortcut maximum, protected More entry, reorder/remove/add behavior, account-level preference, current-default restore, and admin-default mechanism are decided. | Product / Design / Operations | Partially open |
+| OQ-06-023 | What final styling and optional post-replacement Undo should apply to the defined `MORE-ROOT` behavior? The shortcut maximum, protected More entry, reorder/remove/add behavior, account-level preference, current-default restore, owner-approved default and permitted Admin-configuration mechanism are decided. | Product / Design / Operations | Partially open |
 | OQ-06-024 | What final visual design, exact DOC-07 Copy and identifiers, technical session mechanics, adopted-platform accessibility implementation, and DOC-20 evidence should apply to the decided HOME-ROOT Important Notice baseline? Its Home consumption of source-provided ordering, session dismissal, Detail and source-action routing, return, and zero-state behavior are defined in DOC-06B; DOC-08 and source owners retain notification and business meaning. | Product / Operations / Compliance | Partially open; Home behavior decided, residual owner dependencies pending |
 | OQ-06-025 | What final visual design, exact DOC-07 Copy and identifiers, technical carousel mechanics, adopted-platform accessibility implementation, and DOC-20 evidence should apply to the decided Home Hot Offer baseline? Its Home cap, Admin selection and ordering, rotation and interaction, canonical restrictions, and `OFFER-DETAIL` handoff are defined through DOC-06B and its formal source-owner handoffs. | Product / Growth / Operations | Partially open; Home behavior decided, residual owner dependencies pending |
-| OQ-06-026 | What final user-initiated payee linking or invitation mechanism should be used: user ID, phone search, app link, WhatsApp deeplink, QR code, or another approved flow? | Product / Privacy / Engineering | Open |
+| OQ-06-026 | If a future participant Linking or invitation capability is proposed after MVP, what separately governed domain and privacy/security review should define it? | Product / Privacy / Engineering | Deferred; no active Linking or invitation behavior |
 | OQ-06-027 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
 | OQ-06-028 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
-| OQ-06-029 | What exact request-delivery and `Remind Payer` UX should apply inside `BILLS-RECEIVE`, including resend limits, payer acceptance states, wording, and notification-channel rules? | Product / Design / Operations | Open |
+| OQ-06-029 | Retired: Founder confirmed there is no production Request/BILLS-RECEIVE runtime or legacy deep-link data requiring a reader, adapter or fallback. | Product / Design / Operations | Answered/retired |
 | OQ-06-030 | The reviewed DOC-06B Section 5.20 adaptive UI contract and decided Bill/Rent, Instruction `Pay Now`, and `NOTIFICATION-DETAIL`-first entry contracts establish route-level `PAYMENT-CHECKOUT` behavior as a Defined baseline without imposing one fixed screen order. DEC-2026-037 establishes the accepted DOC-07 logical Semantic, Disclosure, CTA, Reference, Registry, non-executable Composition, and Bounded Domain Slice architecture. Which remaining exact Copy, IDs, CTA labels, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical contracts, prototype and accessibility/user-validation evidence, implementation/UAT, and acceptance evidence must the applicable owners complete? | Product / Design / Payments | Partially open; route-level UI/UX, entry contracts, and logical communication architecture are decided, while exact expression and mappings plus named source-owner, technical, prototype, validation, implementation/UAT, and acceptance dependencies remain pending. |
-
----
-
----
 
 ## 7. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.1.23 | 2026-08-12 | Applied the Founder-settled indefinite-retention boundary to the journey handoff without introducing storage or disposition mechanics. |
+| 0.1.22 | 2026-08-12 | Clarified that the active Payer-only journey baseline stands independently of non-active documentation lineage; no journey, route, or interaction behavior changed. |
+| 0.1.21 | 2026-08-12 | Stage 8 Wave 2 Draft: aligned Payer-only Bill/Rent journeys to the accepted Category inventory, removed nonexistent Request-runtime/readers/deep-link obligations, preserved source/Save/readiness and notification boundaries, and kept Admin treatment at bounded specialist-owner handoffs. |
 | 0.1.20 | 2026-08-06 | Narrowed OQ-06-024 and OQ-06-025 to final visual, Copy/identifier, technical, adopted-platform accessibility-implementation, and DOC-20 evidence dependencies after the HOME-ROOT Important Notice and Home Hot Offer route-level baselines were decided in DOC-06B. |
 | 0.1.19 | 2026-08-05 | Recognized `PAYMENT-CHECKOUT` as a Defined baseline and DEC-2026-037 as the accepted logical communication architecture while retaining exact Copy, identifiers, CTA labels, Locale Variants, Presentation Mappings, Bill/Rent source detail, technical, prototype, validation, implementation/UAT, and acceptance dependencies in OQ-06-030. |
 | 0.1.18 | 2026-08-04 | Recorded the decided Instruction `Pay Now` Checkout Resolver and mandatory `NOTIFICATION-DETAIL` entry contracts while retaining Bill/Rent handoff, DOC-07 communication, technical, prototype, validation, and implementation/UAT dependencies. |

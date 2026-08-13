@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Domain Architecture
-version: 1.1.2
+version: 1.2.1
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-08-05
+last_updated: 2026-08-13
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Domain Architecture |
-| **Version** | `1.1.2` |
+| **Version** | `1.2.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-08-05` |
+| **Last Updated** | `2026-08-13` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
 
@@ -90,10 +90,9 @@ DOC-09 defines business architecture, invariants and semantic conditions. It doe
 
 ### 2.1 Upstream Concepts
 
-- Evidence supports verification of a Bill/Rent. Evidence is not payable.
-- A Link Request may establish a Bill/Rent relationship between parties. A Request is not a payment.
-- A payer-created Bill/Rent does not require a Link Request or payee acceptance by default.
-- Bill/Rent remains the authoritative business object outside the Payment Domain.
+- Evidence supports verification of an authoritative Bill/Rent source. Evidence is not payable.
+- A Payer establishes and references the authoritative Bill/Rent source under the applicable owner-governed source and Evidence outcomes. An economic Payee may be an individual or institution/company and need not be a PayPlus User.
+- Bill/Rent remains the authoritative business object outside the Payment Domain. DOC-09 does not define source-identity persistence, Evidence verification, source projection, Save, or Archive presentation.
 
 ### 2.2 Payment Domain Entry
 
@@ -138,7 +137,6 @@ Checkout executes only against Payment Obligations.
 It must not execute directly against:
 
 - Evidence;
-- Link Request;
 - Bill/Rent;
 - Projection; or
 - Bill/Rent Payable Basis.
@@ -155,7 +153,7 @@ It must not execute directly against:
 | User-facing Outcomes, Messages and CTAs | DOC-07 |
 | Notifications and delivery policy | DOC-08 |
 | Operational support and exception handling | DOC-21 |
-| Controlled administrative exception workflow | DOC-22 |
+| Owner-permitted administrative workflow execution | DOC-22 |
 
 ---
 
@@ -275,7 +273,6 @@ A later effective financial adjustment does not rewrite this history. It contrib
 ```text
 Upstream Business Domain
 ├── Evidence
-├── Link Request
 └── Bill/Rent
 
 Payment Domain
@@ -313,8 +310,7 @@ This tree expresses classification and genuine aggregate ownership only. It does
 
 ```mermaid
 flowchart TD
-    EV["Evidence"] -->|supports| BR["Bill / Rent"]
-    LR["Link Request"] -.->|optionally links parties to| BR
+    EV["Evidence"] -->|supports verification of| BR["Authoritative Bill / Rent source"]
 
     BR -->|supplies payment-relevant facts| PB["Bill / Rent Payable Basis"]
     PB -->|derives scheduling view| PR["Projection"]
@@ -522,14 +518,22 @@ Gross Applied Value
 Effective Adjustment Value
     = sum of effective obligation-attributed coverage reductions
 
+Applicable Adjustment Effect
+    = the portion of Effective Adjustment Value legally attributable to
+      existing valid Payment Application coverage, bounded by Gross Applied Value
+
 Effective Coverage
-    = Gross Applied Value - Effective Adjustment Value
+    = max(0, Gross Applied Value - Applicable Adjustment Effect)
 
 Outstanding Amount
     = Due Amount - Effective Coverage
 ```
 
-Payment Obligation derives all four values.
+Payment Obligation derives these calculation values.
+
+`Effective Adjustment Value` remains the authoritative adjustment fact received from DOC-11. `Applicable Adjustment Effect` is only a bounded calculation input; it is not a new object, status, event or financial record. An adjustment must never make Effective Coverage negative, fabricate a Payment Application, or create fictional obligation coverage. When a confirmed Payment has zero or insufficient valid Applications, only the legally attributable portion may affect coverage arithmetic; any remaining adjustment value remains an authoritative adjustment fact outside that arithmetic under the existing DOC-10/DOC-11 settlement, reconciliation or adjustment boundary.
+
+Example: Payment 100 with zero Applications and an adjustment of 30 produces Effective Coverage 0; the 30 adjustment fact remains outside coverage arithmetic. If valid Applications of 100 later exist and the applicable adjustment effect is 30, Effective Coverage is 70.
 
 The domain must preserve:
 
@@ -554,9 +558,9 @@ When DOC-11 determines that an obligation-attributed adjustment has become effec
 
 - Payment remains unchanged;
 - Payment Application remains unchanged;
-- Effective Adjustment Value increases by the applicable amount;
-- Effective Coverage decreases;
-- Outstanding Amount increases;
+- Effective Adjustment Value increases by the full effective adjustment fact, while Applicable Adjustment Effect is calculated separately and remains bounded by valid Gross Applied Value;
+- Effective Coverage decreases only by Applicable Adjustment Effect and cannot become negative;
+- Outstanding Amount increases only by the same Applicable Adjustment Effect;
 - payable capacity reopens on Payment Obligation;
 - Projection and payment-period eligibility are recalculated;
 - a subsequent eligible Checkout may target reopened Outstanding Amount.
@@ -589,7 +593,7 @@ The Effective Payout Destination Snapshot must be resolved and frozen no later t
 
 Every Payment produced by Checkout must preserve a reference to that authorization-time snapshot.
 
-Later changes to Bill/Rent information, payee profile, receiving information or payout configuration must not silently alter an authorized Checkout or confirmed Payment.
+Later changes to Bill/Rent information, intended-Payee facts, or payout configuration must not silently alter an authorized Checkout or confirmed Payment.
 
 Settlement and Payout consume the preserved destination reference. Material post-authorization changes require controlled handling and, where applicable, renewed payer authorization.
 
@@ -871,7 +875,7 @@ While Payment remains unapplied:
 Normal payout eligibility requires:
 
 - accepted Payment Applications; or
-- another explicit controlled downstream resolution owned by DOC-10 and DOC-11.
+- another explicit controlled downstream resolution owned by DOC-10 and DOC-11 that does not derive payout amount or readiness from adjustment value outside valid Payment Application coverage.
 
 DOC-09 supplies only the business condition that Payment is confirmed but unapplied. It does not define Settlement timing, payout timing, payout grouping, accounting treatment or return mechanics.
 
@@ -1122,7 +1126,7 @@ Status-display reference matrix owns display mapping. DOC-07 owns Outcomes, Mess
 | Settlement and Payout | Outbound downstream boundary | Supply confirmed Payment and destination facts without defining timing or readiness. | DOC-10 owns downstream lifecycle. |
 | User Outcome Context | Outbound presentation boundary | Supply semantic condition and decision context. | DOC-07 owns Outcome, Message and CTA. |
 | Notification Context | Outbound communication boundary | Supply triggering business result. | DOC-08 owns notification identity, channel and delivery. |
-| Late-Confirmation Exception | Shared operational escalation boundary | Prohibit automatic application and require controlled capacity review and new reservations where application is authorized. | DOC-21 owns operational handling; DOC-22 owns authorized administrative handling. |
+| Late-Confirmation Exception | Shared operational escalation boundary | Prohibit automatic application and require controlled capacity review and new reservations where application is authorized. | DOC-21 owns operational handling; DOC-22 executes only the owner-permitted administrative workflow. |
 | Machine Implementation | Downstream technical specification | Supply invariants, business semantics, inputs and expected outputs. | DOC-18 owns implementation. |
 | Acceptance Testing | Downstream verification specification | Supply testable domain requirements. | DOC-20 owns test and acceptance evidence. |
 
@@ -1197,7 +1201,7 @@ DOC-09 publishes the canonical completed `Payment Complete` and distinct `Partia
 
 Each published outcome supplies its canonical outcome identity, canonical ordering timestamp, canonical amount, and canonical funds-flow direction. These values retain their DOC-09 meaning at the handoff boundary.
 
-Funding events, Provider Submission or confirmation events, Payment Applications, instructions, requests, failures, intermediate states, and general Bill/Rent changes are not completed Payment outcomes merely because they support one.
+Funding events, Provider Submission or confirmation events, Payment Applications, instructions, failures, intermediate states, and general Bill/Rent changes are not completed Payment outcomes merely because they support one.
 
 DOC-09 does not create a cross-domain activity model. DOC-06B is the sole normative owner of Home inclusion/exclusion, cap, ordering, supporting-event deduplication, shared presentation, navigation, entry, and return behavior. DOC-07 owns user-facing outcome expression; DOC-18 remains the future owner of physical fields, event/status taxonomy, lineage, and audit representation.
 
@@ -1207,7 +1211,7 @@ DOC-09 does not create a cross-domain activity model. DOC-06B is the sole normat
 
 DOC-09 is satisfied when implementation and downstream specifications demonstrate that:
 
-1. Evidence and Link Request cannot be executed as payment objects.
+1. Evidence and the authoritative Bill/Rent source cannot be executed as payment objects.
 2. Checkout consumes only Payment Obligations.
 3. Projection is the normal scheduling path but not mandatory for every Materialization.
 4. Both approved Materialization paths use authoritative Payable Basis facts.
@@ -1257,13 +1261,15 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 48. Effective adjustments reduce coverage and increase Outstanding Amount.
 49. Effective adjustments reopen obligation capacity, not historical Checkout.
 50. Projection and eligibility use updated Outstanding Amount.
+50A. Applicable Adjustment Effect is no greater than valid Gross Applied Value.
+50B. A zero- or insufficient-Application Payment does not fabricate a Payment Application or fictional obligation coverage; any excess adjustment remains an authoritative adjustment fact outside coverage arithmetic under the existing DOC-10/DOC-11 controlled boundary.
 51. Effective Payout Destination Snapshot is frozen no later than final payer authorization.
 52. Every Payment produced by Checkout preserves destination-snapshot reference.
 53. Closing or expiring Checkout preserves confirmed financial facts.
 54. Only one active continuable Checkout exists for one Bill/Rent Payable Basis.
 55. Unapplied Payment is not normal payee payout-eligible value.
 56. Unapplied Payment may still require Settlement and reconciliation handling under DOC-10.
-57. Normal payout eligibility requires accepted Payment Applications or explicit controlled downstream resolution.
+57. Normal payout eligibility requires accepted Payment Applications or explicit controlled downstream resolution that does not derive payout amount or readiness from adjustment value outside valid Payment Application coverage.
 58. Machine-state design remains with DOC-18.
 59. Adjustment workflow remains with DOC-11.
 60. Outcomes, Messages and CTAs remain with DOC-07.
@@ -1281,6 +1287,8 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.2.1 | 2026-08-13 | Product Documentation Team | Bounded effective adjustment impact to valid Payment Application coverage, preserving immutable Payment and adjustment facts and the controlled zero-Application exception without adding a financial object or mechanism. |
+| 1.2.0 | 2026-08-12 | Product Documentation Team | Replaced active Request and Link Request payment-domain references with the Payer-established authoritative Bill/Rent source boundary; preserved the accepted Payable Basis, Payment Obligation, Checkout, Funding Leg, immutable Payment, Payment Application, late-confirmation, and downstream-owner invariants. |
 | 1.1.2 | 2026-08-05 | Product Documentation Team | Added the bounded HOME-ROOT Recent Activity Payment handoff by publishing canonical Payment Complete and distinct Partial Payment outcome identity, ordering timestamp, amount, and funds-flow direction while retaining Home inclusion, ordering, deduplication, presentation, navigation, and return behavior in DOC-06B. |
 | 1.1.1 | 2026-08-04 | Product Documentation Team | Defined Instruction `Pay Now` as invoking the Checkout Resolver, including current validation, active-Checkout precedence, eligible later creation, explicit source-owner resolution, retained history, and no stale authorization or silent funding/submission behavior. |
 | 1.1.0 | 2026-07-31 | Product Documentation Team | Established the Founder Working Baseline for the Payment Domain Architecture, including the accepted architecture, canonical terminology, invariants, decision coverage, acceptance criteria, and canonical filename. |

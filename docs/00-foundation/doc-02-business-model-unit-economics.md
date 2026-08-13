@@ -1,7 +1,7 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 0.9.3
+version: 0.11.0
 status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
@@ -15,7 +15,7 @@ approvers:
   - Project Owner
   - Finance Lead
   - Commercial Lead
-last_updated: 2026-07-31
+last_updated: 2026-08-12
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -37,210 +37,139 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-02` |
 | **Title** | Business Model & Unit Economics |
-| **Version** | `0.9.3` |
+| **Version** | `0.11.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Commercial / Finance Owner |
 | **Reviewers** | Product Lead<br>Finance Lead<br>Commercial Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Finance Lead<br>Commercial Lead |
-| **Last Updated** | `2026-07-31` |
+| **Last Updated** | `2026-08-12` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
 ---
 
+
 ## 1. Purpose
 
-This document defines the commercial framework and unit economics model for PayPlus.
+This document defines the commercial framework and unit-economics model for PayPlus.
 
-It explains how PayPlus may generate revenue, incur costs, evaluate profitability, govern pricing, manage promotions, and determine whether a category, payment method, request type, payee type, partner model, or campaign is commercially viable.
+It explains how PayPlus may generate revenue, incur costs, evaluate profitability, govern pricing, manage promotions and assess whether a controlled Bill Category, Rent journey, economic-Payee type, Institutional Payee Programme, payment method, partner model or campaign is commercially viable.
 
-`DOC-02` is a foundation document.
-
-It guides downstream product, finance, payments, risk, promotion, reconciliation, operations, payee onboarding, and reporting documentation.
-
-This document does not define final pricing, accounting policy, tax treatment, legal conclusions, partner contract terms, payment processing rules, payout rules, reconciliation procedures, promotion logic, or payee commercial terms.
-
-Those topics must be confirmed in downstream documents, partner agreements, finance policies, tax review, and legal/compliance review.
+DOC-02 consumes the product meanings owned by DOC-01 and DOC-05. It does not define product eligibility, Directory truth, final pricing, accounting policy, tax treatment, legal conclusions, partner terms, payment or payout rules, promotion logic, or Institutional Programme commercial approval.
 
 ---
 
 ## 2. Commercial Objective
 
-The commercial objective of PayPlus is to create a sustainable bill payment business where approved revenue sources exceed the full variable and allocated costs of processing, paying, verifying, supporting, and managing each request or transaction.
+PayPlus aims to create a sustainable Evidence-Backed Bill/Rent payment business in which approved revenue exceeds the full variable and allocated cost of processing, paying, verifying, supporting and governing each transaction and applicable programme activity.
 
-PayPlus should only scale a category, request model, payee type, payment method, promotion, partner program, or geography when unit economics are understood and acceptable.
+Profitability should be evaluated by:
 
-PayPlus should evaluate profitability at the following levels:
+- transaction and Payer;
+- economic-Payee class and, where appropriate, institution;
+- supported controlled Bill Category or Rent;
+- institutional programme, Category association and publication activity;
+- campaign and partner;
+- payment and payout method;
+- geography and product line.
 
-- transaction;
-- request;
-- user or payer;
-- payee;
-- request creator type;
-- payee type;
-- bill category;
-- campaign;
-- partner;
-- payment method;
-- payout method;
-- geography or jurisdiction;
-- product line.
-
-For payee-created requests, PayPlus must separately assess:
-
-- payee onboarding and verification cost;
-- request creation and delivery cost;
-- payer acceptance and completion rate;
-- payer rejection, query, dispute, and expiration rate;
-- evidence review cost;
-- payee support cost;
-- fraud, fake invoice, fake rent, collusion, and cashout loss assumptions;
-- payee-side revenue, if any;
-- incremental completed payment volume;
-- incremental operational load.
+Retained Directory-selected or Self-provided provenance is available only for audit and troubleshooting under DOC-05. It must not become a pricing, promotion, profitability, margin-allocation, eligibility or general commercial-reporting dimension. Finance may model aggregate operating costs for the two product processes without using retained transaction provenance.
 
 ### 2.1 Current Commercial Baseline
 
-Payee-created requests and bill, fee, and rent/tenancy payments are MVP scope from a product perspective. Invoice and other approved-obligation categories are MVP where evidence, payee, payment, payout, and risk controls are enabled.
+The product baseline is Payer-only. Active Payee-created Request, Request delivery, acceptance/conversion funnel, Payee-user portal and Request/Linking economics are retired from current MVP treatment.
 
-From a commercial perspective, they remain gated by:
+Commercial assessment must include:
 
 - PSP/acquirer pricing and acceptance;
-- payout cost and settlement timing;
-- payee onboarding and verification cost;
-- payer acceptance and completion rate;
-- support, dispute, refund, chargeback, fraud, and manual review cost;
-- category-level contribution margin;
-- approved fee disclosure and fee recovery model.
+- payout cost, settlement timing, reserves and liquidity;
+- transaction Evidence, Payee, destination, risk, support and reconciliation cost;
+- institutional enrolment/KYB, Category association and Directory publication cost where applicable;
+- aggregate verification and review cost for controlled Directory and Self-provided operating processes;
+- scoped type-label review and permitted individual-notification cost where applicable;
+- category-level contribution margin and approved fee recovery.
 
-Each commercial module, fee model, category, payee type, promotion, and payout method should be independently configurable or disableable.
+The current candidate fee baseline remains an online-payment service fee calculated as a percentage of transaction amount. Exact rates, allocation, subsidies, promotions, refunds and reversals remain unresolved.
 
-The current fee model baseline is an online payment processing service fee calculated as a percentage of transaction amount. Payer fees, payee fees, subsidies, coupons, promotion codes, discount codes, refunds, reversals, and exact rate logic remain to be confirmed.
-
-Fee rates, fee allocation, subsidies, coupons, promotion codes, discount codes, refund handling, and reversal treatment should be configurable in the admin dashboard so pricing decisions can change without blocking documentation drafting.
-
-The current payout timing baseline assumes payment gateway settlement of T+1 to T+3 and payout from the PayPlus operating bank account on the same day after upstream settlement, subject to final bank, PSP/acquirer, liquidity, reserve, and reconciliation approval.
+DOC-22 may execute approved pricing configuration. Admin configurability does not make or replace a pricing, contract, legal, tax or commercial-approval decision.
 
 ---
 
 ## 3. Business Model Summary
 
-PayPlus may use one or more approved business model components.
+| Model component | Candidate use |
+|---|---|
+| Payer-paid service fee | Core candidate transaction model; requires pre-authorization disclosure. |
+| Percentage, fixed or minimum transaction fee | Candidate structures subject to approval. |
+| Contracted institutional/biller fee | Possible onboarding, programme, platform, payout or transaction fee only where separately approved and contracted. |
+| Split-fee or institutional subsidy | Possible with clear disclosure and approved accounting. |
+| Partner-funded subsidy or campaign | Possible where funding, limits and reporting are controlled. |
+| Promotion-funded model | Growth mechanism with approved budget and margin guardrails. |
+| Revenue share | Possible where contractually permitted and included in margin. |
+| Subscription or membership | Future candidate; no Payee-user portal or Request capability is implied. |
+| API/platform fee | Future partner or institutional candidate; no runtime feature is authorized here. |
+| Sponsored placement | Future gated candidate requiring product, legal and disclosure approval. |
 
-| Model Component | Description | Candidate Use |
-| --- | --- | --- |
-| Payer-paid service fee | Payer pays a fee when funding a direct payer-created payment or a Payment Obligation reached through an accepted payee-created Request. | Core candidate model. |
-| Percentage fee | Fee calculated as a percentage of bill amount or funded amount. | Candidate core fee model. |
-| Fixed fee | Flat fee per request, transaction, payout, or other approved event. | Candidate supplemental model. |
-| Minimum fee | Fee floor to avoid negative economics on small transactions. | Candidate margin protection. |
-| Payee-paid fee | Payee pays onboarding, request, platform, subscription, payout, collection, or transaction fee. | Candidate payee-side model. |
-| Biller-paid fee | Biller or payee pays PayPlus to receive payments or access payer demand. | Possible where partnerships exist. |
-| Split-fee model | Payer and payee each bear part of the fee. | Possible with clear disclosure. |
-| Payee-subsidized payer fee | Payee funds part or all of the payer fee. | Possible for conversion or collection use cases. |
-| Partner-funded subsidy | Partner funds part of transaction cost or user incentive. | Possible for campaigns or acquisition. |
-| Promotion-funded model | PayPlus or partner funds discounts, cashback, credits, or rewards. | Growth mechanism; must be controlled. |
-| Revenue share | PayPlus receives or pays a share of fees with partners, billers, payees, or affiliates. | Possible if contractually allowed. |
-| Subscription or membership | User or payee pays recurring fee for preferred pricing, portal access, or benefits. | Future candidate. |
-| API or platform fees | Partners or payees pay for API access or transaction processing. | Future candidate. |
-| Advertisement or sponsored placement | Approved partners pay for placement or offers. | Future candidate; requires policy and disclosure. |
-
-No business model component should launch until commercial, compliance, legal, accounting, tax, product, operational, and partner impacts are assessed.
-
-Payee-side fees must not obscure payer-facing fees or mislead either party about the total cost of payment.
+No component launches without commercial, compliance, legal, accounting, tax, product, operational and partner review.
 
 ---
 
 ## 4. Revenue Streams
 
-Candidate revenue streams include:
+Candidate revenue may include Payer service fees, contracted institutional/biller/programme fees, payout or special-handling fees, partner subsidy, campaign funding, approved revenue share, and future separately approved platform or subscription revenue.
 
-| Revenue Stream | Description | Notes |
-| --- | --- | --- |
-| Service fee | Fee charged to user or payer per transaction. | Must be disclosed before payment confirmation. |
-| Payer service fee | Fee charged when payer authorizes payment. | May apply to a direct payer-created payment or a Payment Obligation reached through an accepted payee-created Request. |
-| Payee onboarding fee | Fee charged to payee for onboarding, verification, or activation. | Requires legal, tax, and commercial review. |
-| Payee subscription or platform fee | Recurring fee for payee portal, reporting, request creation, or support tools. | Requires billing and cancellation rules. |
-| Payee request fee | Fee charged per request created, sent, accepted, funded, paid, or completed. | Trigger point must be defined. |
-| Payee payout fee | Fee charged to payee for payout or special payout handling. | Requires disclosure and ledger support. |
-| Biller-paid fee | Fee paid by biller or payee to receive PayPlus-supported payments. | Must be contractually documented. |
-| Partner subsidy | Third party funds part of user cost or PayPlus cost. | Must be tracked and reconciled. |
-| Campaign funding | Marketing, partner, or payee budget funds offers, rewards, or discounts. | Must be campaign-level reportable. |
-| Revenue share | PayPlus receives or pays a share of revenue with partners or payees. | Must be included in margin calculations. |
-| FX fee or spread | Revenue from currency conversion, if applicable. | Requires approval and disclosure. |
-| Exception fee | Fee for failed payment, special handling, cancellation, or other exception. | High risk; requires explicit approval. |
+There is no active Request fee, Request-creation fee, Request-delivery fee or Payee-user portal revenue model.
 
-Revenue recognition, tax treatment, and accounting classification must be reviewed by Finance and Legal/Tax before implementation.
+All institutional or Payee-side revenue remains a candidate only. It requires agreement, disclosure, ledger support, legal/tax/accounting review and commercial approval. This Draft does not establish programme pricing, fee amount, structure, payer/payee allocation, margin or contract.
 
 ---
 
 ## 5. Fee Principles
 
-PayPlus fee design should follow these principles:
-
 | Principle | Requirement |
-| --- | --- |
-| Transparent | Payer-facing fees must be shown before payment confirmation. |
-| Accurate | Fee calculations must match receipts, ledger entries, and reports. |
-| Authorized | Payer must not be charged before explicit payment authorization. |
-| Contracted | Payee-side fees must be supported by payee agreement, disclosure, and ledger rules. |
-| Compliant | Fees must comply with applicable law, card network rules, partner rules, tax rules, and consumer protection requirements. |
-| Economically justified | Fees should reflect processing cost, payout cost, risk, review effort, support burden, and margin targets. |
-| Non-misleading | Payee-funded or partner-funded subsidies must not hide the real payer cost or PayPlus role. |
-| Reversible where required | Refund, cancellation, withdrawal, rejection, dispute, and chargeback fee treatment must be defined. |
-| Reportable | Fees must be reportable by transaction, request, payer, payee, category, campaign, partner, and request origin where applicable. |
+|---|---|
+| Transparent | Payer-facing fees appear before payment authorization. |
+| Accurate | Quote, receipt, ledger and report values reconcile. |
+| Authorized | No Payer charge before explicit payment authorization. |
+| Contracted | Institutional or other non-Payer fees require an approved agreement. |
+| Compliant | Applicable legal, network, partner, tax and consumer requirements apply. |
+| Economically justified | Fees consider processing, payout, risk, review, support and margin. |
+| Non-misleading | Subsidies do not obscure total cost or PayPlus role. |
+| Reversible where required | Refund, cancellation, dispute and chargeback treatment is defined. |
+| Reportable | Fees are attributable by transaction, Payer, Payee class, Category, programme, campaign and partner where applicable. |
 
-Payer-created payments and payee-created requests may support different fee presentation models.
-
-Potential fee allocation models include:
-
-- payer pays the full service fee;
-- payee absorbs the full fee;
-- payer and payee split the fee;
-- biller, merchant, payee, or partner subsidizes the fee;
-- campaign-funded or promotional fee reduction;
-- blended model by category, payee type, or request origin.
-
-Any fee model that varies by card type, issuer, funding source, jurisdiction, category, request creator type, payee type, payer segment, or user segment must be reviewed before launch.
+Directory acquisition provenance must not determine pricing, promotion eligibility, profitability, margin allocation or future transaction eligibility.
 
 ---
 
 ## 6. Cost Drivers
 
-PayPlus unit economics should include all direct, variable, and material allocated costs.
+| Cost driver | Description |
+|---|---|
+| Card processing | PSP, acquirer, interchange, scheme, gateway, authorization, capture and refund. |
+| Payout | Transfer, provider, retry and exception cost. |
+| Refund/reversal/chargeback | Processing, lost principal, representment and operations. |
+| Fraud and risk loss | Unauthorized, fake, inflated, collusive, cashout or other abuse. |
+| Promotion | Discounts, rewards, subsidies, referral and fulfilment. |
+| Evidence/OCR | Extraction, validation and document review. |
+| Manual review | Evidence, type, Payee, destination, risk, payout, disputes and exceptions. |
+| Support | Payer, economic-Payee, institution and partner support. |
+| Institutional programme | Enrolment, KYB, contracting, Category association, publication maintenance and offboarding operations where applicable. |
+| Payee/destination verification | Individual, institution, beneficiary/agent and payout-account checks. |
+| Controlled Bill-acquisition operations | Aggregate Directory and Self-provided process cost, measured without repurposing transaction provenance beyond audit/troubleshooting. |
+| Notification | Payer service communication and separately permitted individual-Payee notification. |
+| Infrastructure and retention | Cloud, storage, logging, monitoring and records. |
+| Reconciliation/compliance/audit | Finance, control, reporting and evidence retention. |
+| Reserve/holdback/liquidity | Cost of funds, collateral, prefunding or reduced liquidity. |
+| Tax | Applicable transaction or service tax cost. |
 
-| Cost Driver | Description |
-| --- | --- |
-| Card processing cost | PSP, acquirer, interchange, scheme, processor, gateway, authorization, capture, and refund costs. |
-| Payout cost | Bank transfer, payout provider, instant payout, retry, and payout exception costs. |
-| Refund and reversal cost | Processing cost, revenue reversal, support cost, and failed payout recovery cost. |
-| Chargeback cost | Chargeback fees, lost principal, dispute operations, and representment evidence cost. |
-| Fraud loss | Loss from unauthorized, abusive, fake, inflated, collusive, or cashout activity. |
-| Promotion cost | Discounts, cashback, credits, rewards, fee waivers, referral bonuses, and partner-funded offers. |
-| Manual review cost | Operations review for bills, invoices, rent evidence, payees, risk alerts, payouts, disputes, and exceptions. |
-| Support cost | Payer, user, payee, and partner support burden. |
-| Payee onboarding cost | Payee activation, review, verification, contracting, and setup costs. |
-| Payee verification cost | Landlord, biller, business, school, service provider, payout account, or other payee verification costs. |
-| Evidence review cost | Bill, invoice, tenancy, lease, service agreement, fee notice, or supporting document review costs. |
-| Request delivery cost | Email, SMS, push, WhatsApp, or other payer invitation and notification costs. |
-| Payer query or dispute cost | Support and operations cost for pre-authorization rejection, query, clarification, or dispute. |
-| KYC/KYB cost | Identity, business, sanctions, and watchlist verification costs. |
-| OCR/document AI cost | Extraction or validation cost for bill, invoice, rent, or supporting evidence. |
-| Risk tooling cost | Device intelligence, fraud scoring, sanctions screening, transaction monitoring, and abuse detection costs. |
-| Infrastructure cost | Cloud, storage, database, logging, monitoring, and retention costs. |
-| Reconciliation cost | Finance and operations effort to reconcile funding, fees, payouts, refunds, exceptions, and partner files. |
-| Compliance and audit cost | Compliance monitoring, audit, advisory, reporting, policy, and evidence retention costs. |
-| Reserve or holdback cost | Cost of funds or reduced liquidity from partner reserves, rolling reserves, collateral, or prefunding. |
-| Tax cost | VAT, GST, sales tax, withholding, transaction tax, or other applicable tax cost. |
-
-Costs should be modeled conservatively until actual partner pricing, operational effort, payee onboarding effort, request conversion, support burden, and loss data are available.
+Model costs conservatively until partner pricing and measured operational data exist.
 
 ---
 
 ## 7. Unit Economics
 
 ### 7.1 Base Transaction Formula
-
-PayPlus should calculate transaction contribution margin using a transparent formula.
 
 ```text
 Gross Revenue
@@ -254,7 +183,7 @@ Gross Revenue
 - Manual Review Cost Allocation
 - Customer Support Cost Allocation
 - KYC / KYB Cost Allocation
-- OCR / Document AI Cost Allocation
+- Evidence / OCR Cost Allocation
 - Risk Tooling Cost Allocation
 - Notification Cost Allocation
 - Variable Infrastructure Cost Allocation
@@ -262,37 +191,11 @@ Gross Revenue
 = Transaction Contribution Margin
 ```
 
-### 7.2 Payee-Created Request Formula
+### 7.2 Institutional Programme Cost Considerations
 
-For payee-created requests, PayPlus should also include payee-side economics and request-funnel costs.
+The ordinary cost model should include institutional enrolment/KYB, Category-association, publication-maintenance, contract, support and offboarding costs where applicable. Any institutional or partner revenue remains separately approved and belongs in the base transaction or approved programme reporting model determined by Finance.
 
-```text
-Gross Revenue
-+ Payee-Side Revenue
-+ Partner / Campaign Funding
-- Card Processing Cost
-- Payout Cost
-- Payee Onboarding Cost Allocation
-- Payee Verification Cost Allocation
-- Request Creation / Delivery Cost
-- Bill / Invoice / Rent Evidence Review Cost
-- Payer Query / Rejection / Dispute Handling Cost Allocation
-- Payee Support Cost Allocation
-- Refund / Reversal Cost
-- Chargeback Cost Allocation
-- Fraud Loss Allocation
-- Promotion Cost
-- Partner / Payee Revenue Share
-- Manual Review Cost Allocation
-- Customer Support Cost Allocation
-- KYC / KYB Cost Allocation
-- OCR / Document AI Cost Allocation
-- Risk Tooling Cost Allocation
-- Notification Cost Allocation
-- Variable Infrastructure Cost Allocation
-- Tax Cost Allocation
-= Payee-Created Request Contribution Margin
-```
+No new programme contribution formula is accepted by this Draft. Aggregate operating-cost comparison between Directory and Self-provided processes may support capacity planning, but retained acquisition provenance remains audit/troubleshooting-only and cannot drive pricing, profitability attribution or transaction eligibility.
 
 ### 7.3 Margin Formulas
 
@@ -311,662 +214,349 @@ Gross Revenue / Gross Transaction Value
 = Take Rate
 ```
 
-For payee-created request programs:
-
-```text
-Completed Payee-Created Request Contribution Margin
-- Cost of Rejected / Expired Payee-Created Requests and Linked Dispute Cases
-= Net Payee-Created Request Program Margin
-```
-
-Final reporting definitions belong in `DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification`.
+Final allocation and reporting definitions belong to DOC-18 and Finance approval.
 
 ---
 
 ## 8. Key Economic Definitions
 
 | Term | Definition |
-| --- | --- |
-| Gross Transaction Value, or GTV | Total bill payment amount submitted or processed, based on approved reporting definition. |
-| Funded Amount | Amount charged to the payer funding source. |
-| Bill Amount | Amount owed to the biller or payee. |
-| Payout Amount | Amount sent to the biller, payee, or receiving account. |
-| Gross Revenue | Total approved revenue from payer fees, payee fees, partner fees, campaign funding, or other sources. |
-| Payee-Side Revenue | Revenue collected from payees, including onboarding, subscription, request, payout, platform, or biller-paid fees. |
-| Net Revenue | Gross revenue after refunds, fee reversals, discounts, and revenue share, based on approved definition. |
-| Direct Cost | Cost directly attributable to a transaction or request. |
-| Allocated Cost | Cost assigned to a transaction, request, payer, payee, category, campaign, or partner through an approved method. |
-| Contribution Margin | Revenue minus direct and allocated variable costs. |
-| Contribution Margin Rate | Contribution margin divided by approved denominator. |
-| Take Rate | Gross or net revenue divided by GTV, based on approved definition. |
-| Promotion Burn | Total cost of discounts, cashback, rewards, credits, fee waivers, or subsidies. |
-| Chargeback Loss | Principal, fee, and operational loss caused by chargebacks. |
-| Fraud Loss | Financial loss from fraudulent or abusive activity. |
-| Manual Review Cost | Labor cost allocated to bill, invoice, rent, payee, risk, payout, compliance, or support review. |
-| Payee Acquisition Cost | Sales, onboarding, verification, activation, incentive, and support cost required to acquire an approved payee. |
-| Payee Onboarding Cost | Cost to verify and activate a payee for payout or request creation capability. |
-| Payee-Created Request | A bill, invoice, fee, rent, or approved obligation request created by an approved payee and sent to a payer for review, acceptance, and separate payment authorization. |
-| Request Creator Type | Indicator of whether a request was created by payer, payee, admin, system, partner, or migration process. |
-| Payee Type | Classification such as landlord, school, utility, biller, service provider, business, or property manager. |
-| Request Acceptance Rate | Percentage of payee-created requests accepted by payers. |
-| Request Completion Rate | Percentage of payee-created requests accepted, funded, and paid out. |
-| Payee Profitability | Contribution margin attributable to a payee after revenue, verification, request, support, payout, risk, refund, and chargeback costs. |
+|---|---|
+| GTV | Total submitted or processed Bill/Rent payment value under an approved definition. |
+| Funded Amount | Value charged to Payer funding sources. |
+| Bill/Rent Amount | Amount supported by the applicable source and obligation context. |
+| Payout Amount | Value sent to the intended economic Payee or approved payout destination. |
+| Gross Revenue | Approved Payer, institutional, partner or campaign revenue. |
+| Net Revenue | Gross revenue after approved reversals, discounts and revenue share. |
+| Direct / Allocated Cost | Cost attributed directly or through an approved allocation method. |
+| Contribution Margin | Revenue less direct and allocated variable costs. |
+| Take Rate | Approved revenue measure divided by GTV. |
+| Promotion Burn | Approved discount, reward, subsidy or fulfilment cost. |
+| Manual Review Cost | Attributable Evidence, type, Payee, destination, risk, payout or support review labor. |
+| Institutional Enrolment Cost | Cost of a real enrolment process; separate from transaction Payee/destination verification. |
+| Directory Maintenance Cost | Cost of Category association and publication operations; not a transaction-eligibility cost. |
+| Acquisition provenance | Directory-selected or Self-provided lineage retained only for audit and troubleshooting under DOC-05; not a commercial segmentation or pricing field. |
+| Payee Type | Individual or institution/company for product-policy purposes; detailed commercial segmentation remains owner-controlled. |
+| Payee Profitability | Approved contribution view for an economic Payee or institution after attributable revenue and costs. |
 
-All metrics should have one approved definition in `DOC-18`.
+No composite `Approved Payee` economic state may collapse enrolment, publication or transaction readiness.
 
 ---
 
 ## 9. Category and Payee-Type Economics
 
-Each bill category and payee type should be assessed separately.
+Assessment may vary by average value, processing/payout cost, Evidence quality, individual/institutional type, programme enrolment cost, Category association, verification and review effort, fraud/chargeback risk, refund rate, willingness to pay, partner subsidy, operational complexity, regulation, support and margin.
 
-Economics may vary by:
+| Assessment | Question |
+|---|---|
+| Demand | Is there meaningful Payer demand? |
+| Willingness to pay | Will the approved cost bearer accept the proposed fee? |
+| Cost | Are full transaction and programme costs understood? |
+| Risk | Are fraud, collusion, fake Evidence and cashout risks manageable? |
+| Review | Can owner-controlled checks operate efficiently? |
+| Programme | Are institutional enrolment and publication costs justified where applicable? |
+| Operating process | Are aggregate Directory and Self-provided operating costs understood without converting retained transaction provenance into a commercial dimension? |
+| Partner/compliance | Do partners and owners support the Category and model? |
+| Margin | Does the Category meet an approved threshold? |
+| Scalability | Can volume grow without excessive review, support or reconciliation burden? |
 
-- average transaction value;
-- processing and payout cost;
-- bill or obligation evidence quality;
-- payee verification effort;
-- payee onboarding cost;
-- request creator type;
-- payer acceptance and completion rate;
-- rejection, query, dispute, and expiration rates;
-- manual review rate;
-- fraud and chargeback risk;
-- fake invoice, fake rent, collusion, or self-payment risk;
-- refund rate;
-- payer willingness to pay;
-- payee willingness to pay;
-- partner willingness to subsidize;
-- operational complexity;
-- regulatory or partner restrictions;
-- support burden.
-
-Recommended category and payee-type assessment:
-
-| Assessment Area | Question |
-| --- | --- |
-| Demand | Is there meaningful payer and/or payee demand? |
-| Willingness to pay | Will payers, payees, billers, or partners accept required fees? |
-| Cost | Are direct and allocated costs acceptable? |
-| Risk | Are fraud, chargeback, fake bill, fake invoice, fake rent, and cashout risks manageable? |
-| Review effort | Can evidence and exceptions be reviewed efficiently? |
-| Payee onboarding effort | Can payees be onboarded and verified efficiently? |
-| Request conversion | For payee-created requests, are acceptance and completion rates commercially viable? |
-| Partner feasibility | Do PSP/acquirer and payout partners support the category and request model? |
-| Compliance feasibility | Is the category acceptable under legal and compliance review? |
-| Margin | Does the category meet minimum contribution margin threshold? |
-| Scalability | Can the category scale without excessive manual review, support, dispute, or reconciliation effort? |
+The twelve-category launch inventory is fixed by DOC-05 Section 3.1.1. This commercial framework does not make any Category commercially ready or approve Category-specific pricing, fees, partner terms, programme economics or viability; those assessments remain open under DOC-02 and the applicable owners. Rent is assessed as a separate journey and economic line, not as a Bill Category.
 
 ---
 
 ## 10. Multi-Card or Multi-Source Payment Economics
 
-Multi-card or multi-source payments may increase user value but also increase cost and complexity.
+Multi-card may increase value and cost through multiple authorizations, higher decline/partial-failure risk, refund allocation, chargeback handling, reconciliation, support, fraud, disclosure and partner restrictions.
 
-Commercial assessment must consider:
-
-- multiple authorization and capture fees;
-- higher PSP cost;
-- higher decline or partial failure rates;
-- complex refund allocation;
-- complex chargeback handling;
-- complex reconciliation;
-- higher support cost;
-- higher fraud and abuse risk;
-- more complex fee disclosure;
-- partner or card network restrictions;
-- partial funding failure handling;
-- parent-child payment event reporting.
-
-For payee-created requests, PayPlus must also define:
-
-- whether the payer authorizes the full request and each funding allocation;
-- whether payee-side request or payout fees apply once or per funding source;
-- how the payee sees partial, failed, pending, or completed funding status.
-
-Multi-card functionality should not launch unless economic and operational impact is understood.
-
-Detailed logic belongs in `DOC-09`, `DOC-11`, `DOC-13`, and `DOC-18`.
+The Payer authorizes the applicable Provider Submissions under DOC-09. Any fee or cost allocation by funding source remains open. Multi-card must not launch without commercial and operational understanding within the confirmed six-card cap.
 
 ---
 
 ## 11. Promotion and Subsidy Economics
 
-Promotions must be commercially controlled.
+Each promotion requires an approved funding source, budget, eligibility, qualification, limits, benefit, quote effect, expiry, reversal, refund, chargeback, tax/accounting, reporting and owner.
 
-Promotion cost may include:
+Directory provenance must not by itself determine promotion eligibility. Institutional subsidy is possible only if separately approved and must not convert publication into transaction eligibility.
 
-- discounts;
-- cashback;
-- credits;
-- fee waivers;
-- rewards;
-- miles or points rewards;
-- referral bonuses;
-- partner-funded offers;
-- external voucher or partner fulfilment costs;
-- exceptional payee-funded payer discounts, if separately approved;
-- payee onboarding incentives;
-- payee request fee waivers;
-- advertising credits;
-- sponsored placement costs;
-- campaign operations cost.
-
-Each promotion must define:
-
-- funding source;
-- whether it applies to payer, payee, or both;
-- whether eligibility differs for direct payer-created payments, optional payer-to-payee linking Requests, and payee-created Requests;
-- budget;
-- eligibility;
-- qualification and entitlement rules;
-- usage limits and quotas;
-- maximum benefit;
-- benefit target and benefit method;
-- promotion quote impact;
-- redemption rules;
-- expiration;
-- reversal rules;
-- refund treatment;
-- chargeback treatment;
-- payer rejection or payee withdrawal treatment;
-- tax and accounting treatment;
-- reporting requirements;
-- approval owner.
-
-Promotions must not create uncontrolled negative margin. Spending-threshold rewards should track qualification progress and benefit entitlement, not merely raw card or transaction usage.
-
-Detailed promotion engine, coupon, voucher, referral, membership, Asia Miles, card-linked eligibility, and external partner offer rules belong in `DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification`.
+Detailed promotion logic belongs to DOC-13.
 
 ---
 
-## 12. Refund, Cancellation, Rejection, Dispute, and Chargeback Economics
+## 12. Refund, Cancellation, Dispute and Chargeback Economics
 
-Refunds, cancellations, payer rejections, payer queries, disputes, payee withdrawals, failed payouts, and chargebacks can materially affect unit economics.
+Commercial treatment must address service-fee refund, institutional fee treatment where contracted, retained partner costs, Payout state, reversibility, loss bearer, recovery rights, promotion reversal, chargeback fees, investigation cost, representment Evidence, restrictions and revenue reversal.
 
-Commercial rules must define:
+Request rejection, expiry and withdrawal are not current-product economic states. Because no production Request/Payee-role runtime existed, this model defines no legacy Request reporting, funnel or transaction dataset.
 
-- whether PayPlus refunds payer service fees;
-- whether payee-side fees are refundable;
-- whether PSP fees are returned or retained;
-- whether payout has already occurred;
-- whether payout can be reversed;
-- who bears unrecoverable loss;
-- whether partner agreements define recovery rights;
-- whether a promotion must be reversed;
-- whether chargeback fees apply;
-- whether manual investigation is required;
-- whether evidence can support representment;
-- whether payer or payee restrictions are required after dispute;
-- how revenue reversal is recorded;
-- how rejected, expired, disputed, or withdrawn payee-created requests are treated before payer authorization.
-
-Detailed rules belong in `DOC-10`, `DOC-11`, and `DOC-18`.
+Detailed rules belong to DOC-10, DOC-11 and DOC-18.
 
 ---
 
-## 13. Working Capital, Settlement, and Reserves
+## 13. Working Capital, Settlement and Reserves
 
-PayPlus must understand timing differences between:
+Assess timing between Checkout/Provider Submission, card authorization/capture, upstream settlement, reserves/holdbacks, Payout initiation/completion, any contracted institutional billing, refunds, chargebacks and revenue recognition.
 
-- request creation;
-- payer invitation or delivery;
-- payer review and authorization;
-- card authorization and capture;
-- PSP settlement;
-- reserves or holdbacks;
-- payout initiation;
-- payout completion;
-- payee-side billing or fee deduction;
-- refund window;
-- chargeback window;
-- revenue recognition;
-- partner or payee settlement.
+Assessment includes settlement delay, funding gap, reserve, prefunding, collateral, exposure periods, liquidity buffer, cutoff/weekend effects and Payout expectations.
 
-Settlement timing may create working capital needs if PayPlus pays a biller or payee before card funds are settled and available.
-
-Commercial assessment should include:
-
-- settlement delay;
-- payout delay;
-- funding gap;
-- reserve requirement;
-- holdback requirement;
-- prefunding requirement;
-- collateral requirement;
-- chargeback exposure period;
-- refund exposure period;
-- liquidity buffer requirement;
-- bank cutoff, weekend, and holiday effects;
-- payee payout expectations.
-
-PayPlus should avoid payout timing models that create unacceptable credit, liquidity, fraud, or cash-flow exposure unless approved.
-
-Payee-facing payout timing should not be promised unless supported by the approved settlement and liquidity model.
+No Payout timing promise is created here.
 
 ---
 
 ## 14. Partner Economics
 
-Partner economics must be assessed before selection.
+Assess setup and minimum fees; transaction, authorization, refund, chargeback and Payout fees; KYC/KYB, institutional enrolment, Category association/publication maintenance, Payee/destination verification, Evidence/OCR, notification, risk, support, reserve, revenue-share, contract, SLA, export and migration costs.
 
-Partner cost and revenue factors may include:
+Partner assessment may vary by Category, economic-Payee type, programme enrolment, payout timing, risk and partner classification. It must not assume a marketplace, Request creator, Payee-user portal or Request-delivery product.
 
-- setup fees;
-- monthly minimums;
-- transaction fees;
-- percentage fees;
-- gateway fees;
-- authorization and capture fees;
-- refund fees;
-- chargeback fees;
-- payout fees;
-- account verification fees;
-- KYC/KYB fees;
-- payee onboarding or sub-merchant onboarding fees;
-- payee screening fees;
-- landlord or business verification fees;
-- payout account verification fees;
-- request delivery or notification fees;
-- risk screening fees;
-- OCR/document AI fees;
-- support fees;
-- reserve requirements;
-- payee-specific holdback requirements;
-- revenue share requirements;
-- contract minimums;
-- early termination costs;
-- SLA penalties;
-- data export costs;
-- migration costs.
-
-For payee-created request models, partner assessment should also consider whether pricing changes based on:
-
-- payee type;
-- request creator type;
-- merchant, sub-merchant, biller, agent, beneficiary, or payee classification;
-- category such as rent, invoice, education, utilities, medical bills, or domestic service obligations;
-- payout timing;
-- chargeback risk;
-- payee onboarding model;
-- platform or marketplace treatment.
-
-Detailed partner assessment belongs in `DOC-03 Regulatory, PSP & Acquirer Assessment`.
+Detailed assessment belongs to DOC-03.
 
 ---
 
 ## 15. Pricing Governance
 
-Pricing changes can affect user trust, payer trust, payee adoption, compliance, margins, partner obligations, tax treatment, and product behavior.
+Material pricing changes require rationale, affected Categories and cost bearers, geography, effective date, expected margin and adoption impact, applicable legal/compliance/tax/accounting review, communication, systems/QA impact and approval record.
 
-Material pricing changes should follow an approved change process and include:
+Changes must align quote logic, disclosures, receipts, contracted institutional statements if applicable, ledger, reports, support and terms.
 
-- business rationale;
-- affected categories;
-- affected users, payers, payees, and payee types;
-- affected geographies;
-- affected request creator types;
-- effective date;
-- expected margin impact;
-- expected conversion impact;
-- expected payee adoption or churn impact;
-- compliance review;
-- legal or consumer protection review, where applicable;
-- tax/accounting review, where applicable;
-- communication plan;
-- systems and QA impact;
-- approval record.
-
-Pricing changes should be reflected in:
-
-- fee calculation logic;
-- user, payer, and payee disclosures;
-- receipts;
-- payee statements or payout reports, if applicable;
-- ledger and reporting;
-- customer support scripts;
-- payee support scripts;
-- terms or policies, if applicable.
+DOC-22 implements only approved configuration. It does not decide pricing or commercial policy.
 
 ---
 
 ## 16. Commercial Viability Gates
 
-Each category, payment method, request creator model, payee type, promotion, or partner program should pass commercial viability gates before launch.
+| Gate ID | Gate | Acceptance condition |
+|---|---|---|
+| `GATE-DOC02-001` | Revenue model | Approved candidate revenue and fee structure documented. |
+| `GATE-DOC02-002` | Cost model | Direct and material allocated costs documented. |
+| `GATE-DOC02-003` | Contribution margin | Expected margin modeled under approved assumptions. |
+| `GATE-DOC02-004` | Risk losses | Fraud, chargeback, refund, collusion and operational loss included. |
+| `GATE-DOC02-005` | Partner pricing | PSP, acquirer, payout, verification and other pricing confirmed or conservatively estimated. |
+| `GATE-DOC02-006` | Promotion | Budget, funding and margin impact approved. |
+| `GATE-DOC02-007` | Settlement | Working capital, reserve, holdback and Payout timing assessed. |
+| `GATE-DOC02-008` | Legal/tax/accounting | Applicable treatment reviewed. |
+| `GATE-DOC02-009` | Reporting | Required metrics and lineage defined. |
+| `GATE-DOC02-010` | Launch approval | Commercial approver signs off. |
+| `GATE-DOC02-011` | Original Payee-created Request economics gate | Retired under the Payer-only target; ordinary cost and partner-pricing gates still apply to programme operations. |
+| `GATE-DOC02-012` | Original Payee-side pricing gate | Retired with the active Request/Payee-user model; any future institutional terms require separately accepted commercial scope and the ordinary approval gates. |
+| `GATE-DOC02-013` | Rent or controlled Bill economics | Applicable Evidence, verification, risk, support, dispute and chargeback costs are included. |
 
-| Gate ID | Gate | Acceptance Condition |
-| --- | --- | --- |
-| `GATE-DOC02-001` | Revenue model defined | Revenue source and fee structure are documented. |
-| `GATE-DOC02-002` | Cost model defined | Direct and material allocated costs are documented. |
-| `GATE-DOC02-003` | Contribution margin modeled | Expected contribution margin is calculated using approved assumptions. |
-| `GATE-DOC02-004` | Risk loss assumptions included | Fraud, chargeback, refund, fake invoice, fake rent, collusion, and operational losses are included where applicable. |
-| `GATE-DOC02-005` | Partner pricing assessed | PSP, acquirer, payout, onboarding, verification, and other partner pricing is confirmed or conservatively estimated. |
-| `GATE-DOC02-006` | Promotion economics approved | Budget, funding source, cost bearer, and margin impact are approved. |
-| `GATE-DOC02-007` | Settlement timing assessed | Working capital, reserve, holdback, payout timing, and payee settlement impacts are assessed. |
-| `GATE-DOC02-008` | Legal/tax/accounting review completed | Relevant treatment of fees, taxes, and revenue recognition is reviewed. |
-| `GATE-DOC02-009` | Reporting requirements defined | Required metrics and reports are documented. |
-| `GATE-DOC02-010` | Launch approval obtained | Commercial approver signs off before launch. |
-| `GATE-DOC02-011` | Payee-created request economics approved | Onboarding, request delivery, evidence review, acceptance rate, support, payout, fraud, and dispute economics are modeled before enabling payee-created requests. |
-| `GATE-DOC02-012` | Payee-side pricing approved | Payee onboarding, subscription, request, payout, platform, or other payee-side fees are documented, disclosed, legally reviewed, and reportable before launch. |
-| `GATE-DOC02-013` | Rent or invoice economics approved | Rent or invoice economics include landlord/business verification, evidence review, enhanced fraud risk, support cost, dispute cost, and chargeback assumptions. |
+These gates do not make Directory state a transaction-time commercial eligibility truth.
 
 ---
 
 ## 17. Reporting and Metrics
 
-PayPlus should report commercial performance at transaction, request, category, user, payer, payee, partner, request-origin, and campaign level.
+Report commercial performance at transaction, Category, Payer, economic-Payee class, institution where justified, programme, partner, payment/Payout method and campaign level.
 
-Candidate metrics include:
+Candidate metrics include GTV, funded and paid-out volume, gross/net revenue, approved institutional revenue, processing and Payout cost, enrolment/KYB cost, Category-association/publication cost, aggregate controlled-acquisition operating cost, Evidence review, Payee/destination verification, optional-notification cost, promotion burn, fraud/chargeback loss, manual review, support, contribution margin/rate, take rate, average value, authorization/decline/Payout-failure rate, Category/institution/partner/campaign profitability and programme operating cost.
 
-| Metric | Description |
-| --- | --- |
-| GTV | Total processed or submitted transaction value, based on approved definition. |
-| Funded volume | Total value successfully charged to funding sources. |
-| Paid-out volume | Total value successfully paid to payees or billers. |
-| Gross revenue | Total service fees, payer fees, payee fees, partner fees, campaign funding, and other revenue. |
-| Payee-side revenue | Revenue from payee onboarding, subscription, request, payout, platform, biller, or partner-payee fees. |
-| Net revenue | Gross revenue after discounts, reversals, fee refunds, and revenue share, based on approved definition. |
-| Card processing cost | Total and per-transaction card processing costs. |
-| Payout cost | Total and per-transaction payout costs. |
-| Payee onboarding cost | Total and per-approved-payee onboarding and verification costs. |
-| Payee acquisition cost | Sales, onboarding, verification, support, and incentive cost per activated payee. |
-| Request delivery cost | Cost to send or notify payers of payee-created requests. |
-| Evidence review cost | Cost to review bill, invoice, rent, tenancy, or other supporting evidence. |
-| Promotion burn | Total campaign or offer cost. |
-| Fraud loss | Losses from fraud or abuse. |
-| Chargeback loss | Principal and fee losses from chargebacks. |
-| Manual review cost | Allocated cost of manual review. |
-| Support cost | Allocated payer and payee support cost. |
-| Contribution margin | Revenue less variable and allocated costs. |
-| Contribution margin rate | Contribution margin as a percentage of approved denominator. |
-| Take rate | Revenue as a percentage of GTV. |
-| Average transaction value | Average bill or payment amount. |
-| Payment authorization rate | Percentage of eligible checkout attempts explicitly authorized by the payer before PSP/acquirer submission. |
-| Decline rate | Percentage of card payment attempts declined. |
-| Payout failure rate | Percentage of payouts that fail. |
-| Category profitability | Margin by bill category. |
-| Payee profitability | Margin by payee or payee type. |
-| Origin-model profitability | Margin by direct payer-created payment versus payment from an accepted payee-created Request, with optional linking tracked separately where applicable. |
-| Partner profitability | Margin by partner or payment route. |
-| Campaign profitability | Margin after campaign cost. |
-| Payee-created request volume | Number and value of requests created by approved payees. |
-| Request acceptance rate | Percentage of payee-created requests accepted by payers. |
-| Request rejection and linked-case rate | Percentage of payee-created requests rejected or associated with a pre-authorization query/dispute case. |
-| Request expiration rate | Percentage of payee-created requests expiring without payer acceptance. |
-| Request completion rate | Percentage of payee-created requests accepted, funded, and paid out. |
-| Payee activation rate | Percentage of onboarded payees that create at least one valid request. |
-| Payee retention rate | Percentage of payees that continue creating valid requests over time. |
+Request volume, acceptance, rejection, expiry, completion, Request-origin profitability and Payee Request activation/retention are retired MVP metrics. No historical Request measure or production reporting obligation exists.
 
-Final metric definitions belong in `DOC-18`.
+Final definitions belong to DOC-18.
 
 ---
 
 ## 18. Data and Ledger Expectations
 
-Commercial reporting requires accurate transaction, request, payee, campaign, partner, and ledger records.
+Commercial reporting requires, where applicable:
 
-At minimum, PayPlus should track:
+- Bill/Rent amount, funded amount and Payout amount;
+- service fee and approved Payer/institutional/partner fee components;
+- discounts, promotion funding, tax, processing and Payout cost;
+- enrolment/KYB, Category association, publication and Directory maintenance cost;
+- Evidence, Payee/destination, type-label and risk review cost;
+- permitted individual-notification cost;
+- refunds, chargebacks, fraud loss, revenue share, net revenue and margin;
+- funding, payment and Payout route;
+- Payer, economic-Payee class, institution and partner attribution where lawful and approved;
+- transaction, Payout and reconciliation status under their owners.
 
-- bill amount;
-- funded amount;
-- payout amount;
-- service fee;
-- payer fee;
-- payee fee;
-- payee onboarding fee;
-- payee subscription fee;
-- payee request fee;
-- payee payout fee;
-- platform fee;
-- discount amount;
-- promotion amount;
-- partner funding amount;
-- tax amount, if applicable;
-- card processing cost;
-- payout cost;
-- payee onboarding cost allocation;
-- payee verification cost allocation;
-- request delivery cost allocation;
-- evidence review cost allocation;
-- payer query or dispute cost allocation;
-- payee support cost allocation;
-- refund amount;
-- chargeback amount;
-- chargeback fee;
-- fraud loss amount;
-- revenue share amount;
-- net revenue amount;
-- contribution margin estimate;
-- funding source type;
-- payment route;
-- payout route;
-- bill category;
-- user or payer segment;
-- payee ID;
-- payee type;
-- payee onboarding status;
-- request creator type;
-- payee-created request status;
-- payer response status;
-- partner ID;
-- campaign ID;
-- transaction status;
-- payout status;
-- reconciliation status.
-
-Detailed data model and ledger design belong in `DOC-18`.
+Exact fields, IDs, schemas and ledger design belong to DOC-18. Institutional enrolment, Category association and Directory publication must remain separate. Acquisition provenance remains outside commercial ledger/reporting use except controlled audit/troubleshooting access. Retired Request stable IDs and append-only documentation history do not create commercial fields, records or reporting requirements.
 
 ---
 
-## 19. Accounting, Tax, and Revenue Recognition Considerations
+## 19. Accounting, Tax and Revenue Recognition Considerations
 
-Finance and Legal/Tax must determine:
+Finance and Legal/Tax must determine principal/agent treatment; economic-Payee and institution classification; gross/net recognition; timing of Payer, institutional and partner revenue; refund/chargeback treatment; promotion classification; taxes on each approved fee; withholding or transaction taxes; pass-through treatment; and reserves, holdbacks, pending items, failures and reversals.
 
-- whether PayPlus acts as principal or agent in each flow;
-- whether treatment differs for direct payer-created payments, optional payer-to-payee linking Requests, and payee-created Requests;
-- how onboarded payees are classified for accounting and tax purposes;
-- whether fees are recognized gross or net;
-- when payer-side revenue is recognized;
-- when payee-side revenue is recognized;
-- how rejected, expired, withdrawn, cancelled, disputed, refunded, or charged-back requests affect revenue recognition;
-- how promotion costs are classified;
-- how partner-funded or payee-funded incentives are treated;
-- whether taxes apply to payer fees, payee fees, platform fees, subscription fees, request fees, payout fees, or partner fees;
-- whether withholding, VAT, GST, sales tax, or other transaction taxes apply;
-- whether payout amounts are pass-through funds;
-- how reserves, holdbacks, unpaid amounts, pending transactions, failed transactions, reversals, and chargebacks are recorded.
+Request/Linking lifecycle is not an accounting dimension for the target MVP. No production Request/Payee-role transactions existed, so retired IDs and append-only documentation history create no accounting or historical-reporting treatment.
 
-This document provides a framework only and does not establish accounting or tax policy.
+This document establishes no accounting or tax policy.
 
 ---
 
 ## 20. Key Assumptions
 
-| Assumption ID | Assumption | Validation Owner | Status |
-| --- | --- | --- | --- |
-| `ASM-DOC02-001` | Users or payers will accept a service fee high enough to cover card processing and payout cost in at least one MVP category. | Commercial / Product | Open |
-| `ASM-DOC02-002` | PSP/acquirer pricing will allow positive contribution margin for target categories. | Commercial / Payments | Open |
-| `ASM-DOC02-003` | Payout cost can be kept low enough for target transaction sizes. | Finance / Payments | Open |
-| `ASM-DOC02-004` | Fraud and chargeback losses can be controlled through verification and risk rules. | Risk / Finance | Open |
-| `ASM-DOC02-005` | Manual review cost is acceptable during MVP volume levels. | Operations / Finance | Open |
-| `ASM-DOC02-006` | Promotions can be capped and tracked to avoid uncontrolled losses. | Growth / Finance | Open |
-| `ASM-DOC02-007` | Transaction data will support category, partner, campaign, payee, request-origin, and margin reporting. | Finance / Engineering | Open |
-| `ASM-DOC02-008` | Reserve and settlement timing will not create unacceptable working capital needs. | Finance / Payments | Open |
-| `ASM-DOC02-009` | Tax and accounting treatment will not materially undermine the selected fee model. | Finance / Legal / Tax | Open |
-| `ASM-DOC02-010` | Payee-created requests can produce incremental completed payment volume that justifies onboarding, verification, request delivery, support, and review costs. | Commercial / Product / Finance | Open |
-| `ASM-DOC02-011` | Approved payees will accept payee-side fees, reduced payout amounts, or other commercial terms if selected. | Commercial / Product | Open |
-| `ASM-DOC02-012` | Payers will accept payee-created requests at a rate sufficient to make the payee-created model commercially viable. | Product / Commercial | Open |
-| `ASM-DOC02-013` | Payee onboarding and verification costs can be recovered through transaction margin, payee-side revenue, partner funding, or strategic value. | Commercial / Finance / Risk | Open |
-| `ASM-DOC02-014` | Payee-created rent or invoice requests can be controlled without fraud, dispute, support, or chargeback costs exceeding margin. | Risk / Finance / Operations | Open |
-| `ASM-DOC02-015` | Ledger and reporting data will support request creator type, payee type, payer response, payee-side fee, and request-funnel reporting. | Finance / Engineering | Open |
+| Assumption ID | Assumption | Owner | Status |
+|---|---|---|---|
+| `ASM-DOC02-001` | Payers accept an approved fee sufficient for at least one Category. | Commercial / Product | Open |
+| `ASM-DOC02-002` | PSP/acquirer pricing permits positive margin. | Commercial / Payments | Open |
+| `ASM-DOC02-003` | Payout cost is viable for target values. | Finance / Payments | Open |
+| `ASM-DOC02-004` | Fraud and chargeback losses remain controllable. | Risk / Finance | Open |
+| `ASM-DOC02-005` | Manual review is affordable at MVP volume. | Operations / Finance | Open |
+| `ASM-DOC02-006` | Promotions can be capped and tracked. | Growth / Finance | Open |
+| `ASM-DOC02-007` | Data supports Category, partner, programme and margin reporting while acquisition provenance remains audit/troubleshooting-only. | Finance / Engineering | Open |
+| `ASM-DOC02-008` | Settlement and reserves do not create unacceptable liquidity needs. | Finance / Payments | Open |
+| `ASM-DOC02-009` | Tax/accounting treatment does not undermine the selected model. | Finance / Legal / Tax | Open |
+| `ASM-DOC02-010` | Original Payee-created Request incremental-volume assumption. | Commercial / Product / Finance | Retired under Payer-only target |
+| `ASM-DOC02-011` | Institutions may accept separately approved commercial terms if selected. | Commercial / Product | Open; no term approved |
+| `ASM-DOC02-012` | Original Payee Request acceptance-rate assumption. | Product / Commercial | Retired |
+| `ASM-DOC02-013` | Institutional enrolment/verification cost may be recoverable through approved transaction margin, institutional revenue, partner funding or strategic value. | Commercial / Finance / Risk | Open |
+| `ASM-DOC02-014` | Original Payee-created Rent/invoice Request assumption. | Risk / Finance / Operations | Retired |
+| `ASM-DOC02-015` | Original Request-creator and funnel-reporting assumption. | Finance / Engineering | Retired |
 
 ---
 
 ## 21. Key Constraints
 
 | Constraint ID | Constraint | Impact | Owner |
-| --- | --- | --- | --- |
-| `CON-DOC02-001` | Fees must be disclosed before user or payer payment confirmation. | Requires transparent quote and checkout design. | Product / Legal |
-| `CON-DOC02-002` | Pricing must comply with applicable law, card network rules, and partner restrictions. | May limit fee structures. | Legal / Compliance / Payments |
-| `CON-DOC02-003` | Promotions must have approved budgets and controls. | Prevents uncontrolled negative margin. | Growth / Finance |
-| `CON-DOC02-004` | Settlement timing may limit payout speed. | May require delayed payout or liquidity buffer. | Finance / Payments |
-| `CON-DOC02-005` | Partner reserves or holdbacks may constrain growth. | Affects cash flow and capital planning. | Finance / Commercial |
-| `CON-DOC02-006` | Accounting and tax treatment must be confirmed before launch. | May affect pricing, reporting, and contracts. | Finance / Legal / Tax |
-| `CON-DOC02-007` | Negative-margin transactions must be approved or blocked unless strategically justified. | Requires margin monitoring and approval process. | Finance / Commercial |
-| `CON-DOC02-008` | Commercial reporting depends on reliable ledger and reconciliation data. | Requires engineering and finance alignment. | Finance / Engineering |
-| `CON-DOC02-009` | Multi-card payments may increase processing and support costs. | May require higher fees or deferral from MVP. | Product / Payments |
-| `CON-DOC02-010` | Category expansion must pass commercial viability gates. | Controls rollout sequence. | Product / Commercial |
-| `CON-DOC02-011` | Payee-created request enablement must pass commercial viability gates before launch. | Requires modeling onboarding, request delivery, acceptance, support, risk, payout, and dispute costs. | Commercial / Product / Finance |
-| `CON-DOC02-012` | Payee-side fees must be disclosed, contractually supported, and reportable before implementation. | Requires pricing, billing, ledger, tax, and communication readiness. | Commercial / Legal / Finance |
-| `CON-DOC02-013` | Payer must not be charged for a payee-created request before explicit payer authorization. | Prevents revenue capture before authorization. | Product / Payments / Legal |
-| `CON-DOC02-014` | Payee-created rent or invoice requests may require higher fees, limits, or deferral if review, fraud, or support costs are too high. | May constrain category rollout or payee-side pricing. | Commercial / Risk / Product |
-| `CON-DOC02-015` | Deferred user payment instructions may change funding timing, promotion quote validity, partial funding, support workload, and payout timing. | Requires quote revalidation, reminder tracking, partial funding reporting, and exception monitoring. | Commercial / Product / Finance |
+|---|---|---|---|
+| `CON-DOC02-001` | Fees disclosed before Payer authorization. | Requires transparent quote. | Product / Legal |
+| `CON-DOC02-002` | Pricing complies with law, network and partner rules. | May limit structures. | Legal / Compliance / Payments |
+| `CON-DOC02-003` | Promotions require approved budgets. | Prevents uncontrolled loss. | Growth / Finance |
+| `CON-DOC02-004` | Settlement may constrain Payout speed. | May require buffer/delay. | Finance / Payments |
+| `CON-DOC02-005` | Reserves/holdbacks may constrain growth. | Affects capital. | Finance / Commercial |
+| `CON-DOC02-006` | Accounting/tax treatment precedes launch. | May affect pricing and contracts. | Finance / Legal / Tax |
+| `CON-DOC02-007` | Negative-margin transactions require approval or blocking. | Requires monitoring. | Finance / Commercial |
+| `CON-DOC02-008` | Reporting depends on reliable ledger/reconciliation. | Requires alignment. | Finance / Engineering |
+| `CON-DOC02-009` | Multi-card may increase cost. | Requires owner treatment. | Product / Payments |
+| `CON-DOC02-010` | Category expansion passes viability gates. | Controls rollout. | Product / Commercial |
+| `CON-DOC02-011` | Original Payee-created Request commercial-gate constraint. | Superseded by formal active-Request retirement. | Commercial / Product / Finance |
+| `CON-DOC02-012` | Institutional fees require agreement, disclosure, approval and reporting. | No fee inferred. | Commercial / Legal / Finance |
+| `CON-DOC02-013` | Original Payee-created Request charging constraint. | Superseded; Payer authorization remains under DOC-09. | Product / Payments / Legal |
+| `CON-DOC02-014` | Original Payee-created Rent/invoice pricing constraint. | Retired; Category economics remain gated. | Commercial / Risk / Product |
+| `CON-DOC02-015` | Payment Instructions may change timing, quote, support and Payout cost. | Requires downstream reporting. | Commercial / Product / Finance |
 
 ---
 
 ## 22. Key Dependencies
 
-| Dependency ID | Dependency | Required For | Owner | Status |
-| --- | --- | --- | --- | --- |
-| `DEP-DOC02-001` | PSP/acquirer pricing and fee schedule. | Card processing cost model. | Commercial / Payments | Open |
-| `DEP-DOC02-002` | Payout provider pricing. | Payout cost model. | Commercial / Payments | Open |
-| `DEP-DOC02-003` | Launch category decision. | Category-level economics. | Product / Compliance | Open |
-| `DEP-DOC02-004` | Transaction limits and risk rules. | Fraud and chargeback loss assumptions. | Risk / Compliance | Open |
-| `DEP-DOC02-005` | Refund and chargeback rules. | Loss and revenue reversal model. | Payments / Risk / Finance | Open |
-| `DEP-DOC02-006` | Promotion engine design. | Campaign economics and budget controls. | Growth / Product | Open |
-| `DEP-DOC02-007` | Ledger and reporting model. | Margin reporting. | Finance / Engineering | Open |
-| `DEP-DOC02-008` | Accounting policy decision. | Revenue recognition and financial reporting. | Finance | Open |
-| `DEP-DOC02-009` | Tax review. | Fee and tax disclosure. | Legal / Tax / Finance | Open |
-| `DEP-DOC02-010` | Partner contracts. | Revenue share, reserves, fees, and settlement timing. | Commercial / Legal | Open |
-| `DEP-DOC02-011` | Payee onboarding cost model. | Payee-created request economics and payee-side pricing. | Commercial / Risk / Operations | Open |
-| `DEP-DOC02-012` | Payee type taxonomy and capability model. | Pricing, cost allocation, and payee profitability reporting. | Product / Commercial / Risk | Open |
-| `DEP-DOC02-013` | Payee-side fee policy. | Payee onboarding, request, payout, subscription, or platform pricing. | Commercial / Finance / Legal | Open |
-| `DEP-DOC02-014` | Payer identification and invitation mechanism. | Request delivery cost and conversion modeling. | Product / Engineering / Commercial | Open |
-| `DEP-DOC02-015` | Payer response and pre-authorization dispute process. | Rejection, query, dispute, support, and operational cost modeling. | Product / Operations / Legal | Open |
-| `DEP-DOC02-016` | Landlord/rent verification standard. | Rent request economics and landlord onboarding cost model. | Product / Risk / Operations | Open |
-| `DEP-DOC02-017` | Invoice verification standard. | Invoice request economics and business payee cost model. | Product / Risk / Operations | Open |
-| `DEP-DOC02-018` | Payee support operating model. | Payee support cost allocation and payee profitability reporting. | Operations / Commercial | Open |
-| `DEP-DOC02-019` | Payment instruction reporting model. | Deferred funding, reminder, quote revalidation, partial funding, and partial payout economics. | Finance / Product / Engineering | Open |
+| Dependency ID | Dependency | Required for | Owner | Status |
+|---|---|---|---|---|
+| `DEP-DOC02-001` | PSP/acquirer pricing. | Processing cost. | Commercial / Payments | Open |
+| `DEP-DOC02-002` | Payout provider pricing. | Payout cost. | Commercial / Payments | Open |
+| `DEP-DOC02-003` | Original launch Category inventory decision. | The twelve-category inventory is fixed in DOC-05; Category-specific commercial readiness remains governed elsewhere in this document. | Product / Compliance | Resolved; retained for lineage |
+| `DEP-DOC02-004` | Limits and risk rules. | Loss assumptions. | Risk / Compliance | Open |
+| `DEP-DOC02-005` | Refund/chargeback rules. | Reversal model. | Payments / Risk / Finance | Open |
+| `DEP-DOC02-006` | Promotion design. | Campaign economics. | Growth / Product | Open |
+| `DEP-DOC02-007` | Ledger/reporting model. | Margin reporting. | Finance / Engineering | Open |
+| `DEP-DOC02-008` | Accounting policy. | Recognition/reporting. | Finance | Open |
+| `DEP-DOC02-009` | Tax review. | Fee/tax disclosure. | Legal / Tax / Finance | Open |
+| `DEP-DOC02-010` | Partner contracts. | Revenue share, reserves and settlement. | Commercial / Legal | Open |
+| `DEP-DOC02-011` | Institutional enrolment/KYB cost model. | Programme economics. | Commercial / Risk / Operations | Open |
+| `DEP-DOC02-012` | Economic-Payee and institution classification. | Cost allocation and profitability. | Product / Commercial / Risk | Open |
+| `DEP-DOC02-013` | Institutional commercial policy. | Any onboarding, programme, Payout or platform fee. | Commercial / Finance / Legal | Open |
+| `DEP-DOC02-014` | Original Payer invitation mechanism. | Retired Request economics. | Product / Engineering / Commercial | Retired |
+| `DEP-DOC02-015` | Original Payer Request response process. | Retired Request economics. | Product / Operations / Legal | Retired |
+| `DEP-DOC02-016` | Rent verification standard. | Rent economics. | Product / Risk / Operations | Open |
+| `DEP-DOC02-017` | Controlled Bill verification standard. | Category economics. | Product / Risk / Operations | Open |
+| `DEP-DOC02-018` | Institutional and economic-Payee support model. | Support allocation. | Operations / Commercial | Open |
+| `DEP-DOC02-019` | Payment Instruction reporting. | Deferred funding economics. | Finance / Product / Engineering | Open |
 
 ---
 
 ## 23. Key Risks
 
-| Risk ID | Risk | Impact | Initial Mitigation | Owner | Status |
-| --- | --- | --- | --- | --- | --- |
-| `RISK-DOC02-001` | Card processing costs exceed payer willingness to pay. | Negative margin or low conversion. | Test pricing, model category margins, and consider partner subsidies. | Commercial / Product | Open |
-| `RISK-DOC02-002` | PSP/acquirer pricing or reserves make model uneconomic. | Launch delay or margin failure. | Compare providers and model reserve impact. | Commercial / Payments | Open |
-| `RISK-DOC02-003` | Promotions create uncontrolled losses. | Cash burn and distorted unit economics. | Use budgets, caps, eligibility, and margin reporting. | Growth / Finance | Open |
-| `RISK-DOC02-004` | Chargebacks or fraud losses exceed assumptions. | Margin loss and partner risk. | Use risk controls, limits, monitoring, and evidence retention. | Risk / Finance | Open |
-| `RISK-DOC02-005` | Manual review costs are underestimated. | Lower contribution margin and operational bottlenecks. | Track review time and automate high-volume checks. | Operations / Finance | Open |
-| `RISK-DOC02-006` | Fee disclosures are unclear or non-compliant. | Complaints, chargebacks, regulatory risk. | Legal and compliance review of checkout and receipt language. | Product / Legal | Open |
-| `RISK-DOC02-007` | Settlement timing creates liquidity pressure. | Working capital gap and delayed payouts. | Model settlement schedules, reserves, and liquidity buffers. | Finance / Payments | Open |
-| `RISK-DOC02-008` | Reporting data cannot support margin analysis. | Poor commercial decisions and audit gaps. | Define data model and ledger fields before launch. | Finance / Engineering | Open |
-| `RISK-DOC02-009` | Accounting or tax treatment changes economics. | Pricing, reporting, or contract redesign. | Obtain Finance and Tax review before pricing approval. | Finance / Legal / Tax | Open |
-| `RISK-DOC02-010` | Category expansion occurs without commercial review. | Scaling negative-margin categories. | Enforce commercial viability gates. | Product / Commercial | Open |
-| `RISK-DOC02-011` | Payee-created requests have low payer acceptance or completion rates. | Request delivery, onboarding, support, and review costs may not convert into revenue. | Model funnel economics, pilot with limits, and monitor acceptance rate. | Commercial / Product | Open |
-| `RISK-DOC02-012` | Payee onboarding and verification costs are underestimated. | Payee-created request model may be uneconomic. | Track cost per approved payee and require payee-type-level reporting. | Commercial / Operations | Open |
-| `RISK-DOC02-013` | Payee-side fees reduce payee adoption. | Lower request volume and weaker network growth. | Test pricing, segment by payee type, and consider subsidies. | Commercial / Product | Open |
-| `RISK-DOC02-014` | Payee-created requests increase support and dispute costs. | Margin erosion and operational backlog. | Track payer queries, disputes, payee tickets, and review cost. | Operations / Finance | Open |
-| `RISK-DOC02-015` | Fake invoice, fake rent, or collusive request losses exceed assumptions. | Fraud losses, chargebacks, partner risk, and negative margin. | Include enhanced risk loss assumptions and require controls before scaling. | Risk / Finance | Open |
-| `RISK-DOC02-016` | Payee-created rent requests have high evidence review cost. | Rent category may be commercially unattractive. | Pilot rent separately and model landlord verification and tenancy review cost. | Commercial / Risk | Open |
-| `RISK-DOC02-017` | Payee-side billing, refunds, or fee reversals are not ledgered correctly. | Revenue leakage, disputes, accounting errors, audit gaps. | Define payee fee ledger fields and reconciliation requirements in DOC-18. | Finance / Engineering | Open |
-| `RISK-DOC02-018` | Payer-facing and payee-facing fee allocation is confusing. | Complaints, disputes, regulatory risk, and lower conversion. | Require clear disclosures and pricing QA before launch. | Product / Legal | Open |
-| `RISK-DOC02-019` | Payee payout timing expectations create commercial or liquidity pressure. | Support burden, trust loss, or unsafe early payout. | Align payout communications with settlement and risk model. | Finance / Operations | Open |
-| `RISK-DOC02-020` | Payee-created request spam creates notification, support, and review costs without revenue. | Negative request-level economics and user dissatisfaction. | Apply request limits, payee controls, abuse monitoring, and commercial gating. | Commercial / Risk | Open |
-| `RISK-DOC02-021` | Deferred payment instructions or incomplete split-card funding create quote expiry, promotion budget, support, and partial payout complexity. | Revenue leakage, user confusion, reconciliation breaks, or negative margin. | Revalidate quotes, track funding legs, monitor partial funding, and define exception handling in DOC-09, DOC-10, DOC-13, DOC-18, DOC-21, and DOC-22. | Finance / Product / Operations | Open |
+| Risk ID | Risk | Impact | Mitigation | Owner | Status |
+|---|---|---|---|---|---|
+| `RISK-DOC02-001` | Processing cost exceeds willingness to pay. | Negative margin. | Model/test approved pricing. | Commercial / Product | Open |
+| `RISK-DOC02-002` | Partner pricing/reserves are uneconomic. | Delay or failure. | Compare providers. | Commercial / Payments | Open |
+| `RISK-DOC02-003` | Promotions create uncontrolled loss. | Cash burn. | Budgets and caps. | Growth / Finance | Open |
+| `RISK-DOC02-004` | Chargeback/fraud exceeds assumptions. | Margin/partner harm. | Risk controls and Evidence. | Risk / Finance | Open |
+| `RISK-DOC02-005` | Review cost underestimated. | Lower margin/backlog. | Measure and automate. | Operations / Finance | Open |
+| `RISK-DOC02-006` | Fee disclosure unclear. | Complaints/regulatory harm. | Legal/compliance review. | Product / Legal | Open |
+| `RISK-DOC02-007` | Settlement creates liquidity pressure. | Delayed Payout. | Model reserves/buffers. | Finance / Payments | Open |
+| `RISK-DOC02-008` | Data cannot support margin. | Poor decisions/audit gap. | DOC-18 definition. | Finance / Engineering | Open |
+| `RISK-DOC02-009` | Accounting/tax changes economics. | Redesign. | Pre-approval review. | Finance / Legal / Tax | Open |
+| `RISK-DOC02-010` | Category expands without review. | Negative-margin scale. | Enforce gates. | Product / Commercial | Open |
+| `RISK-DOC02-011` | Original low Request acceptance/completion risk. | Superseded active product risk. | Active Requests retired. | Commercial / Product | Retired |
+| `RISK-DOC02-012` | Institutional enrolment/verification cost underestimated. | Programme may be uneconomic. | Cost attribution by institution/type. | Commercial / Operations | Open |
+| `RISK-DOC02-013` | Institutional fees reduce participation. | Lower programme value. | Separate pricing approval and testing. | Commercial / Product | Open |
+| `RISK-DOC02-014` | Original Request support/dispute cost risk. | Superseded active product risk. | Active Requests retired. | Operations / Finance | Retired |
+| `RISK-DOC02-015` | Fake Evidence or collusion loss exceeds assumptions. | Fraud/chargeback loss. | Owner controls and conservative loss model. | Risk / Finance | Open |
+| `RISK-DOC02-016` | Rent Evidence/verification cost is high. | The separate Rent journey and economic line may be commercially unattractive. | Model Rent separately from controlled Bill Categories. | Commercial / Risk | Open |
+| `RISK-DOC02-017` | Institutional billing/reversals are ledgered incorrectly. | Revenue/audit error. | DOC-18/Finance design. | Finance / Engineering | Open |
+| `RISK-DOC02-018` | Fee allocation confuses Payers or institutions. | Complaints/disputes. | Clear approved disclosure. | Product / Legal | Open |
+| `RISK-DOC02-019` | Payout timing expectations create pressure. | Support or unsafe early Payout. | Align communication to model. | Finance / Operations | Open |
+| `RISK-DOC02-020` | Original Request spam cost risk. | Superseded active product risk. | Active Requests retired; individual notification abuse remains specialist-owned. | Commercial / Risk | Retired |
+| `RISK-DOC02-021` | Deferred Instructions or partial funding create cost complexity. | Revenue/reconciliation harm. | Revalidate and report under owners. | Finance / Product / Operations | Open |
+| `RISK-DOC02-022` | Directory operations are assumed to remove independently required transaction checks. | Underestimated operating cost and control failure. | Include owner-required transaction controls in aggregate costs. | Commercial / Risk | Open |
+| `RISK-DOC02-023` | Self-provided-process verification burden is underestimated. | Negative Category margin. | Measure aggregate process and review cost without repurposing transaction provenance. | Commercial / Operations | Open |
+| `RISK-DOC02-024` | Unpublication is confused with commercial offboarding or suspension. | Incorrect records or bypass. | Model each action separately under its owner. | Commercial / Product | Open |
 
 ---
 
 ## 24. Downstream Document Impact
 
-`DOC-02` should guide downstream documents as follows:
-
 | Document | Impact |
-| --- | --- |
-| `DOC-03` | Include PSP/acquirer pricing, reserve, category support, payout model, commercial restrictions, payee onboarding economics, payee classification, and payee-created request support in partner assessment. |
-| `DOC-04` | Include commercial viability gates for payee-created requests, payee-side pricing, rent/invoice economics, and launch/change governance. |
-| `DOC-05` | Convert fee quote, pricing display, promotion handling, commercial eligibility, payee-side pricing, request-origin reporting, and payee profitability requirements into product requirements. |
-| `DOC-07` | Define payer-facing and payee-facing pricing, fee, promotion, timing, request-origin, and authorization disclosures. |
-| `DOC-08` | Define receipts, fee breakdowns, payee statements, refund messages, promotion notifications, request invitations, and payer/payee status messages. |
-| `DOC-09` | Define funding, fee calculation, payer authorization, payee-created request fee treatment, multi-card fee allocation, and failed authorization behavior. |
-| `DOC-10` | Define payout cost, payee-side fee deduction if applicable, settlement timing, reconciliation, and financial exception handling. |
-| `DOC-11` | Define refund, cancellation, payer rejection, payee withdrawal, chargeback, loss allocation, payee fee reversal, and fee reversal rules. |
-| `DOC-13` | Define campaign budgets, promotion cost, funding source, eligibility, qualification, entitlement, usage, promotion quote, reversal, abuse controls, reward fulfilment, and reporting. |
-| `DOC-14` | Include fraud, fake invoice, fake rent, request abuse, chargeback, and payee-created request losses in risk appetite and controls. |
-| `DOC-18` | Define ledger fields, request creator type, payee type, payer response status, payee-side fees, metric definitions, revenue, cost, margin, campaign, request-origin, and partner reporting. |
-| `DOC-20` | Include commercial readiness, pricing, payee-side fee, request-origin, and payee-created request economics test cases in launch checklist. |
-| `DOC-21` | Include monitoring for margin-impacting exceptions, onboarding costs, request spam, payout failures, refunds, chargebacks, payer disputes, and payee support burden. |
-| `DOC-22` | Include admin reporting, configuration, review queues, overrides, and operational evidence for pricing, payout, refunds, promotions, payment instructions, and financial exceptions. |
+|---|---|
+| `DOC-03` / `DOC-04` | Assess partner pricing, reserves, programme/commercial controls and launch gates. |
+| `DOC-05` | Retains product-policy authority; commercial modeling cannot redefine Directory, acquisition, Save or retirement meanings. |
+| `DOC-06` family | Later Payer-only journeys and presentation must disclose approved fees without inheriting Request economics. |
+| `DOC-07` / `DOC-08` | Approved fee language and permitted notification cost/delivery. |
+| `DOC-09` / `DOC-10` / `DOC-11` | Funding, authorization, payout, reconciliation, refund and chargeback economics. |
+| `DOC-12` | Evidence, Category and Payee-verification cost inputs. |
+| `DOC-13` | Promotion budgets, funding, reversals and reporting. |
+| `DOC-14` / `DOC-15` | Risk-loss, privacy and wrong-recipient cost inputs. |
+| `DOC-18` | Represent approved ledger, programme dimensions, costs, margin and reporting requirements; acquisition provenance remains audit/troubleshooting-only, and no Request-runtime reporting is created. |
+| `DOC-20` / `DOC-21` | Commercial readiness, monitoring, support and incident evidence. |
+| `DOC-22` | Audited execution of approved pricing/configuration only; no commercial-policy authority. |
 
 ---
 
 ## 25. Open Questions
 
 | Question ID | Question | Owner | Priority | Status |
-| --- | --- | --- | --- | --- |
-| `OQ-DOC02-001` | What exact percentage service fee, payer/payee fee allocation, subsidy, coupon, promotion, discount, refund, and reversal treatment will be used for MVP? | Commercial / Product | Critical | Open |
-| `OQ-DOC02-002` | What is the target minimum contribution margin per transaction and by category? | Finance / Commercial | Critical | Open |
-| `OQ-DOC02-003` | What PSP/acquirer pricing assumptions should be used before contracts are signed? | Payments / Commercial | Critical | Open |
-| `OQ-DOC02-004` | What operating-bank, FPS, cheque, and EPS pricing assumptions should be used for payout modeling? | Payments / Commercial | High | Open |
-| `OQ-DOC02-005` | Will PayPlus charge different fees by category, amount, funding source, request creator type, or payee type? | Commercial / Legal / Product | High | Open |
-| `OQ-DOC02-006` | Are card surcharges, convenience fees, or payment-method-based fees permitted in the launch jurisdiction and partner model? | Legal / Compliance / Payments | Critical | Open |
-| `OQ-DOC02-007` | What refund and fee reversal rules will apply? | Finance / Payments / Product | High | Open |
-| `OQ-DOC02-008` | How will chargeback liability be allocated between PayPlus, users, payers, payees, and partners? | Legal / Finance / Risk | High | Open |
-| `OQ-DOC02-009` | What promotion budget and campaign controls are approved for MVP? | Growth / Finance | Medium | Open |
-| `OQ-DOC02-010` | What reserve, holdback, or prefunding requirements will partners impose? | Commercial / Payments | High | Open |
-| `OQ-DOC02-011` | What accounting treatment applies to service fees, payout amounts, refunds, and promotions? | Finance | Critical | Open |
-| `OQ-DOC02-012` | What tax treatment applies to user fees, payer fees, payee fees, partner fees, and promotions? | Legal / Tax / Finance | Critical | Open |
-| `OQ-DOC02-013` | What data fields are required to calculate transaction, request, payee, and request-origin margin accurately? | Finance / Engineering | High | Open |
-| `OQ-DOC02-014` | What commercial approval process is required before category, payee type, request-origin, or pricing changes? | Project Owner / Finance | Medium | Open |
-| `OQ-DOC02-015` | What commercial gates must payee-created Requests and the resulting Payment Obligations pass before launch enablement and scale-up? | Project Owner / Commercial / Product | Critical | Open |
-| `OQ-DOC02-016` | Which payee types can be commercially supported for request creation? | Commercial / Product / Risk | Critical | Open |
-| `OQ-DOC02-017` | Are payees charged onboarding, subscription, invoice, request, payout, platform, or transaction fees? | Commercial / Finance / Product | Critical | Open |
-| `OQ-DOC02-018` | If payee-side fees are charged, when are they charged: onboarding, request creation, request delivery, payer acceptance, funding, payout, monthly, or another trigger? | Commercial / Finance / Product | High | Open |
-| `OQ-DOC02-019` | How are payee-side fees treated if a request is rejected, expired, cancelled, or withdrawn; a linked dispute case is opened; or a linked payment is refunded or charged back? | Finance / Legal / Product | High | Open |
-| `OQ-DOC02-020` | What payer acceptance rate is required for payee-created requests to be commercially viable? | Commercial / Product | High | Open |
-| `OQ-DOC02-021` | What payee onboarding cost and payee acquisition cost are acceptable by payee type? | Commercial / Finance | High | Open |
-| `OQ-DOC02-022` | What commercial model applies to landlord-created rent requests if rent is enabled? | Commercial / Legal / Risk | Critical | Open |
-| `OQ-DOC02-023` | What commercial model applies to invoice requests if business or service-provider payees are enabled? | Commercial / Legal / Risk | High | Open |
-| `OQ-DOC02-024` | Can payees subsidize payer service fees, and how should those subsidies be disclosed, recorded, and reversed? | Commercial / Finance / Legal | High | Open |
-| `OQ-DOC02-025` | What request, notification, or review limits are required to prevent payee-created request spam from creating negative economics? | Commercial / Risk / Operations | High | Open |
-| `OQ-DOC02-026` | What margin threshold must payee-created request flows meet before scale-up? | Finance / Commercial | High | Open |
-| `OQ-DOC02-027` | What payee-level reporting is required for payout, fees, request volume, disputes, refunds, and tax/accounting purposes? | Finance / Product / Engineering | Medium | Open |
-| `OQ-DOC02-028` | What reporting and margin treatment should apply to deferred payment instructions, expired instructions, partial funding, and partial payout events? | Finance / Product / Engineering | Medium | Open |
+|---|---|---|---|---|
+| `OQ-DOC02-001` | What pricing, fee allocation, subsidy, promotion, refund and reversal treatment applies? | Commercial / Product | Critical | Open |
+| `OQ-DOC02-002` | What minimum contribution margin applies by transaction/Category? | Finance / Commercial | Critical | Open |
+| `OQ-DOC02-003` | What PSP/acquirer assumptions apply before contracts? | Payments / Commercial | Critical | Open |
+| `OQ-DOC02-004` | What payout pricing assumptions apply? | Payments / Commercial | High | Open |
+| `OQ-DOC02-005` | May approved fees differ by Category, amount, funding source or Payee class, and on what independently approved basis? | Commercial / Legal / Product | High | Open |
+| `OQ-DOC02-006` | Are payment-method-based fees permitted? | Legal / Compliance / Payments | Critical | Open |
+| `OQ-DOC02-007` | What refund and reversal rules apply? | Finance / Payments / Product | High | Open |
+| `OQ-DOC02-008` | How is chargeback liability allocated? | Legal / Finance / Risk | High | Open |
+| `OQ-DOC02-009` | What promotion budget and controls apply? | Growth / Finance | Medium | Open |
+| `OQ-DOC02-010` | What reserves/holdbacks/prefunding apply? | Commercial / Payments | High | Open |
+| `OQ-DOC02-011` | What accounting treatment applies? | Finance | Critical | Open |
+| `OQ-DOC02-012` | What tax treatment applies to each approved fee? | Legal / Tax / Finance | Critical | Open |
+| `OQ-DOC02-013` | Original transaction, Request, Payee and Request-origin margin-data question. | Finance / Engineering | High | Retired; replacement programme-data question uses a new ID |
+| `OQ-DOC02-014` | What commercial approval process applies to Category, institutional programme or pricing changes? | Project Owner / Finance | Medium | Open |
+| `OQ-DOC02-015` | Original active Payee-created Request commercial-gate question. | Project Owner / Commercial / Product | Critical | Retired |
+| `OQ-DOC02-016` | Original Request-creator Payee-type question. | Commercial / Product / Risk | Critical | Retired |
+| `OQ-DOC02-017` | Original Payee onboarding, subscription, invoice, Request, Payout, platform or transaction-fee question. | Commercial / Finance / Product | Critical | Retired with active Request/Payee-user economics |
+| `OQ-DOC02-018` | Original Payee-side fee-trigger question. | Commercial / Finance / Product | High | Retired with active Request/Payee-user economics |
+| `OQ-DOC02-019` | Original Request-state treatment for Payee-side fees. | Finance / Legal / Product | High | Retired with active Request economics |
+| `OQ-DOC02-020` | Original Request acceptance-rate question. | Commercial / Product | High | Retired |
+| `OQ-DOC02-021` | What institutional enrolment and sales-acquisition cost is acceptable by institutional class and Category? | Commercial / Finance | High | Open |
+| `OQ-DOC02-022` | Original landlord-created Rent Request model question. | Commercial / Legal / Risk | Critical | Retired; Rent economics remain separately open |
+| `OQ-DOC02-023` | Original invoice Request model question. | Commercial / Legal / Risk | High | Retired; controlled Bill economics remain separately open |
+| `OQ-DOC02-024` | May an institution subsidize Payer fees, and under what approved treatment? | Commercial / Finance / Legal | High | Open |
+| `OQ-DOC02-025` | Original Request spam-limit question. | Commercial / Risk / Operations | High | Retired |
+| `OQ-DOC02-026` | Original Request-flow margin-threshold question. | Finance / Commercial | High | Retired |
+| `OQ-DOC02-027` | What institution/economic-Payee reporting is required for Payout, fees, disputes, refunds and tax/accounting? | Finance / Product / Engineering | Medium | Open |
+| `OQ-DOC02-028` | What margin treatment applies to Payment Instructions and partial funding/Payout? | Finance / Product / Engineering | Medium | Open |
+| `OQ-DOC02-029` | What programme data is required to report institutional enrolment, Category-association, publication, operating cost and approved revenue without using Bill-acquisition provenance? | Finance / Engineering | High | Open |
+| `OQ-DOC02-030` | What, if any, separately approved institutional enrolment, programme, platform, Payout, subsidy or transaction terms should apply? | Commercial / Finance / Legal | Critical | Open; no term approved |
 
 ---
 
 ## 26. Acceptance Criteria
 
-`DOC-02` is acceptable when it clearly defines:
+DOC-02 is acceptable when it:
 
-- commercial objective;
-- business model components;
-- revenue streams;
-- fee principles;
-- cost drivers;
-- transaction-level unit economics;
-- payee-created request economics;
-- key economic definitions;
-- category and payee-type economics;
-- multi-card economics;
-- promotion and subsidy economics;
-- refund, cancellation, rejection, dispute, and chargeback economics;
-- working capital, settlement, and reserve considerations;
-- partner economics;
-- pricing governance;
-- commercial viability gates;
-- reporting and metric expectations;
-- data and ledger expectations;
-- accounting, tax, and revenue recognition considerations;
-- assumptions;
-- constraints;
-- dependencies;
-- risks;
-- downstream document impact;
-- open questions.
+1. retains the transaction-level revenue, cost, margin, promotion, settlement, partner and accounting framework;
+2. contains no active Payee-created Request, Request-fee, Payee-user portal or Request-funnel commercial model;
+3. treats Consumer product demand and payment economics as Payer-led;
+4. includes institutional enrolment, Category association, publication and aggregate controlled-acquisition operating costs where applicable without creating a new contribution formula or commercial gate;
+5. keeps acquisition provenance limited to audit/troubleshooting and out of pricing, promotion, profitability, margin allocation and general commercial reporting;
+6. preserves relevant Evidence, Payee/destination, risk, Payout, support and reconciliation costs;
+7. keeps unpublication separate from commercial offboarding and substantive suspension;
+8. preserves only append-only documentation history and retired Request stable IDs as non-active evidence, without creating runtime records, measures, fields, transactions or reporting obligations;
+9. recognises the Founder-confirmed twelve-category launch inventory and separate Rent economic line while leaving Category-specific pricing, fee structures, viability, margins, contracts, institutional programme terms, accounting, tax and partner conclusions unresolved;
+10. keeps DOC-05 product-policy authority and DOC-22 execution-only boundaries explicit.
 
-This document should remain a commercial framework and should not become a final pricing sheet, accounting policy, tax memo, partner contract, product PRD, or payment processing specification.
+This document remains a commercial framework, not a pricing sheet, accounting policy, tax memo, partner contract, product PRD or payment specification.
 
 ---
 
@@ -974,6 +564,8 @@ This document should remain a commercial framework and should not become a final
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.11.0` | 2026-08-12 | Product Documentation Team | Aligned the commercial framework to the Founder-confirmed twelve-category inventory and separate Rent economic line, and removed nonexistent production Request records, measures, fields, transactions and historical-reporting obligations while preserving retired IDs and append-only documentation history. |
+| `0.10.0` | 2026-08-10 | Product Documentation Team | Drafted the narrow Wave 1 commercial alignment: retired active Request/Payee-user economics, retained transaction economics, and identified institutional programme operating costs and legacy reporting without approving pricing, terms, new formulas or acquisition-provenance use. |
 | `0.9.3` | 2026-07-31 | Product Documentation Team | Aligned DOC-09 title references and commercial request-origin language with Request-as-linkage and Payment Obligation boundaries. |
 | `0.1.0` | 2026-05-14 | Initial Author | Initial draft of DOC-02 Business Model & Unit Economics. |
 | `0.2.0` | 2026-05-26 | Product Documentation Team | Reframed as foundation commercial framework, added unit economics model, revenue and cost taxonomy, commercial viability gates, pricing governance, promotion economics, settlement and reserve considerations, reporting expectations, assumptions, constraints, dependencies, risks, downstream impact, and standardized metadata and version history. |

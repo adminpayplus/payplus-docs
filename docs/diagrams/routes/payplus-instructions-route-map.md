@@ -31,7 +31,7 @@ flowchart TD
   DETAIL -->|"Choose or edit card/profile"| PROFILE["PAYMENT-PROFILE-ROOT"]
   PROFILE -. "Return with refreshed selection" .-> DETAIL
   DETAIL -->|"Update deliberate pay-later instruction"| SETUP
-  DETAIL -->|"Cancel / Archive where allowed"| ROOT
+  DETAIL -->|"Cancel where allowed"| ROOT
 
   CHECKOUT -->|"Deliberate pay later"| DETAIL
   CHECKOUT -->|"Execution incomplete<br/>retain Checkout identity"| DETAIL
@@ -41,4 +41,4 @@ flowchart TD
 
 A notification-backed Payment Instruction action alert always enters `NOTIFICATION-DETAIL`. Only after current state, authenticated payer, permission, target, and action availability are revalidated may an owner-approved current `Pay Now` CTA invoke the DOC-09 Checkout Resolver. No notification edge enters `INSTRUCTIONS-DETAIL` or `PAYMENT-CHECKOUT` directly.
 
-Instruction `Pay Now` does not predetermine Checkout identity. The resolver resumes an existing Checkout only when it remains active, eligible, and continuable; permits a later eligible Checkout only when no active continuable Checkout exists; and otherwise returns the applicable current resolution. Payment Instruction and Checkout remain separate, retained historical Checkouts are not reactivated, and resolver entry does not carry stale authorization or silently create a Funding Leg, Payment Attempt, or Provider Submission. The connected `Continue Payment` edge remains limited to an existing active, eligible, and continuable Checkout.
+Instruction `Pay Now` does not predetermine Checkout identity. The resolver resumes an existing Checkout only when it remains active, eligible, and continuable; permits a later eligible Checkout only when no active continuable Checkout exists; and otherwise returns the applicable current resolution. Payment Instruction and Checkout remain separate, retained historical Checkouts are not reactivated, and resolver entry does not carry stale authorization or silently create a Funding Leg, Payment Attempt, or Provider Submission. The connected `Continue Payment` edge remains limited to an existing active, eligible, and continuable Checkout. Source Archive is owned by the Bills/Rent route family and never archives a Payment Instruction or Checkout.

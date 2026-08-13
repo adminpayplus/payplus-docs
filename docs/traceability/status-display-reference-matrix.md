@@ -15,7 +15,7 @@ It is not the final backend status schema. DOC-18 owns the future canonical stat
 - DOC-12: evidence, OCR/autofill, verification, and duplicate/reuse statuses.
 - DOC-13: promotion eligibility, qualification, entitlement, reward instrument, referral qualification, redemption, reversal, and clawback status meaning.
 - DOC-14: risk, AML, anti-cashout, fraud, and review statuses.
-- DOC-15: identity-verification display, privacy-request, account-closure, Receiving Info privacy, and privacy/data-control status meaning.
+- DOC-15: identity-verification display, privacy-request, account-closure, and privacy/data-control status meaning.
 - DOC-22: admin queue, task, permission, and operations workflow statuses.
 
 User-facing labels should be mapped from system/domain statuses. A route should not invent a different status meaning where the same underlying system status is being displayed.
@@ -51,7 +51,7 @@ Message delivery outcomes such as queued, sent, delivered, failed, or retried be
 
 | Column | Meaning |
 | --- | --- |
-| Domain | Broad business domain, such as Payment Lifecycle or Request Lifecycle. |
+| Domain | Broad business domain, such as Payment Lifecycle or Privacy Request. |
 | Stage / Status Type | Human-readable grouping inside the domain. |
 | System / Domain Status | Backend or domain status from the owning document. |
 | Owning Doc | Source document for system meaning. |
@@ -124,49 +124,14 @@ Provider-specific states, internal review states, suspension, retry restrictions
 
 ---
 
-## Receiving Info - MVP Display Mapping
-
-These labels describe a saved Receiving Info profile, not payout execution and not external bank-account validation. Payout statuses remain in the Payment Lifecycle mapping.
-
-| Domain | Stage / Status Type | User-Facing Label | Owning Docs | Appears In | Notes |
-| --- | --- | --- | --- | --- | --- |
-| Receiving Info | Personal account matches verified identity under configured rules | `Ready to Receive` | DOC-10 / DOC-12 / DOC-14 | Receiving Info list, card, detail | Internal PayPlus readiness only; do not imply bank validation. |
-| Receiving Info | Third-party/company account, ownership mismatch, or proof review pending | `Under Review` | DOC-10 / DOC-12 / DOC-14 | Receiving Info list, card, detail, notification | Show a safe explanation without internal risk reasons. |
-| Receiving Info | Review approved | `Ready to Receive` | DOC-10 / DOC-12 / DOC-14 | Receiving Info list, card, detail, notification | Approval is version-specific. |
-| Receiving Info | Proof correction or destination-attributable failure requires user action | `Action Required` | DOC-10 / DOC-12 / DOC-14 | Receiving Info list, card, detail, action-required surface, notification | Show the permitted correction action. |
-| Receiving Info | Profile archived by user | `Archived` | DOC-10 / DOC-15 | Controlled archived/history access where permitted | Hidden from ordinary selection; retained for audit and historical snapshot linkage. |
-
-A transient bank, rail, provider, or system payout failure does not change the Receiving Info profile label. The payout event uses the Payment Lifecycle mapping instead.
-
----
-
-## Request Lifecycle - MVP Display Mapping
-
-Request lifecycle is independent from request events, evidence processing, obligation readiness, linked case handling, payment/payout status, and archive visibility.
-
-| Underlying Request State | Sender-Facing Label | Receiver-Facing Label | Visibility and Notes |
-| --- | --- | --- | --- |
-| `Draft` | `Draft` | Hidden | Sender-only until submitted. |
-| `Pending Evidence Verification` | `Waiting for Verification` | Hidden | Evidence gate is active; the request must not be delivered yet. |
-| `Pending Receiver Action` | `Reviewing` | `Awaiting` | Same underlying state with role-aware labels. |
-| `Accepted` | `Accepted` | `Accepted` | Establishes permitted party/obligation linkage; it is not payment authorization or automatic payment readiness. |
-| `Rejected` | `Rejected` | `Rejected` | Terminal request response; reason visibility follows privacy and content rules. |
-| `Expired` | `Expired` | `Expired` | Terminal lifecycle result subject to recreate/resend rules. |
-| `Cancelled` | `Cancelled` | `Cancelled` where previously visible | Receiver sees cancellation only when the request was previously delivered or visible. |
-
-`Created`, `Updated`, `Submitted`, evidence-gate entered/passed, auto-sent, sent/delivered, shared, viewed, reminded, accepted, rejected, expired, cancelled, resent/recreated, parties linked, archived, and restored are events or visibility transitions. `Archived` hides the item from active views without replacing its retained lifecycle state.
-
----
-
 ## Additional Status Domains and Owners
 
 The following domains already have human-readable status requirements or explicit open alignment work. Domain owners govern state meaning; this matrix governs cross-surface display alignment and must not collapse distinct state families.
 
 | Domain | Covers | Likely Owners |
 | --- | --- | --- |
-| Request Lifecycle | Canonical states and role-facing labels are defined in the Request Lifecycle mapping above. Events, evidence processing, obligation readiness, linked cases, payment/payout status, and archive visibility are separate. | DOC-06A, DOC-06B, DOC-06C, DOC-08, DOC-18 |
 | Bill / Rent Readiness | `Ready to Pay`, `Action Required`, and `Under Review`. `Paid` / `Received` are payment outcomes; `Archived` is visibility; due-state display is date-derived. | DOC-06C, DOC-12, DOC-14, DOC-18 |
-| Payment Instruction Lifecycle | Deliberate pay-later instruction, including pending, expired, cancelled, and archived conditions. Payment-instruction action alerts are not ordinary bill/rent reminder records. | DOC-06B, DOC-09, DOC-18 |
+| Payment Instruction Lifecycle | Deliberate pay-later instruction, including pending, expired, and cancelled conditions. Source Archive is separate and never archives an Instruction or Checkout. Payment-instruction action alerts are not ordinary bill/rent reminder records. | DOC-06B, DOC-09, DOC-18 |
 | Checkout Continuation | Incomplete, continuable, closed, or expired Checkout Workspace presentation. It is separate from Payment Instruction, confirmed Payment, and Payment Obligation coverage. | DOC-06B, DOC-09, DOC-18 |
 | Payment Obligation Coverage | `Fully Paid`, `Partially Paid`, or `Unpaid` semantic condition derived from Effective Coverage against Due Amount. Final cross-surface display mapping must not be inferred beyond DOC-09. | DOC-09, DOC-18 |
 | Evidence Lifecycle | `Not Provided`, `Pending Review`, `Accepted`, `Correction Needed`, `Update Needed`, `Rejected`, and `Duplicate Suspected`. Evidence status may affect obligation readiness but is not payment activity or archive visibility. | DOC-06C, DOC-12, DOC-18, DOC-22 |

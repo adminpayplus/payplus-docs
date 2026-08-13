@@ -14,6 +14,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | Defined baseline | Human-readable route behavior is decision-complete enough for continued alignment; final visual design or technical specification may remain open. |
 | Partially defined | Purpose and some behavior exist, but material route behavior remains open. |
 | ID or route open | The product area exists, but its stable destination ID or route behavior is not yet defined. |
+| Superseded | Former route identity retained for provenance only; it is not a current runtime destination or deep-link contract. |
 
 ## Destination Inventory
 
@@ -29,29 +30,26 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `ACCOUNT-ACTIVATION` | Post-account setup / Home banner / blocked financial action | Orchestration route flow | Coordinate only the missing phone verification, identity verification, or six-digit payment-passcode setup and return to the originating context. | DOC-06B | Defined baseline |
 | `PHONE-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable child flow | Verify or replace the required Hong Kong primary phone number; may be invoked contextually by `ACCOUNT-ACTIVATION`. | DOC-06B | Defined baseline |
 | `HOME-ROOT` | Successful authentication / bottom navigation: Home | Root screen | Open the task-first logged-in dashboard. | DOC-06B | Partially defined |
-| `PAYPLUS-ACTION-SHEET` | Bottom navigation: Pay+ | Sheet / modal | Start approved Bill/Rent payment selection, bill/rent setup, payment continuation, or payee-to-payer request creation through the five defined actions. | DOC-06B | Defined baseline |
+| `PAYPLUS-ACTION-SHEET` | Bottom navigation: Pay+ | Sheet / modal | Start approved Bill/Rent payment selection, bill/rent setup, or payment continuation through the four defined actions. | DOC-06B | Defined baseline |
 | `MORE-ROOT` | Dashboard shortcut: More | Root screen | Manage up to 7 configurable Home shortcuts plus protected More, restore the current eligible default, and access approved secondary services. | DOC-06B | Defined baseline |
 | `NOTIFICATION-ROOT` | Home Inbox / Me Notification Settings / approved notification context | Parent route shell | Group Inbox, notification detail, and notification settings; generic entry defaults to Inbox. | DOC-06B / DOC-08 | Defined baseline |
-| `NOTIFICATION-INBOX` | `NOTIFICATION-ROOT` / Home header | Default child screen | Search, filter, read, and archive notification-backed messages, announcements, support replies, and action items. | DOC-06B / DOC-08 | Defined baseline |
+| `NOTIFICATION-INBOX` | `NOTIFICATION-ROOT` / Home header | Default child screen | Search, filter, read, and archive notification records; any permitted action revalidates and hands off to its owning destination. Inbox is not a domain-action route. | DOC-06B / DOC-08 | Defined baseline |
 | `NOTIFICATION-DETAIL` | `NOTIFICATION-INBOX` / approved external notification context | Child screen | Show one permitted message, revalidate current state and action availability, and route only an owner-approved current action to its owning destination. An instruction `Pay Now` action invokes the DOC-09 Checkout Resolver only after this Detail-first treatment. | DOC-06B / DOC-08 | Defined baseline |
 | `NOTIFICATION-SETTINGS` | `NOTIFICATION-ROOT` / direct Me entry | Child screen | Manage permitted communication channels and preferences with reciprocal Inbox navigation. | DOC-06B / DOC-08 | Defined baseline |
 | `PAYMENT-CHECKOUT` | Bill/Rent Pay resolver, Instruction `Pay Now` Checkout Resolver, or another owner-approved resume or protected-return context | Flow / screen group | Provide one persistent adaptive Checkout Workspace for eligible New Checkout or valid Resume context, funding, holistic review and authorization, Funding Leg progress, condition-specific results and recovery, and safe return without imposing a fixed wizard or redefining DOC-09 domain meaning. Instruction `Pay Now` follows the decided `OQ-XDOC-007` resolver contract; instruction-related notifications follow the decided `OQ-XDOC-015` `NOTIFICATION-DETAIL`-first contract. | DOC-06B; DOC-09 for domain architecture | Defined baseline |
-| `BILLS-ROOT` | Bottom navigation: Bills | Root screen | Open the Bills area and its payer/payee views. | DOC-06C | Defined baseline |
+| `BILLS-ROOT` | Bottom navigation: Bills | Root screen | Open the Bills area and its payer-visible obligation views. | DOC-06C | Defined baseline |
 | `BILLS-PAY` | `BILLS-ROOT` | Tab / view | Manage obligations the user needs or expects to pay. | DOC-06C | Defined baseline |
-| `BILLS-RECEIVE` | `BILLS-ROOT` | Tab / view | Manage payee-created obligations and requests the user expects to receive. | DOC-06C | Defined baseline |
-| `BILLS-DETAIL-BILL` | `BILLS-PAY` / `BILLS-RECEIVE` | Child screen | View one bill/fee obligation with role-aware actions. | DOC-06C | Defined baseline |
-| `BILLS-DETAIL-RENT` | `BILLS-PAY` / `BILLS-RECEIVE` | Child screen | View one rent/tenancy obligation with role-aware actions. | DOC-06C | Defined baseline |
-| `BILLS-ADD` | Bills / Pay+ / Requests | Flow / screen group | Create an evidence-backed bill, fee, rent, or tenancy obligation. | DOC-06C | Defined baseline |
+| `BILLS-RECEIVE` | Former Bills Receive view | Retired route family | Retired; no Consumer-Payee or payee-user runtime is current. | DOC-06C | Superseded |
+| `BILLS-DETAIL-BILL` | `BILLS-PAY` | Child screen | View one bill/fee obligation with permitted payer actions. | DOC-06C | Defined baseline |
+| `BILLS-DETAIL-RENT` | `BILLS-PAY` | Child screen | View one rent/tenancy obligation with permitted payer actions. | DOC-06C | Defined baseline |
+| `BILLS-ADD` | Bills / Pay+ | Flow / screen group | Create an evidence-backed bill, fee, rent, or tenancy obligation. | DOC-06C | Defined baseline |
 | `BILLS-ACTIVITY` | Bill/rent detail | Child screen | Show payment-related transaction activity for one obligation. | DOC-06C | Defined baseline |
 | `BILLS-ACTIVITY-DETAIL` | `BILLS-ACTIVITY` | Child screen | Show one contextual payment-activity entry and permitted files. | DOC-06C | Defined baseline |
 | `BILLS-EVIDENCE-DETAIL` | Bill/rent detail | Child screen / sheet | View and manage the active evidence set for one obligation. | DOC-06C | Defined baseline |
 | `BILLS-EVIDENCE-UPLOAD` | `BILLS-EVIDENCE-DETAIL` / `BILLS-ADD` | Flow / screen group | Upload, capture, classify, review, and submit evidence. | DOC-06C | Defined baseline |
 | `BILLS-REMINDER-LIST` | Dashboard shortcut / Bills | Child screen | Manage reminders linked to obligations. | DOC-06C | Defined baseline |
 | `BILLS-REMINDER-DETAIL` | Reminder list / bill/rent context | Child screen / sheet | Create or edit one linked reminder. | DOC-06C | Defined baseline |
-| `BILLS-LINKING` | Bill/rent/request context | Flow / sheet | Support user-initiated participant linking without auto-matching. | DOC-06C | Partially defined |
-| `REQUESTS-ROOT` | Dashboard shortcut / Me | Root screen | List and manage received, sent, and archived requests. | DOC-06B | Defined baseline |
-| `REQUESTS-DETAIL` | `REQUESTS-ROOT` / notification / deeplink | Child screen | Review and act on one request while preserving linked-context handoffs. | DOC-06B | Defined baseline |
-| `REQUESTS-NEW` | Requests / Pay+ / bill/rent context | Child flow | Create and send one controlled evidence-backed request. | DOC-06B | Defined baseline |
+| `REQUESTS-*` | Former Requests route family | Retired route family | Retired; retained only in historical or superseded traceability material. | DOC-06A / DOC-06B | Superseded |
 | `INSTRUCTIONS-ROOT` | Dashboard shortcut / Pay+ | Root screen | List deliberate pay-later Payment Instructions and incomplete Checkout Workspaces without treating them as the same domain object. | DOC-06B | Defined baseline |
 | `INSTRUCTIONS-DETAIL` | `INSTRUCTIONS-ROOT` / Pay+ continuation / approved non-notification source context | Child screen | View and act on one Payment Instruction or one incomplete Checkout Workspace according to its distinct rules. A current Instruction `Pay Now` action invokes the DOC-09 Checkout Resolver without predetermining Checkout identity. | DOC-06B | Defined baseline |
 | `PAYMENT-PROFILE-ROOT` | Dashboard shortcut / Me / checkout / instruction | Root route family | Manage tokenized cards and saved split-card profiles. | DOC-06B | Defined baseline |
@@ -83,10 +81,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `ACCOUNT-SECURITY` | `ME-ROOT` | Child route | Manage Set/Change Password, explicitly linked Google/Apple login methods, passcode, 2FA, biometric, devices, and recovery. | DOC-06B | Defined baseline |
 | `PAYMENT-PASSCODE-SETTINGS` | `ACCOUNT-SECURITY` | Reusable child flow | Set, change, or reset the six-digit payment passcode and manage the permitted confirmation preference; may be invoked in Set mode by `ACCOUNT-ACTIVATION`. | DOC-06B | Defined baseline |
 | `PRIVACY-DATA-CONTROLS` | `ME-ROOT` | Child route | Manage optional data-use choices and governed privacy requests. | DOC-06B | Defined baseline |
-| `RECEIVING-INFO` | `ME-ROOT` / approved context | Root route family | Manage private reusable receiving-information profiles. | DOC-06B | Defined baseline |
-| `RECEIVING-INFO-LIST` | `RECEIVING-INFO` | Initial screen | List saved receiving-information profiles. | DOC-06B | Defined baseline |
-| `RECEIVING-INFO-DETAILS` | `RECEIVING-INFO-LIST` | Child screen | View one masked profile and its readiness/actions. | DOC-06B | Defined baseline |
-| `RECEIVING-INFO-SETUP` | Receiving Info / request context | Child flow | Add or edit one receiving-information profile. | DOC-06B | Defined baseline |
+| `RECEIVING-INFO-*` | Former Receiving Info route family | Retired route family | Retired; destination snapshots and payout-owned detail remain with DOC-09/DOC-10 and are not a current runtime route. | DOC-06B / DOC-10 | Superseded |
 | `ARCHIVED-ROOT` | `ME-ROOT` | Child root route | Enter Archived Bills & Rent or Archived Documents. | DOC-06B | Defined baseline |
 | `ARCHIVED-BILLS-LIST` | `ARCHIVED-ROOT` | Child list screen | Search, filter, and review the user's archived bill/fee and rent obligations, then open archived read-only bill/rent detail. | DOC-06C | Defined baseline |
 | `ARCHIVED-DOCS-LIST` | `ARCHIVED-ROOT` | Child list screen | Search, filter, preview, and download permitted archived or previous evidence documents. | DOC-06B | Defined baseline |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.8.21
+version: 0.9.3
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-08-06
+last_updated: 2026-08-13
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.8.21` |
+| **Version** | `0.9.3` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
 | **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
-| **Last Updated** | `2026-08-06` |
+| **Last Updated** | `2026-08-13` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -65,7 +65,7 @@ related_documents:
 
 This document defines PayPlus privacy, data protection, data classification, visibility, masking, lawful-use, consent, vendor, and record-retention requirements.
 
-PayPlus is a data-driven payment platform. It may collect, derive, retain, and use data from account activity, evidence verification, payment behavior, payout handling, risk review, support activity, and promotion activity to operate the service, verify obligations, reduce fraud, improve user experience, support analytics, manage commercial performance, and meet legal, audit, tax, compliance, partner, and operational requirements.
+PayPlus is a data-driven payment platform. It may collect, derive, retain, and use data from account activity, Evidence verification, payment behavior, payout handling, risk review, support activity, and promotion activity to operate the service, verify applicable Bill/Rent Payment Obligations, reduce fraud, improve user experience, support analytics, manage commercial performance, and meet legal, audit, tax, compliance, partner, and operational requirements.
 
 This document is not a final privacy policy, legal opinion, database schema, security architecture, authentication specification, or operations runbook.
 
@@ -81,7 +81,7 @@ DOC-15 covers:
 - user, payer, payee, admin, system, and vendor visibility boundaries;
 - masking and access-control expectations at privacy-rule level;
 - consent and communication privacy boundaries;
-- retention, deletion, legal hold, and audit-record expectations;
+- retention, record-handling, legal-hold and audit-record expectations;
 - data subject access and correction support;
 - vendor and cross-border processing expectations.
 
@@ -102,30 +102,34 @@ Detailed specifications belong to:
 | Final data model, event schema, ledger, reporting, and warehouse design | DOC-18 |
 | Authentication, encryption, RBAC, secrets, device security, and PCI controls | DOC-19 |
 | Incident response, monitoring, and operational escalation | DOC-21 |
-| Admin dashboard workflows, permissions, uploads, overrides, and review queues | DOC-22 |
+| Admin dashboard workflows, permissions, uploads, overrides, and review queues | DOC-22 executes only expressly owner-permitted operations using approved policy and facts; underlying privacy/access/retention/security/product authority remains with the applicable owner. |
 
 ---
 
 ## 3. Current Decision Baseline
+
+Privacy requirements apply to the Payer, authoritative Bill/Rent source, source-context economic-Payee facts, applicable Evidence, payment/Payout/adjustment records and owner-permitted operational access. An economic Payee need not be a User. The product has no active Request, Linking, To Receive, Receiving Info, Payee-user, participant-linking, reciprocal-reader, adapter, fallback, deep-link or production legacy runtime/data model.
+
+DOC-15 owns privacy classification, masking, approved-purpose access, indefinite retention and record-handling requirements. DOC-18 represents approved data, status, event, audit, lineage and reporting requirements when drafted; DOC-15 does not define their schema or lifecycle. Source Archive is a non-erasing visibility projection. This document does not define Archive/Restore, prior-version, Evidence-version, replacement-source or reader presentation.
 
 | Area | Baseline |
 | --- | --- |
 | Launch market | Hong Kong. |
 | Data strategy | PayPlus should support broad, lawful, purpose-linked data collection and analytics while preserving trust, consent, data minimization, access controls, and product-boundary restrictions. |
 | Account creation and activation | A temporary registration attempt creates no account and reserves no identifier. Restricted account creation requires one unique verified primary email, accepted Terms and Privacy notices, and at least one usable login method. Verified phone, identity verification, and six-digit payment-passcode setup may be completed later but are mandatory through `ACCOUNT-ACTIVATION` before full registration and financially restricted actions. |
-| Identity verification | Individual identity verification is expected through Jumio or equivalent provider. PayPlus may receive or store required identity attributes, provider references, verification outcomes, and approved evidence artifacts. |
+| Identity verification | Individual identity verification may use a provider selected and approved by the applicable formal owners. PayPlus may receive or store required identity attributes, provider references, verification outcomes, and approved evidence artifacts. |
 | KYC attributes | Name, ID number, sex, ID document data, and other provider-returned attributes may be used where connected to KYC, risk, compliance, payee verification, audit, support, or legal purpose. |
 | Login methods | One PayPlus account may use email/password and explicitly linked Google and Apple provider identities. Provider identities are linked by stable provider identifier, never by email match alone. |
 | Primary email | One verified primary email may belong to only one PayPlus account. A provider-returned verified email may be selected; another entered email must be verified before use. |
 | Password | A password is required only when email/password login is enabled. A social-authenticated account may set its first PayPlus password later through `ACCOUNT-SECURITY`. |
 | Biometric unlock | User-enabled Fingerprint and Face ID may support device-local Fast Login. PayPlus should not store biometric templates or plaintext passwords. |
-| New-device 2FA | Required on new device. SMS OTP is primary; email OTP or email deeplink may be fallback. |
+| New-device 2FA | Required on new device. Channel precedence and fallback remain subject to DOC-19 security and applicable owner confirmation. |
 | Fast Login | Eligibility uses a rolling one-month period renewed by each successful login and may be revoked earlier by risk, device, credential, account, or security changes. A separate dormant-account threshold remains open. |
 | Payment confirmation | Payment passcode is required for proceeding with payment. Higher-risk activity may require additional step-up under DOC-14 and DOC-19. |
 | Password reset | Email deeplink is supported, with single-use, short-lived, auditable reset flow. |
-| Record retention | Payment, account, tax, audit, receipt, statement, proof-of-payment, dispute, chargeback, and compliance records are expected to use a 7-year baseline, subject to final legal and privacy review. |
+| Record retention | Every PayPlus record is retained indefinitely. No scheduled expiry, deletion, purge, erasure, anonymisation, de-identification or other destruction is caused merely by elapsed time, ended purpose, source Archive or account closure. Owners may define access, masking, legal-hold, correction and lawful handling controls, but may not reopen or replace this duration. |
 
-Unconfirmed provider, retention exception, deletion, cross-border, sanctions, biometric, and security details should remain editable assumptions until confirmed.
+Unconfirmed provider, cross-border, sanctions, biometric, security and implementation-control details should remain editable assumptions until confirmed; no owner may create a finite retention period or time-triggered destruction rule.
 
 ---
 
@@ -138,10 +142,10 @@ Unconfirmed provider, retention exception, deletion, cross-border, sanctions, bi
 | Data engine readiness | Data structures should support analytics, segmentation, risk intelligence, evidence quality, commercial reporting, and future model improvement where allowed. |
 | Model-use governance | AI/model improvement, segmentation, personalization, partner reporting, and decision-support use should be governed by approved purpose, field classification, consent/preference state, prohibited-input rules, lineage, monitoring, and human-review requirements where applicable. |
 | Transparency | Users should receive appropriate notices for account, identity, evidence, payment, communication, and marketing data handling. |
-| Role-based visibility | Users, payees, admins, systems, vendors, and partners should see only the data needed for their approved role or task. |
+| Role-based visibility | Payers, authorised owner roles, systems, vendors and partners should see only data needed for their approved purpose or task; an economic Payee is not a PayPlus User role. |
 | Mask by default for sensitive fields | Sensitive identity, evidence, payment, payout, and risk fields should be masked or restricted unless full access is needed for an approved purpose. |
-| Auditability | Access, use, correction, export, deletion, override, review, and disclosure actions should be logged where material. |
-| Retention discipline | Records should be retained for required business, legal, tax, audit, compliance, dispute, chargeback, risk, and partner purposes, then deleted, archived, or de-identified under approved rules. |
+| Auditability | Access, use, correction, export, privacy-request, override, review, and disclosure actions should be logged where material. |
+| Retention discipline | Every PayPlus record remains retained indefinitely for its applicable business, legal, tax, audit, compliance, dispute, chargeback, risk and partner purposes. Archive changes visibility only and is not deletion, purge, erasure or de-identification. |
 
 ---
 
@@ -157,14 +161,14 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | KYC / KYB Data | Provider reference, ID type, ID number, name, sex where returned, date of birth where required, nationality where required, Business Registration document, owner ID, verification outcome. | Onboarding, compliance, payee approval, risk control, dispute and chargeback evidence. |
 | Evidence and Obligation Data | Bills, invoices, tenancy agreements, contracts, OCR text, extracted fields, corrected fields, final evidence snapshot, landlord/payee details, property address, due date, amount, reference number. | Payment validation, autofill, payer review, payee verification, duplicate detection, audit, analytics. |
 | Payment and Funding Data | Bill/Rent Payable Basis reference, Projection inputs/outputs where retained, Payment Obligation, Due Amount, Effective Coverage, Outstanding Amount, Checkout Workspace, Checkout Target, Obligation Allocation, payable-capacity reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Provider Submission, Provider Confirmation reference, Payment, Payment Application, Effective Payout Destination Snapshot, deliberate Payment Instruction, deferred funding date, authorization record, payment token reference, masked card summary, permitted masked cardholder name, card nickname, card brand, expiry, issuer/BIN metadata where available, default-card marker, saved split-card profile name, profile ratios, starred/frequent marker, profile action-required state, step-up result, provider reference. | Payment processing, risk, reconciliation, chargeback defense, product analytics. |
-| Payout and Payee Data | Payee profile, landlord/business payee data, Receiving Info profile ID, owner, nickname, method, version, readiness, proof reference, archive state, request/obligation/payment destination snapshot, source reference, bank/FPS/cheque/EPS details, payout status, payout batch, bank reference, reconciliation result. | Payout execution, payee validation, reconciliation, fraud prevention, support. |
-| Participant Linking and Invitation Data | User-initiated search/input, invitation channel, deeplink/QR/app-link reference, pending participant record, linking acceptance/decline, linked participant role, and linkage audit trail. | Two-sided visibility, request delivery, support, fraud prevention, privacy-controlled communication. |
+| Payout and economic-Payee Data | Source-context economic-Payee and owner-approved destination facts, authorization-time destination snapshot, Payout status, batch, bank reference and reconciliation result. | Payout execution, intended-Payee/destination verification, reconciliation, fraud prevention and support. |
+| Retired Participant-Linking Data | No active collection, runtime or reader; append-only documentation history only. | Documentation provenance only. |
 | Risk and Compliance Data | Risk score/band, rule triggers, AML/sanctions status, duplicate evidence signals, same-party indicators, fraud flags, payout holds, admin review outcome, escalation records. | Anti-cashout, fraud prevention, compliance control, monitoring, audit. |
 | Refund, Dispute, Chargeback, and Support Data | Support tickets, user messages, dispute reason, refund case, chargeback reason code, evidence package, resolution, recovery/write-off status. | Support, dispute resolution, chargeback defense, operational learning, reporting. |
 | Promotion, Referral, and Membership Data | Campaign eligibility, promotion quote reservation, coupon/voucher library, reward instrument type, earning source, program context, campaign/offer/entitlement source, fulfilment method, reward entitlement, opaque user-linked referral code/reference, registration attribution, masked referee phone, qualification progress/outcome, beneficiary role, entitlement-to-instrument link, membership tier, miles account reference, redemption status. | Growth, campaign operation, partner reporting, reward fulfilment, attribution, abuse detection. |
 | Communication and Notification Data | Notification event ID, recipient-specific message ID, optional batch ID, category, source event/object, recipient role, template version, target route/object, read/archive state, status/action-at-send snapshot, channel preference, per-channel delivery attempt, provider reference, timestamps, reminder linkage, and WhatsApp/SMS/email/push logs. | Service communication, consent/preference operation, audit, support, communication performance. |
 | UI Preference and Personalization Data | Approved shortcut-catalog/default version, account-level shortcut order and visibility, effective availability, restore-current-default action, dashboard placement exposure, carousel impression/action, Inbox read/archive interaction, Me destination use, notification preference, language, theme, and other user-selected display preferences. | Product operation, cross-device user preference, consented marketing/promotion display, analytics, and audit where required. |
-| Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, category usage, correction behavior, conversion, drop-off, retry behavior, spend behavior, payer/payee relationship patterns, dashboard shortcut usage, reminder opened/ignored/actioned behavior, and placement performance. | Product improvement, risk intelligence, commercial analytics, segmentation. |
+| Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, Category usage, correction behaviour, conversion, drop-off, retry behaviour, spend behaviour, dashboard shortcut usage and placement performance. | Product improvement, risk intelligence, commercial analytics and segmentation. |
 | Derived and Aggregated Data | Risk indicators, user segments, category economics, OCR quality metrics, fraud trends, campaign performance, anonymized or aggregated insights, model features where approved. | Analytics, approved model improvement, business intelligence, strategic decisions. |
 
 Detailed fields, schemas, lineage, event names, feature/model metadata, and reporting tables belong in DOC-18.
@@ -177,7 +181,7 @@ PayPlus should support the following account and authentication model:
 
 | Function | Requirement |
 | --- | --- |
-| Registration attempt | Before account creation, use a temporary attempt record rather than a partial account. Proposed email, phone, provider identity, and other identifiers remain unreserved; app exit permits an immediate new attempt. An inactive attempt may remain for up to 30 minutes for cleanup/security, and final creation atomically rechecks uniqueness and required gates. |
+| Registration attempt | Before account creation, use a temporary attempt record rather than a partial account. Proposed email, phone, provider identity, and other identifiers remain unreserved; app exit permits an immediate new attempt. An attempt may remain usable for up to 30 minutes of inactivity for security and continuation handling; after that window it is expired/inactive for continuation and a new attempt may be required. The attempt record is retained indefinitely and is not deleted, purged, erased, anonymised or disposed. Final creation atomically rechecks uniqueness and required gates. |
 | Restricted account creation | Require one unique verified primary email, accepted Terms and Privacy notices, and one usable login method. Google/Apple registration stores the verified provider identity by stable provider identifier; email registration requires verified email and password. |
 | Account activation | `ACCOUNT-ACTIVATION` completes phone verification, identity verification, and six-digit payment-passcode setup after restricted account creation. Completion removes the registration-level restriction but does not bypass feature-specific evidence, risk, payment, provider, or role gates. |
 | Login methods | One account may use email/password, Google, and Apple only where each method has been explicitly enabled or linked. Matching email addresses never create or merge a provider link automatically. |
@@ -186,11 +190,11 @@ PayPlus should support the following account and authentication model:
 | Password | Email/password registration sets a password. A social-authenticated account may have no PayPlus password until the user selects `Set Password` in `ACCOUNT-SECURITY`; thereafter the action becomes `Change Password`. Password storage and hashing belong in DOC-19. |
 | Provider linking | Linking or unlinking Google/Apple requires an authenticated session, fresh approved reauthentication, successful provider authentication, explicit confirmation, audit, and security notification. A provider identity may link to only one PayPlus account, and the final usable login method cannot be removed. |
 | Fast Login and device-local biometric | Each successful login renews a one-month Fast Login period. User-enabled Fingerprint or Face ID may activate the approved device credential; biometric templates remain on device or approved platform service. PayPlus stores no plaintext password and masks the remembered email. |
-| New-device 2FA | New-device login requires step-up. SMS OTP is primary; email OTP or email deeplink is fallback. |
+| New-device 2FA | New-device login requires step-up. Channel precedence and fallback remain subject to DOC-19 security and applicable owner confirmation. |
 | Dormant-login reauthentication | Login after a configured long inactivity period should require reauthentication, such as password plus SMS OTP, email OTP, or other approved factor. |
 | Payment passcode | Payment passcode is required before proceeding with payment authorization. |
 | Password reset | Email deeplink must be single-use, short-lived, and logged. User should receive security notification after reset. |
-| Core account changes | Changes to an existing email, phone, password, payment passcode, immutable identifier, KYC/KYB record, or payout/Receiving Info profile require payment passcode or approved reauthentication before route-specific OTP, provider, review, or confirmation controls. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. Payment-profile changes retain their separately approved optional-passcode rule. Review is required only where risk, compliance, payout, KYC/KYB, or fraud rules require it. |
+| Core account changes | Changes to an existing email, phone, password, payment passcode, immutable identifier or KYC/KYB record require payment passcode or approved reauthentication before route-specific owner controls. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. Payment-profile changes retain their separately approved optional-passcode rule. |
 
 DOC-15 defines data handling and privacy boundaries. DOC-19 owns security mechanics, authentication implementation, encryption, credential storage, device controls, and RBAC.
 
@@ -206,9 +210,9 @@ Material changes should be grouped by sensitivity and handled with proportionate
 | Credential or login-method change | Set or change password, link or unlink Google/Apple, change payment passcode, recovery method, or 2FA setting. | Require fresh approved reauthentication and route-specific confirmation; require successful authentication by a provider being linked; prevent removal of the final usable login method; notify user after completion. |
 | Device trust change | New device, trusted-device addition/removal, device reset. | Require step-up where applicable and log the device/session event. Removing another trusted device revokes its trust and active session; removing the current device logs the user out. |
 | Payment profile change | Add, remove/archive, update, suspend, reactivate, star/unstar, or change default card/payment profile. | Require payer confirmation by default; payment passcode confirmation may be enabled by user setting; step-up may still apply where risk, PSP/acquirer, or security rules require; never expose raw card data. |
-| Receiving Info profile change | Add, edit, version, reveal permitted full values, or archive a bank/FPS/cheque/EPS profile. | Require payment passcode or approved reauthentication before full-value reveal and add/edit. Archive requires confirmation. Stronger step-up may apply where risk, security, provider, or compliance rules require it. Third-party/company/ownership-mismatch profiles require proof and review. |
-| Effective payout destination change | Change the destination selected for a request, obligation, payment, or payout. | Preserve a new immutable snapshot, apply the role and acceptance rules in DOC-06B/DOC-09/DOC-10, warn the payer where the selected destination differs from accepted request context, and require payer reauthorization after payment authorization. |
-| Identity/KYC change | Correct a governed record or respond to an admin-required identity update. A user cannot voluntarily repeat verification after `Verified`. | Preserve the verified record and audit history. An authorized admin may set `Not Verified` or `Update Required`; new provider capture may require payment passcode or approved reauthentication. First-time verification follows the Account Activation exception. |
+| Retired Receiving Info | No active Consumer Receiving Info profile, library, version, reveal or archive interaction exists. | Documentation provenance only. |
+| Effective payout destination change | Owner-governed source-context destination facts and an applicable authorization-time snapshot. | DOC-09/DOC-10 control those facts; DOC-15 supplies approved-purpose privacy requirements only. |
+| Identity/KYC change | Correct a governed record or respond to an owner-required identity update. A user cannot voluntarily repeat verification after `Verified`. | The applicable identity/security owner determines any outcome; DOC-22 may execute only an expressly permitted workflow. First-time verification follows the Account Activation exception. |
 | Marketing or communication preference change | Opt-in/out, WhatsApp/SMS/email preference, direct-marketing consent. | Require logged preference update; step-up only if account takeover risk is present. |
 
 Material changes should create audit events and user-facing security notifications where appropriate. Detailed status, event schema, and admin workflow belong in DOC-18, DOC-19, and DOC-22.
@@ -217,26 +221,24 @@ The user-facing Two-Step Verification toggle controls optional routine step-up o
 
 ### 6.2 `ME-ROOT` Account Display and Reveal
 
-DOC-06B `ME-ROOT` is the permanent mixed-role account-control route. Privacy requirements are:
+DOC-06B `ME-ROOT` is the Payer-only account-control route. DOC-15 supplies privacy requirements only; route, return and user-facing status behaviour remain with their formal owners.
 
-- `ACCOUNT-PROFILE` may show editable nickname/display name, copyable PayPlus User ID, masked phone, masked email, and identity-verification status only; nickname/display name is not a login identifier;
-- `ACCOUNT-SECURITY` must present the account's usable login methods, use `Set Password` where no PayPlus password exists and `Change Password` after one is set, and support explicit Google/Apple link or unlink without email-based automatic merging;
-- the only identity-verification labels shown there are `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`; actions follow DOC-06B and the status-display matrix;
-- Back or Cancel from identity verification restores `ACCOUNT-PROFILE`; completion returns with refreshed status, `Processing` must not encourage duplicate submission, and `Verified` offers no voluntary re-verification;
+- account surfaces must mask sensitive identity, contact and credential information unless approved-purpose access permits it;
+- authentication, security, route, return and displayed-status requirements remain with DOC-06B, DOC-07 and DOC-19;
 - full identity attributes, identity documents, provider payloads, payment credentials, evidence content, full payout details, and internal risk reasons must not appear on the root;
-- revealing approved masked sensitive values in a prominent account or Receiving Info surface uses the existing PayPlus payment passcode or approved reauthentication; no second reveal-only passcode should be introduced;
-- changing existing sensitive identity, contact, security, credential, or Receiving Info data requires payment passcode or approved reauthentication before the applicable OTP, provider, review, or confirmation flow; first-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode;
+- revealing approved masked sensitive account values uses the existing PayPlus payment passcode or approved reauthentication; no second reveal-only passcode should be introduced;
+- changing existing sensitive identity, contact, security or credential data requires payment passcode or approved reauthentication before applicable owner controls; first-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode;
 - permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading within an authenticated approved-purpose context does not require an extra passcode or step-up solely because the document is opened or downloaded;
 - additional step-up may apply where risk, security, legal, provider, or data-classification rules require it;
 - reveal attempts and outcomes should be logged without copying sensitive values into analytics or ordinary notification content;
 - `PRIVACY-DATA-CONTROLS` should separate optional direct-marketing, personalization, and approved partner-data-use choices from mandatory service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
-- `PRIVACY-DATA-CONTROLS` should support approved access/export, correction, retention/deletion requests, request history, and a contextual handoff to account closure; direct account-field edits return through `ACCOUNT-PROFILE` and notification-channel choices remain in `NOTIFICATION-SETTINGS`;
+- `PRIVACY-DATA-CONTROLS` should support approved access/export, correction, privacy-request handling, request history, and a contextual handoff to account closure; direct account-field edits return through `ACCOUNT-PROFILE` and notification-channel choices remain in `NOTIFICATION-SETTINGS`; none of these requests erases the underlying record;
 - protected data export must use time-limited in-app access rather than an ordinary email attachment;
-- account closure in `ACCOUNT-PROFILE` is a controlled request, not immediate deletion. It requires payment passcode plus 2FA, checks unresolved payment and operational blockers, remains cancellable until operational finalization, and must preserve records subject to retention, dispute, audit, tax, security, compliance, and legal-hold requirements;
+- account closure in `ACCOUNT-PROFILE` is a controlled request, not record destruction. It requires payment passcode plus 2FA, checks unresolved payment and operational blockers, remains cancellable until operational finalization, and preserves every underlying record under the Founder-settled indefinite-retention rule;
 - completed closure blocks new activity, terminates sessions, disables login, and sends an approved completion notice; the user should be prompted to obtain available records before closure, with later access handled through support or the approved privacy process;
-- `RECEIVING-INFO` must keep the user's saved profile library private from payers. List, card, and ordinary detail views mask account/identifier data while leaving bank/provider name visible; payment-passcode or approved reauthentication is required before controlled Edit reveals permitted full current values. Archive hides the profile from ordinary selection but retains versions and audit history;
-- a payer may see only the destination selected for the relevant request, obligation, payment, or payout context. That context snapshot remains valid independently of later source-profile edit or archive;
-- `ARCHIVED-ROOT` separates archived obligations from archived/previous evidence. Archive is a per-user visibility projection and must not change the counterparty's visibility, party linkage, canonical obligation/evidence, completed history, or retained snapshots. `ARCHIVED-DOCS-LIST` may expose only permitted archived or previous evidence through controlled, role-appropriate access and must not bypass retention, masking, disposition, or audit rules.
+- Consumer Receiving Info has no active product surface. Payer-entered destination facts remain within the controlled Bill/Rent journey under the applicable owner boundaries;
+- a Payer may see only owner-approved source-context destination facts for the relevant payment context, subject to DOC-15 approved-purpose access requirements;
+- Archive is a Payer visibility projection that must not erase or rewrite authoritative source, Evidence, Payment, destination, Payout, reconciliation or audit history. `ARCHIVED-ROOT`/`ARCHIVED-BILLS-LIST` presentation belongs to DOC-06B/DOC-06C. `ARCHIVED-DOCS-LIST` is provisional and unreachable through active UI; it has no DOC-15-defined content or interaction. If a later owner authorizes presentation, DOC-15 supplies approved-purpose access and retention requirements only.
 
 Detailed passcode, session, device, reauthentication, and reveal implementation belongs in DOC-19. Final event and data structures belong in DOC-18.
 
@@ -270,17 +272,14 @@ Rules:
 - raw evidence, OCR text, extracted fields, user corrections, verification signals, and final evidence snapshot should remain separately traceable;
 - extractable data does not mean displayable data;
 - sensitive evidence fields may be stored for approved purposes while hidden or masked in ordinary UI;
-- payer and payee should only see role-appropriate evidence data;
+- the Payer and authorised owner roles should see only approved-purpose Evidence data;
 - duplicate/reused evidence warnings must not disclose another user's private information;
 - evidence data may support analytics, OCR quality improvement, risk intelligence, commercial reporting, and product improvement where permitted;
-- evidence access, review, correction, download, export, replacement, and deletion actions should be logged where material.
-- archive and retention are separate: archive changes user-facing visibility, while approved retention, legal hold, deletion, or disposition rules continue independently;
-- user-facing archive and archived-detail actions must not offer ad hoc hard deletion; lawful scheduled deletion, de-identification, or other disposition may still occur under approved retention, legal-hold, privacy, tax, audit, dispute, security, and compliance rules;
-- an archived-document preview or download must recheck the current session, ownership, role/linkage, approved purpose, privacy restrictions, retention restrictions, and legal restrictions;
-- ordinary permitted archived-document view/download does not require an additional passcode solely for opening the document;
-- search and filters in `ARCHIVED-DOCS-LIST` may use permitted displayed metadata but must not expose restricted OCR text, identity values, account data, or hidden extracted fields;
+- evidence access, review, correction, download, export, replacement and privacy-request actions should be logged where material.
+- archive and retention are separate: archive changes user-facing visibility, while the Founder-settled indefinite-retention rule continues independently;
+- user-facing archive and archived-detail actions must not offer hard deletion, purge, erasure, de-identification or other destruction; owner-governed access, masking, correction and legal-hold controls do not change the underlying retained record;
 - legal hold or required retention may preserve evidence but must not expand user visibility;
-- archive, restore, and previous-version history must preserve auditability without treating archived evidence as permanently retained beyond the approved schedule.
+- Archive visibility must not erase or rewrite Evidence, Payment, destination, Payout, reconciliation or audit history; exact Archive, Restore, prior-version, Evidence-version and `ARCHIVED-DOCS-LIST` presentation remains deferred.
 
 DOC-12 owns evidence field sets and verification flow. DOC-18 owns final evidence data model.
 
@@ -292,8 +291,8 @@ Visibility must reflect role, task, permission, and approved purpose.
 
 | Actor | Visibility Rule |
 | --- | --- |
-| Payer | May view own account, Request, payment summary, evidence summary, selected payment method summary, the destination selected for the relevant payment context, own masked card and payment profile summaries, status, receipts, and support history. A payer must not browse a payee's Receiving Info library. |
-| Payee | May manage own Receiving Info profiles and view request/payout context needed to receive or request payment, but not payer card details, payer payment profiles, private funding data, unrelated KYC data, internal risk flags, or private payer profile data. |
+| Payer | May view own account, applicable payment summary, owner-approved Evidence summary, selected payment-method summary, source-context destination facts, own masked card/payment-profile summaries, receipts and support history subject to approved-purpose rules. |
+| Economic Payee | Is not a PayPlus User role or active reciprocal reader. Source-context intended-Payee and destination privacy remain with the applicable formal owners. |
 | Admin / Operations | May access data required for assigned queue, review, support, payout, refund, dispute, risk, or compliance task. Access must be permissioned and logged. |
 | Risk / Compliance | May access broader identity, evidence, relationship, payment, payout, refund, chargeback, promotion, and risk signals where needed for approved review. |
 | Engineering | Should not access production personal data unless approved for incident, support, debugging, migration, or security task under controlled process. |
@@ -301,24 +300,15 @@ Visibility must reflect role, task, permission, and approved purpose.
 
 Detailed RBAC, access approval, admin workflows, and audit events belong in DOC-19, DOC-22, and DOC-18.
 
-### 9.1 Participant Linking and Invitation Privacy
+### 9.1 Retired Participant-Linking Privacy
 
-User-to-user linking must be controlled because payer/payee relationships can reveal sensitive financial, tenancy, household, employment, or business information.
+Participant Linking, invitations, Request delivery and reciprocal visibility are retired from active MVP. No production data, reader, adapter, fallback or deep-link obligation exists. Their prior names may appear only in append-only documentation history. This section imposes no current collection, sharing, visibility, retention or runtime requirement for them.
 
-Rules:
-
-- PayPlus must not assume automatic user-to-user matching in the user experience;
-- payer-created payment may use a valid non-user payee record or payout destination where allowed by DOC-06, DOC-09, DOC-10, DOC-12, and DOC-14;
-- shared payer/payee visibility should require user-initiated search/input, invitation, acceptance, or approved operational action;
-- phone number, user ID, QR code, app link, WhatsApp deeplink, or other invitation methods must avoid exposing unnecessary profile, KYC, evidence, payment, or relationship data before acceptance;
-- counterparty lookup in DOC-06B `REQUESTS-NEW` may use PayPlus user ID or phone-number identifier, but the lookup result must avoid exposing unnecessary account, profile, evidence, payment, KYC/KYB, or relationship information before acceptance;
-- WhatsApp deeplink, app-link, QR, or other request-sharing methods should route the receiver to authenticated/onboarded `REQUESTS-DETAIL` and must keep sensitive request and evidence details inside the authenticated app where practical;
-- declined, expired, or ignored invitations must not reveal private information beyond the minimum status needed for the sender;
-- participant search, invitation, acceptance, decline, and linking events should be logged and classified in DOC-18.
+No user-to-user linking privacy model is active. Retired identifiers create no collection, sharing, visibility, retention, event or runtime requirement.
 
 ### 9.2 Referral Attribution Privacy
 
-Referral attribution is separate from payer/payee participant linking and must not grant shared visibility, create a Request, or authorize payment.
+Referral attribution is separate from source-context economic-Payee facts and must not grant shared visibility, create a Request or authorize payment.
 
 Rules:
 
@@ -330,7 +320,7 @@ Rules:
 - the referrer may see only the campaign, privacy-safe qualification progress, and a phone number with the middle half of digits masked, using `91****67` as the MVP format for an eight-digit Hong Kong number; the masked phone appears only in the attributed-referee progress area of `REFERRAL-ROOT`, not on referral reward cards or child reward screens;
 - referral views and communications must not disclose the referee's bills, rent, evidence, payment amounts, payment cards/profiles, KYC data, payees, or internal risk reasons.
 
-DOC-13 owns referral relationship, qualification, entitlement, and reward rules. DOC-18 owns final referral objects and events. DOC-22 owns future admin access and correction controls.
+DOC-13 owns referral relationship, qualification, entitlement, and reward rules. DOC-18 owns final referral objects and events. DOC-22 may execute only expressly owner-permitted access and correction workflows using approved policy and facts.
 
 ### 9.3 Reward Credential and Partner-Fulfilment Privacy
 
@@ -343,7 +333,7 @@ Issued reward metadata may be displayed according to DOC-06B, but usable credent
 - cached reward metadata may be read-only with last-updated information, but credential reveal, checkout use, and partner handoff require authenticated access and current availability checks unless a separately approved fulfilment method permits otherwise;
 - external partners receive only the fields required for the approved fulfilment, reconciliation, support, legal, or contractual purpose.
 
-DOC-13 owns authoritative reward use and fulfilment. DOC-18 owns final credential-reference, access-event, reveal-event, partner-handoff, and lineage structures. DOC-19 owns technical protection and DOC-22 owns controlled operational access.
+DOC-13 owns authoritative reward use and fulfilment. DOC-18 owns final credential-reference, access-event, reveal-event, partner-handoff, and lineage structures. DOC-19 owns technical protection and DOC-22 may execute only expressly owner-permitted controlled operational access workflows.
 
 ---
 
@@ -388,7 +378,7 @@ PayPlus may use collected and derived data to support:
 - category economics;
 - OCR/document AI quality improvement;
 - risk monitoring and fraud trend detection;
-- payer/payee relationship insights;
+- source-context and risk-derived indicators only where separately owner-approved;
 - support and operational performance;
 - promotion, referral, membership, and campaign performance;
 - dashboard shortcut usage, user preference patterns, placement exposure, and carousel performance;
@@ -399,7 +389,7 @@ Derived or aggregated data should retain lineage to source data class, permitted
 
 Dashboard shortcut ordering is an account-level product-operation preference and does not by itself require marketing consent. Placement targeting and Home Hot Offer exposure remain subject to applicable consent, preference, approved-purpose, and role-appropriate visibility rules. User-selected shortcut settings may override the current eligible admin default as defined in DOC-06B, but remain subject to protected access, launch/module availability, account eligibility, risk restrictions, compliance controls, and disabled-module rules. Preference analytics must not expose sensitive route content or internal restriction reasons.
 
-Model features, segments, scores, and AI-generated outputs should retain lineage to source data, approved purpose, sensitivity level, permitted use, retention expectation, access roles, and monitoring requirements. Sensitive identity, raw evidence, medical details, child/family-sensitive education details, precise tenancy/property details, domestic helper employment details, raw support narratives, sanctions/AML results, internal risk notes, and vulnerability or hardship indicators should not be used for marketing models or partner reporting unless separately assessed and approved by legal, privacy, compliance, risk, and the Project Owner.
+Model features, segments, scores, and AI-generated outputs should retain lineage to source data, approved purpose, sensitivity level, permitted use, indefinite-retention treatment, access roles, and monitoring requirements. Sensitive identity, raw evidence, medical details, child/family-sensitive education details, precise tenancy/property details, hypothetical future Founder-approved employment-category details, raw support narratives, sanctions/AML results, internal risk notes, and vulnerability or hardship indicators should not be used for marketing models or partner reporting unless separately assessed and approved by legal, privacy, compliance, risk, and the Project Owner.
 
 Marketing, personalization, and partner-offer models should distinguish:
 
@@ -414,20 +404,19 @@ Detailed warehouse, analytics, lineage, event taxonomy, feature/model registry, 
 
 ---
 
-## 12. Retention, Deletion, and Legal Hold
+## 12. Retention, Record Handling, and Legal Hold
 
-PayPlus should maintain retention rules by data class and purpose.
+PayPlus retains every record indefinitely. DOC-15 owns the privacy, access, masking, legal-hold and record-handling requirements that apply to each data class and purpose; those controls do not create a finite duration or destruction schedule.
 
 Baseline:
 
-- payment, account, tax, audit, receipt, statement, proof-of-payment, dispute, chargeback, compliance, and reconciliation records are expected to follow a 7-year retention baseline;
-- KYC/KYB, evidence, payout, refund, dispute, chargeback, risk review, support, and promotion records may require aligned or longer retention where legal, partner, audit, risk, dispute, or operational purpose exists;
-- optional marketing preference and consent records should be retained while relevant and for an approved post-change period;
-- deleted, anonymized, archived, or de-identified records should preserve required audit, tax, legal, dispute, chargeback, security, and compliance evidence where needed.
+- payment, account, tax, audit, receipt, statement, proof-of-payment, dispute, chargeback, compliance, reconciliation, KYC/KYB, Evidence, payout, refund, risk review, support and promotion records remain retained indefinitely;
+- optional marketing preference and consent records also remain retained indefinitely, with access and use governed by approved purpose and preference controls;
+- Archive, account closure, Save outcomes, Payment/Instruction/Checkout terminal treatment, case closure and notification delivery do not erase the underlying record.
 
-Legal hold may override normal deletion where litigation, investigation, dispute, chargeback, regulatory review, audit, incident, fraud, or recovery action is active.
+Legal hold, investigation, dispute, chargeback, regulatory review, audit, incident, fraud or recovery handling may impose additional access, preservation or review controls; none changes the Founder-settled indefinite retention.
 
-Final retention schedule requires legal, privacy, finance, compliance, tax, security, and partner review.
+The retention duration is settled as indefinite by the Founder. Legal, privacy, finance, compliance, tax, security and partner owners may review implementation controls and lawful handling, but may not select a replacement duration.
 
 ---
 
@@ -444,7 +433,7 @@ Requirements:
 - provide completed exports through protected, time-limited in-app access and do not send ordinary email attachments containing the export;
 - preserve audit history where correction affects payment, evidence, KYC/KYB, risk, payout, refund, dispute, chargeback, or compliance records;
 - avoid disclosing another user's or payee's private data through access responses;
-- distinguish deletion of eligible data from account closure and explain that mandatory retention, legal hold, disputes, investigations, security, tax, audit, and compliance duties may limit either outcome;
+- distinguish privacy/access/correction requests from account closure and explain that neither changes the Founder-settled indefinite retention or erases the underlying record;
 - route complex or sensitive requests to privacy, compliance, legal, support, or risk review.
 
 Detailed support workflow belongs in DOC-21 and DOC-22.
@@ -467,7 +456,7 @@ Candidate vendors and partners include:
 
 Requirements:
 
-- vendor purpose, data scope, retention, security, location, subprocessor, incident, and deletion terms should be reviewed;
+- vendor purpose, data scope, retention, security, location, subprocessor, incident, access and termination terms should be reviewed; no vendor operation may destroy a PayPlus record;
 - cross-border processing should be documented where vendor systems or support teams process data outside Hong Kong;
 - partner sharing should be limited to approved purpose and documented in user notices or agreements where required;
 - partner reporting should prefer aggregated, de-identified, or campaign-level outputs over user-level data;
@@ -532,7 +521,7 @@ Detailed ISO/ISMS policies belong in DOC-99 policy library. PCI and authenticati
 | DOC-18 | Data model, data classification metadata, lineage, audit events, warehouse, ledger, reporting, and data marts. |
 | DOC-19 | Authentication, encryption, RBAC, device controls, PCI, ISO-aligned security controls, and security mechanics. |
 | DOC-21 | Incident response, support escalation, data incident workflow, and operations runbooks. |
-| DOC-22 | Admin permissions, queues, review workflows, overrides, exports, and access logs. |
+| DOC-22 | Execution and operation of expressly owner-permitted permissions, queues, review workflows, overrides, exports, and access logging using approved policy and facts; DOC-22 does not define the underlying privacy, access, retention, security, or product decision. |
 | DOC-99 | ISMS policies, access control, cryptography, supplier security, incident management, logging, secure development, and related ISO-aligned policies. |
 
 ---
@@ -543,20 +532,20 @@ Detailed ISO/ISMS policies belong in DOC-99 policy library. PCI and authenticati
 | --- | --- | --- | --- | --- |
 | OQ-15-001 | What final privacy notice, personal information collection statement, and terms wording are required for Hong Kong launch? | Legal / Privacy | High | Open |
 | OQ-15-002 | Which KYC/KYB provider data fields, artifacts, ID copies, and verification results will PayPlus store versus reference through provider? | Compliance / Security / Engineering | High | Open |
-| OQ-15-003 | What exact retention schedule applies by data class beyond the 7-year baseline? | Legal / Privacy / Finance | High | Open |
+| OQ-15-003 | Which approved-purpose access, masking, legal-hold, correction and privacy-request controls apply by data class and purpose under the Founder-settled indefinite-retention rule? | Legal / Privacy / Finance | High | Answered: duration is indefinite; controls remain owner-governed |
 | OQ-15-004 | What data may be used for analytics, model improvement, segmentation, and commercial reporting? | Privacy / Data / Product | High | Open |
 | OQ-15-005 | What cross-border processing locations and subprocessors apply for KYC, OCR, PSP, cloud, SMS, email, WhatsApp, analytics, and support providers? | Privacy / Security / Vendor Management | High | Open |
 | OQ-15-006 | What user consent, preference, and opt-out rules apply to promotion, referral, partner offer, WhatsApp, SMS, and email communication? | Product / Legal / Privacy | Medium | Open |
 | OQ-15-007 | Which sensitive evidence fields are displayable, masked, or restricted by role and category? | Product / Privacy / Security | High | Open |
-| OQ-15-008 | What data subject access, correction, deletion, and legal-hold workflow applies? | Privacy / Operations / Legal | Medium | Open |
+| OQ-15-008 | What data-subject access, correction, privacy-request and legal-hold workflow applies without changing indefinite retention or erasing the underlying record? | Privacy / Operations / Legal | Medium | Open |
 | OQ-15-009 | What inactivity period triggers dormant-login reauthentication, and which factor should be required? | Security / Product / Risk | Medium | Open |
 | OQ-15-010 | What exact PCI DSS scope, SAQ/ROC path, QSA/acquirer expectations, and responsibility matrix apply before production launch? | Security / Payments / Compliance | High | Open |
 | OQ-15-011 | What ISO/IEC 27001 control evidence should DOC-15 privacy and data handling controls produce for the ISMS? | Security / Compliance / Privacy | Medium | Open |
-| OQ-15-012 | What final retention and analytics rules apply to account-level shortcut preferences, and what consent, preference, retention, and analytics rules apply to placement exposure, carousel impressions, and personalized offer targeting? Functional shortcut management does not itself require marketing consent. | Product / Privacy / Growth | Medium | Partially open |
+| OQ-15-012 | What consent, preference, approved-purpose access and analytics rules apply to account-level shortcut preferences, placement exposure, carousel impressions and personalized offer targeting? Functional shortcut management does not itself require marketing consent; record retention remains indefinite. | Product / Privacy / Growth | Medium | Partially open |
 | OQ-15-013 | Which data classes, fields, derived features, segments, scores, and AI outputs may be used for model improvement, personalization, partner reporting, and campaign measurement? | Privacy / Data / Product | High | Open |
 | OQ-15-014 | Which data classes, fields, and derived signals are prohibited from marketing models, partner reporting, clean-room collaboration, or offsite activation? | Privacy / Legal / Risk | High | Open |
 | OQ-15-015 | What consent, opt-out, notice, partner-contract, and output-control rules are required before clean-room collaboration, pseudonymized matching, or external activation? | Legal / Privacy / Security | High | Open |
-| OQ-15-016 | Which Receiving Info fields may be revealed during controlled edit, and what final masking, proof access, step-up, and retention rules apply by receiving method and actor? | Privacy / Security / Payments | High | Open |
+| OQ-15-016 | What approved-purpose privacy, masking, proof-access and retention requirements apply to owner-governed source-context destination facts? | Privacy / Security / Payments | High | Open |
 
 ---
 
@@ -570,12 +559,12 @@ DOC-15 is acceptable when it clearly defines:
 - identity and KYC/KYB data boundaries;
 - evidence and obligation data handling;
 - payer, payee, admin, system, vendor, and partner visibility rules;
-- referral attribution privacy, masking, no-recipient-on-share, and separation from payer/payee participant linking;
+- referral attribution privacy, masking, no-recipient-on-share, and separation from retired participant linking;
 - consent, notice, and communication privacy boundaries;
 - data-use tiers, partner-sharing boundaries, model-use governance, and sensitive-data red lines;
 - dashboard shortcut preference, placement exposure, personalization, and user preference boundaries;
 - analytics and data product expectations;
-- retention, deletion, and legal-hold expectations;
+- retention, record-handling and legal-hold expectations;
 - vendor, partner, and cross-border data handling requirements;
 - ISO/IEC 27001 and PCI DSS alignment boundaries;
 - clear ownership boundaries with DOC-07, DOC-08, DOC-12, DOC-14, DOC-17, DOC-18, DOC-19, DOC-21, and DOC-22.
@@ -599,6 +588,10 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `0.9.3` | `2026-08-13` | Product Documentation Team | Distinguished the 30-minute registration-attempt usability window from indefinite record retention without adding a deletion or disposal mechanism. |
+| `0.9.2` | `2026-08-12` | Product Documentation Team | Recorded the Founder-settled indefinite-retention decision, removed finite/open-duration language, and reframed privacy, access, legal-hold and correction handling without creating a disposition mechanism. |
+| `0.9.1` | `2026-08-12` | Product Documentation Team | Consolidated provider/authentication/retention, hypothetical-scope, DOC-22 execution-only and source/Payment Obligation privacy-boundary corrections. |
+| `0.9.0` | `2026-08-12` | Product Documentation Team | Aligned privacy scope with the Payer-only/economic-Payee source model; retired Request/Linking/Receiving Info runtime data; and clarified DOC-15 requirements versus DOC-18 representation. |
 | `0.8.21` | `2026-08-06` | Product Documentation Team | Replaced the superseded combined Home placement terminology with Home Hot Offer while preserving the existing consent, preference, approved-purpose, role-appropriate visibility, protected-access, eligibility, risk, compliance, and privacy-safe analytics rule. |
 | `0.8.20` | `2026-07-31` | Product Documentation Team | Aligned Request visibility, payment/funding data classification, and DOC-09 title references with the accepted Payment Domain aggregate and derived-value model. |
 | `0.8.19` | `2026-07-29` | Product Documentation Team | Added the disclosure-safe, capability-aware account-recovery privacy boundary and required opaque Outcome, Resolution, and correlation references without changing approved authentication methods. |

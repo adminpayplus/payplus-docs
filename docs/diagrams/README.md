@@ -15,8 +15,7 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 | `routes/payplus-account-activation-route-map.md` | Account Activation entry contexts, contextual verification/passcode handoffs, and origin-aware return. | DOC-06B / DOC-15 / DOC-19 |
 | `routes/payplus-home-route-map.md` | Home, dashboard shortcuts, and direct dashboard-section handoffs. | DOC-06B |
 | `routes/payplus-action-sheet-route-map.md` | Pay+ action-sheet actions, availability decisions, and destination handoffs. It does not define final visual design. | DOC-06B |
-| `routes/payplus-bills-route-map.md` | Bills, rent, evidence, activity, reminder, linking, checkout, and Archive-family handoffs. | DOC-06C |
-| `routes/payplus-requests-route-map.md` | Requests list/detail/new and Bills/Receiving Info handoffs. | DOC-06B |
+| `routes/payplus-bills-route-map.md` | Bills, rent, evidence, activity, reminder, checkout, and Archive-family handoffs. | DOC-06C |
 | `routes/payplus-instructions-route-map.md` | Payment Instructions, checkout, and Payment Profile handoffs. | DOC-06B / DOC-09 |
 | `routes/payplus-payment-profile-route-map.md` | Cards/Profile tabs, child screens, tokenization, and contextual return. | DOC-06B / DOC-09 |
 | `routes/payplus-payment-checkout-route-map.md` | Current discussion-reference projection of the accepted payer-visible adaptive Checkout Workspace journey, result-specific treatment, and safe exits. It is not a fixed wizard or domain-state map. | DOC-06B / DOC-09 |
@@ -33,6 +32,7 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 | File | Status | Replacement |
 | --- | --- | --- |
 | `routes/archive/payplus-app-route-entry-map-2026-07-26-v1.md` | Superseded, non-authoritative snapshot of the former all-in-one route map. | Active hierarchical maps under `routes/`. |
+| `routes/payplus-requests-route-map.md` | Superseded, non-authoritative projection of the retired Requests route family. | Current Bills, Instructions, Checkout, Archive, and notification maps under `routes/`. |
 
 ## Rules
 

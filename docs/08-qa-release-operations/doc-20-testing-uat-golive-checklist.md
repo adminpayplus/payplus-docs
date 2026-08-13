@@ -1,1 +1,120 @@
+---
+document_id: DOC-20
+title: Testing, UAT & Go-Live Checklist
+version: 0.1.2
+status: Founder Working Baseline
+owner: QA / Product / Operations
+reviewers:
+  - Product Lead
+  - QA Lead
+  - Engineering Lead
+  - Compliance Lead
+  - Security Lead
+  - Operations Lead
+approvers:
+  - Project Owner
+  - Product Lead
+last_updated: 2026-08-13
+classification: Internal
+related_documents:
+  - DOC-00 Documentation Governance
+  - DOC-06D UX Requirements, Acceptance Criteria & Test Matrix
+  - DOC-09 Payment Domain Architecture
+  - DOC-10 Payout & Reconciliation
+  - DOC-11 Refund, Cancellation, Chargeback & Case
+  - DOC-12 Bill Category, Document AI, OCR & Payee Verification
+  - DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control
+  - DOC-15 Privacy, Data Protection, Record & Retention
+  - DOC-20 Testing, UAT & Go-Live Checklist
+  - DOC-21 Monitoring, Incident Response & Operational SOPs
+  - DOC-22 Admin Management & Operations Workflow
+---
 
+# DOC-20 - Testing, UAT & Go-Live Checklist
+
+| Document Control | Details |
+| --- | --- |
+| **Document ID** | `DOC-20` |
+| **Title** | Testing, UAT & Go-Live Checklist |
+| **Version** | `0.1.2` |
+| **Status** | Founder Working Baseline |
+| **Owner** | QA / Product / Operations |
+| **Reviewers** | Product Lead<br>QA Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead<br>Operations Lead |
+| **Approvers** | Project Owner<br>Product Lead |
+| **Last Updated** | `2026-08-13` |
+| **Classification** | Internal |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation, Chargeback & Case<br>DOC-12 Bill Category, Document AI, OCR & Payee Verification<br>DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control<br>DOC-15 Privacy, Data Protection, Record & Retention<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management & Operations Workflow |
+
+---
+
+## 1. Purpose and scope
+
+DOC-20 defines the human-readable governance for requirement acceptance, test evidence, User Acceptance Testing (UAT), and go-live readiness. It converts accepted product and control requirements into observable evidence and decision gates without becoming the owner of product truth, payment architecture, data representation, security mechanisms, operations policy, or implementation design.
+
+This document applies to the accepted Payer-only Consumer User baseline, the economic Payee model, the twelve controlled Bill Categories and separate Rent, the source-to-Payment topology, Evidence and readiness boundaries, Archive non-erasure, notification, risk, privacy, Admin execution, and the negative product boundaries described by the formal owners.
+
+## 2. Ownership and evidence boundaries
+
+DOC-20 owns the acceptance evidence contract and the human-level readiness decision record. The relevant product or control owner remains authoritative for the requirement being tested. DOC-06D maps UX requirements to acceptance criteria; DOC-21 owns monitoring, incident, support, and operational escalation; DOC-18 and DOC-19 remain the future owners of data/event/lineage and security detail where those documents are not yet substantive.
+
+An acceptance item should identify its source requirement, expected human-observable outcome, applicable preconditions, observed result, evidence owner, exception or limitation, and downstream handoff. The representation must not invent a schema, event, API, status taxonomy, automation architecture, provider behavior, alert value, SLA, deployment mechanism, security control, legal conclusion, or final Copy.
+
+## 3. Test and acceptance evidence families
+
+| Family | Purpose | Minimum human-level evidence |
+| --- | --- | --- |
+| Positive | Demonstrate an accepted path succeeds under applicable owner gates. | Source requirement, scenario, expected outcome, observed outcome, owner and evidence reference. |
+| Negative | Demonstrate prohibited, retired, unauthorized, or unsafe paths do not proceed. | Boundary under test, attempted path, blocked outcome, safe resolution and owner confirmation. |
+| Exception | Demonstrate controlled failure, late confirmation, incomplete work, owner hold, or recovery behavior. | Trigger context, preserved authoritative facts, permitted resolution/deferral and escalation handoff. |
+| Regression | Demonstrate earlier accepted decisions and corrections remain true after change. | Prior requirement/correction reference, comparison outcome and evidence owner. |
+
+Testing may be manual, assisted, automated, or otherwise evidenced by a later technical owner. DOC-20 does not choose the mechanism. Evidence must be sufficient for the named gate and traceable to the source owner.
+
+## 4. Wave 1-4 acceptance coverage
+
+| Requirement family | Normative owner | DOC-20 evidence expectation | Handoff / dependency |
+| --- | --- | --- | --- |
+| Payer-only actor, economic Payee, Categories and separate Rent | DOC-01 / DOC-05 / DOC-06C | Positive and negative acceptance of actor, exact inventory, Category-bound self-provision, Directory discovery and separate Rent. | DOC-06D, DOC-12, DOC-14 |
+| Evidence and readiness | DOC-12 | Evidence supports verification; Evidence is not source, Payable Basis, Obligation, Checkout or Payment; label-only review cannot bypass concrete gates. | DOC-09, DOC-14, DOC-15 |
+| Source identity and projections | DOC-05 / DOC-06C | Setup, immediate pay-now, Payment Result then optional same-ID Save, Active/history-only/established-but-unprojected/Archived and Activity/History/Receipt independence. | DOC-09, DOC-15, DOC-21 |
+| Payment topology and late confirmation | DOC-09 | Source -> Payable Basis -> applicable Payment Obligations -> one-basis Checkout -> allocations/Funding Legs -> immutable Payment -> Applications; controlled zero- or insufficient-Application cases are explicitly tested as not ordinary Payout-ready, with no Application, negative coverage, fictional coverage or payout value fabricated, and any downstream treatment remaining owner-controlled. Adjustment impact is bounded by valid Payment Application coverage; excess adjustment remains an owner-controlled fact outside coverage arithmetic. | DOC-10, DOC-11, DOC-21 |
+| Checkout and Payment Instruction | DOC-09 / DOC-06B | Incomplete/partially funded Checkout follows Close/Expiry/continuation; it is not Payment Instruction or source Archive. Deliberate Payment Instruction cancellation/expiry remains distinct. | DOC-06D, DOC-21 |
+| Payout and reconciliation | DOC-10 | Confirmed Payment, Application lineage, destination snapshot, readiness, holds, reconciliation and non-erasure are preserved. | DOC-09, DOC-11, DOC-15, DOC-21 |
+| Refund, cancellation, dispute, chargeback and case | DOC-11 | Immutable Payment/Application facts, case ownership, Archive blockers and controlled owner outcomes are evidenced without inventing a mechanism. | DOC-10, DOC-21 |
+| Archive and retention | DOC-05 / DOC-06C / DOC-15 | Archive is visibility-only/non-erasing; indefinite retention applies to every PayPlus record; no time-, purpose-, Archive-, closure-, case- or delivery-triggered destruction. | DOC-15, DOC-18, DOC-21 |
+| Notification | DOC-08 | Eligibility, recipient, channel, template, preference, fallback/retry, delivery evidence and DOC-22 execution handoff are evidenced against DOC-08 policy. | DOC-07, DOC-21, DOC-22 |
+| Risk and prohibited product boundary | DOC-14 / DOC-03 / DOC-04 | Anti-cashout, fraud, sanctions, risk holds and prohibited wallet/P2P/remittance/marketplace paths are tested at requirement level. | DOC-09, DOC-15, DOC-21 |
+| Privacy and access | DOC-15 | Masking, approved-purpose access, correction/export/privacy-request handling and indefinite retention are evidenced without deletion exceptions. | DOC-18, DOC-19, DOC-21 |
+| Admin execution-only | DOC-22 | Owner-permitted execution is evidenced without granting Admin authority to define product, payment, risk, privacy, notification, security or retention policy. | All affected owners, DOC-21 |
+| Retired runtime | DOC-06A / DOC-06B / DOC-06C | Negative regression proves no active Request, Linking, Receive, Receiving Info, Consumer-Payee, Payee-user runtime, reader, adapter, fallback or deep link. | DOC-06D, DOC-21 |
+| Accessibility and content | DOC-06D / DOC-07 | Human-level accessibility, disclosure and outcome/message mapping evidence; exact Copy and implementation evidence remain with their owners. | DOC-06D, DOC-07 |
+
+## 5. UAT readiness and completion
+
+UAT is ready when the applicable source requirements, acceptance criteria, owners, expected outcomes, known dependencies, evidence responsibilities, and permitted exceptions are identified. UAT completion requires recorded evidence for the in-scope positive, negative, exception, and regression families, disposition of failed or incomplete items by the owning authority, and an explicit handoff for evidence that remains deferred to a later owner or implementation stage.
+
+UAT must not be treated as legal approval, security certification, production validation, or proof of a technical mechanism not yet owned and specified. An unresolved owner decision or blocked dependency is recorded as such rather than hidden by a pass label.
+
+## 6. Go-live readiness evidence
+
+The go-live decision should identify the accepted scope, evidence reviewed, open exceptions, owner approvals required by DOC-00, operational/support handoffs, and any explicit exclusion. It must show that the negative product boundaries, retention rule, payment/application exception, Archive blockers, notification ownership, privacy access, and Admin execution boundary remain intact.
+
+DOC-20 does not define deployment, rollback, monitoring thresholds, staffing, incident severity, provider operation, security controls, or implementation release mechanics. Those details require their formal owner and later lifecycle authorization.
+
+## 7. Open questions and deferred evidence
+
+| ID | Question | Owner | Status |
+| --- | --- | --- | --- |
+| OQ-20-001 | Which human-readable evidence template and field vocabulary should be adopted for each acceptance family? | QA / Product | Open |
+| OQ-20-002 | Which implementation-level test mapping and evidence storage approach will be approved after technical owners are ready? | QA / Engineering / DOC-18 | Open |
+| OQ-20-003 | Which release-readiness evidence package is required for each later lifecycle gate? | QA / Product / Operations | Open |
+| OQ-20-004 | Which UAT participants and owner sign-offs are applicable to each future release scope? | Product / Operations | Open |
+
+These questions do not reopen settled product meaning and do not authorize implementation detail.
+
+## 8. Version History
+
+| Version | Date | Summary |
+| --- | --- | --- |
+| 0.1.2 | 2026-08-13 | Added explicit acceptance evidence for zero- and insufficient-Application Payout control, no-fabrication/no-bypass treatment, and owner-controlled downstream resolution without defining an implementation mechanism. |
+| 0.1.0 | 2026-08-12 | Created the first substantive human-level testing, UAT and go-live acceptance baseline for the accepted Wave 1-4 product and control requirements. |

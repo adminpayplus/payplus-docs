@@ -2,7 +2,7 @@
 
 PayPlus development documentation repository.
 
-PayPlus is a controlled bill, fee, rent, invoice, domestic helper, driver, personal service, and approved-obligation payment application. This repository stores the human-readable source documents, technical specifications, AI build-execution materials, and traceability records used to guide development.
+PayPlus is a controlled payment application for the twelve accepted Bill Categories plus separate Rent, supported by evidence, payer authorization, and approved payee controls. This repository stores the human-readable source documents, technical specifications, AI build-execution materials, and traceability records used to guide development.
 
 The current product baseline also requires PayPlus to be built as an AI-ready data engine by design: structured events, field metadata, lineage, consent/preference state, model-use eligibility, and controlled partner intelligence must be captured during product development. This does not approve PayPlus as an ad network, data broker, credit scoring product, insurance underwriting product, or offsite audience activation platform.
 

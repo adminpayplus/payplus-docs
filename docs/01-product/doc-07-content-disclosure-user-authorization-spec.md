@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.10.1
+version: 0.11.2
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-05
+last_updated: 2026-08-12
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `0.10.1` |
+| **Version** | `0.11.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-05` |
+| **Last Updated** | `2026-08-12` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -57,17 +57,16 @@ related_documents:
 
 This document defines the governed user-facing communication, disclosure, consent, and authorization requirements for the PayPlus MVP.
 
-PayPlus must explain Requests and any later payment action clearly enough that payers and payees understand:
+PayPlus must explain controlled Bill/Rent payment meaning clearly enough that Payers understand:
 
-- what the request is for;
-- who created it;
-- who will receive payment;
+- what authoritative source context is being considered;
+- who the economic Payee is where disclosure is permitted;
 - what evidence supports it;
 - how much will be charged;
 - what fees apply;
 - when payment and payout may occur;
 - what actions the user is authorizing;
-- what happens if the request is rejected or cancelled, a linked dispute case is opened, or a linked payment is refunded, reversed, or charged back.
+- what happens if an owner-governed payment, adjustment or support outcome requires attention.
 
 This document is a product and content specification. It is not a final legal opinion, privacy policy, terms of service, payment processing specification, or operations manual.
 
@@ -83,9 +82,7 @@ It covers:
 
 - product terminology;
 - allowed and prohibited user-facing language;
-- request-origin labels;
-- payer review content;
-- payee request creation content;
+- Payer payment-review content;
 - OCR/autofill, evidence correction, duplicate warning, and evidence verification disclosure touchpoints;
 - payment authorization content;
 - fee, promotion, and total charge disclosures;
@@ -122,24 +119,24 @@ Those details belong in downstream or adjacent documents.
 
 ## 3. Current Decision Baseline
 
+DOC-07 consumes the Payer-only product baseline: a Consumer User is a Payer; an economic Payee may be an individual or institution/company and need not be a User. User-facing content must describe controlled Category-bound Bill acquisition or separate Rent without creating an open transfer, Payee account, Request, Linking, To Receive, Receiving Info, reciprocal-visibility or legacy runtime concept.
+
+Exact Message IDs, final Copy, CTA labels, localization and presentation remain DOC-07-owned and are only drafted when their source owner has supplied the required meaning. This Stage 8 correction removes obsolete two-sided content; it does not approve replacement Copy, outcomes, CTAs, routes, identifiers or notification delivery.
+
 | Area | Baseline |
 | --- | --- |
 | Launch jurisdiction | Hong Kong. |
-| Product model | Controlled payer-authorized card-funded bill, invoice, fee, rent, domestic service, and approved obligation payment platform. |
-| Payer-created obligations and payments | MVP scope; no request or payee acceptance is required by default. |
-| Payer-created linking requests | MVP scope where optional party linking is enabled. |
-| Payee-created Requests | MVP scope; payer acceptance establishes the linked obligation context required before payment from that Request. Acceptance is not payment authorization. |
-| Bill and fee payments | MVP scope, subject to evidence, payee, payment, payout, and risk controls. |
-| Tenancy and rent payments | MVP scope, subject to rent-specific controls. |
-| Domestic helper, driver, and personal service payments | MVP scope where supported by acceptable evidence. |
+| Product model | Controlled Category-bound Bill and separate Rent payment platform; no open P2P, remittance, cashout or marketplace. |
+| Bill and Rent acquisition | Payer selects Directory discovery or provides a Payee within a supported Category, or begins separate Rent. Neither creates a Request, Payee account or payment. |
+| Economic Payee | An individual or institution/company recipient, subject to owner-governed source, Evidence, destination, risk, Payout and privacy outcomes. |
 | Multi-card payment | MVP scope, up to 6 credit cards per payment/profile. |
-| Payout rails | FPS, cheque, and EPS are acceptable Hong Kong payout rails; final operating-bank setup remains to be confirmed. |
-| Settlement timing | Payment gateway settlement expected T+1 to T+3; payout expected same day after upstream settlement. |
+| Payout rails | FPS, cheque, and EPS are illustrative Hong Kong rail considerations; final rail and operating-bank setup remain subject to confirmation. |
+| Settlement timing | Gateway settlement and same-day-after-settlement payout are working assumptions subject to PSP/acquirer, bank, risk, legal, partner and reconciliation confirmation. |
 | Fee model | Online payment processing service fee as a percentage of transaction amount; exact rates, allocation, configuration mechanism, and operational authority remain to be confirmed by their formal owners. Applicable fees and total charge must still be disclosed before authorization. |
 | Bill verification | OCR/document AI may extract and autofill evidence fields; users must be able to review and correct material fields before submission. |
-| KYC/KYB | Individual eKYC and business KYB baseline is highly confirmed; final provider and detailed checks remain to be confirmed. |
-| Notifications | App, push, email, SMS, and WhatsApp are candidate channels. |
-| Retention | Receipt, payment, account, tax, and audit records expected to be retained for 7 years, subject to final privacy and legal review. |
+| KYC/KYB | Individual eKYC and business KYB are working assumptions; provider and detailed checks remain subject to formal owner confirmation. |
+| Notifications | Eligibility, recipient, channel, template, delivery and preferences are DOC-08-owned. DOC-07 may supply owner-approved content only. |
+| Retention | Every PayPlus record is retained indefinitely under the Founder decision. DOC-07 consumes DOC-15 approved-purpose access, masking and lawful handling requirements; no user-facing Copy or implementation mechanism is defined here. |
 | Communication architecture | Governed material communication uses central authoritative contracts, bounded Domain Slices, layered composition, reference-only integration, and layer-level governance. Centrality is logical and does not require one matrix, file, physical registry, database, runtime service, enterprise registry, or new persistent object. |
 | Checkout authorization | Every applicable Provider Submission requires current payer authorization. Earlier review, authorization, profile or card selection, Resume, notification content, or provider return does not authorize a later Provider Submission. |
 | Instruction notification entry | Every instruction-related notification enters `NOTIFICATION-DETAIL`, which revalidates current state, payer, permission, target, and action availability before an owner-approved current CTA may invoke the DOC-09 Checkout Resolver. |
@@ -155,8 +152,8 @@ Unconfirmed items above should not block documentation drafting. They should rem
 | Plain language | User-facing content should be short, direct, and understandable without legal or payment-industry knowledge. |
 | No false certainty | Do not imply payment, payout, refund, or settlement is complete before the relevant system of record confirms it. |
 | Explicit authorization | Payment requires clear payer action and recorded authorization. |
-| Role clarity | Users must understand whether they are acting as payer, payee, landlord, business payee, or admin. |
-| Request-origin clarity | Content must distinguish payee-created Requests, optional payer-created linking Requests, and direct payer-created obligations/payments, and must state that a Request is not a payment. |
+| Role clarity | Content must distinguish the Payer from the economic Payee without implying a Payee account, participant relationship, recipient action or reciprocal runtime. |
+| Source clarity | Content must distinguish temporary capture, authoritative source, Evidence, Payable Basis, Payment Obligation, Checkout, confirmed Payment and projection without changing owner rules. |
 | Evidence clarity | Content must explain what evidence supports the obligation without overexposing sensitive data. |
 | Evidence display control | User-facing screens should show task-relevant evidence fields; sensitive extracted fields may be stored for approved purposes without broad display. |
 | Fee clarity | Payer-facing fees and total charge must be shown before authorization. |
@@ -263,14 +260,13 @@ Exact Copy, final CTA labels and hierarchy, surface, component, slot, responsive
 PayPlus may use language such as:
 
 - bill payment;
-- Request or the command label `Request Payment`, while making clear that the Request is not payment;
 - card-funded payment;
 - pay eligible bills by card;
-- pay eligible invoices, fees, rent, and approved obligations by card;
-- pay approved domestic helper, driver, or personal service obligations by card where supported;
+- pay eligible invoices and fees within an accepted controlled Bill Category, or pay through the separate Rent journey, by card;
+- pay a Payment Obligation arising from an accepted controlled Bill Category or the separate Rent journey;
 - pay rent by card where supported;
 - payment to approved payee;
-- evidence-backed obligation Request;
+- authoritative Bill/Rent source supported by applicable Evidence;
 - payer authorization;
 - payment processing;
 - payout or settlement to payee;
@@ -301,18 +297,9 @@ Public website copy, app-store copy, onboarding terms, checkout disclosures, pri
 
 ---
 
-## 6. Request-Origin Labels
+## 6. Retired Request-Origin Labels
 
-Every user-facing request should identify its origin.
-
-| Origin | User-Facing Label | Meaning |
-| --- | --- | --- |
-| Payer-created linking request | Linking request sent by you | The payer invited the payee to link to an evidence-backed obligation for shared visibility or communication. |
-| Payee-created Request | Sent by payee | An approved payee created and sent a Request for payer review and acceptance of an evidence-backed obligation context. Payment remains a separate payer-authorized action. |
-| Admin-created | Created by PayPlus support | PayPlus operations created the record under approved process. |
-| System-generated | Generated by PayPlus | The system created an event, reminder, or status update. |
-
-The exact label may vary by screen, but the user must not be confused about who initiated the request. A direct payer-created obligation/payment is not a request and should use obligation/payment wording instead of a request-origin label.
+Request-origin labels, payee-created request content and recipient-side review language are retired from active MVP. They do not define an outcome, message, CTA, route, notification, reader, adapter or fallback. Append-only revision history remains provenance only.
 
 ---
 
@@ -325,8 +312,8 @@ Required fields:
 | Field | Requirement |
 | --- | --- |
 | Payee | Show approved payee name or display name. |
-| Request origin | Show whether the request was created by payer, payee, admin, or system. |
-| Category | Show bill, invoice, rent, fee, or other approved obligation category. |
+| Source context | Show owner-approved source and economic-Payee facts without implying a participant relationship or Payee action. |
+| Category | Show the selected accepted controlled Bill Category or separate Rent context; no additional Category is implied. |
 | Amount | Show payment amount. |
 | Service fee | Show payer fee where applicable. |
 | Total charge | Show final amount charged to the payer. |
@@ -336,7 +323,7 @@ Required fields:
 | Verification status | Show role-appropriate evidence status where action is needed, such as pending correction, pending review, duplicate warning, or rejected evidence. |
 | Timing | Show expected processing, settlement, and payout timing where relevant. |
 | Refund/cancellation note | Show applicable high-level limitations or policy link. |
-| PayPlus role | Explain that PayPlus facilitates payment of an eligible obligation to an approved payee. |
+| PayPlus role | Explain that PayPlus facilitates payment of an eligible Bill/Rent Payment Obligation to an approved economic Payee. |
 
 The payer must be able to cancel or go back before authorization.
 
@@ -352,7 +339,7 @@ A prior Checkout review, Payment Profile selection, card selection, earlier Fund
 
 The authorization action must be explicit. Adaptive Checkout presentation may combine, separate, or omit presentation steps according to the current valid task; it must not be converted into one mandatory fixed final screen.
 
-The authorization action should not be preselected, hidden, implied by viewing a request, or bundled with unrelated consent.
+The authorization action should not be preselected, hidden, implied by source or Evidence viewing, or bundled with unrelated consent.
 
 Payment passcode entry is a separate payer confirmation step before payment authorization proceeds. Additional 2FA, 3DS, OTP, biometric, PSP/acquirer, or PayPlus risk challenge may apply under DOC-09, DOC-14, DOC-15, and DOC-19.
 
@@ -367,7 +354,7 @@ If a saved split-card profile is incomplete because one card is removed, expired
 The authorization Semantic and Disclosure Contracts must communicate, for the applicable next Provider Submission:
 
 - the payer's deliberate authorization intent;
-- the applicable obligation or request context, without implying that a Request itself authorizes payment;
+- the applicable authoritative source context, without implying that source establishment or Evidence itself authorizes payment;
 - the current Funding Leg obligation-funded amount and the applicable payer charge supplied by their owners;
 - the selected masked funding method or methods;
 - material fee, benefit, destination, timing, evidence, and changed-term consequences supplied by their owners;
@@ -383,7 +370,7 @@ The exact authorization statement, CTA label, surface, hierarchy, and presentati
 
 PayPlus must preserve evidence of what the payer was shown and accepted for each applicable authorization. The evidence must remain logically traceable to:
 
-- the payer and applicable source obligation or Request context;
+- the Payer and applicable authoritative source context;
 - the applicable Checkout, Funding Leg, and Provider Submission references supplied by DOC-09;
 - the Semantic, Disclosure, and CTA Contracts;
 - the approved Copy and Locale Variant;
@@ -396,25 +383,11 @@ DOC-07 defines this user-facing evidence intent. DOC-09 retains payment and auth
 
 ---
 
-## 9. Payee-Created Request Content
+## 9. Payer-Authorization Content Boundary
 
-When a payee creates a request, PayPlus should guide the payee to provide accurate and evidence-backed information.
+DOC-07 may describe the Payer's owner-approved Payment Instruction, Checkout, payment authorization, confirmed result and owner-supplied safe next handling. It must not create an economic-Payee action, acceptance, reminder, Request delivery, recipient library or reciprocal communication. Payer authorization is governed by DOC-09 and product context; DOC-07 provides only the approved user-facing communication mapping.
 
-Required content areas:
-
-| Area | Requirement |
-| --- | --- |
-| Payee identity | Explain that only approved or eligible payees may create requests. |
-| Obligation type | Require selection of bill, invoice, rent, fee, or approved obligation category. |
-| Evidence | Explain what evidence is required for the selected category. |
-| OCR/autofill review | Explain that extracted fields may be auto-filled and must be reviewed before submission where enabled. |
-| Correction responsibility | Explain that user corrections should be accurate and may be reviewed. |
-| Payer information | Explain how payer contact details will be used to deliver the request. |
-| No automatic charge | Make clear that the payer must review and authorize before payment. |
-| Accuracy statement | Payee should confirm that request details and evidence are accurate. |
-| Prohibited use | Warn against fake invoices, fake rent, self-payment, collusive requests, unsupported P2P, and cashout. |
-
-Payee-created request content must not imply that sending a request guarantees payment.
+DOC-07 may communicate owner-approved source capture, Evidence, verification, Checkout, Payer authorization, Payment Result, optional post-Payment Save, Activity/Receipt and source Archive meaning. It must not create Category-specific rules, a Payee action, a recipient library, link, delivery, acceptance, reminder or reciprocal communication. Exact final expression remains deferred to the applicable DOC-07 slice and source-owner input.
 
 ---
 
@@ -431,7 +404,7 @@ Rent-related screens should explain:
 - limits, manual review, duplicate detection, and risk review may apply;
 - duplicate or reused tenancy evidence may trigger warning, hold, or review;
 - payout may be delayed or blocked if checks fail;
-- recurring rent requests, if supported, still require payer authorization unless a separately approved recurring authorization model exists.
+- each applicable Payment requires the owner-governed current authorization; this document does not define a recurring authorization model.
 
 Final rent wording must be reviewed before launch.
 
@@ -491,7 +464,7 @@ PayPlus must distinguish four user-facing concepts:
 | Payment Instruction action alert | The user deliberately created a pay-later arrangement and action is now due. | An instruction-related notification enters `NOTIFICATION-DETAIL`; after current revalidation, an owner-approved CTA may invoke the DOC-09 Checkout Resolver. |
 | Incomplete Checkout continuation alert | Immediate payment execution started but the Checkout Target remains partly unfunded. This is not a Payment Instruction. | The preserved Checkout context. |
 
-Bill/rent reminder cycles, custom reminder dates, reminder toggles, and reminder deletion/disabling must be described as reminder tools only. They must not imply automatic recurring payment, stored authorization, card authorization, gateway submission, payout readiness, or payment completion.
+Bill/rent reminder cycles, custom reminder dates, reminder toggles, and reminder deactivation must be described as reminder tools only. They must not imply automatic recurring payment, stored authorization, card authorization, gateway submission, payout readiness, or payment completion.
 
 If a reminder is linked to a recurring bill/rent frequency, the user-facing wording should distinguish recurring reminder scheduling from recurring payment authorization. Reminder route behavior belongs in DOC-06. Notification channel and template wording belongs in DOC-08.
 
@@ -529,7 +502,7 @@ PayPlus must distinguish the following source-owned semantic conditions. They ar
 | Settlement pending or completed | Use only the current Settlement meaning supplied by DOC-10; do not infer it from authorization, provider return, Payment, or Checkout funding. |
 | Payout pending or completed | Use only the current Payout meaning supplied by DOC-10 and the applicable payout owner. |
 
-PayPlus should disclose that payment gateway settlement is expected to be T+1 to T+3 and that payout is expected on the same day after upstream settlement, subject to review, risk checks, bank processing, partner rules, and exceptions.
+PayPlus may disclose working settlement and payout assumptions only when the applicable PSP/acquirer, bank, payout, risk, legal, partner and reconciliation owners have confirmed them.
 
 Do not promise guaranteed same-day payout unless the underlying payment, bank, risk, and operational conditions support it.
 
@@ -604,16 +577,11 @@ DOC-06B owns screen behavior. User-facing content must:
 - present only `Not Verified`, `Processing`, `Verified`, `Failed`, or `Update Required` identity-verification labels with the context-aware actions defined in DOC-06B and the status-display matrix;
 - distinguish incomplete capture from submitted provider processing, show no voluntary re-verification action after `Verified`, and prevent wording that encourages duplicate submission;
 - explain that Two-Step Verification and Biometric Unlock toggles do not disable mandatory new-device, risk, contact-change, closure, or provider-required authentication;
-- explain account-closure blockers, cancellation before finalization, login termination after completion, and continuing record retention without implying immediate deletion;
-- distinguish directly editable account fields, governed correction requests, deletion of eligible data, and account closure;
+- explain account-closure blockers, cancellation before finalization, login termination after completion, and continuing indefinite record retention without implying deletion;
+- distinguish directly editable account fields, governed privacy/access/correction requests, and account closure without implying destruction of an underlying PayPlus record;
 - distinguish optional direct-marketing, personalization, and approved partner-data-use choices from required service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
 - explain that data export uses protected in-app access and that privacy-request service timelines and legal outcomes remain subject to the approved privacy process.
-- explain that Receiving Info is a private reusable profile library and not the sole payout source of truth;
-- distinguish `Ready to Receive` as a PayPlus profile-readiness label from bank validation or guaranteed payout;
-- explain when third-party/company account proof and review are required;
-- explain that selecting one profile for a request discloses only that destination to the payer;
-- explain that profile edit/archive does not change an accepted request or authorized payment destination;
-- warn the payer before authorization when the effective destination differs from an accepted payee-created request.
+- explain only source-owner-approved economic-Payee and destination disclosures; DOC-07 must not create a destination library, readiness label, source-version, request or change-warning contract.
 
 ### 15.2 Authentication Bounded Domain Slice
 
@@ -660,7 +628,7 @@ The Slice must cover, at minimum:
 
 Exact Outcome Type IDs, Message IDs, Action IDs, approved Copy, Locale Variants, CTA labels/hierarchy, Presentation Mappings, notification mappings, and technical mappings remain open. They must not be invented during implementation. Route or domain documents must not create competing message identifiers or copy.
 
-DOC-06B and applicable route/domain owners retain Outcome meaning, permitted Resolution Strategies, route placement, destination, and return behavior. DOC-07 owns the governed user-facing Semantic, Disclosure, CTA, approved Copy, Locale constraints, and Presentation references. DOC-08 owns Notification identity, trigger, recipient, channel eligibility, templates, delivery, retry, delivery evidence, and read/archive behavior. DOC-18 owns occurrence/correlation records and event mapping. DOC-19 owns technical authentication, retry, lockout, session, provider, biometric, and security handling. DOC-20 owns detailed acceptance, DOC-21 owns Support procedure, and DOC-22 owns permitted future Admin operations.
+DOC-06B and applicable route/domain owners retain Outcome meaning, permitted Resolution Strategies, route placement, destination, and return behavior. DOC-07 owns the governed user-facing Semantic, Disclosure, CTA, approved Copy, Locale constraints, and Presentation references. DOC-08 owns Notification identity, trigger, recipient, channel eligibility, templates, delivery, retry, delivery evidence, and read/archive behavior. DOC-18 owns occurrence/correlation records and event mapping. DOC-19 owns technical authentication, retry, lockout, session, provider, biometric, and security handling. DOC-20 owns detailed acceptance, DOC-21 owns Support procedure, and DOC-22 may execute only expressly owner-permitted future Admin operations.
 
 #### 15.2.1 Authentication Slice Order
 
@@ -735,7 +703,7 @@ DOC-07 owns the Traditional Chinese, Simplified Chinese, and English presentatio
 - The notice body opens canonical `NOTIFICATION-DETAIL`; an Action Button names and opens only the current source-provided destination. DOC-08 retains notification identity, lifecycle, Inbox-record, and delivery ownership.
 - Promotions, Rewards, marketing, and ordinary feature announcements are not Important Notice content by default.
 - Recent Activity presentation maps only the owner-published completed outcome. Refund and Reversal may share one Home presentation treatment but must not be described as the same source outcome.
-- Amount presentation preserves the canonical funds-flow direction published by DOC-09, DOC-10, or DOC-11. Copy or visual treatment must not infer or reverse the sign from payer/payee role.
+- Amount presentation preserves the canonical funds-flow direction published by DOC-09, DOC-10 or DOC-11. Copy or visual treatment must not infer or reverse the sign from Payer/economic-Payee context.
 - Exact message, CTA, status-label, masking, and Locale Variant work remains bounded by the applicable source owner, DOC-07 approval, and DOC-15 safe-disclosure rules; HOME-ROOT does not create new source outcomes or notification meanings.
 
 ---
@@ -807,14 +775,13 @@ Required audit evidence includes:
 | Account registration | Terms/privacy version where applicable. |
 | Authentication outcome | Outcome Type ID, selected Resolution Strategy, Message ID, originating route/action, occurrence/correlation ID, disclosure level, CTA/destination, timestamp, and permitted technical reason category without secrets. |
 | eKYC/KYB submission | Consent, provider handoff, submission event, and status. |
-| Request creation | Request creator, content version, category, evidence, and confirmation statement. |
+| Source capture | Authoritative-source reference, Category or separate Rent context, Evidence notice and Payer-facing confirmation statement where applicable. |
 | Evidence verification | OCR/autofill notice, extracted-field review, user correction, duplicate warning, verification outcome, and review status where applicable. |
-| Payer review | Request details and disclosure version shown to payer. |
+| Payer review | Current source/payment disclosure version shown to Payer. |
 | Payment authorization | Applicable Provider Submission; Semantic, Disclosure, and CTA Contract references; approved Copy/Locale/Presentation references; current amount, fee, benefit, masked funding, destination, timing, evidence and material-change references; timestamp; and result. |
 | Promotion authorization | Promotion quote, applied discount, service-fee benefit, coupon/voucher selection, reward entitlement, and related wording shown before authorization where applicable. |
 | Multi-card authorization | Card split, total charge, per-card amount, and reauthorization event where applicable. |
-| Receiving Info add/edit/archive | Profile ID/version, permitted masked summary, ownership declaration, proof requirement/status, confirmation method, outcome, and notification evidence. |
-| Destination selection/change | Destination source and version shown, request or obligation linkage, payer/payee actor, linked-payee notification where applicable, difference warning, and authorization or reauthorization evidence. |
+| Economic-Payee and destination | Owner-supplied disclosure reference, masking boundary and authorization evidence where applicable; no library, recipient notification or source-version contract is created. |
 | Refund/dispute/chargeback case | User-facing status, case messages, evidence submitted, and admin actions. |
 
 Detailed event schema, physical version keys, storage, runtime linkage, and audit-event implementation belong in DOC-18. Operational activation, rollback, and administrative audit workflow belong in DOC-22. These handoffs do not transfer user-facing Semantic authority.
@@ -844,7 +811,7 @@ This document does not interpret those sources as final legal advice.
 | OQ-07-002 | What final privacy notice wording is required at registration, evidence upload, eKYC/KYB, payment authorization, and support touchpoints? | Legal / Privacy | Open |
 | OQ-07-003 | What exact fee, promotion, coupon, discount, refund, and reversal wording is required, and what separately authorized operational configuration should later be supported? | Product / Commercial | Open |
 | OQ-07-004 | What maximum number of credit cards per payment/profile should be shown at launch? | Product / Payments | Answered: 6 |
-| OQ-07-005 | What wording should explain T+1 to T+3 upstream settlement and same-day-after-settlement payout without overpromising? | Payments / Legal / Product | Open |
+| OQ-07-005 | What wording should explain owner-confirmed upstream settlement and payout timing without overpromising? | Payments / Legal / Product | Open |
 | OQ-07-006 | What category-specific disclosure is required for rent and tenancy payments? | Legal / Risk / Product | Open |
 | OQ-07-007 | What refund, cancellation, dispute, chargeback, and reversal policy links or short summaries must be shown before authorization? | Operations / Legal / Product | Open |
 | OQ-07-008 | What content approval workflow is required for legal, payment, privacy, commercial, or risk-sensitive copy changes? | Project Owner / Compliance | Open |
@@ -881,7 +848,7 @@ DOC-07 is acceptable when:
 - payer authorization requirements are explicit;
 - every applicable Provider Submission requires current payer authorization without relying on a fixed final screen or prior authorization;
 - payer review disclosure fields are defined;
-- payee-created request content requirements are defined;
+- retired Request/Payee-user/Receiving Info runtime has no active communication requirement;
 - rent and tenancy disclosure requirements are defined;
 - OCR/autofill, evidence correction, duplicate warning, and evidence verification disclosure touchpoints are defined;
 - fee, promotion, total charge, and multi-card disclosure requirements are defined;
@@ -907,6 +874,9 @@ DOC-07 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.11.1 | 2026-08-12 | Consolidated fixed-inventory, Payment Obligation, provider/rail/timing/retention and DOC-22 execution-boundary corrections without approving new Copy or CTA. |
+| 0.11.2 | 2026-08-12 | Applied the Founder-settled indefinite-retention rule to disclosure meaning and account-closure/privacy-request wording without inventing Copy or a disposition mechanism. |
+| 0.11.0 | 2026-08-12 | Retired active Request/Payee-user/Receiving Info communication requirements and aligned the content boundary with Payer-only, economic-Payee and owner-governed notification meaning without approving new Copy or CTA. |
 | 0.10.1 | 2026-08-05 | Added the approved HOME-ROOT Greeting, Important Notice, and Recent Activity content/disclosure contract, including locale ownership, neutral greeting fallback, displayed-name precedence, notification-state separation, and canonical funds-flow-direction presentation. |
 | 0.10.0 | 2026-08-04 | Drafted the accepted communication semantic architecture in DOC-07, including logical central contracts, bounded Domain Slices, layered composition, Reference/Registry governance, layer-level control, per-Provider-Submission authorization semantics, Detail-first notification entry, logical traceability, preserved six-card baseline, and explicit prototype/technical/Admin/acceptance deferrals. |
 | 0.9.13 | 2026-07-31 | Aligned Request, Payment Instruction, incomplete Checkout, confirmed Payment, obligation coverage, and downstream Payout disclosure boundaries with DOC-09. |

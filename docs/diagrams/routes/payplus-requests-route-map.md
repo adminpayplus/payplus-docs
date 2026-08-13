@@ -1,6 +1,6 @@
 # PayPlus Requests Route Map
 
-Status: Current discussion reference
+Status: Superseded, non-authoritative historical projection
 Owner: DOC-06B
 Last updated: 2026-07-27
 
@@ -24,3 +24,5 @@ flowchart TD
   DETAIL --> BILLDETAIL["BILLS-DETAIL-BILL / BILLS-DETAIL-RENT"]
   BILLDETAIL -. "Back / save" .-> DETAIL
 ```
+
+This former Requests route family is retired. The map is preserved only for provenance and must not be treated as a current route, runtime, reader, adapter, fallback, or deep-link contract.
