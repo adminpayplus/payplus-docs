@@ -1482,3 +1482,33 @@ Detailed Phone Verification, Identity Verification, and Payment Passcode Setting
 
 - Push remains separately unauthorized; remote convergence is not asserted.
 - No new product, domain, technical, acceptance, operational, privacy, security, risk, diagram, prototype, or derived-document requirement was introduced by this Workflow-only change.
+
+### `2026-08-13` - Payer-Only Bill And Rent Architecture Alignment
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `43e35bcd86f2fd5464606d6e9213aabda1a4b794` |
+| Primary owner | Existing formal owners for product, route, payment, evidence, risk, privacy, promotion, acceptance, operations, Admin, and the aligned reference artifacts |
+| Decision record | `DEC-2026-042` |
+| Founder approval | PDM-WI-008 accepted Wave 1-6 architecture, alignment, integrated validation, and conditional Stage 13/Commit/Record authorization on `2026-08-13`; Push not authorized |
+
+**Files Changed**
+
+Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-02, DOC-03, DOC-04, DOC-05, DOC-06, DOC-06A, DOC-06B, DOC-06C, DOC-06D, DOC-07, DOC-08, DOC-09, DOC-10, DOC-11, DOC-12, DOC-13, DOC-14, DOC-15, DOC-18, DOC-20, DOC-21, and DOC-22 at their canonical paths) plus `README.md`, `docs/README.md`, `docs/glossary/glossary.md`, `docs/traceability/route-register.md`, `docs/traceability/requirements-traceability-matrix.md`, `docs/traceability/open-questions-register.md`, `docs/traceability/status-display-reference-matrix.md`, `docs/diagrams/README.md`, `docs/diagrams/user-flow/README.md`, `docs/diagrams/routes/payplus-requests-route-map.md`, `docs/diagrams/routes/payplus-bills-route-map.md`, `docs/diagrams/routes/payplus-action-sheet-route-map.md`, `docs/diagrams/routes/payplus-home-route-map.md`, and `docs/diagrams/routes/payplus-instructions-route-map.md`.
+
+**Material Changes**
+
+- Recorded the accepted Payer-only Consumer User and economic-Payee boundary, exactly twelve controlled Bill Categories with separate Rent, Category-bound acquisition, and retirement of Request/Linking/Receive/Receiving Info/Payee-user runtime.
+- Recorded aligned source, Payment/Application/Payout, Evidence/readiness, Save/projection, source-Archive, notification/Admin, promotion, privacy/indefinite-retention, acceptance, operations, and representation-owner boundaries.
+- Synchronized the 14 derived/reference artifacts to formal owners without creating requirements, routes, statuses, actions, schemas, events, permissions, retention rules, providers, legal/commercial/security conclusions, or implementation behavior.
+
+**Checks Performed**
+
+- Stage 9 formal review, Stage 10 impact manifest, Stage 11 alignment, Stage 12 integrated validation, and Stage 13 integration/Definition of Done passed on the exact 37-file snapshot.
+- Independently verified exact staged path scope, all 37 SHA-256 values, detached HEAD and origin baseline, no unstaged or untracked files, UTF-8/newline/Markdown/link/fence integrity, and `git diff --cached --check`.
+- This entry is append-only; no prior changelog record was rewritten. No push or remote mutation occurred.
+
+**Remaining Open Items**
+
+- Future implementation, security, representation, monitoring, UAT, release, prototype, AI-build, and operational detail remains with its formal owner and later lifecycle stages.
+- Push remains separately unauthorized; no remote convergence is asserted.

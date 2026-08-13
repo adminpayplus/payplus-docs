@@ -1886,3 +1886,43 @@ Supersedes the prior Stage 8 handoff wording that ended at a pre-Primary Review 
 
 - Push remains unauthorized and is outside this Commit executor task.
 - No new unresolved product or governance decision remains from this accepted Workflow-only change.
+
+### `DEC-2026-042` - Payer-Only Bill And Rent Architecture Alignment
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-13` |
+| Status | Accepted |
+| Primary owner | Existing formal owners for product, route, payment, evidence, risk, privacy, promotion, acceptance, operations, Admin, and the aligned reference artifacts |
+| Affected documents | Exactly the 37 paths in substantive commit `43e35bcd86f2fd5464606d6e9213aabda1a4b794`: the 23 reviewed formal documents plus the 14 aligned artifacts listed in the corresponding changelog entry |
+| Substantive commit | `43e35bcd86f2fd5464606d6e9213aabda1a4b794` |
+| Founder approval | PDM-WI-008 accepted the existing Wave 1-6 architecture and explicitly authorized conditional Stage 13 Integration, Stage 15 Commit, and immediate Stage 16/17 records treatment on `2026-08-13`; Push is not authorized |
+
+**Decision**
+
+The existing Founder-approved PayPlus architecture is recorded as delivered and aligned. Consumer Users are Payers only; economic Payees may be individuals or institutions and need not be Users. Launch scope is exactly the twelve controlled Bill Categories plus separate Rent, acquired through Category-bound Directory or self-provided context. Request, Linking, Receive, Receiving Info, Consumer-Payee, and Payee-user runtime is rejected/superseded and remains only as explicit non-active provenance where present. The formal owner chain remains authoritative for source, Payable Basis, applicable Obligations, one-basis Checkout, allocations/Funding Legs, immutable confirmed Payment, Payment Applications, controlled zero/insufficient-Application exceptions, Payout/reconciliation, Evidence, notification, risk, privacy, promotion, acceptance, operations, Admin execution, and future representation.
+
+Every PayPlus record remains retained indefinitely; operational expiry, access/masking restrictions, source Archive visibility, account closure, and terminal or case outcomes do not erase records. The 14 derived/reference artifacts were synchronized to this accepted meaning and formal owner boundaries. This records no new product, governance, legal, commercial, security, provider, retention, route, status, event, permission, schema, category, or implementation decision.
+
+**Rationale**
+
+Stage 10 impact assessment, Stage 11 alignment, Stage 12 integrated validation, and Stage 13 integration confirmed that the accepted formal baseline and its derived/reference projections agree. The alignment removes stale Request/Payee-user and broad-inventory implications while preserving owner truth, historical provenance, deferred detail, and the no-redesign boundary.
+
+**Alternatives Considered**
+
+- Retaining active Request, Linking, Receive, Receiving Info, or Payee-user terminology was rejected because those product paths are retired and cannot remain active in derived references.
+- Treating Rent as a Bill Category or permitting broad obligations was rejected because the accepted launch inventory is fixed and Rent is a separate journey.
+- Making derived artifacts new source owners or adding routes, statuses, actions, schemas, events, permissions, retention exceptions, providers, or implementation mechanisms was rejected because alignment cannot create requirements.
+
+**Consequences And Handoffs**
+
+The formal document owners remain the source of truth. Derived route maps, glossary, route register, status matrix, RTM, OQ register, and README indexes are aligned projections only. DOC-18/19 representation and security detail, future implementation and AI-build material, prototype work, UAT/release evidence, and operational mechanisms remain deferred to their formal owners and later lifecycle stages. No push or remote mutation occurred.
+
+**Supersedes / Superseded By**
+
+Supersedes active derived-reference wording that implied open Requests, Payee-user participation, broad obligations, Rent-as-Category, stale Receive/Linking/Receiving Info routes, or conflated Payment Instruction/Checkout with source Archive. Historical append-only records, revision rows, backups, and non-authoritative provenance remain unchanged. No formal owner definition is superseded.
+
+**Remaining Open Items**
+
+- Later owner work for technical representation/security, implementation, prototypes, AI-build conversion, UAT/release evidence, monitoring and operations remains open and is not included in this alignment record.
+- Push requires separate explicit authorization.
