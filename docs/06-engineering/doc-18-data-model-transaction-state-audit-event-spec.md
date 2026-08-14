@@ -1,7 +1,7 @@
 ﻿---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.4.24
+version: 0.5.0
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-08-13
+last_updated: 2026-08-14
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -30,6 +30,8 @@ related_documents:
   - DOC-16 Technical Architecture Specification
   - DOC-17 API & Third-party Integration Specification
   - DOC-19 Security, Tokenization, Authentication & Admin Control Specification
+  - DOC-20 Testing, UAT & Go-Live Checklist
+  - DOC-21 Monitoring, Incident Response & Operational SOPs
   - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
@@ -39,20 +41,20 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `0.4.24` |
+| **Version** | `0.5.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Data Lead |
-| **Last Updated** | `2026-08-13` |
+| **Last Updated** | `2026-08-14` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
 ## 1. Purpose
 
-DOC-18 defines PayPlus data-model, transaction-state, audit-event, reporting, warehouse, lineage, analytics, and AI/model-readiness requirements at specification level.
+DOC-18 defines PayPlus data-model, transaction-state, audit-event, reporting, warehouse, lineage, analytics, and AI/model-readiness requirements at specification level within the architecture and owner contracts established by DOC-16.
 
 This document is not a final physical database schema, migration plan, data warehouse build plan, model design, vendor selection, privacy policy, or implementation ticket set.
 
@@ -80,7 +82,7 @@ Detailed requirements belong to:
 | Promotion, coupon, referral, membership, and partner-offer logic | DOC-13 |
 | Risk signal meaning, review routing, and model-assisted risk boundaries | DOC-14 |
 | Privacy, consent, retention, approved-purpose use, and data-use tiers | DOC-15 |
-| System architecture and services | DOC-16 |
+| Architecture posture, trust boundaries, provider-controlled card-data boundary, local atomic authority, durable handoffs, reliability, recovery, reconciliation, and observability obligations | DOC-16 |
 | Provider APIs, webhooks, files, and partner integrations | DOC-17 |
 | Authentication, encryption, tokenization, RBAC, and pseudonymization | DOC-19 |
 | Admin workflows, queues, exports, and operational actions | DOC-22 |
@@ -93,6 +95,9 @@ Detailed requirements belong to:
 | Privacy inheritance | DOC-15 data classes, approved-purpose rules, masking, retention, consent, and data-use tiers apply to DOC-18 objects and fields. |
 | MVP model posture | MVP may use rules, OCR/document AI, and assisted review where enabled; advanced AI decisioning, offsite activation, or user-level partner data sharing is not approved by DOC-18. |
 | Event-first design | Material user, system, admin, payment, evidence, promotion, notification, support, and risk actions should create traceable events where practical. |
+| Architecture inheritance | Representation must preserve DOC-16 risk-isolated modular boundaries, one authoritative owner for each fact, and the distinction between a local atomic transaction and a durable cross-boundary handoff. DOC-18 does not define deployment topology. |
+| Payment-data representation | Raw PAN and card-verification values are outside PayPlus data, event, audit, analytics, support, and reporting representations under the provider-controlled capture/tokenization boundary. Only owner-approved token/reference values and masked metadata may be represented. |
+| Handoff truth | A command, event, projection input, provider observation, operational signal, notification context, or analytics record must remain distinguishable from the authoritative domain fact and cannot silently rewrite it. |
 | Lineage | Raw, extracted, corrected, verified, derived, aggregated, reported, and model-feature data should preserve lineage. |
 | Bills evidence future update | Final DOC-18 must define the logical objects, status fields, active-version rules, lineage, events, and audit records for DOC-06C `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`. |
 | Payment profile future update | Final DOC-18 must define tokenized card, saved split-card payment profile, allocation-ratio, card-slot, default-card, starred/frequent profile, action-required profile, return-context, and audit-event structures for DOC-06B `PAYMENT-PROFILE-ROOT`. |
@@ -284,7 +289,9 @@ DOC-18 must implement the DOC-09 Payment Domain architecture without redefining 
 
 The model must also keep a deliberate Payment Instruction separate from an incomplete Checkout Workspace. It must preserve stable identities, correlation and causation, target-lock timing, allocation versions, payer authorization, provider evidence references, late-confirmation exception handling, immutable Payment and Payment Application facts, adjustment attribution, coverage recalculation inputs, and downstream Settlement/Payout handoffs. Machine states, transitions, persistence, event IDs, schemas, and reporting projections remain DOC-18 work and must trace to DOC-09 semantic conditions and invariants.
 
-DOC-18 must include data structures for DOC-06B/DOC-09 tokenized card and payment profile behavior, including card token/reference, permitted masked metadata, card nickname, card status, default-card marker, saved split-card profile name, card slots, stored ratios, setup/reference amount, starred/frequent marker, action-required state, soft-delete/archive metadata, checkout/instruction return context, and related audit events.
+Representation must also distinguish a local authoritative commit from its later cross-boundary propagation. No event, callback, projection, report, or operational record may imply a cross-owner atomic transaction or become authority for another owner's fact. Durable handoff representation must support later DOC-17/DOC-18 definition of correlation, idempotency, retry, failure, recovery, audit, and reconciliation evidence without selecting those mechanisms here.
+
+DOC-18 must include data structures for DOC-06B/DOC-09 tokenized card and payment profile behavior, including provider token/reference values, permitted masked metadata, card nickname, card status, default-card marker, saved split-card profile name, card slots, stored ratios, setup/reference amount, starred/frequent marker, action-required state, soft-delete/archive metadata, checkout/instruction return context, and related audit events. Raw PAN and card-verification values must not appear in PayPlus objects, events, audit, analytics, support, or reporting representations under the DOC-16 boundary.
 
 DOC-18 may represent an owner-approved, context-specific destination fact and immutable destination snapshot separately from source truth. DOC-10 owns effective destination, payout, authorization, and reconciliation meaning; detailed profile, version, proof, readiness, archive, or replacement-source behavior is not defined here.
 
@@ -351,7 +358,7 @@ Candidate future model areas include:
 - evidence extraction and evidence quality scoring;
 - duplicate or reused evidence detection;
 - risk and fraud decision support;
-- payer-payee relationship graph analysis;
+- factual source-context and economic-Payee association analysis for owner-approved risk purposes, without creating a participant or reciprocal relationship graph;
 - promotion abuse detection;
 - lifecycle segmentation;
 - consented offer ranking;
@@ -412,7 +419,8 @@ DOC-18 is acceptable when it defines:
 - data lineage and derived-data handling;
 - AI/model-readiness metadata;
 - partner reporting and aggregation controls;
-- clear ownership boundaries with DOC-12, DOC-13, DOC-14, DOC-15, DOC-16, DOC-17, DOC-19, and DOC-22.
+- the DOC-16 architecture boundary for authoritative ownership, local atomic authority, durable cross-boundary handoffs, provider-controlled card data, and non-authoritative projections;
+- clear ownership boundaries with DOC-12, DOC-13, DOC-14, DOC-15, DOC-16, DOC-17, DOC-19, DOC-20, DOC-21, and DOC-22.
 
 This document should not become:
 
@@ -428,6 +436,7 @@ This document should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.5.0 | 2026-08-14 | Product Documentation Team | Aligned data, event, audit, lineage, reporting, and analytics representation with the Stage 9-passed DOC-16 architecture: local atomic authority, durable non-authoritative handoffs, provider-controlled card-data boundaries, and factual economic-Payee context; added acceptance and evidence-owner handoffs without selecting schemas, events, providers, databases, or security mechanisms. |
 | 0.4.24 | 2026-08-13 | Product Documentation Team | Retired active Request/Linking/Receiving Info assumptions, aligned representation to owner-approved source, destination, payment, notification, and indefinite-retention boundaries, and preserved DOC-09/DOC-10/DOC-13 handoffs without adding schemas or mechanisms. |
 | 0.4.23 | 2026-07-31 | Product Documentation Team | Added the precise future implementation marker for canonical Request identity and DOC-09 Payment Domain objects, invariants, semantic conditions, correlation, late confirmation, adjustments, and distinct Instruction/Checkout identities. |
 | 0.4.22 | 2026-07-29 | Product Documentation Team | Added future data and audit requirements for capability-aware Recovery and explicit separation of authentication Outcome, Resolution Strategy, persistent status, Message/CTA, notification, and occurrence records. |

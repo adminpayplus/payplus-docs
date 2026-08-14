@@ -4,7 +4,7 @@ Status: Working alignment reference
 
 Owner: Product / Documentation Owner
 
-Last updated: 2026-07-31
+Last updated: 2026-08-14
 Classification: Internal
 
 This glossary defines approved PayPlus terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
@@ -50,7 +50,7 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Payment Instruction | A deliberate user-created pay-later arrangement. An interrupted or partly funded immediate Checkout does not automatically become a Payment Instruction. | DOC-09 / DOC-06B |
 | Incomplete Checkout Workspace | A Checkout Workspace that has started execution but has not fully funded its immutable Checkout Target. It may be continuable, closed, or expired without rewriting confirmed Payments or Payment Applications. | DOC-09 / DOC-06B |
 | Reminder | A user- or system-configured alert linked to a bill/rent/tenancy obligation. It does not itself create or authorize a payment. | DOC-06C / DOC-08 |
-| Tokenized Card | A card represented by a PSP-permitted token/reference and masked metadata. PayPlus does not store or reveal full PAN or CVV. | DOC-09 / DOC-19 |
+| Tokenized Card | A card represented by a provider-permitted token/reference and approved masked metadata. Under the canonical architecture boundary, provider-controlled capture and tokenization keep raw PAN and card-verification values outside PayPlus systems unless a separately authorized Proposal changes that boundary. | DOC-09 / DOC-16 / DOC-19 |
 | Payment Profile | A payer-owned reusable split-card allocation profile. It stores card ratios, not wallet value, and supports up to 6 cards for MVP. | DOC-06B / DOC-09 |
 | Funding Leg | One separately authorized funding component within a Checkout Workspace. Each successfully confirmed Funding Leg produces exactly one Payment. | DOC-09 |
 | Payment Attempt | One execution attempt for a Funding Leg. A Funding Leg may have multiple attempts, but failed or unconfirmed attempts produce no Payment. | DOC-09 |
@@ -67,6 +67,15 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Payout | PayPlus's transfer of settlement-ready funds to the designated payee destination. | DOC-10 |
 | Payout Rail | The operational method used for payout. FPS, cheque, and EPS are accepted Hong Kong rails, subject to operating-bank support and enablement. | DOC-10 |
 | Reconciliation | Matching payment, settlement, payout, bank, batch/API, return, and exception records to confirm financial completeness and identify differences. | DOC-10 |
+
+## Technical Architecture Terms
+
+| Term | Canonical Definition | Primary Owner |
+| --- | --- | --- |
+| Risk-Isolated Modular Architecture | A cohesive modular core by default, with a separate process, deployment, or security boundary introduced only when evidence justifies the added isolation for sensitivity, trust, failure, scaling, compliance, or operational reasons. It does not pre-commit PayPlus to full microservices. | DOC-16 |
+| Provider-Controlled Card-Data Boundary | The architecture boundary under which provider-controlled capture and tokenization keep raw PAN and card-verification values outside PayPlus systems by default; PayPlus handles only permitted token/reference values and approved masked metadata. | DOC-16 |
+| Local Atomic Authority | The boundary within which one authoritative domain owner atomically commits its own state and invariants. It does not imply a single transaction across independently owned domains, providers, services, or external systems. | DOC-16 |
+| Durable Cross-Boundary Handoff | An owner-approved propagation between boundaries that is durable, retryable, idempotent at the receiving boundary, correlated, auditable, recoverable, and reconcilable. It does not replace or silently rewrite the authoritative domain fact. | DOC-16 / DOC-17 / DOC-18 |
 
 ## Records and Status Terms
 

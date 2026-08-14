@@ -1,7 +1,7 @@
 ---
 document_id: DOC-20
 title: Testing, UAT & Go-Live Checklist
-version: 0.1.2
+version: 0.2.0
 status: Founder Working Baseline
 owner: QA / Product / Operations
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-13
+last_updated: 2026-08-14
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -25,6 +25,9 @@ related_documents:
   - DOC-12 Bill Category, Document AI, OCR & Payee Verification
   - DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control
   - DOC-15 Privacy, Data Protection, Record & Retention
+  - DOC-16 Technical Architecture Specification
+  - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
+  - DOC-19 Security, Tokenization, Authentication & Admin Control Specification
   - DOC-20 Testing, UAT & Go-Live Checklist
   - DOC-21 Monitoring, Incident Response & Operational SOPs
   - DOC-22 Admin Management & Operations Workflow
@@ -36,14 +39,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-20` |
 | **Title** | Testing, UAT & Go-Live Checklist |
-| **Version** | `0.1.2` |
+| **Version** | `0.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | QA / Product / Operations |
 | **Reviewers** | Product Lead<br>QA Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-13` |
+| **Last Updated** | `2026-08-14` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation, Chargeback & Case<br>DOC-12 Bill Category, Document AI, OCR & Payee Verification<br>DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control<br>DOC-15 Privacy, Data Protection, Record & Retention<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management & Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation, Chargeback & Case<br>DOC-12 Bill Category, Document AI, OCR & Payee Verification<br>DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control<br>DOC-15 Privacy, Data Protection, Record & Retention<br>DOC-16 Technical Architecture Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management & Operations Workflow |
 
 ---
 
@@ -55,7 +58,7 @@ This document applies to the accepted Payer-only Consumer User baseline, the eco
 
 ## 2. Ownership and evidence boundaries
 
-DOC-20 owns the acceptance evidence contract and the human-level readiness decision record. The relevant product or control owner remains authoritative for the requirement being tested. DOC-06D maps UX requirements to acceptance criteria; DOC-21 owns monitoring, incident, support, and operational escalation; DOC-18 and DOC-19 remain the future owners of data/event/lineage and security detail where those documents are not yet substantive.
+DOC-20 owns the acceptance evidence contract and the human-level readiness decision record. The relevant product or control owner remains authoritative for the requirement being tested. DOC-06D maps UX requirements to acceptance criteria; DOC-16 owns architecture requirements and evidence obligations; DOC-18 owns data/event/audit/lineage representation; DOC-21 owns monitoring, incident, support, and operational escalation; DOC-19 remains the future security-detail owner until substantively drafted.
 
 An acceptance item should identify its source requirement, expected human-observable outcome, applicable preconditions, observed result, evidence owner, exception or limitation, and downstream handoff. The representation must not invent a schema, event, API, status taxonomy, automation architecture, provider behavior, alert value, SLA, deployment mechanism, security control, legal conclusion, or final Copy.
 
@@ -74,6 +77,7 @@ Testing may be manual, assisted, automated, or otherwise evidenced by a later te
 
 | Requirement family | Normative owner | DOC-20 evidence expectation | Handoff / dependency |
 | --- | --- | --- | --- |
+| Technical architecture and cross-boundary integrity | DOC-16 | Architecture review and later implementation evidence must cover risk-isolated modular boundaries, provider-controlled card-data handling, local authoritative transaction tests, durable handoff retry/idempotency/correlation/failure/recovery/reconciliation, non-authoritative projections, least privilege, and Security & Compliance by Design without claiming certification from documentation alone. | DOC-17, DOC-18, DOC-19, DOC-21, DOC-22 |
 | Payer-only actor, economic Payee, Categories and separate Rent | DOC-01 / DOC-05 / DOC-06C | Positive and negative acceptance of actor, exact inventory, Category-bound self-provision, Directory discovery and separate Rent. | DOC-06D, DOC-12, DOC-14 |
 | Evidence and readiness | DOC-12 | Evidence supports verification; Evidence is not source, Payable Basis, Obligation, Checkout or Payment; label-only review cannot bypass concrete gates. | DOC-09, DOC-14, DOC-15 |
 | Source identity and projections | DOC-05 / DOC-06C | Setup, immediate pay-now, Payment Result then optional same-ID Save, Active/history-only/established-but-unprojected/Archived and Activity/History/Receipt independence. | DOC-09, DOC-15, DOC-21 |
@@ -97,7 +101,7 @@ UAT must not be treated as legal approval, security certification, production va
 
 ## 6. Go-live readiness evidence
 
-The go-live decision should identify the accepted scope, evidence reviewed, open exceptions, owner approvals required by DOC-00, operational/support handoffs, and any explicit exclusion. It must show that the negative product boundaries, retention rule, payment/application exception, Archive blockers, notification ownership, privacy access, and Admin execution boundary remain intact.
+The go-live decision should identify the accepted scope, evidence reviewed, open exceptions, owner approvals required by DOC-00, operational/support handoffs, and any explicit exclusion. It must show that the negative product boundaries, DOC-16 architecture and card-data boundaries, local-authority/durable-handoff evidence, retention rule, payment/application exception, Archive blockers, notification ownership, privacy access, and Admin execution boundary remain intact.
 
 DOC-20 does not define deployment, rollback, monitoring thresholds, staffing, incident severity, provider operation, security controls, or implementation release mechanics. Those details require their formal owner and later lifecycle authorization.
 
@@ -116,5 +120,6 @@ These questions do not reopen settled product meaning and do not authorize imple
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 0.2.0 | 2026-08-14 | Aligned acceptance and go-live evidence with the Stage 9-passed DOC-16 architecture, current DOC-18 representation ownership, and DOC-21 operational evidence handoffs without defining implementation mechanisms or claiming certification. |
 | 0.1.2 | 2026-08-13 | Added explicit acceptance evidence for zero- and insufficient-Application Payout control, no-fabrication/no-bypass treatment, and owner-controlled downstream resolution without defining an implementation mechanism. |
 | 0.1.0 | 2026-08-12 | Created the first substantive human-level testing, UAT and go-live acceptance baseline for the accepted Wave 1-4 product and control requirements. |
