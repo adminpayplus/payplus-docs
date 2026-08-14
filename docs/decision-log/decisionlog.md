@@ -56,6 +56,10 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-037` | `2026-08-05` | DOC-07 Logical Communication Contracts And Bounded Domain Slices | Accepted | `DOC-07` | `eec4295bdde299d18d17bcaa6bab20a60786aa1f` |
 | `DEC-2026-038` | `2026-08-05` | PAYMENT-CHECKOUT Defined Baseline | Accepted | `DOC-06B` | `d1e9f550e0f49e861132a96a5e48d8cdcc0882ed` |
 | `DEC-2026-039` | `2026-08-06` | HOME-ROOT Logged-In Dashboard Presentation And Navigation Contracts | Accepted | `DOC-06B` | `c14fafe5ef70feedf64ee46c6451ed6e19fd402e` |
+| `DEC-2026-040` | `2026-08-06` | Entrance Promotion Detail, Carousel, And Placement Management | Accepted | `DOC-06B` / `DOC-13` / `DOC-22` | `cebe5fce140e41cddfae131193d51d059e3fd424` |
+| `DEC-2026-041` | `2026-08-11` | Workflow Draft Review Handoff And Review Convergence | Accepted | Documentation Development Workflow | `9072e00fffe3f3329dbf522c8965500e78d56b21` |
+| `DEC-2026-042` | `2026-08-13` | Payer-Only Bill And Rent Architecture Alignment | Accepted | Multiple formal owners | `43e35bcd86f2fd5464606d6e9213aabda1a4b794` |
+| `DEC-2026-043` | `2026-08-14` | DOC-16 Risk-Isolated Technical Architecture Baseline | Accepted | `DOC-16` | `77144f12d6675f6305c9a96e00bc75af97702f6e` |
 
 ## 4. Decision Record Template
 
@@ -1926,3 +1930,49 @@ Supersedes active derived-reference wording that implied open Requests, Payee-us
 
 - Later owner work for technical representation/security, implementation, prototypes, AI-build conversion, UAT/release evidence, monitoring and operations remains open and is not included in this alignment record.
 - Push requires separate explicit authorization.
+
+### `DEC-2026-043` - DOC-16 Risk-Isolated Technical Architecture Baseline
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-14` |
+| Status | Accepted |
+| Primary owner | `DOC-16`, technical architecture |
+| Affected documents | `AGENTS.md`, `docs/README.md`, `docs/glossary/glossary.md`, `DOC-16`, `DOC-18`, `DOC-20`, `DOC-21`, `DOC-22`, requirements traceability matrix, open-questions register, documentation-management roadmap |
+| Substantive commit | `77144f12d6675f6305c9a96e00bc75af97702f6e` |
+| Founder approval | Founder approved `DOC16-FD-01` through `DOC16-FD-05`, the bounded DOC-16 Draft and Review chain, Stage 10 impact manifest, conditional Alignment/Validation/Integration/Commit, and separate Push authorization on `2026-08-14` |
+
+**Decision**
+
+PayPlus adopts a risk-isolated modular architecture without pre-committing to full microservices. Each authoritative owner preserves local atomic state and invariants; cross-boundary and provider handoffs are durable, retryable, idempotent, correlated, auditable, recoverable, and reconcilable, and never replace or silently rewrite authoritative domain truth.
+
+Provider-controlled capture and tokenization is the default payment-data boundary. PayPlus does not receive, process, transmit, or retain raw PAN or card-verification values unless a separately authorized architecture and security Proposal changes that boundary. Provider token/reference values and approved masked metadata remain distinct from raw card data.
+
+Security & Compliance by Design applies across technical work from the outset, including applicable ISO/IEC 27001, PCI DSS, privacy, payment, regulatory, least-privilege, segregation-of-duties, auditability, reliability, recovery, reconciliation, observability, testability, and evidence considerations. Documentation alone does not establish certification or compliance. Operational expiry or invalidation does not erase the indefinitely retained record.
+
+`DOC-16` owns architecture posture and boundaries. `DOC-17` owns future provider/API integration detail, `DOC-18` owns approved representation/status/event/audit/lineage detail, `DOC-19` owns future authentication/token/access/security implementation detail, and `DOC-20`, `DOC-21`, and `DOC-22` own acceptance evidence, operational evidence, and owner-permitted Admin execution respectively. Technical owners must consume accepted product/domain requirements and return genuine conflicts through the canonical workflow rather than reopening them implicitly.
+
+**Rationale**
+
+This baseline preserves professional technical ownership, limits sensitive-payment and PCI scope, supports strong transaction and recovery invariants, and avoids both premature distributed-system commitments and under-specified security, compliance, financial, and operational controls. The owner split keeps architecture normative while deferring implementation mechanisms to their formal owners.
+
+**Alternatives Considered**
+
+- Pre-committing PayPlus to full microservices was rejected because the accepted risk-isolated modular posture permits technical isolation only where evidence and risk justify it.
+- Direct PayPlus handling or storage of raw PAN/card-verification values was rejected as the default because provider-controlled capture/tokenization reduces sensitive-data and PCI scope.
+- Treating a cross-boundary handoff as one distributed atomic transaction was rejected because each owner retains local atomic authority and durable handoffs preserve recoverability and reconciliation.
+- Treating operational expiry as record deletion was rejected because usability/security lifetime and indefinite record retention are separate concerns.
+- Inventing provider mechanics, APIs, schemas, events, databases, security constants, routes, statuses, or implementation completion in DOC-16 was rejected in favor of explicit owner handoffs.
+
+**Consequences And Handoffs**
+
+DOC-18 and DOC-20 through DOC-22 now consume the architecture boundaries without redefining them. `AGENTS.md`, the documentation index, glossary, RTM, OQ register, and roadmap identify the current DOC-16 baseline and its downstream owners. DOC-17 and DOC-19 remain protected placeholders and require separate owner-first work before provider integration and security implementation can be considered fully defined. Later implementation, testing, operational evidence, and certification assessment must demonstrate the controls; this decision does not claim production or certification completion.
+
+**Supersedes / Superseded By**
+
+Supersedes any active implication that PayPlus is already committed to full microservices, may treat cross-boundary work as one transaction, may handle raw card data by default, or may treat operational expiry as record destruction. Historical provenance remains unchanged.
+
+**Remaining Open Items**
+
+- Owner-first drafting and independent review of DOC-17 provider/API integration and DOC-19 security implementation detail.
+- Final approved schemas, events, persistence, security mechanisms, operational controls, implementation, tests, evidence, and any external certification remain later-owner work.

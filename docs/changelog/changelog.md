@@ -1512,3 +1512,47 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - Future implementation, security, representation, monitoring, UAT, release, prototype, AI-build, and operational detail remains with its formal owner and later lifecycle stages.
 - Push remains separately unauthorized; no remote convergence is asserted.
+
+### `2026-08-14` - DOC-16 Technical Architecture Baseline And Downstream Alignment
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `77144f12d6675f6305c9a96e00bc75af97702f6e` |
+| Primary owner | `DOC-16`, technical architecture |
+| Decision record | `DEC-2026-043` |
+| Founder approval | Founder approved `DOC16-FD-01` through `DOC16-FD-05`, the bounded DOC-16 lifecycle, conditional Alignment/Validation/Integration/Commit, and separate Push authorization on `2026-08-14` |
+
+**Files Changed**
+
+- `AGENTS.md`
+- `docs/README.md`
+- `docs/glossary/glossary.md`
+- `docs/06-engineering/doc-16-technical-architecture-spec.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/08-qa-release-operations/doc-20-testing-uat-golive-checklist.md`
+- `docs/08-qa-release-operations/doc-21-monitoring-incident-response-operational-sops.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/payplus-documentation-management-roadmap.md`
+
+**Material Changes**
+
+- Established the reviewed DOC-16 risk-isolated modular architecture without pre-committing PayPlus to full microservices.
+- Established provider-controlled capture/tokenization as the default card-data boundary, with no PayPlus receipt, processing, transmission, or retention of raw PAN or card-verification values absent a separately authorized Proposal.
+- Distinguished each owner's local atomic authority from durable, retryable, idempotent, correlated, auditable, recoverable, and reconcilable cross-boundary handoffs that do not replace domain truth.
+- Applied Security & Compliance by Design and evidence-backed ISO/IEC 27001, PCI DSS, privacy, payment, regulatory, reliability, and operational considerations without claiming certification or implementation completion.
+- Preserved indefinite record retention while distinguishing operational expiry, closure, and invalidation from deletion or destruction.
+- Aligned architecture ownership and terminology across DOC-18, DOC-20 through DOC-22, repository guidance, glossary, traceability, open questions, and roadmap without inventing provider, API, schema, event, database, route, status, security-mechanism, or implementation detail.
+
+**Checks Performed**
+
+- Passed fresh independent DOC-16 Stage 9 Primary Review against the locked SHA-256 `454B3F6AD497EAB2C4320C0313536790462F120A64A36426CC93065A443F90CD`.
+- Completed Stage 10 impact assessment, exact ten-file Stage 11 alignment, Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE`, and Stage 13 `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL`.
+- Verified the exact 11-file substantive scope, strict UTF-8, Markdown structure, metadata/control mirrors, current revision rows, prior-history preservation, protected-file boundaries, and `git diff --cached --check` before substantive commit `77144f12d6675f6305c9a96e00bc75af97702f6e`.
+- Confirmed the committed DOC-16 Git object remains `8e8003edb27fcb6c09a0ff310b76605e318d5e79` and the worktree was clean after the substantive commit.
+
+**Remaining Open Items**
+
+- DOC-17 provider/API integration and DOC-19 security implementation remain protected placeholders requiring separate owner-first work.
+- Final schemas, events, persistence, provider mechanics, security controls, implementation, tests, operational evidence, and external certification evidence remain with their later formal owners.
