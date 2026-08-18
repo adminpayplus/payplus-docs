@@ -44,7 +44,7 @@ Use this workflow for documentation review, drafting, rewriting, restructuring, 
 - The active lead agent acts as Documentation Lead and Change Integrator unless another owner is appointed.
 - One document remains the primary source for each concept.
 - Reference documents summarize or hand off; they must not redefine the primary rule.
-- Parallel reviewers are optional and should be used when complexity or cross-document risk justifies them.
+- Parallel reviewers are optional and should be used when complexity or cross-document risk justifies them, except that material Stage 5 Proposal and material Stage 8 Draft use the fixed-seat contract in Section 3.1.
 
 Classify the task into one of these work modes before acting:
 
@@ -61,6 +61,109 @@ Classify the task into one of these work modes before acting:
 | Commit and records | Create the approved substantive commit and immediate records-only follow-up. | Do not push unless explicitly authorized. |
 
 If the requested mode is unclear, choose the least expansive safe mode. Review and proposal requests do not authorize edits, and edit requests do not automatically authorize a commit.
+
+### 3.1 Material Stage 5 and Stage 8 Fixed-Seat Contract
+
+For material Stage 5 Proposal and material Stage 8 Draft, this contract is the canonical exception to general optional or adaptive parallel-role treatment in supporting procedures and routing references. Apply the existing materiality meaning and triggers in this workflow; this contract does not create a new materiality taxonomy, lifecycle stage, or gate. Non-material exact-scoped work retains proportionate and adaptive treatment.
+
+#### Documentation Manager Coordination and Profile Selection
+
+The Documentation Manager is coordination-only and does not count as a participating agent. For each material task, the Manager:
+
+1. identifies the primary owning document, task subject, and material cross-owner handoffs;
+2. selects or, where continuity applies, retains the three specialist profiles most relevant to the task and document;
+3. assigns one distinct agent to each specialist seat;
+4. records each selected profile's relevance, review scope, required sources and handoffs, expected output, authority boundary, and known capability limitations;
+5. identifies every material capability gap;
+6. issues the complete task contract;
+7. receives the detailed Executor Result Pack; and
+8. reports only a concise lifecycle, blocker, and status summary.
+
+The Manager must not act as Lead, writer, specialist reviewer, Challenger, or Founder decision owner for this role model. Its summary cannot substitute for the Executor Result Pack.
+
+Illustrative specialist profiles include:
+
+- Product Strategy / Business Model / Product Boundary;
+- UX / Journey / Route / Communication;
+- Payment / Evidence / Payout / Accounting;
+- API / Provider Integration / Data Contract;
+- Backend / Distributed Architecture / Reliability;
+- Security / Authentication / Access Control;
+- Risk / Compliance / Privacy;
+- Operations / Admin / Support / Monitoring; and
+- QA / Acceptance / Traceability / Documentation Consistency.
+
+This catalogue is illustrative, not a permanent role hierarchy. The Manager selects only the three profiles required for the current task. Each profile follows the applicable formal document owner and must not redefine meaning owned by another document.
+
+These profiles are internal documentation-review lenses. They do not establish external professional accreditation, legal advice, regulatory approval, compliance certification, security assurance, provider acceptance, implementation readiness, or production readiness. A missing specialist capability is recorded as `Not performed` or `Unresolved`; it must not be invented.
+
+#### Material Stage 5 Proposal
+
+Material Stage 5 Proposal uses exactly four distinct participating agents:
+
+1. **Seat 1 - Primary-owner Lead and Orchestrator.** Owns the canonical Proposal, identifies the primary owner and decision boundary, produces an independent Round 1 position, and performs Round 3 consolidation without replacing specialist review.
+2. **Seats 2 to 4 - Three task-selected Specialist Reviewers.** Remain read-only during Proposal, review through their assigned profiles, preserve formal owner and handoff boundaries, and hold no Founder decision authority.
+
+All four agents receive the same common evidence package and independently record their Round 1 positions before any position is shared.
+
+Use this sequence:
+
+```text
+Round 1 - all four agents independently record positions before sharing
+-> Round 2 - the same four conduct four-way cross-challenge
+-> Round 3 - the Lead consolidates one decision-ready Proposal
+-> Stage 6 Founder Decision
+```
+
+Round 2 challenges material conclusions, assumptions, omissions, owner boundaries, and risks across the four positions. Record material agreements, disagreements, accepted challenges, rejected challenges, and unresolved matters. Cross-challenge is shared among the same four agents; do not create a separate fifth Proposal Challenger.
+
+Round 3 produces one coherent Proposal while preserving material disagreement and rejection reasons. Reviewer agreement is not Founder approval. A missing or combined seat, missing independent position, incomplete cross-challenge, or absent Lead consolidation blocks material Stage 5 exit. Material Proposal remains read-only and stops at Stage 6 Founder Decision.
+
+#### Material Stage 8 Draft
+
+When material Stage 8 follows material Stage 5, retain the same four participants. Seat 1 becomes the canonical writer; Seats 2 to 4 remain the same read-only Specialist Reviewers and must not create competing Draft edits. One canonical writer controls each formal document, and only that writer may modify it.
+
+Where material Draft begins from an equivalent explicit Founder instruction without a preceding four-agent Stage 5 team, the Manager selects and records the four Stage 8 participants at the Stage 7 Definition of Ready gate using the same profile-selection rules. The four-seat record must be complete before drafting begins.
+
+For every material Stage 8 Draft, the Manager separately appoints exactly one **Independent Internal Review Challenger / Draft Completeness Reviewer** and records that the Challenger:
+
+- is separate from the four task participants;
+- authored no Draft content and performed no Draft editing;
+- remains read-only;
+- cannot replace a missing Specialist Reviewer; and
+- holds no Founder or Stage 9 approval authority.
+
+The Challenger is the only mandatory additional Stage 8 participant. Material Stage 8 therefore uses exactly five participating agents total: one canonical writer, three task-selected read-only Specialist Reviewers, and one independent read-only Challenger.
+
+Use exactly this sequence:
+
+```text
+canonical writer produces the Draft
+-> three Specialist Reviewers inspect the complete Draft
+-> independent Challenger performs completeness and fidelity review
+-> writer applies only accepted-scope corrections
+-> relevant Specialist Reviewers reinspect affected meaning
+-> Challenger reinspects the actual final bytes
+-> evidence-bearing Stage 8 handoff
+```
+
+The Challenger receives the approved decisions, Draft Plan, Decision Coverage Matrix, authoritative sources, specialist findings, complete Draft, and complete diff. It reviews completeness and fidelity, including omissions, contradictions, unsupported assumptions, owner-boundary breaches, and unimplemented accepted decisions. It remains Stage 8 support only and must not author or edit the Draft, approve a Founder decision, issue a Stage 9 result, or substitute for Stage 9 Primary Review.
+
+Stage 8 exit is blocked when:
+
+- any required Specialist Review is absent;
+- the Challenger is absent;
+- reviewer or Challenger independence is not evidenced;
+- an evidence-backed accepted-scope objection remains unresolved;
+- required specialist reinspection is absent;
+- the Challenger has not inspected the actual final bytes; or
+- a material substantive-completeness gap remains.
+
+Any formal-document or controlling Decision Coverage Matrix change after reinspection invalidates the affected closure evidence. Relevant specialist reinspection and Challenger final-byte reinspection must then be repeated. Do not add a mandatory Stage 8 four-way cross-challenge round; four-way cross-challenge is a material Stage 5 Proposal control.
+
+#### Stage 9 Boundary
+
+Stage 9 remains unchanged as the existing formal independent Primary Review gate. The Stage 8 Challenger is not Stage 9, does not approve the Draft, and cannot substitute for Stage 9 Primary Review.
 
 ## 4. Canonical Documentation Lifecycle
 
@@ -104,7 +207,7 @@ Task Request
     -> Complete
 ```
 
-This is one lifecycle, not a requirement to use every specialist procedure. Parallel-agent coordination is an optional execution method within appropriate stages. The Outcome framework, DOC-07 authoring guidance, and prototype guidance apply only when their subject matter is present.
+This is one lifecycle, not a requirement to use every specialist procedure. Parallel-agent coordination is an optional execution method within appropriate stages except for the material Stage 5 and Stage 8 fixed-seat contract in Section 3.1. The Outcome framework, DOC-07 authoring guidance, and prototype guidance apply only when their subject matter is present.
 
 ### 4.3 Stage Ownership Matrix
 
@@ -116,10 +219,10 @@ The following matrix is the canonical lifecycle ownership reference. `Responsibl
 | 2. Explore - Work-mode and concept classification | Documentation Lead | `None`; unresolved classification or scope expansion returns to the Founder |
 | 3. Explore - Authority, current ownership, ownership candidates, and dependency evidence | Documentation Lead | Founder when an existing authority conflict prevents exploration; otherwise `None` |
 | 4. Explore - Source, repository-baseline, and applicable industry review | Documentation Lead | `None`; authoritative conflicts remain Explore findings and return to the Founder when they prevent Proposal |
-| 5. Proposal - Decision recommendation or exact approved-scope confirmation | Documentation Lead, with applicable reviewers | `None` for preparing the Proposal; the resulting material decision belongs to the Founder at Stage 6 |
+| 5. Proposal - Decision recommendation or exact approved-scope confirmation | Documentation Lead, with the Section 3.1 fixed-seat contract for material Proposal or applicable reviewers otherwise | `None` for preparing the Proposal; the resulting material decision belongs to the Founder at Stage 6 |
 | 6. Founder Decision and edit-scope gate | Documentation Lead presents the decision pack | Founder |
 | 7. Draft - Definition of Ready | Documentation Lead | `None`; unmet readiness conditions block drafting |
-| 8. Draft - Primary-owner documentation | Primary Document Owner or one canonical writer appointed by the Documentation Lead | Founder for the accepted material decision and edit scope; formal document approver roles remain governed by `DOC-00` |
+| 8. Draft - Primary-owner documentation | Primary Document Owner or one canonical writer named in the applicable task contract; material Draft also uses the Section 3.1 specialist and Challenger controls | Founder for the accepted material decision and edit scope; formal document approver roles remain governed by `DOC-00` |
 | 9. Review - Draft review gate | Documentation Lead, supported by applicable reviewers | Founder for any new material decision; otherwise `None` |
 | 10. Align / Integrate - Change Impact Manifest | Change Integrator | `None`; scope expansion or unresolved conflicts return to the Founder |
 | 11. Align / Integrate - Cross-document consistency | Change Integrator | Founder for any newly discovered material decision or scope expansion; otherwise `None` |
@@ -275,6 +378,8 @@ Proposal **SHALL** produce:
 
 Items that do not apply must be identified as such rather than silently omitted.
 
+For a material Proposal, the task-context evidence must also identify the four participating agents and selected specialist profiles and retain the four Round 1 positions, Round 2 four-way cross-challenge record, and Round 3 Lead consolidation required by Section 3.1.
+
 ##### Allowed Actions
 
 Proposal is the first stage permitted to:
@@ -313,6 +418,8 @@ Initial Recommendation
 
 Run one challenge cycle by default and no more than two. A second cycle requires a recorded material recommendation change or newly exposed blocker. Use stable finding IDs, do not introduce a new alternative unless an existing option fails, and close with a concise challenge summary.
 
+For a material Proposal, the Round 2 four-way cross-challenge required by Section 3.1 performs this bounded Proposal Challenge. It does not create a fifth Proposal Challenger or an additional lifecycle gate.
+
 ##### Decision Readiness and Founder Decision Pack
 
 Mark every material decision `Pass`, `Fail`, or justified `N/A` for evidence completeness, a defined invariant, normal and exception scenarios, canonical-conflict resolution, current owner, downstream impact, and whether Founder approval is required. A material `Fail` cannot enter Draft; keep it in Proposal or return it to Explore when more evidence is required.
@@ -331,6 +438,7 @@ Proposal exits only when:
 - the bounded Proposal Challenge is complete;
 - every material decision passes Decision Readiness or has been kept out of Draft;
 - material Founder decisions are consolidated wherever practical and dependent-scope blocking is explicit.
+- for a material Proposal, all four seats, independent positions, four-way cross-challenge, and Lead consolidation required by Section 3.1 are evidenced and complete.
 
 Proposal remains read-only and ends at Stage 6, the existing Founder Decision and edit-scope gate.
 
@@ -352,6 +460,7 @@ Convert approved Proposal decisions or an equivalent explicit Founder instructio
 - authoritative sources, approved terminology, ownership, architecture, requirements, and unresolved items;
 - applicable specialist guidance.
 - a Draft Plan and Decision Coverage Matrix for material work.
+- for material work, the participant, profile-selection, authority-boundary, and capability-limitation records required by Section 3.1; Challenger independence must be evidenced before Challenger review.
 
 ##### Outputs
 
@@ -360,6 +469,7 @@ Convert approved Proposal decisions or an equivalent explicit Founder instructio
 - visible assumptions, `TBD`, `Open`, or `To be confirmed` items that remain unresolved;
 - a Draft Review handoff identifying the implemented scope, any blocked design discovery, the affected-scope semantic assessment, cross-document impact, residuals and dependencies, qualifications, and whether substantive completeness is self-proven for Stage 9;
 - a coverage matrix mapping each approved decision or requirement to its normative section, required table, materially useful tree or Mermaid representation, Acceptance Criteria, primary owner, and downstream handoff; use justified `N/A` where a representation would not materially improve or govern meaning.
+- for material work, three specialist review records, the Challenger completeness and fidelity findings, correction dispositions, relevant specialist reinspections, Challenger final-byte reinspection, and the exact identity of the final reviewed artifact.
 
 The Draft Review handoff and coverage matrix are the existing Stage 8 coverage materials. They are execution evidence in the task context or existing execution record only and do not create a permanent Evidence Pack artifact.
 
@@ -396,6 +506,7 @@ Draft exits only when:
 - no material uncovered, unknown, ownerless, or substantive-completeness gap remains; any such gap blocks Stage 8 exit;
 - the mutation scope is separately identified from the broader read-only assessment, and assessed-but-unmutated references are not treated as writable authority;
 - the coverage materials are complete and ready for independent Stage 9 Review.
+- for material work, the Section 3.1 fixed-seat, specialist-review, Challenger, correction, reinspection, and final-byte requirements are evidenced and complete.
 
 #### 4.5.4 Review Stage Contract
 
@@ -598,6 +709,8 @@ At intake, identify:
 8. expected deliverable and validation;
 9. stopping, approval, commit, and push conditions.
 
+For material Stage 5 Proposal or material Stage 8 Draft, also record the Section 3.1 participant seats, selected specialist profiles, relevance and scope, required sources and handoffs, expected outputs, authority boundaries, capability limitations, and applicable independence controls.
+
 Do not infer approval for a new route, status, requirement, policy, data object, control, disclosure rule, or product boundary from a general request to improve wording or structure.
 
 ### 5.2 Explore the Decision Space
@@ -667,6 +780,8 @@ Proposal is the first stage permitted to recommend architecture, terminology, ow
 
 Run the bounded Proposal Challenge defined in Section 4.5.2 and include its concise summary. Complete Decision Readiness for every material decision. A material `Fail` stays in Proposal or returns to Explore and must not enter Draft.
 
+For a material Proposal, use the Section 3.1 four-seat sequence: independent Round 1 positions, Round 2 four-way cross-challenge by the same four agents, and Round 3 Lead consolidation. This sequence satisfies the bounded Proposal Challenge; do not add a separate fifth Challenger.
+
 Do not over-compress a multi-screen flow, material business rule, ownership choice, failure path, disclosure boundary, or cross-document consequence. Do not draft documentation while the task remains Proposal-only.
 
 ### 5.6 Founder Decision Gate
@@ -698,6 +813,9 @@ Drafting is ready when:
 - the approved architecture, ownership, terminology, lifecycle, statuses, object model, requirements, and document treatment are identifiable where applicable.
 - every material decision entering Draft has passed Decision Readiness;
 - a Draft Plan and Decision Coverage Matrix maps approved decisions and requirements to the representations, Acceptance Criteria, ownership, and handoffs defined in Section 4.5.3.
+- for material Draft following material Stage 5, the same four participants are retained and their Stage 8 roles are recorded as required by Section 3.1;
+- for material Draft beginning from an equivalent explicit Founder instruction without a preceding four-agent Stage 5 team, the Manager has selected and recorded the four participants at this Stage 7 Definition of Ready gate using the Section 3.1 profile-selection rules;
+- one canonical writer is identified for each formal document, the three Specialist Reviewers are read-only, and the separately appointed Challenger control is planned without treating it as Stage 9.
 
 ### 6.2 Owner-First Drafting
 
@@ -733,8 +851,14 @@ Before handing the Draft to Stage 9 Review, confirm:
 12. valid owner-backed `TBD`, `Open`, and deferred items remain visible, while material uncovered, unknown, ownerless, or substantive-completeness gaps block the Stage 8 handoff;
 13. mutation scope and broader read-only assessment scope are explicitly separate, and read-only assessment has not expanded writable authority;
 14. the Stage 8 handoff is execution evidence in the task context or existing execution record only; no permanent Evidence Pack artifact has been created.
+15. for material Draft, all three required Specialist Reviews inspected the complete Draft;
+16. the independently appointed Challenger inspected the complete Draft and required evidence for completeness and fidelity without authoring or editing;
+17. every evidence-backed accepted-scope objection was corrected, while any unresolved objection remains an explicit blocker that prevents handoff;
+18. relevant original Specialist Reviewers reinspected affected meaning after correction;
+19. the Challenger reinspected the actual final bytes after all corrections, and any later formal-document or controlling Decision Coverage Matrix change repeated the affected specialist and Challenger closure; and
+20. the participant, independence, findings, correction, reinspection, final-artifact, residual, and qualification evidence required by Section 3.1 is complete.
 
-Review validates the Draft; it does not redesign it. Stage 9 independently confirms or refutes the Draft’s substantive-completeness claim against the approved Proposal, authoritative sources, and approved coverage materials. The Stage 8 self-validation and handoff are evidence for this Draft gate only; they are not a Stage 9 Review result or the later lifecycle Validate stage. Corrections that restore fidelity to the approved design may be recommended. A `FAIL` containing accepted-scope findings returns as one consolidated Draft correction scope for that Review phase and its permitted finding boundary. Findings outside the accepted design or scope remain in the Review result and route to Explore or Proposal as applicable; they are not absorbed into Draft correction scope. This does not introduce a numeric failure counter or expanded prompt machinery.
+Review validates the Draft; it does not redesign it. Stage 9 independently confirms or refutes the Draft’s substantive-completeness claim against the approved Proposal, authoritative sources, and approved coverage materials. The Stage 8 self-validation and handoff are evidence for this Draft gate only; they are not a Stage 9 Review result or the later lifecycle Validate stage. The Stage 8 Challenger is not Stage 9, does not approve the Draft, and cannot substitute for Stage 9 Primary Review. Corrections that restore fidelity to the approved design may be recommended. A `FAIL` containing accepted-scope findings returns as one consolidated Draft correction scope for that Review phase and its permitted finding boundary. Findings outside the accepted design or scope remain in the Review result and route to Explore or Proposal as applicable; they are not absorbed into Draft correction scope. This does not introduce a numeric failure counter or expanded prompt machinery.
 
 ## 7. Align and Integrate Approved Work
 
@@ -1071,7 +1195,7 @@ Registry rules:
 
 ## 8. Optional Parallel Review
 
-Parallel agents are not required for every change. Use them when the change is cross-document, conceptually difficult, replaces existing definitions, affects several owners, or has material payment, evidence, promotion, risk, privacy, status, data, route, or operations consequences.
+Parallel agents are not required for every change except material Stage 5 Proposal and material Stage 8 Draft under the Section 3.1 fixed-seat contract. Otherwise use them when the change is cross-document, conceptually difficult, replaces existing definitions, affects several owners, or has material payment, evidence, promotion, risk, privacy, status, data, route, or operations consequences.
 
 Recommended post-edit review roles:
 
@@ -1154,8 +1278,9 @@ Proposal [change] under the PayPlus Documentation Development Workflow.
 Use Convergent Thinking. Evaluate sufficient Explore evidence, recommend one
 direction, and report rationale, alternatives, rejected alternatives,
 trade-offs, impacts, ownership, terminology, architecture, remaining Founder
-decisions, and the exact proposed edit boundary. Read-only. Stop at the
-Founder Decision gate. Do not Draft, commit, or push.
+decisions, and the exact proposed edit boundary. For material Proposal, apply
+the Section 3.1 four-seat Round 1, Round 2, and Round 3 contract. Read-only.
+Stop at the Founder Decision gate. Do not Draft, commit, or push.
 ```
 
 ### 11.3 Draft
@@ -1164,9 +1289,11 @@ Founder Decision gate. Do not Draft, commit, or push.
 Draft [approved Proposal or equivalent explicit Founder instruction] in
 [primary owner]. Use Execution Thinking. Implement only the approved decisions
 and writable scope, preserve traceability and consistency, and return the Draft
-Review handoff. Do not introduce architecture, redefine ownership or
-terminology, select alternatives, redesign requirements, Align, Integrate,
-commit, or push. Return new design discoveries to Proposal.
+Review handoff. For material Draft, apply the Section 3.1 four-seat plus
+independent Challenger contract and final-byte reinspection. Do not introduce
+architecture, redefine ownership or terminology, select alternatives, redesign
+requirements, Align, Integrate, commit, or push. Return new design discoveries
+to Proposal.
 ```
 
 ### 11.4 Review
