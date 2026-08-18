@@ -1556,3 +1556,40 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - DOC-17 provider/API integration and DOC-19 security implementation remain protected placeholders requiring separate owner-first work.
 - Final schemas, events, persistence, provider mechanics, security controls, implementation, tests, operational evidence, and external certification evidence remain with their later formal owners.
+
+### `2026-08-18` - Material Workflow Fixed-Seat Review Controls
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `651e739bd1d33e3068fc9e295879d5ddff4f1e79` |
+| Primary owner | `docs/documentation-system/payplus-documentation-development-workflow.md` Section 3.1 and its material Stage 5, Stage 7, and Stage 8 enforcement references |
+| Decision record | `DEC-2026-044` |
+| Founder approval | Founder-approved final Stage 5 Proposal and direct clarifications, followed by the authorized and gated Draft, Review, Align, Validate, Integrate, and substantive Commit chain on `2026-08-18` |
+
+**Files Changed**
+
+- `docs/documentation-system/payplus-documentation-development-workflow.md`
+
+**Material Changes**
+
+- Established exactly four distinct participants for material Stage 5: one Primary-owner Lead plus three Manager-selected, task-relevant specialist profiles.
+- Required independent Round 1 positions, same-four Round 2 cross-challenge, Lead Round 3 consolidation, and no separate Stage 5 Challenger.
+- Required ordinary material Stage 8 to retain the same four participants and direct-entry material Draft to select and record four participants at Stage 7 under the same profile-selection rules.
+- Established one canonical writer, three read-only specialist reviewers, and one separately appointed independent read-only Challenger for exactly five Stage 8 participants.
+- Established the complete specialist review, Challenger review, accepted-scope correction, specialist reinspection, actual-final-byte Challenger reinspection, and evidence-bearing handoff sequence with explicit blockers and invalidation rules.
+- Established the fixed-seat model as the canonical material Stage 5/8 exception while retaining proportionate adaptive treatment for non-material work and leaving Stage 9 unchanged.
+- Preserved every product, domain, technical, route, status, Git, records, source-precedence, open-item, implementation, professional-acceptance, and completion boundary outside the approved Workflow-only change.
+
+**Checks Performed**
+
+- Passed Stage 9 `REVIEW_EXECUTED - GATE_PASS`, Align `ALIGN_EXECUTED - PENDING_VALIDATE`, Validate `REVALIDATE_PASS - READY_TO_INTEGRATE`, and Integrate `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL` on the exact reviewed candidate.
+- Verified all 18 accepted decisions, the complete Change Impact Manifest, supporting-source operability, exact one-file scope, strict UTF-8/CRLF, Markdown structure, links, protected-path preservation, and `git diff --cached --check`.
+- Created substantive commit `651e739bd1d33e3068fc9e295879d5ddff4f1e79` with committed Workflow blob `46a0e0ccddd10f8d148dc34075be8832da8e3c54`.
+- Applied the mandatory append-only records treatment using the verified next unused decision ID `DEC-2026-044`; no historical decision or changelog entry was rewritten.
+
+**Remaining Open Items**
+
+- Future operation of the fixed-seat control remains to be evidenced through later material tasks.
+- Internal specialist titles do not establish external accreditation, professional approval, implementation readiness, or production readiness.
+- The `3adb` Stage 8 replacement-reviewer exception remains task-local and non-canonical.
+- Push is authorized separately but had not occurred when this record was prepared.

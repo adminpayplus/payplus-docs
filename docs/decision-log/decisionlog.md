@@ -60,6 +60,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-041` | `2026-08-11` | Workflow Draft Review Handoff And Review Convergence | Accepted | Documentation Development Workflow | `9072e00fffe3f3329dbf522c8965500e78d56b21` |
 | `DEC-2026-042` | `2026-08-13` | Payer-Only Bill And Rent Architecture Alignment | Accepted | Multiple formal owners | `43e35bcd86f2fd5464606d6e9213aabda1a4b794` |
 | `DEC-2026-043` | `2026-08-14` | DOC-16 Risk-Isolated Technical Architecture Baseline | Accepted | `DOC-16` | `77144f12d6675f6305c9a96e00bc75af97702f6e` |
+| `DEC-2026-044` | `2026-08-18` | Material Workflow Fixed-Seat Review Controls | Accepted | Documentation Development Workflow | `651e739bd1d33e3068fc9e295879d5ddff4f1e79` |
 
 ## 4. Decision Record Template
 
@@ -1976,3 +1977,48 @@ Supersedes any active implication that PayPlus is already committed to full micr
 
 - Owner-first drafting and independent review of DOC-17 provider/API integration and DOC-19 security implementation detail.
 - Final approved schemas, events, persistence, security mechanisms, operational controls, implementation, tests, evidence, and any external certification remain later-owner work.
+
+### `DEC-2026-044` - Material Workflow Fixed-Seat Review Controls
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-18` |
+| Status | Accepted |
+| Primary owner | `docs/documentation-system/payplus-documentation-development-workflow.md` Section 3.1 and its material Stage 5, Stage 7, and Stage 8 enforcement references |
+| Affected documents | `docs/documentation-system/payplus-documentation-development-workflow.md` |
+| Substantive commit | `651e739bd1d33e3068fc9e295879d5ddff4f1e79` |
+| Founder approval | Founder-approved final Stage 5 Proposal and direct clarifications, followed by the authorized and gated Draft, Review, Align, Validate, Integrate, and substantive Commit chain on `2026-08-18` |
+
+**Decision**
+
+Material Stage 5 Proposal uses exactly four distinct participating agent seats: one Primary-owner Lead and three Manager-selected specialist reviewers whose professional profiles are selected for the actual task and document. All four independently produce Round 1 positions from a common evidence package, the same four perform Round 2 cross-challenge, and the Lead performs Round 3 consolidation. There is no separate Stage 5 Challenger. Missing or combined seats, a missing independent position, incomplete cross-challenge, or absent consolidation blocks material Stage 5 exit.
+
+Ordinary material Stage 8 retains the same four participants. Where material Draft begins from equivalent explicit Founder authority without a preceding four-agent Stage 5 team, the Manager selects and records the four participants at Stage 7 using the same profile-selection rules. One canonical writer controls each formal document and the three specialist reviewers remain read-only.
+
+The Manager separately appoints one additional independent, read-only, non-authoring Challenger, producing exactly five Stage 8 participants. The required sequence is canonical writer Draft, three specialist reviews, Challenger completeness and fidelity review, accepted-scope writer correction, relevant specialist reinspection, Challenger actual-final-byte reinspection, and evidence-bearing Stage 8 handoff. Missing review, independence, correction closure, specialist reinspection, final-byte reinspection, or substantive completeness blocks exit. Any later formal-document or controlling Decision Coverage Matrix change invalidates affected closure evidence and repeats the applicable reviews.
+
+The fixed-seat contract is the canonical exception for material Stage 5 and Stage 8. Non-material exact-scoped work retains proportionate adaptive treatment. Stage 9 remains unchanged, and the Stage 8 Challenger does not approve or substitute for Stage 9 Primary Review.
+
+**Rationale**
+
+The fixed-seat model provides predictable professional coverage for material documentation decisions and Drafts while allowing the three specialist profiles to match the actual document, owner, and cross-owner handoffs. It preserves one accountable Lead/writer, independent specialist depth, horizontal completeness challenge, and a separate formal Stage 9 gate without creating a large permanent specialist hierarchy.
+
+**Alternatives Considered**
+
+- Permanently fixing the same three specialist profile names for every document was rejected because Product, UX, Payment, API, backend, security, and operations documents require different expertise.
+- Retaining a fully adaptive participant count for material work was rejected because it does not guarantee the required four-seat coverage or the separate Stage 8 Challenger.
+
+**Consequences And Handoffs**
+
+Material work requires additional coordination and agent capacity. The Documentation Manager selects or retains task-relevant profiles, records capability and authority boundaries, issues the task contract, receives the detailed Executor Result Pack, and reports only a concise status summary without filling a counted seat or substituting for the Executor. Supporting procedures and routing references remain unchanged and subordinate to the Workflow's material-stage exception. No product, domain, technical, route, status, implementation, legal, compliance, security, privacy, provider, certification, or production-readiness decision is introduced.
+
+**Supersedes / Superseded By**
+
+Establishes the later material Stage 5 and Stage 8 exception to the general adaptive-role treatment recorded by `DEC-2026-029` and to the then-current no-agent-count treatment recorded by `DEC-2026-041`. Both earlier records remain unchanged and time-accurate for their substantive commits; their other command-interface, lifecycle-ownership, completeness, correction-routing, and evidence-boundary decisions remain effective.
+
+**Remaining Open Items**
+
+- Future operation of the fixed-seat control remains to be evidenced through later material tasks.
+- Internal specialist titles do not establish external accreditation, professional approval, implementation readiness, or production readiness.
+- The `3adb` Stage 8 replacement-reviewer exception remains task-local and is not a canonical replacement rule.
+- Push is authorized separately but had not occurred when this record was prepared.
