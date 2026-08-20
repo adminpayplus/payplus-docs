@@ -60,6 +60,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-041` | `2026-08-11` | Workflow Draft Review Handoff And Review Convergence | Accepted | Documentation Development Workflow | `9072e00fffe3f3329dbf522c8965500e78d56b21` |
 | `DEC-2026-042` | `2026-08-13` | Payer-Only Bill And Rent Architecture Alignment | Accepted | Multiple formal owners | `43e35bcd86f2fd5464606d6e9213aabda1a4b794` |
 | `DEC-2026-043` | `2026-08-14` | DOC-16 Risk-Isolated Technical Architecture Baseline | Accepted | `DOC-16` | `77144f12d6675f6305c9a96e00bc75af97702f6e` |
+| `DEC-2026-044` | `2026-08-20` | Bills Tiered Evidence, Declaration, Payment And Payout Model | Accepted | `DOC-05` / `DOC-06C` / `DOC-09` / `DOC-10` / `DOC-12` / `DOC-14` | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
 
 ## 4. Decision Record Template
 
@@ -1976,3 +1977,49 @@ Supersedes any active implication that PayPlus is already committed to full micr
 
 - Owner-first drafting and independent review of DOC-17 provider/API integration and DOC-19 security implementation detail.
 - Final approved schemas, events, persistence, security mechanisms, operational controls, implementation, tests, evidence, and any external certification remain later-owner work.
+
+### `DEC-2026-044` - Bills Tiered Evidence, Declaration, Payment And Payout Model
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-20` |
+| Status | Accepted |
+| Primary owner | `DOC-05` product policy; `DOC-06C` Bills/Rent UX; `DOC-09` Payment; `DOC-10` Payout; `DOC-12` Evidence; `DOC-14` risk/control |
+| Affected documents | DOC-01–05; DOC-06, DOC-06A, DOC-06B, DOC-06C, DOC-06D, DOC-07, DOC-08; DOC-09–12; DOC-14–16, DOC-18, DOC-20–22; and the aligned documentation index, glossary, traceability and governed Bills/Checkout/Archive diagrams |
+| Substantive commit | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
+| Founder approval | Founder-approved consolidated Bill-only tiered Evidence, Declaration, Payment and Payout package, with explicit Stage 14–16 commit and push authorization on `2026-08-20` |
+
+**Decision**
+
+Bills use the approved three-tier C1/G1/G2 model and highest-tier precedence. Tier 1 requires Declaration but no mandatory attached Evidence; Tier 2 requires owner-approved official Bill Evidence presence before Payment and acceptance before Payout; Tier 3 requires qualifying Evidence and authorized approval before executable Payment progression, while a prepared Checkout Workspace remains non-executable. Rent remains separate with mandatory attached Evidence accepted before Payment.
+
+G1 is a product-semantic limit of five independent user-initiated Bill payment progressions per Hong Kong calendar month by the same receiving account/authoritative payout destination, not economic-Payee identity or a technical Payment record. G2 pre-checks confirmed monthly Bill usage plus proposed obligation-funded value and finalizes from actual confirmed value; payer fees are excluded, Refund/reversal does not restore capacity, and only confirmed duplicate/error correction does. C1 policy authority is layered: the designated product/risk owner governs policy, DOC-12 binds Category configuration, DOC-09 consumes it, and DOC-22 executes approved configuration only.
+
+Save expresses persistence, visibility and reuse intent. Saved/current, Saved/Archived, history-only and unprojected treatment remain distinct from readiness, Checkout, Payment, Payout, Refund, case and reconciliation truth. Indefinite retention remains the accepted product/governance direction subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries.
+
+**Rationale**
+
+The accepted model gives a predictable Bill-only control boundary while preserving the existing Rent gate, immutable financial facts, owner separation, and later professional/implementation decisions.
+
+**Alternatives Considered**
+
+- Universal Bill Evidence was rejected because Tier 1 must permit a Declaration-only Bill path when all other gates pass.
+- Economic-Payee identity as the G1 key was rejected in favour of the deliberate receiving-destination simplification.
+- Treating Archive as readiness, or allowing Save to imply verification, authorization or Payout readiness, was rejected.
+- Invoice-only mandatory Evidence and communication-originated material as mandatory Evidence were rejected.
+
+**Consequences And Handoffs**
+
+DOC-12 governs official Bill Evidence qualification and examples without automatic acceptance; DOC-09/10 preserve Payment/Payout and reconciliation truth; DOC-11 retains Refund/case ownership; DOC-15 governs lawful retention and privacy; DOC-18 represents approved lineage without redefining domain truth; DOC-20–22 retain acceptance, operations and execution-only Admin responsibilities. Derived artifacts remain projections of formal owners.
+
+**Supersedes / Superseded By**
+
+Supersedes active universal-Evidence, stale Active-projection, invoice-only and unqualified-retention implications in the aligned scope. Historical provenance remains non-operative. No accepted formal owner rule is silently replaced outside the approved package.
+
+**Remaining Open Items**
+
+- C1 values, configuration representation and operating change details.
+- Category-specific official Bill Evidence lists and acceptance criteria.
+- Tier 3 operating roles, workflow and segregation controls.
+- Declaration materiality, Tier 2 hold/Refund operation, G1 normalization/concurrency and lawful-scope confirmation.
+- Later DOC-17/DOC-19, implementation, professional assessment, UAT, operational and production-readiness evidence.

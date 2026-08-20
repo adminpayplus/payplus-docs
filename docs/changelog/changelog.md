@@ -1556,3 +1556,59 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - DOC-17 provider/API integration and DOC-19 security implementation remain protected placeholders requiring separate owner-first work.
 - Final schemas, events, persistence, provider mechanics, security controls, implementation, tests, operational evidence, and external certification evidence remain with their later formal owners.
+
+### `2026-08-20` - Bills Tiered Evidence, Declaration, Payment And Payout Alignment
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
+| Primary owner | `DOC-05`, `DOC-06C`, `DOC-09`, `DOC-10`, `DOC-12`, and `DOC-14` |
+| Decision record | `DEC-2026-044` |
+| Founder approval | Founder-approved consolidated Bill-only tiered model and explicit Stage 14–16 authorization on `2026-08-20` |
+
+**Files Changed**
+
+- `docs/00-foundation/doc-01-project-charter-product-positioning.md`
+- `docs/00-foundation/doc-02-business-model-unit-economics.md`
+- `docs/00-foundation/doc-03-regulatory-psp-acquirer-assessment.md`
+- `docs/00-foundation/doc-04-compliance-certification-roadmap-control-framework.md`
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-07-content-disclosure-user-authorization-spec.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/02-payment-domain/doc-09-payment-domain-architecture.md`
+- `docs/02-payment-domain/doc-10-payout-reconciliation.md`
+- `docs/02-payment-domain/doc-11-refund-cancellation-chargeback.md`
+- `docs/03-bill-verification/doc-12-bill-category-document-ai-ocr-payee-verification-spec.md`
+- `docs/04-growth-ecosystem/payplus-data-strategy-ai-marketing-research.md`
+- `docs/05-risk-compliance-privacy/doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md`
+- `docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md`
+- `docs/06-engineering/doc-16-technical-architecture-spec.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/08-qa-release-operations/doc-20-testing-uat-golive-checklist.md`
+- `docs/08-qa-release-operations/doc-21-monitoring-incident-response-operational-sops.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/README.md`, `docs/glossary/glossary.md`
+- `docs/traceability/open-questions-register.md`, `docs/traceability/requirements-traceability-matrix.md`, `docs/traceability/route-register.md`, `docs/traceability/status-display-reference-matrix.md`
+- `docs/diagrams/routes/payplus-archive-route-map.md`, `docs/diagrams/routes/payplus-bills-route-map.md`, `docs/diagrams/routes/payplus-payment-checkout-route-map.md`
+
+**Material Changes**
+
+- Delivered the Bill-only C1/G1/G2 tier model, highest-tier precedence, Tier 1/2/3 Payment/Payout gates, and Tier 3 non-executable prepared Checkout boundary.
+- Kept Rent on mandatory attached Evidence accepted before Payment; clarified official Bill Evidence examples, non-automatic acceptance and communication-material exclusion.
+- Aligned Add/Pay, Declaration, prepayment, receiving-destination G1, G2 confirmed-value capacity, immutable Payment/Application facts, no automatic Refund, Save/current, Saved/Archived, history-only and lawful-scope retention meaning.
+- Synchronized formal-owner, operational, acceptance, technical and derived documentation without creating implementation mechanisms or professional approval claims.
+
+**Checks Performed**
+
+- Completed Stage 9 source review, Stage 10 impact assessment, Stage 11 alignment, Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE`, Stage 13 `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL`, and the exact Stage 14 staged-scope gate.
+- Verified exact 33-file scope, protected source hashes, metadata/history mirrors, UTF-8/CRLF/Markdown/link/Mermaid sanity, semantic boundary searches and `git diff --cached --check` before substantive commit `e84ce35dd0fa4687d2f98dd08191645fcffa69af`.
+
+**Remaining Open Items**
+
+- C1 values/configuration, official Evidence Category lists, Tier 3 operating roles/segregation, Declaration materiality, Tier 2 hold/Refund operation, G1 normalization/concurrency and lawful-scope confirmation.
+- Professional assessment, DOC-17/DOC-19 detail, implementation, UAT, operations and production-readiness evidence remain with their owners.
