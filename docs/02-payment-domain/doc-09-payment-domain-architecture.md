@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Domain Architecture
-version: 1.2.1
+version: 2.0.0
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-08-13
+last_updated: 2026-08-18
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Domain Architecture |
-| **Version** | `1.2.1` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-08-13` |
+| **Last Updated** | `2026-08-18` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
 
@@ -90,7 +90,7 @@ DOC-09 defines business architecture, invariants and semantic conditions. It doe
 
 ### 2.1 Upstream Concepts
 
-- Evidence supports verification of an authoritative Bill/Rent source. Evidence is not payable.
+- Attached Evidence supports verification of an authoritative Bill/Rent source where it exists or is required. Bill Tier 1 does not require attached Evidence; Tier 2/3 and Rent follow their accepted Evidence gates. Evidence is not payable.
 - A Payer establishes and references the authoritative Bill/Rent source under the applicable owner-governed source and Evidence outcomes. An economic Payee may be an individual or institution/company and need not be a PayPlus User.
 - Bill/Rent remains the authoritative business object outside the Payment Domain. DOC-09 does not define source-identity persistence, Evidence verification, source projection, Save, or Archive presentation.
 
@@ -182,6 +182,10 @@ Configurable product values must not be treated as permanent architectural const
 | `PDA-05` | Confirmed value is applied in the payer-approved order, using oldest due first as the default. |
 | `PDA-06` | One successfully confirmed Funding Leg produces exactly one Payment. |
 | `PDA-07` | DOC-09 is the canonical human-readable owner of Payment Domain architecture. |
+| `PDA-08` | Bill Payment admission consumes the approved C1/G1/G2 highest-tier rule without applying it to Rent. |
+| `PDA-09` | G1 counts the product-semantic user-initiated Bill payment progression once per Checkout/independent progression, not Funding Legs, Attempts or Payments; the technical representation remains DOC-18 work. |
+| `PDA-10` | G2 pre-checks confirmed monthly Bill usage plus proposed obligation-funded value and finalizes usage from actual confirmed obligation-funded value without rewriting immutable Payment facts. |
+| `PDA-11` | Tier 2/3 consumes the Founder-updated owner-approved official Bill Evidence framework, treats formal document examples as non-authoritative, excludes communication-originated material, and preserves separate Rent Evidence gates. |
 
 ---
 
@@ -216,6 +220,11 @@ Configurable product values must not be treated as permanent architectural const
 | Effective Payout Destination Snapshot | Immutable authorization-time representation of the effective payee destination governing Payments produced by one Checkout Workspace. |
 | Payment Profile | Reusable payer-owned ratio template for allocating Checkout Target across saved cards. |
 | Payment Instruction | Deliberate user-created pay-later arrangement. |
+| Declaration | Payer factual and intent declaration concerning Category, purpose, amount and Payee/receiving details under DOC-05/DOC-07 policy; it is not Save intent or Payment authorization. |
+| Bill Payment Progression | Product-semantic G1 counting unit for one independent user-initiated progression through one Bill Checkout context. It is not a Payment Domain aggregate, technical event, status or schema. |
+| C1 | Owner-approved Category single-Payment threshold consumed by DOC-09; policy authority remains with the designated product/risk owner and Category binding with DOC-12. |
+| G1 | Maximum five independent Bill Payment Progressions to the same receiving account/authoritative payout destination per Hong Kong calendar month. |
+| G2 | Maximum HKD1,000,000 of confirmed obligation-funded Bill value per verified Payer account per Hong Kong calendar month. |
 
 Effective Coverage, Outstanding Amount, Active Reserved Amount and Available Payable Capacity are Payment Obligation-owned derived business values. They are not replacement financial records.
 
@@ -228,9 +237,9 @@ No Payable Basis versioning rule is defined or implied.
 ## 6. Canonical Payment Story
 
 ```text
-Evidence supports Bill/Rent
+Declaration and applicable Evidence support Bill/Rent facts
         |
-Bill/Rent supplies payment-relevant facts
+Bill/Rent supplies payment-relevant facts and Bill Tier/Rent eligibility
         |
 Bill/Rent Payable Basis
         |
@@ -310,7 +319,8 @@ This tree expresses classification and genuine aggregate ownership only. It does
 
 ```mermaid
 flowchart TD
-    EV["Evidence"] -->|supports verification of| BR["Authoritative Bill / Rent source"]
+    D["Declaration where applicable"] -->|supplies Payer-declared facts| BR["Authoritative Bill / Rent source"]
+    EV["Attached Evidence where present or required"] -->|supports verification of| BR
 
     BR -->|supplies payment-relevant facts| PB["Bill / Rent Payable Basis"]
     PB -->|derives scheduling view| PR["Projection"]
@@ -485,6 +495,8 @@ For recurring Bill/Rent payment:
 - payer must not skip the immediately next eligible period and select a later period directly;
 - multi-period selection must follow the approved contiguous-period rule.
 
+Where the Category permits Bill prepayment, the selected contiguous-period aggregate is the proposed obligation-funded amount for C1/G2 evaluation. One independent user-initiated prepayment progression counts once under G1 despite multiple selected periods, cards or Funding Legs. Prepayment remains Category-controlled, does not create an Evidence-coverage classifier and does not bypass any gate. Rent remains outside Bill C1/G1/G2.
+
 Eligibility must be recalculated when Effective Coverage or Outstanding Amount changes.
 
 ### 11.6 Payable Basis Updates
@@ -596,6 +608,72 @@ Every Payment produced by Checkout must preserve a reference to that authorizati
 Later changes to Bill/Rent information, intended-Payee facts, or payout configuration must not silently alter an authorized Checkout or confirmed Payment.
 
 Settlement and Payout consume the preserved destination reference. Material post-authorization changes require controlled handling and, where applicable, renewed payer authorization.
+
+---
+
+## 13A. Bills-only Payment Admission and Limit Controls
+
+This section consumes the approved DOC-05/DOC-12/DOC-14 product and control meanings. It does not create a new Payment object, G1 event, state machine, C1 policy owner, Evidence outcome, Tier 3 role or Admin mechanism.
+
+### 13A.1 Limit consumption and precedence
+
+| Limit | DOC-09 consumption |
+|---|---|
+| C1 | Compare the proposed obligation-funded single Bill Payment amount, including an approved selected-period prepayment aggregate, with the current owner-approved Category value. C1 policy authority belongs to the designated product/risk owner; DOC-12 binds the Category and DOC-22 only executes approved configuration. Exact values, permitted adjustments, configuration representation and operating change details are later owner inputs and do not reopen the settled layering. |
+| G1 | Consume the product-semantic count of independent user-initiated Bill payment progressions to the same receiving account/authoritative payout destination in the Hong Kong calendar month. One Checkout progression counts once despite Funding Legs, Payment Attempts, Payments, retries, recovery or continuation. A genuinely new independent progression counts again. |
+| G2 | Pre-check confirmed Bill usage for the verified Payer account in the Hong Kong calendar month plus the proposed obligation-funded amount. Final usage records actual successfully confirmed obligation-funded value; payer fees are excluded. |
+
+G1 is not bound by DOC-09 to Payer authorization, Provider Submission, Payment confirmation, a status, an event or a schema. DOC-18 and later technical owners must map an authoritative representation that preserves the product invariant. The receiving account/authoritative payout destination is the G1 key and does not redefine economic-Payee identity or the transaction-specific Effective Payout Destination Snapshot.
+
+G2 capacity treatment:
+
+- failed, declined, cancelled-before-confirmation and proven duplicate attempts do not permanently consume usage;
+- confirmed Payments remain in their original month after Refund or reversal;
+- only confirmed duplicate/error correction restores usage;
+- original Tier 3 classification is not retroactively downgraded when actual confirmed value remains below HKD1,000,000; and
+- concurrent evaluation must not permit the accepted Tier outcome to be bypassed, while the mechanism remains DOC-16/DOC-18 work.
+
+Apply only the highest Tier workflow while retaining all trigger reasons:
+
+```text
+G2 -> Tier 3
+Otherwise C1 or G1 -> Tier 2
+No trigger -> Tier 1
+```
+
+### 13A.2 Payment-admission gates
+
+| Scope | DOC-09 admission treatment |
+|---|---|
+| Bill Tier 1 | Declaration is required; attached Evidence is not. Every other applicable product, risk, legal, security, intended-Payee, destination, provider and Payer-authorization gate remains. |
+| Bill Tier 2 | Qualifying owner-approved official Bill Evidence presence is a Payment gate. Acceptance is not normally a Payment gate: Payment may confirm while verification remains pending, but DOC-10 holds Payout until acceptance and all other release gates pass. |
+| Bill Tier 3 | Qualifying official Bill Evidence and authorized approval are Payment and Payout gates. Approval is an admission gate before First Provider Submission. |
+| Rent | Attached Evidence and the required accepted Evidence outcome remain Payment gates. Bill limits and tiers do not apply. A Rent-specific Declaration cannot replace or defer Evidence. |
+
+The Founder-updated framework permits DOC-12 to approve formal bills, fee notices, school payment notices, statements, invoices and formal historical receipts by Category; examples do not create acceptance. Communication-originated material cannot satisfy, substitute for or contribute to Tier 2/3 mandatory Evidence. Qualifying Evidence and acceptance remain DOC-12-owned. Tier 2 unresolved cases may use exception-only owner-approved review. Category operating lists remain enablement/acceptance inputs and block the affected Category path until supplied. DOC-22 cannot manufacture Evidence, admission or approval truth.
+
+### 13A.3 Prepared Tier 3 Checkout Workspace
+
+A Tier 3 Checkout Workspace may be prepared before approval only to preserve the existing Bill, Payable Basis, proposed Checkout Target, applicable allocations and return context. Before approval it is non-executable:
+
+- no executable Payment authorization may be accepted;
+- no Provider Submission may be initiated;
+- no confirmed Payment may be produced; and
+- no prepared fact may be presented as approval or Payment readiness.
+
+The Tier 3 normative owner boundary is defined: the applicable designated Product/Risk/Compliance/Security owner defines approval, while DOC-22 executes only an approved workflow. Exact operating role assignment, workflow, segregation/dual-control implementation and evidence remain later enablement/implementation/acceptance inputs. They must be completed before Tier 3 enablement, implementation or acceptance. No separate Tier 3 recovery object is introduced.
+
+A material change to approved Category, purpose, amount, economic-Payee or receiving details requires Tier and approval re-evaluation before executable progression. Declaration policy separately determines whether the user change is material and what proportionate reconfirmation is required.
+
+### 13A.4 Declaration and Add/Pay boundaries
+
+Declaration is not payer authorization. Unchanged declared facts require no new Declaration, and C1/G1/G2 re-evaluation alone is not a Declaration trigger. DOC-05/DOC-07 own materiality and proportionate reconfirmation for user changes; DOC-09 consumes current declared facts and continues to require separate authorization for every applicable Provider Submission.
+
+Add a Bill applies C1 only as Save admission and does not create G1/G2 usage or reservation. Pay a Bill re-evaluates current C1/G1/G2. Save, no-Save and Archive do not authorize Payment or change the Payment Domain facts.
+
+### 13A.5 Financial-truth boundary
+
+Tier 2 Payout hold, Tier 3 approval, Evidence re-upload/rejection, Refund, case, adjustment and reconciliation must not erase or rewrite confirmed Payment or Payment Application. Tier 2 Payment with ordinary Applications is not the Section 18 confirmed-but-unapplied late-confirmation exception merely because Evidence acceptance is pending. DOC-11 retains Refund/case ownership; this section creates no automatic Refund rule.
 
 ---
 
@@ -812,7 +890,7 @@ An accepted Provider Confirmation received after Checkout closure or expiry stil
 2. creates, or idempotently returns, exactly one Payment;
 3. preserves Payment as an immutable confirmed financial fact.
 
-Payment creation must not wait for administrative review.
+After a Provider Submission was legitimately initiated under the applicable admission gates, Payment creation must not wait for a later administrative exception review. This late-confirmation rule does not bypass Tier 3 approval before First Provider Submission.
 
 ```text
 Accepted late Provider Confirmation
@@ -1066,6 +1144,7 @@ The resolver does not silently create a Funding Allocation, Funding Leg, Payment
 
 Payer authorization remains central.
 
+- Declaration is a separate Payer factual/intent assertion and does not authorize Payment.
 - Creating Checkout does not authorize payment.
 - Setting Payment Profile does not authorize payment.
 - Creating Funding Allocation does not authorize payment.
@@ -1074,6 +1153,7 @@ Payer authorization remains central.
 - Material changes to unexecuted arrangements after target lock require renewed authorization.
 - Resumed Checkout must revalidate current conditions before submission.
 - Payment must never auto-submit solely because user returned from another route or completed account activation.
+- A prepared Tier 3 Checkout must not accept executable Payment authorization before the required owner approval.
 
 Detailed authentication and security controls remain owned by DOC-19.
 
@@ -1118,6 +1198,7 @@ Status-display reference matrix owns display mapping. DOC-07 owns Outcomes, Mess
 
 | Boundary | Direction Relative to DOC-09 | DOC-09 Responsibility | Other Canonical Owner |
 |---|---|---|---|
+| Bill Tier and limits | Inbound product/control policy | Consume approved C1/G1/G2, tier precedence, Declaration and Evidence/approval gates without redefining them or selecting technical G1 representation. | DOC-05 owns product meaning; DOC-12 Evidence and C1 Category binding; DOC-14 risk/approval policy; DOC-18 technical representation. |
 | Provider Submission | Outbound integration boundary | Define business submission semantics and target-lock consequence. | DOC-17 owns provider mechanics. |
 | Provider Confirmation Event | Inbound provider evidence | Define confirmation-policy acceptance and Payment-creation consequences. | DOC-17 owns provider evidence; DOC-18 owns technical transport and event implementation. |
 | Confirmed and applied Payment | Outbound Settlement handoff | Preserve immutable Payment, accepted Payment Applications and destination reference. | DOC-10 owns Settlement and payout processing. |
@@ -1176,8 +1257,15 @@ The following remain outside DOC-09 architecture ownership:
 - final user-facing Outcomes, Messages and CTAs;
 - notification IDs, channels and delivery rules;
 - operational service levels and support procedures.
+- C1 Category values, permitted adjustments, configuration representation and operating change details under the settled designated product/risk authority;
+- Tier 3 approval role, authority and segregation requirements;
+- G1 technical event/representation and cross-rail receiving-destination normalization;
+- concurrency mechanism for C1/G1/G2 admission;
+- official Bill Evidence qualifying types and owner acceptance rules.
 
 These are downstream specifications, not unresolved DOC-09 architecture decisions.
+
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A conflict that changes product meaning must be handled under the canonical PayPlus Documentation Development Workflow.
 
 ---
 
@@ -1192,6 +1280,10 @@ These are downstream specifications, not unresolved DOC-09 architecture decision
 | `PDA-05` payer-approved application order | Sections 4, 18 and 19 |
 | `PDA-06` exactly one Payment per successfully confirmed Funding Leg | Sections 17, 18 and 19 |
 | `PDA-07` DOC-09 canonical ownership | Sections 1, 2, 11, 24, 25 and 28 |
+| `PDA-08` Bills-only tier admission | Section 13A and Acceptance Criteria 68-75 |
+| `PDA-09` product-semantic G1 without Payment-cardinality change | Sections 5, 13A, 24 and 25; technical representation deferred to DOC-18 |
+| `PDA-10` G2 projected/final confirmed-value usage | Sections 13A, 14, 17-21 and Acceptance Criteria 77-80 |
+| `PDA-11` Founder-updated official Bill Evidence and Rent separation | Sections 2, 6, 13A, 25, 27 and Acceptance Criteria 72-75 and 84 |
 
 ---
 
@@ -1280,6 +1372,23 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 65. Notification content, delivery and stored snapshots do not establish current Checkout eligibility, authorization, Provider Confirmation or payment result.
 66. Checkout resolution creates no silent Funding Leg or Provider Submission and carries forward no stale payer authorization.
 67. DOC-09 publishes canonical completed Payment Complete and distinct Partial Payment outcomes with their ordering timestamp, amount, and funds-flow direction for the DOC-06B HOME-ROOT handoff; supporting events remain separate non-outcomes, and DOC-06B owns Home selection, ordering, deduplication, sign presentation, navigation, and return behavior.
+68. Bill Tier selection executes only the highest of Tier 1/2/3 while preserving all C1/G1/G2 trigger reasons.
+69. G1 counts one product-semantic user-initiated Bill payment progression per independent Checkout context despite Funding Legs, Attempts, Payments, retries, recovery or continuation.
+70. DOC-09 does not bind G1 to authorization, Provider Submission, Payment confirmation, a status, event or schema.
+71. The G1 key is the receiving account/authoritative payout destination and does not redefine economic-Payee identity or the Effective Payout Destination Snapshot.
+72. Tier 1 admits a Bill without attached Evidence only when Declaration and every other applicable gate pass.
+73. Tier 2 blocks Payment until qualifying official Bill Evidence is present, permits Payment while acceptance is pending where every other gate passes, and keeps Payout release outside DOC-09.
+74. Tier 3 permits a prepared but non-executable Checkout Workspace and prohibits executable authorization, Provider Submission and confirmed Payment before owner-approved admission approval.
+75. Rent remains outside Bill C1/G1/G2 and tiers; accepted attached Evidence remains a Rent Payment gate and cannot be replaced by Declaration.
+76. C1 consumes an owner-approved Category value without assigning policy authority to DOC-09 or DOC-22.
+77. G2 pre-check uses confirmed monthly Bill usage plus the proposed obligation-funded amount and excludes payer fees.
+78. G2 final usage records actual successfully confirmed obligation-funded value, including partial funding without rewriting Checkout Target.
+79. Confirmed Payment remains in original-month G2 usage after Refund/reversal; only confirmed duplicate/error correction restores capacity.
+80. Original Tier 3 classification is not retroactively downgraded after a lower final confirmed value.
+81. Limit re-evaluation alone does not trigger a Declaration; user changes follow owner-defined materiality and proportionate reconfirmation.
+82. Add a Bill applies C1 only and does not reserve G1/G2; Pay a Bill re-evaluates all current limits; prepayment uses its aggregate amount and one G1 progression.
+83. Tier 2/3 Evidence and approval outcomes, Payout holds, Refunds, cases, adjustments and reconciliation do not rewrite immutable Payment or Payment Application facts.
+84. Tier 2/3 consumes the owner-approved official Bill Evidence framework, treats formal document examples as non-authoritative, excludes communication-originated material, and leaves Category operating lists as later enablement/acceptance inputs without weakening Rent.
 
 ---
 
@@ -1287,6 +1396,7 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.0.0 | 2026-08-18 | Product Documentation Team | Implemented the material Bills-only Payment model and fixed-seat compliance supplement; preserved settled ownership, Evidence decision coverage and immutable facts, neutralized active lifecycle-language ambiguity, and retained the complete receiving-account/authoritative-payout-destination G1 key. |
 | 1.2.1 | 2026-08-13 | Product Documentation Team | Bounded effective adjustment impact to valid Payment Application coverage, preserving immutable Payment and adjustment facts and the controlled zero-Application exception without adding a financial object or mechanism. |
 | 1.2.0 | 2026-08-12 | Product Documentation Team | Replaced active Request and Link Request payment-domain references with the Payer-established authoritative Bill/Rent source boundary; preserved the accepted Payable Basis, Payment Obligation, Checkout, Funding Leg, immutable Payment, Payment Application, late-confirmation, and downstream-owner invariants. |
 | 1.1.2 | 2026-08-05 | Product Documentation Team | Added the bounded HOME-ROOT Recent Activity Payment handoff by publishing canonical Payment Complete and distinct Partial Payment outcome identity, ordering timestamp, amount, and funds-flow direction while retaining Home inclusion, ordering, deduplication, presentation, navigation, and return behavior in DOC-06B. |

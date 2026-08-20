@@ -2,7 +2,7 @@
 
 Status: Current discussion reference
 Owner: DOC-06B for route-level UI/UX; DOC-09 for Payment Domain architecture
-Last updated: 2026-08-04
+Last updated: 2026-08-19
 
 This derived diagram projects the reviewed payer-visible `PAYMENT-CHECKOUT` journey from DOC-06B Section 5.20. DOC-06B remains the primary source for adaptive presentation behavior, DOC-09 remains authoritative for payment-domain facts and invariants, and the route register remains authoritative for destination identity and definition status.
 
@@ -69,6 +69,9 @@ flowchart TD
 ## Interpretation
 
 - `PAYMENT-CHECKOUT` is the only registered route/flow group in the blue Workspace boundary. Its numbered nodes and funding/result nodes are adaptive internal presentations, not child routes, domain objects, machine states, or a required universal screen order.
+- Bill admission consumes the accepted C1/G1/G2 and highest-tier handoff. Tier 2 requires qualifying official Bill Evidence presence before Payment; acceptance may remain pending while Payout is held. Tier 3 may preserve this Workspace as prepared context but remains non-executable before Evidence and approval, with no executable authorization or Provider Submission.
+- G1 is the product-semantic receiving-account/authoritative-payout-destination progression handoff and G2 consumes proposed pre-check versus actual confirmed value; neither is a technical Payment-record or route-state definition.
+- Rent follows its separate mandatory attached-Evidence and acceptance-before-Payment rule and does not use Bill Tier 1/2/3 semantics.
 - Amber diamonds are owner-controlled domain or evidence conditions used to select a valid presentation; they are not payer-visible screens or new status definitions. Grey and purple nodes are source, historical-resolution, or safe-exit handoffs outside ordinary Checkout composition and do not create a destination that is absent from the route register.
 - Intentional Resume proceeds to Funding only when Funding is the next permitted task. Otherwise DOC-06B's decision map and Minimum Adaptive UI Contract restore the applicable Review, progress, pending, result, or safe-return presentation after required revalidation.
 - Approved Card, Payment Profile, provider, 3DS, reauthentication, and application handoffs return to the safest valid presentation only after the checks owned by the applicable domain, provider, and security documents; the diagram intentionally leaves that detailed resolution in DOC-06B.

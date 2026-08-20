@@ -1,4 +1,4 @@
-﻿
+
 # Open Questions Register
 
 This register summarizes cross-document open-question groups. Document-specific open questions remain in the owning `DOC-XX` files and should be linked here when they become launch blockers, architecture blockers, legal blockers, or implementation blockers.
@@ -30,6 +30,7 @@ Status values: `Open`, `In Review`, `Decided`, `Deferred`, `Superseded`.
 | OQ-XDOC-019 | Former Receiving Info technical and operational finality | Historical question superseded by the accepted retirement of Receiving Info runtime. Destination snapshots and payout-owned treatment remain with DOC-09/DOC-10; no current Receiving Info route, profile library, reader, or setup flow is implied. | Product / Payments / Risk / Compliance / Privacy / Security / Engineering / Operations | DOC-09, DOC-10, DOC-15, DOC-18, DOC-19, DOC-22 | Superseded |
 | OQ-XDOC-020 | Former canonical request state separation | Historical question superseded by the accepted retirement of Request, Linking, Receive, and Receiving Info runtime. The row is retained for provenance only; no request lifecycle or technical state is current. | Product / Payments / Operations / Engineering | DOC-06A, DOC-06B, DOC-06C, DOC-18, DOC-22, status-display-reference-matrix.md | Superseded |
 | OQ-XDOC-021 | Notifications implementation and operational finality | Decided baseline: `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings; Home enters Inbox, Me enters Settings; filters, unread badge, read/archive behavior, signal separation, current-state action revalidation, and core preference behavior are defined. Confirm final visual styling, search matching, archive retention/disposition, provider capabilities, templates, legally validated service classifications, quiet hours, retry/fallback thresholds, physical schema, and admin workflow. | Product / Design / Legal / Privacy / Engineering / Operations | DOC-05, DOC-06, DOC-06B, DOC-06D, DOC-08, DOC-15, DOC-18, DOC-22, route-register.md, status-display-reference-matrix.md | Open |
+| OQ-XDOC-022 | Bills tier and owner-detail dependencies | C1 values/governance, official Bill Evidence lists, Tier 3 role/segregation detail, Declaration materiality/presentation, Tier 2 unresolved hold/Refund operation, G1 normalization/concurrency, lawful-retention scope/exceptions and promotion effects remain owner/professional dependencies. The accepted Bills tier meaning, Rent negative control and projections are settled and must not be reopened here. | Product / Risk / Compliance / Privacy / Payments / Operations | DOC-05/06C/09/10/12/14/15/18/20/21/22 | Open dependency |
 
 ## Maintenance Rules
 

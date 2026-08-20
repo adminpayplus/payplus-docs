@@ -2,7 +2,7 @@
 
 Status: Working alignment reference  
 Owner: Product / Founder  
-Last updated: 2026-07-31
+Last updated: 2026-08-19
 Classification: Internal
 
 This matrix aligns PayPlus system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
@@ -130,7 +130,7 @@ The following domains already have human-readable status requirements or explici
 
 | Domain | Covers | Likely Owners |
 | --- | --- | --- |
-| Bill / Rent Readiness | `Ready to Pay`, `Action Required`, and `Under Review`. `Paid` / `Received` are payment outcomes; `Archived` is visibility; due-state display is date-derived. | DOC-06C, DOC-12, DOC-14, DOC-18 |
+| Bill / Rent Readiness | Bills use Tier 1/2/3 conditions: Tier 1 may have no attached Evidence, Tier 2 distinguishes Evidence presence from acceptance/Payout hold, and Tier 3 approval keeps Checkout non-executable before admission. `Ready to Pay`, `Action Required`, and `Under Review` are conditions; `Paid` / `Received` are payment outcomes; `Archived` is Saved/Archived visibility; due-state display is date-derived. Rent retains mandatory Evidence accepted before Payment. | DOC-06C, DOC-12, DOC-14, DOC-18 |
 | Payment Instruction Lifecycle | Deliberate pay-later instruction, including pending, expired, and cancelled conditions. Source Archive is separate and never archives an Instruction or Checkout. Payment-instruction action alerts are not ordinary bill/rent reminder records. | DOC-06B, DOC-09, DOC-18 |
 | Checkout Continuation | Incomplete, continuable, closed, or expired Checkout Workspace presentation. It is separate from Payment Instruction, confirmed Payment, and Payment Obligation coverage. | DOC-06B, DOC-09, DOC-18 |
 | Payment Obligation Coverage | `Fully Paid`, `Partially Paid`, or `Unpaid` semantic condition derived from Effective Coverage against Due Amount. Final cross-surface display mapping must not be inferred beyond DOC-09. | DOC-09, DOC-18 |

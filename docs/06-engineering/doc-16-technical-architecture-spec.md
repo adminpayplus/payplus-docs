@@ -1,7 +1,7 @@
 ---
 document_id: DOC-16
 title: Technical Architecture Specification
-version: 0.1.1
+version: 0.2.0
 status: Draft
 owner: Engineering / Architecture
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Engineering Lead
   - Security Lead
   - Compliance Lead
-last_updated: 2026-08-14
+last_updated: 2026-08-19
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-16` |
 | **Title** | Technical Architecture Specification |
-| **Version** | `0.1.1` |
+| **Version** | `0.2.0` |
 | **Status** | Draft |
 | **Owner** | Engineering / Architecture |
 | **Reviewers** | Engineering Lead<br>Architecture Lead<br>Payments Lead<br>Security Lead<br>Privacy Lead<br>Data Lead<br>Operations Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Security Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-14` |
+| **Last Updated** | `2026-08-19` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -85,7 +85,7 @@ Engineering / Architecture is the primary owner. A handoff is complete only when
 | Decision | Accepted direction | DOC-16 representation |
 | --- | --- | --- |
 | `DOC16-FD-01` | Risk-isolated modular architecture; cohesive modular core by default; isolate only where evidence justifies it; no full-microservices commitment | Sections 3 and 4 |
-| `DOC16-FD-02` | Provider-controlled card-data capture and tokenization; PayPlus systems do not receive, process, transmit, or retain raw PAN or card-verification values unless a future separately authorized Proposal changes that boundary | Section 5 |
+| `DOC16-FD-02` | Provider-controlled card-data capture and tokenization; PayPlus systems do not receive, process, transmit, or retain raw PAN or card-verification values under the current provider-controlled boundary | Section 5 |
 | `DOC16-FD-03` | Each authoritative owner commits local state and invariants atomically within its own boundary; no cross-owner single transaction; durable retryable idempotent handoffs with correlation, auditability, recovery, and reconciliation | Sections 6 and 7 |
 | `DOC16-FD-04` | Engineering / Architecture owns DOC-16; only DOC-16 is writable in this Draft; DOC-17, DOC-18, DOC-19, and all other files are protected | Sections 1, 2, and 10 |
 
@@ -302,7 +302,7 @@ Architecture must minimize data crossing each boundary and preserve DOC-15 class
 | --- | --- |
 | Operational usability | Tokens, sessions, attempts, authorizations, idempotency windows, Checkout workspaces, temporary capabilities, and other operational mechanisms may expire, close, invalidate, become unusable, or require restart under owner policy. |
 | Record and audit fact | Expiry, closure, invalidation, or restart must not mean deletion, purge, destruction, anonymisation, de-identification, or loss of the related record or audit fact. |
-| Founder retention rule | Every PayPlus record is retained indefinitely. No scheduled expiry, deletion, purge, erasure, anonymisation, de-identification, or other destruction is caused merely by elapsed time, ended purpose, source Archive, or account closure. |
+| Founder retention rule | Indefinite retention remains the accepted product/governance direction, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. |
 | Secret minimization | Indefinite record retention does not require indefinite retention of ephemeral secrets, credentials, one-time values, or prohibited/unnecessary raw sensitive values. Retain the permitted record or audit fact separately from secret material that is not required. |
 | Access and representation | Indefinite retention does not grant indefinite visibility. Approved access, masking, least privilege, legal hold, correction, security, privacy, and representation controls continue to apply. |
 
@@ -379,7 +379,7 @@ If a genuine unresolved technical decision later needs Founder input, record: Bu
 | `ASM16-001` | Accepted product and payment requirements remain the authoritative inputs in Section 2.4. | Product and domain owners; material change returns through the lifecycle. |
 | `ASM16-002` | Provider-controlled card-data capture and tokenization remains the default. | DOC-09, DOC-17, DOC-19, Payments, and Security; exception requires a new Proposal. |
 | `ASM16-003` | DOC-17, DOC-18, and DOC-19 define detailed mechanisms later; DOC-16 does not invent them. | Respective technical owners. |
-| `ASM16-004` | Every PayPlus record is retained indefinitely while secret minimization still applies. | DOC-15, DOC-18, and DOC-19. |
+| `ASM16-004` | Indefinite retention remains the accepted product/governance direction subject to DOC-15 and Legal/Privacy lawful-scope, exception, restricted-class and prohibited-sensitive-data controls, while secret minimization still applies. | DOC-15, DOC-18, and DOC-19. |
 | `OQ-16-001` | What cloud, hosting, runtime, and environment strategy satisfies the architecture and evidence requirements? | Engineering / Architecture; DOC-16 and DOC-21. |
 | `OQ-16-002` | What evidence threshold justifies a separate process, deployment, or security boundary? | Engineering / Architecture / Security / Operations; DOC-16. |
 | `OQ-16-003` | Which provider and integration mechanics implement the accepted payment-data boundary? | Payments / Engineering / Security; DOC-17 and DOC-19. |
@@ -424,9 +424,13 @@ No new Founder decision is introduced. Provider selection and mechanics, PCI ass
 
 `DOC16-FD-05` is recorded only as Stage 8 Draft authorization provenance. It did not authorize Stage 9 Review, Stage 10 or later work, DOC-17 through DOC-19 edits, records, Git action, implementation, or production use.
 
-## Version History
+## 16A. Bills-tier architecture handoffs
 
+DOC-16 consumes the accepted Bills Tier 1/2/3, C1/G1/G2 and highest-tier precedence semantics without defining their product policy. DOC-09 remains the owner of Payment admission and Checkout execution; DOC-12 owns Evidence qualification; DOC-14 owns risk outcomes; DOC-10 owns destination and Payout; and DOC-18 owns later technical representation. A Tier 3 Checkout Workspace may be prepared as non-executable context before owner-approved Evidence and approval; no executable authorization, Provider Submission or confirmed Payment may occur before that admission boundary. C1/G1/G2 evaluation and correction handoffs must preserve local authority, durable asynchronous handoff, idempotency, auditability and reconciliation without this document selecting concurrency, normalization, queue, event, schema or algorithm mechanisms.
+
+## Version History
 | Version | Date | Owner | Change |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.1.1` | `2026-08-14` | Engineering / Architecture | Stage 8 bounded traceability correction: recorded `DOC16-FD-05` only as DOC-16-only Draft authorization provenance, with no Stage 9, Stage 10 or later, DOC-17 through DOC-19, records, Git, or implementation authority; mapped `ARC16-AC-009` to existing non-invention requirements and DOC-17/DOC-18/DOC-19 handoffs; added DOC-21 monitoring, incident, support, and operational evidence handoff without transferring DOC-15 retention ownership. |
 | `0.1.0` | `2026-08-14` | Engineering / Architecture | Stage 8 Draft implementing accepted `DOC16-FD-01` through `DOC16-FD-04` and the Founder Technical Governance Principle; established architecture, trust-boundary, payment-data, transaction/handoff, reliability, evidence, security/compliance, retention, owner-contract, delegation, and acceptance requirements. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 0.11.2
+version: 1.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-12
+last_updated: 2026-08-19
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `0.11.2` |
+| **Version** | `1.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-12` |
+| **Last Updated** | `2026-08-19` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -61,7 +61,7 @@ PayPlus must explain controlled Bill/Rent payment meaning clearly enough that Pa
 
 - what authoritative source context is being considered;
 - who the economic Payee is where disclosure is permitted;
-- what evidence supports it;
+- what attached Evidence is present or required under the applicable Bill tier or mandatory-Evidence Rent rule, noting that Tier 1 Bills may proceed without attached Evidence;
 - how much will be charged;
 - what fees apply;
 - when payment and payout may occur;
@@ -119,15 +119,15 @@ Those details belong in downstream or adjacent documents.
 
 ## 3. Current Decision Baseline
 
-DOC-07 consumes the Payer-only product baseline: a Consumer User is a Payer; an economic Payee may be an individual or institution/company and need not be a User. User-facing content must describe controlled Category-bound Bill acquisition or separate Rent without creating an open transfer, Payee account, Request, Linking, To Receive, Receiving Info, reciprocal-visibility or legacy runtime concept.
+DOC-07 consumes the Payer-only product baseline: a Consumer User is a Payer; an economic Payee may be an individual or institution/company and need not be a User. User-facing content must distinguish Bills governed by the Tier 1/2/3 model from the separate mandatory-Evidence Rent journey, while preserving Category-bound acquisition, owner-controlled Payment/Payout gates, and the prohibition on open transfer, Payee-account, Request, Linking, To Receive, Receiving Info, reciprocal-visibility or legacy runtime concepts.
 
-Exact Message IDs, final Copy, CTA labels, localization and presentation remain DOC-07-owned and are only drafted when their source owner has supplied the required meaning. This Stage 8 correction removes obsolete two-sided content; it does not approve replacement Copy, outcomes, CTAs, routes, identifiers or notification delivery.
+Exact Message IDs, final Copy, CTA labels, localization and presentation remain DOC-07-owned and are only drafted when their source owner has supplied the required meaning. This Founder Working Baseline alignment removes obsolete two-sided content; it does not approve replacement Copy, outcomes, CTAs, routes, identifiers or notification delivery.
 
 | Area | Baseline |
 | --- | --- |
 | Launch jurisdiction | Hong Kong. |
-| Product model | Controlled Category-bound Bill and separate Rent payment platform; no open P2P, remittance, cashout or marketplace. |
-| Bill and Rent acquisition | Payer selects Directory discovery or provides a Payee within a supported Category, or begins separate Rent. Neither creates a Request, Payee account or payment. |
+| Product model | Controlled Category-bound Bills use the approved Tier 1/2/3 model; Rent remains a separate mandatory-Evidence journey. Neither creates open P2P, remittance, cashout or marketplace scope. |
+| Bill and Rent acquisition | Payer selects Directory discovery or provides a Payee within a supported Bill Category, or begins separate Rent. Bill acquisition may use optional or mandatory attached Evidence according to its tier; Rent always requires attached Evidence. Acquisition itself creates neither a Request, Payee account nor Payment. |
 | Economic Payee | An individual or institution/company recipient, subject to owner-governed source, Evidence, destination, risk, Payout and privacy outcomes. |
 | Multi-card payment | MVP scope, up to 6 credit cards per payment/profile. |
 | Payout rails | FPS, cheque, and EPS are illustrative Hong Kong rail considerations; final rail and operating-bank setup remain subject to confirmation. |
@@ -136,12 +136,12 @@ Exact Message IDs, final Copy, CTA labels, localization and presentation remain 
 | Bill verification | OCR/document AI may extract and autofill evidence fields; users must be able to review and correct material fields before submission. |
 | KYC/KYB | Individual eKYC and business KYB are working assumptions; provider and detailed checks remain subject to formal owner confirmation. |
 | Notifications | Eligibility, recipient, channel, template, delivery and preferences are DOC-08-owned. DOC-07 may supply owner-approved content only. |
-| Retention | Every PayPlus record is retained indefinitely under the Founder decision. DOC-07 consumes DOC-15 approved-purpose access, masking and lawful handling requirements; no user-facing Copy or implementation mechanism is defined here. |
+| Retention | Indefinite retention remains the accepted product/governance direction, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. No user-facing Copy, finite replacement duration or implementation mechanism is defined here. |
 | Communication architecture | Governed material communication uses central authoritative contracts, bounded Domain Slices, layered composition, reference-only integration, and layer-level governance. Centrality is logical and does not require one matrix, file, physical registry, database, runtime service, enterprise registry, or new persistent object. |
 | Checkout authorization | Every applicable Provider Submission requires current payer authorization. Earlier review, authorization, profile or card selection, Resume, notification content, or provider return does not authorize a later Provider Submission. |
 | Instruction notification entry | Every instruction-related notification enters `NOTIFICATION-DETAIL`, which revalidates current state, payer, permission, target, and action availability before an owner-approved current CTA may invoke the DOC-09 Checkout Resolver. |
 
-Unconfirmed items above should not block documentation drafting. They should remain editable assumptions, gated requirements, or open questions until finalized.
+Unconfirmed items above remain owner-assigned assumptions, affected-path dependencies or open questions until finalized; they do not alter the accepted product meaning.
 
 ---
 
@@ -153,8 +153,8 @@ Unconfirmed items above should not block documentation drafting. They should rem
 | No false certainty | Do not imply payment, payout, refund, or settlement is complete before the relevant system of record confirms it. |
 | Explicit authorization | Payment requires clear payer action and recorded authorization. |
 | Role clarity | Content must distinguish the Payer from the economic Payee without implying a Payee account, participant relationship, recipient action or reciprocal runtime. |
-| Source clarity | Content must distinguish temporary capture, authoritative source, Evidence, Payable Basis, Payment Obligation, Checkout, confirmed Payment and projection without changing owner rules. |
-| Evidence clarity | Content must explain what evidence supports the obligation without overexposing sensitive data. |
+| Source clarity | Content must distinguish temporary capture, authoritative source, Declaration, attached Evidence where present or required, Payable Basis, Payment Obligation, Checkout, confirmed Payment and projection without changing owner rules. |
+| Evidence clarity | Content must explain whether attached Evidence is absent, optional, present, required, pending or accepted under the applicable Bill tier or mandatory-Evidence Rent rule, without overexposing sensitive data. |
 | Evidence display control | User-facing screens should show task-relevant evidence fields; sensitive extracted fields may be stored for approved purposes without broad display. |
 | Fee clarity | Payer-facing fees and total charge must be shown before authorization. |
 | Controlled change | Mutability is governed by communication layer. A configurable expression must not alter source-owned meaning, eligibility, authorization, route, payment, risk, privacy, security, or resolver logic. |
@@ -266,7 +266,7 @@ PayPlus may use language such as:
 - pay a Payment Obligation arising from an accepted controlled Bill Category or the separate Rent journey;
 - pay rent by card where supported;
 - payment to approved payee;
-- authoritative Bill/Rent source supported by applicable Evidence;
+- authoritative Bill source with the Declaration and attached Evidence required by its tier, or an authoritative Rent source with mandatory attached Evidence;
 - payer authorization;
 - payment processing;
 - payout or settlement to payee;
@@ -319,7 +319,7 @@ Required fields:
 | Total charge | Show final amount charged to the payer. |
 | Payment method | Show selected card or selected split-card payment profile with masked funding summary. |
 | Multi-card split | If applicable, show split amounts, masked card summaries, and any action-required profile issue before authorization. |
-| Evidence | Show evidence summary or accessible evidence view, subject to privacy rules. |
+| Evidence | Where attached Evidence is present or required, show the owner-approved summary or accessible view subject to privacy rules; Tier 1 Bills must not imply that attached Evidence exists. |
 | Verification status | Show role-appropriate evidence status where action is needed, such as pending correction, pending review, duplicate warning, or rejected evidence. |
 | Timing | Show expected processing, settlement, and payout timing where relevant. |
 | Refund/cancellation note | Show applicable high-level limitations or policy link. |
@@ -387,7 +387,7 @@ DOC-07 defines this user-facing evidence intent. DOC-09 retains payment and auth
 
 DOC-07 may describe the Payer's owner-approved Payment Instruction, Checkout, payment authorization, confirmed result and owner-supplied safe next handling. It must not create an economic-Payee action, acceptance, reminder, Request delivery, recipient library or reciprocal communication. Payer authorization is governed by DOC-09 and product context; DOC-07 provides only the approved user-facing communication mapping.
 
-DOC-07 may communicate owner-approved source capture, Evidence, verification, Checkout, Payer authorization, Payment Result, optional post-Payment Save, Activity/Receipt and source Archive meaning. It must not create Category-specific rules, a Payee action, a recipient library, link, delivery, acceptance, reminder or reciprocal communication. Exact final expression remains deferred to the applicable DOC-07 slice and source-owner input.
+DOC-07 may communicate owner-approved source capture, Declaration, tier-dependent attached Evidence, verification, Checkout, Payer authorization, Payment Result, optional post-Payment Save, Activity/Receipt and source Archive meaning. Tier 1 content must not imply mandatory attached Evidence; Tier 2/3 content must distinguish Evidence presence from acceptance; Rent content must preserve mandatory attached Evidence and acceptance-before-Payment. DOC-07 must not create Category-specific rules, a Payee action, recipient library, link, delivery, acceptance, reminder or reciprocal communication. Exact expression remains deferred to the applicable DOC-07 slice and source-owner input.
 
 ---
 
@@ -397,7 +397,7 @@ Rent and tenancy payments are MVP scope but require enhanced content controls.
 
 Rent-related screens should explain:
 
-- tenancy or rent evidence may be required;
+- attached Rent Evidence is always required and its owner-controlled acceptance remains a Payment gate;
 - extracted tenancy data may include sensitive fields that are not all displayed in the UI;
 - landlord, property manager, or payee verification may be required;
 - payer-landlord or payer-property relationship checks may apply;
@@ -526,7 +526,7 @@ Detailed policy and handling steps belong in DOC-11, DOC-21, and DOC-22.
 
 DOC-07 owns the user-facing disclosure points:
 
-| Stage | Disclosure Requirement |
+| Condition | Disclosure Requirement |
 | --- | --- |
 | Before authorization | Show high-level refund, cancellation, and dispute limitations where material. |
 | Provider evidence unresolved | Explain the known pending facts without claiming success or definitive failure, and do not imply a safe retry or alternate submission unless the owner currently permits it. |
@@ -543,7 +543,7 @@ Do not expose internal risk reasons or sensitive admin notes to users unless app
 
 ## 15. Privacy and Data Collection Notices
 
-PayPlus collects personal, payment, payee, business, identity, evidence, and transaction data to support onboarding, payment processing, fraud prevention, compliance, support, reporting, tax, audit, and record retention.
+PayPlus collects approved personal, Payment, Payee, business, identity, attached-Evidence where present or required, and transaction data to support onboarding, payment processing, fraud prevention, compliance, support, reporting, tax, audit, and record retention. Raw PAN, CVV/CVC, track data and prohibited sensitive-authentication values remain outside PayPlus collection and retention.
 
 Product touchpoints should include privacy notices where users:
 
@@ -577,7 +577,7 @@ DOC-06B owns screen behavior. User-facing content must:
 - present only `Not Verified`, `Processing`, `Verified`, `Failed`, or `Update Required` identity-verification labels with the context-aware actions defined in DOC-06B and the status-display matrix;
 - distinguish incomplete capture from submitted provider processing, show no voluntary re-verification action after `Verified`, and prevent wording that encourages duplicate submission;
 - explain that Two-Step Verification and Biometric Unlock toggles do not disable mandatory new-device, risk, contact-change, closure, or provider-required authentication;
-- explain account-closure blockers, cancellation before finalization, login termination after completion, and continuing indefinite record retention without implying deletion;
+- explain account-closure blockers, cancellation before finalization, login termination after completion, and the accepted indefinite-retention direction without implying deletion, while preserving DOC-15 and Legal/Privacy lawful-scope, required-exception and restricted-data qualifications;
 - distinguish directly editable account fields, governed privacy/access/correction requests, and account closure without implying destruction of an underlying PayPlus record;
 - distinguish optional direct-marketing, personalization, and approved partner-data-use choices from required service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
 - explain that data export uses protected in-app access and that privacy-request service timelines and legal outcomes remain subject to the approved privacy process.
@@ -775,8 +775,8 @@ Required audit evidence includes:
 | Account registration | Terms/privacy version where applicable. |
 | Authentication outcome | Outcome Type ID, selected Resolution Strategy, Message ID, originating route/action, occurrence/correlation ID, disclosure level, CTA/destination, timestamp, and permitted technical reason category without secrets. |
 | eKYC/KYB submission | Consent, provider handoff, submission event, and status. |
-| Source capture | Authoritative-source reference, Category or separate Rent context, Evidence notice and Payer-facing confirmation statement where applicable. |
-| Evidence verification | OCR/autofill notice, extracted-field review, user correction, duplicate warning, verification outcome, and review status where applicable. |
+| Source capture | Authoritative-source reference, Bill Category or separate Rent context, Declaration/confirmation reference, and attached-Evidence notice only where Evidence is present or required. |
+| Evidence verification | Where attached Evidence is present or required, OCR/autofill notice, extracted-field review, user correction, duplicate warning, verification outcome and owner-supplied handling condition; Tier 1 Bills do not require an Evidence-verification record. |
 | Payer review | Current source/payment disclosure version shown to Payer. |
 | Payment authorization | Applicable Provider Submission; Semantic, Disclosure, and CTA Contract references; approved Copy/Locale/Presentation references; current amount, fee, benefit, masked funding, destination, timing, evidence and material-change references; timestamp; and result. |
 | Promotion authorization | Promotion quote, applied discount, service-fee benefit, coupon/voucher selection, reward entitlement, and related wording shown before authorization where applicable. |
@@ -871,9 +871,9 @@ DOC-07 is acceptable when:
 ---
 
 ## 22. Version History
-
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.11.1 | 2026-08-12 | Consolidated fixed-inventory, Payment Obligation, provider/rail/timing/retention and DOC-22 execution-boundary corrections without approving new Copy or CTA. |
 | 0.11.2 | 2026-08-12 | Applied the Founder-settled indefinite-retention rule to disclosure meaning and account-closure/privacy-request wording without inventing Copy or a disposition mechanism. |
 | 0.11.0 | 2026-08-12 | Retired active Request/Payee-user/Receiving Info communication requirements and aligned the content boundary with Payer-only, economic-Payee and owner-governed notification meaning without approving new Copy or CTA. |

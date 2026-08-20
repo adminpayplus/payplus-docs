@@ -2,9 +2,11 @@
 
 Status: Current discussion reference
 Owner: DOC-06C
-Last updated: 2026-07-26
+Last updated: 2026-08-19
 
 This map owns the current Bills route family and shows only material external handoffs. Checkout and source Archive retain their own owners; retired Requests, Linking, Receive, and Receiving Info runtime is not represented.
+
+Bills use the accepted Tier 1/2/3 handoffs: Tier 1 uses Declaration without mandatory attached Evidence; Tier 2 requires qualifying official Bill Evidence presence before Payment and acceptance before Payout; Tier 3 may preserve a prepared but non-executable Checkout before approval. Rent remains a separate mandatory attached-Evidence journey. `ARCHIVED-BILLS-LIST` is the Saved/Archived presentation and is excluded from the current Bills list; history-only sources remain outside the Saved/current and Saved/Archived projections.
 
 ```mermaid
 flowchart TD

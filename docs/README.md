@@ -62,8 +62,8 @@ The recent AI/data-engine strategy update is traceable through:
 
 ## Current Product Baseline
 
-PayPlus is a controlled, evidence-backed, payer-authorized payment service for the twelve accepted controlled Bill Categories plus separate Rent.
+PayPlus is a controlled, payer-authorized payment service for the twelve accepted controlled Bill Categories plus separate Rent. Bills use the accepted Tier 1/2/3 Evidence model; Rent retains mandatory attached Evidence accepted before Payment.
 
 PayPlus is not a wallet, stored-value account, unrestricted P2P transfer app, cashout product, remittance product, lending product, or open money-request marketplace.
 
-Category-bound bill payments, rent/tenancy payments, multi-card payment, and deliberate user Payment Instructions are MVP scope where supported by acceptable evidence and enabled controls. Request, Linking, Receive, Receiving Info, and Consumer-Payee runtime is retired.
+Category-bound Bill payments, rent/tenancy payments, multi-card payment, and deliberate user Payment Instructions are MVP scope where supported by the applicable Bill tier or Rent Evidence rule and enabled controls. Request, Linking, Receive, Receiving Info, and Consumer-Payee runtime is retired.

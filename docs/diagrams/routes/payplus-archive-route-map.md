@@ -2,9 +2,9 @@
 
 Status: Current discussion reference
 Owner: DOC-06B / DOC-06C
-Last updated: 2026-07-26
+Last updated: 2026-08-19
 
-This map owns the Archive route family. Archive is a per-user visibility projection; the route register and owning documents remain authoritative.
+This map owns the Archive route family. Saved/current sources move to the Saved/Archived presentation; Archived is not readiness or a financial state and is excluded from the active/current list. History-only sources after confirmed Payment without Save are not Saved/current or Saved/Archived. Archive is non-erasing; the route register and owning documents remain authoritative. Bills and Rent retain their separate Evidence rules.
 
 ```mermaid
 flowchart TD
@@ -20,8 +20,8 @@ flowchart TD
   BILLDETAIL -->|"View Archived Documents"| SCOPEDDOCS["ARCHIVED-DOCS-LIST<br/>Scoped to obligation"]
   RENTDETAIL -->|"View Archived Documents"| SCOPEDDOCS
 
-  BILLDETAIL -->|"Restore when currently eligible"| ACTIVEBILL["BILLS-DETAIL-BILL<br/>Active Pay / Receive context"]
-  RENTDETAIL -->|"Restore when currently eligible"| ACTIVERENT["BILLS-DETAIL-RENT<br/>Active Pay / Receive context"]
+  BILLDETAIL -->|"Restore when currently eligible"| ACTIVEBILL["BILLS-DETAIL-BILL<br/>Saved/current context"]
+  RENTDETAIL -->|"Restore when currently eligible"| ACTIVERENT["BILLS-DETAIL-RENT<br/>Saved/current context"]
 
   DOCS --> PREVIEW["Route-local read-only preview"]
   SCOPEDDOCS --> PREVIEW

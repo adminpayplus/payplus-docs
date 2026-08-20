@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 0.12.2
+version: 1.0.0
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-08-12
+last_updated: 2026-08-19
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -35,12 +35,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-01` |
 | **Title** | Product Overview & Positioning |
-| **Version** | `0.12.2` |
+| **Version** | `1.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Commercial Lead |
 | **Approvers** | Product Lead<br>Project Owner |
-| **Last Updated** | `2026-08-12` |
+| **Last Updated** | `2026-08-19` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -61,7 +61,7 @@ This document does not define detailed product requirements, technical architect
 
 ## 2. Product Summary
 
-PayPlus is an Evidence-Backed Bill/Rent Payment App. Consumer Users act as Payers and use cards to pay eligible real-world obligations supported by Evidence, specialist-owned verification and risk controls, and fresh Payer authorization.
+PayPlus is a controlled Bill and Rent Payment App. Bills use the accepted tiered Evidence, Declaration, Payment and Payout model; Tier 1 does not require attached Evidence, while Tier 2 and Tier 3 use the applicable official Bill Evidence gates. Rent remains a separate mandatory attached-Evidence journey. Consumer Users act as Payers and use cards subject to specialist-owned controls and fresh Payer authorization.
 
 A Payee is the economic recipient. The Payee may be an individual or an institution/company and does not need to be a PayPlus User.
 
@@ -86,7 +86,7 @@ PayPlus should remain data-disciplined. Material account, Evidence, Bill/Rent, a
 | Bill acquisition | Category-scoped Directory or `Provide Payee myself`; both remain controlled by the selected Category. |
 | Rent | Separate tenancy/relationship journey; no controlled-Bill Directory use in MVP. |
 | Institutional Programme and Directory | Bounded product policy belongs to DOC-05. Enrolment, Category association and Directory publication remain separate from transaction controls. |
-| Bill/Rent identity and Save | One authoritative source identity may become Active through deliberate Setup or post-Payment Save, may become history-only only after confirmed Payment without Save, or may become Archived after ordinary Archive of a saved/Active source. Save records reuse intent on the same identity. |
+| Bill/Rent identity and Save | One authoritative source identity may become Saved/current through deliberate Setup or post-Payment Save, may become history-only only after confirmed Payment without Save, or may become Saved/Archived after ordinary Archive of a Saved/current source. Save records reuse intent on the same identity. |
 | Request/BILLS-LINKING | Active behavior is retired. Only append-only documentation history and retired stable IDs remain as non-active evidence; no production runtime, historical reader, adapter or fallback exists. |
 | Bill and Rent payments | MVP scope, subject to Evidence, Payee, destination, Payment, Payout, risk and authorization controls. |
 | First launch jurisdiction | Hong Kong. |
@@ -98,7 +98,7 @@ PayPlus should remain data-disciplined. Material account, Evidence, Bill/Rent, a
 | Settlement timing | Expected T+1 to T+3 upstream settlement and same-day downstream payout after settlement, subject to approval. |
 | KYC/KYB | Provider and final depth remain open; institutional programme enrolment is not transaction eligibility. |
 | Notification | Institutional/company Payees are not notified. A governed individual may receive an optional Payer-initiated one-way notification under specialist controls. |
-| Record retention | Every PayPlus record is retained indefinitely. No scheduled expiry, deletion, purge, erasure, anonymisation, de-identification or other destruction is caused merely by elapsed time, ended purpose, source Archive or account closure; DOC-15 owns access and lawful handling controls without reopening the duration. |
+| Record retention | Indefinite retention remains the Founder-approved product and governance direction, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. That assessment must not silently rewrite immutable financial, audit, Save/Archive or case lineage. |
 | Independent feature controls | Major functions must remain independently configurable or disableable under their owners. |
 | Data and AI readiness | Structured events, classification, lineage, auditability and approved-purpose metadata remain required where relevant. |
 | Unresolved launch details | Remain assumptions, dependencies, open questions or gated requirements until confirmed. |
@@ -121,7 +121,7 @@ The product does not depend on a Payee becoming a Consumer User, creating a Requ
 
 PayPlus should be positioned as:
 
-> An Evidence-Backed Bill/Rent Payment App that lets Payers use cards for eligible Rent and supported controlled Bill Categories while PayPlus applies verification, risk, payout, reconciliation and audit controls.
+> A controlled Bill and Rent Payment App that lets Payers use cards for eligible Rent and supported Bill Categories while Bills apply their accepted tiered Evidence model and PayPlus applies verification, risk, payout, reconciliation and audit controls.
 
 Allowed language may include:
 
@@ -130,7 +130,7 @@ Allowed language may include:
 - Pay eligible Rent by card where tenancy and relationship controls pass.
 - Select an eligible institutional Payee from a Category-scoped Directory.
 - Provide an individual or institutional Payee within the already selected supported Bill Category.
-- Track payment status, receipts and Evidence-backed payment history.
+- Track payment status, receipts and applicable Evidence lineage in payment history.
 - Privacy-safe payment intelligence for approved product, risk and operations purposes.
 
 Prohibited positioning includes wallet, stored value, cash advance, cash withdrawal, cashout, unrestricted P2P, remittance, free transfer to any account, bank-account top-up, self-payment, open marketplace, arbitrary company payment, open money request, automatic payer charging, sale of financial data, financial surveillance, and unapproved credit or insurance decisioning.
@@ -143,7 +143,7 @@ Final public language belongs to DOC-07.
 
 | Actor | High-level meaning |
 |---|---|
-| Payer | The sole Consumer User for MVP; pays eligible Evidence-backed Bills or Rent by card. |
+| Payer | The sole Consumer User for MVP; pays eligible controlled Bills or Rent obligations by card under the applicable Evidence treatment. |
 | Economic Payee | Individual or institution/company recipient. A PayPlus User account is not required. |
 | Admin and Operations | Internal actors applying owner-approved reviews, configuration and exception handling. |
 | Partners | PSPs, acquirers, payout providers, banks, OCR, KYC/KYB, risk, notification and approved commercial service providers. |
@@ -160,7 +160,7 @@ DOC-05 owns detailed product-policy roles. An institution may enrol in the bound
 | Self-provided Bill payment | Payer selects a supported controlled Bill Category, provides an institutional or individual Payee within that Category, supplies Evidence and authorizes an eligible payment after all applicable controls pass. |
 | Rent payment | Payer uses the separate tenancy/relationship journey and Rent-specific Evidence and controls. |
 | Bill/Rent verification | PayPlus evaluates applicable Category, Evidence and Payee facts without treating Directory state as transaction truth. |
-| Save or no-Save | Deliberate Setup makes the same authoritative Bill/Rent identity Active/reusable without Payment. In immediate pay-now, an otherwise-unsaved source becomes Active/reusable or history-only only after confirmed Payment, Payment Result and the optional Save resolution. Save never creates payment authorization. |
+| Save or no-Save | Deliberate Setup makes the same authoritative Bill/Rent identity Saved/current without Payment. In immediate pay-now, an otherwise-unsaved source becomes Saved/current or history-only only after confirmed Payment, Payment Result and the optional Save resolution. Save never creates payment authorization. |
 | Card-funded payment | Payer funds an eligible Payment through a supported card source. |
 | Multi-card payment | Payer may use up to 6 cards per payment/profile subject to narrower owner controls. |
 | User Payment Instruction | Payer may pay immediately or create a deliberate deferred instruction under DOC-09. |
@@ -275,7 +275,7 @@ The narrow controlled MVP includes:
 - Directory state as Evidence truth or transaction authorization;
 - cross-Category or unrestricted `Provide Payee myself`;
 - automatic charging without fresh Payer authorization;
-- payout unrelated to a supported Evidence-backed obligation.
+- payout unrelated to a supported controlled Bill/Rent obligation under the applicable Evidence treatment.
 
 ---
 
@@ -283,7 +283,7 @@ The narrow controlled MVP includes:
 
 | Principle | Meaning |
 |---|---|
-| Evidence-backed obligation | Each Payment traces to an eligible Evidence-backed Bill/Rent source. |
+| Controlled Bill/Rent obligation | Each Payment traces to an eligible controlled Bill/Rent source under the applicable Bill tier or Rent Evidence rule. |
 | Payer-only Consumer model | Consumer product behavior belongs to the Payer; Payee is an economic role. |
 | Controlled acquisition | Category precedes and governs both Bill acquisition methods. |
 | Separation of meaning | Programme enrolment, Category association, publication, acquisition provenance and transaction controls remain distinct. |
@@ -304,13 +304,13 @@ The narrow controlled MVP includes:
 2. Payer selects Rent or a supported controlled Bill Category.
 3. For a Bill, Payer uses the Category-scoped Directory or `Provide Payee myself`; Rent remains separate.
 4. Payer provides permitted source and Evidence inputs; the applicable owners evaluate their facts.
-5. The owner-governed source/Evidence preservation outcome may establish one authoritative Bill/Rent source ID for durable identification and reference before Save/reuse materialization or payment-facing handoff requires it. ID establishment alone creates no Evidence acceptance, Payee verification, destination or Payout readiness, risk clearance, Payment Obligation or Checkout readiness, Payment, Active, Archived or history-only projection.
+5. The owner-governed source/Evidence preservation outcome may establish one authoritative Bill/Rent source ID for durable identification and reference before Save/reuse materialization or payment-facing handoff requires it. ID establishment alone creates no Evidence acceptance, Payee verification, destination or Payout readiness, risk clearance, Payment Obligation or Checkout readiness, Payment, Saved/current, Saved/Archived or history-only projection.
 
 The high-level lifecycle then follows the Payer's chosen purpose:
 
-- **Deliberate Setup:** the same source ID becomes Active/reusable because the Payer deliberately chose setup/reuse. No Payment or Payment ID exists. Any later Payment receives fresh applicable Evidence, Payee, destination, Payout, risk, readiness, Checkout and Payer-authorization checks.
-- **Immediate pay-now:** no Save decision occurs before Checkout. The Payer reviews current quote, fee, disclosures, timing and material facts, supplies fresh authorization, and proceeds through DOC-09/DOC-10 Payment and Payout controls. A confirmed Payment has its own Payment ID linked to the source. Payment Result then precedes the optional Save resolution for an otherwise-unsaved source: selected Save makes the same source Active/reusable; declined, skipped, dismissed or closed Save makes it history-only. That projection resolution occurs before ordinary continuation to Activity, Payment History, Receipt or safe exit. Payment history remains visible regardless of Save.
-- **Pre-confirmed failure or abandonment:** an established source may remain unprojected. It is not Active, Archived or history-only and receives no invented visible status or route. DOC-09 owns applicable payment-lifecycle continuation or recovery, DOC-15 owns retention requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts.
+- **Deliberate Setup:** the same source ID becomes Saved/current because the Payer deliberately chose setup/reuse. No Payment or Payment ID exists. Any later Payment receives fresh applicable Evidence, Payee, destination, Payout, risk, readiness, Checkout and Payer-authorization checks.
+- **Immediate pay-now:** no Save decision occurs before Checkout. The Payer reviews current quote, fee, disclosures, timing and material facts, supplies fresh authorization, and proceeds through DOC-09/DOC-10 Payment and Payout controls. A confirmed Payment has its own Payment ID linked to the source. Payment Result then precedes the optional Save resolution for an otherwise-unsaved source: selected Save makes the same source Saved/current; declined, skipped, dismissed or closed Save makes it history-only. That projection resolution occurs before ordinary continuation to Activity, Payment History, Receipt or safe exit. Payment history remains visible regardless of Save.
+- **Pre-confirmed failure or abandonment:** an established source may remain unprojected. It is not Saved/current, Saved/Archived or history-only and receives no invented visible status or route. DOC-09 owns applicable payment-lifecycle continuation or recovery, DOC-15 owns retention requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts.
 
 Detailed state, settlement, Payout, refund and chargeback rules belong to DOC-09, DOC-10 and DOC-11. Archive and source-list visibility never erase financial history.
 
@@ -338,7 +338,7 @@ PayPlus requires applicable legal, regulatory, network, partner, privacy, AML, c
 
 Key boundaries:
 
-- PayPlus is intended as Evidence-backed Bill/Rent payment facilitation.
+- PayPlus is intended as controlled Bill/Rent payment facilitation.
 - Directory publication and acquisition provenance do not establish transaction eligibility.
 - Self-provided acquisition cannot bypass Category, Evidence, Payee, destination, sanctions, fraud, anti-cashout, payout or authorization controls.
 - PayPlus must not enable wallet, stored value, unrestricted transmission or card-funded cashout.
@@ -409,7 +409,7 @@ No partner capability or commercial term is approved by this charter.
 | `DEP-DOC01-003` | Jurisdictional regulatory assessment. | Launch approval. | Legal / Compliance | Open |
 | `DEP-DOC01-004` | Bill Category approval framework. | Category rollout. | Product / Risk / Compliance | Open |
 | `DEP-DOC01-005` | Payee and destination verification process. | Anti-cashout control. | Risk / Operations | Open |
-| `DEP-DOC01-006` | Privacy access, masking and lawful-handling controls under the Founder-settled indefinite-retention rule. | Evidence and contact handling. | Privacy / Security | Open |
+| `DEP-DOC01-006` | Privacy access, masking and lawful-handling controls under the accepted indefinite-retention direction, subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. | Evidence and contact handling. | Privacy / Security | Open |
 | `DEP-DOC01-007` | Risk and manual-review rules. | Launch controls. | Risk / Operations | Open |
 | `DEP-DOC01-008` | Reconciliation and ledger model. | Finance and audit. | Finance / Engineering | Open |
 | `DEP-DOC01-009` | Content and disclosure approval. | User-facing launch. | Product / Legal / Compliance | Open |
@@ -470,12 +470,12 @@ Detailed launch gates belong to DOC-04 and DOC-20.
 | Metric | Description |
 |---|---|
 | Activated Payers | Consumer Users eligible to submit payment. |
-| Evidence-backed sources | Eligible Bill/Rent contexts preserved for verification, Save or payment. |
+| Controlled Bill/Rent sources | Eligible Bill/Rent contexts preserved for verification, Save or payment under the applicable Evidence treatment. |
 | Controlled Bill/Rent completion | Eligible Payer-created Bill and Rent contexts that progress through applicable owner-controlled gates. |
 | Enrolled institutions | Institutional programme participation reported separately from Category association and publication. |
 | Completed Payments | Number and value successfully funded and applied. |
 | Payment and Payout success | Owner-defined successful processing measures. |
-| Active versus history-only sources | Projection distribution without loss of financial traceability. |
+| Saved/current versus history-only sources | Projection distribution without loss of financial traceability. |
 | Repeat use | Payers completing more than one eligible Payment. |
 | Manual review | Owner-defined Evidence, type, Payee, destination and risk review burden. |
 | Notification safety | Permitted individual notifications, delivery/suppression and wrong-recipient/support outcomes under DOC-08/DOC-15. |
@@ -523,7 +523,7 @@ Exact metric definitions belong to DOC-18.
 | `OQ-DOC01-007` | What transaction limits apply? | Risk / Compliance / Product | High | Open |
 | `OQ-DOC01-008` | What pricing, fee allocation, subsidy, promotion, refund and reversal treatment applies? | Commercial / Finance | High | Open |
 | `OQ-DOC01-009` | What disclosures are required before payment confirmation? | Product / Legal / Compliance | High | Open |
-| `OQ-DOC01-010` | Which Evidence and record classes must be captured and what approved-purpose access, masking and audit controls apply to each transaction under the Founder-settled indefinite-retention rule? | Compliance / Privacy / Operations | High | Open |
+| `OQ-DOC01-010` | Which Evidence and record classes must be captured and what approved-purpose access, masking and audit controls apply to each transaction under the accepted indefinite-retention direction and its lawful-scope qualification? | Compliance / Privacy / Operations | High | Open |
 | `OQ-DOC01-011` | Original active Payee-created Request module question. | Project Owner / Product / Compliance | Critical | Retired under Payer-only target |
 | `OQ-DOC01-012` | Original Payee Request-creator eligibility question. | Product / Risk / Compliance | Critical | Retired under Payer-only target |
 | `OQ-DOC01-013` | Original landlord-created Rent Request control question. | Product / Legal / Risk | Critical | Retired; Rent remains separately governed |
@@ -543,7 +543,7 @@ Exact metric definitions belong to DOC-18.
 
 DOC-01 is acceptable when it:
 
-1. defines PayPlus as an Evidence-Backed Bill/Rent Payment App;
+1. defines PayPlus as an controlled Bill/Rent Payment App;
 2. states that Consumer Users are Payers only;
 3. defines Payee as an individual or institution/company economic recipient that need not be a PayPlus User;
 4. limits MVP to Rent and specified supported controlled Bill Categories;
@@ -563,9 +563,9 @@ This document remains a concise charter and must not become a detailed PRD, lega
 ---
 
 ## 24. Version History
-
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.12.1` | `2026-08-12` | Product Documentation Team | Corrected the high-level Payer lifecycle to distinguish deliberate Setup, immediate pay-now and pre-confirmed unprojected abandonment; placed optional same-ID Save/history-only resolution after confirmed Payment Result; and aligned Acceptance Criteria without adding technical lifecycle detail. |
 | `0.12.2` | `2026-08-12` | Product Documentation Team | Applied the Founder-settled indefinite-retention rule to the charter and reframed the retained-record open question around capture, access, masking and audit controls without adding a disposition mechanism. |
 | `0.12.0` | `2026-08-12` | Product Documentation Team | Recorded the Founder-confirmed twelve-category launch inventory and separate Rent boundary, answered `OQ-DOC01-002`, and removed nonexistent Request/Linking runtime-reader assumptions while preserving retired IDs and append-only documentation history. |

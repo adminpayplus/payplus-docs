@@ -1,7 +1,7 @@
 ---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 0.9.3
+version: 1.0.0
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-08-13
+last_updated: 2026-08-19
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `0.9.3` |
+| **Version** | `1.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
 | **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
-| **Last Updated** | `2026-08-13` |
+| **Last Updated** | `2026-08-19` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -110,7 +110,7 @@ Detailed specifications belong to:
 
 Privacy requirements apply to the Payer, authoritative Bill/Rent source, source-context economic-Payee facts, applicable Evidence, payment/Payout/adjustment records and owner-permitted operational access. An economic Payee need not be a User. The product has no active Request, Linking, To Receive, Receiving Info, Payee-user, participant-linking, reciprocal-reader, adapter, fallback, deep-link or production legacy runtime/data model.
 
-DOC-15 owns privacy classification, masking, approved-purpose access, indefinite retention and record-handling requirements. DOC-18 represents approved data, status, event, audit, lineage and reporting requirements when drafted; DOC-15 does not define their schema or lifecycle. Source Archive is a non-erasing visibility projection. This document does not define Archive/Restore, prior-version, Evidence-version, replacement-source or reader presentation.
+DOC-15 owns privacy classification, masking, approved-purpose access and the lawful-scope assessment for the Founder-approved indefinite-retention direction, including required exceptions, restricted data classes and prohibited sensitive-data boundaries. DOC-18 represents approved data, status, event, audit, lineage and reporting requirements when drafted; DOC-15 does not define their schema or lifecycle. Source Archive is a non-erasing visibility projection. This document does not define Archive/Restore, prior-version, Evidence-version, replacement-source or reader presentation.
 
 | Area | Baseline |
 | --- | --- |
@@ -127,7 +127,7 @@ DOC-15 owns privacy classification, masking, approved-purpose access, indefinite
 | Fast Login | Eligibility uses a rolling one-month period renewed by each successful login and may be revoked earlier by risk, device, credential, account, or security changes. A separate dormant-account threshold remains open. |
 | Payment confirmation | Payment passcode is required for proceeding with payment. Higher-risk activity may require additional step-up under DOC-14 and DOC-19. |
 | Password reset | Email deeplink is supported, with single-use, short-lived, auditable reset flow. |
-| Record retention | Every PayPlus record is retained indefinitely. No scheduled expiry, deletion, purge, erasure, anonymisation, de-identification or other destruction is caused merely by elapsed time, ended purpose, source Archive or account closure. Owners may define access, masking, legal-hold, correction and lawful handling controls, but may not reopen or replace this duration. |
+| Record retention | Indefinite retention remains the accepted product/governance direction, subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries confirmed by DOC-15 and Legal/Privacy. Owners may define access, masking, legal-hold, correction and lawful handling controls; no finite replacement duration is selected here. |
 
 Unconfirmed provider, cross-border, sanctions, biometric, security and implementation-control details should remain editable assumptions until confirmed; no owner may create a finite retention period or time-triggered destruction rule.
 
@@ -145,7 +145,7 @@ Unconfirmed provider, cross-border, sanctions, biometric, security and implement
 | Role-based visibility | Payers, authorised owner roles, systems, vendors and partners should see only data needed for their approved purpose or task; an economic Payee is not a PayPlus User role. |
 | Mask by default for sensitive fields | Sensitive identity, evidence, payment, payout, and risk fields should be masked or restricted unless full access is needed for an approved purpose. |
 | Auditability | Access, use, correction, export, privacy-request, override, review, and disclosure actions should be logged where material. |
-| Retention discipline | Every PayPlus record remains retained indefinitely for its applicable business, legal, tax, audit, compliance, dispute, chargeback, risk and partner purposes. Archive changes visibility only and is not deletion, purge, erasure or de-identification. |
+| Retention discipline | Indefinite retention remains the accepted product/governance direction for applicable records, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. Archive changes visibility only and is not deletion, purge, erasure or de-identification. |
 
 ---
 
@@ -181,7 +181,7 @@ PayPlus should support the following account and authentication model:
 
 | Function | Requirement |
 | --- | --- |
-| Registration attempt | Before account creation, use a temporary attempt record rather than a partial account. Proposed email, phone, provider identity, and other identifiers remain unreserved; app exit permits an immediate new attempt. An attempt may remain usable for up to 30 minutes of inactivity for security and continuation handling; after that window it is expired/inactive for continuation and a new attempt may be required. The attempt record is retained indefinitely and is not deleted, purged, erased, anonymised or disposed. Final creation atomically rechecks uniqueness and required gates. |
+| Registration attempt | Before account creation, use a temporary attempt record rather than a partial account. Proposed email, phone, provider identity, and other identifiers remain unreserved; app exit permits an immediate new attempt. An attempt may remain usable for up to 30 minutes of inactivity for security and continuation handling; after that window it is expired/inactive for continuation and a new attempt may be required. The attempt record follows the accepted indefinite-retention direction subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries; it is not deleted, purged, erased, anonymised or disposed by this document. Final creation atomically rechecks uniqueness and required gates. |
 | Restricted account creation | Require one unique verified primary email, accepted Terms and Privacy notices, and one usable login method. Google/Apple registration stores the verified provider identity by stable provider identifier; email registration requires verified email and password. |
 | Account activation | `ACCOUNT-ACTIVATION` completes phone verification, identity verification, and six-digit payment-passcode setup after restricted account creation. Completion removes the registration-level restriction but does not bypass feature-specific evidence, risk, payment, provider, or role gates. |
 | Login methods | One account may use email/password, Google, and Apple only where each method has been explicitly enabled or linked. Matching email addresses never create or merge a provider link automatically. |
@@ -234,7 +234,7 @@ DOC-06B `ME-ROOT` is the Payer-only account-control route. DOC-15 supplies priva
 - `PRIVACY-DATA-CONTROLS` should separate optional direct-marketing, personalization, and approved partner-data-use choices from mandatory service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
 - `PRIVACY-DATA-CONTROLS` should support approved access/export, correction, privacy-request handling, request history, and a contextual handoff to account closure; direct account-field edits return through `ACCOUNT-PROFILE` and notification-channel choices remain in `NOTIFICATION-SETTINGS`; none of these requests erases the underlying record;
 - protected data export must use time-limited in-app access rather than an ordinary email attachment;
-- account closure in `ACCOUNT-PROFILE` is a controlled request, not record destruction. It requires payment passcode plus 2FA, checks unresolved payment and operational blockers, remains cancellable until operational finalization, and preserves every underlying record under the Founder-settled indefinite-retention rule;
+- account closure in `ACCOUNT-PROFILE` is a controlled request, not record destruction. It requires payment passcode plus 2FA, checks unresolved payment and operational blockers, remains cancellable until operational finalization, and preserves underlying records under the accepted indefinite-retention direction subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries;
 - completed closure blocks new activity, terminates sessions, disables login, and sends an approved completion notice; the user should be prompted to obtain available records before closure, with later access handled through support or the approved privacy process;
 - Consumer Receiving Info has no active product surface. Payer-entered destination facts remain within the controlled Bill/Rent journey under the applicable owner boundaries;
 - a Payer may see only owner-approved source-context destination facts for the relevant payment context, subject to DOC-15 approved-purpose access requirements;
@@ -276,7 +276,7 @@ Rules:
 - duplicate/reused evidence warnings must not disclose another user's private information;
 - evidence data may support analytics, OCR quality improvement, risk intelligence, commercial reporting, and product improvement where permitted;
 - evidence access, review, correction, download, export, replacement and privacy-request actions should be logged where material.
-- archive and retention are separate: archive changes user-facing visibility, while the Founder-settled indefinite-retention rule continues independently;
+- archive and retention are separate: archive changes user-facing visibility, while the accepted indefinite-retention direction continues subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries;
 - user-facing archive and archived-detail actions must not offer hard deletion, purge, erasure, de-identification or other destruction; owner-governed access, masking, correction and legal-hold controls do not change the underlying retained record;
 - legal hold or required retention may preserve evidence but must not expand user visibility;
 - Archive visibility must not erase or rewrite Evidence, Payment, destination, Payout, reconciliation or audit history; exact Archive, Restore, prior-version, Evidence-version and `ARCHIVED-DOCS-LIST` presentation remains deferred.
@@ -389,7 +389,7 @@ Derived or aggregated data should retain lineage to source data class, permitted
 
 Dashboard shortcut ordering is an account-level product-operation preference and does not by itself require marketing consent. Placement targeting and Home Hot Offer exposure remain subject to applicable consent, preference, approved-purpose, and role-appropriate visibility rules. User-selected shortcut settings may override the current eligible admin default as defined in DOC-06B, but remain subject to protected access, launch/module availability, account eligibility, risk restrictions, compliance controls, and disabled-module rules. Preference analytics must not expose sensitive route content or internal restriction reasons.
 
-Model features, segments, scores, and AI-generated outputs should retain lineage to source data, approved purpose, sensitivity level, permitted use, indefinite-retention treatment, access roles, and monitoring requirements. Sensitive identity, raw evidence, medical details, child/family-sensitive education details, precise tenancy/property details, hypothetical future Founder-approved employment-category details, raw support narratives, sanctions/AML results, internal risk notes, and vulnerability or hardship indicators should not be used for marketing models or partner reporting unless separately assessed and approved by legal, privacy, compliance, risk, and the Project Owner.
+Model features, segments, scores, and AI-generated outputs should retain lineage to source data, approved purpose, sensitivity level, permitted use, lawful-scope-qualified indefinite-retention treatment, access roles, and monitoring requirements. Sensitive identity, raw evidence, medical details, child/family-sensitive education details, precise tenancy/property details, hypothetical future Founder-approved employment-category details, raw support narratives, sanctions/AML results, internal risk notes, and vulnerability or hardship indicators should not be used for marketing models or partner reporting unless separately assessed and approved by legal, privacy, compliance, risk, and the Project Owner.
 
 Marketing, personalization, and partner-offer models should distinguish:
 
@@ -406,17 +406,17 @@ Detailed warehouse, analytics, lineage, event taxonomy, feature/model registry, 
 
 ## 12. Retention, Record Handling, and Legal Hold
 
-PayPlus retains every record indefinitely. DOC-15 owns the privacy, access, masking, legal-hold and record-handling requirements that apply to each data class and purpose; those controls do not create a finite duration or destruction schedule.
+Indefinite retention remains the accepted product/governance direction, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. DOC-15 owns the privacy, access, masking, legal-hold and record-handling requirements that apply to each data class and purpose; no finite replacement duration is selected here.
 
 Baseline:
 
-- payment, account, tax, audit, receipt, statement, proof-of-payment, dispute, chargeback, compliance, reconciliation, KYC/KYB, Evidence, payout, refund, risk review, support and promotion records remain retained indefinitely;
-- optional marketing preference and consent records also remain retained indefinitely, with access and use governed by approved purpose and preference controls;
+- payment, account, tax, audit, receipt, statement, proof-of-payment, dispute, chargeback, compliance, reconciliation, KYC/KYB, Evidence, payout, refund, risk review, support and promotion records follow the Founder-approved indefinite-retention direction, subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries;
+- optional marketing preference and consent records follow the accepted indefinite-retention direction subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries, with access and use governed by approved purpose and preference controls;
 - Archive, account closure, Save outcomes, Payment/Instruction/Checkout terminal treatment, case closure and notification delivery do not erase the underlying record.
 
-Legal hold, investigation, dispute, chargeback, regulatory review, audit, incident, fraud or recovery handling may impose additional access, preservation or review controls; none changes the Founder-settled indefinite retention.
+Legal hold, investigation, dispute, chargeback, regulatory review, audit, incident, fraud or recovery handling may impose additional access, preservation or review controls. A professional conclusion that makes the direction impermissible for a material class must be handled under the canonical workflow rather than silently selecting a different treatment.
 
-The retention duration is settled as indefinite by the Founder. Legal, privacy, finance, compliance, tax, security and partner owners may review implementation controls and lawful handling, but may not select a replacement duration.
+Indefinite retention remains the accepted product/governance direction. Legal, privacy, finance, compliance, tax, security and partner owners confirm lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries; a material-class conflict is handled under the canonical workflow rather than silently replaced, and no finite duration is selected here.
 
 ---
 
@@ -433,7 +433,7 @@ Requirements:
 - provide completed exports through protected, time-limited in-app access and do not send ordinary email attachments containing the export;
 - preserve audit history where correction affects payment, evidence, KYC/KYB, risk, payout, refund, dispute, chargeback, or compliance records;
 - avoid disclosing another user's or payee's private data through access responses;
-- distinguish privacy/access/correction requests from account closure and explain that neither changes the Founder-settled indefinite retention or erases the underlying record;
+- distinguish privacy/access/correction requests from account closure and explain that neither changes the accepted indefinite-retention direction, subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries, or erases the underlying record;
 - route complex or sensitive requests to privacy, compliance, legal, support, or risk review.
 
 Detailed support workflow belongs in DOC-21 and DOC-22.
@@ -532,16 +532,16 @@ Detailed ISO/ISMS policies belong in DOC-99 policy library. PCI and authenticati
 | --- | --- | --- | --- | --- |
 | OQ-15-001 | What final privacy notice, personal information collection statement, and terms wording are required for Hong Kong launch? | Legal / Privacy | High | Open |
 | OQ-15-002 | Which KYC/KYB provider data fields, artifacts, ID copies, and verification results will PayPlus store versus reference through provider? | Compliance / Security / Engineering | High | Open |
-| OQ-15-003 | Which approved-purpose access, masking, legal-hold, correction and privacy-request controls apply by data class and purpose under the Founder-settled indefinite-retention rule? | Legal / Privacy / Finance | High | Answered: duration is indefinite; controls remain owner-governed |
+| OQ-15-003 | Which approved-purpose access, masking, legal-hold, correction and privacy-request controls apply by data class and purpose under the accepted indefinite-retention direction and its lawful-scope qualification? | Legal / Privacy / Finance | High | Answered: direction is indefinite; controls remain owner-governed |
 | OQ-15-004 | What data may be used for analytics, model improvement, segmentation, and commercial reporting? | Privacy / Data / Product | High | Open |
 | OQ-15-005 | What cross-border processing locations and subprocessors apply for KYC, OCR, PSP, cloud, SMS, email, WhatsApp, analytics, and support providers? | Privacy / Security / Vendor Management | High | Open |
 | OQ-15-006 | What user consent, preference, and opt-out rules apply to promotion, referral, partner offer, WhatsApp, SMS, and email communication? | Product / Legal / Privacy | Medium | Open |
 | OQ-15-007 | Which sensitive evidence fields are displayable, masked, or restricted by role and category? | Product / Privacy / Security | High | Open |
-| OQ-15-008 | What data-subject access, correction, privacy-request and legal-hold workflow applies without changing indefinite retention or erasing the underlying record? | Privacy / Operations / Legal | Medium | Open |
+| OQ-15-008 | What data-subject access, correction, privacy-request and legal-hold workflow applies without changing the accepted indefinite-retention direction, subject to lawful scope and required exceptions, or erasing the underlying record? | Privacy / Operations / Legal | Medium | Open |
 | OQ-15-009 | What inactivity period triggers dormant-login reauthentication, and which factor should be required? | Security / Product / Risk | Medium | Open |
 | OQ-15-010 | What exact PCI DSS scope, SAQ/ROC path, QSA/acquirer expectations, and responsibility matrix apply before production launch? | Security / Payments / Compliance | High | Open |
 | OQ-15-011 | What ISO/IEC 27001 control evidence should DOC-15 privacy and data handling controls produce for the ISMS? | Security / Compliance / Privacy | Medium | Open |
-| OQ-15-012 | What consent, preference, approved-purpose access and analytics rules apply to account-level shortcut preferences, placement exposure, carousel impressions and personalized offer targeting? Functional shortcut management does not itself require marketing consent; record retention remains indefinite. | Product / Privacy / Growth | Medium | Partially open |
+| OQ-15-012 | What consent, preference, approved-purpose access and analytics rules apply to account-level shortcut preferences, placement exposure, carousel impressions and personalized offer targeting? Functional shortcut management does not itself require marketing consent; record retention follows the accepted indefinite-retention direction subject to lawful scope and required exceptions. | Product / Privacy / Growth | Medium | Partially open |
 | OQ-15-013 | Which data classes, fields, derived features, segments, scores, and AI outputs may be used for model improvement, personalization, partner reporting, and campaign measurement? | Privacy / Data / Product | High | Open |
 | OQ-15-014 | Which data classes, fields, and derived signals are prohibited from marketing models, partner reporting, clean-room collaboration, or offsite activation? | Privacy / Legal / Risk | High | Open |
 | OQ-15-015 | What consent, opt-out, notice, partner-contract, and output-control rules are required before clean-room collaboration, pseudonymized matching, or external activation? | Legal / Privacy / Security | High | Open |
@@ -585,9 +585,9 @@ It should not become:
 ---
 
 ## 20. Version History
-
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.9.3` | `2026-08-13` | Product Documentation Team | Distinguished the 30-minute registration-attempt usability window from indefinite record retention without adding a deletion or disposal mechanism. |
 | `0.9.2` | `2026-08-12` | Product Documentation Team | Recorded the Founder-settled indefinite-retention decision, removed finite/open-duration language, and reframed privacy, access, legal-hold and correction handling without creating a disposition mechanism. |
 | `0.9.1` | `2026-08-12` | Product Documentation Team | Consolidated provider/authentication/retention, hypothetical-scope, DOC-22 execution-only and source/Payment Obligation privacy-boundary corrections. |

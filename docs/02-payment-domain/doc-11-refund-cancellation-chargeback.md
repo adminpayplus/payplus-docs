@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 0.7.3
+version: 1.0.0
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Payments Lead
   - Operations Lead
   - Finance Lead
-last_updated: 2026-08-13
+last_updated: 2026-08-19
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-11` |
 | **Title** | Refund, Cancellation & Chargeback |
-| **Version** | `0.7.3` |
+| **Version** | `1.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Operations |
 | **Reviewers** | Product Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Customer Support Lead<br>Engineering Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Operations Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-13` |
+| **Last Updated** | `2026-08-19` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -112,7 +112,7 @@ Detailed specifications belong to:
 | Area | Baseline |
 | --- | --- |
 | Launch market | Hong Kong. |
-| Product model | Evidence-backed, Payer-authorized controlled Bill Category and separate Rent payment platform for approved obligations. |
+| Product model | Payer-authorized controlled Bill Category and separate Rent payment platform for approved obligations. Bills follow their accepted tiered Evidence treatment; Rent retains mandatory attached Evidence. |
 | Detailed policy | Final refund, cancellation, dispute, chargeback, and reversal policy details remain to be confirmed. |
 | Operating approach | MVP should follow industry card-payment practice, subject to PSP/acquirer, legal, compliance, finance, and risk confirmation. |
 | Admin support | DOC-11 defines case and adjustment policy. DOC-22 may execute only owner-permitted workflow, configuration, queue, review, hold, recovery, and audit steps; it does not independently determine case, Payment, Payout, risk, privacy, or retention policy. |
@@ -121,7 +121,7 @@ Detailed specifications belong to:
 | Payment instruction and Checkout impact | A deliberate DOC-09 Payment Instruction may be cancelled or expire before Provider Submission. An incomplete Checkout remains DOC-09-owned; DOC-11 rules apply only when a confirmed Payment, return, refund, reversal, chargeback, or dispute adjustment exists. |
 | Fee model | Fee refundability, fee reversals, promotions, coupons, and discounts remain configurable and to be confirmed. |
 
-Unconfirmed items should remain editable assumptions or gated requirements and should not block continued documentation drafting.
+Unconfirmed items should remain editable owner-assigned assumptions or gated requirements and block only their affected configuration, enablement, implementation or acceptance work.
 
 When DOC-11 determines that an obligation-attributed financial adjustment has become effective, it must preserve the original Payment and any existing Payment Applications, and provide the effective adjustment amount and attribution to DOC-09. A controlled late-confirmed Payment may have zero or insufficient Applications under DOC-09 and must not acquire one merely because an adjustment exists. DOC-09 uses only the portion legally attributable to existing valid Payment Application coverage in obligation-coverage arithmetic; any remaining adjustment value remains an authoritative adjustment fact outside that arithmetic under the existing owner-controlled settlement, reconciliation, or adjustment boundary. DOC-09 then recalculates the Payment Obligation's Effective Coverage, Outstanding Amount, and future payable capacity without allowing negative coverage or fictional obligation value. The historical Checkout Workspace is not reopened.
 
@@ -553,7 +553,7 @@ DOC-11 is acceptable when it clearly defines:
 - accounting, ledger, data, audit, reporting, and reconciliation requirements;
 - risk and anti-cashout controls;
 - owning documents for detailed implementation;
-- open questions that do not block continued documentation drafting;
+- open questions with their owner and affected-path dependency visible;
 - DOC-11 publishes distinct canonical Refund and Reversal outcomes with their ordering timestamp, amount, and funds-flow direction for the DOC-06B HOME-ROOT handoff; supporting events remain separate non-outcomes, and DOC-06B owns Home eligibility, shared presentation, ordering, deduplication, sign presentation, navigation, and return behavior.
 
 This document must remain a compact payment-domain policy and control document.
@@ -576,6 +576,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.7.3` | `2026-08-13` | Product Documentation Team | Bounded adjustment impact to valid Payment Application coverage for zero- or insufficient-Application cases while preserving immutable Payment and adjustment facts and existing owner-controlled settlement boundaries. |
 | `0.7.2` | `2026-08-12` | Product Documentation Team | Applied the Founder-settled indefinite-retention handoff to adjustment, refund, dispute and case records without changing their financial or operational mechanisms. |
 | `0.7.1` | `2026-08-12` | Product Documentation Team | Qualified adjustment and case lineage for DOC-09's controlled late-confirmation zero-Application exception and returned Rewards presentation to DOC-13, DOC-06B, and DOC-07 ownership. |

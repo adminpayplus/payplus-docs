@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 0.19.5
+version: 1.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-13
+last_updated: 2026-08-18
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -49,12 +49,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `0.19.5` |
+| **Version** | `1.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-13` |
+| **Last Updated** | `2026-08-18` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -62,7 +62,7 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines the master product requirements for PayPlus, an Evidence-Backed Bill/Rent Payment App in which Consumer Users act as Payers.
+This document defines the master product requirements for PayPlus, a controlled Bill and Rent Payment App in which Consumer Users act as Payers. Bills use the approved tiered Evidence, Declaration, Payment and Payout policy; Rent retains its existing mandatory attached-Evidence and Evidence-acceptance-before-Payment model.
 
 DOC-05 is the primary human product-policy owner for the bounded Institutional Payee Programme, Category-scoped Payee Directory, Bill Payee-acquisition model, Bill/Rent Save meaning, individual-notification capability boundary, and target retirement of active Request and BILLS-LINKING behavior. It establishes product meaning, limits, ownership and Acceptance Criteria without taking over specialist rules.
 
@@ -72,7 +72,7 @@ DOC-01 retains high-level product identity and positioning. Evidence truth belon
 
 ## 2. Product Summary
 
-PayPlus enables a Payer to pay an eligible real-world Bill or Rent obligation by card when the obligation is supported by acceptable Evidence and every applicable Payee, destination, payment, payout, risk, privacy, compliance and authorization gate passes.
+PayPlus enables a Payer to pay an eligible real-world Bill or Rent obligation by card when every applicable Category, Declaration, Evidence, Payee, destination, payment, payout, risk, privacy, compliance and authorization gate passes. Attached Evidence treatment is tiered for Bills only; Rent always requires attached Evidence and its owner-governed acceptance before Payment.
 
 | Concept | MVP meaning |
 |---|---|
@@ -80,7 +80,7 @@ PayPlus enables a Payer to pay an eligible real-world Bill or Rent obligation by
 | Payee | The economic recipient. A Payee may be an individual or an institution/company and does not need to be a PayPlus User. |
 | Bill scope | Only specified supported controlled Bill Categories. Each Bill journey remains governed by its selected Category. |
 | Rent scope | A separate tenancy/relationship journey governed by Rent-specific Evidence and controls. Rent does not use the controlled-Bill Directory in MVP. |
-| Payment model | Payer-created, Evidence-backed and explicitly Payer-authorized. A Payment is not created or authorized by a Request, Directory selection, notification, Save action or Admin determination. |
+| Payment model | Payer-created and explicitly Payer-authorized. A Bill may proceed under Tier 1 without attached Evidence only when the approved Bill-tier rules and every other applicable gate pass. Tier 2/3 Bills and all Rent Payments require attached Evidence as defined by their owners. A Payment is not created or authorized by a Request, Directory selection, notification, Save action, Declaration or Admin determination. |
 
 The model must not become unrestricted P2P transfer, an open Payee marketplace, remittance, cashout, arbitrary company payment or an open money-request product.
 
@@ -97,14 +97,14 @@ PayPlus is also intended to be data-engine ready by design. MVP features should 
 The MVP includes:
 
 - Payer account registration and login;
-- Payer-created Evidence-backed Bill and Rent source records and payments;
+- Payer-created controlled Bill sources and Evidence-backed Rent sources and payments;
 - specified supported controlled Bill Categories and the separate Rent journey;
 - Category-scoped Payee Directory and `Provide Payee myself` as the two Bill Payee-acquisition methods;
 - institutional and individual economic Payees who need not be PayPlus Users;
-- Evidence/document capture for a Bill within a specified supported controlled Bill Category or for the separate Rent journey; invoices, fee notices, service records and similar documents are Evidence forms only where their Category is enabled;
+- optional attached-Evidence capture for an initial Bill flow, mandatory owner-approved official Bill Evidence for Tier 2/3, and mandatory attached Evidence for Rent; potential document examples are Evidence only where DOC-12 approves the applicable Category or Rent rule;
 - AI/OCR-assisted evidence capture, autofill, user correction, verification, and review routing where enabled;
 - preservation of user-selected Company/Individual type, AI-apparent type, Payer response and scoped Admin determination;
-- one authoritative Bill/Rent source record with active, history-only and archived user-facing projections;
+- one authoritative Bill/Rent source record with Saved/current, Saved/Archived, history-only and established-but-unprojected treatment as applicable;
 - optional Save, no-Save, post-payment Save on the same Bill/Rent ID, and ordinary Archive after Save;
 - bounded historical Directory acquisition provenance where applicable;
 - Payer review and explicit authorization before each applicable Provider Submission;
@@ -155,7 +155,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Multi-card funding | MVP scope; support up to 6 credit cards per payment/profile, with related controls configurable where applicable. |
 | Tokenized cards and saved payment profiles | MVP scope; DOC-06B defines the user route shell, DOC-09 defines checkout use, and DOC-19 defines tokenization/security mechanics. |
 | Payment Instructions and incomplete Checkout continuation | MVP scope. A Payment Instruction is a deliberate pay-later arrangement. An interrupted immediate payment remains an incomplete Checkout Workspace, although both may be surfaced through DOC-06B Instructions routes for user management. DOC-09 owns their Payment Domain distinction and funding rules; DOC-10 owns Payout. |
-| Pay+ and Bills entry | The accepted Wave 2 route/action baseline is implemented by DOC-06B: Pay+ retains `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment` in that order and material meaning. `Request Payment` is retired, no replacement action is introduced, and no active Request or BILLS-LINKING capability is part of the target MVP. Exact visual, responsive, accessibility, Copy and implementation evidence remains with its applicable owners and later gates. |
+| Pay+ and Bills entry | The accepted Wave 2 route/action baseline is implemented by DOC-06B: Pay+ retains `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment` in that order and material meaning. `Request Payment` is retired, no replacement action is introduced, and no active Request or BILLS-LINKING capability is part of the target MVP. Exact visual, responsive, accessibility, Copy and implementation evidence remains with its applicable owners. |
 | Data and AI readiness | Require structured events, field classification, lineage, auditability, consent/preference state, approved-purpose metadata, and model-use eligibility metadata where relevant; advanced model automation and external activation remain future-gated. |
 
 Current launch assumptions:
@@ -171,7 +171,7 @@ Current launch assumptions:
 - business KYB is expected to require a Business Registration document and owner ID;
 - candidate Payer notification channels are app notifications, push notifications, email, SMS, and WhatsApp;
 - exact Copy remains with DOC-07; channel and delivery with DOC-08; risk/abuse with DOC-14; privacy, lawful purpose and retention with DOC-15 and applicable professional review; security with DOC-19; support with DOC-21; and permitted Admin execution with DOC-22;
-- every PayPlus record is retained indefinitely; no scheduled expiry, deletion, purge, erasure, anonymisation, de-identification or other destruction is caused merely by elapsed time, ended purpose, source Archive or account closure, while DOC-15 owns approved-purpose access, masking and lawful handling controls;
+- indefinite retention remains the Founder-approved product and governance direction, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries; that assessment must not silently erase or rewrite immutable financial truth, auditability, Save/Archive history or case lineage;
 - exact fee rates, fee allocation, promotion, coupon, voucher, reward, entitlement, refund, and reversal treatment remain to be confirmed by their formal owners and may be made Admin-configurable only after owner approval; multi-card card-count cap is 6 for MVP.
 
 ### 3.1.3 Requirement ID Approach
@@ -197,7 +197,7 @@ The MVP does not include:
 - deliberate Payment Instructions and incomplete Checkout continuation for single-card and split-card payment are in scope under DOC-06B/DOC-09 and are not automatic recurring payments or the same domain object;
 - marketplace escrow;
 - investment, savings, or deposit accounts;
-- open-loop funds transfer unrelated to a bill or evidence-backed obligation;
+- open-loop funds transfer unrelated to an eligible controlled Bill or Rent obligation;
 - fully automated compliance approval without admin or risk controls.
 - Consumer Payee accounts or active Payee-user navigation as a requirement of receiving payment;
 - active Request creation, delivery, reminder, acceptance or reciprocal visibility;
@@ -213,13 +213,13 @@ The MVP does not include:
 
 | Principle | Requirement |
 |---|---|
-| Evidence-backed payments | Every Payment must be linked to a Bill within a specified supported controlled Bill Category or to the separate Rent journey. Invoices, fee notices, agreements, employment/service records and statements are possible Evidence forms only within that boundary. |
+| Controlled Bill/Rent payments | Every Payment must remain linked to a Bill within a specified supported controlled Bill Category or to the separate Rent journey. Bill Tier 1 may omit attached Evidence only under the approved tier policy; Tier 2/3 Bills require owner-approved official Bill Evidence, and Rent always requires owner-approved attached Evidence accepted before Payment. Evidence examples never establish automatic eligibility. |
 | Payer-only Consumer User | Consumer product behavior is designed for the Payer. A Payee is the economic recipient and need not be a PayPlus User. |
 | Controlled acquisition | The selected supported Bill Category governs Directory selection and self-provided acquisition continuously. Neither method bypasses specialist gates. |
 | Authorization required | A payer must authorize payment before funds are charged or moved. |
 | No wallet behavior | PayPlus must not create stored balances or user-controlled cash accounts. |
-| No arbitrary P2P | PayPlus permits payment only for an eligible Evidence-backed Rent journey or specified supported controlled Bill Category. Evidence alone never creates eligibility outside that boundary; unrestricted person-to-person payment remains prohibited. |
-| Authoritative source | A Payment is never source-less. Each Checkout targets one Bill/Rent Payable Basis and executes through DOC-09 Obligation Allocations against one or more applicable Payment Obligations. Each Payment remains traceable to those applicable obligations, that Payable Basis, one authoritative Bill/Rent source, Evidence lineage, Payer, Payee, destination and status/event history; normally this includes one or more Payment Applications. Under DOC-09's controlled late-confirmation exception, a confirmed Payment may temporarily have zero Payment Applications without becoming invalid or source-less. |
+| No arbitrary P2P | PayPlus permits payment only for an eligible Rent journey or specified supported controlled Bill Category under the applicable Declaration, Evidence and specialist gates. Declaration or Evidence alone never creates eligibility outside that boundary; unrestricted person-to-person payment remains prohibited. |
+| Authoritative source | A Payment is never source-less. Each Checkout targets one Bill/Rent Payable Basis and executes through DOC-09 Obligation Allocations against one or more applicable Payment Obligations. Each Payment remains traceable to those applicable obligations, that Payable Basis, one authoritative Bill/Rent source, Payer, Payee, destination, status/event history and Evidence lineage where Evidence exists or is required; normally this includes one or more Payment Applications. Under DOC-09's controlled late-confirmation exception, a confirmed Payment may temporarily have zero Payment Applications without becoming invalid or source-less. |
 | Projection separation | Save, no-Save and Archive affect Payer reuse and visibility projections without creating, cloning or erasing the authoritative Bill/Rent or immutable financial history. |
 | Compliance first | Product behavior must remain within approved regulatory and partner constraints. |
 | Data-engine readiness | Material product actions should create structured events and classified data suitable for governed analytics, reporting, and future approved AI/model improvement. |
@@ -231,7 +231,7 @@ The MVP does not include:
 
 | Actor | Description | MVP login? |
 |---|---|---|
-| Payer | Consumer User who creates or selects the Evidence-backed source context, reviews material facts, chooses whether to Save, and authorizes payment. | Yes |
+| Payer | Consumer User who creates or selects the controlled Bill or Evidence-backed Rent context, makes any required Declaration, chooses whether to Save, and separately authorizes payment. | Yes |
 | Payee | Economic recipient, either an individual or institution/company. A Payee may be represented without a PayPlus User account. | Not required |
 | Admin / Operations | Internal user executing only owner-required and owner-permitted review or handling for Evidence, type disagreements, risk, Payee/destination facts and exceptions. Admin execution does not create global Payee truth, specialist outcomes or product policy. | Yes |
 | System | Automated services supporting Evidence processing, preservation of provenance, payment/payout processing, controlled notifications and audit events. | No |
@@ -240,84 +240,139 @@ The MVP does not include:
 
 ## 6. Core MVP Payer Flow
 
-The core MVP flow allows a Payer to pay an Evidence-backed Bill or Rent obligation to an economic Payee.
+The core MVP flow allows a Payer to establish or pay a controlled Bill, or pay an Evidence-backed Rent obligation, to an economic Payee under the applicable owner gates.
 
 ### Deliberate Setup Bill/Rent
 
 1. Payer logs in and deliberately enters Setup Bill or Setup Rent for reuse.
 2. For a Bill, Payer selects a supported controlled Bill Category, then uses the Category-scoped Directory or `Provide Payee myself`; Rent remains a separate tenancy/relationship journey.
-3. In the self-provided Bill journey, Payer selects Paying a company or Paying an individual before Evidence. Detailed Payee, destination and payment facts are not redundantly collected before Evidence recognition.
-4. Payer provides permitted source and Evidence input. AI/OCR may derive an apparent Company/Individual type only after Evidence recognition; a mismatch prompt then preserves the Payer response and prior provenance.
-5. ID establishment consumes an owner-governed source/Evidence preservation eligibility outcome. Product and journey documents do not independently define the technical persistence threshold, exact minimum fields, physical identifier generation, Evidence-acceptance criteria, indefinite-retention controls or non-destructive handling mechanics.
-6. One authoritative Bill/Rent ID is established. Because the Payer deliberately chose Setup/reuse, that same ID receives an Active/reusable projection without a Payment or Payment ID.
-7. Active/reusable means Payer Save/reuse intent and visibility only. It does not mean Evidence accepted, Payee verified, destination ready, Payment eligible, standing authorization or future payment approval.
-8. Any later Payment requires fresh applicable Evidence, Payee, destination, Payout, risk, readiness, Checkout and Payer-authorization controls under the specialist owners.
+3. In the self-provided Bill journey, Payer selects Paying a company or Paying an individual before optional attached-Evidence input. Detailed receiving and payment facts remain owner-governed and must preserve provenance.
+4. Payer provides required source facts and may provide attached Evidence for AI/OCR assistance. Tier 2/3 later require qualifying attached Evidence; Tier 1 does not. AI/OCR may derive an apparent Company/Individual type only after Evidence recognition, and a mismatch prompt preserves the Payer response and prior provenance.
+5. ID establishment consumes an owner-governed source-preservation eligibility outcome, using Evidence inputs only where applicable. Product and journey documents do not independently define the technical persistence threshold, exact minimum fields, physical identifier generation, Evidence-acceptance criteria, indefinite-retention controls or non-destructive handling mechanics.
+6. For Add a Bill, the current proposed amount is assessed against C1 before Save; G1/G2 do not apply or reserve capacity. Rent remains on its existing setup and mandatory-Evidence model.
+7. One authoritative Bill/Rent ID is established where the owner-governed preservation outcome permits it. Deliberate Save gives the same ID a current Saved projection without Payment.
+8. Saved/current means Payer persistence, visibility and reuse intent only. It does not mean Evidence accepted, Payee verified, destination ready, Payment eligible, standing authorization or future payment approval.
+9. Any later Bill Payment re-evaluates C1/G1/G2 and every applicable specialist gate. Any later Rent Payment retains mandatory attached Evidence and Evidence acceptance before Payment.
 
 ### Immediate Pay-Now Bill/Rent
 
 1. Payer enters a controlled Bill journey or the separate Rent journey.
-2. The journey consumes the applicable owner-governed source/Evidence preservation eligibility outcome. One authoritative Bill/Rent ID exists before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or downstream payment-facing actions require stable source identity.
-3. The applicable Evidence, intended-Payee, Category, destination, Payout, sanctions, fraud, anti-cashout, risk, readiness, Checkout and authorization gates are applied by their owners. A label-only Company/Individual disagreement is not automatically a concrete defect.
+2. The journey consumes the applicable owner-governed source-preservation outcome. One authoritative Bill/Rent ID exists before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or downstream payment-facing actions require stable source identity.
+3. For Bills, current C1/G1/G2 determines Tier 1, 2 or 3 and the applicable Declaration/Evidence/admission gates in Section 7. For Rent, mandatory attached Evidence and owner-governed acceptance remain Payment gates. Intended-Payee, destination, Payout, sanctions, fraud, anti-cashout, risk, readiness, Checkout and authorization gates remain with their owners.
 4. DOC-09 confirms Payment with a separate Payment identity linked to the authoritative Bill/Rent source.
-5. Payment Result is shown. If the source was already saved/Active before this Payment, its existing projection remains intact and no duplicate Save is created.
-6. For an otherwise unsaved source, the optional Save decision must be resolved before Activity, Payment History, Receipt or ordinary safe exit. Selecting Save makes the same Bill/Rent ID Active/reusable. Declining, skipping, dismissing, closing or otherwise leaving the Save decision without selection makes the same ID history-only.
+5. Payment Result is shown. If the source was already Saved/current before this Payment, its existing projection remains intact and no duplicate Save is created.
+6. For an otherwise unsaved source, the optional Save decision must be resolved before Activity, Payment History, Receipt or ordinary safe exit. Selecting Save makes the same Bill/Rent ID Saved/current. Declining, skipping, dismissing, closing or otherwise leaving the Save decision without selection makes the same ID history-only.
 7. Only after that existing-projection or Save-resolution outcome may the route continue to Activity, Payment History, Receipt or ordinary safe exit. Payment, Activity, Payment History and Receipt exist independently of Save, but they do not bypass the required projection resolution.
 
 ### Established but abandoned pre-Payment source
 
-Where an authoritative Bill/Rent ID is established but an immediate-pay journey ends or fails before confirmed Payment, ID establishment alone does not make it Active, Archived or history-only, expose a Bills/Rent route or list entry, or create a user-facing status. The same unprojected boundary applies where a deliberate Setup journey ends before its Active/reusable projection is completed. It never applies after a newly confirmed Payment for an otherwise unsaved source: closing or leaving Payment Result without selecting Save is skipped Save and resolves the same ID to history-only before downstream handoff. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts for a legitimately established-but-unprojected source.
+Where an authoritative Bill/Rent ID is established but an immediate-pay journey ends or fails before confirmed Payment, ID establishment alone does not make it Saved/current, Saved/Archived or history-only, expose a Bills/Rent route or list entry, or create a user-facing status. The same unprojected boundary applies where deliberate setup ends before Save/current projection is completed. It never applies after a newly confirmed Payment for an otherwise unsaved source: closing or leaving Payment Result without selecting Save is skipped Save and resolves the same ID to history-only before downstream handoff. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts for a legitimately established-but-unprojected source.
 
 DOC-09 derives payment-facing facts and evaluates Payment Obligation and Checkout eligibility. No Request, Payee acceptance, Directory state, Save action, notification or type label authorizes payment. Payment and Payout proceed through DOC-09 and DOC-10 controls. A Payment remains visible through Activity/Payment History/Receipt after either post-Payment Save branch.
 
 ---
 
-## 7. Evidence Requirements
+## 7. Bill-only Tiered Evidence, Declaration, Payment and Payout Policy
 
-Every Payment must arise from an acceptable Evidence-backed Bill/Rent context. A Checkout targets one Payable Basis and uses DOC-09 Obligation Allocations for one or more applicable Payment Obligations derived from that basis; it does not execute directly against Evidence. Normally, confirmed obligation value is applied through one or more Payment Applications without collapsing the source, basis, obligations, Checkout or Payment identities. DOC-09's controlled late-confirmation exception permits a confirmed Payment to remain temporarily without a Payment Application; the exception neither fabricates an Application nor decides Payout, reconciliation, or adjustment treatment.
+This section owns the high-level product policy approved for Bills. It does not redefine DOC-09 Payment Domain objects, DOC-10 Payout, DOC-11 Refund/case treatment, DOC-12 Evidence truth, DOC-14 risk outcomes, DOC-18 representation or DOC-22 execution.
 
-Detailed bill category, document AI/OCR, extracted field, autofill, user correction, duplicate detection, verification outcome, and Evidence-to-Payee matching requirements belong in DOC-12. Destination readiness, Payout and reconciliation requirements belong in DOC-10; Payment Obligation, Checkout, payer authorization and Payment invariants belong in DOC-09.
+### 7.1 Terms and scope
 
-### 7.1 Acceptable Evidence Types
-
-Within a supported controlled Bill Category or the separate Rent journey, MVP Evidence may include:
-
-- bill;
-- invoice;
-- tenancy agreement;
-- rent demand;
-- payment statement;
-- service agreement;
-- official notice;
-- contract;
-- uploaded PDF or image;
-- manually entered bill details with supporting document;
-- another Evidence form permitted by DOC-12 for the applicable controlled Bill or Rent context.
-
----
-
-### 7.2 Evidence Rules
-
-| Rule | Requirement |
+| Term | Product meaning |
 |---|---|
-| Evidence required | A Payment cannot proceed without Evidence supporting the applicable controlled Bill or Rent context. Evidence does not itself become payable. |
-| Evidence linked | Evidence must link to the authoritative Bill/Rent source and its applicable obligation context. |
-| OCR/autofill support | Where enabled, system should extract Evidence fields and prefill eligible concrete facts for Payer review. |
-| User correction | Payers must be able to review and correct permitted prefilled facts before payment handoff. |
-| Verification outcome | Evidence must have an owner-governed verification outcome before payment eligibility. Any alternative Evidence treatment must remain Evidence-backed and cannot waive Category, Payee, destination, sanctions, fraud, anti-cashout or authorization controls. |
-| Duplicate/reuse detection | System should detect duplicate or reused evidence and route configured red flags to review. |
-| Payer review | Payer must be able to review evidence before authorizing payment. |
-| Admin review handoff | Where an applicable owner requires Admin review, DOC-12 defines the relevant Evidence context and DOC-15 governs which fields are available for that approved purpose. DOC-22 executes only the resulting permitted Admin workflow. DOC-05 grants no generic Evidence access or approval authority. |
-| Sensitive display control | Extracted sensitive fields should be masked, hidden, or restricted unless needed for an approved task. |
-| Auditability | Evidence actions must be logged. |
+| Evidence | Attached Evidence. |
+| Declaration | The Payer's factual and intent declaration concerning Category, purpose, amount and Payee/receiving details under the owner-approved Declaration policy. |
+| Payment | The Payer pays on PayPlus; DOC-09 owns the immutable confirmed financial meaning. |
+| Payout | PayPlus pays the designated economic Payee; DOC-10 owns release and reconciliation. |
 
-### 7.3 Evidence Reuse Boundary
+Evidence, Declaration, Checkout, Payment, Payment Application, Payout, Refund, case, adjustment and reconciliation remain distinct.
+
+The tiered policy applies only to Bills. Rent remains under its existing mandatory attached-Evidence model: attached Rent Evidence and the required Evidence acceptance remain Payment gates. A Rent-specific Declaration, if defined by its owner, cannot replace, waive, reduce or defer those Evidence requirements. Bill C1/G1/G2, Tier 1/2/3 and official Bill Evidence rules do not apply to Rent.
+
+### 7.2 Bill limits
+
+| Limit | Product invariant | Ownership boundary |
+|---|---|---|
+| C1 - Category single-Payment threshold | Each controlled Bill Category has an approved single-Payment threshold. For prepayment, use the selected-period aggregate. | C1 policy authority belongs to the designated product/risk owner. DOC-12 binds the applicable Category configuration, DOC-09 consumes it, and DOC-22 only executes approved configuration. Exact Category values, permitted adjustments, configuration representation and operating change details are later owner-defined configuration/enablement inputs; they do not reopen the settled layering. |
+| G1 - receiving-destination frequency | Maximum five independent user-initiated Bill payment progressions to the same receiving account/authoritative payout destination per Hong Kong calendar month. One progression/Checkout counts once despite split-card Funding Legs, Payment Attempts, confirmed Payments, retries, recovery or continuation. A genuinely new independent progression counts again. | G1 is product-semantic and is not bound here to authorization, Provider Submission, Payment confirmation, a status, an event or a schema. DOC-09 and DOC-18 later map the authoritative technical representation without changing the invariant. The receiving account/authoritative payout destination is the counting key, not economic-Payee identity. |
+| G2 - monthly confirmed Bill value | Maximum HKD1,000,000 per verified Payer account per Hong Kong calendar month. Pre-check confirmed monthly Bill usage plus the proposed obligation-funded amount; final usage records actual successfully confirmed obligation-funded value. | DOC-09 consumes the Payment facts; DOC-14 supplies risk/control treatment; DOC-18 later represents the accepted rule. Payer fees are excluded. |
+
+G2 permanent-capacity treatment:
+
+- failed, declined, cancelled-before-confirmation and proven duplicate attempts do not permanently consume capacity;
+- confirmed Payments remain in the original Hong Kong month after Refund or reversal;
+- only a confirmed duplicate/error correction restores capacity; and
+- a projected Tier 3 decision is not retroactively downgraded when actual confirmed value later remains below HKD1,000,000.
+
+### 7.3 Highest-tier precedence
+
+When multiple limits trigger, retain every trigger reason but execute only the highest Tier workflow:
+
+```text
+G2 triggered
+-> Tier 3
+
+No G2, but C1 or G1 triggered
+-> Tier 2
+
+No C1/G1/G2 trigger
+-> Tier 1
+```
+
+G1 exceedance does not prohibit Payment; it elevates the Bill progression to Tier 2. Exact equality to an approved maximum remains within that maximum.
+
+### 7.4 Tier gates
+
+| Gate | Tier 1 | Tier 2 | Tier 3 |
+|---|---|---|---|
+| Declaration | Required | Required | Required |
+| Attached Evidence | Not required | Owner-approved official current/historical Bill Evidence required | Owner-approved official current/historical Bill Evidence required |
+| Evidence presence | No Evidence-specific Payment gate | Payment gate | Payment and Payout gate |
+| Evidence acceptance | Not a Tier 1 attached-Evidence gate | Payout gate; Payment may confirm while verification remains pending | Required with authorized approval before Payment and Payout progression |
+| Human review | Only where another owner gate requires it | Exception-only owner-approved review for unresolved cases | Mandatory authorized approval |
+| Checkout | Executable only when all other applicable gates pass | Executable after Evidence presence and other applicable Payment gates pass | A prepared Checkout Workspace may exist, but it remains non-executable before approval |
+| Provider Submission and confirmed Payment | Ordinary DOC-09 rules | Ordinary DOC-09 rules after Evidence presence | Prohibited before approval |
+| Payout | All applicable non-Evidence release gates | Held until Evidence acceptance and every other release gate passes | Held until Evidence, approval and every other release gate passes |
+
+Tier 3 approval is an admission gate before the First Provider Submission. Before approval there is no executable Payment authorization, Provider Submission or confirmed Payment. Material changes to the approved Category, purpose, amount, Payee or receiving details require Tier and approval re-evaluation. No separate Tier 3 recovery object is created.
+
+### 7.5 Owner-approved official Bill Evidence
+
+Tier 2/3 mandatory Evidence means owner-approved official current/historical Bill Evidence. Potential formal document examples include an official bill, invoice, fee notice, payment statement, school payment notice or formal receipt used as historical Evidence. These examples are not automatically accepted types.
+
+DOC-12 defines the acceptance framework, issuer attribution, provenance, integrity, Category fit, relationship to declared facts, temporal relevance, duplicate/reuse treatment and acceptance. Category-by-Category operating lists remain later owner inputs and block affected-path enablement and acceptance until supplied. WhatsApp or other communication-originated material cannot satisfy, substitute for or contribute to the mandatory Tier 2/3 requirement. Any future supplementary investigation use remains outside the core Bill Payment eligibility model.
+
+Evidence presence, extraction, automated result, owner acceptance, Tier 3 approval, Payment and Payout remain separate.
+
+### 7.6 Declaration policy
+
+- Unchanged declared facts require no new Declaration.
+- C1/G1/G2 re-evaluation by itself is not a Declaration trigger.
+- User changes to Category, purpose, amount or Payee/receiving details are subject to owner-defined materiality and proportionate reconfirmation.
+- The Declaration owner may require field-specific confirmation, a refreshed summary or a full Declaration according to the accepted policy; every amount edit does not automatically require a full Declaration.
+- Declaration, Save/persistence intent and Payment authorization remain separate and auditable.
+- Declaration does not replace Evidence where required, payer authorization, account security, sanctions, prohibited-purpose, intended-Payee, destination, risk, provider or Payout gates.
+
+DOC-05 owns the product-policy framework. DOC-07 owns final user-facing expression; DOC-09 consumes current facts and preserves separate Provider Submission authorization; DOC-15 owns privacy and retention controls. Exact operating materiality tests and reconfirmation presentation remain later owner-defined product/content/acceptance inputs unless a future answer contradicts the approved proportionate rule.
+
+### 7.7 Add, Pay and prepayment boundaries
+
+| Path | Required treatment |
+|---|---|
+| Add a Bill | Apply C1 only as the Save-admission assessment. If the amount exceeds C1, Save is not permitted. G1/G2 do not apply and no monthly capacity is reserved. Save does not mean verified, ready or approved. |
+| Pay a Bill | Re-evaluate current C1/G1/G2 using current facts and current approved configuration. A prior Save assessment neither reserves capacity nor guarantees the Payment-time Tier. |
+| Prepayment | Preserve existing Category eligibility. Test the selected-period aggregate against C1/G2. One independent user-initiated progression counts once under G1 despite multiple periods, cards or Funding Legs. Prepayment does not override any gate. |
+
+Prepayment is Category-controlled and must not be represented as automated current/specified-period/continuing Evidence coverage.
+
+### 7.8 Evidence reuse and later-payment boundary
 
 | Context | Product-policy boundary |
 |---|---|
-| Bill | Bill date and Bill amount are not reusable. Other owner-permitted stable context may be used only as prefill input and remains subject to revalidation. |
-| Rent | Tenancy context and applicable Evidence facts may support later Rent periods until the agreement expires. Expiry, replacement or material change requires renewed Evidence treatment. |
-| Every later payment | Destination, risk, sanctions, readiness, period-specific obligation facts and fresh Payer authorization remain governed for each payment. |
-| Save and duplicate controls | Repeated Save of the same authoritative identity is idempotent and does not require a similar-record warning, association or merge. Duplicate-payment, duplicate-Evidence and risk controls remain separate. |
+| Bill | Bill date and amount are not reusable. Other owner-permitted stable context may be prefilled only and remains subject to current Declaration, Tier, destination, risk and authorization rules. |
+| Rent | Tenancy context and applicable accepted Evidence may support later Rent periods until expiry, replacement or material change requires renewed Evidence treatment. The mandatory Rent Evidence gate remains. |
+| Every later Payment | Destination, risk, sanctions, readiness, period-specific obligation facts and Payer authorization remain current-owner decisions. |
+| Save and duplicate controls | Repeated Save of the same authoritative identity is idempotent. Duplicate Payment, duplicate Evidence and risk controls remain separate. |
 
 ---
 
@@ -370,7 +425,7 @@ The provenance supports audit and troubleshooting only. It does not govern Saved
 
 ### 8.4 Future Dedicated-Owner Threshold
 
-A future dedicated Institutional Programme owner requires a separate Founder-approved Proposal and is warranted only when the programme becomes an independently governed domain, such as through multiple programmes, markets or publication channels; material contractual/commercial onboarding and offboarding; reusable cross-product institutional entitlements; complex Category-association or termination policy; independent SLAs, disputes, reporting or integrations; or policy volume that DOC-05 can no longer express compactly.
+A future dedicated Institutional Programme owner requires handling under the canonical PayPlus Documentation Development Workflow and is warranted only when the programme becomes an independently governed domain, such as through multiple programmes, markets or publication channels; material contractual/commercial onboarding and offboarding; reusable cross-product institutional entitlements; complex Category-association or termination policy; independent SLAs, disputes, reporting or integrations; or policy volume that DOC-05 can no longer express compactly.
 
 ---
 
@@ -386,7 +441,7 @@ A future dedicated Institutional Programme owner requires a separate Founder-app
 | Admin determination | Preserve the scoped reviewed determination without overwriting earlier facts. It does not create global Payee truth, programme enrolment, permanent eligibility or destination approval. |
 | Review and resolution | `Reviewed` and `Resolved` remain separate dimensions. |
 
-A declined type mismatch creates an Admin review obligation. If the disagreement is exclusively the Company/Individual label and the intended Payee, Evidence, beneficiary/agent relationship, Category, destination, sanctions, fraud, anti-cashout, payout readiness and Payer authorization independently pass, payment may proceed. This review may be asynchronous and need not create a user-facing payment-review status. Concrete defects remain capable of blocking their applicable stage under their formal owners.
+A declined type mismatch creates an Admin review obligation. If the disagreement is exclusively the Company/Individual label and the intended Payee, Evidence, beneficiary/agent relationship, Category, destination, sanctions, fraud, anti-cashout, payout readiness and Payer authorization independently pass, payment may proceed. This review may be asynchronous and need not create a user-facing payment-review status. Concrete defects remain capable of blocking their applicable owner-controlled product, Payment, Payout, risk or readiness outcome.
 
 ### 9.2 Individual-Payee Notification Boundary
 
@@ -419,17 +474,17 @@ Prior Request meanings remain only in append-only documentation history and reti
 
 ### 10.1 Authoritative Source and Projections
 
-Use one authoritative Bill/Rent source record with multiple user-facing projections. ID establishment consumes an owner-governed source/Evidence preservation eligibility outcome. DOC-05 defines the product-policy boundary and does not independently define the technical persistence threshold, exact minimum fields, physical identifier generation, Evidence-acceptance criteria, indefinite-retention controls or non-destructive handling mechanics. The authoritative ID exists before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or a payment-facing handoff requires stable source identity.
+Use one authoritative Bill/Rent source record with multiple user-facing projections. ID establishment consumes an owner-governed source-preservation eligibility outcome, which may include Evidence inputs where applicable but does not impose attached Evidence on Tier 1. DOC-05 defines the product-policy boundary and does not independently define the technical persistence threshold, exact minimum fields, physical identifier generation, Evidence-acceptance criteria, indefinite-retention controls or non-destructive handling mechanics. The authoritative ID exists before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or a payment-facing handoff requires stable source identity.
 
 | Projection | Meaning |
 |---|---|
 | Authoritative source identity | A stable source reference established only after the applicable owner-governed preservation-eligibility outcome. It is distinct from Evidence acceptance, Payee verification, Payment readiness, Payment identity and every user-facing projection. |
-| Active/reusable | The Payer deliberately chose Setup/reuse or selected post-Payment Save, so the same authoritative identity is visible for Payer reuse/collection intent. It does not establish Evidence acceptance, Payee verification, destination readiness, Payment eligibility or standing authorization. |
-| History-only | A confirmed Payment for an otherwise unsaved source followed by declined, skipped, dismissed, closed or otherwise abandoned post-Payment Save resolution produces this projection. The same authoritative source remains internal and linked to financial history, is neither Active nor Archived, and is not visible through Bills/Rent UI. Related Payment, Activity/Payment History and Receipt remain visible after that resolution. |
-| Established but unprojected | An authoritative ID exists after an immediate-pay journey ends or fails before confirmed Payment, or after deliberate Setup ends before its Active/reusable projection is completed. No Active, Archived or history-only projection, user-facing status, Bills/Rent route or list entry is implied. This treatment cannot apply after a newly confirmed Payment for an otherwise unsaved source; that source must resolve to Active/reusable or history-only before downstream handoff. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts. |
-| Archived | A previously saved/Active Bill/Rent has been removed from ordinary active-list visibility through the existing Archive mechanism. Archive does not erase the authoritative source, Evidence, Payment, destination, Payout, reconciliation or audit history. Exact Restore, prior-version and Evidence-version behavior remains deferred. |
+| Saved/current | The Payer deliberately chose Save during setup or selected post-Payment Save, so the same authoritative identity is persisted and visible in the current/active Bill or Rent presentation for reuse. It may have an Under Review, Action Required or Ready handling/readiness condition without changing the projection. It does not establish Evidence acceptance, Payee verification, destination readiness, Payment eligibility or standing authorization. |
+| History-only | A confirmed Payment for an otherwise unsaved source followed by declined, skipped, dismissed, closed or otherwise abandoned post-Payment Save resolution produces this treatment. The same authoritative source remains internal and linked to financial history, is neither Saved/current nor Saved/Archived, and is not visible through Bills/Rent UI. Related Payment, Activity/Payment History and Receipt remain visible after that resolution. |
+| Established but unprojected | An authoritative ID exists after an immediate-pay journey ends or fails before confirmed Payment, or after deliberate setup ends before Saved/current projection is completed. No Saved/current, Saved/Archived or history-only treatment, user-facing status, Bills/Rent route or list entry is implied. This treatment cannot apply after a newly confirmed Payment for an otherwise unsaved source; that source must resolve to Saved/current or history-only before downstream handoff. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts. |
+| Saved/Archived | A previously Saved/current Bill/Rent is moved from the current presentation to the governed Archived presentation. Archived sources do not appear in the active/current list. Archive is not a readiness or financial status and does not erase the authoritative source, Evidence, Payment, destination, Payout, reconciliation or audit history. Exact Restore, prior-version and Evidence-version behavior remains deferred. |
 
-One Bill/Rent may support multiple Payment Obligations, Checkouts and Payments. Payment Result and Bill/Rent are not parent/child. A Payment has a separate DOC-09-owned Payment identity linked to the source. Save does not first create or clone the source, create Payment, copy Payment history, establish a new identity or merge similar records. A source already saved/Active before Payment retains that projection without a duplicate Save. For an otherwise unsaved source, post-payment Save resolution operates on the same Bill/Rent ID: selected Save enables Active/reusable, while declined, skipped, dismissed or abandoned Save resolution produces history-only before Activity, Payment History, Receipt or ordinary safe exit.
+One Bill/Rent may support multiple Payment Obligations, Checkouts and Payments. Payment Result and Bill/Rent are not parent/child. A Payment has a separate DOC-09-owned Payment identity linked to the source. Save does not first create or clone the source, create Payment, copy Payment history, establish a new identity or merge similar records. A source already Saved/current before Payment retains that projection without duplicate Save. For an otherwise unsaved source, post-payment Save resolution operates on the same ID: selected Save enables Saved/current, while declined, skipped, dismissed or abandoned Save resolution produces history-only before Activity, Payment History, Receipt or ordinary safe exit.
 
 No later Save-from-Activity route or behavior is accepted. No separate Unsave action is required; once saved, ordinary Archive applies.
 
@@ -437,7 +492,7 @@ No later Save-from-Activity route or behavior is accepted. No separate Unsave ac
 
 | Rule | Requirement |
 |---|---|
-| Payment purpose | Payment must be tied to an evidence-backed obligation. |
+| Payment purpose | Payment must remain tied to an eligible controlled obligation. Bill Tier 1 may omit attached Evidence only under Section 7; Tier 2/3 Bills and all Rent use their required Evidence gates. |
 | Payer consent | Payer must explicitly authorize payment. |
 | Payee payout | Payee may receive payment only through approved payout channels. |
 | No self-cashout | Payer cannot use PayPlus to cash out to themselves. |
@@ -477,13 +532,13 @@ Every permitted Admin action must be permissioned and auditable under its formal
 | Control | Requirement |
 |---|---|
 | Identity/account controls | Payer accounts must have appropriate onboarding and access controls. Institutional programme/KYB and economic-Payee controls remain separate from Consumer User login. |
-| Evidence requirement | Payments must be supported by evidence. |
-| Evidence verification | OCR/autofill, user correction, duplicate/reuse detection, mismatch checks, verification outcomes, and red-flag routing follow DOC-12. |
+| Evidence requirement | Bill Tier 1 does not require attached Evidence; Tier 2/3 Bills require owner-approved official Bill Evidence; Rent always requires attached Evidence accepted before Payment. |
+| Evidence verification | OCR/autofill, user correction, duplicate/reuse detection, mismatch checks, verification outcomes, official Bill Evidence acceptance and Rent acceptance follow DOC-12. Tier 2 presence and acceptance remain separate gates. |
 | Payer authorization | Payer approval is required before payment. |
 | Payee verification | Payee details must be verified according to approved operational policy. |
 | Risk review | Payments, Evidence, Payees, beneficiaries/agents and destinations may be subject to owner-controlled review or blocking treatment. Label-only disagreement is not a substitute for those checks. |
 | Duplicate detection | System should help identify duplicate Bills, Evidence or Payments without treating idempotent Save as a duplicate-record problem. |
-| Transaction limits | MVP should support configurable limits. |
+| Transaction limits | Apply approved C1/G1/G2 Bill limits and highest-tier precedence under Section 7. Exact C1 authority/values remain owner-readiness items; DOC-22 executes only approved configuration. |
 | Audit logging | Key actions must be logged. |
 | Dispute handling | Payer and payee disputes must be traceable. |
 | Restricted use prevention | Wallet, cashout, and unsupported P2P behavior must be blocked. |
@@ -514,7 +569,7 @@ The MVP Notifications route family separates Inbox category, recipient read/arch
 The MVP must preserve product-level identity, lineage and provenance for the following object families. Detailed fields, physical IDs, relationships, schemas, events, indexes, data-model representation and ledger behavior belong in DOC-18; DOC-15 owns privacy classification, masking, approved-purpose access, retention governance and retention requirements.
 
 - Payer account, identity, authentication, security and KYC context;
-- authoritative Bill/Rent source identity and its Active, history-only or Archived projection state;
+- authoritative Bill/Rent source identity, Save intent, current or Archived projection, history-only treatment and separate readiness/handling condition;
 - Evidence/document lineage, extraction, permitted Payer correction, verification and review outcome;
 - institutional programme enrolment, Category association and Directory publication as separate dimensions;
 - Bill Payee acquisition method, acquisition Category, acquisition timestamp, relevant lineage reference and acquisition-time stable institution/Directory reference where one already exists;
@@ -541,7 +596,7 @@ The MVP should include the following UX surfaces. Detailed route flows, service 
 
 DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B owns navigation, route taxonomy, and human-readable route-level UX for global non-Bills routes, DOC-06C owns Bills/rent/tenancy UX, and DOC-06D owns UX requirement/test mapping. Product requirements in DOC-05 should reference stable product destination IDs where useful, use specific child destinations where defined, and avoid duplicating screen-level routing rules.
 
-For split UX topics, use one primary owner. DOC-06A owns core Payer journeys, DOC-06B owns global navigation, Activity/Payment History/Receipt separation and active Request/Linking route retirement, DOC-06C owns Bills/Rent acquisition, visibility, Save and Archive presentation, and DOC-06D owns testability mapping. The current Wave 2 Draft addresses the accepted route retirement and Save/Archive meaning pending its separate Review, Align and later integration gates; no downstream document may override the product policy in this document.
+For split UX topics, use one primary owner. DOC-06A owns core Payer journeys, DOC-06B owns global navigation, Activity/Payment History/Receipt separation and active Request/Linking route retirement, DOC-06C owns Bills/Rent acquisition, visibility, Save and Archive presentation, and DOC-06D owns testability mapping. The current Wave 2 DOC-06 baseline addresses the accepted route retirement and Save/Archive meaning; related owner work remains with the applicable formal owners, and no downstream document may override the product policy in this document.
 
 Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `ENTRANCE-ROOT` is the unauthenticated app root; `AUTH-LOGIN` resolves to `AUTH-LOGIN-FAST` or `AUTH-LOGIN-FULL`; `AUTH-RECOVERY` owns password recovery; and `AUTH-REGISTRATION` owns restricted-account creation. `ACCOUNT-ACTIVATION` completes phone, identity, and payment-passcode requirements through their reusable child flows. Normal successful login proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET` and `MORE-ROOT` identify the Pay+ and More destinations. `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings, with `NOTIFICATION-INBOX` as its default child. `PAYMENT-CHECKOUT` identifies the existing payment checkout flow/screen group; DOC-06B owns its route-level UI/UX, adaptive Workspace presentation, entry, return, and handoff behavior, while DOC-09 owns its Payment Domain architecture and authoritative payment meaning.
 
@@ -549,23 +604,23 @@ Material AUTH handling must separate the operation Outcome from its permitted Re
 
 PayPlus uses one account with one unique verified primary email and one or more explicitly enabled login methods. Email/password, Google, and Apple may access the same account only after the provider identity is explicitly linked; matching email addresses never merge or link accounts automatically. Social-authenticated users may set a PayPlus password later through `ACCOUNT-SECURITY`. Before account creation, a temporary registration attempt creates no account and reserves no proposed identifier. Restricted account creation may reach `HOME-ROOT` before phone verification, identity verification, and six-digit payment-passcode setup; `ACCOUNT-ACTIVATION` must complete those gates before the registration-level restriction is removed or a financially restricted action proceeds.
 
-The current Wave 2 DOC-06 Draft retires active Request and Payee-user actions in the `PAYPLUS-ACTION-SHEET` and Bills-route surfaces. `PAYPLUS-ACTION-SHEET` retains, in the accepted order and material meaning, `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment`; Request Payment is retired and no replacement action or route is created. That composition, order, material labels and destinations are not open. Exact visual treatment, responsive and accessibility behavior, Copy detail, technical implementation and acceptance evidence remain with their applicable owners and later gates.
+The current Wave 2 DOC-06 baseline retires active Request and Payee-user actions in the `PAYPLUS-ACTION-SHEET` and Bills-route surfaces. `PAYPLUS-ACTION-SHEET` retains, in the accepted order and material meaning, `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment`; Request Payment is retired and no replacement action or route is created. That composition, order, material labels and destinations are not open. Exact visual treatment, responsive and accessibility behavior, Copy detail, technical implementation and acceptance evidence remain with their applicable formal owners.
 
 `MORE-ROOT` is one route with Normal and Manage Shortcuts modes. Home has a default and maximum of 8 shortcuts: up to 7 user-configurable entries plus protected `More`, which remains visible as the final shortcut. Users may keep fewer configurable shortcuts, reorder or remove eligible entries, add approved entries, save account-level preferences, and restore the current eligible owner-approved default. More may also open approved secondary services but does not own them or replace `ME-ROOT`.
 
 For growth UX, `OFFERS-ROOT` owns promotion discovery; its child screens `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` own the respective View More collections; `REWARDS-ROOT` owns issued-reward management through Active and History views; and the `REFERRAL-ROOT`, `REFERRAL-REWARDS-LIST`, `REFERRAL-ENTITLEMENT-DETAIL`, and `REFERRAL-REWARD-CLAIM` route family owns referral sharing, attributed-referee qualification progress, and role-sensitive referrer/referee reward claiming. `REWARD-DETAIL` owns full reward information and terms but is not a second checkout route; checkout reward selection remains in DOC-09 after card/profile selection. The Referral Rewards list uses `Available to Claim` and `History` route-local tabs; claimed reward use remains in canonical Rewards. One offer may belong to multiple discovery collections, while unintended repeated display of the same Offer ID is suppressed on `OFFERS-ROOT`. Direct checkout discounts are not issued rewards. Referral campaigns may appear in Offers, but referral actions remain in the Referral route; an issued referral reward uses the canonical `REWARD-DETAIL`. Detailed commercial, qualification, entitlement, lifecycle, fulfilment, and calculation logic remains owned by DOC-13.
 
-Active Request and BILLS-LINKING routes, creation, delivery, reminders, acceptance, reciprocal visibility and Payee-user behavior are retired from MVP by the current DOC-06 Draft. Only append-only documentation history and retired stable IDs remain as non-active evidence. No runtime historical reader, adapter, fallback or replacement route is required because no production legacy Request/Payee-role runtime existed.
+Active Request and BILLS-LINKING routes, creation, delivery, reminders, acceptance, reciprocal visibility and Payee-user behavior are retired from MVP by the current DOC-06 Founder Working Baseline. Only append-only documentation history and retired stable IDs remain as non-active evidence. No runtime historical reader, adapter, fallback or replacement route is required because no production legacy Request/Payee-role runtime existed.
 
-For Bills/Rent UX, the current Wave 2 DOC-06 Draft preserves the Category-before-acquisition sequence for Bills, the separate Rent journey, the same authoritative identity across Save/no-Save/post-payment Save, the absence of a Bills/Rent UI entry for history-only sources, ordinary Archive after Save, and the prohibition on a later Save-from-Activity route. Exact screens, route IDs, Copy and interaction mechanics remain subject to the DOC-06 Review, Align and later integration gates.
+For Bills/Rent UX, the current Wave 2 DOC-06 baseline preserves the Category-before-acquisition sequence for Bills, the separate Rent journey, the same authoritative identity across Save/no-Save/post-payment Save, the absence of a Bills/Rent UI entry for history-only sources, ordinary Archive after Save, and the prohibition on a later Save-from-Activity route. Exact screens, route IDs, Copy and interaction mechanics remain with the applicable DOC-06, DOC-07 and other formal owners.
 
-For account-control UX, `ME-ROOT` is a permanent MVP bottom-navigation route for Payers. It provides masked Account Information, account/security/privacy child-route entry and owner-governed feature handoffs. Existing Payee-user and Receiving Info product treatment is retired in the current DOC-06 Draft; destination and payout data remain specialist-owned and do not create a Consumer Payee role.
+For account-control UX, `ME-ROOT` is a permanent MVP bottom-navigation route for Payers. It provides masked Account Information, account/security/privacy child-route entry and owner-governed feature handoffs. Existing Payee-user and Receiving Info product treatment is retired in the current DOC-06 Founder Working Baseline; destination and payout data remain specialist-owned and do not create a Consumer Payee role.
 
 DOC-06B defines `ACCOUNT-PROFILE`, reusable `PHONE-VERIFICATION` and `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, reusable `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`. The MVP includes editable nickname/display name that is not a login identifier, copyable PayPlus User ID, cross-channel phone/email change verification, the five identity-verification labels `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`, account closure as a controlled request, login-method and Set/Change Password controls, payment-passcode Set/Change/Reset and permitted 2FA/biometric controls, trusted-device removal, optional privacy choices, governed correction/access/export/privacy requests, and protected in-app export. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. Once verified, users cannot voluntarily re-verify; retries follow `Failed`, and an authorized Admin may execute an applicable identity/security-owner requirement to update without directly setting `Verified`.
 
-Sensitive information remains masked by default. Prominent reveal of approved masked sensitive values, and material changes to existing identity, contact, security or credential data, require payment passcode or approved reauthentication under DOC-15 and future DOC-19 controls. This material-change rule does not create a passcode prerequisite for first-time identity verification during Account Activation. Ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra prompt solely for opening or downloading the document. `ACTIVITY-ROOT` remains the Payer's account-level financial activity route. Bills/Rent source projections and Payment Activity/History/Receipt remain distinct. The current DOC-06 Draft retires Consumer Receiving Info and mixed-role Archive treatment; `ARCHIVED-ROOT` and Bills/Rent Archive presentation remain owned by the DOC-06 family.
+Sensitive information remains masked by default. Prominent reveal of approved masked sensitive values, and material changes to existing identity, contact, security or credential data, require payment passcode or approved reauthentication under DOC-15 and future DOC-19 controls. This material-change rule does not create a passcode prerequisite for first-time identity verification during Account Activation. Ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra prompt solely for opening or downloading the document. `ACTIVITY-ROOT` remains the Payer's account-level financial activity route. Bills/Rent source projections and Payment Activity/History/Receipt remain distinct. The current DOC-06 Founder Working Baseline retires Consumer Receiving Info and mixed-role Archive treatment; `ARCHIVED-ROOT` and Bills/Rent Archive presentation remain owned by the DOC-06 family.
 
-Archive and list visibility are Payer projections for a previously saved Bill/Rent. They must not erase or rewrite the one authoritative Bill/Rent source, Evidence, completed financial history, destination/payment snapshots, payout, reconciliation or audit lineage. The same source identity remains authoritative across Active, history-only and Archived projections; Save does not create a new Bill/Rent identity. No separate Unsave action or later Save-from-Activity route is introduced. Exact Archive, Restore, replaced-Evidence/prior-version presentation, eligibility, revalidation, route and UI behavior remain downstream DOC-06 family work.
+Save records Payer persistence, visibility and reuse intent for one authoritative Bill/Rent source. A Saved/current source may remain in the current list while Under Review, Action Required or Ready; those are handling/readiness conditions, not projections. Archive moves a previously Saved/current source into the governed Archived projection, and Archived sources do not appear in the active/current list. Save and Archive must not erase or rewrite the source, Evidence, completed financial history, destination/payment snapshots, payout, reconciliation or audit lineage. No separate Unsave action or later Save-from-Activity route is introduced. Exact labels, Restore, replaced-Evidence/prior-version presentation, eligibility, revalidation, route and UI behavior remain downstream DOC-06 family and DOC-18 work.
 
 ### Payer
 
@@ -667,7 +722,7 @@ PayPlus must not:
 - treat Directory enrolment, association, publication or selection as Evidence truth, destination authorization, eligibility, risk clearance, readiness or Payer authorization;
 - collapse institutional enrolment, Category association, Directory publication, acquisition source or transaction controls into an `Approved Payee` state;
 - process payments without payer authorization;
-- process payments without Evidence supporting the applicable controlled Bill or Rent context;
+- process a Tier 2/3 Bill without required owner-approved official Bill Evidence, or process Rent without required accepted attached Evidence;
 - treat a Company/Individual label, Payer response or scoped Admin determination as global Payee truth;
 - turn individual notification into Request, Linking, acceptance, invitation, consent proof or authorization;
 - treat Directory unpublication alone as saved-record invalidation or substantive suspension;
@@ -697,16 +752,25 @@ The Wave 1 product-policy baseline is acceptable when:
 9. Label-only disagreement is separated from concrete Evidence, intended-Payee, destination, beneficiary/agent, Category, sanctions, fraud, anti-cashout, payout, readiness and authorization defects; label-only review may be asynchronous and need not create a user-facing payment-review status, and payment may proceed only when every applicable concrete owner-controlled gate passes.
 10. Company/institutional Payees receive no MVP notification; only a governed Individual determination enables the optional Payer-initiated one-way individual notification, and Payer selection or AI-apparent type alone is insufficient. Lawful-purpose, data-minimization, wrong-recipient, abuse/rate-limit, suppression/opt-out, security, delivery-record, retention and support obligations remain with their formal owners.
 11. Directory unpublication changes only new discovery, while substantive owner-controlled restrictions remain independently effective across both acquisition methods.
-12. ID establishment consumes an owner-governed source/Evidence preservation eligibility outcome; one authoritative Bill/Rent source identity exists before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or a Payment-facing handoff requires stable identity, without defining technical thresholds or minimum fields here.
-13. Deliberate Setup gives the same ID Active/reusable Payer intent and visibility without Payment; immediate pay-now confirms a separate DOC-09 Payment identity, shows Payment Result, and for an otherwise unsaved source resolves optional Save on the same ID before Activity, Payment History, Receipt or ordinary safe exit. A source already saved/Active retains its existing projection without duplicate Save.
-14. Declined, skipped, dismissed, closed or otherwise abandoned Save resolution after confirmed Payment produces same-ID history-only; it is neither Active nor Archived, has no Bills/Rent UI entry, and its Payment remains visible through Activity/Payment History/Receipt. An immediate-pay source may remain established but unprojected only when the journey ends before confirmed Payment; deliberate Setup may do so only before Active/reusable projection is completed.
+12. ID establishment consumes an owner-governed source-preservation eligibility outcome, using Evidence inputs only where applicable; one authoritative Bill/Rent source identity exists before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or a Payment-facing handoff requires stable identity, without defining technical thresholds or minimum fields here.
+13. Deliberate Save gives the same ID Saved/current Payer persistence, visibility and reuse intent without Payment; immediate pay-now confirms a separate DOC-09 Payment identity, shows Payment Result, and for an otherwise unsaved source resolves optional Save on the same ID before Activity, Payment History, Receipt or ordinary safe exit. A source already Saved/current retains its projection without duplicate Save.
+14. Declined, skipped, dismissed, closed or otherwise abandoned Save resolution after confirmed Payment produces same-ID history-only; it is neither Saved/current nor Saved/Archived, has no Bills/Rent UI entry, and its Payment remains visible through Activity/Payment History/Receipt. An immediate-pay source may remain established but unprojected only when the journey ends before confirmed Payment; deliberate setup may do so only before Save/current projection is completed.
 15. One Bill/Rent may support multiple obligations, Checkouts and Payments, and no Payment is source-less or supported by Payment ID alone.
 16. Directory acquisition provenance remains bounded historical lineage for audit/troubleshooting only; it is not used as live eligibility, pricing, promotion, profitability, margin allocation, general commercial reporting or commercial-ledger authority and is never a live dependency for source identity, visibility, usability or future eligibility.
 17. Bill date and amount are not reusable; Rent/tenancy reuse ends on expiry, replacement or material change; each payment retains fresh owner-controlled checks and Payer authorization.
 18. Active Request and BILLS-LINKING behavior is retired without a dormant runtime. Append-only documentation history and retired stable IDs remain non-active evidence; no production historical Request/Payee-role data, runtime reader, adapter or fallback exists or is required.
-19. No exact route, UI, Copy, schema, API, event, permission, SLA, legal conclusion, commercial term, prototype or implementation mechanism is defined by Wave 1; the Founder-settled indefinite record-retention rule is normative, while its access and control implementation remains owner-governed.
+19. No exact route, UI, Copy, schema, API, event, permission, SLA, legal conclusion, commercial term, prototype or implementation mechanism is defined by Wave 1; indefinite retention remains the Founder-approved product and governance direction, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. That qualification does not authorize erasure or rewriting of immutable Payment, Payment Application, Payout, Refund, case, reconciliation, audit, Save or Archive lineage.
 20. Wallet, open marketplace, arbitrary recipient payment, P2P, remittance and cashout behavior remain prohibited.
 21. DOC-05 grants no generic Admin access, queue, action, disposition or override authority. Every Admin handoff consumes applicable specialist-owner policy and outcomes; DOC-22 owns only permitted execution, with approved-purpose access, masking, audit and support retained by DOC-15, DOC-18 and DOC-21 as applicable.
+22. Bill C1/G1/G2, highest-tier precedence and Tier 1/2/3 gates conform to Section 7 without redefining DOC-09 Payment records or tying G1 to a technical event.
+23. G1 uses the same receiving account/authoritative payout destination as its deliberate policy key and does not redefine economic-Payee identity.
+24. G2 uses the verified Payer's Hong Kong calendar-month confirmed obligation-funded Bill value, excludes payer fees, preserves original-month usage after Refund/reversal and permits only confirmed duplicate/error correction to restore capacity.
+25. Tier 2 requires owner-approved official Bill Evidence presence before Payment and acceptance before Payout; Tier 3 requires Evidence and authorized approval before executable Payment progression.
+26. Potential official Bill Evidence examples are not automatically accepted, and communication-originated material cannot satisfy, substitute for or contribute to Tier 2/3 mandatory Evidence.
+27. Add a Bill applies C1 only; Pay a Bill re-evaluates current C1/G1/G2; prepayment uses the selected-period aggregate and one G1 progression.
+28. Unchanged declared facts require no new Declaration; limit re-evaluation alone is not a trigger; user changes use owner-defined materiality and proportionate reconfirmation.
+29. Saved/current and Saved/Archived are distinct projections; Under Review, Action Required and Ready are handling/readiness conditions; Archived sources are excluded from the current list.
+30. Rent remains outside C1/G1/G2 and the Bill tiers, always requires attached Evidence accepted before Payment, and cannot use a Declaration to replace or defer that requirement.
 
 ---
 
@@ -716,25 +780,28 @@ The Wave 1 product-policy baseline is acceptable when:
 |---|---|---|---|
 | OQ-05-001 | What specific payment processor or PSP will be used? | Product / Payments | Open |
 | OQ-05-002 | What final KYC/KYB provider, check depth, sanctions screening, exception process, and risk-tier rules apply to the baseline onboarding model? | Compliance / Legal | Open |
-| OQ-05-003 | What owner-approved Evidence forms and criteria apply to each accepted launch Bill Category and to the separate Rent journey? | DOC-12 / Product / Compliance | Open; the twelve-category inventory itself is settled |
+| OQ-05-003 | Which Category-by-Category official current/historical Bill Evidence types and operating criteria instantiate the approved DOC-12 acceptance framework, and which separate attached-Evidence criteria govern Rent? Communication-originated material remains excluded. | DOC-12 / Product / Compliance / Risk | Open later owner/configuration input; blocks affected-path enablement/acceptance until supplied |
 | OQ-05-004 | Which rent and tenancy controls are required before initial launch enablement? | Product / Risk | Open |
-| OQ-05-005 | What transaction limits apply by user type and category? | Risk / Product | Open |
-| OQ-05-006 | Which owner-controlled reviews affect Evidence, Payment, destination/Payout, risk, refund/dispute, privacy or operational handling, and what bounded DOC-22 execution is required for each? This question does not create generic Admin approval or override authority. | Payments / Payout / Refunds / Evidence / Risk / Privacy / Operations | Open |
+| OQ-05-005 | What owner-approved C1 Category values, permitted adjustments, configuration representation and operating change details apply under the settled designated product/risk authority? G1/G2 values and product meanings are settled; DOC-12 binds C1, DOC-09 consumes it and DOC-22 only executes approved configuration. | Product / Risk / Compliance | Open later configuration/enablement input; blocks affected configuration, acceptance and enablement until supplied |
+| OQ-05-006 | Which authorized operating role, approval workflow and segregation controls implement mandatory Tier 3 approval, and what bounded DOC-22 execution is permitted? | Product / Risk / Compliance / Security / Payments / Operations | Open later operating/security input; the normative approval gate remains unchanged, and Tier 3 enablement/implementation is blocked until supplied |
 | OQ-05-007 | What exact percentage service fee, payer/payee fee allocation, subsidy, coupon, promotion, discount, refund, and reversal treatment will be used? | Business / Product | Open |
 | OQ-05-008 | Which operating bank setup will be used for FPS, cheque, and EPS payouts? | Payments / Operations | Open |
-| OQ-05-009 | Which privacy, approved-purpose access, masking, legal-hold and correction/request controls apply while every PayPlus record remains retained indefinitely under the Founder decision? | Legal / Compliance | Open |
+| OQ-05-009 | Which lawful-scope assessment, required exceptions, restricted data classes, prohibited sensitive-data boundaries, approved-purpose access, masking, legal-hold and correction/request controls apply while indefinite retention remains the Founder-approved product and governance direction? | Legal / Privacy / Compliance | Open |
 | OQ-05-010 | What dispute process applies after payment completion? | Operations / Legal | Open |
 | OQ-05-011 | What appropriate or special MCC and transaction classification will the selected acquirer confirm for PayPlus? | Payments / Legal | Open |
 | OQ-05-012 | What maximum number of credit cards per payment/profile should be allowed at launch? | Product / Payments | Answered: 6 |
 | OQ-05-013 | Which OCR/document AI provider, confidence thresholds and Category-specific OCR capabilities should apply to the accepted launch inventory and separate Rent journey? | DOC-12 / Engineering / Risk | Open; the twelve-category inventory itself is settled |
 | OQ-05-014 | Which extracted fields are displayable, masked, or restricted by role and evidence category? | Product / Privacy / Security | Open |
 | OQ-05-015 | What final styling and optional post-replacement Undo behavior should apply to `MORE-ROOT`? The 8-slot maximum, protected More entry, user reorder/remove/add behavior, account-level preference, current-default restore, availability precedence, and secondary-service boundary are defined. | Product / Design / Operations | Partially open |
-| OQ-05-016 | Retired under the Payer-only target: the former five-action visual/composition question no longer governs. Residual exact visual, responsive and accessibility treatment for the confirmed four-action baseline is tracked by DOC-06B without reopening composition, order, material meaning or destinations. | Product / Design / Payments | Retired/superseded; any replacement-composition question requires a new Founder-authorized decision and DOC-06-owned ID |
+| OQ-05-016 | Retired under the Payer-only target: the former five-action visual/composition question no longer governs. Residual exact visual, responsive and accessibility treatment for the confirmed four-action baseline is tracked by DOC-06B without reopening composition, order, material meaning or destinations. | Product / Design / Payments | Retired/superseded; any replacement-composition question requires handling under the canonical PayPlus Documentation Development Workflow and a DOC-06-owned ID |
 | OQ-05-017 | What remaining implementation detail and evidence are required for the decided Admin controls supporting Home Hot Offer publication and other approved Home configuration? DOC-06B owns Home presentation; source owners retain canonical business truth; DOC-22 owns Admin publication and configuration controls; technical mechanics and later detailed evidence remain with their formal owners. | Product / Growth / Operations | Partially open; presentation-governance and ownership boundaries decided |
 | OQ-05-018 | Which MVP events and data objects must be captured for product analytics, risk analytics, commercial reporting, and future approved AI/model improvement? | Product / Data / Engineering | Open |
 | OQ-05-019 | What user consent and preference categories are required for personalization, partner offers, marketing communication, and model improvement? | Product / Privacy / Legal | Open |
 | OQ-05-020 | Which data classes, fields, and derived features are prohibited from marketing models, partner reports, or external activation? | Product / Privacy / Risk | Open |
 | OQ-05-021 | What final Payment Profile card metadata display and tokenization return UX should apply at launch? Route label is `Payment Profile`; payment/profile card-count cap is 6. | Product / Payments / Security | Partially open |
+| OQ-05-022 | What owner-approved operating tests and presentation implement the accepted Declaration materiality and proportionate reconfirmation framework when a user changes Category, purpose, amount or Payee/receiving details? Limit re-evaluation alone is not a trigger. | Product / Legal / Compliance / Privacy / Payments | Open later product/content/acceptance input; any future answer must preserve or be reconciled through the approved framework |
+
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning or makes the model impossible must be handled under the canonical PayPlus Documentation Development Workflow.
 
 The accepted launch Category inventory is not an Open Question. Category-specific eligibility, Evidence criteria, Directory contents, detailed labels and Copy remain assigned to DOC-05, DOC-12, DOC-06C and DOC-07 respectively.
 
@@ -765,22 +832,24 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 | DOC-17 | Third-party APIs including OCR/document AI, PSP, bank, provider, analytics, campaign, and partner-reporting integrations where approved |
 | DOC-18 | Data model, evidence data layers, transaction state, audit events, ledger, event taxonomy, lineage, analytics marts, feature/model metadata, and reporting |
 | DOC-19 | Authentication, authorization, evidence access, security, tokenization, analytics access controls, pseudonymization, and partner-sharing controls |
-| DOC-20 | Mandatory Wave 5 detailed testing, UAT and release-readiness evidence; Stage 8 defines human Acceptance Criteria only |
+| DOC-20 | Mandatory Wave 5 detailed testing, UAT and release-readiness evidence; this document defines human Acceptance Criteria only |
 | DOC-21 | Monitoring, incidents, support escalation, and operations runbooks |
 | DOC-22 | Permitted Admin dashboard execution, queues, permissions, controlled overrides and configuration under the applicable product and specialist owners |
 
 ### 21.1 Owner-backed Deferrals and Mandatory Later-Wave Handoffs
 
-| Deferred matter | Primary owner | Affected handoffs | Required Wave | Blocks this Draft? |
+| Deferred matter | Primary owner | Affected handoffs | Owner dependency | Effect when missing |
 |---|---|---|---|---|
-| Category-specific eligibility, Evidence criteria and Directory contents | DOC-12, within DOC-05 Programme boundary | DOC-06C UX after owner rules; DOC-07 Copy | Wave 3, then affected Waves 2/4/6 alignment | No; generic journey and accepted inventory are complete |
-| Exact visual, Copy, motion, accessibility and responsive treatment | DOC-06B/DOC-06C presentation | DOC-07 approved Copy; DOC-20 acceptance evidence | Wave 2 follow-on and Wave 5 | No |
-| ID persistence threshold, schema, events and technical lifecycle | DOC-12 source/Evidence outcome; DOC-09 payment lifecycle; DOC-15 retention governance; DOC-18 representation | DOC-06 consumes outcomes only | Waves 3, 4 and 6 | No |
-| Notification channel, provider, legal/contact, suppression, delivery and support mechanics | DOC-08 delivery, with DOC-05 eligibility boundary | DOC-07/14/15/18/19/21/22 | Waves 4 to 6 | No |
-| Exact Archive eligibility, Restore, prior-version, Evidence-version and replacement-source presentation | DOC-06B/DOC-06C presentation under DOC-05 same-source policy | DOC-10/11/12/15/18 owner blockers and representation | Waves 2 to 6 as separately authorized | No |
-| Route Register, status-display matrix, requirements traceability, open-question register and governed diagrams | Each artifact owner | All affected formal owners | Mandatory Wave 6 | No; mutation is prohibited in this Stage 8 |
-| Detailed testing, UAT, operations and support evidence | DOC-20 and DOC-21 | Owning human and specialist requirements | Mandatory Wave 5 | No |
-| Review, Change Impact, Align, Validate, Integrate, records, Commit and Push | Canonical Workflow | Applicable document and records owners | Wave 7/later gates | No; not authorized now |
+| C1 Category values, permitted adjustments and operating configuration | Designated product/risk owner, with DOC-12/DOC-09/DOC-22 handoffs | DOC-05/12/14/09/06C | Owner-defined configuration and enablement | Blocks affected configuration, acceptance and enablement until supplied |
+| Official Bill Evidence Category lists and operating criteria | DOC-12, within DOC-05 product boundary | DOC-06C UX; DOC-07 Copy; DOC-09/10 gates | Owner-defined configuration and enablement | Exact lists block affected-path enablement and acceptance until supplied |
+| Tier 3 operating role, workflow and segregation controls | Designated Product/Risk/Compliance/Security owners | DOC-14/09/10/22 | Owner-defined operating/security detail | The normative approval gate remains unchanged; blocks Tier 3 enablement and implementation until supplied |
+| Category-specific eligibility, other Evidence criteria and Directory contents | DOC-12, within DOC-05 Programme boundary | DOC-06C UX after owner rules; DOC-07 Copy | Category owner definition | Explicit material owner gaps block the affected handoff |
+| Exact visual, Copy, motion, accessibility and responsive treatment | DOC-06B/DOC-06C presentation | DOC-07 approved Copy; DOC-20 acceptance evidence | Presentation and acceptance owner detail | Blocks the affected presentation and acceptance work until supplied |
+| ID persistence threshold, schema, events and technical lifecycle | DOC-12 source/Evidence outcome; DOC-09 payment lifecycle; DOC-15 retention governance; DOC-18 representation | DOC-06 consumes outcomes only | Technical-owner detail | Blocks affected technical representation and implementation until supplied |
+| Notification channel, provider, legal/contact, suppression, delivery and support mechanics | DOC-08 delivery, with DOC-05 eligibility boundary | DOC-07/14/15/18/19/21/22 | Notification and professional owner detail | Blocks affected notification delivery and support operation until supplied |
+| Exact Archive eligibility, Restore, prior-version, Evidence-version and replacement-source presentation | DOC-06B/DOC-06C presentation under DOC-05 same-source policy | DOC-10/11/12/15/18 owner blockers and representation | Presentation and owner-rule detail | Blocks the affected presentation or owner-controlled operation until supplied |
+| Route Register, status-display matrix, requirements traceability, open-question register and governed diagrams | Each artifact owner | All affected formal owners | Artifact-owner maintenance | Requires later authorized artifact-owner work |
+| Detailed testing, UAT, operations and support evidence | DOC-20 and DOC-21 | Owning human and specialist requirements | Testing and operational owner detail | Blocks affected acceptance, operational readiness and support evidence until supplied |
 
 ---
 
@@ -788,7 +857,7 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 
 | Decision | Status |
 |---|---|
-| PayPlus MVP is an Evidence-Backed Bill/Rent Payment App and Consumer Users are Payers only. | Founder-approved |
+| PayPlus MVP is a controlled Bill and Evidence-backed Rent Payment App; Consumer Users are Payers only. Bills use the approved tier policy, while Rent retains mandatory accepted attached Evidence before Payment. | Founder-approved |
 | A Payee is an individual or institution/company economic recipient and need not be a PayPlus User. | Founder-approved |
 | MVP supports the twelve accepted launch controlled Bill Categories in Section 3.1.1 plus the separate Rent journey; Category-specific detailed policy remains owner-backed later work. | Founder-approved inventory and boundary |
 | Category-scoped Directory and `Provide Payee myself` are the two Bill acquisition methods; both remain governed by the already selected Category. | Founder-approved |
@@ -796,15 +865,19 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 | DOC-05 is the bounded primary human product-policy owner for the Institutional Payee Programme, Directory and related Payer-only meanings, with specialist handoffs and the stated future-owner threshold. | Founder-approved |
 | Programme enrolment, Category association, Directory publication, acquisition source and transaction-control dimensions remain separate; no composite `Approved Payee` state exists. | Founder-approved |
 | Company/Individual selection, AI-apparent assessment, Payer response and scoped Admin determination preserve non-overwriting provenance; `Reviewed` and `Resolved` remain separate; label-only review may be asynchronous, non-user-facing and nonblocking when every concrete owner-controlled gate passes. | Founder-approved |
-| DOC-05 defines bounded product-policy handoffs but no generic Admin access, queue, action, disposition or override; specialist owners retain policy/outcome authority and DOC-22 owns permitted execution only. | Founder-approved ownership boundary / Draft fidelity |
+| DOC-05 defines bounded product-policy handoffs but no generic Admin access, queue, action, disposition or override; specialist owners retain policy/outcome authority and DOC-22 owns permitted execution only. | Founder-approved ownership boundary |
 | Company/institutional Payees receive no MVP notification; a governed individual may receive an optional Payer-initiated one-way notification without Request/Linking semantics. | Founder-approved |
 | Directory unpublication changes discovery only and remains separate from substantive owner-controlled restrictions. | Founder-approved |
-| One authoritative Bill/Rent source has Active, history-only and Archived projections; deliberate Setup or selected post-Payment Save records reuse intent on the same ID, declined/skipped/dismissed post-Payment Save resolves an otherwise unsaved source to history-only, and only pre-confirmed immediate-pay or incomplete-Setup abandonment may remain unprojected. | Founder-approved |
+| One authoritative Bill/Rent source preserves Save intent and distinct Saved/current, Saved/Archived, history-only and established-but-unprojected treatment. Under Review, Action Required and Ready are conditions within current presentation; Archived sources are excluded from the current list. | Founder-approved |
 | No later Save-from-Activity route or separate Unsave action is accepted; ordinary Archive applies after Save. | Founder-approved |
 | Directory acquisition provenance is bounded historical lineage and is not a live identity or eligibility dependency. | Founder-approved |
 | Bill date and amount are not reusable; Rent/tenancy context reuse ends on expiry, replacement or material change; later payments retain fresh checks and authorization. | Founder-approved |
 | Active Request and BILLS-LINKING behavior is retired; only append-only documentation history and retired stable IDs remain non-active evidence because no production legacy runtime or deep-link data exists. | Founder-approved clarification |
-| Every Payment must remain tied to an acceptable Evidence-backed controlled Bill or Rent context; an owner-permitted alternative Evidence form remains Evidence and is not an evidence-less exception. | Confirmed |
+| Every Payment remains tied to an eligible controlled Bill or Rent context. Bill Tier 1 may omit attached Evidence only under the approved tier policy; Tier 2/3 Bills and all Rent retain their required Evidence gates. | Founder-approved |
+| Bill C1/G1/G2, highest-tier precedence, Tier gates, Declaration, Add/Pay, prepayment and immutable financial boundaries follow Section 7. | Founder-approved |
+| G1 is a product-semantic receiving-account/authoritative-payout-destination progression limit and is not economic-Payee identity or a selected technical event. | Founder-approved |
+| The Founder-updated Tier 2/3 Evidence direction permits owner-approved formal bills, fee notices, school payment notices, statements, invoices and formal historical receipts within the DOC-12 framework; examples do not create acceptance, communication material is excluded, and Rent remains separate. | Founder-approved correction input / DOC-12 owner framework |
+| C1 Category values/operating details, official Bill Evidence Category lists, Tier 3 operating controls and Declaration implementation detail remain visible later owner dependencies and cannot be delegated to DOC-22. | Founder-approved completeness classification / Open later inputs |
 | OCR/document AI-assisted evidence capture, autofill, user correction, duplicate detection, and verification routing are required capabilities where enabled. | Confirmed |
 | Payer must authorize payment before funds movement. | Confirmed |
 | Every Payment is source-linked and freshly Payer-authorized under DOC-09; payout and destination remain under DOC-10. | Confirmed / specialist-owned |
@@ -813,14 +886,14 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 | Future docs should use concise product-spec structure. | Confirmed |
 | Promotion engine capabilities are framework scope but launch-gated by DOC-13 rules and admin configuration. | Confirmed |
 | AUTH routes use capability-aware Outcome-to-Resolution handling without changing approved login, registration, activation, verification, passcode, or return decisions. | Confirmed |
-| `ENTRANCE-ROOT`, the `AUTH-LOGIN` family, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, and `ACCOUNT-ACTIVATION` are required acceptance-scope destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Behavior Defined |
+| `ENTRANCE-ROOT`, the `AUTH-LOGIN` family, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, and `ACCOUNT-ACTIVATION` are required product destinations. Normal successful authentication enters `HOME-ROOT`; approved contextual deeplinks may resume their intended destination. | Working Baseline / Behavior Defined |
 | One account uses one unique verified primary email and may explicitly enable email/password, Google, and Apple login methods. Social accounts may set a password later; matching emails never auto-link accounts; a registration attempt reserves no identifier; phone, identity, and six-digit payment-passcode completion remove the registration-level restriction through `ACCOUNT-ACTIVATION`. | Confirmed |
-| The current DOC-06 Draft implements the Founder-approved `PAYPLUS-ACTION-SHEET` composition: the retained four actions remain in their accepted order and material meaning, Request Payment is retired, and only Draft Review, Align and later integration remain pending. | Founder-approved composition / Draft Review pending |
+| The current DOC-06 baseline implements the Founder-approved `PAYPLUS-ACTION-SHEET` composition: the retained four actions remain in their accepted order and material meaning, Request Payment is retired, and related owner work remains with the applicable formal owners. | Founder-approved composition |
 | DOC-06B defines the reviewed `HOME-ROOT` route-level baseline for Greeting, Important Notice, Home Hot Offer, Upcoming Bills / Rent, Recent Activity, section-level resilience, accessibility, and presentation governance. `HOME-ROOT` remains Partially defined while final visual design, exact DOC-07 Copy and identifiers, technical mechanics, and later DOC-20 evidence remain pending with their formal owners. | Working Baseline / Route Behavior Defined |
 | Dashboard shortcut grid, account-level user shortcut preferences, protected `More`, current-default restore, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
-| Request, mixed-role Bills, Payee-user and related route behavior is retired from the current Payer-only product baseline. Retired stable IDs and prior meanings remain append-only non-active documentation evidence only; they create no active route, runtime, reader, adapter, or fallback. Draft Review, Align, and later integration remain pending. | Founder-approved target / Draft Review pending |
+| Request, mixed-role Bills, Payee-user and related route behavior is retired from the current Payer-only product baseline. Retired stable IDs and prior meanings remain append-only non-active documentation evidence only; they create no active route, runtime, reader, adapter, or fallback. Related owner work remains with the applicable formal owners. | Founder-approved target |
 | DOC-06B `PAYMENT-PROFILE-ROOT` is accepted as the current route shell for tokenized card and saved split-card profile management; checkout authorization and funding remain governed by DOC-09. | Working Baseline / Not Final |
-| Existing unaffected authentication, payment profile, Instructions, promotion, reward, referral, data-governance and Home baselines remain in force subject to their formal owners; Payee-user Receiving Info and mixed-role Archive treatment are re-scoped by the current DOC-06 Draft, with Draft Review and later gates pending. | Retained / Draft Review pending |
+| Existing unaffected authentication, payment profile, Instructions, promotion, reward, referral, data-governance and Home baselines remain in force subject to their formal owners; Payee-user Receiving Info and mixed-role Archive treatment are re-scoped by the current DOC-06 baseline, with related owner work retained by the applicable formal owners. | Retained |
 | The canonical product destination inventory is maintained in `docs/traceability/route-register.md`; route owners and the DOC-06 parent must remain synchronized with it. | Confirmed |
 | PayPlus MVP should be data-engine ready by design, with structured events, field classification, source lineage, auditability, consent/preference state, approved-purpose metadata, and future model-use eligibility metadata where relevant. | Confirmed |
 | Advanced AI decisioning, external partner activation, offsite advertising, user-level data sharing, credit scoring, and insurance underwriting are not MVP scope unless separately assessed, approved, and documented. | Confirmed |
@@ -831,6 +904,7 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 
 | Version | Date | Summary |
 |---|---|---|
+| v1.0.0 | 2026-08-18 | Implemented the material Bills-only tier model and fixed-seat compliance supplement; preserved C1 layering and Founder-updated Evidence traceability, retained owner-level dependencies, neutralized the complete active lifecycle-language family, and qualified indefinite retention by lawful scope, required exceptions and restricted data classes. |
 | v0.19.5 | 2026-08-13 | Replaced the named identity-verification provider example with provider-neutral, owner-qualified wording without selecting a provider or changing verification requirements. |
 | v0.19.3 | 2026-08-12 | Removed the unsupported archived Payment Instruction reporting condition; retained the accepted deliberate Instruction pending, cancellation and expiry boundary and the separate incomplete Checkout Close/Expiry and source-Archive meanings. |
 | v0.19.4 | 2026-08-12 | Applied the Founder-settled indefinite-retention rule to the product baseline and Acceptance Criteria/Open Question wording without changing Payment, Save, Archive or implementation ownership. |
