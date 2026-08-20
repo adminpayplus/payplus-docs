@@ -2022,3 +2022,48 @@ Establishes the later material Stage 5 and Stage 8 exception to the general adap
 - Internal specialist titles do not establish external accreditation, professional approval, implementation readiness, or production readiness.
 - The `3adb` Stage 8 replacement-reviewer exception remains task-local and is not a canonical replacement rule.
 - Push is authorized separately but had not occurred when this record was prepared.
+
+### `DEC-2026-045` - Material Proposal/Draft Convergence Workflow Correction
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-20` |
+| Status | Accepted |
+| Primary owner | `docs/documentation-system/payplus-documentation-development-workflow.md` and `docs/documentation-system/payplus-parallel-agent-documentation-procedure.md` |
+| Affected documents | The two primary operating documents above |
+| Substantive commit | `84656924860368e8055731175b9296fdf0912159` |
+| Founder approval | Founder-approved governance direction and conditional Stage 12-20 sequence after independent Stage 9 Review and Stage 10 Align evidence |
+
+**Decision**
+
+Material Stage 5 uses one Lead plus three distinct task-selected Specialists by default. The Documentation Manager may add one distinct fourth Specialist only for a documented genuine material coverage gap involving an uncovered decision, interface, owner, or required capability that cannot safely be reassigned. The exception records its scope, limitation, and cost and returns to the Founder only where it requires new material scope, ownership, product or governance authority.
+
+The same selected team normally continues into material Stage 8, with evidence-backed replacement onboarding where continuity is unavailable. One canonical Writer controls one Draft; selected Specialists inspect the complete Draft and complete diff through assigned lenses while deep source review remains proportionate. Every material cross-domain interface receives two recorded Specialist lenses. One additional independent, read-only Whole-Draft Completeness Reviewer cannot replace a Specialist or Stage 9 Primary Reviewer.
+
+Decision Coverage remains mandatory. One logically separable task-context Draft Control Record may provide the Draft Plan, coverage, findings and dispositions, correction and closure, Acceptance Criteria and traceability, residuals, and final identity without becoming a permanent Evidence Pack, new documentation layer, or required file format. The Workflow owns lifecycle obligations and consequences; the Procedure owns task-packet, convergence, correction, and return-control mechanics.
+
+Material Proposal preserves independent concise Decision Positions, exception-driven cross-challenge over the complete decision universe, and Lead-only consolidation. Material Draft preserves complete review universes, frozen consolidated findings, batch correction, semantic closure, supported non-semantic treatment, bounded delta closure, authoritative affected-scope routing, accepted-scope completeness, prospective transition, and a fresh independent Stage 9 gate.
+
+**Rationale**
+
+The correction keeps the minimum professional coverage and independent review safeguards while allowing a recorded fourth lens when a genuine material interface, owner, decision, or capability gap would otherwise remain uncovered. It removes repeated full-source reading and overlapping task-context artifacts without reducing complete-Draft inspection, Decision Coverage, correction closure, or Stage 9 independence.
+
+**Alternatives Considered**
+
+- Retaining the exact Lead-plus-three model was rejected because it cannot cover a demonstrated fourth material lens.
+- Fully adaptive or uncapped staffing was rejected because cost, independence, continuity, and completion evidence would become unpredictable.
+- A separate Stage 5 Challenger, competing Draft writers, visibility-only review, duplicate deep reading of every source, immediate piecemeal correction, a permanent Evidence Pack, and migration-only reopening of completed Stage 9 work were rejected because they weaken control, increase duplication, or expand governance unnecessarily.
+
+**Consequences And Handoffs**
+
+The Workflow remains the sole lifecycle authority. The Procedure implements the selected-team packet, Draft Control Record, complete-review/frozen-finding, correction, closure, supplement, and return mechanics without issuing lifecycle results or Git authority. Existing protected Work Command Language, Architecture Map, AGENTS.md, and historical records remain valid where they are subordinate or time-accurate; later alignment is required only for a verified operative contradiction. No product, domain, technical, privacy, security, provider, implementation, certification, or production decision is introduced.
+
+**Supersedes / Superseded By**
+
+Supersedes the active material exact-seat, same-four, separate-Draft-Plan/Decision-Coverage, and earlier Stage 8 review-expression controls established by `DEC-2026-044` where they conflict with this accepted current Workflow. `DEC-2026-044` remains unchanged as append-only historical provenance for commit `651e739bd1d33e3068fc9e295879d5ddff4f1e79`. The unaffected lifecycle-ownership, source-boundary, and historical-record principles of `DEC-2026-041` and `DEC-2026-044` remain effective.
+
+**Remaining Open Items**
+
+- Future material tasks must provide operational evidence that the revised responsibility and convergence controls work as intended.
+- No historical Stage 9 work is reopened solely for migration; later evidence-backed findings follow the normal lifecycle.
+- Push and completion depend on the separately verified records-only commit and current remote equality; neither is asserted by this decision record.

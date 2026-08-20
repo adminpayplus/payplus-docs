@@ -1593,3 +1593,37 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 - Internal specialist titles do not establish external accreditation, professional approval, implementation readiness, or production readiness.
 - The `3adb` Stage 8 replacement-reviewer exception remains task-local and non-canonical.
 - Push is authorized separately but had not occurred when this record was prepared.
+
+### `2026-08-20` - Material Proposal/Draft Convergence Workflow Correction
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `84656924860368e8055731175b9296fdf0912159` |
+| Primary owner | `docs/documentation-system/payplus-documentation-development-workflow.md` Section 3.1 and material Draft enforcement; `docs/documentation-system/payplus-parallel-agent-documentation-procedure.md` mechanics |
+| Decision record | `DEC-2026-045` |
+| Founder authorization | Founder-approved governance direction and conditional Stage 12-20 sequence, including the records-only follow-up after the evidenced Stage 13 integration result |
+
+**Files Changed**
+
+- `docs/documentation-system/payplus-documentation-development-workflow.md`
+- `docs/documentation-system/payplus-parallel-agent-documentation-procedure.md`
+
+**Material Changes**
+
+- Replaced the exact material fixed-seat wording with a default Lead plus three distinct Specialists and one bounded, evidence-recorded fourth-Specialist exception.
+- Preserved same-selected-team continuity into Stage 8, one canonical Writer, complete-Draft and diff inspection through assigned lenses, dual-lens material interfaces, and an additional independent Whole-Draft Completeness Reviewer.
+- Made concise Decision Positions and exception-driven Proposal challenge explicit while retaining Lead-only integration, recorded no-trigger dispositions, accepted/rejected challenge reasoning, and the Stage 6 Founder Decision boundary.
+- Kept Decision Coverage mandatory while allowing one logically separable task-context Draft Control Record without a permanent Evidence Pack, new documentation layer, or mandatory file format.
+- Added frozen review-universe, batch-correction, semantic-closure, bounded-delta, affected-scope routing, prospective-transition, and fresh Stage 9 independence controls, with Workflow ownership of lifecycle governance and Procedure ownership of mechanics.
+
+**Checks Performed**
+
+- Completed fresh independent Stage 9 Review and Stage 10 Align assessment before the current Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE` and Stage 13 `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL` results.
+- Verified the exact two-file scope, current authoritative-owner and protected-reference classifications, strict UTF-8 without BOM, CRLF and final newline, Markdown structure and links, unchanged protected aggregate, and `git diff --check`.
+- Created substantive commit `84656924860368e8055731175b9296fdf0912159`; this append-only record follows in the immediate records-only commit.
+
+**Remaining Open Items**
+
+- Historical fixed-seat changelog and decision-log entries remain time-accurate provenance. This entry records their active-control supersession without rewriting them.
+- Work Command Language, AGENTS.md, Architecture Map, and other protected artifacts remain unchanged because no operative contradiction was verified in the authorized scope.
+- No product, domain, technical, implementation, professional-certification, or production-readiness decision is introduced. Push is not asserted by this substantive entry.
