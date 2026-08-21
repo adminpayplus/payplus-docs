@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -197,7 +197,7 @@ This matrix prevents the split from creating a false impression that all routes 
 
 | Route / Area | Primary Owning Doc | Reference / Handoff Docs | Status | Notes |
 | --- | --- | --- | --- | --- |
-| Entrance and Authentication | DOC-06B | DOC-06A for journey; DOC-07/DOC-15/DOC-19 for presentation, privacy, and security; DOC-20 for derived acceptance tests | Defined Behavior Baseline / Final Design and Technical Controls Pending | `ENTRANCE-ROOT` is the public root; `AUTH-LOGIN` resolves to Fast/Full Login; Recovery, Registration, Account Activation, `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` are assigned. The family uses capability-aware Outcome-to-Resolution handling without changing route or status decisions. `AUTH-RECOVERY` now has a defined product flow and safe continue/restart/redirect/wait/Support/stop baseline. Normal success enters `HOME-ROOT`; approved deeplinks may resume only after revalidation. |
+| Entrance and Authentication | DOC-06B | DOC-06A for journey; DOC-07/DOC-15/DOC-19 for presentation, privacy, and security; DOC-20 for derived acceptance tests | Defined Behavior Baseline / Security-Control Contract Defined / Final Design, Mechanisms and Evidence Pending | `ENTRANCE-ROOT` is the public root; `AUTH-LOGIN` resolves to Fast/Full Login; Recovery, Registration, Account Activation, `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` are assigned. The family uses capability-aware Outcome-to-Resolution handling without changing route or status decisions. `AUTH-RECOVERY` now has a defined product flow and safe continue/restart/redirect/wait/Support/stop baseline. Normal success enters `HOME-ROOT`; approved deeplinks may resume only after revalidation. |
 | Home Dashboard | DOC-06B | DOC-06A for journey touchpoints; DOC-06C, DOC-07, DOC-08, DOC-09, DOC-10, DOC-11, DOC-13, DOC-15, DOC-20, and DOC-22 for owned handoffs | `HOME-ROOT` Assigned / Partially Defined | The reviewed route-level baseline covers Greeting, Important Notice, Home Hot Offer, Upcoming Bills / Rent, Recent Activity, section-level resilience, Home-specific accessibility, and presentation governance. DOC-06B owns Home presentation and navigation; final visual design, exact DOC-07 Copy and identifiers, technical mechanics, and later DOC-20 evidence remain pending with their formal owners. |
 | Bottom Navigation | DOC-06B | Child route owners for destination behavior | Working Baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline is defined; final visuals and remaining child-route detail remain open. |
 | Pay+ Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | Defined Behavior / Not Final Visual Design | Four retained actions keep their existing order and meaning after Request Payment retirement; destination handoffs, availability, completion, return, configuration limits, and motion principles are defined. |
@@ -305,7 +305,7 @@ Cross-document blockers remain tracked in docs/traceability/open-questions-regis
 | DOC-14 | AML, anti-cashout, fake evidence, duplicate evidence, collusion, and risk controls. |
 | DOC-15 | Privacy, data protection, masking, retention, and lawful data use. |
 | DOC-18 | Canonical data, status/event, audit, lineage and reporting representation for current Bill/Rent, Evidence, Payment and payout. DOC-18 does not create Request/participant runtime objects or decide retention policy. |
-| DOC-19 | Authentication, authorization, evidence access, data protection, and privacy controls. |
+| DOC-19 | Mechanism-neutral authentication, protected-value, access-enforcement and security-control requirements; payer authorization remains with DOC-09, privacy with DOC-15, and representation with DOC-18. |
 | DOC-21 | Monitoring, support escalation, incident handling, and operations runbooks. |
 | DOC-22 | Permitted Admin execution, queues, permissions, configuration and controlled overrides under the applicable product, Evidence, payment, payout, refund/dispute, risk, privacy and operations owners. |
 | Future UX Wireframes | Defines screen-level UX and interaction design. |
@@ -371,7 +371,7 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | Former Request lifecycle states remain append-only historical records only; no active Request state machine or dormant runtime is defined by Wave 2. | Retired active behavior |
 | Payment Profile route uses `PAYMENT-PROFILE-ROOT` for tokenized card management and saved split-card profile management; it does not authorize payment or replace DOC-09 checkout. | Working Baseline / Not Final |
 | Approved prominent sensitive-value reveal and material changes to existing identity or contact data require payment passcode or approved reauthentication. Payer-entered destination facts are changed only through the applicable Bill/Rent journey and owner controls. First-time identity verification during Account Activation does not require a pre-existing payment passcode. Ordinary authenticated evidence, receipt, statement, invoice, and proof viewing/download does not require an extra prompt solely because the document is viewed or downloaded. | Confirmed |
-| `ME-ROOT` is the permanent bottom-navigation account-control route for the Payer-only Consumer User. DOC-06B defines Account Information, Phone Verification, Identity Verification, Login & Security, Payment Passcode Set/Change/Reset, and Privacy & Data behavior while preserving handoffs to established feature owners. Provider-specific mapping, technical security controls, and final visual design remain pending. | Working Baseline / Core Account Routes Defined |
+| `ME-ROOT` is the permanent bottom-navigation account-control route for the Payer-only Consumer User. DOC-06B defines Account Information, Phone Verification, Identity Verification, Login & Security, Payment Passcode Set/Change/Reset, and Privacy & Data behavior while preserving handoffs to established feature owners. Provider-specific mapping, exact technical security mechanisms, implementation evidence, and final visual design remain pending; the mechanism-neutral DOC-19 security-control contract is defined. | Working Baseline / Core Account Routes Defined |
 | `ACTIVITY-ROOT` is the Payer-only account-level financial activity route. `RECEIVING-INFO` has no active Consumer Payee profile-library or runtime-reader behavior; its stable identifier remains only as non-active documentation lineage. Destination snapshots remain owned by the applicable current domains. | Re-scoped Payer-only baseline |
 | `ARCHIVED-ROOT` exposes the Saved/Archived Payer visibility projection for previously Saved/current Bill/Rent sources, with `ARCHIVED-DOCS-LIST` provisionally retained under W2-FD-05 Option A. Archived sources are excluded from the active/current Bills list. Exact Restore, prior-version and Evidence-version behavior remains deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs. | Re-scoped / Founder-approved provisional route retention |
 | `ARCHIVED-DOCS-LIST` is provisionally retained under W2-FD-05 Option A; exact Restore eligibility, revalidation, prior-version, Evidence-version and replacement-source presentation remain deferred to DOC-06B/DOC-06C with DOC-10 payout/reconciliation blockers, DOC-11 case blockers and DOC-12/DOC-15/DOC-18 Evidence, privacy/retention and data/lineage handoffs. | Deferred / Founder-approved provisional route retention |
@@ -416,6 +416,7 @@ The DOC-06 parent is acceptable when:
 ## 12. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Aligned family status and handoffs with the reviewed DOC-19 security-control contract while preserving route, authorization, privacy, provider and representation ownership and open implementation mechanisms. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.22.1 | 2026-08-12 | Applied the Founder-settled indefinite-retention boundary to reminder wording without introducing a deletion or disposition mechanism. |
 | 0.22.0 | 2026-08-12 | Stage 8 Wave 2 Draft: aligned the family to the accepted twelve-category Payer-only model, removed nonexistent Request-runtime/deep-link obligations, preserved source/Save/Archive and specialist-owner boundaries, and recorded mandatory Wave 5 acceptance/operations and Wave 6 derived-artifact handoffs. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Legal Lead
   - Compliance Lead
   - Payments Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-03` |
 | **Title** | Regulatory Assessment |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance / Payments Owner |
 | **Reviewers** | Legal Lead<br>Compliance Lead<br>Payments Lead<br>Risk Lead<br>Finance Lead<br>Product Lead |
 | **Approvers** | Project Owner<br>Legal Lead<br>Compliance Lead<br>Payments Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook |
 
@@ -599,7 +599,7 @@ Reviewers:
 | `DOC-14` | AML, sanctions, fraud, cashout, collusion, fake-source and economic-Payee risk controls. |
 | `DOC-15` | Privacy, retention, data classification, role-based visibility, masking, approved-purpose access, and sensitive document handling. |
 | `DOC-18` | Future representation of approved regulatory records, source/Payee facts, Payer authorization, disputes, reconciliation and audit/lineage requirements. |
-| `DOC-19` | Future authentication, tokenization, PCI, RBAC, Payer/economic-Payee data boundaries, access, encryption and audit controls. |
+| `DOC-19` | Reviewed mechanism-neutral authentication, token/reference protection, access-enforcement, privileged-operation, secure-boundary and verification-handoff controls. Provider mechanics remain with DOC-17, privacy boundaries with DOC-15, representation with DOC-18, and PCI applicability, scope and assessment require professional confirmation. |
 | `DOC-20` | Launch checklist including DOC-03 gates and approvals. |
 | `DOC-21` | Monitoring for partner restrictions, verification issues, source abuse, settlement issues, chargebacks, Category violations, Payout failures and compliance incidents. |
 | `DOC-22` | Owner-permitted configuration and execution workflows; it does not own policy, truth, queues or override criteria. |
@@ -643,6 +643,7 @@ This document must remain an assessment framework and must not become:
 ## 18. Revision History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Product Documentation Team | Replaced the future DOC-19 marker with the reviewed mechanism-neutral security-control handoff while preserving provider, privacy, representation and professional PCI ownership. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.11.1` | 2026-08-12 | Product Documentation Team | Consolidated provider/rail/timing qualification and active source, Evidence, Payment Obligation and inventory-boundary corrections without selecting a provider or rail. |
 | `0.11.0` | 2026-08-12 | Product Documentation Team | Reframed the active regulatory assessment around Payer-created controlled Bill sources and separate Rent; retired Request/Linking runtime assumptions; and preserved owner-governed payment, Evidence, Payout, risk and privacy boundaries. |

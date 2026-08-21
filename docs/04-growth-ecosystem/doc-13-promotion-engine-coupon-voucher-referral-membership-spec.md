@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.2.7
+version: 1.2.8
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-08-13
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -37,6 +37,7 @@ related_documents:
   - DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
+  - DOC-16 Technical Architecture Specification
   - DOC-17 API & Third-party Integration
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization & Authentication
@@ -51,14 +52,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-13` |
 | **Title** | Promotion Engine, Coupon, Voucher, Referral & Membership Specification |
-| **Version** | `1.2.7` |
+| **Version** | `1.2.8` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Growth / Product |
 | **Reviewers** | Product Lead<br>Commercial Lead<br>Finance Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Commercial Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-13` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -97,7 +98,7 @@ DOC-13 does not own:
 | Privacy, consent, retention, and marketing permissions | DOC-15 |
 | Partner APIs, files, webhooks, and integration details | DOC-17 |
 | Database schema, ledger, events, and warehouse model | DOC-18 |
-| Tokenization, PCI, RBAC, and card data security | DOC-19 |
+| Provider-controlled card-data architecture and tokenization mechanics | DOC-16 / DOC-17; DOC-19 owns applicable security controls and PCI applicability/scope remains professionally assessed |
 | Testing and go-live acceptance | DOC-20 |
 | Monitoring and incident operations | DOC-21 |
 | Admin dashboard workflows | DOC-22 |
@@ -991,7 +992,7 @@ Controls should address:
 - partner data leakage;
 - miles account personal data.
 
-DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries. Final thresholds, monitoring, admin workflow, privacy, consent, partner sharing, tokenization, and access controls belong to DOC-15, DOC-18, DOC-19, DOC-21, and DOC-22.
+DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries. Privacy, consent, and partner sharing remain with DOC-15; provider/tokenization mechanics with DOC-17; representation with DOC-18; mechanism-neutral security enforcement with DOC-19; monitoring with DOC-21; and owner-permitted Admin execution with DOC-22. Final thresholds remain with their applicable owner.
 
 Promotion data must not be used as a back door for unrestricted profiling, raw user-level partner data sharing, offsite advertising activation, credit scoring, insurance underwriting, or sensitive evidence-based targeting. Offer ranking, placement targeting, campaign lift measurement, and partner reporting should use the minimum necessary data, respect consent and preference rules, preserve lineage, and prefer aggregated or de-identified outputs where partner visibility is needed.
 
@@ -1061,7 +1062,7 @@ Exact date storage, timezone, synchronization, validation, scheduling, event/aud
 | DOC-15 | Promotion/referral/membership data classification, marketing consent, retention, partner sharing, model-use boundaries, and miles account data. |
 | DOC-17 | Partner APIs, voucher redemption, miles API, card metadata, and webhooks. |
 | DOC-18 | Campaign, offer, rule, quote, accumulator, entitlement, redemption, ledger, event, lineage, analytics, model-feature metadata, and reporting schema. |
-| DOC-19 | Tokenization, payment profile metadata, access control, encryption, and PCI boundaries. |
+| DOC-19 | Mechanism-neutral protected-value, token/reference, access-enforcement, encryption-related and secure-boundary controls; payment-profile metadata remains with DOC-18, provider tokenization with DOC-17, architecture boundary with DOC-16, and final PCI scope with professional assessment. |
 | DOC-20 | Promotion calculation, entitlement, redemption, and reversal test cases. |
 | DOC-21 | Campaign monitoring, abuse alerts, partner failures, and incidents. |
 | DOC-22 | Admin setup, approval, override, void, reissue, reconciliation upload, and support workflow. |
@@ -1125,6 +1126,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.8 | 2026-08-21 | Aligned promotion handoffs with DOC-16/DOC-17 provider boundaries, DOC-18 representation and the reviewed DOC-19 security-control contract without selecting mechanisms, thresholds or PCI scope. |
 | 1.2.7 | 2026-08-13 | Qualified economic-Payee facts as owner-approved source context only and restricted reward instruments and participant roles to eligible Payer/User or promotion roles, without adding Payee-user eligibility or runtime behavior. |
 | 1.2.6 | 2026-08-13 | Removed active Request/request-origin and Rent-as-Category assumptions, aligned promotion lineage to payer and authoritative source/transaction context, and preserved DOC-09 owner handoffs without adding runtime or schema behavior. |
 | 1.2.5 | 2026-08-06 | Defined the public Entrance source boundary: Promotion and Feature only, Promotion/Offer and Feature truth retained by their formal owners, `Use Promotion Period` versus manual placement timing, source-owned optional actions, and mandatory suspension/republication after material or authorization-affecting source changes without introducing technical schema or implementation mechanics. |

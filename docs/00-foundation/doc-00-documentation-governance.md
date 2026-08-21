@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.9
+version: 0.7.10
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,7 +12,7 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-08-02
+last_updated: 2026-08-21
 classification: Internal
 related_documents: []
 ---
@@ -23,12 +23,12 @@ related_documents: []
 | --- | --- |
 | **Document ID** | `DOC-00` |
 | **Title** | Documentation Governance |
-| **Version** | `0.7.9` |
+| **Version** | `0.7.10` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Documentation Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead |
 | **Approvers** | Product Lead<br>Engineering Lead |
-| **Last Updated** | `2026-08-02` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | None |
 
@@ -655,7 +655,7 @@ Foundation documents guide downstream documents as follows:
 | DOC-16 Technical Architecture Specification | Translate approved requirements into system architecture. |
 | DOC-17 API & Third-party Integration Specification | Define PSP, acquirer, banking, OCR, webhook, partner API, OpenAPI, credential, and environment integration requirements. |
 | DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification | Define data model, field metadata, classification lineage, transaction state, audit event, reporting, and reconciliation data. |
-| DOC-19 Security, Tokenization, Authentication & Admin Control Specification | Define authentication, tokenization, encryption, PCI scope, access control, admin controls, and monitoring. |
+| DOC-19 Security, Tokenization, Authentication & Admin Control Specification | Define mechanism-neutral security invariants, enforcement requirements, prohibited exposure, privileged-operation protection, security evidence obligations, and verification handoffs. Provider mechanics remain with DOC-17, representation with DOC-18, owner-permitted Admin execution with DOC-22, and final PCI scope requires professional confirmation. |
 | DOC-20 Testing, UAT & Go-Live Checklist | Convert requirements, controls, gates, and risks into test and launch criteria. |
 | DOC-21 Monitoring, Incident Response & Operational SOPs | Define monitoring, support, incident response, escalation, exception handling, and operational SOPs. |
 | DOC-22 Admin Management Dashboard & Operations Workflow | Define admin permissions, review queues, overrides, configuration, uploads, operational action flows, and dashboard evidence. |
@@ -861,6 +861,7 @@ DOC-00 must remain focused on documentation governance only.
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.7.10 | 2026-08-21 | Product Documentation Team | Aligned DOC-19 governance scope with its reviewed mechanism-neutral security-control contract without assigning provider mechanics, representation, Admin policy, final PCI scope, implementation, or assurance claims. |
 | 0.7.9 | 2026-08-02 | Product Documentation Team | Registered the derived PayPlus Documentation Management Roadmap in the repository structure and traceability inventory without assigning product-truth or Documentation Lifecycle authority. |
 | 0.7.8 | 2026-07-31 | Product Documentation Team | Aligned the DOC-09 register title and ownership description with the accepted Payment Domain Architecture and renamed its canonical file to `doc-09-payment-domain-architecture.md` following Founder approval. |
 | 0.7.7 | 2026-07-26 | Product Documentation Team | Aligned the governed repository tree with hierarchical route maps and dated superseded route-map snapshots. |

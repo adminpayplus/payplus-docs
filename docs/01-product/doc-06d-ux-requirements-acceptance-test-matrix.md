@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -32,12 +32,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
@@ -136,7 +136,7 @@ The DOC-06 user journey scope is satisfied when:
 - app launch without an approved session opens `ENTRANCE-ROOT`, where public non-personalized content does not obscure Log In or Create Account;
 - `AUTH-LOGIN` resolves eligible remembered users to `AUTH-LOGIN-FAST` and other users to `AUTH-LOGIN-FULL`;
 - each material authentication result keeps its business outcome, permitted resolution, persistent account status, user-facing Message/CTA, notification decision, audit occurrence, and acceptance evidence separate;
-- authentication recovery selects only a currently permitted recovery capability and does not treat a remembered device, phone number, verified identity, or provider email as a standalone recovery method unless DOC-19 explicitly permits it;
+- authentication recovery selects only a capability permitted by DOC-06B and the applicable account/route owner, and does not treat a remembered device, phone number, verified identity, or provider email as a standalone recovery method; DOC-19 enforces applicable security controls without creating or permitting the recovery capability;
 - each successful login renews Fast Login eligibility for one month, while approved risk, device, credential, account, or security changes may revoke it earlier;
 - Fast Login remembers no plaintext password, masks the remembered email, uses only user-enabled operating-system biometrics, and provides password, recovery, another-account, and cancel paths;
 - `Log In With Another Account` requires confirmation, revokes the current device session, clears remembered/protected local context, and opens `AUTH-LOGIN-FULL` without unlinking server-side login methods;
@@ -317,6 +317,7 @@ The following human-readable criteria are the minimum DOC-06D coverage for the r
 ## 10. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Aligned Recovery acceptance ownership with DOC-06B and the reviewed DOC-19 security-control contract without changing approved recovery behavior or creating implementation tests. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.1.29 | 2026-08-12 | Converged Wave 5 acceptance mapping to the accepted Payer-only, fixed-Category/separate-Rent, source/projection, Payment topology, Checkout/Payment Instruction, Archive, notification, privacy, Admin-execution, and retired-runtime boundaries; added human-level coverage for DOC-20 evidence and DOC-21 operations without inventing implementation detail. |
 | 0.1.28 | 2026-08-05 | Added requirement-level acceptance mapping for the approved HOME-ROOT Greeting, Important Notice, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance contracts while reserving detailed implementation/UAT evidence for DOC-20. |

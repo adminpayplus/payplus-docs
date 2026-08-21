@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 2.0.0
+version: 2.0.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -31,6 +31,7 @@ related_documents:
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
+  - DOC-17 API & Third-party Integration Specification
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization & Authentication
   - DOC-22 Admin Management Dashboard Operations Workflow
@@ -42,14 +43,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `2.0.0` |
+| **Version** | `2.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -149,7 +150,8 @@ The only accepted Payee-directed concept in this Draft is an optional, one-way I
 | Risk scoring and anti-cashout rules | DOC-14 |
 | Privacy, consent, retention, and data rights | DOC-15 |
 | Notification data model and delivery logs | DOC-18 |
-| Security, masking, and access control | DOC-19 |
+| Privacy classification and masking | DOC-15 |
+| Security enforcement and protected access | DOC-19 |
 | Provider integrations | DOC-17 |
 | Operational monitoring and incident handling | DOC-21 |
 | Admin dashboard workflow and configuration | DOC-22 executes only expressly owner-permitted operational workflows; DOC-08 and applicable owners retain policy authority. |
@@ -385,7 +387,7 @@ KYC/KYB notifications that require user action should open `IDENTITY-VERIFICATIO
 
 First password setup, password change, payment-passcode Change/Reset, and Google/Apple login-method link or unlink use `NOTIF-ACCT-006`; they do not require separate notification IDs. Successful payment-passcode Change and Reset must notify available verified channels. A temporary registration attempt is not an account and creates no Inbox record. Pre-account prompts, OTPs, provider errors, and other in-flow authentication outcomes use the mandatory DOC-07 outcome/message mechanism rather than notification IDs. `NOTIF-ACCT-001` applies only after restricted-account creation and should open `ACCOUNT-ACTIVATION` where action remains. `NOTIF-ACCT-002` applies after phone, identity, and payment-passcode requirements complete.
 
-`AUTH-RECOVERY` capability decisions, link-validation results, retry paths, and unavailable-method handling are in-flow Outcomes and Resolution Strategies, not notification events. The password-reset email is a controlled authentication delivery and does not prove reset success. A completed password reset must use the mandatory account-security communication family, currently `NOTIF-ACCT-006`, without creating a separate ID unless later operational review requires one. Exact recovery delivery events, Message IDs, CTA mappings, and notification-template treatment remain governed by the DOC-07 authentication slice and future DOC-18/DOC-19 implementation specifications.
+`AUTH-RECOVERY` capability decisions, link-validation results, retry paths, and unavailable-method handling are in-flow Outcomes and Resolution Strategies, not notification events. The password-reset email is a controlled authentication delivery and does not prove reset success. A completed password reset must use the mandatory account-security communication family, currently `NOTIF-ACCT-006`, without creating a separate ID unless later operational review requires one. Exact Message IDs, CTA mappings, and notification-template treatment remain governed by the DOC-07 authentication slice and DOC-08; representation remains with DOC-18, provider delivery contracts with DOC-17, and security-control constraints with DOC-19. Exact implementation mechanisms remain open.
 
 ### 11.1A Retired Receiving Info Identifiers
 
@@ -766,6 +768,7 @@ DOC-08 is acceptable when:
 ## 21. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.0.1 | 2026-08-21 | Separated masking, representation, provider delivery and security-enforcement ownership and removed the stale future DOC-19 marker without changing notification identity or delivery policy. |
 | 2.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 1.2.1 | 2026-08-12 | Consolidated DOC-22 execution-only, notification-policy, Payment Obligation, timing and retention-boundary corrections while preserving delivery semantics. |
 | 1.2.2 | 2026-08-12 | Applied the Founder-settled indefinite-retention rule to notification and receipt records and reframed the retention open question around access, masking and privacy-request controls. |

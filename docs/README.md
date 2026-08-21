@@ -12,7 +12,7 @@ Enter the operating architecture through the [`Documentation System`](documentat
 | Layer | Status | Notes |
 | --- | --- | --- |
 | Human source documents | Active for DOC-00 to DOC-15 | Founder Working Baseline unless a document says otherwise. DOC-06 is now a parent family with DOC-06A to DOC-06D child documents. |
-| Technical and operational specifications | Active but incomplete for DOC-16 to DOC-22 | DOC-16 is a Stage 9-passed Draft for technical architecture. DOC-18 and DOC-20 to DOC-22 contain substantive Founder Working Baselines. DOC-17 and DOC-19 remain placeholders and do not authorize inferred provider/API or security mechanisms. |
+| Technical and operational specifications | Active but incomplete for DOC-16 to DOC-22 | DOC-16 and DOC-19 are Stage 9-passed Drafts for technical architecture and mechanism-neutral security controls. DOC-18 and DOC-20 to DOC-22 contain substantive Founder Working Baselines. DOC-17 remains a placeholder. No source authorizes inferred provider/API contracts, exact security mechanisms, implementation, compliance, certification, or readiness. |
 | AI build-execution materials | Reserved | Regenerate from current human and technical specs before use. |
 | Traceability | Starter registers | Expand when stable requirement/control/test IDs are finalized. |
 
@@ -46,7 +46,7 @@ Enter the operating architecture through the [`Documentation System`](documentat
 3. `DOC-05` to `DOC-08` for product, UX, disclosure, notification, and communication behavior. Read `DOC-06` as the parent UX family map, then `DOC-06A` to `DOC-06D` for core journeys, navigation/route taxonomy, Bills/rent/tenancy UX, and UX acceptance/test mapping.
 4. `DOC-09` to `DOC-11` for payment, payout, reconciliation, refund, cancellation, dispute, and chargeback behavior.
 5. `DOC-12` to `DOC-15` for evidence verification, promotion engine, risk controls, privacy, data classification, and retention.
-6. `DOC-16` for the reviewed technical-architecture posture; `DOC-18` and `DOC-20` to `DOC-22` for their substantive data, acceptance, operations, and Admin baselines; and `DOC-17`/`DOC-19` only after their owner-first work defines provider/API and security detail.
+6. `DOC-16` for the reviewed technical-architecture posture; `DOC-19` for the reviewed mechanism-neutral security-control contract; `DOC-18` and `DOC-20` to `DOC-22` for their substantive data, acceptance, operations, and Admin baselines; and `DOC-17` only after separate owner-first provider/API work. Exact DOC-19 mechanisms remain open under its recorded dependencies and open questions.
 
 For user-facing status labels across checkout, activity, receipts, statements, notifications, Bills/rent surfaces, and future admin display, also check `traceability/status-display-reference-matrix.md`. The matrix aligns display labels only; domain documents own system status meaning and DOC-18 owns data/status/event/audit representation.
 

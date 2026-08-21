@@ -1,7 +1,7 @@
 ---
 document_id: DOC-16
 title: Technical Architecture Specification
-version: 0.2.0
+version: 0.2.1
 status: Draft
 owner: Engineering / Architecture
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Engineering Lead
   - Security Lead
   - Compliance Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-16` |
 | **Title** | Technical Architecture Specification |
-| **Version** | `0.2.0` |
+| **Version** | `0.2.1` |
 | **Status** | Draft |
 | **Owner** | Engineering / Architecture |
 | **Reviewers** | Engineering Lead<br>Architecture Lead<br>Payments Lead<br>Security Lead<br>Privacy Lead<br>Data Lead<br>Operations Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Security Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -73,7 +73,7 @@ It does not define provider APIs, schemas, event names, persistence products, au
 | --- | --- |
 | Architecture posture, context, trust boundaries, module/deployment principles, handoffs, reliability, recovery, observability, and technical evidence obligations | Product scope and user behavior: DOC-01, DOC-05, DOC-06, DOC-07, DOC-08 |
 | Architecture-level payment-data boundary | Payment semantics and monetary invariants: DOC-09 |
-| Architecture-level provider and security handoffs | Provider mechanics: DOC-17; data and event implementation: DOC-18; security implementation: DOC-19 |
+| Architecture-level provider and security handoffs | Provider mechanics: DOC-17; data and event representation: DOC-18; mechanism-neutral security-control contract: DOC-19 |
 | Architecture-level privacy, access, retention, and evidence constraints | Privacy policy: DOC-15; acceptance: DOC-20; operations: DOC-21; Admin execution: DOC-22 |
 
 Engineering / Architecture is the primary owner. A handoff is complete only when the receiving owner can define its detail without DOC-16 silently supplying it.
@@ -150,7 +150,7 @@ flowchart LR
     H --> O["Operations and owner-permitted administration"]
 ```
 
-This view names relationships only. It does not imply that every arrow is asynchronous, that every zone is a separate deployment, or that a handoff is authoritative. Detailed transport, schema, event, provider, and security mechanisms remain with DOC-17, DOC-18, and DOC-19.
+This view names relationships only. It does not imply that every arrow is asynchronous, that every zone is a separate deployment, or that a handoff is authoritative. Detailed transport and provider mechanisms remain with DOC-17, representation with DOC-18, and security invariants, enforcement requirements, prohibited exposure, and verification handoffs with DOC-19. Exact security mechanisms remain open technical decisions.
 
 ### 3.4 Trust-boundary requirements
 
@@ -351,7 +351,7 @@ A code, configuration, provider, infrastructure, or deployment change that affec
 | DOC-15 | Classification, masking, approved-purpose access, retention, deletion/legal hold, and privacy boundaries | Privacy policy or replacement retention duration |
 | DOC-17 | Provider-specific APIs, capture, authorization, callbacks, queries, credentials, data transfer, and environments | Provider names, capabilities, API contracts, or integration schemas |
 | DOC-18 | Data model, machine states, event/audit taxonomy, lineage, persistence, reporting, and idempotency representation | Schemas, event names, fields, database products, or reporting implementation |
-| DOC-19 | Authentication, tokenization mechanisms, encryption, secrets, sessions, access, rate limits, PCI, and security controls | Security constants, protocols, credentials, or final PCI scope determination |
+| DOC-19 | Mechanism-neutral authentication, protected-value, token/reference, session/device, access-enforcement, privileged-operation, secure-boundary, telemetry, and verification-handoff controls | Security constants, protocols, credentials, provider mechanics, schemas/events, implementation choices, or final PCI scope determination |
 | DOC-20 / DOC-21 | Test, UAT, monitoring, incident, support, escalation, and operational evidence | Test cases, release approval, runbooks, or incident policy |
 | DOC-22 | Owner-permitted administrative execution, queues, review, overrides, and access logging | Admin policy, generic disposition authority, or domain truth |
 | DOC-99 | ISMS policy, secure development, supplier, access, cryptography, logging, and incident-policy references | ISMS policy content or certification conclusion |
@@ -378,7 +378,7 @@ If a genuine unresolved technical decision later needs Founder input, record: Bu
 | --- | --- | --- |
 | `ASM16-001` | Accepted product and payment requirements remain the authoritative inputs in Section 2.4. | Product and domain owners; material change returns through the lifecycle. |
 | `ASM16-002` | Provider-controlled card-data capture and tokenization remains the default. | DOC-09, DOC-17, DOC-19, Payments, and Security; exception requires a new Proposal. |
-| `ASM16-003` | DOC-17, DOC-18, and DOC-19 define detailed mechanisms later; DOC-16 does not invent them. | Respective technical owners. |
+| `ASM16-003` | DOC-17 defines later provider mechanisms, DOC-18 defines later representation, and DOC-19 defines the mechanism-neutral security-control contract while leaving exact security mechanisms open; DOC-16 invents none of them. | Respective technical owners. |
 | `ASM16-004` | Indefinite retention remains the accepted product/governance direction subject to DOC-15 and Legal/Privacy lawful-scope, exception, restricted-class and prohibited-sensitive-data controls, while secret minimization still applies. | DOC-15, DOC-18, and DOC-19. |
 | `OQ-16-001` | What cloud, hosting, runtime, and environment strategy satisfies the architecture and evidence requirements? | Engineering / Architecture; DOC-16 and DOC-21. |
 | `OQ-16-002` | What evidence threshold justifies a separate process, deployment, or security boundary? | Engineering / Architecture / Security / Operations; DOC-16. |
@@ -402,7 +402,7 @@ These items are owner-backed deferred detail, not permission to invent answers i
 | `DOC16-FD-05` Stage 8 Draft authorization provenance, not an architecture requirement | Section 2.2 and Section 16 | DOC-16-only writable boundary; DOC-17 through DOC-19 and all other files protected | `ARC16-AC-007`, `ARC16-AC-009` |
 | Founder Technical Governance Principle | Sections 2.3 and 13 | Sections 12 and 13 | `ARC16-AC-007`, `ARC16-AC-008` |
 | Expiry and retention clarification | Section 9.2 | Sections 8 and 9 | `ARC16-AC-006` |
-| Non-invention boundary | Sections 1, 5.2, 6.2, 10, 11, and 12 | DOC-17 provider/API handoff; DOC-18 schema/event/persistence handoff; DOC-19 security-implementation handoff | `ARC16-AC-009` |
+| Non-invention boundary | Sections 1, 5.2, 6.2, 10, 11, and 12 | DOC-17 provider/API handoff; DOC-18 schema/event/persistence handoff; DOC-19 mechanism-neutral security-control handoff | `ARC16-AC-009` |
 
 | ID | Acceptance criterion |
 | --- | --- |
@@ -431,6 +431,7 @@ DOC-16 consumes the accepted Bills Tier 1/2/3, C1/G1/G2 and highest-tier precede
 ## Version History
 | Version | Date | Owner | Change |
 | --- | --- | --- | --- |
+| 0.2.1 | 2026-08-21 | Engineering / Architecture | Aligned DOC-19 handoffs with the reviewed mechanism-neutral security-control contract while preserving open provider, representation, security-mechanism, and professional PCI decisions. |
 | 0.2.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.1.1` | `2026-08-14` | Engineering / Architecture | Stage 8 bounded traceability correction: recorded `DOC16-FD-05` only as DOC-16-only Draft authorization provenance, with no Stage 9, Stage 10 or later, DOC-17 through DOC-19, records, Git, or implementation authority; mapped `ARC16-AC-009` to existing non-invention requirements and DOC-17/DOC-18/DOC-19 handoffs; added DOC-21 monitoring, incident, support, and operational evidence handoff without transferring DOC-15 retention ownership. |
 | `0.1.0` | `2026-08-14` | Engineering / Architecture | Stage 8 Draft implementing accepted `DOC16-FD-01` through `DOC16-FD-04` and the Founder Technical Governance Principle; established architecture, trust-boundary, payment-data, transaction/handoff, reliability, evidence, security/compliance, retention, owner-contract, delegation, and acceptance requirements. |

@@ -59,7 +59,7 @@ Do not reverse this order unless the Founder explicitly authorizes the exception
 - `DOC-00` to `DOC-15` and related domain documents form the active human-readable product and control baseline.
 - `DOC-16` owns the reviewed technical-architecture posture and its architecture-level owner contracts while it remains a Stage 9-passed Draft.
 - `DOC-18`, `DOC-20`, `DOC-21`, and `DOC-22` contain substantive Founder Working Baselines for their owned data, acceptance, operations, and Admin concerns.
-- `DOC-17` and `DOC-19` remain placeholders; they do not authorize inference of provider/API or security implementation detail.
+- `DOC-17` remains a placeholder and does not authorize inference of provider/API detail. `DOC-19` is a Stage 9-passed Draft that owns a mechanism-neutral security-control contract; it does not authorize inference of exact security mechanisms, provider facts, implementation, operating effectiveness, PCI scope, compliance, certification, or readiness.
 - Placeholder technical documents do not authorize an agent to infer missing implementation detail.
 - AI execution material may be generated only when the human and technical source set is sufficiently accepted for conversion.
 
@@ -88,7 +88,7 @@ Use `docs/documentation-system/documentation-architecture-map.md` for canonical 
 | Architecture posture, trust boundary, provider-controlled card-data boundary, local atomic authority, durable cross-boundary handoff, reliability, recovery, reconciliation, observability, or architecture evidence obligation | DOC-16 | Applicable product/domain owner plus DOC-17 to DOC-22 according to the owned implementation or evidence concern |
 | Provider API, callback, query, file, partner integration, or provider-environment contract | DOC-17 when drafted; DOC-16 and the current domain owner remain authoritative for architecture and domain boundaries meanwhile | DOC-18 data/event representation and DOC-19 security treatment where applicable |
 | Status, event taxonomy, audit, lineage, reporting, or AI-ready signal | DOC-18; current domain owner remains authoritative for domain meaning | Status-display matrix and affected UX/notification owners |
-| Authentication, token, session, rate limit, access, or security control | DOC-19 when drafted; current security owner remains authoritative meanwhile | Applicable route, privacy, outcome, operations, and testing owners |
+| Authentication, protected value, token/reference, session/device, technical anti-automation, access enforcement, privileged-operation protection, or security-control verification | DOC-19 for the reviewed mechanism-neutral control contract; exact mechanisms remain open with the applicable technical owners | Applicable route, payment, risk, privacy, provider, data, operations, testing, Admin-execution, and policy owners |
 | Acceptance, UAT, go-live, monitoring, incident, support, or admin operations | DOC-20, DOC-21, or DOC-22 according to concern | Owning human requirement and relevant traceability |
 | Formal-document metadata, status, version, ownership, review, approval, numbering, or source hierarchy | DOC-00 | Formal document owner |
 | Conversion into AI coding/execution material | Owning human and technical documents through the Documentation Development Workflow | `docs/09-ai-build-execution/` only after conversion is authorized |
@@ -190,7 +190,7 @@ Common ownership:
 - `DOC-16`: technical architecture posture, trust boundaries, evidence-based isolation, provider-controlled card-data boundary, local atomic authority, durable cross-boundary handoffs, reliability, recovery, reconciliation, observability, and architecture evidence obligations;
 - `DOC-17`: future provider API, callback, query, file, partner-integration, and provider-environment contracts;
 - `DOC-18`: data, status/event, audit, lineage, persistence, and reporting specification without redefining domain truth;
-- `DOC-19`: future canonical authentication, session, token, access, rate-limit, and security specification;
+- `DOC-19`: reviewed mechanism-neutral authentication, protected-value, session/device, access-enforcement, privileged-operation, secure-boundary, telemetry, and security-verification contract without exact mechanisms or assurance claims;
 - `DOC-20`: detailed testing, UAT, and release evidence;
 - `DOC-21`: monitoring, incidents, support, and operational escalation;
 - `DOC-22`: admin workflow, configuration, queues, review, and controlled overrides.

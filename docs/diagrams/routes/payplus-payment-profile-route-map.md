@@ -2,7 +2,7 @@
 
 Status: Current discussion reference
 Owner: DOC-06B / DOC-09
-Last updated: 2026-07-26
+Last updated: 2026-08-21
 
 ```mermaid
 flowchart TD
@@ -15,7 +15,7 @@ flowchart TD
   ROOT --> PROFILES["PAYMENT-PROFILE-LIST<br/>Profiles tab"]
   CARDS --> ADDCARD["PAYMENT-CARD-ADD"]
   CARDS --> CARDDETAIL["PAYMENT-CARD-DETAIL"]
-  ADDCARD --> TOKEN["PSP tokenization<br/>DOC-19"]
+  ADDCARD --> TOKEN["Provider-controlled tokenization<br/>DOC-16 / DOC-17<br/>security: DOC-19"]
   TOKEN -. "Return" .-> CARDS
 
   PROFILES --> ADDPROFILE["PAYMENT-PROFILE-ADD"]

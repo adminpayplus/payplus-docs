@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -435,7 +435,7 @@ Before authorization, the payer should be shown:
 | Fee visibility | Fees charged to payer must be displayed before authorization. |
 | Promotion visibility | Eligible discounts, service-fee benefits, coupons, vouchers, and reward impact must be displayed before authorization where applicable. |
 | Payment passcode | Payment passcode is required before payment authorization proceeds. |
-| Step-up authentication | Additional authentication may be required by DOC-09, DOC-14, DOC-15, or DOC-19 risk/security rules. |
+| Step-up authentication | DOC-09 owns payment-admission conditions, DOC-14 owns risk triggers/actions, DOC-15 owns privacy conditions, and provider owners supply applicable partner conditions; DOC-19 enforces the resulting security assurance requirement without deciding the trigger or outcome. |
 | Deferred instruction | A deliberate Payment Instruction must return the payer to checkout when submission is due; an interrupted immediate payment remains an incomplete Checkout Workspace and must resume through its preserved checkout context. |
 | Quote revalidation | Deferred instruction return flow must show updated payment, promotion, card, fee, or timing changes before submission. |
 | Partial execution | Confirmed Payments must remain visible even when the Checkout Target is not fully funded. The remaining Checkout Target and the obligation Outstanding Amount must remain distinct and clear. |
@@ -671,6 +671,7 @@ Core journey open questions should remain here when they affect Payer journeys, 
 ## 7. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Separated payment, risk, privacy and provider step-up conditions from DOC-19 mechanism-neutral security enforcement without changing journey behavior. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.1.23 | 2026-08-12 | Applied the Founder-settled indefinite-retention boundary to the journey handoff without introducing storage or disposition mechanics. |
 | 0.1.22 | 2026-08-12 | Clarified that the active Payer-only journey baseline stands independently of non-active documentation lineage; no journey, route, or interaction behavior changed. |

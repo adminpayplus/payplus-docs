@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -30,6 +30,8 @@ related_documents:
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
+  - DOC-16 Technical Architecture Specification
+  - DOC-17 API & Third-party Integration Specification
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization & Authentication
   - DOC-20 Testing, UAT & Release Readiness
@@ -43,14 +45,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -183,7 +185,7 @@ Each route must have one primary owner. DOC-06B may list related documents, but 
 | Request lifecycle | No active route, runtime reader, legacy adapter or fallback. Retired IDs remain non-active documentation lineage only. | Documentation governance only; no dormant Request product. |
 | Bills/rent acquisition and source projection | Global entry/return and route relationship. | DOC-06C owns Payer-only Bills/Rent views, Category-first acquisition, same-ID projections, Save/Archive visibility and specialist handoffs. |
 | Payment/checkout route | Route ID, screen structure, entry/return behavior, interaction presentation, and handoffs. | DOC-09 owns Payment Domain architecture, monetary invariants, obligations, Checkout Workspace, funding execution, payer-authorization boundaries, Payments, and Payment Applications. DOC-07 owns Outcomes/Messages/CTAs; DOC-18 owns machine implementation. |
-| Payment Profile route | Route shell, entry points, major screens, card/profile management purpose, and route handoff. | DOC-09 owns payment-time Funding Allocation and execution semantics. DOC-19 owns tokenization and security mechanics. |
+| Payment Profile route | Route shell, entry points, major screens, card/profile management purpose, and route handoff. | DOC-09 owns payment-time Funding Allocation and execution semantics; DOC-16 owns the provider-controlled card-data boundary; DOC-17 owns provider/tokenization mechanics; DOC-19 owns mechanism-neutral security controls. |
 | Notification destination | Route target for a notification tap. | DOC-08 owns notification IDs, channels, templates, preferences, and delivery rules. |
 | Data/intelligence signal | Signal existence at route level. | DOC-18 owns event taxonomy, schema, lineage, analytics, and reporting. |
 
@@ -211,9 +213,9 @@ When this document or another route owner defines, renames, replaces, or materia
 | `AUTH-RECOVERY` | Reusable child flow | Recover an existing PayPlus login password or resolve account-access recovery through an approved controlled flow. | Product behavior and resolution baseline defined; detailed security, support, message, and notification mappings open |
 | `AUTH-REGISTRATION` | Child registration flow | Complete Google, Apple, or email account creation and create a restricted account only after all account-creation gates pass. | Screen and account-creation baseline defined |
 | `ACCOUNT-ACTIVATION` | Reusable orchestration flow | Coordinate the remaining phone, identity, and payment-passcode requirements for full registration. | Route, banner, and child handoffs defined |
-| `PHONE-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Verify or replace the account phone number through the approved method; Account Activation may invoke initial verification contextually. | Defined behavior baseline; security constants remain with DOC-19 |
+| `PHONE-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Verify or replace the account phone number through the approved method; Account Activation may invoke initial verification contextually. | Defined behavior baseline; exact security mechanisms remain open under `OQ-19-001` with Security/Engineering and any provider contract with DOC-17 |
 | `IDENTITY-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Complete first-time verification, resume processing, retry a failed attempt, or respond to an identity/security-owner-required update executed through a permitted Admin workflow; Account Activation may invoke it contextually. | Defined behavior baseline; provider mapping remains TBC |
-| `PAYMENT-PASSCODE-SETTINGS` | Reusable `ACCOUNT-SECURITY` child flow | Set, change, or reset the six-digit payment passcode and manage the permitted card/profile confirmation preference; Account Activation may invoke Set contextually. | Defined behavior baseline; technical controls remain with DOC-19 |
+| `PAYMENT-PASSCODE-SETTINGS` | Reusable `ACCOUNT-SECURITY` child flow | Set, change, or reset the six-digit payment passcode and manage the permitted card/profile confirmation preference; Account Activation may invoke Set contextually. | Defined behavior baseline; DOC-19 security controls are defined while exact mechanisms remain open under `OQ-19-001` |
 | `HOME-ROOT` | Logged-in root screen | Provide the task-first dashboard after successful login or restricted-account creation. | Dashboard baseline defined; final UI pending |
 
 #### Authentication Outcome and Resolution Rule
@@ -234,7 +236,7 @@ Business Rule and Current Context
 
 DOC-06B owns route-level Outcomes and the permitted Resolution Strategies at the human-readable product level. A Resolution Strategy may continue, restart, redirect, wait, invoke controlled Support, or stop. It is not a route, persistent status, message, CTA, or notification, and it does not require a standalone software service.
 
-Resolution must be capability-aware but disclosure-safe. PayPlus must use only currently permitted authentication or recovery capabilities and must not reveal whether an account or login method exists before the required assurance. A remembered device, phone number, identity record, or provider email is not sufficient recovery proof unless DOC-19 and the applicable owning rules permit it.
+Resolution must be capability-aware but disclosure-safe. PayPlus must use only authentication or recovery capabilities permitted by DOC-06B and the applicable account/route owner and must not reveal whether an account or login method exists before the required assurance. A remembered device, phone number, identity record, or provider email is not sufficient recovery proof; DOC-19 enforces security controls around owner-permitted capabilities without creating or permitting them.
 
 The current AUTH-family resolution baseline is:
 
@@ -375,16 +377,16 @@ Recovery evaluates the safest currently permitted path rather than presenting a 
 | Temporary security/service restriction or reset result is unconfirmed | Wait | Prevent unsafe duplicate submission, reconcile the result, and provide only an approved retry, return, or Support path. |
 | Password reset completed | Redirect | Revoke affected sessions and authentication context, then return to `AUTH-LOGIN-FULL`. |
 
-A trusted device, phone number, identity record, or provider-returned email may support risk or ownership assessment but is not an independent recovery capability unless DOC-19 expressly permits it. Support is a controlled final recovery capability, not an ordinary convenience option.
+A trusted device, phone number, identity record, or provider-returned email may support risk or ownership assessment but is not an independent recovery capability unless DOC-06B and the applicable account/route owner permit it. DOC-19 enforces security controls around the permitted capability. Support is a controlled final recovery capability, not an ordinary convenience option.
 
 ##### Security, Support, and Return Rules
 
-- A reset deeplink is single-use and expiring. Exact validity, resend cooldown, retry, throttling, token, and abuse controls belong to DOC-19.
+- A reset deeplink is single-use and expiring. Exact validity, resend cooldown, retry, throttling, and token mechanisms remain open under `OQ-19-001` with Security/Engineering and applicable DOC-17 provider contracts; DOC-14 retains abuse/risk trigger and outcome ownership.
 - A valid link creates a restricted password-reset session only.
 - Anonymous reset requests must not revoke sessions, lock the account, change credentials, or reveal account/login-method existence.
 - Successful reset revokes active sessions, refresh tokens, Fast Login eligibility, remembered authentication context, biometric login binding, effective device trust, and sensitive pending authorization state. Device records remain where required for audit.
 - Google and Apple credential recovery remains provider-owned. A usable linked provider may authenticate normally, after which first-password setup remains an authenticated `ACCOUNT-SECURITY` flow.
-- If the primary email is unavailable and no linked login method works, Recovery hands off to controlled Support. DOC-19 owns security/recovery proof, cooling-off and restriction policy; DOC-21 owns support and case handling; DOC-15 owns approved-purpose privacy/access requirements; and DOC-22 executes only the permitted Support/Admin workflow under those owner decisions.
+- If the primary email is unavailable and no linked login method works, Recovery hands off to controlled Support. DOC-06B owns the Recovery capability and route behavior; exact proof, cooling-off, restriction, and security mechanisms remain open with the applicable Product/Security/Operations owners and `OQ-19-001`/`OQ-19-005`; DOC-19 enforces approved security conditions, DOC-21 owns support and case handling, DOC-15 owns approved-purpose privacy/access requirements, and DOC-22 executes only the permitted Support/Admin workflow under those owner decisions.
 - PayPlus may securely remember only an opaque intended destination during Recovery. After successful login, the destination and current permissions must be revalidated before return. Credentials, provider payloads, authorization results, and payment submission state must not be preserved.
 - A payment return must revalidate the obligation, evidence, amount, fees, benefit selection, payment method, receiving destination, activation, payer authorization, and risk controls. Payment must never auto-submit after Recovery.
 
@@ -431,7 +433,7 @@ All banner actions enter `ACCOUNT-ACTIVATION`, which focuses the applicable inco
 
 One verified primary email, one verified phone number, and one verified individual identity may each belong to only one active individual account. A phone or identity conflict discovered after restricted-account creation blocks activation and routes to Login, Recovery, or controlled Support handling without automatic account merging.
 
-The reusable child-flow behavior is defined in Sections 5.17.4.2 and 5.17.4.3. Account Activation must consume those flows without duplicating their screens or statuses. DOC-17 owns applicable provider-integration contracts and mappings; DOC-19 owns OTP, credential, retry/lockout and recovery security policy; DOC-21 owns support handling; DOC-15 owns approved-purpose privacy/access requirements; and DOC-22 executes only owner-permitted workflow/configuration. Exact technical mechanics remain outside DOC-06B.
+The reusable child-flow behavior is defined in Sections 5.17.4.2 and 5.17.4.3. Account Activation must consume those flows without duplicating their screens or statuses. DOC-17 owns applicable provider-integration contracts and mappings; DOC-19 owns mechanism-neutral protected-value, retry/replay, session, and recovery security enforcement while exact mechanisms remain open under `OQ-19-001`; DOC-21 owns support handling; DOC-15 owns approved-purpose privacy/access requirements; and DOC-22 executes only owner-permitted workflow/configuration. Exact technical mechanics remain outside DOC-06B.
 
 #### 5.0.6 Return, Failure, and Ownership Rules
 
@@ -439,7 +441,7 @@ Normal successful login opens `HOME-ROOT`. An approved protected deeplink resume
 
 DOC-07 owns the Authentication Bounded Domain Slice and its linked Semantic, Disclosure, and CTA Contracts for governed user-facing communication. Exact Outcome, Message, and CTA IDs, approved Copy, Locale Variants, Presentation Mappings, Notification mappings, runtime/audit mappings, and acceptance mappings remain open with their applicable owners. DOC-06B owns route-level Outcome meaning, permitted Resolution Strategies, component and placement, action destination, entry and return behavior, and adaptive presentation referenced by those contracts. In-flow authentication messages are not Inbox notifications unless DOC-08 separately defines a notifiable event.
 
-DOC-06A owns journey sequence, DOC-07 owns user-facing content and disclosure, DOC-13 owns referral attribution, DOC-15 owns account/privacy handling, DOC-18 owns attempt/event/correlation data, DOC-19 owns security mechanics, DOC-20 owns detailed test implementation, DOC-21 owns support handling, and DOC-22 owns permitted Admin execution and Entrance content configuration.
+DOC-06A owns journey sequence, DOC-07 owns user-facing content and disclosure, DOC-13 owns referral attribution, DOC-15 owns account/privacy handling, DOC-18 owns attempt/event/correlation representation, DOC-19 owns mechanism-neutral security controls, DOC-20 owns detailed test evidence, DOC-21 owns support handling, and DOC-22 owns permitted Admin execution and Entrance content configuration.
 
 ### 5.1 Design Intent
 
@@ -904,7 +906,7 @@ Handoff behavior:
 
 - actual checkout selection, split allocation for the current payment, quote recalculation, card-leg authorization, and payment submission are governed by DOC-09;
 - reusable card and split-profile management belongs to `PAYMENT-PROFILE-ROOT`;
-- tokenization, card-data security, PSP return handling, and PCI mechanics belong to DOC-19.
+- the provider-controlled card-data boundary belongs to DOC-16, provider tokenization and return mechanics to DOC-17, security treatment to DOC-19, and final PCI applicability/scope to professional assessment.
 
 `Choose Card`, `Update Card`, `Choose Profile`, and `Edit Profile` should open `PAYMENT-PROFILE-ROOT` in instruction-context mode and return to `INSTRUCTIONS-DETAIL` with refreshed card/profile data after the permitted selection, setup, or edit action.
 
@@ -956,7 +958,7 @@ The route manages reusable payment setup objects. It is not checkout, not a wall
 | Product destination | `PAYMENT-PROFILE-ROOT` |
 | Primary owner | DOC-06B owns route shell, entry points, major screens, route handoff, and high-level user actions. |
 | Payment owner | DOC-09 owns actual checkout selection, payment quote, split-card allocation for a payment, authorization, funding-leg submission, and payment states. |
-| Security owner | DOC-19 owns PSP/acquirer tokenization, card-data security, PCI boundary, authentication, and token handling. |
+| Security owner | DOC-16 owns the provider-controlled card-data architecture boundary; DOC-17 owns PSP/acquirer tokenization and provider mechanics; DOC-19 owns mechanism-neutral card-data, token/reference, authentication, and secure-boundary controls; final PCI applicability/scope requires professional confirmation. |
 | Related owners | DOC-07 owns wording; DOC-08 owns notifications; DOC-13 owns card-linked benefit rules; DOC-15 owns masking/privacy; DOC-18 owns schema/events; DOC-19 owns token/security controls. DOC-22 may execute only owner-permitted Admin configuration/workflows and owns no payment, card/profile or security policy. |
 
 #### 5.13.1 Route Structure
@@ -1103,7 +1105,7 @@ These signals support checkout-friction analysis, card/profile usability, suppor
 | --- | --- | --- |
 | Two-tab `Cards` / `Profiles` structure | Product / Design | Confirmed |
 | Exact final card styling, field density, empty-state copy, and list visual design | Product / Design | Open |
-| Final PSP/acquirer tokenization return behavior and permitted card metadata | Payments / Security / DOC-19 | Open |
+| Final PSP/acquirer tokenization return behavior and permitted card metadata | Payments / Security / DOC-17, with DOC-19 security treatment and DOC-18 representation | Open |
 
 ---
 
@@ -1736,7 +1738,7 @@ Dashboard shortcuts and `ME-ROOT` may both link to an established route. The sho
 
 - `ACCOUNT-PROFILE`, `ACCOUNT-SECURITY`, and `PRIVACY-DATA-CONTROLS` are Payer account routes; they do not use payer/payee tabs.
 - Normal authenticated entry shows only permitted masked information and does not require payment-passcode entry merely to open a route.
-- Revealing approved masked sensitive values in a permitted current account context requires the existing PayPlus payment passcode or approved reauthentication, with stronger step-up where DOC-14, DOC-15, DOC-19, or provider rules require it.
+- Revealing approved masked sensitive values in a permitted current account context requires the existing PayPlus payment passcode or approved reauthentication. DOC-14 owns risk triggers/actions, DOC-15 privacy conditions, and provider owners applicable partner conditions; DOC-19 enforces the resulting security assurance requirement without deciding the trigger or outcome.
 - Changing existing sensitive identity, contact, security or credential information requires payment passcode or approved reauthentication before the route-specific OTP, provider, review, or confirmation steps. Payer-entered destination facts are changed only through the applicable Bill/Rent journey and owner controls. First-time identity verification invoked during `ACCOUNT-ACTIVATION` does not require a payment passcode that the user may not yet have created.
 - Ordinary evidence, invoice, receipt, statement, and payment-proof viewing or downloading within an authenticated permitted context does not require an extra passcode or step-up solely because the document is opened or downloaded.
 - Payment-passcode confirmation does not make every stored field revealable. Passwords, payment passcodes, identity documents, provider payloads, secrets, raw credentials, evidence content, unrestricted audit data, and internal risk reasons remain unavailable.
@@ -1778,7 +1780,7 @@ The flow is reusable from Account Information and Account Activation. Its modes 
 
 Initial verification requires an authenticated restricted account and SMS OTP but no existing payment passcode. Device token, push token, device attestation, or biometric capability may support abuse detection but does not prove phone possession. One verified phone may belong to only one active individual account; conflict copy may say the number is already occupied but must not identify who uses it.
 
-For phone replacement, the old phone remains authoritative until the full sequence succeeds: payment passcode or approved reauthentication, OTP through the registered email, then SMS OTP to the new phone. Cancelling leaves the old phone unchanged. `ACCOUNT-PROFILE` shows only `Verified` or `Not Verified`; `Code Sent`, `Expired`, `Incorrect Code`, and `Delivery Failed` are route outcomes, not persistent account statuses. OTP length, validity, resend interval, attempt limits, cooldown, and velocity thresholds remain TBC for DOC-19.
+For phone replacement, the old phone remains authoritative until the full sequence succeeds: payment passcode or approved reauthentication, OTP through the registered email, then SMS OTP to the new phone. Cancelling leaves the old phone unchanged. `ACCOUNT-PROFILE` shows only `Verified` or `Not Verified`; `Code Sent`, `Expired`, `Incorrect Code`, and `Delivery Failed` are route outcomes, not persistent account statuses. OTP length, validity, resend interval, attempt limits, cooldown, and technical anti-automation mechanisms remain open under `OQ-19-001`; DOC-14 retains risk/abuse trigger and outcome ownership and DOC-17 any provider-delivery contract.
 
 ###### `IDENTITY-VERIFICATION`
 
@@ -1838,7 +1840,7 @@ Login Methods follows these rules:
 - a provider identity already linked to another PayPlus account cannot be reassigned through this route;
 - matching Google/Apple and PayPlus email addresses never cause silent account creation, merging, or linking.
 
-No separate MVP root is created for login-method management. Set/Change Password and provider Link/Unlink are focused flows under `ACCOUNT-SECURITY`. Exact provider integration, account-recovery mechanics, retry limits, and final screen design remain with the full authentication drafting and DOC-19.
+No separate MVP root is created for login-method management. Set/Change Password and provider Link/Unlink are focused flows under `ACCOUNT-SECURITY`. Exact provider integration remains with DOC-17; DOC-06B retains account-recovery route behavior; exact security mechanisms and retry limits remain open under `OQ-19-001`; final screen design remains separate design work.
 
 Tapping Payment Passcode opens `PAYMENT-PASSCODE-SETTINGS`. Account Activation opens Set mode. Account Security opens the settings overview and shows Set when absent or Change, Reset, and the permitted card/payment-profile confirmation preference when a passcode exists.
 
@@ -1850,15 +1852,15 @@ Tapping Payment Passcode opens `PAYMENT-PASSCODE-SETTINGS`. Account Activation o
 
 The passcode is a masked six-digit numeric secret. Entries clear when the app backgrounds, the session expires, or the route closes. A mismatch saves neither entry. Cancel Set leaves activation incomplete; Cancel Change or Reset preserves the current passcode. Existing passcodes are never displayed or recoverable. Unknown save results must be reconciled before another attempt.
 
-Email OTP alone is insufficient to reset a payment-authorizing passcode. If the registered phone is unavailable, the user enters controlled support-assisted recovery. DOC-19 owns recovery proof, factors, waiting-period and security policy; DOC-21 owns support/operations; DOC-15 owns approved-purpose privacy/access requirements; and DOC-22 executes only the permitted Support/Admin workflow under those owner decisions. An administrator cannot read, select, retrieve or reset a user's passcode.
+Email OTP alone is insufficient to reset a payment-authorizing passcode. If the registered phone is unavailable, the user enters controlled support-assisted recovery. DOC-06B owns the recovery route/capability; exact proof, factors, waiting-period, and security mechanisms remain open with the applicable Product/Security/Operations owners and `OQ-19-001`/`OQ-19-005`; DOC-19 enforces approved security conditions, DOC-21 owns support/operations, DOC-15 owns approved-purpose privacy/access requirements, and DOC-22 executes only the permitted Support/Admin workflow under those owner decisions. An administrator cannot read, select, retrieve or reset a user's passcode.
 
-The card/payment-profile passcode preference defaults to ordinary confirmation. Enabling it may use ordinary confirmation; disabling it requires the current passcode or approved reauthentication. Setting a passcode does not authorize payment. DOC-09 still requires a fresh payment passcode before payment authorization. Successful Change and Reset generate mandatory security notifications under DOC-08. Weak-code rules, retries, lockout, hashing, storage, recovery factors, and session revocation remain with DOC-19.
+The card/payment-profile passcode preference defaults to ordinary confirmation. Enabling it may use ordinary confirmation; disabling it requires the current passcode or approved reauthentication. Setting a passcode does not authorize payment. DOC-09 still requires a fresh payment passcode before payment authorization. Successful Change and Reset generate mandatory security notifications under DOC-08. Weak-code rules, retries, lockout, hashing, storage, recovery factors, and session-revocation mechanisms remain open under `OQ-19-001` with Security/Engineering and applicable provider contracts under DOC-17.
 
 The Two-Step Verification toggle controls only permitted optional routine protection. It must not disable mandatory new-device 2FA, risk-triggered step-up, contact-change verification, account-closure verification, or provider-required authentication. SMS remains the MVP primary factor and email the fallback.
 
 Biometric Unlock applies to the current device only, must be enabled by the user, and does not replace payment passcode or mandatory step-up. Where Fast Login is eligible, the operating-system biometric prompt may be presented automatically under Section 5.0.2. Each Trusted Devices entry provides `Remove`: removing another device revokes its trust and associated session; removing the current device requires confirmation and logs the user out. No separate Active Sessions list is required for MVP.
 
-Recovery must not provide an unverified bypass. Forgotten password/passcode, unavailable trusted channels, or suspected compromise routes to the approved recovery or Support process. Exact retry limits, lockout periods, recovery factors, session duration, and security implementation remain with DOC-19.
+Recovery must not provide an unverified bypass. Forgotten password/passcode, unavailable trusted channels, or suspected compromise routes to the approved recovery or Support process. DOC-19 defines the mechanism-neutral enforcement contract; exact retry limits, lockout periods, recovery factors, session duration, and implementation mechanisms remain open under `OQ-19-001` with Security/Engineering.
 
 ##### 5.17.4.4 `PRIVACY-DATA-CONTROLS` - Privacy & Data
 
@@ -1922,7 +1924,7 @@ DOC-22 may execute only DOC-06B-owner-approved optional module visibility config
 | Final visual design for Account Information, Login & Security, Privacy & Data, the active Archived Records and Archived Bills &amp; Rent routes, any later-authorized archived-document presentation, Support, About, and Terms | Product / Design / Privacy / Security / Operations | Open; active Archive root/list access is retained, while detailed Restore and version presentation and all `ARCHIVED-DOCS-LIST` behavior remain deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs |
 | External provider results and PayPlus policy outcomes mapped to `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required` | Product / Compliance / Security / Data | Open pending provider selection; five user-facing labels confirmed |
 | Final privacy-request internal states, service timelines, export format/expiry, and legal wording | Privacy / Legal / Operations / Security | Open; route labels and protected delivery confirmed |
-| Final authentication retry, lockout, session, recovery-factor, and reveal-timeout mechanics | Security / Engineering / Risk | Open; DOC-19 owner |
+| Final authentication retry, lockout, session, recovery-factor, and reveal-timeout mechanisms | Security / Engineering / Risk | Open under `OQ-19-001`; DOC-19 supplies the security-control contract without selecting values |
 | Any future destination-profile requirements, external validation capability, identity-name normalization, third-party/company proof requirements, risk-based step-up rules, and review SLA | Payments / Operations / Privacy / Security | Open; no active Consumer Payee destination library is defined in Wave 2 |
 | Final visual styling, density, and copy for active `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST`, and any later-authorized presentation for provisional `ARCHIVED-DOCS-LIST` | DOC-06B/DOC-06C; DOC-10/DOC-11 blockers; DOC-12/DOC-15/DOC-18 handoffs | Open; active root/list route behavior and ordinary parent return are retained, while detailed Archive/Restore, prior-version and Evidence-version behavior and all `ARCHIVED-DOCS-LIST` interaction remain deferred |
 | Final language options, theme options, selection controls, and accessibility behavior | Product / Design / Engineering | Open |
@@ -2402,9 +2404,9 @@ Result and resolution presentations must not share one generic action set:
 | Result or resolution presentation | Activation condition | Minimum information hierarchy and persistent context | Primary action | Secondary, closing, return, and unavailable treatment | Owners and intentionally open visual detail |
 | --- | --- | --- | --- | --- | --- |
 | Fully funded completion | Required when authoritative confirmed obligation-funded value equals Checkout Target. | Required: (1) fully funded Checkout meaning; (2) Checkout Target and confirmed value; (3) applicable confirmed payer-charge facts; (4) confirmed Funding Leg/Payment summary without implying Settlement or Payout completion; (5) Bill/Rent/source context; (6) source-projection handoff before any receipt/activity or source-return handoff. | Required: retain an existing Saved/current projection, or for an otherwise unsaved source resolve selected Save to same-ID Saved/current or declined/skipped/dismissed Save to same-ID history-only before approved safe exit or source return. | Optional detail, receipt, or Activity handoff is available only after that projection outcome. Do not expose Funding, Continue, adjust, retry, wait, `Close Checkout`, or Save from Activity. Back must not reopen setup. | DOC-09 confirmation/full-funding meaning; DOC-05/DOC-06C Save policy; DOC-07 completion wording; DOC-10 payout separation. Final celebration, illustration, and layout remain open. |
-| Partially funded result and recovery | Required when confirmed value is above zero and below Checkout Target. | Required: original Checkout Target, confirmed value and immutable Payment facts, unconfirmed value, Remaining Checkout Target, complete Funding Leg progress, continuation expiry, locked versus eligible unexecuted funding, and consequence of wait, continue/change, safe return, or closing. | Required: one current condition-permitted action: continue eligible unexecuted funding, wait for authoritative evidence, or another owner-confirmed recovery. Pending evidence takes precedence where duplicate submission risk exists. | Where the result contains a newly confirmed Payment for an otherwise unsaved source, any Close Checkout, source return, Activity, Receipt or ordinary safe exit first hands to the owner-controlled Save resolver; selected Save produces Saved/current and declined/skipped/dismissed Save produces history-only. Recommended recovery actions remain owner-permitted. | DOC-09 partial funding/closure; DOC-05/DOC-06C projection policy; DOC-07 consequence wording; DOC-17 evidence; DOC-19 risk/security. Final recovery component layout remains open. |
+| Partially funded result and recovery | Required when confirmed value is above zero and below Checkout Target. | Required: original Checkout Target, confirmed value and immutable Payment facts, unconfirmed value, Remaining Checkout Target, complete Funding Leg progress, continuation expiry, locked versus eligible unexecuted funding, and consequence of wait, continue/change, safe return, or closing. | Required: one current condition-permitted action: continue eligible unexecuted funding, wait for authoritative evidence, or another owner-confirmed recovery. Pending evidence takes precedence where duplicate submission risk exists. | Where the result contains a newly confirmed Payment for an otherwise unsaved source, any Close Checkout, source return, Activity, Receipt or ordinary safe exit first hands to the owner-controlled Save resolver; selected Save produces Saved/current and declined/skipped/dismissed Save produces history-only. Recommended recovery actions remain owner-permitted. | DOC-09 partial funding/closure; DOC-05/DOC-06C projection policy; DOC-07 consequence wording; DOC-17 provider evidence; DOC-14 risk; DOC-19 security enforcement. Final recovery component layout remains open. |
 | Pending-evidence result | Required whenever authoritative submission/confirmation evidence is unresolved, including after provider/3DS return or later evidence update. | Required: (1) known submitted leg/value; (2) no-success/no-definitive-failure meaning; (3) confirmed value from other legs; (4) unconfirmed value; (5) Remaining Checkout Target; (6) what is being awaited; (7) whether any safe action is currently available. | Required: wait or another owner-confirmed non-submission action. There is no retry, alternate-funding submission, or success action while duplicate-submission risk remains unresolved. | If no Payment is confirmed, no post-Payment Save outcome exists. If another leg created a newly confirmed Payment for an otherwise unsaved source, any safe return, Activity or Receipt handoff first resolves same-ID Saved/current or history-only through the owner-controlled Save resolver. Back does not cancel or reclassify. | DOC-17 evidence; DOC-09 confirmation; DOC-05/DOC-06C projection policy; DOC-07 wording; DOC-21 support. Final pending illustration, timing text, and refresh mechanism remain owner-controlled/open. |
-| Unsuccessful result and permitted recovery | Required only after authoritative evidence supports an unsuccessful attempt or Funding Leg result. | Required: (1) affected leg and unsuccessful meaning; (2) no Payment for that unsuccessful attempt; (3) any confirmed value from other legs; (4) unconfirmed value, if any separate evidence remains pending; (5) Remaining Checkout Target; (6) locked/unexecuted funding facts; (7) owner-supplied recovery availability. | Required: only a currently permitted recovery after revalidation, such as using eligible unexecuted funding. Do not expose a generic retry. | If no Payment is confirmed, no post-Payment Save outcome exists. If another leg created a newly confirmed Payment for an otherwise unsaved source, any Close Checkout, safe return, Activity or Receipt handoff first resolves same-ID Saved/current or history-only through the owner-controlled Save resolver. | DOC-09 attempt/leg meaning; DOC-05/DOC-06C projection policy; DOC-17 evidence; DOC-14/DOC-19 risk/security; DOC-07 wording. Final error illustration and component styling remain open. |
+| Unsuccessful result and permitted recovery | Required only after authoritative evidence supports an unsuccessful attempt or Funding Leg result. | Required: (1) affected leg and unsuccessful meaning; (2) no Payment for that unsuccessful attempt; (3) any confirmed value from other legs; (4) unconfirmed value, if any separate evidence remains pending; (5) Remaining Checkout Target; (6) locked/unexecuted funding facts; (7) owner-supplied recovery availability. | Required: only a currently permitted recovery after revalidation, such as using eligible unexecuted funding. Do not expose a generic retry. | If no Payment is confirmed, no post-Payment Save outcome exists. If another leg created a newly confirmed Payment for an otherwise unsaved source, any Close Checkout, safe return, Activity or Receipt handoff first resolves same-ID Saved/current or history-only through the owner-controlled Save resolver. | DOC-09 attempt/leg meaning; DOC-05/DOC-06C projection policy; DOC-17 provider evidence; DOC-14 risk; DOC-19 security enforcement; DOC-07 wording. Final error illustration and component styling remain open. |
 | Historical or source-owner resolution | Required when Checkout is inactive, ineligible, non-continuable, closed/expired with no ordinary continuation, or Bill/Rent resolution must remain with its owner. | Required: (1) recorded Checkout condition; (2) original Checkout Target; (3) preserved confirmed Payment facts where applicable; (4) no-continuation meaning; (5) source Bill/Rent context; (6) owner-confirmed resolution or support handoff. Historical facts must remain authoritative and unchanged. | Required: the applicable source-owner, historical-detail, support, or safe-exit action. | If this resolution contains a newly confirmed Payment for an otherwise unsaved source, the owner-controlled Save resolver must first produce same-ID Saved/current or history-only. Otherwise preserve the existing projection or legitimate pre-confirmed/incomplete-Setup unprojected treatment. Do not expose ordinary Checkout composition or invent Archived-source behavior. | DOC-06C source/projection resolution; DOC-09 history/continuability; DOC-07 wording; DOC-21 support. Final historical-detail composition remains open. |
 
 Where adaptive presentations are combined, the more restrictive current condition controls action availability. A composed surface must not hide required context or make two mutually incompatible actions appear concurrently primary. Final visual hierarchy may vary by viewport and task only within these constraints.
@@ -2532,7 +2534,7 @@ Other downstream dependencies remain explicit:
 - DOC-09: payment-domain invariants, authorization boundaries, confirmation, continuation, closure, expiry, and application meaning;
 - DOC-10/DOC-11: payout/reconciliation and any refund, reversal, cancellation, dispute, or chargeback treatment;
 - DOC-13/DOC-14/DOC-15: benefit, risk, anti-cashout, privacy, masking, and approved-purpose rules;
-- DOC-17/DOC-18/DOC-19: provider evidence, exact schema/version/event/audit implementation, tokenization, authentication, and security controls;
+- DOC-17: provider evidence and tokenization/integration mechanics; DOC-18: exact schema/version/event/audit representation; DOC-19: mechanism-neutral authentication and security controls;
 - DOC-20/DOC-21/DOC-22: UAT, monitoring, support, incident, and controlled operations evidence.
 
 #### 5.20.12 Future Validation and Acceptance Evidence
@@ -2599,12 +2601,13 @@ No numerical accessibility, performance, or usability threshold is established h
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
 | OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Offer label taxonomy for Pay+ Offers and Partner Offers, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed, and this question does not reopen the settled Pay+ action composition. | Product / Design / Growth / Privacy / Commercial | Partially open |
 | OQ-06B-012 | What final responsive measurements, short-viewport treatment, first-use-cue persistence and animation implementation, exact Copy/CTA presentation, screen-reader behavior, technical scheduling/synchronization, and DOC-20 evidence should implement the defined Entrance Carousel and `ENTRANCE-PROMOTION-DETAIL` behavior? | Product / Design / Content / Growth / Security / Privacy / Engineering / QA / Operations | Partially open; capacity, sequence, timing, interaction, Promotion/Feature scope, image-first detail, Back, inline Terms, optional CTA, source-change suspension, and same-item return are defined |
-| OQ-06B-013 | What final OTP constants, provider-result mapping, weak-code/retry/lockout rules, support-assisted passcode-recovery proof and waiting period, credential storage, session-revocation mechanics, and final visual design apply to the defined `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` flows? DOC-17 owns applicable provider-integration mappings; DOC-19 owns technical/security/recovery policy; DOC-15 owns approved-purpose privacy/access requirements; DOC-21 owns support operations; DOC-22 owns only owner-permitted queue/workflow/configuration execution; and DOC-20 must derive implementation tests. | Security / Engineering / Compliance / Privacy / QA / Operations | Partially open; product behavior, five identity labels, HK-only phone baseline, six-digit passcode flows, and return behavior confirmed |
+| OQ-06B-013 | What final OTP constants, provider-result mapping, weak-code/retry/lockout rules, support-assisted passcode-recovery proof and waiting period, credential storage, session-revocation mechanisms, and final visual design apply to the defined `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` flows? DOC-17 owns applicable provider-integration mappings; `OQ-19-001` retains exact security mechanisms with Security/Engineering; DOC-06B retains recovery route behavior; DOC-15 owns approved-purpose privacy/access requirements; DOC-21 owns support operations; DOC-22 owns only owner-permitted queue/workflow/configuration execution; and DOC-20 must derive implementation tests. | Security / Engineering / Compliance / Privacy / QA / Operations | Partially open; product behavior, five identity labels, HK-only phone baseline, six-digit passcode flows, and return behavior confirmed |
 | OQ-06B-014 | What exact Authentication Outcome IDs, Resolution mappings, Message IDs, approved user-facing messages, CTA mappings, disclosure levels, notification treatment, and technical outcome/event mappings should populate the mandatory DOC-07 Authentication slice? | Product / Content / Design / Security / Privacy / Support | Open; route-level Outcomes and Resolution Strategies defined, exact DOC-07/DOC-08/DOC-18 mappings pending |
 
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Aligned Recovery, provider/tokenization, PCI, risk and security handoffs with the reviewed DOC-19 contract and existing owner boundaries without changing routes, statuses, product behavior or open mechanism decisions. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.1.57 | 2026-08-13 | Clarified registration-attempt expiry versus indefinite record retention and made identity-provider handoff wording provider-neutral without selecting a provider. |
 | 0.1.55 | 2026-08-12 | Stage 8 correction: removed Archive treatment from incomplete Checkouts and Payment Instructions, including the Archived filter/action; retained DOC-09 continuation, Close and Expiry semantics; and replaced the stale DOC-09 v1.1.1 pin with the current Founder Working Baseline reference. |

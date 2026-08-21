@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-18
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -35,6 +35,7 @@ related_documents:
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
+  - DOC-16 Technical Architecture Specification
   - DOC-17 API & Third-party Integration
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization & Authentication
@@ -49,14 +50,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-18` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -153,7 +154,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Fees and promotions | Enable only when DOC-13 promotion quote, entitlement, discount, coupon, voucher, reward, disclosure, accounting, tax, commercial, and reporting treatment is confirmed. |
 | OCR or document AI | Enable by category, payee type, risk tier, document type, and provider readiness; manual or assisted review may be used until automation is approved. |
 | Multi-card funding | MVP scope; support up to 6 credit cards per payment/profile, with related controls configurable where applicable. |
-| Tokenized cards and saved payment profiles | MVP scope; DOC-06B defines the user route shell, DOC-09 defines checkout use, and DOC-19 defines tokenization/security mechanics. |
+| Tokenized cards and saved payment profiles | MVP scope; DOC-06B defines the user route shell, DOC-09 defines checkout use, DOC-16 defines the provider-controlled card-data boundary, DOC-17 owns provider/tokenization mechanics, and DOC-19 defines mechanism-neutral security controls. |
 | Payment Instructions and incomplete Checkout continuation | MVP scope. A Payment Instruction is a deliberate pay-later arrangement. An interrupted immediate payment remains an incomplete Checkout Workspace, although both may be surfaced through DOC-06B Instructions routes for user management. DOC-09 owns their Payment Domain distinction and funding rules; DOC-10 owns Payout. |
 | Pay+ and Bills entry | The accepted Wave 2 route/action baseline is implemented by DOC-06B: Pay+ retains `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment` in that order and material meaning. `Request Payment` is retired, no replacement action is introduced, and no active Request or BILLS-LINKING capability is part of the target MVP. Exact visual, responsive, accessibility, Copy and implementation evidence remains with its applicable owners. |
 | Data and AI readiness | Require structured events, field classification, lineage, auditability, consent/preference state, approved-purpose metadata, and model-use eligibility metadata where relevant; advanced model automation and external activation remain future-gated. |
@@ -618,7 +619,7 @@ For account-control UX, `ME-ROOT` is a permanent MVP bottom-navigation route for
 
 DOC-06B defines `ACCOUNT-PROFILE`, reusable `PHONE-VERIFICATION` and `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, reusable `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`. The MVP includes editable nickname/display name that is not a login identifier, copyable PayPlus User ID, cross-channel phone/email change verification, the five identity-verification labels `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`, account closure as a controlled request, login-method and Set/Change Password controls, payment-passcode Set/Change/Reset and permitted 2FA/biometric controls, trusted-device removal, optional privacy choices, governed correction/access/export/privacy requests, and protected in-app export. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. Once verified, users cannot voluntarily re-verify; retries follow `Failed`, and an authorized Admin may execute an applicable identity/security-owner requirement to update without directly setting `Verified`.
 
-Sensitive information remains masked by default. Prominent reveal of approved masked sensitive values, and material changes to existing identity, contact, security or credential data, require payment passcode or approved reauthentication under DOC-15 and future DOC-19 controls. This material-change rule does not create a passcode prerequisite for first-time identity verification during Account Activation. Ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra prompt solely for opening or downloading the document. `ACTIVITY-ROOT` remains the Payer's account-level financial activity route. Bills/Rent source projections and Payment Activity/History/Receipt remain distinct. The current DOC-06 Founder Working Baseline retires Consumer Receiving Info and mixed-role Archive treatment; `ARCHIVED-ROOT` and Bills/Rent Archive presentation remain owned by the DOC-06 family.
+Sensitive information remains masked by default. Prominent reveal of approved masked sensitive values, and material changes to existing identity, contact, security or credential data, require payment passcode or approved reauthentication under DOC-15 and the reviewed DOC-19 security controls. This material-change rule does not create a passcode prerequisite for first-time identity verification during Account Activation. Ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra prompt solely for opening or downloading the document. `ACTIVITY-ROOT` remains the Payer's account-level financial activity route. Bills/Rent source projections and Payment Activity/History/Receipt remain distinct. The current DOC-06 Founder Working Baseline retires Consumer Receiving Info and mixed-role Archive treatment; `ARCHIVED-ROOT` and Bills/Rent Archive presentation remain owned by the DOC-06 family.
 
 Save records Payer persistence, visibility and reuse intent for one authoritative Bill/Rent source. A Saved/current source may remain in the current list while Under Review, Action Required or Ready; those are handling/readiness conditions, not projections. Archive moves a previously Saved/current source into the governed Archived projection, and Archived sources do not appear in the active/current list. Save and Archive must not erase or rewrite the source, Evidence, completed financial history, destination/payment snapshots, payout, reconciliation or audit lineage. No separate Unsave action or later Save-from-Activity route is introduced. Exact labels, Restore, replaced-Evidence/prior-version presentation, eligibility, revalidation, route and UI behavior remain downstream DOC-06 family and DOC-18 work.
 
@@ -831,7 +832,7 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 | DOC-15 | Privacy, data protection, masking, retention, lawful data use, consent, personalization, model-improvement, and partner-sharing boundaries |
 | DOC-17 | Third-party APIs including OCR/document AI, PSP, bank, provider, analytics, campaign, and partner-reporting integrations where approved |
 | DOC-18 | Data model, evidence data layers, transaction state, audit events, ledger, event taxonomy, lineage, analytics marts, feature/model metadata, and reporting |
-| DOC-19 | Authentication, authorization, evidence access, security, tokenization, analytics access controls, pseudonymization, and partner-sharing controls |
+| DOC-19 | Mechanism-neutral authentication, protected-value, access-enforcement, secure-boundary, telemetry and verification-handoff controls; payer authorization remains with DOC-09, privacy/pseudonymization with DOC-15, provider mechanics with DOC-17, and representation with DOC-18 |
 | DOC-20 | Mandatory Wave 5 detailed testing, UAT and release-readiness evidence; this document defines human Acceptance Criteria only |
 | DOC-21 | Monitoring, incidents, support escalation, and operations runbooks |
 | DOC-22 | Permitted Admin dashboard execution, queues, permissions, controlled overrides and configuration under the applicable product and specialist owners |
@@ -904,6 +905,7 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 
 | Version | Date | Summary |
 |---|---|---|
+| v1.0.1 | 2026-08-21 | Aligned product handoffs with the reviewed DOC-19 security-control contract while preserving payer authorization, privacy, provider, representation and open-mechanism ownership. |
 | v1.0.0 | 2026-08-18 | Implemented the material Bills-only tier model and fixed-seat compliance supplement; preserved C1 layering and Founder-updated Evidence traceability, retained owner-level dependencies, neutralized the complete active lifecycle-language family, and qualified indefinite retention by lawful scope, required exceptions and restricted data classes. |
 | v0.19.5 | 2026-08-13 | Replaced the named identity-verification provider example with provider-neutral, owner-qualified wording without selecting a provider or changing verification requirements. |
 | v0.19.3 | 2026-08-12 | Removed the unsupported archived Payment Instruction reporting condition; retained the accepted deliberate Instruction pending, cancellation and expiry boundary and the separate incomplete Checkout Close/Expiry and source-Archive meanings. |

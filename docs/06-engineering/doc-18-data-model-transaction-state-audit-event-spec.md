@@ -1,7 +1,7 @@
 ---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -41,12 +41,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Data Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -84,7 +84,7 @@ Detailed requirements belong to:
 | Privacy, consent, retention, approved-purpose use, and data-use tiers | DOC-15 |
 | Architecture posture, trust boundaries, provider-controlled card-data boundary, local atomic authority, durable handoffs, reliability, recovery, reconciliation, and observability obligations | DOC-16 |
 | Provider APIs, webhooks, files, and partner integrations | DOC-17 |
-| Authentication, encryption, tokenization, RBAC, and pseudonymization | DOC-19 |
+| Security-control requirements for authentication, protected values, token/reference treatment, and access enforcement | DOC-19; privacy/pseudonymization rules remain with DOC-15 and representation with DOC-18 |
 | Admin workflows, queues, exports, and operational actions | DOC-22 |
 
 ## 3. Current Decision Baseline
@@ -439,6 +439,7 @@ DOC-18 must represent, without redefining, the source-owner meanings for Bill Ti
 ## 13. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Product Documentation Team | Aligned DOC-18 ownership with DOC-19 security-control facts while retaining DOC-15 privacy/pseudonymization policy and DOC-18 schema, event, audit, correlation, and lineage representation. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | 0.5.0 | 2026-08-14 | Product Documentation Team | Aligned data, event, audit, lineage, reporting, and analytics representation with the Stage 9-passed DOC-16 architecture: local atomic authority, durable non-authoritative handoffs, provider-controlled card-data boundaries, and factual economic-Payee context; added acceptance and evidence-owner handoffs without selecting schemas, events, providers, databases, or security mechanisms. |
 | 0.4.24 | 2026-08-13 | Product Documentation Team | Retired active Request/Linking/Receiving Info assumptions, aligned representation to owner-approved source, destination, payment, notification, and indefinite-retention boundaries, and preserved DOC-09/DOC-10/DOC-13 handoffs without adding schemas or mechanisms. |

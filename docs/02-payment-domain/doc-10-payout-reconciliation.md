@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-08-18
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-10` |
 | **Title** | Payout & Reconciliation |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Finance |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-18` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -191,7 +191,7 @@ Destination processing must:
 - keep internal provider, risk, match-score, and review reasons out of ordinary user display; and
 - use DOC-22 only for owner-permitted workflow execution. DOC-22 does not determine destination, payment, payout, risk, privacy, or security policy.
 
-DOC-12 owns Evidence and Evidence-to-Payee matching. DOC-14 owns risk meaning and routing. DOC-15 owns approved-purpose access and retention. DOC-18 owns approved representation, status/event, audit, and lineage requirements. DOC-19 owns security/recovery controls. DOC-21 owns support and operations. DOC-08 owns notification identity, channel, and delivery. Exact user-facing presentation remains with DOC-06/DOC-07.
+DOC-12 owns Evidence and Evidence-to-Payee matching. DOC-14 owns risk meaning and routing. DOC-15 owns approved-purpose access and retention. DOC-18 owns approved representation, status/event, audit, and lineage requirements. DOC-19 enforces applicable security controls around owner-defined handling; it does not decide Payout release, destination replacement, reconciliation, or recovery behavior. DOC-21 owns support and operations. DOC-08 owns notification identity, channel, and delivery. Exact user-facing presentation remains with DOC-06/DOC-07.
 
 ### 6.3 G1 receiving-destination handoff
 
@@ -666,6 +666,7 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Aligned the DOC-19 handoff to mechanism-neutral security enforcement while preserving DOC-10 ownership of Payout, destination, reconciliation and recovery meaning. |
 | 1.0.0 | 2026-08-18 | Implemented the material Bills-only Payout model and fixed-seat compliance supplement; traced the Founder-updated Evidence framework, retained owner-level dependencies, removed active lifecycle ownership language and residual documentation-review adjudication, and preserved Payee/snapshot/no-automatic-Refund and complete G1 destination-key boundaries. |
 | 0.8.2 | 2026-08-13 | Regularized the zero- or insufficient-Payment-Application Payout criterion and its owner-controlled reconciliation/exception boundary; preserved the confirmed Payment, no-fabricated-coverage and no-bypass rules. |
 | 0.8.1 | 2026-08-12 | Corrected Payout readiness and incomplete-Checkout wording for the DOC-09 controlled late-confirmation zero-Application exception while preserving Payment validity and owner-controlled Settlement, reconciliation, and adjustment boundaries. |

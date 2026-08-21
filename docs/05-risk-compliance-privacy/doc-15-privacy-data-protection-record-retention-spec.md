@@ -1,7 +1,7 @@
 ---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
 | **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -100,7 +100,7 @@ Detailed specifications belong to:
 | AML, anti-cashout, fraud, risk holds, and risk-review data | DOC-14 |
 | API, provider, webhook, file, and third-party integration details | DOC-17 |
 | Final data model, event schema, ledger, reporting, and warehouse design | DOC-18 |
-| Authentication, encryption, RBAC, secrets, device security, and PCI controls | DOC-19 |
+| Mechanism-neutral authentication, protected-value, access-enforcement, device/session, secure-boundary, and PCI-related security controls | DOC-19; final PCI applicability/scope requires professional confirmation |
 | Incident response, monitoring, and operational escalation | DOC-21 |
 | Admin dashboard workflows, permissions, uploads, overrides, and review queues | DOC-22 executes only expressly owner-permitted operations using approved policy and facts; underlying privacy/access/retention/security/product authority remains with the applicable owner. |
 
@@ -196,9 +196,9 @@ PayPlus should support the following account and authentication model:
 | Password reset | Email deeplink must be single-use, short-lived, and logged. User should receive security notification after reset. |
 | Core account changes | Changes to an existing email, phone, password, payment passcode, immutable identifier or KYC/KYB record require payment passcode or approved reauthentication before route-specific owner controls. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. Payment-profile changes retain their separately approved optional-passcode rule. |
 
-DOC-15 defines data handling and privacy boundaries. DOC-19 owns security mechanics, authentication implementation, encryption, credential storage, device controls, and RBAC.
+DOC-15 defines data handling and privacy boundaries. DOC-19 owns mechanism-neutral security invariants, enforcement requirements, prohibited exposure, and verification handoffs for authentication, protected values, device/session assurance, and access enforcement. Exact mechanisms remain open technical decisions and provider contracts remain with DOC-17.
 
-Account recovery must be capability-aware and disclosure-safe. PayPlus may evaluate whether approved email, linked-provider, authenticated-account, or controlled Support recovery remains available, but public responses must not reveal the existence of an account, password, provider link, phone, identity record, trusted device, or internal risk restriction. A remembered device, verified phone, verified identity, or provider email is not by itself a recovery method unless DOC-19 explicitly permits that capability. Recovery records and analytics must use opaque attempt, outcome, resolution, and correlation references rather than credentials, recovery secrets, or unrestricted identity/provider payloads.
+Account recovery must be capability-aware and disclosure-safe. PayPlus may evaluate whether approved email, linked-provider, authenticated-account, or controlled Support recovery remains available, but public responses must not reveal the existence of an account, password, provider link, phone, identity record, trusted device, or internal risk restriction. A remembered device, verified phone, verified identity, or provider email is not by itself a recovery method unless the applicable route/account owner permits that capability and DOC-19 security enforcement is satisfied. Recovery records and analytics must use opaque attempt, outcome, resolution, and correlation references rather than credentials, recovery secrets, or unrestricted identity/provider payloads.
 
 ### 6.1 Material Change Handling
 
@@ -215,7 +215,7 @@ Material changes should be grouped by sensitivity and handled with proportionate
 | Identity/KYC change | Correct a governed record or respond to an owner-required identity update. A user cannot voluntarily repeat verification after `Verified`. | The applicable identity/security owner determines any outcome; DOC-22 may execute only an expressly permitted workflow. First-time verification follows the Account Activation exception. |
 | Marketing or communication preference change | Opt-in/out, WhatsApp/SMS/email preference, direct-marketing consent. | Require logged preference update; step-up only if account takeover risk is present. |
 
-Material changes should create audit events and user-facing security notifications where appropriate. Detailed status, event schema, and admin workflow belong in DOC-18, DOC-19, and DOC-22.
+Material changes should create audit events and user-facing security notifications where appropriate. Detailed status/event representation belongs in DOC-18, applicable security enforcement in DOC-19, notification policy in DOC-08, and owner-permitted Admin execution in DOC-22.
 
 The user-facing Two-Step Verification toggle controls optional routine step-up only. It must not disable mandatory new-device, risk-triggered, contact-change, account-closure, or provider-required authentication. Payment Passcode settings may include a user-controlled preference requiring passcode confirmation for card or payment-profile changes; the default remains ordinary confirmation unless another mandatory rule applies.
 
@@ -240,7 +240,7 @@ DOC-06B `ME-ROOT` is the Payer-only account-control route. DOC-15 supplies priva
 - a Payer may see only owner-approved source-context destination facts for the relevant payment context, subject to DOC-15 approved-purpose access requirements;
 - Archive is a Payer visibility projection that must not erase or rewrite authoritative source, Evidence, Payment, destination, Payout, reconciliation or audit history. `ARCHIVED-ROOT`/`ARCHIVED-BILLS-LIST` presentation belongs to DOC-06B/DOC-06C. `ARCHIVED-DOCS-LIST` is provisional and unreachable through active UI; it has no DOC-15-defined content or interaction. If a later owner authorizes presentation, DOC-15 supplies approved-purpose access and retention requirements only.
 
-Detailed passcode, session, device, reauthentication, and reveal implementation belongs in DOC-19. Final event and data structures belong in DOC-18.
+DOC-19 defines the mechanism-neutral passcode, session, device, reauthentication, and reveal security-control contract; exact mechanisms remain open with Security/Engineering and provider detail with DOC-17. Final event and data structures belong in DOC-18.
 
 ---
 
@@ -298,7 +298,7 @@ Visibility must reflect role, task, permission, and approved purpose.
 | Engineering | Should not access production personal data unless approved for incident, support, debugging, migration, or security task under controlled process. |
 | Vendor / Partner | May receive only approved data needed for contracted service, integration, fulfilment, risk, payment, payout, or legal purpose. |
 
-Detailed RBAC, access approval, admin workflows, and audit events belong in DOC-19, DOC-22, and DOC-18.
+Affected owners define whether an action exists and its approval conditions; DOC-15 owns approved-purpose access and masking; DOC-19 enforces least privilege, current authority, reauthentication, and auditability; DOC-22 executes only expressly owner-permitted Admin workflows; and DOC-18 owns audit-event representation.
 
 ### 9.1 Retired Participant-Linking Privacy
 
@@ -469,7 +469,7 @@ Detailed provider integration belongs in DOC-17. Vendor risk and security policy
 
 ## 15. Security and Incident Boundary
 
-DOC-15 defines privacy requirements. DOC-19 owns technical security implementation.
+DOC-15 defines privacy requirements. DOC-19 owns the mechanism-neutral technical security-control contract; implementation mechanisms and operating evidence remain separately unresolved.
 
 Privacy-sensitive security expectations include:
 
@@ -499,7 +499,7 @@ Requirements:
 - PCI scope, SAQ/ROC path, responsibility matrix, and QSA/acquirer expectations must be confirmed before production launch;
 - ISO and PCI evidence should be traceable to policies, controls, logs, approvals, tests, incidents, vendor reviews, and change records.
 
-Detailed ISO/ISMS policies belong in DOC-99 policy library. PCI and authentication implementation details belong in DOC-19. Provider responsibility and integration scope belong in DOC-17.
+Detailed ISO/ISMS policies belong in the DOC-99 policy library. DOC-19 defines PCI-related and authentication security-control requirements without determining final PCI scope or implementation mechanisms. Provider responsibility and integration scope belong in DOC-17; PCI applicability and assessment require professional confirmation.
 
 ---
 
@@ -519,7 +519,7 @@ Detailed ISO/ISMS policies belong in DOC-99 policy library. PCI and authenticati
 | DOC-14 | Risk data, AML/sanctions, fraud signals, risk holds, and review records. |
 | DOC-17 | Provider API, data transfer, webhook, file, and integration records. |
 | DOC-18 | Data model, data classification metadata, lineage, audit events, warehouse, ledger, reporting, and data marts. |
-| DOC-19 | Authentication, encryption, RBAC, device controls, PCI, ISO-aligned security controls, and security mechanics. |
+| DOC-19 | Mechanism-neutral authentication, protected-value, access-enforcement, device/session, secure-boundary, and verification-handoff controls; no final PCI scope, provider mechanism, implementation, or certification claim. |
 | DOC-21 | Incident response, support escalation, data incident workflow, and operations runbooks. |
 | DOC-22 | Execution and operation of expressly owner-permitted permissions, queues, review workflows, overrides, exports, and access logging using approved policy and facts; DOC-22 does not define the underlying privacy, access, retention, security, or product decision. |
 | DOC-99 | ISMS policies, access control, cryptography, supplier security, incident management, logging, secure development, and related ISO-aligned policies. |
@@ -587,6 +587,7 @@ It should not become:
 ## 20. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Product Documentation Team | Aligned privacy, recovery, representation, Admin, and PCI handoffs with the reviewed mechanism-neutral DOC-19 contract while retaining DOC-15 privacy ownership and unresolved professional/implementation dependencies. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.9.3` | `2026-08-13` | Product Documentation Team | Distinguished the 30-minute registration-attempt usability window from indefinite record retention without adding a deletion or disposal mechanism. |
 | `0.9.2` | `2026-08-12` | Product Documentation Team | Recorded the Founder-settled indefinite-retention decision, removed finite/open-duration language, and reframed privacy, access, legal-hold and correction handling without creating a disposition mechanism. |

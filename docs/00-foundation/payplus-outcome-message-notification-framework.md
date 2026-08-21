@@ -1,6 +1,6 @@
 # PayPlus Outcome, Resolution, Message and Notification Framework
 
-Last updated: 2026-07-29
+Last updated: 2026-08-21
 
 ## 1. Purpose
 
@@ -110,7 +110,7 @@ Common strategies include:
 
 One Outcome may support different resolutions in different assurance or capability contexts. For example, an inaccessible recovery email may permit an already-linked provider login for one user and require Support for another. The resolution selection must not expose unavailable login methods, internal risk rules, or protected account facts.
 
-Resolution is a governed mapping, not a new persistent status or a requirement to build a standalone software service. The route or domain owner defines permitted resolution behavior. DOC-07 maps that behavior to approved messages and CTAs. DOC-19 and other specialist owners define the controls that determine whether a capability is usable.
+Resolution is a governed mapping, not a new persistent status or a requirement to build a standalone software service. The route or domain owner defines permitted resolution behavior. DOC-07 maps that behavior to approved messages and CTAs. DOC-19 and other specialist owners enforce applicable controls around owner-permitted capability use; they do not create the capability, Resolution Strategy, route, status, or domain outcome.
 
 ## 4. Status vs Outcome
 

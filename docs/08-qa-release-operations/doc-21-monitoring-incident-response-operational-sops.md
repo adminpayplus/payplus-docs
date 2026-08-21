@@ -1,7 +1,7 @@
 ---
 document_id: DOC-21
 title: Monitoring, Incident Response & Operational SOPs
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Operations / Support
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Operations Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -39,12 +39,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-21` |
 | **Title** | Monitoring, Incident Response & Operational SOPs |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Operations / Support |
 | **Reviewers** | Operations Lead<br>Product Lead<br>QA Lead<br>Risk / Compliance Lead<br>Privacy Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Operations Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation, Chargeback & Case<br>DOC-12 Bill Category, Document AI, OCR & Payee Verification<br>DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control<br>DOC-15 Privacy, Data Protection, Record & Retention<br>DOC-16 Technical Architecture Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-22 Admin Management & Operations Workflow |
 
@@ -58,7 +58,7 @@ Operations may observe and route a concern; it does not become the owner of prod
 
 ## 2. Ownership and non-erasure boundaries
 
-DOC-21 owns monitoring/support/incident intake, owner routing, operational coordination, escalation evidence, and closure evidence. DOC-16 owns architecture, trust-boundary, reliability, recovery, reconciliation, observability, and technical evidence obligations; DOC-09 owns Payment and Payment Instruction meaning; DOC-10 owns Payout/reconciliation; DOC-11 owns refund/cancellation/dispute/chargeback/case; DOC-12 owns Evidence; DOC-14 owns risk; DOC-15 owns privacy/access/masking and the lawful-scope-qualified indefinite-retention direction; DOC-08 owns notification policy; DOC-18 owns data/event/audit/lineage representation; DOC-19 remains the future security-detail owner; DOC-22 performs only expressly owner-permitted operations.
+DOC-21 owns monitoring/support/incident intake, owner routing, operational coordination, escalation evidence, and closure evidence. DOC-16 owns architecture, trust-boundary, reliability, recovery, reconciliation, observability, and technical evidence obligations; DOC-09 owns Payment and Payment Instruction meaning; DOC-10 owns Payout/reconciliation; DOC-11 owns refund/cancellation/dispute/chargeback/case; DOC-12 owns Evidence; DOC-14 owns risk; DOC-15 owns privacy/access/masking and the lawful-scope-qualified indefinite-retention direction; DOC-08 owns notification policy; DOC-18 owns data/event/audit/lineage representation; the reviewed DOC-19 Draft owns mechanism-neutral security-control requirements and verification handoffs; DOC-22 performs only expressly owner-permitted operations.
 
 Indefinite retention remains the accepted product/governance direction subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. Monitoring, incident handling, Archive, account closure, Save outcome, Payment/Checkout terminal treatment, case closure, or notification delivery must not erase or rewrite authoritative financial, audit or case lineage. Source Archive is a non-erasing visibility projection.
 
@@ -107,7 +107,7 @@ Before a scope is treated as operationally ready, the owning teams should have i
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
 | OQ-21-001 | Which human-readable operational evidence form should be used for each concern family? | Operations / QA | Open |
-| OQ-21-002 | Which monitoring signals are supported by the current DOC-18 representation baseline, and which security-dependent signals remain blocked until DOC-19 is substantively specified? | Operations / DOC-18 / DOC-19 | Open |
+| OQ-21-002 | Which monitoring signals are supported by the current DOC-18 representation baseline, and which remain blocked by unresolved `OQ-19-003` representation, `OQ-19-004` test/monitoring/runbook, provider, privacy, and operational-evidence dependencies? | Operations / DOC-18 / DOC-19 / DOC-20 / Security | Open |
 | OQ-21-003 | Which support procedures and owner handoff details are required for each later release scope? | Operations / Product / Support | Open |
 | OQ-21-004 | Which incident and release evidence relationship is required at each later lifecycle gate? | Operations / QA / Product | Open |
 
@@ -116,6 +116,7 @@ These questions do not authorize a severity taxonomy, numerical threshold, SLA, 
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Replaced the future DOC-19 marker and reframed the open monitoring dependency around the reviewed control contract and unresolved representation/evidence gates without defining signals or runbooks. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.2.0 | 2026-08-14 | Aligned operational evidence and owner routing with the Stage 9-passed DOC-16 architecture, including local authoritative facts, durable cross-boundary handoffs, provider-controlled card-data escalation, current DOC-18 representation ownership, and future DOC-19 security detail. |
 | 0.1.2 | 2026-08-13 | Added explicit operational routing for zero- and insufficient-Application Payout control, no-fabrication/no-bypass treatment, and owner-controlled downstream resolution without defining signals, statuses, thresholds, queues or mechanisms. |

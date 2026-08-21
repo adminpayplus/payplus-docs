@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -31,6 +31,7 @@ related_documents:
   - DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification
   - DOC-14 AML, Anti-Cashout, Fraud & Risk Controls
   - DOC-15 Privacy, Data Protection & Record Retention
+  - DOC-17 API & Third-party Integration Specification
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization & Authentication
   - DOC-22 Admin Management Dashboard Operations Workflow
@@ -42,14 +43,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
@@ -341,7 +342,7 @@ The authorization action must be explicit. Adaptive Checkout presentation may co
 
 The authorization action should not be preselected, hidden, implied by source or Evidence viewing, or bundled with unrelated consent.
 
-Payment passcode entry is a separate payer confirmation step before payment authorization proceeds. Additional 2FA, 3DS, OTP, biometric, PSP/acquirer, or PayPlus risk challenge may apply under DOC-09, DOC-14, DOC-15, and DOC-19.
+Payment passcode entry is a separate payer confirmation step before payment authorization proceeds; it is not payer authorization itself. DOC-09 owns payment admission and payer authorization, DOC-14 risk triggers/actions, DOC-15 privacy conditions, DOC-17 provider/cardholder challenge contracts, and DOC-19 mechanism-neutral security enforcement.
 
 If the payer creates a deferred Payment Instruction, content must make clear that payment has not yet been submitted to the PSP/acquirer and that a later `Pay Now` action invokes the DOC-09 Checkout Resolver. The instruction does not identify a predetermined Checkout or carry forward payer authorization.
 
@@ -612,7 +613,7 @@ The Slice must provide or reference the following layered coverage. Separate tab
 | Copy and Locale | Approved expression or explicit `TBD`; meaning-preservation and variable constraints. | DOC-07; final Copy/Locale review remains open. |
 | Presentation Mapping | Owner-defined surface/component/slot reference, hierarchy, accessibility, and responsive evidence or explicit `TBD`. | DOC-06B surface owner with DOC-07 mapping. |
 | Notification | DOC-08 relationship or `None`; an in-flow message is not automatically a Notification. | DOC-08. |
-| Runtime and audit | Occurrence/correlation, event, version, lineage, and implementation handoff or explicit `TBD`. | DOC-18/DOC-19. |
+| Runtime and audit | Occurrence/correlation, event, version, lineage, and implementation handoff or explicit `TBD`. | DOC-18 for representation; DOC-19 only for applicable security-control constraints. |
 | Support and operations | Controlled Support/Admin visibility and handoff without granting an override. | DOC-21/DOC-22. |
 | Acceptance | Semantic, negative-path, accessibility, localization, revalidation, and implementation evidence or explicit `TBD`. | DOC-20 and applicable acceptance owners. |
 
@@ -628,7 +629,7 @@ The Slice must cover, at minimum:
 
 Exact Outcome Type IDs, Message IDs, Action IDs, approved Copy, Locale Variants, CTA labels/hierarchy, Presentation Mappings, notification mappings, and technical mappings remain open. They must not be invented during implementation. Route or domain documents must not create competing message identifiers or copy.
 
-DOC-06B and applicable route/domain owners retain Outcome meaning, permitted Resolution Strategies, route placement, destination, and return behavior. DOC-07 owns the governed user-facing Semantic, Disclosure, CTA, approved Copy, Locale constraints, and Presentation references. DOC-08 owns Notification identity, trigger, recipient, channel eligibility, templates, delivery, retry, delivery evidence, and read/archive behavior. DOC-18 owns occurrence/correlation records and event mapping. DOC-19 owns technical authentication, retry, lockout, session, provider, biometric, and security handling. DOC-20 owns detailed acceptance, DOC-21 owns Support procedure, and DOC-22 may execute only expressly owner-permitted future Admin operations.
+DOC-06B and applicable route/domain owners retain Outcome meaning, permitted Resolution Strategies, route placement, destination, and return behavior. DOC-07 owns the governed user-facing Semantic, Disclosure, CTA, approved Copy, Locale constraints, and Presentation references. DOC-08 owns Notification identity, trigger, recipient, channel eligibility, templates, delivery, retry, delivery evidence, and read/archive behavior. DOC-18 owns occurrence/correlation records and event mapping. DOC-17 owns provider contracts; DOC-19 owns mechanism-neutral authentication, protected-value, retry/replay, session/device and access-enforcement controls while exact mechanisms remain open. DOC-20 owns detailed acceptance, DOC-21 owns Support procedure, and DOC-22 may execute only expressly owner-permitted future Admin operations.
 
 #### 15.2.1 Authentication Slice Order
 
@@ -873,6 +874,7 @@ DOC-07 is acceptable when:
 ## 22. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Aligned payer-authorization, provider, runtime/audit and security-control handoffs with DOC-09, DOC-17, DOC-18 and the reviewed mechanism-neutral DOC-19 contract without approving Copy or mechanisms. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.11.1 | 2026-08-12 | Consolidated fixed-inventory, Payment Obligation, provider/rail/timing/retention and DOC-22 execution-boundary corrections without approving new Copy or CTA. |
 | 0.11.2 | 2026-08-12 | Applied the Founder-settled indefinite-retention rule to disclosure meaning and account-closure/privacy-request wording without inventing Copy or a disposition mechanism. |
