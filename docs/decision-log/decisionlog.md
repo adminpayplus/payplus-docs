@@ -60,8 +60,8 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-041` | `2026-08-11` | Workflow Draft Review Handoff And Review Convergence | Accepted | Documentation Development Workflow | `9072e00fffe3f3329dbf522c8965500e78d56b21` |
 | `DEC-2026-042` | `2026-08-13` | Payer-Only Bill And Rent Architecture Alignment | Accepted | Multiple formal owners | `43e35bcd86f2fd5464606d6e9213aabda1a4b794` |
 | `DEC-2026-043` | `2026-08-14` | DOC-16 Risk-Isolated Technical Architecture Baseline | Accepted | `DOC-16` | `77144f12d6675f6305c9a96e00bc75af97702f6e` |
-| `DEC-2026-044` | `2026-08-20` | Bills Tiered Evidence, Declaration, Payment And Payout Model | Accepted | `DOC-05` / `DOC-06C` / `DOC-09` / `DOC-10` / `DOC-12` / `DOC-14` | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
 | `DEC-2026-046` | `2026-08-21` | DOC-19 Mechanism-Neutral Security Control Alignment | Accepted | `DOC-19` | `860fd78cbb7cc5a080e10334291b60ff8902a77d` |
+| `DEC-2026-047` | `2026-08-20` | Bills Tiered Evidence, Declaration, Payment And Payout Model | Accepted | `DOC-05` / `DOC-06C` / `DOC-09` / `DOC-10` / `DOC-12` / `DOC-14` | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
 
 ## 4. Decision Record Template
 
@@ -1979,7 +1979,7 @@ Supersedes any active implication that PayPlus is already committed to full micr
 - Owner-first drafting and independent review of DOC-17 provider/API integration and DOC-19 security implementation detail.
 - Final approved schemas, events, persistence, security mechanisms, operational controls, implementation, tests, evidence, and any external certification remain later-owner work.
 
-### `DEC-2026-044` - Bills Tiered Evidence, Declaration, Payment And Payout Model
+### `DEC-2026-047` - Bills Tiered Evidence, Declaration, Payment And Payout Model
 
 | Field | Record |
 | --- | --- |
@@ -1989,6 +1989,12 @@ Supersedes any active implication that PayPlus is already committed to full micr
 | Affected documents | DOC-01–05; DOC-06, DOC-06A, DOC-06B, DOC-06C, DOC-06D, DOC-07, DOC-08; DOC-09–12; DOC-14–16, DOC-18, DOC-20–22; and the aligned documentation index, glossary, traceability and governed Bills/Checkout/Archive diagrams |
 | Substantive commit | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
 | Founder approval | Founder-approved consolidated Bill-only tiered Evidence, Declaration, Payment and Payout package, with explicit Stage 14–16 commit and push authorization on `2026-08-20` |
+
+**Decision-Record Correction / Provenance**
+
+At correction time, the locked live `main` registry already owned `DEC-2026-044` for Material Workflow Fixed-Seat Review Controls. The previously unmerged Bills branch-local use of `DEC-2026-044` therefore collided with that canonical record. `DEC-2026-047` is the canonical replacement ID for this Bills decision; the former branch-local label remains preserved only through Git history and this correction provenance. The Bills substantive commit and accepted decision text remain `e84ce35dd0fa4687d2f98dd08191645fcffa69af`; this record-only correction does not alter Bills product content.
+
+The Phase 2 main merge-result record must cite `DEC-2026-047` for the Bills alignment while retaining distinct references to main `DEC-2026-044`, main `DEC-2026-045`, and DOC-19 `DEC-2026-046`.
 
 **Decision**
 

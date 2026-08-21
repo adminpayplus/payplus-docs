@@ -1563,7 +1563,7 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 | --- | --- |
 | Substantive commit | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
 | Primary owner | `DOC-05`, `DOC-06C`, `DOC-09`, `DOC-10`, `DOC-12`, and `DOC-14` |
-| Decision record | `DEC-2026-044` |
+| Decision record | `DEC-2026-047` |
 | Founder approval | Founder-approved consolidated Bill-only tiered model and explicit Stage 14–16 authorization on `2026-08-20` |
 
 **Files Changed**
@@ -1612,6 +1612,12 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - C1 values/configuration, official Evidence Category lists, Tier 3 operating roles/segregation, Declaration materiality, Tier 2 hold/Refund operation, G1 normalization/concurrency and lawful-scope confirmation.
 - Professional assessment, DOC-17/DOC-19 detail, implementation, UAT, operations and production-readiness evidence remain with their owners.
+
+**Decision-Record Correction / Provenance**
+
+- The locked live `main` registry already owns `DEC-2026-044` for Material Workflow Fixed-Seat Review Controls. The previous unmerged branch-local Bills label therefore collided with that canonical record.
+- This changelog entry and the decision detail now map the unchanged Bills substantive commit `e84ce35dd0fa4687d2f98dd08191645fcffa69af` to `DEC-2026-047`. The correction changes no Bills product content and preserves the prior branch-local label only through Git history and the linked decision-record provenance.
+- The Phase 2 main merge-result record must identify `DEC-2026-047` as the Bills decision and retain distinct references to `DEC-2026-044`, `DEC-2026-045`, and `DEC-2026-046`.
 
 ### `2026-08-21` - DOC-19 Mechanism-Neutral Security Control Alignment
 
