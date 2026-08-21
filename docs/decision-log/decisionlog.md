@@ -64,6 +64,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-045` | `2026-08-20` | Material Proposal/Draft Convergence Workflow Correction | Accepted | Documentation Development Workflow / Parallel-Agent Documentation Procedure | `84656924860368e8055731175b9296fdf0912159` |
 | `DEC-2026-046` | `2026-08-21` | DOC-19 Mechanism-Neutral Security Control Alignment | Accepted | `DOC-19` | `860fd78cbb7cc5a080e10334291b60ff8902a77d` |
 | `DEC-2026-047` | `2026-08-20` | Bills Tiered Evidence, Declaration, Payment And Payout Model | Accepted | `DOC-05` / `DOC-06C` / `DOC-09` / `DOC-10` / `DOC-12` / `DOC-14` | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
+| `DEC-2026-048` | `2026-08-06` | ENTRANCE-PROMOTION-DETAIL Defined Baseline | Accepted | `DOC-06B` / `DOC-13` / `DOC-22` | `ec9b97bb4cf9b2e5b03992f4a23c546146de97e6` |
 
 ## 4. Decision Record Template
 
@@ -2167,3 +2168,46 @@ Supersedes active placeholder/future-owner and ownership-inversion wording withi
 - DOC-17 provider/API contracts, final DOC-18 representation, DOC-20 test/UAT/release evidence, DOC-21 monitoring/runbooks, owner-permitted DOC-22 actions and DOC-99 policy/supplier evidence remain separately gated.
 - PCI applicability, scope, shared responsibility and assessment require professional confirmation.
 - Implementation, operating-effectiveness, compliance, certification, provider-approval, production-readiness and launch-readiness evidence remain future work.
+### `DEC-2026-048` - ENTRANCE-PROMOTION-DETAIL Defined Baseline
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-06` |
+| Status | Accepted |
+| Primary owner | `DOC-06B` route-level status and UX; `DOC-13` Promotion/Offer source truth; `DOC-22` Feature Management and central Entrance placement workflow |
+| Affected documents | `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`, `docs/traceability/route-register.md`, `docs/traceability/payplus-documentation-management-roadmap.md` |
+| Substantive commit | `ec9b97bb4cf9b2e5b03992f4a23c546146de97e6` |
+| Founder approval | PDM-WI-006 Founder-authorized status-only transition after Stage 9 Review, corrected Align, Stage 12 validation, and Stage 13 Integration on `2026-08-06`; Commit, Record, and Push authorized |
+
+**Decision-Record Correction / Provenance**
+
+At main-integration time, the locked live `main` registry already owned `DEC-2026-041` for Workflow Draft Review Handoff And Review Convergence. The previously unmerged Entrance branch-local use of `DEC-2026-041` therefore collided with that canonical record. `DEC-2026-048` is the canonical replacement ID for this Entrance decision; the former branch-local label remains preserved only through Git history and this correction provenance. The Entrance substantive commit and accepted route-status decision remain `ec9b97bb4cf9b2e5b03992f4a23c546146de97e6`; this record-only correction does not alter Entrance route behavior.
+
+The source branch's 74/69/5 inventory remains historical evidence for that original three-file change. The current main roadmap follows the canonical Route Register's 68 physical records: 61 Defined baseline, 4 Partially defined, and 3 Superseded route-family records. This integration alignment changes no route state other than the accepted `ENTRANCE-PROMOTION-DETAIL` transition.
+
+**Decision**
+
+The Founder-authorized status transition upgrades `ENTRANCE-PROMOTION-DETAIL` from `Partially defined` to `Defined baseline`. Its human-readable route behavior is decision-complete enough for continued alignment; final visual design and technical specification remain open and non-blocking under their formal owners.
+
+The accepted meaning carried by this status baseline remains unchanged: Entrance supports `Promotion` and `Feature` only; `Announcement` is excluded; an Offer-owned source may be referenced beneath Promotion without creating an Offer Entrance class; and `ENTRANCE-ROOT` remains Defined while `ENTRANCE-CAROUSEL` remains a component. The accepted Carousel and detail contracts remain the image-first 4:5 presentation, five-second Crossfade, dots, swipe/tap separation, first-use cue, deterministic priority/manual sequence, Back-only navigation, same-item return, optional source-approved action, and inline Terms. Central placement retains timing, sequence, Feature Management, source-change suspension, preview, publication, and removal responsibility without taking source truth. Promotion placement uses `Use Promotion Period` when checked and read-only manual dates, or separate manual placement dates when unchecked; Feature placement always uses manual dates. Placement allows up to five active items, at most one priority item first, deterministic manual ordering for the remainder, and no random ordering. Feature Management remains an independent source area with a formal product/business-truth owner, while central Entrance placement owns common placement configuration. Withdrawn, prohibited, unauthorized, or materially changed source content is suspended from active presentation while its source and historical evidence are preserved, and restoration requires updated preview and republication.
+
+The synchronized route inventory is 74 registered destinations, 69 Defined baseline destinations, and 5 Partially defined destinations: `HOME-ROOT`, `BILLS-LINKING`, `SUPPORT-ROOT`, `ABOUT-ROOT`, and `TERMS-ROOT`. No other route or document status changed.
+
+**Rationale**
+
+The reviewed route contract satisfies the Product Destination Register criterion for Defined baseline while clearly preserving downstream work. The status-only alignment keeps route presentation, Promotion/Offer truth, Feature truth, and Admin placement responsibilities separate and does not add product behavior, technical implementation, or ownership meaning.
+
+**Consequences And Handoffs**
+
+`OQ-06B-012` remains open and explicitly non-blocking. `OQ-XDOC-011` remains open and unchanged. DOC-07 retains exact Copy, CTA, disclosure, localization, accessibility expression, and presentation; Design and platform owners retain responsive, motion, and visual validation work; technical owners retain scheduling, synchronization, source-change detection, permissions, schemas, events, audit, monitoring, security, and implementation; DOC-20 retains testing, UAT, acceptance, and release evidence; and later DOC-22 work retains operational and technical detail. The separate pre-existing PDM-WI-002 roadmap-maintenance debt remains untouched.
+
+**Supersedes / Superseded By**
+
+Supersedes the active status references that treated `ENTRANCE-PROMOTION-DETAIL` as `Partially defined`. DEC-2026-040, changelog history, decision-log history, and historical DOC-06B revision rows remain preserved; no append-only historical record was rewritten.
+
+**Remaining Open Items**
+
+- Exact DOC-07 Copy, CTA labels, disclosure, localization, accessibility expression, and presentation.
+- Responsive measurements, short-viewport treatment, reduced-motion implementation, gesture thresholds, first-use-cue persistence, animation, and visual validation.
+- Technical date/time storage, scheduling, synchronization, source-change detection, permissions, schemas, events, audit, monitoring, security, and platform implementation.
+- DOC-20 testing, UAT, acceptance, and release evidence, plus later DOC-22 operational and technical workflow detail.

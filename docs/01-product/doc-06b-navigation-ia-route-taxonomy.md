@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 1.0.1
+version: 1.0.2
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -45,7 +45,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `1.0.1` |
+| **Version** | `1.0.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
@@ -114,7 +114,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 
 | Area | Status | Notes |
 | --- | --- | --- |
-| Entrance and authentication | Defined behavior baseline | `ENTRANCE-ROOT`, the Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL`, the Login family, Registration, Recovery, and Account Activation handoffs have defined human-level behavior. Exact Copy, final prototype/visual evidence, technical implementation, and security mechanics remain open with their formal owners; `ENTRANCE-PROMOTION-DETAIL` remains Partially defined. |
+| Entrance and authentication | Defined baseline | `ENTRANCE-ROOT`, the Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL`, the Login family, Registration, Recovery, and Account Activation handoffs have human-readable behavior that is decision-complete enough for continued alignment. Exact DOC-07 Copy/CTA, final visual and accessibility evidence, technical implementation, and security mechanics remain open with their formal owners; these downstream dependencies do not block the `ENTRANCE-PROMOTION-DETAIL` Defined baseline. |
 | Bottom navigation | Working baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline exists; final visual design remains open. |
 | Home dashboard | Partially defined | `HOME-ROOT` and section order exist; final card and visual details remain open. |
 | Pay+ action sheet | Defined baseline | `PAYPLUS-ACTION-SHEET`, its four retained Payer-only actions, destination handoffs, availability behavior, and motion principles are defined; Request Payment is retired and exact visual specification remains open. |
@@ -206,7 +206,7 @@ When this document or another route owner defines, renames, replaces, or materia
 | Destination | Type | Purpose | Definition Status |
 | --- | --- | --- | --- |
 | `ENTRANCE-ROOT` | Unauthenticated root screen | Present public PayPlus entry content and the Log In / Create Account actions. | Defined baseline; final visual, technical, and validation evidence pending |
-| `ENTRANCE-PROMOTION-DETAIL` | Public child screen | Display one approved public Promotion or Feature item, its inline Terms, and zero or one owner-approved action. | Partially defined; human-level UI/UX behavior defined, with exact Copy and downstream evidence pending |
+| `ENTRANCE-PROMOTION-DETAIL` | Public child screen | Display one approved public Promotion or Feature item, its inline Terms, and zero or one owner-approved action. | Defined baseline; human-readable UI/UX behavior is decision-complete enough for continued alignment, with exact Copy and downstream evidence pending |
 | `AUTH-LOGIN` | Route family / entry resolver | Resolve an existing-user login into Fast or Full Login according to the current device and account context. | Resolver rules defined |
 | `AUTH-LOGIN-FAST` | Child login screen | Reauthenticate a remembered eligible account through user-enabled device biometrics or password fallback. | Screen behavior defined; technical mechanics open |
 | `AUTH-LOGIN-FULL` | Child login screen | Offer Google, Apple, or email/password login where Fast Login is unavailable or another account is selected. | Screen behavior defined; technical mechanics open |
@@ -290,7 +290,7 @@ On the first applicable Entrance display after initial app use, and only where t
 
 ##### `ENTRANCE-PROMOTION-DETAIL`
 
-`ENTRANCE-PROMOTION-DETAIL` remains the existing Partially defined public child route. It uses one image-first vertical composition:
+`ENTRANCE-PROMOTION-DETAIL` is the existing Defined baseline public child route. Its human-readable UI/UX behavior is decision-complete enough for continued alignment. It uses one image-first vertical composition:
 
 1. header;
 2. one visible Back control on the left and no separate Close control;
@@ -690,7 +690,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 
 | Area | Purpose of Future DOC-06 Family Detail | Current Status |
 | --- | --- | --- |
-| Entrance and Authentication Routes | Maintain the defined `ENTRANCE-ROOT`, Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL`, Login family, Registration, Recovery boundary, Account Activation, Phone Verification, Identity Verification, and Payment Passcode behavior; finalize exact Copy, provider mapping, technical/security implementation, prototype and accessibility evidence, and tests. | Human-level behavior defined / `ENTRANCE-PROMOTION-DETAIL` remains Partially defined / downstream evidence pending |
+| Entrance and Authentication Routes | Maintain the defined `ENTRANCE-ROOT`, Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL`, Login family, Registration, Recovery boundary, Account Activation, Phone Verification, Identity Verification, and Payment Passcode behavior; finalize exact Copy, provider mapping, technical/security implementation, prototype and accessibility evidence, and tests. | Defined baseline / `ENTRANCE-PROMOTION-DETAIL` human-readable behavior is decision-complete for continued alignment / downstream evidence pending and non-blocking |
 | Bottom Navigation Route Map | Define how `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me relate to top-level routes and deep links. | Working baseline; final visual design open |
 | Pay+ Action Sheet Detail | Maintain the confirmed four-action Payer-only behavior after `Request Payment` retirement, destinations, availability, completion, return, and configuration boundaries; finalize only the remaining exact visual specification. | Defined behavior / final visual design open |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
@@ -2569,7 +2569,7 @@ No numerical accessibility, performance, or usability threshold is established h
 
 | Route / Area | Status | Next Required Work |
 | --- | --- | --- |
-| Entrance and Authentication | Defined Behavior Baseline / Final Design and Technical Controls Pending | `ENTRANCE-ROOT`, the Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL` human-level UI/UX, Login, Recovery boundary, Registration, Account Activation, Phone Verification, Identity Verification, Payment Passcode Settings, banners, protected return, and route ownership are defined. `ENTRANCE-PROMOTION-DETAIL` remains Partially defined. Confirm exact Copy, final prototype/visual and accessibility evidence, provider mapping, and DOC-19/DOC-20 technical and test controls. |
+| Entrance and Authentication | Defined baseline / final design, technical, and validation evidence pending | `ENTRANCE-ROOT`, the Entrance Carousel, and `ENTRANCE-PROMOTION-DETAIL` human-readable UI/UX behavior are decision-complete enough for continued alignment, alongside Login, Recovery boundary, Registration, Account Activation, Phone Verification, Identity Verification, Payment Passcode Settings, banners, protected return, and route ownership. Confirm exact DOC-07 Copy/CTA, final visual and accessibility evidence, provider mapping, and DOC-19/DOC-20 technical and test controls; these downstream dependencies do not block the `ENTRANCE-PROMOTION-DETAIL` Defined baseline. |
 | Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Bounded Greeting, Important Notice, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance behavior is defined. Confirm final visual design and later DOC-20 evidence. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Payment Checkout | `PAYMENT-CHECKOUT` Defined baseline | Preserve the decision-complete human-readable Workspace, resolver, funding, authorization, execution, recovery, and accessibility boundaries in Section 5.20 while exact Copy, IDs, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical mappings, prototype and accessibility/user-validation evidence, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending. |
@@ -2600,13 +2600,14 @@ No numerical accessibility, performance, or usability threshold is established h
 | OQ-06B-009 | What exact Activity visual styling, field density, search/filter behavior, grouping behavior, empty-state copy, lifecycle timeline wording, and transaction-detail display should be used? Screen order, expandable entry behavior, amount direction, and core actions are defined. | Product / Design / Payments / Operations | Partially open |
 | OQ-06B-010 | What final receipt/statement PDF layout and visual design, export naming, sharing control, statement schedule, and re-issue workflow should be used? Required content follows DOC-08; root search, direct download, and shared in-app preview behavior are defined. | Product / Finance / Legal / Operations | Partially open |
 | OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Offer label taxonomy for Pay+ Offers and Partner Offers, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed, and this question does not reopen the settled Pay+ action composition. | Product / Design / Growth / Privacy / Commercial | Partially open |
-| OQ-06B-012 | What final responsive measurements, short-viewport treatment, first-use-cue persistence and animation implementation, exact Copy/CTA presentation, screen-reader behavior, technical scheduling/synchronization, and DOC-20 evidence should implement the defined Entrance Carousel and `ENTRANCE-PROMOTION-DETAIL` behavior? | Product / Design / Content / Growth / Security / Privacy / Engineering / QA / Operations | Partially open; capacity, sequence, timing, interaction, Promotion/Feature scope, image-first detail, Back, inline Terms, optional CTA, source-change suspension, and same-item return are defined |
+| OQ-06B-012 | What final responsive measurements, short-viewport treatment, first-use-cue persistence and animation implementation, exact Copy/CTA presentation, screen-reader behavior, technical scheduling/synchronization, and DOC-20 evidence should implement the defined Entrance Carousel and `ENTRANCE-PROMOTION-DETAIL` behavior? | Product / Design / Content / Growth / Security / Privacy / Engineering / QA / Operations | Partially open and non-blocking to the Defined baseline; capacity, sequence, timing, interaction, Promotion/Feature scope, image-first detail, Back, inline Terms, optional CTA, source-change suspension, and same-item return are defined |
 | OQ-06B-013 | What final OTP constants, provider-result mapping, weak-code/retry/lockout rules, support-assisted passcode-recovery proof and waiting period, credential storage, session-revocation mechanisms, and final visual design apply to the defined `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` flows? DOC-17 owns applicable provider-integration mappings; `OQ-19-001` retains exact security mechanisms with Security/Engineering; DOC-06B retains recovery route behavior; DOC-15 owns approved-purpose privacy/access requirements; DOC-21 owns support operations; DOC-22 owns only owner-permitted queue/workflow/configuration execution; and DOC-20 must derive implementation tests. | Security / Engineering / Compliance / Privacy / QA / Operations | Partially open; product behavior, five identity labels, HK-only phone baseline, six-digit passcode flows, and return behavior confirmed |
 | OQ-06B-014 | What exact Authentication Outcome IDs, Resolution mappings, Message IDs, approved user-facing messages, CTA mappings, disclosure levels, notification treatment, and technical outcome/event mappings should populate the mandatory DOC-07 Authentication slice? | Product / Content / Design / Security / Privacy / Support | Open; route-level Outcomes and Resolution Strategies defined, exact DOC-07/DOC-08/DOC-18 mappings pending |
 
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.2 | 2026-08-21 | Integrated the Founder-authorized `ENTRANCE-PROMOTION-DETAIL` Defined baseline status transition, preserving the current route, owner, Bills, security, and open-mechanism baseline while retaining the downstream deferrals as non-blocking. |
 | 1.0.1 | 2026-08-21 | Aligned Recovery, provider/tokenization, PCI, risk and security handoffs with the reviewed DOC-19 contract and existing owner boundaries without changing routes, statuses, product behavior or open mechanism decisions. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.1.57 | 2026-08-13 | Clarified registration-attempt expiry versus indefinite record retention and made identity-provider handoff wording provider-neutral without selecting a provider. |

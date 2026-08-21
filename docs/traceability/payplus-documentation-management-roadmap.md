@@ -6,7 +6,7 @@
 | --- | --- |
 | Coordination surface | `PayPlus Documentation Manager` task |
 | Status | Active coordination tracker |
-| Last updated | 2026-08-14 |
+| Last updated | 2026-08-21 |
 | Canonical lifecycle | [PayPlus Documentation Development Workflow](../documentation-system/payplus-documentation-development-workflow.md) |
 | Governance authority | [DOC-00 Documentation Governance](../00-foundation/doc-00-documentation-governance.md) |
 | Repository operating contract | [AGENTS.md](../../AGENTS.md) |
@@ -118,16 +118,14 @@ The canonical inventory remains the [Route Register](route-register.md). This sn
 
 | Measure | Current snapshot |
 | --- | --- |
-| Registered destinations | 74 |
-| Defined baseline | 67 |
-| Partially defined | 7 |
+| Registered destinations | 68 |
+| Defined baseline | 61 |
+| Partially defined | 4 |
+| Superseded route-family records | 3 |
 
 | Partially defined destination | Primary owner | Roadmap treatment |
 | --- | --- | --- |
-| `ENTRANCE-PROMOTION-DETAIL` | DOC-06B | Backlog; unscheduled |
 | `HOME-ROOT` | DOC-06B | Backlog; final route/UI detail remains open |
-| `PAYMENT-CHECKOUT` | DOC-06B route UX; DOC-09 domain architecture | Active work item `PDM-WI-002` |
-| `BILLS-LINKING` | DOC-06C | Backlog; unscheduled |
 | `SUPPORT-ROOT` | DOC-06B / DOC-21 | Backlog; lower priority unless required by a blocked flow |
 | `ABOUT-ROOT` | DOC-06B | Backlog; lower priority |
 | `TERMS-ROOT` | DOC-06B / DOC-07 | Backlog; lower priority unless required by compliance or launch acceptance |
