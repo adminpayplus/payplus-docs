@@ -1,7 +1,7 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 0.11.1
+version: 1.0.1
 status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Legal Lead
   - Compliance Lead
   - Payments Lead
-last_updated: 2026-08-12
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-03` |
 | **Title** | Regulatory Assessment |
-| **Version** | `0.11.1` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance / Payments Owner |
 | **Reviewers** | Legal Lead<br>Compliance Lead<br>Payments Lead<br>Risk Lead<br>Finance Lead<br>Product Lead |
 | **Approvers** | Project Owner<br>Legal Lead<br>Compliance Lead<br>Payments Lead |
-| **Last Updated** | `2026-08-12` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook |
 
@@ -65,7 +65,7 @@ This document defines the regulatory assessment framework for PayPlus.
 
 It explains the intended regulatory posture of the PayPlus MVP and identifies the key legal, compliance, PSP/acquirer, payment partner, and risk questions that must be resolved before launch.
 
-PayPlus is intended to operate as an **evidence-backed, payer-authorized payment platform for accepted controlled Bill Categories and the separate Rent journey**.
+PayPlus is intended to operate as a **payer-authorized payment platform for accepted controlled Bill Categories and the separate Rent journey**. Bills use the accepted tiered Evidence model, while Rent retains mandatory attached Evidence; professional assessment remains required.
 
 PayPlus is **not intended** to operate as:
 
@@ -86,7 +86,7 @@ The PayPlus MVP is designed around the following regulatory position:
 
 ```text
 PayPlus enables payments tied to a valid accepted controlled Bill source or separate Rent source.
-PayPlus requires supporting Evidence for the applicable Bill/Rent Payment Obligation.
+PayPlus requires the applicable owner-governed source and Evidence outcome for the Bill/Rent Payment Obligation: Bills follow their accepted tier and Rent retains attached Evidence accepted before Payment.
 PayPlus requires payer review and authorization before payment.
 PayPlus does not provide user-controlled stored balances.
 PayPlus does not allow arbitrary P2P transfers.
@@ -94,7 +94,7 @@ PayPlus does not allow cashout or self-payment.
 PayPlus relies on approved PSP/acquirer, processor, payout, banking, or licensed partner arrangements where required.
 ```
 
-The intended regulatory distinction is that PayPlus should support payment of verified or evidence-backed Bill/Rent Payment Obligations, rather than function as an unrestricted value-transfer, stored-value, or cash-equivalent product.
+The intended regulatory distinction is that PayPlus should support controlled Bill/Rent Payment Obligations subject to their applicable source, Evidence, authorization, risk and Payout controls, rather than function as an unrestricted value-transfer, stored-value, or cash-equivalent product.
 
 This distinction depends on the actual product design, funds flow, contractual structure, partner model, and jurisdiction-specific legal analysis.
 
@@ -122,11 +122,11 @@ User payment instruction is a deferred user action model, not a recurring paymen
 
 ## 3. Product Model Assessed
 
-The MVP is assessed as a controlled, Payer-only, evidence-backed obligation-payment platform. A Payer selects a supported Bill Category through Directory discovery or provides a Payee within that selected Category, or enters the separate Rent journey. Those choices create temporary capture only until the applicable owner-governed preservation outcome establishes an authoritative Bill/Rent source ID.
+The MVP is assessed as a controlled, Payer-only Bill/Rent obligation-payment platform using the accepted tier-aware Bill Evidence model and separate mandatory-Evidence Rent model. A Payer selects a supported Bill Category through Directory discovery or provides a Payee within that selected Category, or enters the separate Rent journey. Those choices create temporary capture only until the applicable owner-governed preservation outcome establishes an authoritative Bill/Rent source ID.
 
 The source is distinct from Evidence, Payable Basis, Payment Obligation, Checkout Workspace, Payment, and payment outcome. Evidence supports verification; it is not the source or a payment. DOC-09 owns the payment-domain path from payment-relevant source facts through Payable Basis, applicable Payment Obligations, Checkout Workspace, allocations/funding legs, immutable confirmed Payments, and Payment Applications. Controlled late confirmation may temporarily leave a confirmed Payment with zero Applications; it does not create a new product flow.
 
-Each active flow must remain Category-bound or the separate Rent journey, evidence-backed as required, payer-authorized before funding, subject to owner-governed risk, payment, payout and privacy gates, and recorded under the appropriate domain owners. Directory discovery does not replace Evidence, intended-Payee, destination, Payout, risk, readiness, or authorization gates.
+Each active flow must remain Category-bound or the separate Rent journey, use attached Evidence where the applicable Bill tier or Rent rule requires it, be payer-authorized before funding, remain subject to owner-governed risk, payment, payout and privacy gates, and be recorded under the appropriate domain owners. Directory discovery does not replace Evidence, intended-Payee, destination, Payout, risk, readiness, or authorization gates.
 
 Economic Payees may include approved billers, service providers, institutions, businesses, landlords/property recipients, or individuals where their applicable owner-governed outcomes permit payment. This assessment does not grant PayPlus User accounts, payee-created capabilities, recipient libraries, reciprocal visibility, or Request creation.
 
@@ -139,7 +139,7 @@ PayPlus must maintain the following boundaries.
 | Boundary | Requirement | Reason |
 | --- | --- | --- |
 | Bill-backed | Every payment must relate to an accepted controlled Bill source or separate Rent source and its applicable Payment Obligation. | Supports distinction from arbitrary money transfer. |
-| Evidence-backed | Each payment context must rely on an authoritative Bill/Rent source and applicable supporting Evidence outcomes. | Supports dispute handling, fraud controls, and regulatory posture. |
+| Controlled source and Evidence | Each payment context must rely on an authoritative Bill/Rent source and its applicable Bill-tier or Rent Evidence outcome. | Supports dispute handling, fraud controls, and regulatory posture. |
 | Payer-authorized | Payer must explicitly authorize payment before funds move. | Prevents unauthorized payments and consumer harm. |
 | No wallet | PayPlus must not provide user-controlled balances. | Reduces stored-value / e-money risk. |
 | No stored value | PayPlus must not allow users to preload, hold, or reuse balances. | Avoids wallet-like functionality. |
@@ -599,7 +599,7 @@ Reviewers:
 | `DOC-14` | AML, sanctions, fraud, cashout, collusion, fake-source and economic-Payee risk controls. |
 | `DOC-15` | Privacy, retention, data classification, role-based visibility, masking, approved-purpose access, and sensitive document handling. |
 | `DOC-18` | Future representation of approved regulatory records, source/Payee facts, Payer authorization, disputes, reconciliation and audit/lineage requirements. |
-| `DOC-19` | Future authentication, tokenization, PCI, RBAC, Payer/economic-Payee data boundaries, access, encryption and audit controls. |
+| `DOC-19` | Reviewed mechanism-neutral authentication, token/reference protection, access-enforcement, privileged-operation, secure-boundary and verification-handoff controls. Provider mechanics remain with DOC-17, privacy boundaries with DOC-15, representation with DOC-18, and PCI applicability, scope and assessment require professional confirmation. |
 | `DOC-20` | Launch checklist including DOC-03 gates and approvals. |
 | `DOC-21` | Monitoring for partner restrictions, verification issues, source abuse, settlement issues, chargebacks, Category violations, Payout failures and compliance incidents. |
 | `DOC-22` | Owner-permitted configuration and execution workflows; it does not own policy, truth, queues or override criteria. |
@@ -612,7 +612,7 @@ Reviewers:
 
 - PayPlus’s intended regulatory posture;
 - the Payer-only controlled Bill and separate Rent MVP model;
-- why the product is evidence-backed and tied to applicable Payment Obligations arising from accepted controlled Bill sources or the separate Rent journey;
+- how the product uses tier-aware Bill Evidence and the separate mandatory-Evidence Rent journey for applicable Payment Obligations arising from accepted controlled sources;
 - why payer authorization is mandatory;
 - why PayPlus is not intended to be a wallet or stored-value product;
 - why arbitrary P2P and cashout are prohibited;
@@ -641,9 +641,10 @@ This document must remain an assessment framework and must not become:
 ---
 
 ## 18. Revision History
-
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Product Documentation Team | Replaced the future DOC-19 marker with the reviewed mechanism-neutral security-control handoff while preserving provider, privacy, representation and professional PCI ownership. |
+| 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.11.1` | 2026-08-12 | Product Documentation Team | Consolidated provider/rail/timing qualification and active source, Evidence, Payment Obligation and inventory-boundary corrections without selecting a provider or rail. |
 | `0.11.0` | 2026-08-12 | Product Documentation Team | Reframed the active regulatory assessment around Payer-created controlled Bill sources and separate Rent; retired Request/Linking runtime assumptions; and preserved owner-governed payment, Evidence, Payout, risk and privacy boundaries. |
 | `0.10.3` | 2026-07-31 | Product Documentation Team | Aligned DOC-09 title, Request-as-linkage terminology, Payment Domain aggregates, provider-integration boundaries, and separate Settlement/Payout ownership. |

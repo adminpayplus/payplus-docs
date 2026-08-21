@@ -2,7 +2,7 @@
 
 Status: Working alignment reference  
 Owner: Product / Founder  
-Last updated: 2026-07-31
+Last updated: 2026-08-19
 Classification: Internal
 
 This matrix aligns PayPlus system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
@@ -130,7 +130,7 @@ The following domains already have human-readable status requirements or explici
 
 | Domain | Covers | Likely Owners |
 | --- | --- | --- |
-| Bill / Rent Readiness | `Ready to Pay`, `Action Required`, and `Under Review`. `Paid` / `Received` are payment outcomes; `Archived` is visibility; due-state display is date-derived. | DOC-06C, DOC-12, DOC-14, DOC-18 |
+| Bill / Rent Readiness | Bills use Tier 1/2/3 conditions: Tier 1 may have no attached Evidence, Tier 2 distinguishes Evidence presence from acceptance/Payout hold, and Tier 3 approval keeps Checkout non-executable before admission. `Ready to Pay`, `Action Required`, and `Under Review` are conditions; `Paid` / `Received` are payment outcomes; `Archived` is Saved/Archived visibility; due-state display is date-derived. Rent retains mandatory Evidence accepted before Payment. | DOC-06C, DOC-12, DOC-14, DOC-18 |
 | Payment Instruction Lifecycle | Deliberate pay-later instruction, including pending, expired, and cancelled conditions. Source Archive is separate and never archives an Instruction or Checkout. Payment-instruction action alerts are not ordinary bill/rent reminder records. | DOC-06B, DOC-09, DOC-18 |
 | Checkout Continuation | Incomplete, continuable, closed, or expired Checkout Workspace presentation. It is separate from Payment Instruction, confirmed Payment, and Payment Obligation coverage. | DOC-06B, DOC-09, DOC-18 |
 | Payment Obligation Coverage | `Fully Paid`, `Partially Paid`, or `Unpaid` semantic condition derived from Effective Coverage against Due Amount. Final cross-surface display mapping must not be inferred beyond DOC-09. | DOC-09, DOC-18 |
@@ -139,7 +139,7 @@ The following domains already have human-readable status requirements or explici
 | Promotion Eligibility and Quote Lifecycle | Eligible, selected, applied, reserved, recalculated, released, or rejected before or during checkout. Issued reward-instrument display uses the MVP mapping above. | DOC-09, DOC-13, DOC-18, DOC-22 |
 | Referral Qualification Lifecycle | `In Progress`, `Qualified`, `Not Qualified`, `Under Review`. These labels belong to attributed-referee progress in `REFERRAL-ROOT`. | DOC-06B, DOC-13, DOC-18, DOC-22 |
 | Referral Reward Presentation | `Available to Claim`, `Issued`, `Expired`, `Reversed`. Entitlement presentation does not create a referral-only issued-instrument status family. `Processing` is transient/internal. A held claim record may remain inactive in Referral History as `Under Review`, while the canonical issued instrument follows the Reward Instrument Lifecycle mapping above. | DOC-06B, DOC-13, DOC-18, DOC-22 |
-| Account / Security Lifecycle | Login, device, passcode, suspended, restricted, and account-closure states not explicitly mapped above. Identity-verification and privacy-request display use the MVP mappings above. | DOC-15, DOC-19, DOC-22 |
+| Account / Security Lifecycle | Login, device, passcode, suspended, restricted, and account-closure states not explicitly mapped above. Identity-verification and privacy-request display use the MVP mappings above. DOC-19 may constrain secure use but does not define persistent states or user-facing labels. | DOC-06B and applicable account/domain owner for meaning; DOC-15 for privacy; DOC-18 for representation; DOC-22 for owner-permitted execution |
 | Support / Case Lifecycle | `Open`, `Pending Information`, `Under Review`, `Resolved`, and `Closed`. Operational action/outcome states and holds remain separate. | DOC-11, DOC-14, DOC-21, DOC-22 |
 
 ---

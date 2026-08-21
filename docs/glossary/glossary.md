@@ -13,11 +13,11 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
-| PayPlus | A controlled application for evidence-backed payments in the twelve accepted Bill Categories plus separate Rent. It is not a wallet, stored-value account, cashout, remittance, lending, or unrestricted P2P product. | DOC-01 / DOC-05 |
+| PayPlus | A controlled application for the twelve accepted Bill Categories using the tiered Evidence model plus separate Rent with mandatory attached Evidence. It is not a wallet, stored-value account, cashout, remittance, lending, or unrestricted P2P product. | DOC-01 / DOC-05 |
 | Payer | The user who reviews the payment context and gives the final payment authorization. | DOC-05 / DOC-06A |
-| Payee | The person or business intended to receive a payout. A payee may or may not be a PayPlus user. | DOC-05 / DOC-10 |
+| Payee | The economic person or business intended to receive a payout. A Payee may or may not be a PayPlus User; receiving destination/account is a separate matching concept. | DOC-05 / DOC-10 |
 | Economic Payee Context | Factual source or transaction context identifying the economic recipient. It does not make the Payee a PayPlus User or create a participant, linking, entitlement, or notification role. | DOC-05 / DOC-09 / DOC-13 |
-| Non-Member Payee | A payee without a PayPlus account. A payer may still create and pay a valid evidence-backed obligation to the designated destination where all gates pass. | DOC-05 / DOC-10 |
+| Non-Member Payee | A payee without a PayPlus account. A payer may still create and pay a valid controlled Bill/Rent obligation to the designated destination where the applicable Evidence treatment and all other gates pass. | DOC-05 / DOC-10 |
 
 ## Obligation and Evidence Terms
 
@@ -26,7 +26,7 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Obligation | A real-world payment obligation arising from one of the twelve controlled Bill Categories or the separate Rent journey that a payer intends or is required to pay. | DOC-05 / DOC-06C |
 | Bill / Fee Record | A user-facing obligation record for an accepted controlled Bill Category. | DOC-06C |
 | Rent / Tenancy Record | A user-facing obligation record for rent supported by tenancy, rental, or other approved relationship evidence. | DOC-06C |
-| Evidence | A document or approved source proving or supporting an obligation. Evidence is not itself an obligation, request, or financial activity. | DOC-12 / DOC-06C |
+| Evidence | Attached Evidence: a document or approved source proving or supporting an obligation where the applicable Bill tier or mandatory-Evidence Rent rule requires or permits it. Evidence is not itself an obligation, request, or financial activity. | DOC-12 / DOC-06C |
 | Evidence Set | The current supporting evidence linked to one obligation, with retained prior versions where accepted updates occur. | DOC-06C / DOC-12 |
 | Evidence Status | The lifecycle or review condition of evidence, separate from bill/rent payment readiness. | DOC-12 / DOC-06C |
 | Previous Evidence Version | A retained, read-only evidence version superseded by an accepted newer version. It cannot be restored or promoted over the newer version. | DOC-06C / DOC-12 |
@@ -45,7 +45,7 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Obligation Allocation | The Checkout-owned allocation of Checkout Target value across one or more Payment Obligations from the same Payable Basis. | DOC-09 |
 | Payable-Capacity Reservation | The Payment Obligation-owned reservation representing the unconfirmed portion of an associated Obligation Allocation. Funding Legs do not own duplicate reservations. | DOC-09 |
 | Funding Allocation Version | One payer-reviewed version of the Checkout's funding-method allocation. A permitted change after execution begins creates a new version and does not change the locked Checkout Target or Obligation Allocations. | DOC-09 |
-| Payment | The immutable confirmed financial result produced by exactly one successfully confirmed Funding Leg. It is not the Checkout Workspace or its completion state. | DOC-09 |
+| Payment | The immutable confirmed financial result produced by exactly one successfully confirmed Funding Leg. It is distinct from Declaration, Evidence, Checkout, Payment Application and Payout; it is not the Checkout Workspace or its completion state. | DOC-09 |
 | Payment Application | One immutable application of confirmed obligation-funded value from one Payment to one Payment Obligation. Adjustments do not rewrite it. | DOC-09 |
 | Payment Instruction | A deliberate user-created pay-later arrangement. An interrupted or partly funded immediate Checkout does not automatically become a Payment Instruction. | DOC-09 / DOC-06B |
 | Incomplete Checkout Workspace | A Checkout Workspace that has started execution but has not fully funded its immutable Checkout Target. It may be continuable, closed, or expired without rewriting confirmed Payments or Payment Applications. | DOC-09 / DOC-06B |
@@ -64,7 +64,7 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Settlement Ready | A DOC-10-owned internal condition indicating a confirmed Payment satisfies applicable Settlement and Payout preparation rules. It is not a generic user-facing payment label. | DOC-10 |
 | Destination Snapshot | An immutable context-specific copy of approved destination information selected or entered for an obligation, Checkout, Payment, or Payout. Later source changes must not mutate it. | DOC-09 / DOC-10 / DOC-15 / DOC-18 |
 | Effective Payout Destination Snapshot | The authorization-time destination snapshot frozen for a Checkout and referenced by each resulting Payment. Later Bill/Rent, payee-profile, or payout-configuration changes must not silently mutate it. | DOC-09 / DOC-10 / DOC-18 |
-| Payout | PayPlus's transfer of settlement-ready funds to the designated payee destination. | DOC-10 |
+| Payout | PayPlus's transfer of settlement-ready funds to the designated economic Payee's receiving destination. It remains distinct from Payment, Refund, case and reconciliation truth. | DOC-10 |
 | Payout Rail | The operational method used for payout. FPS, cheque, and EPS are accepted Hong Kong rails, subject to operating-bank support and enablement. | DOC-10 |
 | Reconciliation | Matching payment, settlement, payout, bank, batch/API, return, and exception records to confirm financial completeness and identify differences. | DOC-10 |
 
@@ -90,7 +90,7 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Action Required | A user-facing readiness or resolution label indicating that the user must take a permitted action. It is not one universal backend status. | Relevant domain owner |
 | Under Review | A user-facing label indicating pending approved review without exposing internal risk, provider, fraud, or operational reasons. | Relevant domain owner |
 | Linked Case | A support, query, dispute, or exception case associated with an obligation, payment, payout, or evidence context. Its lifecycle is `Open`, `Pending Information`, `Under Review`, `Resolved`, or `Closed` and does not replace the linked object's lifecycle state. | DOC-11 |
-| Archived | A visibility/history descriptor that hides an item from normal active UI without itself deciding hard deletion, retention expiry, or legal hold. | Relevant domain owner / DOC-15 |
+| Archived | A Saved/Archived visibility/history descriptor that places a saved source in Archived presentation rather than the active/current list; it does not decide readiness, hard deletion, retention expiry, or legal hold. | Relevant domain owner / DOC-15 |
 | Archived Records | `ARCHIVED-ROOT`, the Me route separating archived bill/fee and rent obligations from archived or previous evidence documents. | DOC-06B |
 | Archive Projection | A per-user visibility record that hides an obligation and its current linked evidence from that user's active views without changing the canonical obligation, counterparty visibility, party linkage, or completed history. | DOC-06B / DOC-06C / DOC-18 |
 | Archived Bills & Rent | `ARCHIVED-BILLS-LIST`, the mixed-role list of bill/fee and rent obligations archived by the current user. Invoice, tenancy, and rental documents remain evidence and are not duplicate obligations. | DOC-06C |
@@ -140,7 +140,7 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Account Activation | The reusable flow for completing required phone verification, identity verification, and six-digit payment-passcode setup before payment or another financially restricted action may proceed. | DOC-06B / DOC-15 |
 | Phone Verification | The reusable `ACCOUNT-PROFILE` child flow that verifies or replaces control of the account's primary phone number by SMS OTP. Hong Kong `+852` numbers are the only launch-supported numbers; Account Activation may invoke initial verification contextually. | DOC-06B / DOC-15 |
 | Identity Verification | The reusable `ACCOUNT-PROFILE` child flow for first-time identity verification, processing, retry after failure, or an admin-required update. Its user-facing states are `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`; a verified user cannot voluntarily re-verify. | DOC-06B / DOC-15 |
-| Payment Passcode | The six-digit PayPlus secret used for payment authorization and other specifically approved sensitive controls. It is not the login password and is never displayed after setup. | DOC-09 / DOC-15 / DOC-19 |
+| Payment Passcode | The six-digit PayPlus payer-confirmation secret used where DOC-09 or another owner requires it before payment authorization or another specifically approved sensitive control proceeds. It is not payer authorization itself, is not the login password, and is never displayed after setup. | DOC-09 / DOC-15 / DOC-19 |
 | Payment Passcode Settings | The reusable `ACCOUNT-SECURITY` child flow for six-digit Set, Change, or Reset and the permitted card/payment-profile confirmation preference. Account Activation may invoke Set contextually; Reset requires fresh login reauthentication and OTP to the registered verified phone. | DOC-06B / DOC-19 |
 | Authentication Outcome Type | A stable internal classification of what resulted from an authentication, registration, activation, or recovery evaluation. It is separate from persistent account status, Resolution Strategy, user-facing Message/CTA, notification, and one occurrence of the result. | DOC-06B / DOC-07 / DOC-18 |
 | Resolution Strategy | The permitted next-handling decision selected after an Outcome, such as Continue, Restart, Redirect, Wait, Support, or Stop. It is not a route, status, message, CTA, or software service. | DOC-06B / DOC-07 |

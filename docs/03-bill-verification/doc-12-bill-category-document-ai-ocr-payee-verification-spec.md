@@ -1,7 +1,7 @@
 ---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 0.8.2
+version: 1.0.0
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-08-12
+last_updated: 2026-08-18
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-12` |
 | **Title** | Bill Category, Document AI/OCR & Payee Verification Specification |
-| **Version** | `0.8.2` |
+| **Version** | `1.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Risk |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Operations Lead<br>Payments Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Risk Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-12` |
+| **Last Updated** | `2026-08-18` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -109,16 +109,16 @@ Detailed specifications belong to:
 
 | Area | Baseline |
 | --- | --- |
-| Product model | PayPlus is an evidence-backed, payer-authorized controlled Bill Category and separate Rent payment platform for approved obligations. |
+| Product model | PayPlus uses an approved Bills-only tiered Evidence model and a separate mandatory-Evidence Rent model. Tier 1 Bills do not require attached Evidence; Tier 2/3 Bills and all Rent use the applicable attached-Evidence gates. |
 | Bill verification | Important MVP capability for better UX, autofill, evidence quality, and risk control. |
-| Evidence types | Bill, invoice, tenancy, rent demand, contract, service agreement, payment statement, and other approved evidence. |
+| Evidence types | Tier 2/3 Bills require owner-approved official current/historical Bill Evidence. Rent retains its separate mandatory attached-Evidence types and acceptance rules. Potential examples never establish automatic acceptance. |
 | AI/OCR role | System should read Evidence, capture fields, classify documents, and autofill permitted Bill/Rent source facts where confidence is acceptable. |
 | User correction | Users must be able to review and correct autofilled fields before submission. |
 | Human review | Most evidence should be system-processed; unclear, inconsistent, duplicate, reused, sensitive, or risky cases route to human review. |
 | Data asset | Extracted evidence data is an important PayPlus data asset, but it is only one component of the broader PayPlus data profile and must remain classified, purpose-linked, and governed under DOC-15 and DOC-18. |
 | Configuration | Category fields, confidence thresholds, duplicate strictness, red flags, and review-routing policy remain owner-governed; DOC-22 may execute only permitted configuration/workflow. |
 
-Unconfirmed items should remain editable assumptions or gated requirements and should not block continued documentation drafting.
+Unconfirmed items should remain editable owner-assigned assumptions or gated requirements. They block only affected configuration, enablement, implementation or acceptance until resolved.
 
 ---
 
@@ -126,7 +126,7 @@ Unconfirmed items should remain editable assumptions or gated requirements and s
 
 | Principle | Requirement |
 | --- | --- |
-| Evidence-backed payment context | Evidence supports owner-governed verification of authoritative Bill/Rent source facts and intended-Payee facts. It is not the authoritative source and does not create or become a Payable Basis, Payment Obligation, Checkout, or Payment. A Payment Application, not Evidence, applies confirmed obligation value from a Payment to a Payment Obligation. The authoritative Bill/Rent source supplies payment-relevant facts through the DOC-09 Payable Basis; Checkout never executes directly against Evidence or the Bill/Rent source. |
+| Tiered Evidence support | Evidence supports owner-governed verification of authoritative Bill/Rent source and intended-Payee facts. Bill Tier 1 may proceed without attached Evidence only under the approved Bill-tier policy; Tier 2/3 Bills and all Rent retain their required Evidence gates. Evidence is not the authoritative source and does not create a Payable Basis, Payment Obligation, Checkout or Payment. A Payment Application, not Evidence, applies confirmed value. |
 | UX assist, not blind automation | AI/OCR may autofill fields, but users must review and correct material fields before submission. |
 | Extractable does not mean displayable | Sensitive fields may be extracted and stored under controls without being shown broadly in the UI. |
 | Data layer separation | Evidence document data must be labeled as document-derived data, not as the entire user profile. |
@@ -162,22 +162,56 @@ Rent is a separate journey and is not a Bill Category. The list does not decide 
 
 ### 5.2 Evidence Types
 
-Potential Evidence types are examples only. They may support verification within an already accepted controlled Bill Category or the separate Rent journey; they do not decide eligibility, establish a Category mapping, determine Directory membership, or define Category-specific Evidence criteria.
+Potential Evidence types are examples only. They may support verification within an already accepted controlled Bill Category or the separate Rent journey; they do not decide eligibility, establish a Category mapping, determine Directory membership, or define Category-specific Evidence criteria. Bill and Rent Evidence policies remain separate.
 
 Potential Evidence types include:
 
 | Evidence Category | Typical Use | Notes |
 | --- | --- | --- |
-| Bill | Utility, telecom, internet, school, medical, service, or other approved bill. | Usually strong reference, amount, due date, and payee data. |
-| Invoice | Business or service invoice. | Requires payee/business validation where applicable. |
+| Bill | Utility, telecom, internet, school, medical, service, or other approved formal bill. | A possible Tier 2/3 official Bill Evidence type only where the Category owner approves it. |
+| Invoice | Business or service invoice. | A possible Tier 2/3 official Bill Evidence type; requires issuer and payee/business validation where applicable. |
 | Tenancy agreement | Rent and property-related payment. | Contract/relationship evidence; sensitive category requiring enhanced extraction, duplicate checks, and review rules. |
 | Stamp duty document or CR109 | Rent and tenancy support evidence. | May support tenancy relationship, property details, parties, or rent period where approved. |
 | Rent demand or rent statement | Rent payment evidence. | May support a rent obligation or supplement full tenancy evidence where approved. |
 | HKHA tenancy card, carpark invoice, or property management notice | Rent or property-related support evidence. | May be recognised as Evidence only when it supports the separate Rent journey or an already accepted controlled Bill Category. It does not establish a Carpark Category, Category mapping, eligibility, or Evidence criteria. |
 | Contract or service agreement | Contractual evidence within an accepted controlled Bill Category or the separate Rent journey. | Field requirements remain owner-governed and depend on the applicable scope. |
-| Payment statement | Statement showing amount due or payment schedule. | Must be linked to approved obligation and payee/payout destination where applicable. |
-| Official notice | Formal fee, levy, or demand notice where category is approved. | May require institution or issuer validation. |
-| Other source evidence | Supplementary document for an already accepted controlled Bill Category or separate Rent journey. | Evidence recognition does not establish eligibility; any exception requires owner-governed policy within the accepted scope. |
+| Payment statement | Statement showing amount due or payment schedule. | A possible formal Bill or Rent Evidence type only where the applicable owner approves it and its obligation/destination relationship. |
+| Official notice | Formal fee, school payment, levy, demand or similar notice where the Category is approved. | A possible Tier 2/3 official Bill Evidence type; requires institution or issuer validation. |
+| Formal historical receipt | Formal receipt supporting historical Bill Evidence. | Potential historical Evidence only where the Category rule accepts its provenance, purpose and temporal relevance. |
+| Other source evidence | Supplementary document for an already accepted controlled Bill Category or separate Rent journey. | It does not satisfy Tier 2/3 mandatory Evidence unless expressly approved as official Bill Evidence; any supplementary investigation use remains outside core eligibility. |
+
+#### 5.2.1 Owner-approved official Bill Evidence
+
+For Tier 2/3 Bills, mandatory Evidence must be owner-approved official current/historical Bill Evidence. A qualifying rule must address, at minimum:
+
+- permitted formal document type for the controlled Category;
+- issuer attribution and authority;
+- source provenance and integrity;
+- relationship to declared Category, purpose, amount, economic-Payee context and receiving details;
+- current or historical temporal relevance;
+- duplicate/reuse and contradiction treatment; and
+- the owner whose acceptance is authoritative.
+
+Formal bill, invoice, fee notice, payment statement, school payment notice and formal historical receipt are examples only. Until the Category rule answers these dimensions, the example does not satisfy Tier 2/3 mandatory Evidence and the affected path is not enableable.
+
+WhatsApp or other communication-originated material cannot satisfy, substitute for or contribute to the Tier 2/3 mandatory Evidence requirement. Any future supplementary investigation use requires a separate owner decision and remains outside the core Bill Payment eligibility model.
+
+Founder-update traceability:
+
+| Accepted Founder correction input | DOC-12 implementation | Later owner input |
+|---|---|---|
+| Tier 2/3 uses owner-approved official current/historical Bill Evidence; the framework may include formal bills, fee notices, school payment notices, statements, invoices and formal historical receipts. | Sections 5.2, 5.2.1, 6, 15, 16, 16.1, 22 and 23 define the acceptance framework, examples-as-non-authority, presence/acceptance separation and communication-material exclusion. | Category-by-Category operating lists and configuration details before affected-path enablement/acceptance. |
+| Rent remains on mandatory attached Evidence accepted before Payment. | Sections 5.2.2, 6 and 16.1 preserve the separate Rent gate. | Existing Rent owner criteria and later operating configuration. |
+
+#### 5.2.2 Rent negative control
+
+Rent always requires attached Evidence, and the required Evidence acceptance remains a Payment gate. A Rent-specific Declaration cannot replace, waive, reduce or defer that requirement. Bill C1/G1/G2, Tier 1/2/3 and official Bill Evidence rules do not apply to Rent. Existing Rent Evidence types, expiry/replacement/material-change rules and owner controls remain unchanged.
+
+### 5.3 C1 Category binding
+
+C1 is the approved Category single-Payment threshold. C1 policy authority belongs to the designated product/risk owner; DOC-12 binds the applicable approved Category configuration, DOC-09 consumes it, and DOC-22 only executes approved configuration.
+
+This settled layering defines the DOC-12 binding framework. DOC-12 does not invent a Category value or grant DOC-22 threshold authority. Exact values, permitted adjustments, configuration representation and operating change details remain later owner-defined inputs that block affected configuration, enablement and acceptance until supplied.
 
 Unsupported or prohibited categories must follow DOC-01, DOC-03, DOC-04, DOC-05, and DOC-14.
 
@@ -188,7 +222,7 @@ Unsupported or prohibited categories must follow DOC-01, DOC-03, DOC-04, DOC-05,
 DOC-12 defines the following verification flow:
 
 1. Payer creates or edits temporary Bill/Rent source capture or an established Bill/Rent source.
-2. User uploads or links evidence.
+2. For a Bill, attached Evidence may be supplied initially for assistance and becomes mandatory where Tier 2/3 applies. For Rent, attached Evidence remains mandatory.
 3. System validates file type, file size, malware/safety checks, and required metadata where applicable.
 4. System runs OCR/text extraction.
 5. System classifies document type and evidence category.
@@ -199,9 +233,9 @@ DOC-12 defines the following verification flow:
 10. Payer reviews and corrects autofilled fields.
 11. System compares extracted values, user-corrected values, intended Payee, Payer, source amount, Category, and relevant prior Evidence signals.
 12. System applies duplicate, mismatch, same-party, and risk rules.
-13. System assigns verification outcome.
-14. Low-risk cases proceed to payment eligibility gates in DOC-09.
-15. Red-flag cases route to the applicable owner-governed human review; DOC-22 may execute only the permitted workflow.
+13. System assigns the owner-governed verification outcome without treating an AI result as Evidence acceptance or Tier 3 approval.
+14. Bill Tier 1 proceeds without an attached-Evidence gate where every other owner gate passes; Tier 2 may proceed to Payment only after qualifying Evidence presence, while acceptance remains a Payout gate; Tier 3 and Rent require the applicable Evidence acceptance before Payment.
+15. Unresolved Tier 2 cases may use exception-only owner-approved human review. Tier 3 requires authorized approval under the designated owner policy. DOC-22 may execute only the permitted workflow and cannot create Evidence or approval truth.
 
 The UX flow belongs in DOC-06. Provider API details belong in DOC-17. Data objects and audit events belong in DOC-18.
 
@@ -351,7 +385,7 @@ Rules:
 - material user correction should trigger revalidation;
 - large variance between extracted and user-entered values should trigger warning or review;
 - user corrections must not overwrite raw evidence or OCR text;
-- final payer authorization should use a final evidence snapshot and final displayed payment details.
+- where Evidence exists or is required, final payer authorization should use the applicable final Evidence snapshot; final displayed payment details remain required for every Payment, including Tier 1.
 
 User correction is expected and should improve UX. Repeated, material, or suspicious correction patterns should become risk and analytics signals.
 
@@ -415,7 +449,7 @@ The system should route evidence to human review when one or more red flags occu
 | New or unverified payee | Payee lacks sufficient verification for category. |
 | Destination mismatch | Extracted payment destination conflicts with registered payout destination. |
 
-Review routing must produce an owner-governed outcome, permitted workflow handoff, Evidence package, and audit trail. DOC-22 does not independently determine Evidence policy, outcome, or status truth.
+Review routing must produce an owner-governed outcome, permitted workflow handoff, Evidence package, and audit trail. Tier 2 human review is exception-only where the owner-approved automated/system treatment cannot resolve the case. Tier 3 uses preliminary Evidence assessment but always requires the separately authorized approval owned by the applicable product/risk/compliance policy. Rent retains its existing owner-review treatment. DOC-22 does not independently determine Evidence policy, outcome, Tier 3 authority or status truth.
 
 ---
 
@@ -434,11 +468,11 @@ Evidence verification should produce one of the following outcomes:
 | Duplicate Suspected | Evidence appears duplicate or reused and requires review or approved exception. |
 | Fraud/Risk Escalated | Evidence or source-context pattern is escalated to risk/compliance review. |
 
-Payment eligibility gates in DOC-09 must consume the final verification outcome.
+DOC-09 and DOC-10 consume the outcome according to the approved product scope: Bill Tier 2 separates qualifying Evidence presence from acceptance, Bill Tier 3 requires Evidence acceptance and authorized approval before executable Payment, and Rent retains Evidence acceptance as a Payment gate. Tier 1 has no attached-Evidence requirement.
 
 ### 16.1 DOC-06C Evidence Status and Payment Readiness Mapping
 
-DOC-12 verification outcomes must map cleanly to the DOC-06C user-facing evidence status and bill/rent payment-readiness model. DOC-12 outcomes describe verification decisions; DOC-06C statuses describe what the user sees and how the bill/rent record becomes payable.
+DOC-12 verification outcomes must map cleanly to the DOC-06C user-facing Evidence and readiness presentation without collapsing Bill tiers or Rent. DOC-12 outcomes describe verification decisions; DOC-06C owns presentation. Exact labels and technical representation remain with DOC-07/DOC-18.
 
 | DOC-12 Outcome | DOC-06C Evidence Status / Handling |
 | --- | --- |
@@ -451,7 +485,16 @@ DOC-12 verification outcomes must map cleanly to the DOC-06C user-facing evidenc
 | Duplicate Suspected | `Duplicate Suspected`. |
 | Fraud/Risk Escalated | `Pending Review` or risk hold according to DOC-14. |
 
-DOC-12 publishes Evidence and Evidence-to-Payee outcomes. DOC-06C owns the user-facing payment-readiness mapping and consumes only the applicable owner outcomes. DOC-09 consumes payment-facing Bill/Rent facts and applicable readiness outcomes when deriving Projection, materializing Payment Obligations, and evaluating Checkout eligibility. Settlement and Payout remain downstream under DOC-10.
+Tier consumption rules:
+
+| Scope | Presence/acceptance effect |
+|---|---|
+| Bill Tier 1 | `Not Provided` does not by itself create Action Required or block Payment because attached Evidence is not required. Any voluntarily supplied Evidence remains separately attributable and owner-governed. |
+| Bill Tier 2 | No qualifying official Bill Evidence blocks Payment. Qualifying presence may permit Payment while the verification outcome remains pending; Payout stays held until acceptance and every other release gate passes. Rejection, clarification, duplicate or escalation keeps the Evidence-related Payout gate closed. |
+| Bill Tier 3 | Qualifying official Bill Evidence plus authorized approval is required before executable Payment. A preliminary or automated result does not substitute for approval. |
+| Rent | Attached Evidence and the required accepted outcome remain Payment gates. A Declaration does not replace or defer them. |
+
+DOC-12 publishes Evidence and Evidence-to-Payee outcomes. DOC-06C owns the user-facing readiness/handling presentation and consumes the applicable tier or Rent rule. DOC-09 consumes payment-facing facts and Payment-admission outcomes; DOC-10 consumes Evidence acceptance and Tier 3 approval for Payout. Settlement and Payout remain downstream under DOC-10.
 
 Evidence replacement, expiry, Archive, Restore, prior-version, Evidence-version, replacement-source, retention, and presentation behaviour are not defined here. High-level source/non-erasure policy belongs in DOC-05; route and Bills/Rent presentation belongs in DOC-06B/DOC-06C; Evidence criteria belong in DOC-12; retention/access belongs in DOC-15; and approved representation/lineage belongs in DOC-18.
 
@@ -528,7 +571,7 @@ Requirements:
 - raw Evidence access should be limited to authorized Payers, owner-permitted personnel/workflows, systems, or partners with an approved purpose;
 - UI display must show only the fields needed for the relevant user task;
 - evidence access, extraction, correction, review, download, privacy-request and override actions must be logged where applicable;
-- every Evidence record is retained indefinitely under the Founder decision; DOC-15 supplies approved-purpose access, masking and lawful handling controls without a destruction schedule.
+- indefinite retention remains the Founder-approved product and governance direction for Evidence, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries; this qualification does not authorize erasure or rewriting of required Evidence, immutable financial truth, auditability or case lineage.
 
 Detailed privacy and retention rules belong in DOC-15. Security and access controls belong in DOC-19.
 
@@ -545,7 +588,7 @@ DOC-06C defines the user-facing Bills Evidence sub-route model. DOC-12 must rema
 - duplicate/reused evidence warning;
 - pending user clarification;
 - pending owner review;
-- payer review of final evidence summary before authorization;
+- payer review of the applicable Evidence summary before authorization where Evidence exists or is required; Tier 1 does not require attached Evidence;
 - Evidence-to-Payee outcome consumption, while leaving Archive, Restore, prior-version, Evidence-version, replacement-source, retention, and presentation behaviour to their respective owners.
 
 DOC-06 remains the parent UX source map; DOC-06C should remain a user-facing Bills UX document. It should not copy all DOC-12 field tables or data-layer rules.
@@ -557,17 +600,20 @@ DOC-06 remains the parent UX source map; DOC-06C should remain a user-facing Bil
 | ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
 | OQ-12-001 | Which OCR/document AI provider will be used for MVP? | Product / Engineering | High | Open |
-| OQ-12-002 | Retired: the accepted DOC-05 twelve-category Bill inventory is fixed and Rent is separate. Category-specific eligibility, Evidence criteria, field sets, thresholds, detailed labels, and Directory contents remain with their named owners. | DOC-05 / DOC-12 / DOC-06C / DOC-07 / DOC-14 | High | Decided inventory; detailed owner work remains Open |
-| OQ-12-003 | What exact mandatory fields apply by category? | Product / Operations / Compliance | High | Open |
+| OQ-12-002 | Retired: the accepted DOC-05 twelve-category Bill inventory is fixed and Rent is separate. Category-specific eligibility, official Bill Evidence acceptance, field sets, C1 binding, detailed labels and Directory contents remain with their named owners. | DOC-05 / DOC-12 / DOC-06C / DOC-07 / DOC-14 | High | Decided inventory; material owner rules remain Open |
+| OQ-12-003 | Which Category-by-Category official Bill Evidence types and operating criteria instantiate the accepted framework, including issuer, provenance, integrity, declared-fact and temporal-relevance rules? | Product / Operations / Compliance / Risk | High | Open later owner/configuration input; the framework is defined; blocks affected-path enablement/acceptance until supplied |
 | OQ-12-004 | What confidence thresholds trigger user warning or owner-governed review? | Risk / Product / Engineering | High | Open |
 | OQ-12-005 | What duplicate strictness applies to tenancy, invoice, business fee, and low-risk categories? | Risk / Compliance / Product | High | Open |
-| OQ-12-006 | What sensitive tenancy fields may be extracted, stored, masked or displayed under approved-purpose access while the underlying Evidence record remains retained indefinitely? | Privacy / Legal / Compliance | High | Open |
+| OQ-12-006 | Which lawful-scope assessment, required exceptions, restricted data classes and prohibited sensitive-data boundaries govern sensitive tenancy fields that may be extracted, stored, masked or displayed while indefinite retention remains the Founder-approved product and governance direction? | Privacy / Legal / Compliance | High | Open |
 | OQ-12-007 | What user warning wording is allowed for duplicate/reused evidence without disclosing another user's information? | Legal / Product / Risk | Medium | Open |
 | OQ-12-008 | Can evidence-derived data be used for model improvement, analytics, and risk training? | Privacy / Legal / Data | High | Open |
-| OQ-12-009 | Retired as a current launch-Category question: no domestic-helper, driver, or personal-service Category is inferred outside the accepted DOC-05 inventory. Any future Category proposal requires its own Founder-approved scope and owner evidence rules. | Product / Compliance / Risk | Medium | Not current scope |
+| OQ-12-009 | Retired as a current launch-Category question: no domestic-helper, driver, or personal-service Category is inferred outside the accepted DOC-05 inventory. Any future Category change requires handling under the canonical PayPlus Documentation Development Workflow and owner evidence rules. | Product / Compliance / Risk | Medium | Not current scope |
 | OQ-12-010 | What owner-permitted DOC-22 workflow/configuration and reason capture are required for Evidence review? | Operations / Risk / Product | Medium | Open |
 | OQ-12-011 | Which evidence-derived fields and model features are prohibited from marketing, partner reporting, external activation, credit scoring, or insurance-related targeting? | Privacy / Legal / Risk | High | Open |
-| OQ-12-012 | What final mapping, reason codes, and exception rules should connect DOC-12 verification outcomes to DOC-06C evidence status and bill/rent payment readiness? | Product / Risk / Operations / Engineering | High | Open |
+| OQ-12-012 | What final mapping, reason codes and exception rules should connect DOC-12 outcomes to Bill Tier 1/2/3 and separate Rent readiness presentation without treating presentation as domain truth? | Product / Risk / Operations / Engineering | High | Open; representation detail does not change the accepted gate semantics |
+| OQ-12-013 | Which approved C1 Category values, permitted adjustments, configuration representation and operating change details bind here under the settled designated product/risk authority? | Product / Risk / Compliance | High | Open later configuration/enablement input; blocks affected configuration, enablement and acceptance until supplied |
+
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning or makes the accepted Evidence framework impossible must be handled under the canonical PayPlus Documentation Development Workflow.
 
 ---
 
@@ -576,6 +622,10 @@ DOC-06 remains the parent UX source map; DOC-06C should remain a user-facing Bil
 DOC-12 is acceptable when it clearly defines:
 
 - evidence category model;
+- owner-approved official current/historical Bill Evidence governance and communication-material exclusion;
+- explicit separation of Evidence presence, acceptance, Tier 3 approval, Payment admission and Payout release;
+- C1 Category binding without assigning sole policy authority to DOC-12 or DOC-14;
+- Tier 1/2/3 Bill Evidence consumption and the separate Rent mandatory-Evidence/acceptance gate;
 - document AI/OCR processing flow;
 - extractable, normalized, corrected, verified, and final evidence data layers;
 - general bill, invoice, tenancy, rent, contract, and service evidence field sets;
@@ -591,6 +641,8 @@ DOC-12 is acceptable when it clearly defines:
 - evidence-derived model-use and prohibited-use boundaries;
 - privacy, security, and access-control expectations;
 - related documents for detailed UX, API, data model, risk, privacy, owner-permitted workflow, and operations specifications.
+
+The accepted official Bill Evidence framework is defined without final Category-by-Category operating lists. Those lists remain explicit enablement/acceptance dependencies. A later owner or professional answer that contradicts the approved framework or makes it impossible must be handled under the canonical PayPlus Documentation Development Workflow.
 
 This document must remain a compact bill verification and evidence-domain specification.
 
@@ -610,6 +662,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `1.0.0` | `2026-08-18` | Product Documentation Team | Implemented the material Bills-only Evidence boundary and fixed-seat compliance supplement; traced the Founder-updated framework, neutralized active lifecycle-language ambiguity, qualified indefinite retention by lawful scope, and kept examples and operating lists correctly classified with final Evidence snapshots conditional where required. |
 | `0.8.2` | `2026-08-12` | Product Documentation Team | Applied the Founder-settled indefinite-retention rule to Evidence records and reframed the sensitive-tenancy open question around approved-purpose access and masking without changing Evidence ownership. |
 | `0.8.1` | `2026-08-12` | Product Documentation Team | Clarified Evidence as verification support rather than source or Payment lifecycle, constrained Evidence examples from creating Category eligibility, and retained economic-Payee association as source context only. |
 | `0.8.0` | `2026-08-12` | Product Documentation Team | Consumed the accepted DOC-05 twelve-category Bill inventory and separate Rent boundary; replaced active Request and Receiving Info runtime, generic Admin authority, and defined Archive/version presentation with Payer-only source, Evidence-to-Payee, owner-permitted execution, and explicit owner-handoff boundaries. |

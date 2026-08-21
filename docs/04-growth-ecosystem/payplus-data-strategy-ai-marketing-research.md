@@ -1,6 +1,6 @@
 ---
 title: PayPlus Data Strategy, AI Intelligence, and Privacy-Safe Marketing Research
-version: 0.1.0
+version: 0.2.0
 status: Draft Research Memo
 owner: Product / Growth / Data
 reviewers:
@@ -11,7 +11,7 @@ reviewers:
   - Compliance Lead
   - Risk Lead
   - Legal Lead
-last_updated: 2026-06-07
+last_updated: 2026-08-19
 classification: Internal
 related_documents:
   - DOC-01 Product Overview & Positioning
@@ -26,11 +26,11 @@ related_documents:
 | Document Control | Details |
 | --- | --- |
 | **Title** | PayPlus Data Strategy, AI Intelligence, and Privacy-Safe Marketing Research |
-| **Version** | `0.1.0` |
+| **Version** | `0.2.0` |
 | **Status** | Draft Research Memo |
 | **Owner** | Product / Growth / Data |
 | **Reviewers** | Product Lead<br>Growth Lead<br>Data Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Legal Lead |
-| **Last Updated** | `2026-06-07` |
+| **Last Updated** | `2026-08-19` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-01 Product Overview & Positioning<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -42,7 +42,7 @@ This memo explores how PayPlus may use data and AI in the future to support prod
 
 It is a research and strategy memo only. It does not approve a product feature, marketing practice, partner data transfer, algorithmic decision model, privacy notice, legal position, or implementation plan.
 
-PayPlus must preserve its core positioning as a controlled, evidence-backed, payer-authorized bill, fee, rent, invoice, and approved-obligation payment platform. Data strategy must not push PayPlus toward a wallet, stored-value account, unrestricted peer-to-peer transfer product, cashout product, remittance product, lending product, cash advance product, or open money-request marketplace.
+PayPlus must preserve its core positioning as a controlled, payer-authorized Bill and Rent payment platform. Bills use the accepted tiered Evidence model and Rent retains mandatory attached Evidence. Data strategy is supporting/non-authoritative and must not create eligibility, AI decision authority, technical design, marketing permission, or a wallet, stored-value, unrestricted peer-to-peer, cashout, remittance, lending, cash-advance or open-money-request product.
 
 ## 2. Executive View
 
@@ -94,7 +94,7 @@ Candidate PayPlus signals include:
 | Data Signal | Strategic Meaning | Sensitivity |
 | --- | --- | --- |
 | Bill category | Indicates recurring needs, life stage, household obligations, or business activity. | Medium to high |
-| Evidence-backed obligation | Stronger than a click because the obligation exists or was represented to exist. | High |
+| Controlled obligation | Stronger than a click because the obligation exists or was represented to exist; applicable Bill/Rent Evidence treatment remains owner-controlled. | High |
 | Due date and payment timing | Indicates urgency, cash-flow timing, and lifecycle moments. | High |
 | Payer-payee relationship | Indicates household, landlord, school, service provider, business, or recurring relationship. | High |
 | Payee type | Helps identify biller, landlord, school, utility, medical, service, or business context. | Medium to high |
@@ -787,7 +787,7 @@ Sources reviewed for this research include:
 - [HKMA - Gen.AI Sandbox++ announcement](https://www.hkma.gov.hk/eng/news-and-media/press-releases/2026/03/20260305-3/)
 
 ## 15. Version History
-
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | 0.1.0 | 2026-06-07 | AI Research Draft | Initial research memo on PayPlus data strategy, AI intelligence, privacy-safe marketing, market comparisons, algorithm roadmap, commercial models, and open questions. |

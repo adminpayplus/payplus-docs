@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 0.1.23
+version: 1.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-12
+last_updated: 2026-08-18
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06C` |
 | **Title** | Bills, Rent & Tenancy UX Module |
-| **Version** | `0.1.23` |
+| **Version** | `1.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-12` |
+| **Last Updated** | `2026-08-18` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -55,15 +55,15 @@ related_documents:
 
 ## Current Wave 2 Payer-only Bills/Rent UX Baseline
 
-This Stage 8 Draft is the current normative DOC-06C baseline. Active sections define Payer-only Bills/Rent UX, Category-bound acquisition, separate Rent, same-ID Save/projections, and specialist handoffs. Retired identifiers appear only in concise non-active documentation registers; no obsolete route, runtime reader, action or workflow is active. Stable IDs and append-only history remain preserved. No Route Register or route-status change is made here.
+This is the current normative DOC-06C Founder Working Baseline. Active sections define Payer-only Bills/Rent UX, the Bills-only tiered Evidence/Declaration/Payment journey, Category-bound acquisition, the unchanged separate Rent model, same-ID Save/current/Archived projections, and specialist handoffs. Retired identifiers appear only in concise non-active documentation registers; no obsolete route, runtime reader, action or workflow is active. Stable IDs and append-only history remain preserved. No Route Register or route-status change is made here.
 
 ### Source identity and purpose timing
 
 - Opening Pay a Bill/Rent or Setup a Bill/Rent creates temporary pre-validation capture/session state only; it does not establish a durable authoritative Bill/Rent ID.
-- ID establishment consumes an owner-governed source/Evidence preservation eligibility outcome. DOC-06C defines the Bills/Rent journey boundary and does not independently define the technical persistence threshold or exact minimum fields required to establish the authoritative Bill/Rent identity. The outcome establishes the ID before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or a payment-facing handoff requires stable source identity, including before immediate-pay Checkout or before deliberate Setup gives the same ID an Active/reusable projection. Pending Evidence, mismatch or scoped Admin review does not automatically prevent ID establishment once the outcome permits it. ID establishment alone does not imply accepted Evidence, verified Payee, destination/Payout readiness, risk clearance, Payment Obligation or Checkout readiness, payer authorization, successful Payment, Save or Active/Archived/history-only projection.
-- Immediate pay-now never asks for Save before Checkout. After confirmed Payment with its separate Payment ID linked to the source, show Payment Result. A source already saved/Active before Payment keeps that projection without duplicate Save. For an otherwise unsaved source, resolve the optional Save decision before Activity, Payment History, Receipt or ordinary safe exit: selected Save makes the same ID Active/reusable; declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes it history-only. Payment, Activity and Receipt remain available independently of Save but do not bypass the projection resolution.
-- Deliberate Setup Bill/Rent consumes the owner-governed source/Evidence preservation eligibility outcome, establishes the same source ID and gives it an Active/reusable projection because Setup is deliberate reuse/collection intent, without a Payment or Payment ID. Active/reusable means Payer Save/reuse intent and visibility only; a later Payment is created only under DOC-09 fresh checks and payer authorization.
-- Failure or abandonment after ID establishment may leave the source unprojected only when immediate pay ends before confirmed Payment, or deliberate Setup ends before Active/reusable projection is completed. That outcome does not expose a Bills/Rent route or list entry or create a user-facing incomplete-source status. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts. A newly confirmed Payment for an otherwise unsaved source cannot remain unprojected merely because the Payer closes or leaves Payment Result; that is skipped Save and produces history-only before downstream handoff.
+- ID establishment consumes an owner-governed source-preservation eligibility outcome. DOC-06C defines the journey boundary and does not define the technical persistence threshold or minimum fields. The ID exists before Save/current projection, Payable Basis or Payment Obligation materialization, or a payment-facing handoff requires it. Pending Evidence, mismatch or scoped Admin review does not automatically prevent ID establishment once the outcome permits it. ID establishment alone does not imply accepted Evidence, verified Payee, destination/Payout readiness, risk clearance, Payment Obligation or Checkout readiness, Declaration, payer authorization, successful Payment, Save or current/Archived/history-only projection.
+- Immediate pay-now never asks for Save before Checkout. After confirmed Payment with its separate Payment ID linked to the source, show Payment Result. A source already Saved/current before Payment keeps that projection without duplicate Save. For an otherwise unsaved source, selected Save makes the same ID Saved/current; declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes it history-only before Activity, Payment History, Receipt or ordinary safe exit.
+- Deliberate Save establishes persistence, visibility and reuse intent on the same source ID without Payment. Saved/current does not mean Evidence accepted, ready, approved or authorized. A later Payment is created only under current owner checks and separate DOC-09 payer authorization.
+- Failure or abandonment after ID establishment may leave the source unprojected only when immediate pay ends before confirmed Payment or deliberate setup ends before Save/current projection. It creates no Bills/Rent entry or user-facing incomplete-source status. A newly confirmed Payment for an otherwise unsaved source must resolve to Saved/current or history-only before downstream handoff.
 
 ### Controlled Bill journeys
 
@@ -72,19 +72,19 @@ This Stage 8 Draft is the current normative DOC-06C baseline. Active sections de
 3. Directory unpublication stops new discovery only; it does not hide, disable, rename or invalidate a saved Bill/Rent source or correct Payee/payment facts. Category disassociation, programme/risk suspension, invalid destination, fraud, sanctions, legal prohibition and security compromise remain separate substantive restrictions that apply across both acquisition methods.
 4. Retain bounded acquisition provenance (Directory-selected or Self-provided, stable institution/Directory reference if one already exists, acquisition Category, timestamp and relevant lineage reference) for audit/troubleshooting only; it does not govern live eligibility, visibility or commercial authority.
 5. For self-provided Bills, the Payer selects Company or Individual before Evidence. DOC-12 then recognizes Evidence and may derive an apparent type; only after that recognition may a mismatch prompt appear. Preserve the Payer choice, AI-apparent assessment, Payer accept/decline response and scoped Admin determination without overwriting provenance.
-6. DOC-12 owns Category/Evidence/OCR/extraction/verification/Evidence-to-Payee matching; DOC-10 owns destination readiness/Payout/reconciliation; DOC-09 owns Payment Obligation/Checkout/payer authorization/Payment invariants; DOC-14 owns risk/sanctions/fraud/anti-cashout; DOC-15 owns privacy/masking/retention requirements; DOC-18 represents approved data/status/event/audit/lineage requirements; DOC-22 executes only permitted Admin review under those owner outcomes.
+6. At Pay progression, consume current C1/G1/G2 and highest-tier outcome. Tier 1 requires Declaration but no attached Evidence; Tier 2 requires qualifying official Bill Evidence presence before Payment; Tier 3 requires Evidence and authorized approval before executable Payment. DOC-12/09/10/14 retain their respective Evidence, Payment, Payout and risk ownership.
 
 ### Separate Rent journey
 
-Rent is independent of the controlled-Bill Directory. A Payer does not select a Bill Category or choose Directory versus Provide Payee myself for Rent. Rent may pay an individual or institutional Payee who need not be a PayPlus User. Tenancy context and applicable Evidence may be reused until expiry, replacement or material change; expiry/replacement/material change requires renewed Evidence treatment. Destination, risk, readiness, period-specific obligation facts and fresh payer authorization remain payment-specific.
+Rent is independent of the controlled-Bill Directory and the Bill tiers. A Payer does not select a Bill Category or choose Directory versus Provide Payee myself for Rent. Rent always requires attached Evidence and the required Evidence acceptance before Payment. A Rent-specific Declaration cannot replace, waive, reduce or defer Evidence. Tenancy context and applicable accepted Evidence may be reused until expiry, replacement or material change requires renewed Evidence treatment. Destination, risk, readiness, period-specific obligation facts and fresh payer authorization remain Payment-specific.
 
 ### Save, visibility, Activity and Archive
 
-- Setup is deliberate reuse/collection intent and, after the owner-governed source identity outcome establishes the ID, may give that same ID an Active/reusable projection before Payment. Active/reusable expresses Payer Save/reuse intent and visibility only.
-- A confirmed Payment for an otherwise unsaved source followed by declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes that same ID history-only; it is neither Active nor Archived and has no Bills/Rent UI entry or detail route. A source already saved/Active before Payment keeps its projection without duplicate Save. An established but unprojected source is limited to pre-confirmed immediate-pay or incomplete-Setup abandonment. The Payment remains visible in global Activity, Payment History and Receipt after projection resolution. No Save-from-Activity and no separate Unsave action exists.
-- Post-payment Save activates the same existing Bill/Rent ID; it creates no second source and moves/recreates no Payment lineage.
-- Ordinary Archive applies to an already saved source and changes Payer visibility/projection only. It never erases or rewrites Evidence, completed financial history, destination/payment snapshots, Payout, reconciliation or audit lineage.
-- ARCHIVED-DOCS-LIST remains provisionally retained under the Founder-approved W2-FD-05 decision in this PDM-WI-008 Stage 7 authorization (Option A); this does not change route status. Exact Restore eligibility, revalidation, prior-version/Evidence-version/replacement-source presentation and detailed Archive/Restore UI remain deferred to DOC-06B/DOC-06C with DOC-10 payout/reconciliation blockers, DOC-11 refund/dispute/chargeback/case blockers and DOC-12/DOC-15/DOC-18 Evidence, privacy/retention and data/lineage handoffs.
+- Save establishes persistence, visibility and reuse intent on the same authoritative source ID. A Saved/current Bill appears in the active/current list and may be Under Review, Action Required or Ready; those are handling/readiness conditions, not projections.
+- A confirmed Payment for an otherwise unsaved source followed by declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes that same ID history-only. It is neither Saved/current nor Saved/Archived and has no Bills/Rent UI entry. A source already Saved/current before Payment keeps its projection without duplicate Save. The Payment remains visible in global Activity, Payment History and Receipt.
+- Post-payment Save gives the existing source the Saved/current projection; it creates no second source and moves/recreates no Payment lineage.
+- Archive moves a Saved/current source into the Saved/Archived projection and governed Archived Bills presentation. Archived sources do not appear in the active/current list. Archive is not a readiness or financial status and never erases or rewrites Evidence, financial history, destination/payment snapshots, Payout, reconciliation or audit lineage.
+- ARCHIVED-DOCS-LIST remains provisionally retained under the Founder-approved W2-FD-05 decision (Option A); this does not change route status. Exact Restore eligibility, revalidation, prior-version/Evidence-version/replacement-source presentation and detailed Archive/Restore UI remain deferred to DOC-06B/DOC-06C with DOC-10 payout/reconciliation blockers, DOC-11 refund/dispute/chargeback/case blockers and DOC-12/DOC-15/DOC-18 Evidence, privacy/retention and data/lineage handoffs.
 
 ### Active retirement and notification handoff
 
@@ -118,7 +118,7 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | BILLS-RECEIVE retired ID | Retired active MVP | Stable ID remains non-active documentation lineage only; no Consumer Payee route, runtime reader or Request/Remind Payer behavior. |
 | Bill/rent cards and details | Working baseline | Field set defined; final density, masking, and visual hierarchy remain open. |
 | Activity sub-route | Working baseline | Payment activity and limited milestones defined; global Activity and Receipts & Statements routes remain separate under DOC-06B. |
-| Add Bill / Rent flow | Working baseline | Evidence capture methods and required fields defined; source selection UX remains open. |
+| Add Bill / Rent flow | Working baseline | Add Bill C1-only Save admission, optional Bill Evidence assistance, separate mandatory-Evidence Rent, Declaration and Pay-time Tier handoff are defined; exact Copy and visual composition remain open. |
 | Evidence sub-route | Working baseline | Evidence detail/upload behavior and status mapping defined; data model remains DOC-18. |
 | Archived Bills & Rent | Working baseline / Payer-only re-scope | Saved-source visibility projection and non-erasure are current; exact Restore, evidence-version and prior-version behavior remains deferred. |
 | Reminder list/detail route | Working baseline | Linked reminders, defaults, custom override, toggle, and non-destructive deactivation defined; payment-instruction action alerts remain outside Bills reminder management. |
@@ -148,7 +148,7 @@ The product destination IDs in the first column are stable references for human 
 
 This section defines the working baseline for the `Bills` bottom-navigation route. It is a route-level UX and behavior specification, not a final visual UI design.
 
-Route-level UI drafting rule: each route should define user-facing behavior and identify material events/data signals required for AI-ready data-engine support. Detailed schema, event taxonomy, lineage, model registry, and warehouse design remain owned by DOC-18.
+Route-level UI specification rule: each route should define user-facing behavior and identify material events/data signals required for AI-ready data-engine support. Detailed schema, event taxonomy, lineage, model registry, and warehouse design remain owned by DOC-18.
 
 ### 5.1 Route and Subsection IDs
 
@@ -170,7 +170,7 @@ Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER
 | ID | Type | Route / Section | Opened By | Definition |
 | --- | --- | --- | --- | --- |
 | `BILLS-ROOT` | Screen | Bills route | Bottom nav `Bills` | Top-level Bills tab screen. |
-| `BILLS-PAY` | Tab / view | Payer Bills view | `BILLS-ROOT`, Pay+ `Pay a Bill`, Pay+ `Pay Rent`, dashboard items, reminders, or action-required notifications | Payer-oriented selection and management route for saved or setup Bill/Rent sources. Pay+ may open a temporary Bill or Rent selection scope without changing saved Bills filters. It is not the checkout/payment route. |
+| `BILLS-PAY` | Tab / view | Payer Bills view | `BILLS-ROOT`, Pay+ `Pay a Bill`, Pay+ `Pay Rent`, dashboard items, reminders, or action-required notifications | Payer-oriented selection and management route for Saved/current Bill/Rent sources. It may include Under Review, Action Required and Ready handling conditions but excludes Saved/Archived and history-only sources. Pay+ may open a temporary Bill or Rent selection scope without changing saved Bills filters. It is not Checkout. |
 | `BILLS-CARD-BILL` | Card component | Bill / fee card | Rendered inside `BILLS-PAY` | Summary card for a controlled Bill, invoice or fee source. |
 | `BILLS-CARD-RENT` | Card component | Rent / tenancy card | Rendered inside `BILLS-PAY` | Summary card for a Rent or tenancy-linked source. |
 | `BILLS-DETAIL-BILL` | Screen | Bill / fee detail | `Details` on `BILLS-CARD-BILL` | Detail page for the selected controlled Bill, invoice or fee source. |
@@ -180,7 +180,7 @@ Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER
 | `BILLS-ADD` | Flow / screen group | Add Bill / Rent flow | `Add Bill / Rent` button or Pay+ action sheet | Setup flow for a new controlled Bill source or separate Rent/tenancy source. |
 | `BILLS-EVIDENCE` | Sub-flow group / shorthand | Evidence sub-flow | Detail-page evidence area, `BILLS-ADD`, or evidence action-required state | Shorthand for bill/rent evidence actions. Evidence is a supporting attachment/status layer of a bill/rent record, not a standalone user object. |
 | `BILLS-EVIDENCE-DETAIL` | Screen or sheet | Evidence detail | Evidence section inside `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` | View and manage the current active evidence set for one bill/rent record. |
-| `BILLS-EVIDENCE-UPLOAD` | Flow / screen group | Evidence upload/update | `Upload` or `Update` from evidence detail, or evidence step inside `BILLS-ADD` | Upload file, take photo, scan QR, or enter evidence manually; supports OCR/autofill and user correction through the bill/rent setup/detail flow. |
+| `BILLS-EVIDENCE-UPLOAD` | Flow / screen group | Evidence upload/update | `Upload` or `Update` from evidence detail, or Evidence step inside `BILLS-ADD` | Upload file, take photo or scan QR; supports OCR/autofill and user correction. Manual Tier 1 Bill facts remain source input in `BILLS-ADD` and are not attached Evidence. |
 | `BILLS-REMINDER-LIST` | Screen | Reminder management | Dashboard shortcut `Reminders` | Alarm-style reminder management screen for reminders linked to a Bill/Rent source or an applicable owner-governed obligation reference. |
 | `BILLS-REMINDER-DETAIL` | Sheet or screen | Reminder setup/edit | `Set Reminder`, `Edit Reminder`, or `+ Add Reminder` | Create or edit one reminder linked to a specific Bill/Rent source or applicable owner-governed obligation reference without treating their identities as interchangeable. |
 
@@ -190,8 +190,8 @@ Initial route ownership:
 | --- | --- | --- |
 | Tap `Bills` bottom nav | App bottom navigation | Opens `BILLS-ROOT` with the Payer `BILLS-PAY` view. |
 | Tap `To Pay` | `BILLS-ROOT` | Retained only as a compatible label/reference for `BILLS-PAY`; no mixed-role tab pair is active. |
-| Tap `Pay a Bill` / `Pay Rent` | `PAYPLUS-ACTION-SHEET` | `Pay a Bill` opens `BILLS-PAY` with a temporary supported controlled Bill Category scope; `Pay Rent` opens the separate Rent/tenancy selection scope without a Bill Category or Directory choice. A payment-ready selection may continue to DOC-09 `PAYMENT-CHECKOUT`; a non-ready selection opens the applicable Bill/Rent detail or owner-approved resolution context. |
-| Tap `Add Bill / Rent` | `BILLS-ROOT` or Pay+ action sheet | Opens `BILLS-ADD`. Category-first controlled Bill setup or separate Rent setup establishes the source ID only after the owner-governed source/Evidence preservation eligibility outcome; no active Request-origin return is created. |
+| Tap `Pay a Bill` / `Pay Rent` | `PAYPLUS-ACTION-SHEET` | `Pay a Bill` opens a temporary controlled Bill selection/input scope and evaluates current C1/G1/G2 before the DOC-09 Checkout handoff. `Pay Rent` opens the separate Rent/tenancy scope and retains mandatory accepted Evidence before Payment. A permitted selection continues to the applicable Checkout or owner-approved resolution; no new route is created. |
+| Tap `Add Bill / Rent` | `BILLS-ROOT` or Pay+ action sheet | Opens `BILLS-ADD`. Add a Bill applies C1 only before Save; Add Rent follows the separate mandatory-Evidence journey. G1/G2 do not apply or reserve capacity in Add. No active Request-origin return is created. |
 | Tap `Pay` on a payer-side card/detail | `BILLS-PAY`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. DOC-06C owns the entry point and route handoff only. |
 | Tap `Details` | Bill/rent card | Opens the relevant detail screen. |
 | Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Opens `BILLS-REMINDER-DETAIL` for the selected linked record. |
@@ -202,7 +202,7 @@ Initial route ownership:
 | Tap contextual `View` evidence action | Evidence status area inside bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` for the selected bill/rent record. |
 | Tap `Upload` / `Update` evidence | `BILLS-EVIDENCE-DETAIL` or evidence step in `BILLS-ADD` | Opens `BILLS-EVIDENCE-UPLOAD`. |
 | Tap evidence action-required prompt | Bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD` depending on whether evidence exists. |
-| Tap `Archive` | Detail page for a saved/Active source | Applies ordinary Archive to the same authoritative Bill/Rent source, removes its Active-list projection, and returns to the relevant active Bills/Rent list. The same source remains Payer-accessible through DOC-06B `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST`; Archive does not erase or rewrite its Evidence, Payment, destination, Payout, reconciliation or audit lineage. Exact Archive eligibility, Restore, prior-version and Evidence-version behavior remains deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs. |
+| Tap `Archive` | Detail page for a Saved/current source | Applies ordinary Archive to the same authoritative Bill/Rent source, removes its current-list projection, and returns to the current Bills/Rent list. The same source remains Payer-accessible through `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST`; Archive does not erase or rewrite Evidence, Payment, destination, Payout, reconciliation or audit lineage. Exact eligibility, Restore and version behavior remains deferred. |
 
 Payment/checkout ownership rule:
 
@@ -214,11 +214,11 @@ Standalone `BILLS-ADD` started from Pay+ hands to the applicable Payer success o
 
 ### 5.2 Top-Level Payer Views
 
-The current Payer Bills area uses the stable `BILLS-PAY` destination. The former `To Pay` / `To Receive` role-tab pair is not active Wave 2 presentation. No replacement tab or route is invented. A no-Save source is not shown in the active Bills list.
+The current Payer Bills area uses the stable `BILLS-PAY` destination. The former `To Pay` / `To Receive` role-tab pair is not active Wave 2 presentation. No replacement tab or route is invented. A no-Save source is not shown in the active Bills list, and a Saved/Archived source appears only in the governed Archived Bills presentation.
 
 | View | User Meaning | Includes | Does Not Include |
 | --- | --- | --- | --- |
-| `BILLS-PAY` | Payer-visible saved Bill/Rent sources and permitted active source projections. | Saved controlled Bills/Rent, source details, Evidence handoff, payment entry, reminders, Activity and Archive handoffs. | Consumer Payee, Request, Linking, payout-management or history-only source routes. |
+| `BILLS-PAY` | Payer-visible Saved/current Bill/Rent sources. | Saved/current controlled Bills/Rent, including Under Review, Action Required and Ready handling conditions, source details, Evidence handoff, Payment entry, reminders, Activity and Archive handoffs. | Saved/Archived, history-only, Consumer Payee, Request, Linking or payout-management routes. |
 
 Request and Payee-user concepts are not active Bills views. Retired IDs and prior meanings remain append-only documentation history only; no production runtime records or readers exist.
 
@@ -256,7 +256,7 @@ Payer-side card actions when rendered in `BILLS-PAY`:
 | Pay | Opens payment/Checkout handoff for the selected Bill source; DOC-09 owns any applicable Payable Basis, Payment Obligation, eligibility and authorization rules. |
 | View Details | Opens `BILLS-DETAIL-BILL`. |
 | Set Reminder | Opens `BILLS-REMINDER-DETAIL` for this Bill source or an applicable owner-governed obligation reference without treating their identities as interchangeable. |
-| Update Detail | Replaces normal edit/detail prompt when the card is action-required due to rejected, missing, expired, or inconsistent information. |
+| Update Detail | Replaces normal edit/detail prompt when the card is action-required due to required Evidence or other owner-governed information being rejected, missing, expired or inconsistent. Tier 1 Evidence absence alone is not Action Required. |
 
 Former Payee-side card actions remain append-only documentation history only; no BILLS-RECEIVE action or runtime reader is available.
 
@@ -291,7 +291,7 @@ Payer-side detail actions when opened from `BILLS-PAY`:
 | View Activities | Opens `BILLS-ACTIVITY` for payment and related payout/refund/reversal activity linked to this Bill source. |
 | Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this Bill source or an applicable linked obligation without changing their identity. |
 | Edit Details | Opens editable bill/payee/detail fields subject to verification and audit rules. |
-| Archive | Applies ordinary Archive to this saved/Active Bill source; it changes the Payer visibility projection without deleting the source or its history. Exact eligibility and Restore behavior remain deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs. |
+| Archive | Moves this Saved/current Bill source to the Saved/Archived projection and removes it from the current list without deleting the source or history. Exact eligibility and Restore behavior remain deferred to the applicable owners. |
 
 Former Payee-side detail actions remain append-only documentation history only; no BILLS-RECEIVE action or runtime reader is available.
 
@@ -304,7 +304,7 @@ Former Payee-side detail actions remain append-only documentation history only; 
 
 
 
-The bill detail page should include a `Bill / Invoice` evidence status area. It should show current evidence status and extracted bill/invoice fields approved for display. Evidence management is not a default primary detail action. If evidence is missing, rejected, expired, or otherwise action-required, the status area should show a contextual action that opens `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD`. Extracted fields that belong to the bill/invoice record should be displayed in the bill detail area, not duplicated inside evidence detail.
+The bill detail page should include a `Bill / Invoice` Evidence area where attached Evidence exists or is required; the existing label does not limit DOC-12's qualifying official Bill Evidence types. For Tier 1, absent Evidence must not be presented as Action Required by itself. For Tier 2/3, missing, rejected, expired or otherwise action-required Evidence should expose the applicable contextual action to `BILLS-EVIDENCE-DETAIL` or `BILLS-EVIDENCE-UPLOAD`. Extracted fields approved for display belong in bill detail rather than being duplicated.
 
 ### 5.6 Rent / Tenancy Card
 
@@ -363,7 +363,7 @@ Payer-side detail actions when opened from `BILLS-PAY`:
 | View Activities | Opens `BILLS-ACTIVITY` for payment and related payout/refund/reversal activity linked to this Rent source. |
 | Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this rent record. |
 | Edit Details | Opens editable rent/landlord/payment detail fields subject to verification and audit rules. |
-| Archive | Applies ordinary Archive to this saved/Active Rent source; it changes the Payer visibility projection without deleting the source or its history. Exact eligibility and Restore behavior remain deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs. |
+| Archive | Moves this Saved/current Rent source to the Saved/Archived projection and removes it from the current list without deleting the source or history. It does not change Rent Evidence/readiness. Exact eligibility and Restore behavior remain deferred. |
 
 Former Payee-side rent-detail actions remain append-only documentation history only; no BILLS-RECEIVE action or runtime reader is available.
 
@@ -403,7 +403,7 @@ DOC-06B is the sole normative owner of the HOME-ROOT cap, deterministic ranking 
 
 ### 5.8 Bill / Rent Activity Sub-Route
 
-`BILLS-ACTIVITY` is a user-facing sub-route for one selected saved/Active bill/rent record. It should be opened from `View Activities` inside `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT`. It never offers Save and cannot bypass Payment Result projection resolution; a newly confirmed Payment for an otherwise unsaved source reaches global Activity/Payment History/Receipt only after same-ID Active/reusable or history-only resolution.
+`BILLS-ACTIVITY` is a user-facing sub-route for one selected Saved/current Bill/Rent record. It should be opened from `View Activities` inside the applicable detail screen. It never offers Save and cannot bypass Payment Result projection resolution; a newly confirmed Payment for an otherwise unsaved source reaches global Activity/Payment History/Receipt only after same-ID Saved/current or history-only resolution.
 
 Primary owner: DOC-06C.
 
@@ -483,16 +483,40 @@ Former Request lifecycle text is historical only; no active Request lifecycle be
 
 ### 5.9 Add Bill / Rent Flow
 
-`BILLS-ADD` is a Payer-only setup flow and should support:
+`BILLS-ADD` is the existing Payer-only setup flow. It supports distinct Bill and Rent branches without creating a new route or combining their Evidence rules.
 
-1. For a controlled Bill, select one of the twelve accepted launch Categories in DOC-05 first. Category-specific eligibility, Evidence criteria, detailed labels and Directory contents remain owner-backed deferrals.
-2. For a Bill, choose the Category-scoped Directory or Provide Payee myself. For Rent, enter the separate tenancy journey and do not show Bill Directory mechanics.
-3. Capture required source/Evidence input through the applicable Evidence flow; use `BILLS-EVIDENCE-UPLOAD` only as the bounded capture surface.
-4. Process OCR/extraction, verification and Evidence-to-Payee matching only through DOC-12-owned handoffs.
-5. Let the Payer review owner-approved facts and provenance without turning Payer-selected Company/Individual type into Payee truth.
-6. Consume the owner-governed source/Evidence preservation eligibility outcome and establish the authoritative Bill/Rent ID before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or payment handoff requires stable source identity; DOC-06C does not define the technical threshold or exact minimum fields.
-7. In deliberate Setup, the same ID becomes Active/reusable without Payment. In immediate pay-now, hand off to payment-specific gates and Checkout without a Save prompt.
-8. After confirmed Payment, preserve an existing saved/Active projection without duplicate Save; for an otherwise unsaved source, show Payment Result and resolve optional Save on the same ID before downstream handoff. Selected Save makes it Active/reusable, while skipped, declined, dismissed, closed or otherwise abandoned Save resolution makes it history-only; only then may Activity/Payment History/Receipt or ordinary safe exit follow.
+Add a Bill:
+
+1. Select one of the twelve accepted launch controlled Categories first.
+2. Choose the Category-scoped Directory or Provide Payee myself; neither bypasses Category, risk, Payee or destination controls.
+3. Capture the Bill source facts and the owner-required Declaration concerning Category, purpose, amount and Payee/receiving details. Declaration is not Save intent or Payment authorization.
+4. At initial Bill capture, attached Evidence is optional and may be supplied through `BILLS-EVIDENCE-UPLOAD` for AI/OCR-assisted prefill. Manual source-fact input remains available for Tier 1.
+5. Apply C1 only before Save. If the proposed amount exceeds C1, Save is not permitted. G1/G2 do not apply and no monthly capacity is reserved.
+6. Consume the owner-governed source-preservation outcome and establish one authoritative Bill ID where permitted. Deliberate Save gives that ID the Saved/current projection without Payment.
+7. Save does not establish Evidence acceptance, readiness, approval, Payment authorization or future Tier.
+
+Pay a Bill:
+
+1. Use current Category, purpose, amount, economic-Payee and receiving details; re-evaluate current C1/G1/G2 and retain every trigger reason.
+2. No trigger uses Tier 1: Declaration is required, attached Evidence is not, and other owner gates remain.
+3. C1 or G1 without G2 uses Tier 2: require qualifying owner-approved official Bill Evidence presence before Payment. Payment may proceed while acceptance remains pending; Payout remains held.
+4. G2 uses Tier 3: require qualifying official Bill Evidence and mandatory authorized approval before any executable Payment action.
+5. A prepared Tier 3 `PAYMENT-CHECKOUT` Workspace may preserve context, but before approval it exposes no executable Payment authorization, Provider Submission or confirmed Payment. No new route or recovery object is created.
+6. After confirmed Payment, retain an existing Saved/current projection without duplicate Save; otherwise resolve optional Save on the same ID to Saved/current or history-only before downstream Activity/Payment History/Receipt or ordinary safe exit.
+
+Declaration continuity:
+
+- unchanged declared facts require no new Declaration;
+- C1/G1/G2 re-evaluation alone is not a Declaration trigger; and
+- user changes follow owner-defined materiality and proportionate reconfirmation, which may be field-specific, summary-based or full. Every amount edit does not automatically require a full Declaration.
+
+Rent:
+
+- enter the separate tenancy journey without Bill Category, Directory, C1/G1/G2 or Bill tiers;
+- require attached Evidence and the required Evidence acceptance before Payment; and
+- do not let a Rent-specific Declaration replace, waive, reduce or defer Evidence.
+
+Where a Bill Category permits prepayment, present only the owner-approved period choices and evaluate the selected-period aggregate against C1/G2. One independent user-initiated prepayment progression counts once under G1 despite multiple periods, cards or Funding Legs. Prepayment does not create an Evidence-coverage classifier or bypass any gate.
 
 Illustrative capture areas (not a technical persistence threshold or exact minimum-field rule):
 
@@ -505,7 +529,7 @@ Illustrative capture areas (not a technical persistence threshold or exact minim
 | Payee / Landlord | Name required where available; ID and phone optional unless category rules require them. | Landlord/payee name required where available; ID and phone optional unless category rules require them. |
 | Account / Payout Details | Payer-entered or context-selected recipient name, receiving method, bank/provider, and destination identifier where applicable. | Payer-entered or context-selected landlord/payee name, receiving method, bank/provider, and destination identifier where applicable. |
 
-QR scanning belongs inside `BILLS-ADD` and `BILLS-EVIDENCE-UPLOAD` as a setup and evidence-capture aid. It must not allow unsupported instant payment without evidence, verification, and payer authorization.
+QR scanning belongs inside `BILLS-ADD` and `BILLS-EVIDENCE-UPLOAD` as a setup and Evidence-capture aid. It must not bypass the applicable Bill Tier or Rent Evidence, verification, risk, destination and Payer-authorization gates.
 
 Destination and Payout facts are specialist-owned. A Payer may provide source/Payee facts for a non-user recipient inside the Category-bound controlled Bill flow or the separate Rent/tenancy flow. DOC-10 owns destination readiness, Payout and reconciliation, and DOC-15 owns privacy/masking/retention. No Consumer Payee Receiving Info route or Request copy behavior is active. The capture-area table does not establish ID persistence, Evidence acceptance or Payment readiness.
 
@@ -518,6 +542,8 @@ Evidence is proof supporting a bill/rent/tenancy obligation. It is not itself an
 An active Request is not required or available for this relationship: a Payer-created Bill/Rent source may link directly to Evidence and proceed to Payment where all applicable owner gates pass.
 
 DOC-12 owns Evidence truth, OCR/extraction, verification, Category and Evidence-to-Payee matching. DOC-06C defines only capture/view handoffs and must not decide Evidence-version presentation, Restore, expiry, revalidation, retention or technical lifecycle mechanics.
+
+Founder-update traceability: Tier 2/3 may use owner-approved formal bills, fee notices, school payment notices, statements, invoices and formal historical receipts only where DOC-12's Category framework accepts them. Examples do not create acceptance. Communication-originated material cannot satisfy, substitute for or contribute to mandatory Evidence. Category operating lists remain later owner/enablement inputs. Rent keeps its separate mandatory attached-Evidence and acceptance-before-Payment model.
 
 Core model:
 
@@ -560,8 +586,9 @@ Evidence buttons:
 
 - upload file;
 - take photo;
-- scan QR;
-- enter manually where permitted.
+- scan QR.
+
+Manual Bill source-fact input remains available in `BILLS-ADD` for Tier 1. Manually entered facts are not attached Evidence and must not be represented as satisfying Tier 2/3 or Rent Evidence.
 
 Upload/update flow:
 
@@ -570,9 +597,9 @@ Upload/update flow:
 3. AI/OCR reads and classifies evidence where enabled.
 4. System autofills extracted fields into the bill/rent record.
 5. User reviews and corrects bill/rent details.
-6. User submits.
-7. System sets evidence status.
-8. DOC-12-owned Evidence status becomes one input to the combined owner-controlled readiness evaluation and user-facing presentation; it does not itself establish Payment Obligation, destination/Payout, risk, Checkout or authorization readiness.
+6. User submits the Evidence and any permitted corrections.
+7. System records the DOC-12-owned Evidence outcome or pending review treatment.
+8. Evidence presence and acceptance feed the applicable Bill Tier or Rent gate without themselves establishing Payment Obligation, destination/Payout, risk, Checkout or authorization readiness.
 
 Permitted evidence viewing and downloading within an authenticated session does not require an extra payment-passcode or step-up prompt solely because the document is opened or downloaded. Role, approved-purpose, masking, stale-session, and access-control rules still apply under DOC-15 and DOC-19.
 
@@ -589,7 +616,7 @@ Evidence replacement, Archive and Restore behavior is not defined in detail here
 
 #### 5.10.2 Active Evidence and Readiness Presentation Handoffs
 
-The following Evidence and readiness labels are illustrative display handoffs only. DOC-12 owns Evidence status and matching; DOC-09 owns Payment Obligation/Checkout/authorization readiness; DOC-10 owns destination/Payout readiness; DOC-14 owns sanctions/fraud/anti-cashout risk; DOC-18 owns later authoritative taxonomy and representation.
+The following Evidence labels are existing illustrative display handoffs only. They are not Bill Tier, Payment readiness, projection or technical taxonomy. DOC-12 owns Evidence outcomes; DOC-09 Payment admission; DOC-10 Payout readiness; DOC-14 risk; DOC-07 exact Copy; and DOC-18 later representation.
 
 Evidence statuses:
 
@@ -605,37 +632,26 @@ Evidence statuses:
 
 #### 5.10.3 Bill/Rent Payment Readiness
 
-Bill/rent payment readiness statuses:
+Saved/current, Saved/Archived and history-only are source projections/treatments. Under Review, Action Required and Ready are owner-governed handling/readiness conditions that do not create, remove or change a Save/Archive projection.
 
-| Payment Readiness | Meaning |
-| --- | --- |
-| `Ready to Pay` | The combined owner-controlled outcome confirms the Evidence dimension and every applicable pre-payment Payment Obligation, destination/Payout, risk, Checkout-eligibility and authorization-readiness condition. It does not mean Payer authorization has already occurred. |
-| `Action Required` | User must fix evidence, details, payment setup, or another required item. |
-| `Under Review` | An applicable owner-controlled Evidence, destination/Payout, risk, Checkout or authorization review that currently prevents `Ready to Pay` is pending. |
+| Scope | Evidence/readiness handoff |
+|---|---|
+| Bill Tier 1 | `Not Provided` does not by itself create Action Required or block Payment. Declaration and every other applicable gate remain. Voluntary Evidence remains attributable and owner-governed. |
+| Bill Tier 2 | Missing qualifying official Bill Evidence requires user action and blocks Payment. Qualifying presence may permit Payment while acceptance remains pending; Payout remains held. The presentation must not imply that Under Review prevents Payment when only the Tier 2 Evidence-acceptance/Payout gate is pending. |
+| Bill Tier 3 | Missing qualifying Evidence or pending mandatory approval blocks executable Payment. A prepared Checkout Workspace may be visible only as non-executable context; no new route/object is created. |
+| Rent | Missing, pending, rejected or otherwise unaccepted required Rent Evidence blocks Payment. A Declaration cannot replace or defer it. |
 
-A pending label-only Company/Individual review does not by itself select `Under Review`, create a user-facing payment-review state or block otherwise eligible payment when every applicable concrete owner-controlled gate passes. Concrete Evidence, intended-Payee, destination, beneficiary/agent, Category, sanctions, fraud, anti-cashout, Payout, readiness or authorization defects may still produce the applicable owner-controlled blocking or action-required presentation.
+Evidence corrections, updates, rejection and duplicate/risk outcomes expose only owner-approved next actions. A pending Company/Individual label review does not by itself block otherwise eligible Payment when every concrete gate passes.
 
-`Paid` is a Payer payment-activity outcome, not a readiness state. `Archived` is a visibility/history descriptor, while `Due Soon` is a date-derived filter or label. Prior-version presentation remains deferred. None is an Evidence-processing status or Request lifecycle state.
+`Paid` is a Payment activity outcome. `Archived` is a projection descriptor and Archived sources are excluded from the current list. `Due Soon` is a date-derived filter/label. None is an Evidence-processing status or a Bill Tier.
 
-Evidence-status contribution to combined readiness presentation:
-
-| Evidence Status | Evidence-dimension presentation input; not combined Payment readiness |
-| --- | --- |
-| `Not Provided` | `Action Required`. |
-| `Pending Review` | `Under Review`. |
-| `Accepted` | The Evidence dimension may be satisfied; `Ready to Pay` may appear only when the combined owner-controlled outcome confirms every applicable gate. |
-| `Correction Needed` | `Action Required`. |
-| `Update Needed` | `Action Required`. |
-| `Rejected` | `Action Required`. |
-| `Duplicate Suspected` | `Under Review` or `Action Required`, depending review rule. |
-
-Evidence status is one specialist-owned input and is not itself Bill/Rent Payment readiness. DOC-12 owns extraction, verification, duplicate/reused Evidence, Evidence status and Evidence-to-Payee matching. DOC-09 owns Payment Obligation, Checkout and payer-authorization readiness; DOC-10 owns destination/Payout readiness and reconciliation; DOC-14 owns sanctions, fraud and anti-cashout risk. The user-facing readiness presentation consumes their combined owner-controlled outcome without collapsing those dimensions. DOC-15 owns privacy, masking, retention and access boundaries; DOC-18 owns final data objects, status taxonomy, audit events and analytics; DOC-22 owns approved Admin review/configuration execution.
+Exact readiness labels, reason presentation and data/event representation remain with DOC-07/DOC-18 and affected source owners. DOC-22 executes only owner-permitted review/configuration and cannot create readiness, Evidence, Tier or approval truth.
 
 ### 5.11 Archived Bills & Rent - Current Projection Boundary
 
-Archive is a Payer visibility projection of an already saved authoritative Bill/Rent source. It never creates a new source or erases or rewrites Evidence, Payment, destination, Payout, reconciliation or audit history. This document does not define detailed Restore, eligibility, revalidation, prior-version or Evidence-version behavior. DOC-10 payout/reconciliation blockers and DOC-11 refund/dispute/chargeback/case blockers remain effective; DOC-06C consumes those owner outcomes without defining them.
+Archive moves an already Saved/current authoritative Bill/Rent source into the Saved/Archived visibility projection. Archived sources appear only in the governed Archived Bills presentation and are excluded from the current/active list. Archive is not Under Review, Action Required, Ready, an Evidence outcome or a financial status. It never creates a new source or erases or rewrites Evidence, Payment, destination, Payout, reconciliation or audit history. Detailed Restore, eligibility, revalidation and version behavior remains deferred; DOC-10/DOC-11 blockers remain effective.
 
-`ARCHIVED-BILLS-LIST` is the Payer visibility projection for authoritative Bill/Rent sources that were saved/Active before Archive and now have the Archived projection. It is not a mixed-role list, evidence archive, payment history or Request archive. Exact Restore eligibility, revalidation, prior-version, Evidence-version, replacement-source presentation and detailed Archive/Restore UI remain deferred to DOC-06B/DOC-06C presentation work and the applicable DOC-10, DOC-11, DOC-12, DOC-15 and DOC-18 owner outcomes.
+`ARCHIVED-BILLS-LIST` is the Payer visibility projection for authoritative Bill/Rent sources that were Saved/current before Archive and now have the Saved/Archived projection. Archived sources do not appear in `BILLS-PAY`. The list is not a readiness condition, mixed-role list, Evidence archive, Payment history or Request archive. Exact Restore eligibility, revalidation, prior-version, Evidence-version, replacement-source presentation and detailed Archive/Restore UI remain deferred to the applicable owners.
 
 
 #### 5.11.1 Non-Active Documentation Register - Retired Archive IDs
@@ -688,7 +704,7 @@ Tapping the non-toggle area of a reminder card opens `BILLS-REMINDER-DETAIL`.
 5. Reminder offset or custom date/time.
 6. Notification note: app notification and push notification are MVP where permission is granted; email, SMS, and WhatsApp routing are governed by DOC-08.
 7. Save and cancel actions.
-8. Disable or deactivate action where applicable; underlying reminder records remain retained indefinitely.
+8. Disable or deactivate action where applicable; indefinite retention remains the Founder-approved product and governance direction for underlying reminder records, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries.
 
 DOC-06C owns the approved reminder-default product policy. DOC-22 may expose and execute only permitted Admin configuration of those approved defaults; it does not set the product policy:
 
@@ -707,7 +723,7 @@ Reminder status and lifecycle:
 | Linked bill/rent is archived | Reminder becomes inactive. |
 | One-off invoice is fully paid | Reminder becomes inactive. |
 | Reminder date has passed and reminder is not recurring | Reminder becomes expired or inactive. |
-| Evidence is expired, invalid, rejected, or requires review | Reminder remains valid; the DOC-12 Evidence input becomes action-required, and the linked bill/rent presentation consumes the resulting combined owner-controlled readiness outcome. |
+| Evidence is expired, invalid, rejected, or requires review | Reminder remains valid. For Tier 1 Bills, absence alone does not create Action Required; Tier 2/3 and Rent consume the applicable owner-controlled Evidence gate. The linked presentation must preserve its Tier/Rent meaning. |
 
 Reminder deactivation should be supported from `BILLS-REMINDER-LIST`:
 
@@ -767,10 +783,10 @@ The records below preserve retired stable IDs and prior meanings only as non-act
 
 Action-required states must be visible before the user attempts payment where possible.
 
-Examples:
+Examples where the applicable Bill Tier, Rent rule or another owner gate requires action:
 
 - evidence needs Payer correction or additional input;
-- evidence not provided;
+- required Evidence not provided; Tier 1 absence alone is excluded;
 - evidence rejected;
 - evidence expired;
 - missing required field;
@@ -815,17 +831,40 @@ These events should support product analytics, operational monitoring, risk revi
 
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
-| OQ-06C-001 | Which later owner-controlled Category eligibility and risk conditions apply to supported controlled Bill Categories, without introducing Payee acceptance or an unrestricted recipient journey? | Product / Operations / Risk | Deferred to DOC-05/DOC-12/DOC-14 and later authorized work |
+| OQ-06C-001 | Which owner-approved C1 values/operating details, Category official Bill Evidence lists and Tier 3 role/workflow controls implement the settled frameworks? | Product / Operations / Risk / Compliance | Open later configuration/enablement input; blocks affected-path enablement/acceptance until supplied |
 | OQ-06C-002 | Which rent and tenancy journey controls must be ready before initial launch enablement? | Product / Legal / Risk | Open |
 | OQ-06C-003 | What, if any, future participant Linking or invitation capability should be proposed as a separately governed domain after MVP? | Product / Privacy / Engineering | Deferred; no active Linking or invitation behavior is authorized |
 | OQ-06C-004 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
 | OQ-06C-005 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
 | OQ-06C-006 | Retired: Founder confirmed there is no production BILLS-RECEIVE/Request runtime or legacy deep-link data requiring a reader, adapter or fallback. | Product / Design / Operations | Answered/retired |
+| OQ-06C-007 | What exact DOC-07 Copy and presentation distinguish Saved/current projection from Under Review, Action Required and Ready conditions, and exclude Archived sources from the current list? | Product / Design / Content | Open; Copy/visual detail does not change the accepted semantic boundary |
+| OQ-06C-008 | What operating tests and presentation implement the accepted Declaration materiality and proportionate reconfirmation framework without treating limit re-evaluation or every amount edit as a full new Declaration? | Product / Content / Legal / Compliance / Payments | Open later product/content/acceptance input; any future answer must preserve or be reconciled through the accepted rule |
 
-## 7. Version History
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning must be handled under the canonical PayPlus Documentation Development Workflow.
+
+## 7. Acceptance Criteria
+
+DOC-06C defines the following user-journey boundaries:
+
+1. Add a Bill applies C1 only before Save and does not apply or reserve G1/G2.
+2. Pay a Bill re-evaluates current C1/G1/G2 and consumes only the highest Tier while retaining all trigger reasons.
+3. Tier 1 supports manual Bill facts and optional Evidence assistance without making attached Evidence mandatory.
+4. Tier 2 blocks Payment until qualifying official Bill Evidence is present, permits Payment while acceptance remains pending where other gates pass, and communicates that Payout remains held.
+5. Tier 3 permits prepared but non-executable Checkout context and exposes no executable authorization, Provider Submission or confirmed Payment before approval.
+6. No new Tier route, recovery object, exact Copy, technical event, status, schema or permission is introduced.
+7. Declaration, Save intent and Payment authorization remain distinct; unchanged facts require no new Declaration; user changes use owner-defined proportionate reconfirmation.
+8. Saved/current Bills may remain visible while Under Review, Action Required or Ready; those conditions do not create or remove the projection.
+9. Archive moves a Saved/current source to Saved/Archived presentation, excludes it from `BILLS-PAY`, and does not erase source or history.
+10. History-only treatment remains limited to the established confirmed-Payment/no-Save rule.
+11. Category prepayment uses the aggregate C1/G2 amount and one G1 progression without creating Evidence-coverage classification.
+12. Rent remains outside Bill C1/G1/G2 and tiers, requires attached Evidence accepted before Payment, and cannot use Declaration to bypass that gate.
+13. C1 values/operating details, official Bill Evidence Category lists, Tier 3 operating controls, Declaration presentation and professional confirmations remain visible later dependencies at their actual enablement/implementation/acceptance/launch blocking level rather than being hidden in DOC-22 workflow language.
+
+## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.0 | 2026-08-18 | Implemented the material Bills-only UX baseline and fixed-seat compliance supplement; traced the Founder-updated official Bill Evidence framework, preserved C1/Tier 3/Declaration semantics, neutralized active lifecycle-language ambiguity, qualified reminder retention by lawful scope, and retained exact Copy/representation ownership. |
 | 0.1.23 | 2026-08-12 | Applied the Founder-settled indefinite-retention boundary to reminder controls without introducing a deletion mechanism. |
 | 0.1.22 | 2026-08-12 | Stage 8 correction: made the conceptual Payment Domain relationship DOC-09-faithful and restored the bounded DOC-12/DOC-15/DOC-18/DOC-22 Evidence ownership handoff without introducing technical design. |
 | 0.1.21 | 2026-08-12 | Stage 8 Wave 2 Draft: aligned to the accepted Category inventory and separate Rent journey, removed nonexistent Request-runtime/readers/deep-link obligations, structurally separated active readiness from non-active history, preserved source-to-Payment separation, and retained DOC-10/DOC-11 Archive owner blockers. |

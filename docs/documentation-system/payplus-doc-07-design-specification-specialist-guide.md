@@ -1,6 +1,6 @@
 # PayPlus DOC-07 Design Specification Specialist Guide
 
-Last updated: 2026-08-05
+Last updated: 2026-08-21
 
 ## 1. Purpose
 
@@ -44,10 +44,10 @@ DOC-07 owns:
 DOC-07 does not own:
 
 - route structure or return behavior defined by DOC-06B;
-- the business or security decision that makes a Resolution Strategy available;
+- the route/domain decision that makes a Resolution Strategy available or the security control that constrains owner-permitted use;
 - notification eligibility, recipients, channels, delivery, preferences, or retry rules defined by DOC-08;
 - data schemas, canonical statuses, event taxonomy, or audit implementation defined by DOC-18;
-- token, session, authentication, rate-limit, and access controls defined by DOC-19;
+- mechanism-neutral protected-value, session/device, authentication, technical anti-automation, and access-enforcement controls defined by DOC-19; exact values and mechanisms remain open;
 - test execution and release evidence defined by DOC-20;
 - monitoring, incidents, service operations, and support execution defined by DOC-21;
 - admin configuration, review, override, and operational evidence defined by DOC-22.
@@ -283,11 +283,13 @@ DOC-07 must not define database schema or treat a message as an event.
 
 DOC-19 owns:
 
-- authentication and assurance;
-- reset/token/session behavior;
-- rate limiting, lockout, replay, and abuse controls;
-- access and authorization;
-- security logging and secret handling.
+- mechanism-neutral authentication and assurance enforcement around owner-defined conditions;
+- protected-value, token/reference, session/device, replay, and recovery security controls;
+- least-privilege, current-authority, reauthentication, auditability, and privileged-operation protection around owner-permitted actions;
+- technical anti-automation and safe telemetry controls without deciding risk/abuse outcomes; and
+- non-sensitive security evidence and verification handoffs.
+
+DOC-19 does not own route or recovery behavior, payer authorization, risk triggers/actions, provider mechanics, status/event representation, privacy policy, notification delivery, acceptance evidence, Support procedure, Admin action policy, permissions, exact security values, or implementation mechanisms.
 
 DOC-07 expresses these controls safely to the user without revealing control internals.
 

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 0.13.4
+version: 1.0.0
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -22,7 +22,7 @@ approvers:
   - Risk Lead
   - Payments Lead
   - Finance Lead
-last_updated: 2026-08-13
+last_updated: 2026-08-19
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -55,12 +55,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-04` |
 | **Title** | Compliance Control Framework |
-| **Version** | `0.13.4` |
+| **Version** | `1.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance Lead |
 | **Reviewers** | Legal Lead<br>Risk Lead<br>Security Lead<br>Privacy Lead<br>Payments Lead<br>Product Lead<br>Engineering Lead<br>Operations Lead<br>Finance Lead |
 | **Approvers** | Project Owner<br>Legal Lead<br>Compliance Lead<br>Security Lead<br>Risk Lead<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-13` |
+| **Last Updated** | `2026-08-19` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory Assessment<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -175,7 +175,7 @@ The twelve accepted controlled Bill Categories and separate Rent journey are the
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
 | `CTRL-DOC04-EVD-001` | `T0` | Require each payment context to reference an authoritative controlled Bill source or separate Rent source and applicable Evidence outcome. | Product / Compliance | Source and payment-context record |
-| `CTRL-DOC04-EVD-002` | `T0` | Require uploaded, linked, captured, or system-generated Evidence for each applicable Payment Obligation arising from an accepted controlled Bill source or separate Rent source, unless an owner-governed exception applies. | Product / Compliance | Evidence record |
+| `CTRL-DOC04-EVD-002` | `T0` | Require the applicable owner-governed Evidence treatment for each Payment Obligation arising from an accepted controlled Bill source or separate Rent source: Bills follow their accepted tier and Rent retains mandatory attached Evidence. | Product / Compliance | Evidence record where required |
 | `CTRL-DOC04-EVD-003` | `T1` | Store Evidence under the applicable source, Payer, economic-Payee context, Category or separate Rent, timestamp, source and review outcome. | Engineering / Compliance | Evidence metadata |
 | `CTRL-DOC04-EVD-004` | `T1` | Prevent an owner-governed payment path from proceeding when its required Evidence outcome is unavailable. | Product / Engineering | Validation logs |
 | `CTRL-DOC04-EVD-005` | `T1` | Detect duplicate Evidence, duplicate invoices, duplicate Rent sources or repeated source indicators where feasible. | Risk / Engineering | Duplicate detection alerts |
@@ -262,7 +262,7 @@ The twelve accepted controlled Bill Categories and separate Rent journey are the
 | `CTRL-DOC04-AUD-003` | `T1` | Maintain immutable or tamper-evident audit logs for compliance-critical actions. | Engineering / Security | Audit logs |
 | `CTRL-DOC04-AUD-004` | `T1` | Preserve applicable source, Evidence, Payer authorization, Payment, Payout, adjustment, dispute, chargeback and ledger lineage. | Engineering / Finance | Ledger linkage |
 | `CTRL-DOC04-AUD-005` | `T1` | Represent approved source context, economic-Payee type, Category or Rent, and owner-governed outcomes only when DOC-18 is authorized. | Engineering / Product | Future representation requirements |
-| `CTRL-DOC04-AUD-006` | `T1` | Maintain controls for indefinite retention and approved-purpose access, masking, legal hold and correction handling for compliance, privacy, tax, finance, partner, and dispute records; no time- or purpose-triggered destruction is implied. | Privacy / Compliance / Legal | Retention and access controls |
+| `CTRL-DOC04-AUD-006` | `T1` | Maintain controls for the Founder-approved indefinite-retention direction, subject to lawful scope, required exceptions, restricted data classes, approved-purpose access, masking, legal hold and correction handling for compliance, privacy, tax, finance, partner and dispute records. | Privacy / Compliance / Legal | Retention and access controls |
 | `CTRL-DOC04-AUD-007` | `T1` | Store dispute and chargeback evidence in a retrievable evidence package. | Operations / Payments | Dispute evidence package |
 | `CTRL-DOC04-AUD-008` | `T1` | Maintain daily reconciliation evidence for settlement, fees, payouts, refunds, chargebacks, reserves, bank records, and ledger entries. | Finance / Payments | Reconciliation reports |
 | `CTRL-DOC04-AUD-009` | `T1` | Retired Request origin has no active audit requirement; append-only documentation history remains provenance only. | Compliance / Engineering / Operations | Documentation history |
@@ -272,7 +272,7 @@ The twelve accepted controlled Bill Categories and separate Rent journey are the
 
 ## 12. Prohibited Activity Controls
 
-PayPlus must prevent or restrict activity that could undermine the product's evidence-backed, payer-authorized accepted controlled Bill/Rent Payment Obligation model.
+PayPlus must prevent or restrict activity that could undermine the product's tier-aware, payer-authorized accepted controlled Bill/Rent Payment Obligation model and its applicable Evidence treatment.
 
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
@@ -324,12 +324,12 @@ PayPlus must prevent or restrict activity that could undermine the product's evi
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
 | `CTRL-DOC04-SEC-001` | `T0` | PCI scope and card data handling model must be approved before production card processing. | Security | PCI scope document |
-| `CTRL-DOC04-SEC-002` | `T0` | Sensitive card data must not be stored unless explicitly approved under PCI scope. | Security / Engineering | Architecture review |
+| `CTRL-DOC04-SEC-002` | `T0` | Provider-controlled capture/tokenization must keep raw PAN, CVV and other prohibited sensitive authentication data outside PayPlus storage and retention scope. | Security / Engineering | Architecture review |
 | `CTRL-DOC04-SEC-003` | `T1` | Use tokenized card handling where applicable. | Security / Payments / Engineering | Tokenization evidence |
 | `CTRL-DOC04-SEC-004` | `T1` | Encrypt sensitive data in transit and at rest. | Security / Engineering | Security review |
 | `CTRL-DOC04-SEC-005` | `T1` | Restrict Admin, support, risk and engineering access by role; an economic Payee is not a PayPlus User role. | Security / Engineering | RBAC matrix |
 | `CTRL-DOC04-SEC-006` | `T1` | Log approved-purpose access to sensitive Payer, source-context economic-Payee, Payment, Evidence, Payout and risk data. | Security / Engineering | Access logs |
-| `CTRL-DOC04-SEC-007` | `T1` | Maintain privacy notice, consent records, data map, indefinite-retention requirements, approved-purpose access and correction/request handling; no time-triggered deletion process is implied. | Privacy / Legal / Product | Privacy records |
+| `CTRL-DOC04-SEC-007` | `T1` | Maintain privacy notice, consent records, data map, the lawful-scope-qualified indefinite-retention direction, approved-purpose access and correction/request handling; no time-triggered deletion process is implied without the required lawful exception. | Privacy / Legal / Product | Privacy records |
 | `CTRL-DOC04-SEC-008` | `T1` | Enforce Payer and source-context economic-Payee approved-purpose visibility without reciprocal runtime. | Privacy / Security / Engineering | Visibility test evidence |
 | `CTRL-DOC04-SEC-009` | `T1` | Limit Payer access to Evidence according to owner-approved disclosure and privacy rules. | Privacy / Product / Legal | Visibility rules |
 | `CTRL-DOC04-SEC-010` | `T1` | Maintain incident severity levels, escalation contacts, and incident response procedure. | Security / Operations | Incident runbook |
@@ -616,7 +616,7 @@ Exception log fields:
 | `OQ-DOC04-016` | What partner, risk, and reconciliation controls apply to the confirmed MVP maximum of 6 cards per payment/profile? | Product / Payments / Legal | Critical | Partially open |
 | `OQ-DOC04-017` | What PCI scope applies? | Security | Critical | Open |
 | `OQ-DOC04-018` | What disclosures must be shown before authorization? | Legal / Product | Critical | Open |
-| `OQ-DOC04-019` | Which privacy, masking, approved-purpose access, legal-hold and correction/request controls apply by record class while every PayPlus record remains retained indefinitely under the Founder decision? | Legal / Compliance / Finance | High | Open |
+| `OQ-DOC04-019` | Which privacy, masking, approved-purpose access, legal-hold and correction/request controls apply by record class under the accepted indefinite-retention direction and its lawful-scope qualification? | Legal / Compliance / Finance | High | Open |
 | `OQ-DOC04-020` | What systems of record will store consent, authorization, risk, payout, refund, dispute, and reconciliation evidence? | Engineering / Compliance | High | Open |
 | `OQ-DOC04-021` | Who has final authority to approve MVP launch? | Project Owner / Compliance | Critical | Open |
 | `OQ-DOC04-022` | What post-launch monitoring cadence is acceptable after stabilization? | Compliance / Operations | Medium | Open |
@@ -685,9 +685,9 @@ It should not become:
 ---
 
 ## 25. Revision History
-
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.13.4` | `2026-08-13` | Product Documentation Team | Qualified Payout control evidence for confirmed Payment with valid sufficient Application lineage or an owner-controlled zero- or insufficient-Application resolution, without creating a Payout bypass or new mechanism. |
 | `0.13.1` | `2026-08-12` | Product Documentation Team | Consolidated fixed-inventory, source/Payment Obligation, timing, retention and active/history corrections; removed the retired non-inventory control row from the active table. |
 | `0.13.2` | `2026-08-12` | Product Documentation Team | Applied indefinite retention to active compliance controls and reframed the privacy/deletion open question as access, masking, legal-hold and correction handling without a destruction schedule. |

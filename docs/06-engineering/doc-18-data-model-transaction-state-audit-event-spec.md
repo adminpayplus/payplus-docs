@@ -1,7 +1,7 @@
-﻿---
+---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 0.5.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Engineering / Data
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-08-14
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -41,12 +41,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `0.5.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Data Lead |
-| **Last Updated** | `2026-08-14` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -84,7 +84,7 @@ Detailed requirements belong to:
 | Privacy, consent, retention, approved-purpose use, and data-use tiers | DOC-15 |
 | Architecture posture, trust boundaries, provider-controlled card-data boundary, local atomic authority, durable handoffs, reliability, recovery, reconciliation, and observability obligations | DOC-16 |
 | Provider APIs, webhooks, files, and partner integrations | DOC-17 |
-| Authentication, encryption, tokenization, RBAC, and pseudonymization | DOC-19 |
+| Security-control requirements for authentication, protected values, token/reference treatment, and access enforcement | DOC-19; privacy/pseudonymization rules remain with DOC-15 and representation with DOC-18 |
 | Admin workflows, queues, exports, and operational actions | DOC-22 |
 
 ## 3. Current Decision Baseline
@@ -195,7 +195,7 @@ Each material object and field should support metadata for:
 - sensitivity level;
 - displayability by role and screen;
 - masking or reveal rule;
-- Founder-settled indefinite retention requirement and approved access/masking controls;
+- accepted indefinite-retention direction subject to DOC-15 and Legal/Privacy lawful-scope, exception, restricted-class and prohibited-sensitive-data controls, plus approved access/masking controls;
 - data owner;
 - approved purpose;
 - access roles;
@@ -277,7 +277,7 @@ The final data model must not use one overloaded status field for unrelated doma
 - linked support/dispute case lifecycle: `Open`, `Pending Information`, `Under Review`, `Resolved`, or `Closed`;
 - payment and payout lifecycle records linked through the obligation.
 
-Evidence or source verification does not itself establish payment authorization or readiness. A payer-created evidence-backed obligation may proceed only where all applicable owner gates pass.
+Evidence or source verification does not itself establish payment authorization or readiness. A payer-created controlled Bill/Rent obligation may proceed only under the applicable Bill tier or Rent Evidence treatment and where all applicable owner gates pass.
 
 Referral linkage must preserve the sequence `referrer -> user-linked code/reference -> campaign and role-specific offer -> referee registration attribution -> qualification -> beneficiary-specific entitlement -> issued reward instrument`. Referrer and referee entitlements may use the same campaign but must remain separate records with explicit beneficiary role. Referral sharing must not create a referee, relationship, or invitation lifecycle before valid registration attribution.
 
@@ -349,7 +349,7 @@ Required metadata for approved model features or AI-assisted decisions should in
 - explainability or reason-code requirement;
 - human-review requirement;
 - adverse-impact, fairness, privacy, or sensitive-use review requirement where applicable;
-- Founder-settled indefinite retention and approved access/masking expectations for model inputs and outputs; operational expiry or purpose completion must not delete the record;
+- accepted indefinite-retention direction subject to DOC-15 and Legal/Privacy lawful-scope, exception, restricted-class and prohibited-sensitive-data controls, plus approved access/masking expectations for model inputs and outputs; operational expiry or purpose completion must not delete a permitted record;
 - audit-event linkage.
 
 Candidate future model areas include:
@@ -393,7 +393,7 @@ Sections 4 through 10 define the current baseline for PayPlus data objects, life
 | OQ-18-001 | What final logical and physical schema should be used for core source, evidence, payment, payout, promotion, risk, audit, and analytics objects? | Engineering / Data | High | Open |
 | OQ-18-002 | What event taxonomy, reason-code library, and correlation ID model should be used before AI build-execution conversion? | Engineering / Data / Operations | High | Open |
 | OQ-18-003 | What warehouse, data mart, and reporting architecture should PayPlus use for MVP and post-MVP analytics? | Engineering / Data | High | Open |
-| OQ-18-004 | What metadata format should represent data class, sensitivity, displayability, masking, Founder-settled indefinite retention, owner, approved purpose, access role, lineage, partner-sharing status, and model-use eligibility? | Data / Privacy / Security | High | Open |
+| OQ-18-004 | What metadata format should represent data class, sensitivity, displayability, masking, the accepted indefinite-retention direction and its lawful-scope qualification, owner, approved purpose, access role, lineage, partner-sharing status, and model-use eligibility? | Data / Privacy / Security | High | Open |
 | OQ-18-005 | What aggregation thresholds and output controls are required before partner reporting or clean-room collaboration? | Data / Privacy / Legal | High | Open |
 | OQ-18-006 | What model registry, feature registry, monitoring, and audit-event structure should be required before AI/model-assisted decisioning? | Data / Engineering / Risk | High | Open |
 | OQ-18-007 | Which model features or derived signals are prohibited from marketing, partner reporting, insurance-related targeting, credit scoring, or external activation? | Privacy / Legal / Risk | High | Open |
@@ -432,10 +432,15 @@ This document should not become:
 - a security architecture;
 - an admin dashboard specification.
 
-## 13. Version History
+## 12A. Bills-tier representation handoff
 
+DOC-18 must represent, without redefining, the source-owner meanings for Bill Tier 1/2/3, C1/G1/G2 evaluation and trigger reasons, Declaration, attached Evidence presence versus acceptance, Tier 3 approval and non-executable Checkout, Saved/current, Saved/Archived and history-only projections, and lawful-scope-qualified retention. Preserve raw, extracted, corrected and inferred provenance separately. DOC-09, DOC-10, DOC-12, DOC-14 and DOC-15 remain authoritative for domain meaning; DOC-22 is execution-only. Exact schema, status, event, reason-code, permission and persistence mechanisms remain future owner work.
+
+## 13. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Product Documentation Team | Aligned DOC-18 ownership with DOC-19 security-control facts while retaining DOC-15 privacy/pseudonymization policy and DOC-18 schema, event, audit, correlation, and lineage representation. |
+| 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | 0.5.0 | 2026-08-14 | Product Documentation Team | Aligned data, event, audit, lineage, reporting, and analytics representation with the Stage 9-passed DOC-16 architecture: local atomic authority, durable non-authoritative handoffs, provider-controlled card-data boundaries, and factual economic-Payee context; added acceptance and evidence-owner handoffs without selecting schemas, events, providers, databases, or security mechanisms. |
 | 0.4.24 | 2026-08-13 | Product Documentation Team | Retired active Request/Linking/Receiving Info assumptions, aligned representation to owner-approved source, destination, payment, notification, and indefinite-retention boundaries, and preserved DOC-09/DOC-10/DOC-13 handoffs without adding schemas or mechanisms. |
 | 0.4.23 | 2026-07-31 | Product Documentation Team | Added the precise future implementation marker for canonical Request identity and DOC-09 Payment Domain objects, invariants, semantic conditions, correlation, late confirmation, adjustments, and distinct Instruction/Checkout identities. |

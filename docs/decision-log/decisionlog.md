@@ -61,6 +61,9 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-042` | `2026-08-13` | Payer-Only Bill And Rent Architecture Alignment | Accepted | Multiple formal owners | `43e35bcd86f2fd5464606d6e9213aabda1a4b794` |
 | `DEC-2026-043` | `2026-08-14` | DOC-16 Risk-Isolated Technical Architecture Baseline | Accepted | `DOC-16` | `77144f12d6675f6305c9a96e00bc75af97702f6e` |
 | `DEC-2026-044` | `2026-08-18` | Material Workflow Fixed-Seat Review Controls | Accepted | Documentation Development Workflow | `651e739bd1d33e3068fc9e295879d5ddff4f1e79` |
+| `DEC-2026-045` | `2026-08-20` | Material Proposal/Draft Convergence Workflow Correction | Accepted | Documentation Development Workflow / Parallel-Agent Documentation Procedure | `84656924860368e8055731175b9296fdf0912159` |
+| `DEC-2026-046` | `2026-08-21` | DOC-19 Mechanism-Neutral Security Control Alignment | Accepted | `DOC-19` | `860fd78cbb7cc5a080e10334291b60ff8902a77d` |
+| `DEC-2026-047` | `2026-08-20` | Bills Tiered Evidence, Declaration, Payment And Payout Model | Accepted | `DOC-05` / `DOC-06C` / `DOC-09` / `DOC-10` / `DOC-12` / `DOC-14` | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
 
 ## 4. Decision Record Template
 
@@ -2067,3 +2070,100 @@ Supersedes the active material exact-seat, same-four, separate-Draft-Plan/Decisi
 - Future material tasks must provide operational evidence that the revised responsibility and convergence controls work as intended.
 - No historical Stage 9 work is reopened solely for migration; later evidence-backed findings follow the normal lifecycle.
 - Push and completion depend on the separately verified records-only commit and current remote equality; neither is asserted by this decision record.
+
+### `DEC-2026-047` - Bills Tiered Evidence, Declaration, Payment And Payout Model
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-20` |
+| Status | Accepted |
+| Primary owner | `DOC-05` product policy; `DOC-06C` Bills/Rent UX; `DOC-09` Payment; `DOC-10` Payout; `DOC-12` Evidence; `DOC-14` risk/control |
+| Affected documents | DOC-01–05; DOC-06, DOC-06A, DOC-06B, DOC-06C, DOC-06D, DOC-07, DOC-08; DOC-09–12; DOC-14–16, DOC-18, DOC-20–22; and the aligned documentation index, glossary, traceability and governed Bills/Checkout/Archive diagrams |
+| Substantive commit | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
+| Founder approval | Founder-approved consolidated Bill-only tiered Evidence, Declaration, Payment and Payout package, with explicit Stage 14–16 commit and push authorization on `2026-08-20` |
+
+**Decision-Record Correction / Provenance**
+
+At correction time, the locked live `main` registry already owned `DEC-2026-044` for Material Workflow Fixed-Seat Review Controls. The previously unmerged Bills branch-local use of `DEC-2026-044` therefore collided with that canonical record. `DEC-2026-047` is the canonical replacement ID for this Bills decision; the former branch-local label remains preserved only through Git history and this correction provenance. The Bills substantive commit and accepted decision text remain `e84ce35dd0fa4687d2f98dd08191645fcffa69af`; this record-only correction does not alter Bills product content.
+
+The Phase 2 main merge-result record must cite `DEC-2026-047` for the Bills alignment while retaining distinct references to main `DEC-2026-044`, main `DEC-2026-045`, and DOC-19 `DEC-2026-046`.
+
+**Decision**
+
+Bills use the approved three-tier C1/G1/G2 model and highest-tier precedence. Tier 1 requires Declaration but no mandatory attached Evidence; Tier 2 requires owner-approved official Bill Evidence presence before Payment and acceptance before Payout; Tier 3 requires qualifying Evidence and authorized approval before executable Payment progression, while a prepared Checkout Workspace remains non-executable. Rent remains separate with mandatory attached Evidence accepted before Payment.
+
+G1 is a product-semantic limit of five independent user-initiated Bill payment progressions per Hong Kong calendar month by the same receiving account/authoritative payout destination, not economic-Payee identity or a technical Payment record. G2 pre-checks confirmed monthly Bill usage plus proposed obligation-funded value and finalizes from actual confirmed value; payer fees are excluded, Refund/reversal does not restore capacity, and only confirmed duplicate/error correction does. C1 policy authority is layered: the designated product/risk owner governs policy, DOC-12 binds Category configuration, DOC-09 consumes it, and DOC-22 executes approved configuration only.
+
+Save expresses persistence, visibility and reuse intent. Saved/current, Saved/Archived, history-only and unprojected treatment remain distinct from readiness, Checkout, Payment, Payout, Refund, case and reconciliation truth. Indefinite retention remains the accepted product/governance direction subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries.
+
+**Rationale**
+
+The accepted model gives a predictable Bill-only control boundary while preserving the existing Rent gate, immutable financial facts, owner separation, and later professional/implementation decisions.
+
+**Alternatives Considered**
+
+- Universal Bill Evidence was rejected because Tier 1 must permit a Declaration-only Bill path when all other gates pass.
+- Economic-Payee identity as the G1 key was rejected in favour of the deliberate receiving-destination simplification.
+- Treating Archive as readiness, or allowing Save to imply verification, authorization or Payout readiness, was rejected.
+- Invoice-only mandatory Evidence and communication-originated material as mandatory Evidence were rejected.
+
+**Consequences And Handoffs**
+
+DOC-12 governs official Bill Evidence qualification and examples without automatic acceptance; DOC-09/10 preserve Payment/Payout and reconciliation truth; DOC-11 retains Refund/case ownership; DOC-15 governs lawful retention and privacy; DOC-18 represents approved lineage without redefining domain truth; DOC-20–22 retain acceptance, operations and execution-only Admin responsibilities. Derived artifacts remain projections of formal owners.
+
+**Supersedes / Superseded By**
+
+Supersedes active universal-Evidence, stale Active-projection, invoice-only and unqualified-retention implications in the aligned scope. Historical provenance remains non-operative. No accepted formal owner rule is silently replaced outside the approved package.
+
+**Remaining Open Items**
+
+- C1 values, configuration representation and operating change details.
+- Category-specific official Bill Evidence lists and acceptance criteria.
+- Tier 3 operating roles, workflow and segregation controls.
+- Declaration materiality, Tier 2 hold/Refund operation, G1 normalization/concurrency and lawful-scope confirmation.
+- Later DOC-17/DOC-19, implementation, professional assessment, UAT, operational and production-readiness evidence.
+
+### `DEC-2026-046` - DOC-19 Mechanism-Neutral Security Control Alignment
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-21` |
+| Status | Accepted |
+| Primary owner | `DOC-19`, Security Architecture Owner |
+| Affected documents | Exactly the 29 paths in substantive commit `860fd78cbb7cc5a080e10334291b60ff8902a77d`: DOC-19 plus the 28 governing, product, domain, technical, acceptance, operations, specialist, diagram, glossary, index and traceability paths listed in the corresponding changelog entry |
+| Substantive commit | `860fd78cbb7cc5a080e10334291b60ff8902a77d` |
+| Founder approval | Founder authorized DOC-19 Stage 12 Validation, conditional Stage 13 Integration, substantive Commit, required append-only records treatment and exact-branch Push on `2026-08-21` |
+
+**Decision**
+
+PayPlus adopts the reviewed DOC-19 Draft as its mechanism-neutral cross-domain technical security-control contract. DOC-19 owns security invariants, enforcement requirements, prohibited exposure, protected-value and token/reference treatment, session/device assurance, privileged-operation protection, safe telemetry, non-sensitive evidence obligations and verification handoffs. It does not select providers, APIs, schemas, events, protocols, algorithms, keys, credentials, factors, timeouts, rate limits, statuses, routes, permissions, implementation products or final PCI scope.
+
+Owner separation remains mandatory. DOC-06B owns route and recovery behavior; DOC-09 payer authorization and Payment; DOC-10 Payout and reconciliation; DOC-12 Evidence; DOC-14 risk triggers, thresholds, actions and outcomes; DOC-15 privacy, masking, purpose and retention; DOC-16 architecture and the provider-controlled card-data boundary; DOC-17 provider/API/tokenization mechanics; DOC-18 representation; DOC-20 acceptance evidence; DOC-21 operations; DOC-22 owner-permitted execution only; and DOC-99 ISMS policy and assurance evidence.
+
+The 28 aligned consumers now identify DOC-19 as a Stage 9-passed Draft rather than a placeholder, preserve its seven Control Cards, ten acceptance criteria, eight enablement dependencies and seven open questions, and remove active ownership inversions without changing product behavior, routes, statuses, requirements or implementation detail.
+
+**Rationale**
+
+The mechanism-neutral contract makes security enforcement and evidence obligations explicit while preventing security documentation from silently deciding another owner's product, payment, risk, privacy, provider, data, operational, Admin or policy meaning. Provider-controlled card handling, least privilege, non-exposure and owner-first handoffs reduce ambiguity without claiming implementation, operating effectiveness, compliance, certification, provider approval, production readiness or launch readiness.
+
+**Alternatives Considered**
+
+- Leaving DOC-19 as a placeholder was rejected because the reviewed control contract now exists and active consumers must not continue to describe it as absent.
+- Assigning provider mechanics, recovery behavior, payer authorization, risk decisions, privacy policy, status/event representation or Admin permissions to DOC-19 was rejected because those concerns retain their established owners.
+- Selecting exact security mechanisms or values during Alignment was rejected because DOC-19 is mechanism-neutral and `OQ-19-001` through `OQ-19-007` remain open.
+- Treating the Draft or validation evidence as proof of implementation, PCI scope, compliance, certification or readiness was rejected because those outcomes require later implementation, professional assessment and operating evidence.
+
+**Consequences And Handoffs**
+
+DOC-20 and DOC-21 can now trace later acceptance and operational evidence to existing DOC-19 controls without inventing tests, signals or runbooks. DOC-22 remains execution-only. The RTM, OQ register, status matrix, glossary, roadmap, documentation index, specialist guide and Payment Profile diagram are aligned projections, not new source owners. DOC-17, DOC-18, DOC-20, DOC-21, DOC-22 and DOC-99 retain their unresolved owner-first or evidence work.
+
+**Supersedes / Superseded By**
+
+Supersedes active placeholder/future-owner and ownership-inversion wording within the approved 28-path alignment scope. Historical decision records, changelog entries, backups, archived diagrams and task-specific provenance remain unchanged. No accepted product, route, status, payment, risk, privacy, provider, data, operations, Admin or policy definition is superseded.
+
+**Remaining Open Items**
+
+- `OQ-19-001` through `OQ-19-007` and `DEP-19-001` through `DEP-19-008` remain open.
+- DOC-17 provider/API contracts, final DOC-18 representation, DOC-20 test/UAT/release evidence, DOC-21 monitoring/runbooks, owner-permitted DOC-22 actions and DOC-99 policy/supplier evidence remain separately gated.
+- PCI applicability, scope, shared responsibility and assessment require professional confirmation.
+- Implementation, operating-effectiveness, compliance, certification, provider-approval, production-readiness and launch-readiness evidence remain future work.

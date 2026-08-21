@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 0.1.29
+version: 1.0.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-12
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -32,12 +32,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `0.1.29` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-12` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
@@ -117,7 +117,7 @@ Example pattern:
 | Area | Requirement |
 | --- | --- |
 | Clarity | Users must understand what they are paying, setting up, accepting, or authorizing. |
-| Evidence visibility | Payer must be able to review evidence before payment authorization. |
+| Evidence visibility | Payer must be able to review attached Evidence before payment authorization where the applicable Bill tier or separate Rent rule requires or supplies it; Tier 1 Bills do not require attached Evidence. |
 | Evidence correction | Users must be able to review and correct autofilled evidence fields before submission where OCR/autofill is enabled. |
 | Sensitive field display control | UI must apply DOC-15 role-based display, masking, approved-purpose access, and controlled detail views; broader extractable data may be stored without broad display. |
 | Status transparency | Users must see source/projection, evidence status, obligation readiness, linked case status, payment/payout status, and archive visibility as separate labelled concepts; no retired Request lifecycle is active. |
@@ -136,7 +136,7 @@ The DOC-06 user journey scope is satisfied when:
 - app launch without an approved session opens `ENTRANCE-ROOT`, where public non-personalized content does not obscure Log In or Create Account;
 - `AUTH-LOGIN` resolves eligible remembered users to `AUTH-LOGIN-FAST` and other users to `AUTH-LOGIN-FULL`;
 - each material authentication result keeps its business outcome, permitted resolution, persistent account status, user-facing Message/CTA, notification decision, audit occurrence, and acceptance evidence separate;
-- authentication recovery selects only a currently permitted recovery capability and does not treat a remembered device, phone number, verified identity, or provider email as a standalone recovery method unless DOC-19 explicitly permits it;
+- authentication recovery selects only a capability permitted by DOC-06B and the applicable account/route owner, and does not treat a remembered device, phone number, verified identity, or provider email as a standalone recovery method; DOC-19 enforces applicable security controls without creating or permitting the recovery capability;
 - each successful login renews Fast Login eligibility for one month, while approved risk, device, credential, account, or security changes may revoke it earlier;
 - Fast Login remembers no plaintext password, masks the remembered email, uses only user-enabled operating-system biometrics, and provides password, recovery, another-account, and cancel paths;
 - `Log In With Another Account` requires confirmation, revokes the current device session, clears remembered/protected local context, and opens `AUTH-LOGIN-FULL` without unlinking server-side login methods;
@@ -190,13 +190,13 @@ The DOC-06 user journey scope is satisfied when:
 - the authoritative Bill/Rent source supplies source facts and identity; Evidence supports verification and readiness but is not the source, Payable Basis, Payment Obligation, Checkout, or Payment;
 - payment-ready flows preserve the source -> Payable Basis -> applicable Payment Obligations -> one-basis Checkout Workspace -> allocations/funding -> immutable confirmed Payment -> Payment Applications separation;
 - a confirmed Payment is valid and immutable even when the DOC-09 controlled late-confirmation exception temporarily has zero Payment Applications; no Application is fabricated and ordinary Payout readiness is not implied;
-- deliberate Setup makes the same source Active/reusable without Payment, while immediate pay-now requires Checkout and fresh authorization, places Payment Result before optional same-ID Save, and resolves Save decline/skip/dismiss/close to history-only or established-but-unprojected treatment as applicable;
+- deliberate Setup makes the same source Saved/current without Payment, while immediate pay-now requires Checkout and fresh authorization, places Payment Result before optional same-ID Save, and resolves Save decline/skip/dismiss/close to history-only or established-but-unprojected treatment as applicable;
 - users can upload evidence;
 - OCR/document AI can process evidence where enabled;
 - users can review and correct autofilled evidence fields where applicable;
 - evidence is associated with the authoritative Bill/Rent source and applicable verification context, not with a retired Request runtime;
 - evidence verification outcomes can route to payment eligibility, user clarification, or admin review;
-- payer can review evidence before payment;
+- payer can review attached Evidence before payment where the applicable Bill tier or separate Rent rule requires or supplies it;
 - retired Request/Linking/Receive/Receiving Info/Consumer-Payee identifiers have no active lifecycle, reader, adapter, fallback, deep link, or production data semantics; any surviving identifier is documentation lineage only;
 - users can raise or respond to supported query, dispute, support, or exception cases where enabled, with case truth owned by the applicable specialist owner;
 - payer can explicitly authorize payment;
@@ -225,7 +225,7 @@ The DOC-06 user journey scope is satisfied when:
 - the current Evidence associated with an active obligation is not independently archived in this acceptance baseline; replacement and prior-version behavior remain owner-deferred;
 - `ARCHIVED-BILLS-LIST` uses the accepted Bill/Fee and Rent/Tenancy source-visibility filters and reuses Bill/Rent detail in archived read-only mode; retired Receive/Receiving Info filters are not active;
 - archived detail suppresses active actions and provides scoped Bill/Rent and activity handoffs; any Restore presentation and eligibility remain owner-deferred;
-- source Archive is a non-erasing visibility projection of a saved/Active authoritative Bill/Rent source; it does not erase or dispose of source, Evidence, Payment, Payout, case, or retained history;
+- source Archive is a non-erasing visibility projection of a Saved/current authoritative Bill/Rent source; it does not erase or dispose of source, Evidence, Payment, Payout, case, or retained history;
 - personal Archive does not alter canonical source facts, completed history, or retained records; detailed Restore and prior/Evidence-version presentation remain owner-deferred;
 - unresolved Evidence, Payment Instruction, incomplete Checkout, funding, Payment, Payout, refund, dispute, chargeback, restriction, or legal-hold dependencies block source Archive as defined by their owners, and incomplete Checkout Close/Expiry is not source Archive; any Restore behavior remains deferred;
 - Archive disables the user's linked reminders; detailed Restore effects on reminders, instructions, scheduled actions, and prior authorizations remain owner-deferred;
@@ -297,7 +297,7 @@ The following human-readable criteria are the minimum DOC-06D coverage for the r
 | --- | --- | --- |
 | Actor, category and acquisition | The active actor is the Payer; the economic Payee may be an individual or institution/company; acquisition uses one of the twelve controlled Bill Categories or separate Rent through Directory or `Provide Payee myself`, with self-provided Payee remaining Category-bound. | DOC-05/DOC-06C; DOC-20 acceptance evidence; DOC-12 verification handoff |
 | Evidence and readiness | Evidence supports source and intended-Payee verification; Evidence status is distinct from payment readiness and cannot itself become a Payable Basis, Obligation, Checkout, or Payment. | DOC-12/DOC-09; DOC-20 positive and blocked-flow evidence |
-| Source and projections | The authoritative Bill/Rent source, deliberate Setup, immediate pay-now, Payment Result, optional same-ID Save, Active/history-only/established-but-unprojected, Activity/History/Receipt, and source Archive projections remain distinct and are presented without erasure. | DOC-05/DOC-06C/DOC-09; DOC-20 journey/regression evidence; DOC-21 operational handoff |
+| Source and projections | The authoritative Bill/Rent source, deliberate Setup, immediate pay-now, Payment Result, optional same-ID Save, Saved/current, Saved/Archived, history-only and established-but-unprojected projections, Activity/History/Receipt, and source Archive projections remain distinct and are presented without erasure. | DOC-05/DOC-06C/DOC-09; DOC-20 journey/regression evidence; DOC-21 operational handoff |
 | Payment topology | UX acceptance preserves source -> Payable Basis -> applicable Payment Obligations -> one-basis Checkout Workspace -> allocations/Funding Legs -> immutable confirmed Payment -> Payment Applications. The controlled late-confirmation exception may temporarily have zero Applications without invalidating Payment or implying ordinary Payout readiness. | DOC-09; DOC-10/11 handoffs; DOC-20 exception/regression evidence |
 | Checkout and Payment Instruction | Incomplete or partially funded Checkout follows DOC-09 Close/Expiry/continuation semantics and is not a Payment Instruction or source Archive. Deliberate Payment Instruction cancellation/expiry remains separate. | DOC-09/DOC-06B; DOC-20 negative/exception evidence; DOC-21 escalation routing |
 | Archive and cases | Source Archive is a non-erasing visibility projection and cannot bypass Evidence, Payout/reconciliation, refund/dispute/chargeback/case, restriction, or legal-hold blockers. Detailed Restore/version presentation remains deferred. | DOC-10/DOC-11/DOC-12/DOC-15; DOC-20/21 handoff |
@@ -315,9 +315,10 @@ The following human-readable criteria are the minimum DOC-06D coverage for the r
 | OQ-06D-004 | Which acceptance criteria should remain at human-review level versus becoming implementation-level tests in DOC-20? | Product / QA | Open |
 
 ## 10. Version History
-
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Aligned Recovery acceptance ownership with DOC-06B and the reviewed DOC-19 security-control contract without changing approved recovery behavior or creating implementation tests. |
+| 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.1.29 | 2026-08-12 | Converged Wave 5 acceptance mapping to the accepted Payer-only, fixed-Category/separate-Rent, source/projection, Payment topology, Checkout/Payment Instruction, Archive, notification, privacy, Admin-execution, and retired-runtime boundaries; added human-level coverage for DOC-20 evidence and DOC-21 operations without inventing implementation detail. |
 | 0.1.28 | 2026-08-05 | Added requirement-level acceptance mapping for the approved HOME-ROOT Greeting, Important Notice, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance contracts while reserving detailed implementation/UAT evidence for DOC-20. |
 | 0.1.27 | 2026-08-03 | Aligned Checkout acceptance readiness with the reviewed adaptive DOC-06B UI baseline, preserved owner-confirmed current-allocation and Payment Profile capability choices, and removed fixed screen/step wording without adding test IDs or technical thresholds. |

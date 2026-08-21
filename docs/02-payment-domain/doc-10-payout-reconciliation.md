@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 0.8.2
+version: 1.0.1
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-08-13
+last_updated: 2026-08-21
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-10` |
 | **Title** | Payout & Reconciliation |
-| **Version** | `0.8.2` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Finance |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-13` |
+| **Last Updated** | `2026-08-21` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -108,6 +108,7 @@ Detailed specifications belong to:
 | Business days | Hong Kong holidays and non-business days postpone settlement and payout. Foreign/offshore payment methods may follow platform, issuer, acquirer, or foreign-market calendars. |
 | Split payment grouping | Same payer, payee, and obligation payments before cutoff on the same business day should normally group into one payout where permitted. |
 | Confirmed Payment handoff | Each eligible confirmed Payment handed off by DOC-09 may proceed to Settlement and Payout evaluation independently of whether its originating Checkout Workspace later completes, closes, or expires. |
+| Bill tier handoff | Tier 1 has no attached-Evidence release gate; Tier 2 Payout remains held until owner-approved official Bill Evidence is accepted; Tier 3 requires accepted Evidence and authorized approval. Rent retains its separate mandatory accepted-Evidence boundary before Payment and ordinary Payout controls. |
 | Selected transfer date | An owner-governed selected transfer date may delay payout but must not be earlier than applicable T+3 / settlement-ready timing and payout readiness checks. |
 | Batch processing | Normal non-red-flag payouts should support batch generation for bank processing. Direct bank API payout should remain a supported future option. |
 
@@ -144,6 +145,8 @@ A payout may proceed only when all required checks pass.
 | Payee / recipient status | The economic Payee, whether an individual or institution/company, must be eligible for the applicable payout. A PayPlus User account is not required. |
 | Payout destination | The immutable authorization-time destination snapshot attached to the confirmed Payment must pass the applicable intended-Payee, Evidence, risk, compliance, and payout checks. Subsequent source changes must not alter the snapshot. |
 | Authoritative source and Evidence boundary | The Payer-controlled Bill/Rent source, applicable Evidence-to-Payee outcome, and payment-facing facts must support the payout context. No Request lifecycle, Payee acceptance, Linking relationship, or Consumer Receiving Info profile is a payout gate. |
+| Bill Tier Evidence and approval | Tier 1 consumes no attached-Evidence Payout gate. Tier 2 requires qualifying official Bill Evidence acceptance before the Evidence-related Payout gate may pass, even where Payment confirmed while review was pending. Tier 3 requires qualifying Evidence and the designated authorized approval. |
+| Rent Evidence | Rent retains mandatory attached Evidence accepted before Payment; no Bill Tier or Declaration can replace, waive, reduce or defer that requirement. |
 | Case or hold | An open material dispute, support case, operational, risk, refund, or chargeback hold may block payout under DOC-11 and DOC-14 without changing the authoritative Bill/Rent source or its visibility projection. |
 | Risk status | The applicable owner-controlled risk outcome must permit payout. |
 | Refund/dispute/chargeback hold | Payout must be blocked where policy requires hold. |
@@ -155,11 +158,23 @@ A Payer Archive visibility change must not proceed where an active payout, payou
 
 Failed checks should route to pending, held, or exception status with an audit trail.
 
+Bill Tier Payout rules:
+
+- Tier 1 may proceed without attached Evidence only when every other applicable Payout gate passes.
+- Tier 2 Payment may be confirmed with ordinary Payment Applications while Evidence acceptance is pending; this is not the DOC-09 confirmed-but-unapplied late-confirmation exception. Payout remains held until acceptance and all other gates pass.
+- Tier 3 Payout remains blocked until qualifying Evidence, owner-authorized approval and every other gate pass.
+- Communication-originated material cannot satisfy, substitute for or contribute to Tier 2/3 mandatory Evidence.
+- Evidence re-upload/rejection, approval, Payout hold, Refund, case, adjustment and reconciliation do not erase or rewrite Payment or Payment Application.
+- DOC-10 creates no automatic Refund rule. An unresolved hold follows DOC-11, Finance, Legal, partner and operational ownership.
+- The Tier 3 authority boundary is settled: an applicable designated Product/Risk/Compliance/Security owner authorizes approval and DOC-22 only executes the approved workflow. Exact role assignment, workflow, segregation and evidence remain later enablement/implementation inputs; DOC-22 cannot supply policy through configuration.
+
+This is DOC-10's traceability for the Founder-updated Evidence direction: Tier 2/3 consumes the DOC-12 owner-approved official Bill Evidence framework, formal document examples do not create acceptance, communication material is excluded, and Rent remains on its separate mandatory accepted-Evidence model. Category operating lists remain later owner inputs and block affected-path enablement and acceptance until supplied.
+
 ---
 
 ## 6. Payout Destination Controls
 
-A payout destination is the bank account, FPS identifier, cheque recipient, EPS, or other approved rail-specific destination represented by owner-governed facts in one controlled Bill/Rent source and the effective authorization-time destination snapshot. It may be supported by Payer-supplied source facts, Evidence extraction followed by Payer review, or an owner-permitted correction. It is not a reusable Consumer Receiving Info library, a Payee User profile, a Request, or a Linking relationship.
+A payout destination is the bank account, FPS identifier, cheque recipient, EPS, or other approved rail-specific destination represented by owner-governed facts in one controlled Bill/Rent source and the effective authorization-time destination snapshot. It may be supported by Payer-supplied source facts, Evidence extraction followed by Payer review, or an owner-permitted correction. It is not economic-Payee identity, a reusable Consumer Receiving Info library, a Payee User profile, a Request, or a Linking relationship.
 
 ### 6.1 Destination Snapshot Boundary
 
@@ -176,7 +191,24 @@ Destination processing must:
 - keep internal provider, risk, match-score, and review reasons out of ordinary user display; and
 - use DOC-22 only for owner-permitted workflow execution. DOC-22 does not determine destination, payment, payout, risk, privacy, or security policy.
 
-DOC-12 owns Evidence and Evidence-to-Payee matching. DOC-14 owns risk meaning and routing. DOC-15 owns approved-purpose access and retention. DOC-18 owns approved representation, status/event, audit, and lineage requirements. DOC-19 owns security/recovery controls. DOC-21 owns support and operations. DOC-08 owns notification identity, channel, and delivery. Exact user-facing presentation remains with DOC-06/DOC-07.
+DOC-12 owns Evidence and Evidence-to-Payee matching. DOC-14 owns risk meaning and routing. DOC-15 owns approved-purpose access and retention. DOC-18 owns approved representation, status/event, audit, and lineage requirements. DOC-19 enforces applicable security controls around owner-defined handling; it does not decide Payout release, destination replacement, reconciliation, or recovery behavior. DOC-21 owns support and operations. DOC-08 owns notification identity, channel, and delivery. Exact user-facing presentation remains with DOC-06/DOC-07.
+
+### 6.3 G1 receiving-destination handoff
+
+G1 deliberately uses the same receiving account/authoritative payout destination as its predictable low-cost frequency key. It does not use economic-Payee identity and does not redefine the Payee.
+
+Keep these concepts separate:
+
+| Concept | DOC-10 boundary |
+|---|---|
+| Economic Payee | Designated economic recipient whose eligibility remains independently governed. |
+| Receiving account/authoritative payout destination | G1 matching basis supplied through owner-governed destination facts. |
+| Effective Payout Destination Snapshot | Immutable authorization-time transaction representation preserved by each confirmed Payment. |
+| Bill source | Authoritative obligation context; not a receiving-account identity. |
+
+The same economic Payee may use different receiving destinations, and different Payee contexts may use the same receiving account/authoritative payout destination, without changing their underlying identity. Technical normalization and matching across bank, FPS, cheque, EPS or future rails remain for DOC-18/DOC-17 and later technical owners. DOC-10 does not invent the algorithm, matching score, event or schema.
+
+An unresolved normalization rule blocks reliable G1 implementation but does not change the approved product invariant.
 
 ---
 
@@ -433,6 +465,8 @@ Reconciliation should identify:
 - payee or destination mismatches;
 - stale pending items.
 
+For G2 reconciliation, preserve the verified Payer, Hong Kong calendar month, proposed obligation-funded amount, actual successfully confirmed obligation-funded value and any confirmed duplicate/error correction as distinct owner facts. Payer fees are excluded. Partial funding contributes only actual confirmed obligation-funded value. Refund, reversal, Payout, fee, adjustment and case records remain separate and do not restore G2 capacity. DOC-09 owns Payment values, DOC-14 the risk/control policy and DOC-18 the later representation.
+
 Ledger schema belongs in DOC-18. Accounting treatment and revenue recognition policy are not defined in DOC-10.
 
 ---
@@ -491,6 +525,8 @@ Detailed idempotency keys, constraints, and schema belong in DOC-18. API/file be
 DOC-10 defines the Payout and reconciliation policy boundaries. Where an owner authorizes a manual, exception, hold, release, retry, cancellation, matching, or correction workflow, DOC-22 may execute that specific workflow with the owner-required reason, Evidence, permission, and audit treatment. DOC-22 does not independently decide payout policy, financial truth, destination validity, risk disposition, or retention.
 
 Access to Payout destination, bank account, FPS, cheque, EPS, Payout batch, bank-feed, reconciliation, and economic-Payee-sensitive records must follow DOC-15 classification, masking, approved-purpose access, retention, export-control, and audit requirements. Detailed screens, queues, permissions, workflow, and audit representation remain with DOC-22 and DOC-18.
+
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A conflict that changes product meaning must be handled under the canonical PayPlus Documentation Development Workflow.
 
 ---
 
@@ -592,6 +628,9 @@ DOC-10 does not create a cross-domain activity model. DOC-06B is the sole normat
 | OQ-10-011 | Which partner-funded promotions, external vouchers, miles rewards, or campaign reimbursements require reconciliation against payout, settlement, or partner records? | Finance / Growth / Payments | Open |
 | OQ-10-012 | What payout, accounting, and payee-facing wording should apply when an incomplete DOC-09 Checkout Workspace has produced confirmed Payments but the Checkout Target remains partly unfunded? | Payments / Finance / Product | Open |
 | OQ-10-013 | What owner-governed intended-Payee/destination matching, external validation capability, proof, review, and failure-treatment requirements apply at launch? This is not a Consumer Receiving Info library or Payee-user runtime question. | Payments / Risk / Compliance / Operations / Security | Open |
+| OQ-10-014 | What technical normalization and matching across payout rails preserves G1's same-receiving-account/authoritative-payout-destination key without redefining economic Payee or the immutable destination snapshot? | Payments / Risk / Data / Engineering | Open; blocks G1 implementation, not the product invariant |
+| OQ-10-015 | What owner-controlled case, Refund/reversal, fee, liquidity and support treatment applies when a Tier 2 Payout hold cannot resolve? | Payments / Finance / Legal / Operations / DOC-11 | Open; blocks Payment-before-acceptance operational enablement |
+| OQ-10-016 | Which operating role assignment, workflow, segregation and approval evidence implement the settled Tier 3 owner-authority boundary for Payout release? | Product / Risk / Compliance / Security / Payments | Open later operating/security input; blocks Tier 3 enablement/implementation/acceptance until supplied |
 
 ---
 
@@ -600,6 +639,11 @@ DOC-10 does not create a cross-domain activity model. DOC-06B is the sole normat
 DOC-10 is acceptable when:
 
 - payout readiness rules are clear;
+- Tier 1/2/3 Bill Evidence and approval Payout gates are separated from the unchanged Rent Evidence boundary;
+- Tier 2 confirmed Payment with pending Evidence acceptance is held without being misclassified as an unapplied Payment;
+- G1 receiving-account/authoritative-payout-destination matching remains distinct from economic-Payee identity and the immutable destination snapshot;
+- G2 reconciliation preserves proposed and actual confirmed obligation-funded values, excludes payer fees and does not net Refund/reversal into capacity;
+- no automatic Refund rule or DOC-22 policy authority is created;
 - payout destination controls are defined;
 - FPS, cheque, EPS, batch upload, and future bank API paths are acknowledged;
 - cutoff, business day, Hong Kong holiday, and foreign/offshore calendar rules are defined at business-rule level;
@@ -622,6 +666,8 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.1 | 2026-08-21 | Aligned the DOC-19 handoff to mechanism-neutral security enforcement while preserving DOC-10 ownership of Payout, destination, reconciliation and recovery meaning. |
+| 1.0.0 | 2026-08-18 | Implemented the material Bills-only Payout model and fixed-seat compliance supplement; traced the Founder-updated Evidence framework, retained owner-level dependencies, removed active lifecycle ownership language and residual documentation-review adjudication, and preserved Payee/snapshot/no-automatic-Refund and complete G1 destination-key boundaries. |
 | 0.8.2 | 2026-08-13 | Regularized the zero- or insufficient-Payment-Application Payout criterion and its owner-controlled reconciliation/exception boundary; preserved the confirmed Payment, no-fabricated-coverage and no-bypass rules. |
 | 0.8.1 | 2026-08-12 | Corrected Payout readiness and incomplete-Checkout wording for the DOC-09 controlled late-confirmation zero-Application exception while preserving Payment validity and owner-controlled Settlement, reconciliation, and adjustment boundaries. |
 | 0.8.0 | 2026-08-12 | Replaced active Request, linked-user, and Consumer Receiving Info payout semantics with the Payer-only economic-Payee, controlled source, Evidence-to-Payee, immutable authorization-time destination snapshot, owner-permitted execution, and non-erasure boundaries. |
