@@ -1612,3 +1612,65 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - C1 values/configuration, official Evidence Category lists, Tier 3 operating roles/segregation, Declaration materiality, Tier 2 hold/Refund operation, G1 normalization/concurrency and lawful-scope confirmation.
 - Professional assessment, DOC-17/DOC-19 detail, implementation, UAT, operations and production-readiness evidence remain with their owners.
+
+### `2026-08-21` - DOC-19 Mechanism-Neutral Security Control Alignment
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `860fd78cbb7cc5a080e10334291b60ff8902a77d` |
+| Primary owner | `DOC-19`, Security Architecture Owner |
+| Decision record | `DEC-2026-046` |
+| Founder approval | Founder authorized DOC-19 Stage 12 Validation, conditional Stage 13 Integration, substantive Commit, required append-only records treatment and exact-branch Push on `2026-08-21` |
+
+**Files Changed**
+
+- `AGENTS.md`
+- `docs/00-foundation/doc-00-documentation-governance.md`
+- `docs/00-foundation/doc-03-regulatory-psp-acquirer-assessment.md`
+- `docs/00-foundation/payplus-outcome-message-notification-framework.md`
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-07-content-disclosure-user-authorization-spec.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/02-payment-domain/doc-10-payout-reconciliation.md`
+- `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`
+- `docs/05-risk-compliance-privacy/doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md`
+- `docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md`
+- `docs/06-engineering/doc-16-technical-architecture-spec.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/07-security-access-control/doc-19-security-tokenization-authentication-admin-control-spec.md`
+- `docs/08-qa-release-operations/doc-20-testing-uat-golive-checklist.md`
+- `docs/08-qa-release-operations/doc-21-monitoring-incident-response-operational-sops.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/diagrams/routes/payplus-payment-profile-route-map.md`
+- `docs/documentation-system/payplus-doc-07-design-specification-specialist-guide.md`
+- `docs/README.md`
+- `docs/glossary/glossary.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/payplus-documentation-management-roadmap.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+- `docs/traceability/status-display-reference-matrix.md`
+
+**Material Changes**
+
+- Recovered and committed the reviewed DOC-19 mechanism-neutral security-control contract with seven Control Cards, ten acceptance criteria, eight enablement dependencies and seven open questions.
+- Replaced active DOC-19 placeholder/future-owner statements and aligned recovery, payment, Payout, risk, privacy, provider, representation, acceptance, operations, Admin-execution and ISMS handoffs to their established owners.
+- Preserved provider-controlled card handling, protected-value separation, payer-authorization separation, least privilege, owner-defined conditions, safe telemetry, non-sensitive evidence and no-assurance-claim boundaries.
+- Updated eighteen formal-document YAML/control mirrors, versions, dates, related-document references and version histories together.
+- Aligned the documentation index, roadmap, glossary, OQ register, RTM, status matrix, AGENTS routing, DOC-07 specialist guide and the Payment Profile tokenization owner label without creating routes, statuses, schemas, events, permissions, thresholds, provider facts or implementation mechanisms.
+
+**Checks Performed**
+
+- Completed the independent Stage 9 review, Stage 10 Change Impact Manifest, exact 28-path Stage 11 Alignment, Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE`, Stage 13 `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL`, and the exact Stage 14 staged-scope gate.
+- Reverified all 29 Stage 11 final hashes, DOC-19 object `28ab1110af464e0e5af953944d592e51abd924ea`, SHA-256 `CE1DA82217830955787876E684D23E4CF33ECECF8E04A095E9CA99EB211C4070`, 31,857-byte/237-LF profile, and the unchanged 96-path protected catalog.
+- Checked 18 formal metadata/Document Control mirrors and version histories, 342 Markdown tables, 16 local links, balanced fences, strict UTF-8, CRLF preservation for the 28 alignment paths, Mermaid structure, stable-ID references, route-ID preservation, active/history separation, semantic owner boundaries, and zero invented mechanism or assurance-claim hits.
+- Verified exact 29-path staging, no unrelated/staged/untracked work, no mode change, and `git diff --cached --check` before substantive commit `860fd78cbb7cc5a080e10334291b60ff8902a77d`.
+
+**Remaining Open Items**
+
+- `OQ-19-001` through `OQ-19-007` and `DEP-19-001` through `DEP-19-008` remain open.
+- DOC-17 provider/API detail, DOC-18 representation, DOC-20 testing/UAT/release evidence, DOC-21 monitoring/runbooks, owner-permitted DOC-22 actions and DOC-99 policy/supplier evidence remain separately gated.
+- PCI applicability/scope/shared responsibility, implementation, operating effectiveness, compliance, certification, provider approval, production readiness and launch readiness remain unclaimed and unresolved.

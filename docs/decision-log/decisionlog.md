@@ -61,6 +61,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-042` | `2026-08-13` | Payer-Only Bill And Rent Architecture Alignment | Accepted | Multiple formal owners | `43e35bcd86f2fd5464606d6e9213aabda1a4b794` |
 | `DEC-2026-043` | `2026-08-14` | DOC-16 Risk-Isolated Technical Architecture Baseline | Accepted | `DOC-16` | `77144f12d6675f6305c9a96e00bc75af97702f6e` |
 | `DEC-2026-044` | `2026-08-20` | Bills Tiered Evidence, Declaration, Payment And Payout Model | Accepted | `DOC-05` / `DOC-06C` / `DOC-09` / `DOC-10` / `DOC-12` / `DOC-14` | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
+| `DEC-2026-046` | `2026-08-21` | DOC-19 Mechanism-Neutral Security Control Alignment | Accepted | `DOC-19` | `860fd78cbb7cc5a080e10334291b60ff8902a77d` |
 
 ## 4. Decision Record Template
 
@@ -2023,3 +2024,48 @@ Supersedes active universal-Evidence, stale Active-projection, invoice-only and 
 - Tier 3 operating roles, workflow and segregation controls.
 - Declaration materiality, Tier 2 hold/Refund operation, G1 normalization/concurrency and lawful-scope confirmation.
 - Later DOC-17/DOC-19, implementation, professional assessment, UAT, operational and production-readiness evidence.
+
+### `DEC-2026-046` - DOC-19 Mechanism-Neutral Security Control Alignment
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-21` |
+| Status | Accepted |
+| Primary owner | `DOC-19`, Security Architecture Owner |
+| Affected documents | Exactly the 29 paths in substantive commit `860fd78cbb7cc5a080e10334291b60ff8902a77d`: DOC-19 plus the 28 governing, product, domain, technical, acceptance, operations, specialist, diagram, glossary, index and traceability paths listed in the corresponding changelog entry |
+| Substantive commit | `860fd78cbb7cc5a080e10334291b60ff8902a77d` |
+| Founder approval | Founder authorized DOC-19 Stage 12 Validation, conditional Stage 13 Integration, substantive Commit, required append-only records treatment and exact-branch Push on `2026-08-21` |
+
+**Decision**
+
+PayPlus adopts the reviewed DOC-19 Draft as its mechanism-neutral cross-domain technical security-control contract. DOC-19 owns security invariants, enforcement requirements, prohibited exposure, protected-value and token/reference treatment, session/device assurance, privileged-operation protection, safe telemetry, non-sensitive evidence obligations and verification handoffs. It does not select providers, APIs, schemas, events, protocols, algorithms, keys, credentials, factors, timeouts, rate limits, statuses, routes, permissions, implementation products or final PCI scope.
+
+Owner separation remains mandatory. DOC-06B owns route and recovery behavior; DOC-09 payer authorization and Payment; DOC-10 Payout and reconciliation; DOC-12 Evidence; DOC-14 risk triggers, thresholds, actions and outcomes; DOC-15 privacy, masking, purpose and retention; DOC-16 architecture and the provider-controlled card-data boundary; DOC-17 provider/API/tokenization mechanics; DOC-18 representation; DOC-20 acceptance evidence; DOC-21 operations; DOC-22 owner-permitted execution only; and DOC-99 ISMS policy and assurance evidence.
+
+The 28 aligned consumers now identify DOC-19 as a Stage 9-passed Draft rather than a placeholder, preserve its seven Control Cards, ten acceptance criteria, eight enablement dependencies and seven open questions, and remove active ownership inversions without changing product behavior, routes, statuses, requirements or implementation detail.
+
+**Rationale**
+
+The mechanism-neutral contract makes security enforcement and evidence obligations explicit while preventing security documentation from silently deciding another owner's product, payment, risk, privacy, provider, data, operational, Admin or policy meaning. Provider-controlled card handling, least privilege, non-exposure and owner-first handoffs reduce ambiguity without claiming implementation, operating effectiveness, compliance, certification, provider approval, production readiness or launch readiness.
+
+**Alternatives Considered**
+
+- Leaving DOC-19 as a placeholder was rejected because the reviewed control contract now exists and active consumers must not continue to describe it as absent.
+- Assigning provider mechanics, recovery behavior, payer authorization, risk decisions, privacy policy, status/event representation or Admin permissions to DOC-19 was rejected because those concerns retain their established owners.
+- Selecting exact security mechanisms or values during Alignment was rejected because DOC-19 is mechanism-neutral and `OQ-19-001` through `OQ-19-007` remain open.
+- Treating the Draft or validation evidence as proof of implementation, PCI scope, compliance, certification or readiness was rejected because those outcomes require later implementation, professional assessment and operating evidence.
+
+**Consequences And Handoffs**
+
+DOC-20 and DOC-21 can now trace later acceptance and operational evidence to existing DOC-19 controls without inventing tests, signals or runbooks. DOC-22 remains execution-only. The RTM, OQ register, status matrix, glossary, roadmap, documentation index, specialist guide and Payment Profile diagram are aligned projections, not new source owners. DOC-17, DOC-18, DOC-20, DOC-21, DOC-22 and DOC-99 retain their unresolved owner-first or evidence work.
+
+**Supersedes / Superseded By**
+
+Supersedes active placeholder/future-owner and ownership-inversion wording within the approved 28-path alignment scope. Historical decision records, changelog entries, backups, archived diagrams and task-specific provenance remain unchanged. No accepted product, route, status, payment, risk, privacy, provider, data, operations, Admin or policy definition is superseded.
+
+**Remaining Open Items**
+
+- `OQ-19-001` through `OQ-19-007` and `DEP-19-001` through `DEP-19-008` remain open.
+- DOC-17 provider/API contracts, final DOC-18 representation, DOC-20 test/UAT/release evidence, DOC-21 monitoring/runbooks, owner-permitted DOC-22 actions and DOC-99 policy/supplier evidence remain separately gated.
+- PCI applicability, scope, shared responsibility and assessment require professional confirmation.
+- Implementation, operating-effectiveness, compliance, certification, provider-approval, production-readiness and launch-readiness evidence remain future work.
