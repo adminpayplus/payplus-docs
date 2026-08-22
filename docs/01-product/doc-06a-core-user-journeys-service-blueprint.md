@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 1.0.1
+version: 1.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `1.0.1` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -78,6 +78,8 @@ Immediate pay-now journey:
 7. show Payment Result with the separate Payment ID already linked to the same Bill/Rent ID;
 8. if the source was already Saved/current before Payment, retain that projection without duplicate Save; for an otherwise unsaved source, resolve the optional Save decision before downstream handoff: selected Save makes the same ID Saved/current, while declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes the same ID history-only;
 9. only after that existing-projection or Save-resolution outcome, continue to Activity, Payment History, Receipt or ordinary safe exit. Payment, Activity and Receipt existence does not depend on Save, but those destinations do not bypass the projection resolution.
+
+For a Tier 3 Bill, a prepared Workspace may preserve current context but remains non-executable before qualifying Evidence and authorized approval. An owner-recorded approval keeps the Payer in, or returns the Payer to, the current Bill context; it does not navigate, notify, authorize, submit, or create Checkout. The Payer deliberately selects the current Bill `Pay` action to invoke the DOC-09 Checkout Resolver, which may Resume only after current revalidation confirms the Workspace is active, eligible, and continuable. For Tier 2, confirmed Payment, the current Evidence condition, and DOC-10 Payout hold or release remain separate; ordinary Evidence lifecycle is not Bills Activity. At Add Bill, deliberate confirmation of declared material facts precedes the separate Save-admission outcome, and Rent remains outside Bill tiers with accepted attached Evidence before Payment.
 
 Failure or abandonment after Bill/Rent ID establishment may leave the source unprojected only when immediate pay ends before confirmed Payment, or deliberate Setup ends before its Saved/current projection is completed. Such an outcome does not by itself expose a Bills/Rent route or list entry or create a user-facing incomplete-source status. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts. After a newly confirmed Payment for an otherwise unsaved source, closing or leaving Payment Result without selecting Save is skipped Save and produces same-ID history-only before Activity, Payment History, Receipt or ordinary safe exit; it cannot remain unprojected.
 
@@ -671,6 +673,7 @@ Core journey open questions should remain here when they affect Payer journeys, 
 ## 7. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.0 | 2026-08-22 | Aligned the Bill journey to approved Tier 3 current-context and deliberate-resolver return, Tier 2 separate Payment/Evidence/Payout treatment, and Add-Bill Declaration/Save boundary while preserving Rent, owner, and no-invention constraints. |
 | 1.0.1 | 2026-08-21 | Separated payment, risk, privacy and provider step-up conditions from DOC-19 mechanism-neutral security enforcement without changing journey behavior. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.1.23 | 2026-08-12 | Applied the Founder-settled indefinite-retention boundary to the journey handoff without introducing storage or disposition mechanics. |

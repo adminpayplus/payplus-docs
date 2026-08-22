@@ -1,7 +1,7 @@
 ---
 document_id: DOC-20
 title: Testing, UAT & Go-Live Checklist
-version: 1.0.1
+version: 1.1.0
 status: Founder Working Baseline
 owner: QA / Product / Operations
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -40,12 +40,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-20` |
 | **Title** | Testing, UAT & Go-Live Checklist |
-| **Version** | `1.0.1` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | QA / Product / Operations |
 | **Reviewers** | Product Lead<br>QA Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation, Chargeback & Case<br>DOC-12 Bill Category, Document AI, OCR & Payee Verification<br>DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control<br>DOC-15 Privacy, Data Protection, Record & Retention<br>DOC-16 Technical Architecture Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management & Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -82,6 +82,7 @@ Testing may be manual, assisted, automated, or otherwise evidenced by a later te
 | Security-control contract | DOC-19 `CTRL-19-001` to `CTRL-19-007` and `SEC19-AC-001` to `SEC19-AC-010` | Later evidence must trace each applicable source owner, invariant, prohibited behavior, non-sensitive verification obligation, negative path, handoff, and unresolved enablement gate without treating the Draft as implementation, operating effectiveness, certification, compliance, provider approval, production readiness, or launch readiness. | DOC-06B, DOC-09, DOC-10, DOC-14, DOC-15, DOC-16, DOC-17, DOC-18, DOC-21, DOC-22, DOC-99 |
 | Payer-only actor, economic Payee, Categories and separate Rent | DOC-01 / DOC-05 / DOC-06C | Positive and negative acceptance of actor, exact inventory, Category-bound self-provision, Directory discovery and separate Rent. | DOC-06D, DOC-12, DOC-14 |
 | Evidence and readiness | DOC-12 | Evidence supports verification; Evidence is not source, Payable Basis, Obligation, Checkout or Payment; label-only review cannot bypass concrete gates. | DOC-09, DOC-14, DOC-15 |
+| Tiered Bill presentation and return | DOC-05 / DOC-06B / DOC-06C / DOC-07 / DOC-09 / DOC-10 | Evidence must show that Tier 3 owner-recorded approval keeps the current Bill context and requires deliberate `Pay` plus current resolver revalidation, with no automatic navigation, notification, authorization, Provider Submission, or generic status. It must show Tier 2 confirmed Payment, current Evidence, and Payout-held/release truth separately; no automatic Refund or ordinary Evidence Activity; Add-Bill Declaration confirmation distinct from Save; and the separate Rent accepted-Evidence gate. | DOC-06D, DOC-08, DOC-11, DOC-12, DOC-14; later implementation evidence remains owner-defined |
 | Source identity and projections | DOC-05 / DOC-06C | Setup, immediate pay-now, Payment Result then optional same-ID Save, Saved/current, Saved/Archived, history-only, established-but-unprojected and Activity/History/Receipt independence. | DOC-09, DOC-15, DOC-21 |
 | Payment topology and late confirmation | DOC-09 | Source -> Payable Basis -> applicable Payment Obligations -> one-basis Checkout -> allocations/Funding Legs -> immutable Payment -> Applications; controlled zero- or insufficient-Application cases are explicitly tested as not ordinary Payout-ready, with no Application, negative coverage, fictional coverage or payout value fabricated, and any downstream treatment remaining owner-controlled. Adjustment impact is bounded by valid Payment Application coverage; excess adjustment remains an owner-controlled fact outside coverage arithmetic. | DOC-10, DOC-11, DOC-21 |
 | Checkout and Payment Instruction | DOC-09 / DOC-06B | Incomplete/partially funded Checkout follows Close/Expiry/continuation; it is not Payment Instruction or source Archive. Deliberate Payment Instruction cancellation/expiry remains distinct. | DOC-06D, DOC-21 |
@@ -121,6 +122,7 @@ These questions do not reopen settled product meaning and do not authorize imple
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.0 | 2026-08-22 | Added human-level evidence expectations for the approved Tier 3 return, Tier 2 financial-truth separation, Declaration/Save boundary, and Rent negative control without selecting implementation tests, mechanisms, statuses, or readiness claims. |
 | 1.0.1 | 2026-08-21 | Replaced the future DOC-19 marker and mapped the reviewed security Control Cards and acceptance handoffs without inventing tests, mechanisms, evidence, readiness, compliance, or certification claims. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.2.0 | 2026-08-14 | Aligned acceptance and go-live evidence with the Stage 9-passed DOC-16 architecture, current DOC-18 representation ownership, and DOC-21 operational evidence handoffs without defining implementation mechanisms or claiming certification. |

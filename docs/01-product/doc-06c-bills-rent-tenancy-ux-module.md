@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 1.0.0
+version: 1.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-18
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06C` |
 | **Title** | Bills, Rent & Tenancy UX Module |
-| **Version** | `1.0.0` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-18` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -293,6 +293,8 @@ Payer-side detail actions when opened from `BILLS-PAY`:
 | Edit Details | Opens editable bill/payee/detail fields subject to verification and audit rules. |
 | Archive | Moves this Saved/current Bill source to the Saved/Archived projection and removes it from the current list without deleting the source or history. Exact eligibility and Restore behavior remain deferred to the applicable owners. |
 
+Tiered Bill presentation on this detail surface keeps the current obligation/action truth separate from Payment, Evidence and Payout. An owner-recorded Tier 3 approval outcome keeps the Payer in, or returns the Payer to, this current Bill context; it must not be represented as a Checkout-looking but non-executable payment surface. Only a deliberate `Pay` action invokes the DOC-09 resolver, which decides the current source-owner resolution or a valid Resume after revalidation. For Tier 2, confirmed Payment remains shown as confirmed Payment, the current Evidence condition remains in the Evidence area, and any owner-supplied Payout-held or release context remains a distinct downstream truth. `Action Required` appears only when the Payer currently has an owner-permitted action; a submitted Evidence item pending review is not presented as unfinished Payer action.
+
 Former Payee-side detail actions remain append-only documentation history only; no BILLS-RECEIVE action or runtime reader is available.
 
 
@@ -481,6 +483,8 @@ Activity detail may show system lifecycle milestones, but user-facing labels mus
 
 Former Request lifecycle text is historical only; no active Request lifecycle belongs in `BILLS-ACTIVITY`. `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD` are route surfaces for Payer Evidence presentation and owner-approved action handoff. DOC-12 owns Evidence, extraction, verification and Evidence-to-Payee meaning; DOC-15 owns approved-purpose access and retention governance; DOC-18 represents approved data, status, event, audit and lineage requirements; and DOC-22 performs only specifically owner-permitted Admin execution. Neither Evidence-policy meaning nor Admin execution belongs in `BILLS-ACTIVITY`.
 
+Ordinary Evidence lifecycle conditions, including pending review, accepted, rejected, correction-needed, upload, or re-upload, remain in the Bill detail and Evidence surfaces. They do not become Activity entries merely because they affect a Tier 2 Payout hold. `BILLS-ACTIVITY` may show confirmed Payment and a later owner-mapped Payout outcome where that outcome is permitted for Activity; it must not insert a generic verification-completed or other Evidence milestone between them.
+
 ### 5.9 Add Bill / Rent Flow
 
 `BILLS-ADD` is the existing Payer-only setup flow. It supports distinct Bill and Rent branches without creating a new route or combining their Evidence rules.
@@ -491,9 +495,17 @@ Add a Bill:
 2. Choose the Category-scoped Directory or Provide Payee myself; neither bypasses Category, risk, Payee or destination controls.
 3. Capture the Bill source facts and the owner-required Declaration concerning Category, purpose, amount and Payee/receiving details. Declaration is not Save intent or Payment authorization.
 4. At initial Bill capture, attached Evidence is optional and may be supplied through `BILLS-EVIDENCE-UPLOAD` for AI/OCR-assisted prefill. Manual source-fact input remains available for Tier 1.
-5. Apply C1 only before Save. If the proposed amount exceeds C1, Save is not permitted. G1/G2 do not apply and no monthly capacity is reserved.
+5. The Payer reviews the declared material facts and deliberately confirms them before the separate Save-admission decision. Apply C1 only before Save. If the proposed amount exceeds C1, Save is not permitted. G1/G2 do not apply and no monthly capacity is reserved.
 6. Consume the owner-governed source-preservation outcome and establish one authoritative Bill ID where permitted. Deliberate Save gives that ID the Saved/current projection without Payment.
 7. Save does not establish Evidence acceptance, readiness, approval, Payment authorization or future Tier.
+
+| Add / current Payment condition | Required Payer task meaning | Current action boundary |
+| --- | --- | --- |
+| Save is permitted | The Bill may be saved for later use. | The separate Save path may be offered; it does not authorize Payment. |
+| Save is not permitted, but a current Payment evaluation can continue | The Bill cannot be saved for later use; the Payer must complete the applicable current Payment requirements before any Payment progression. | Continue only to the owner-governed current Payment requirement, not directly to authorization or submission. |
+| Save is not permitted and current Payment requirements are not yet met | The current Bill needs the applicable information or Evidence before Payment can progress. | Expose only the source-owned information or Evidence action where the Payer currently has one. |
+
+This table is a source-context presentation contract. It does not classify a Bill as rejected, create a permanent user-facing no-Save status, or decide whether the current Payment evaluation passes.
 
 Pay a Bill:
 
@@ -501,7 +513,7 @@ Pay a Bill:
 2. No trigger uses Tier 1: Declaration is required, attached Evidence is not, and other owner gates remain.
 3. C1 or G1 without G2 uses Tier 2: require qualifying owner-approved official Bill Evidence presence before Payment. Payment may proceed while acceptance remains pending; Payout remains held.
 4. G2 uses Tier 3: require qualifying official Bill Evidence and mandatory authorized approval before any executable Payment action.
-5. A prepared Tier 3 `PAYMENT-CHECKOUT` Workspace may preserve context, but before approval it exposes no executable Payment authorization, Provider Submission or confirmed Payment. No new route or recovery object is created.
+5. A prepared Tier 3 `PAYMENT-CHECKOUT` Workspace may preserve context, but before approval it exposes no executable Payment authorization, Provider Submission or confirmed Payment. After approval, present the current Bill context first; a deliberate `Pay` action invokes the DOC-09 resolver. It may Resume only when current revalidation confirms the prepared Workspace remains active, eligible and continuable. No new route, approval notification or recovery object is created.
 6. After confirmed Payment, retain an existing Saved/current projection without duplicate Save; otherwise resolve optional Save on the same ID to Saved/current or history-only before downstream Activity/Payment History/Receipt or ordinary safe exit.
 
 Declaration continuity:
@@ -509,6 +521,8 @@ Declaration continuity:
 - unchanged declared facts require no new Declaration;
 - C1/G1/G2 re-evaluation alone is not a Declaration trigger; and
 - user changes follow owner-defined materiality and proportionate reconfirmation, which may be field-specific, summary-based or full. Every amount edit does not automatically require a full Declaration.
+
+An unchanged or owner-confirmed non-material edit uses ordinary Save. A material change to the declared Category, purpose, amount, economic-Payee or receiving details receives the owner-defined proportionate reconfirmation before the changed facts are relied upon. Pay with unchanged declared facts does not repeat Declaration merely because current Bill-tier evaluation occurs; every applicable Provider Submission still requires fresh authorization.
 
 Rent:
 
@@ -864,6 +878,7 @@ DOC-06C defines the following user-journey boundaries:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.0 | 2026-08-22 | Drafted Bill detail-first Tier 3 return, Tier 2 layered presentation, Evidence-to-Activity separation, proportionate Declaration and Save-versus-current-Payment task expression without creating routes, statuses, notifications, technical controls, or enablement. |
 | 1.0.0 | 2026-08-18 | Implemented the material Bills-only UX baseline and fixed-seat compliance supplement; traced the Founder-updated official Bill Evidence framework, preserved C1/Tier 3/Declaration semantics, neutralized active lifecycle-language ambiguity, qualified reminder retention by lawful scope, and retained exact Copy/representation ownership. |
 | 0.1.23 | 2026-08-12 | Applied the Founder-settled indefinite-retention boundary to reminder controls without introducing a deletion mechanism. |
 | 0.1.22 | 2026-08-12 | Stage 8 correction: made the conceptual Payment Domain relationship DOC-09-faithful and restored the bounded DOC-12/DOC-15/DOC-18/DOC-22 Evidence ownership handoff without introducing technical design. |

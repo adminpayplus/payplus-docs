@@ -2,11 +2,13 @@
 
 Status: Current discussion reference
 Owner: DOC-06C
-Last updated: 2026-08-19
+Last updated: 2026-08-22
 
 This map owns the current Bills route family and shows only material external handoffs. Checkout and source Archive retain their own owners; retired Requests, Linking, Receive, and Receiving Info runtime is not represented.
 
 Bills use the accepted Tier 1/2/3 handoffs: Tier 1 uses Declaration without mandatory attached Evidence; Tier 2 requires qualifying official Bill Evidence presence before Payment and acceptance before Payout; Tier 3 may preserve a prepared but non-executable Checkout before approval. Rent remains a separate mandatory attached-Evidence journey. `ARCHIVED-BILLS-LIST` is the Saved/Archived presentation and is excluded from the current Bills list; history-only sources remain outside the Saved/current and Saved/Archived projections.
+
+After an owner-recorded Tier 3 approval, the Payer remains in, or returns to, the current Bill context. A deliberate current `Pay` action invokes the DOC-09 Checkout Resolver; approval itself creates no navigation, route, notification, authorization, Provider Submission, or generic status.
 
 ```mermaid
 flowchart TD
@@ -32,7 +34,9 @@ flowchart TD
   DETAILR --> REMINDER
   REMINDER --> REMINDERLIST["BILLS-REMINDER-LIST"]
 
-  PAY --> CHECKOUT["PAYMENT-CHECKOUT<br/>DOC-09"]
+  PAY -->|"Current Bill: Pay"| BILLRES["DOC-09 Checkout Resolver<br/>operation, not a route"]
+  DETAILB -->|"Current Bill: Pay"| BILLRES
+  BILLRES -->|"Eligible new Checkout or valid Resume<br/>after current revalidation"| CHECKOUT["PAYMENT-CHECKOUT<br/>DOC-09"]
 
   DETAILB -. "After personal archive, record is accessible later" .-> ARCHIVE["ARCHIVED-BILLS-LIST"]
   DETAILR -. "After personal archive, record is accessible later" .-> ARCHIVE

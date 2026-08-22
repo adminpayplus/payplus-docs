@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 2.0.1
+version: 2.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,12 +43,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `2.0.1` |
+| **Version** | `2.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -255,6 +255,8 @@ Where a formal route owner defines an eligible destination, a notification may r
 Promotion-discovery notifications should route to the relevant `OFFER-DETAIL`, or to `OFFERS-ROOT` only when no specific offer exists. Issued-reward notifications should route to `REWARDS-ROOT` or the relevant `REWARD-DETAIL`, using user-facing labels from the status-display reference matrix. Notifications must not contain a redeemable QR, full partner/redemption code, secret, internal reference, or internal risk reason. Referral attribution or qualification notifications should route to `REFERRAL-ROOT`; a referrer or referee entitlement-availability notification should route to `REFERRAL-REWARDS-LIST` or the relevant `REFERRAL-ENTITLEMENT-DETAIL`; an issued, reversed, or administrator-held reward notification should route to the canonical `REWARD-DETAIL` where a specific instrument exists. Notifications must not open `REFERRAL-REWARD-CLAIM` directly. Claim-deadline reminders are not required for MVP. A share-sheet action, copied link, or displayed QR is not an invitation delivery event and must not notify an unknown recipient. The notification record should preserve its source and target context without requiring a DOC-06B entry-point ID. Notification routing must not turn `BILLS-PAY` into an Offers sub-route.
 
 A Payer's ordinary Bill/Rent Archive visibility action does not create a counterparty notification. Existing payment, Payout, Evidence, risk or legal events notify only under their own owner-governed rules.
+
+An owner-recorded Tier 3 Bill approval outcome does not create a notification event, channel trigger, Inbox record, or direct notification-to-`PAYMENT-CHECKOUT` path. The Payer remains in, or returns to, the current Bill source context. Only the Payer's deliberate current `Pay` action invokes the DOC-09 Checkout Resolver after current revalidation. DOC-08 does not treat that approval record, a prepared Workspace, or a notification snapshot as Payer authorization, Provider Submission, confirmed Payment, Payout release, or a new user-facing status.
 
 DOC-06B `ACTIVITY-ROOT` may expose direct receipt/proof download actions from an expanded activity card where the file is available and the user has permission. DOC-06B `ACTIVITY-DETAIL` may also expose direct receipt/proof download actions. If receipt/proof is unavailable, the button should be hidden by default or disabled only where useful with clear, non-sensitive wording. Invoice/evidence buttons should be hidden where access is not permitted. DOC-08 owns the communication, delivery, file-availability, and receipt/proof wording rules; DOC-15 owns masking and access boundaries.
 
@@ -768,6 +770,7 @@ DOC-08 is acceptable when:
 ## 21. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.1.0 | 2026-08-22 | Aligned notification boundaries to the approved Tier 3 current-context return: owner-recorded approval creates no notification, direct Checkout path, authorization, submission, Payment, Payout release, or user-facing status. |
 | 2.0.1 | 2026-08-21 | Separated masking, representation, provider delivery and security-enforcement ownership and removed the stale future DOC-19 marker without changing notification identity or delivery policy. |
 | 2.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 1.2.1 | 2026-08-12 | Consolidated DOC-22 execution-only, notification-policy, Payment Obligation, timing and retention-boundary corrections while preserving delivery semantics. |

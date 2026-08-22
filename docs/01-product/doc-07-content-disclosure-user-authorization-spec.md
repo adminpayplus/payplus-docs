@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 1.0.1
+version: 1.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,12 +43,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `1.0.1` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -390,6 +390,8 @@ DOC-07 may describe the Payer's owner-approved Payment Instruction, Checkout, pa
 
 DOC-07 may communicate owner-approved source capture, Declaration, tier-dependent attached Evidence, verification, Checkout, Payer authorization, Payment Result, optional post-Payment Save, Activity/Receipt and source Archive meaning. Tier 1 content must not imply mandatory attached Evidence; Tier 2/3 content must distinguish Evidence presence from acceptance; Rent content must preserve mandatory attached Evidence and acceptance-before-Payment. DOC-07 must not create Category-specific rules, a Payee action, recipient library, link, delivery, acceptance, reminder or reciprocal communication. Exact expression remains deferred to the applicable DOC-07 slice and source-owner input.
 
+For Bills, the communication contract keeps Declaration separate from Evidence, Save, Payer authorization, Payment and Payout. Add Bill communicates reviewed declared facts and deliberate confirmation before the distinct Save-admission outcome. An owner-confirmed non-material edit may communicate ordinary Save; a material edit communicates only the owner-defined proportionate reconfirmation. A Pay action with unchanged declared facts communicates current Payment terms and the separate applicable authorization, not a repeated full Declaration. DOC-19 may enforce the relevant security boundary but does not change these product meanings or select Copy.
+
 ---
 
 ## 10. Rent and Tenancy Content
@@ -502,6 +504,8 @@ PayPlus must distinguish the following source-owned semantic conditions. They ar
 | Checkout fully funded | Confirmed obligation-funded value equals Checkout Target. This does not imply Settlement or Payout completion. |
 | Settlement pending or completed | Use only the current Settlement meaning supplied by DOC-10; do not infer it from authorization, provider return, Payment, or Checkout funding. |
 | Payout pending or completed | Use only the current Payout meaning supplied by DOC-10 and the applicable payout owner. |
+
+For a Tier 2 Bill, a confirmed Payment, the current Evidence condition, and a Payout hold or release remain distinct communicated truths. Receipt or proof communicates confirmed Payment and must not communicate Payout completion unless the Payout owner has confirmed it. Bill detail may explain a current Payout hold using owner-supplied safe context; ordinary Evidence lifecycle is not recast as payment-lifecycle Activity. `Transfer pending` is not a default expression for an Evidence-acceptance Payout hold because it could imply that Payout execution has begun. Exact safe wording, including any Payer action or no-action presentation, remains subject to DOC-07, DOC-08, DOC-10, privacy, risk and applicable owner input; this section creates no notification or new user-facing status.
 
 PayPlus may disclose working settlement and payout assumptions only when the applicable PSP/acquirer, bank, payout, risk, legal, partner and reconciliation owners have confirmed them.
 
@@ -874,6 +878,7 @@ DOC-07 is acceptable when:
 ## 22. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.0 | 2026-08-22 | Drafted bounded Tier 2 Payment/Evidence/Payout communication separation and proportionate Declaration expression while preserving DOC-08 notification ownership, DOC-10 Payout truth, DOC-19 mechanism-neutral enforcement, and open Copy. |
 | 1.0.1 | 2026-08-21 | Aligned payer-authorization, provider, runtime/audit and security-control handoffs with DOC-09, DOC-17, DOC-18 and the reviewed mechanism-neutral DOC-19 contract without approving Copy or mechanisms. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.11.1 | 2026-08-12 | Consolidated fixed-inventory, Payment Obligation, provider/rail/timing/retention and DOC-22 execution-boundary corrections without approving new Copy or CTA. |

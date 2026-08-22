@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 1.0.1
+version: 1.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `1.0.1` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -84,6 +84,12 @@ This is the current normative Payer-only Founder Working Baseline for the DOC-06
 The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. Institution/company or unresolved/insufficient Individual determination leaves notification unavailable; governed Individual determination plus Payer choice may expose the optional capability. DOC-06 consumes that eligibility outcome and does not independently determine Payee type. Payer contact responsibility does not remove PayPlus obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. The notification is informational only and does not create a Request, Linking relationship, Payee acceptance requirement, reciprocal visibility, account invitation, payment authorization, or any change to payment state. DOC-06 defines none of its mechanics: DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity, channel, template, preference and delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 represents approved data/audit requirements; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
 
 DOC-06A owns family journeys; DOC-06B owns global roots, routes and IA; DOC-06C owns Bills/Rent presentation and source projections. DOC-09 owns Payment Obligation, Checkout, payer authorization and Payment invariants; DOC-10 owns destination readiness, Payout and reconciliation; DOC-12 owns Category, Evidence, OCR/extraction, verification and Evidence-to-Payee matching; DOC-14 owns risk/sanctions/fraud/anti-cashout; DOC-15 owns privacy, masking and retention requirements; DOC-18 represents approved data/status/event/audit/lineage/reporting requirements; DOC-22 executes only permitted Admin review under the applicable owner outcomes. DOC-06 references these owners without redefining them.
+
+### Tiered Bill presentation and return boundary
+
+An owner-recorded Tier 3 Bill approval outcome keeps the Payer in, or returns the Payer to, the current Bill context. It is not navigation authority, a notification, Payer authorization, Provider Submission, or a direction to open executable Checkout. The Payer deliberately selects the current Bill `Pay` action, and DOC-09 then resolves current eligibility and any valid Resume after revalidation; otherwise the applicable source-owner or historical resolution remains. No new route, generic status, recovery object, or Payee/retired runtime is created.
+
+For Tier 2, confirmed Payment, the current Evidence condition, and a DOC-10 Payout hold or release remain separate truths; ordinary Evidence lifecycle does not become Bills Activity. At Add Bill, the Payer confirms declared material facts before the distinct Save-admission outcome; material edits receive owner-defined proportionate reconfirmation, while unchanged facts do not repeat Declaration solely because current Tier evaluation occurs. Rent remains outside Bill tiers and keeps its accepted-attached-Evidence-before-Payment rule.
 
 ### Wave 2 route-family outcomes
 
@@ -416,6 +422,7 @@ The DOC-06 parent is acceptable when:
 ## 12. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.0 | 2026-08-22 | Aligned the family summary to the approved Tier 3 current-context and deliberate-resolver return, Tier 2 Payment/Evidence/Payout separation, proportionate Declaration, and unchanged Rent negative control without creating routes, statuses, notifications, mechanisms, or enablement. |
 | 1.0.1 | 2026-08-21 | Aligned family status and handoffs with the reviewed DOC-19 security-control contract while preserving route, authorization, privacy, provider and representation ownership and open implementation mechanisms. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.22.1 | 2026-08-12 | Applied the Founder-settled indefinite-retention boundary to reminder wording without introducing a deletion or disposition mechanism. |

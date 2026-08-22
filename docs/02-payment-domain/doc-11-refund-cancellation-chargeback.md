@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 1.0.0
+version: 1.1.0
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Payments Lead
   - Operations Lead
   - Finance Lead
-last_updated: 2026-08-19
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-11` |
 | **Title** | Refund, Cancellation & Chargeback |
-| **Version** | `1.0.0` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Operations |
 | **Reviewers** | Product Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Customer Support Lead<br>Engineering Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Operations Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -381,6 +381,8 @@ Payout hold is required or recommended where:
 - duplicate payment or processing error is suspected;
 - risk, compliance, legal, or finance review requires hold.
 
+For a Tier 2 Bill, an Evidence-acceptance Payout hold does not itself initiate, approve, or imply cancellation, Refund, reversal, chargeback, recovery, or case outcome. A confirmed Payment remains a DOC-09 immutable financial fact while DOC-10 retains the Payout-held or release decision. DOC-11 determines a refund or case only when its applicable owner-governed policy and evidence require one; it does not derive that result from pending Evidence acceptance.
+
 After payout, PayPlus may need recovery handling. Recovery methods may include:
 
 - offset against future payout;
@@ -576,6 +578,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-08-22 | Product Documentation Team | Aligned Tier 2 Evidence-acceptance Payout holds with the existing case boundary: the hold alone is not cancellation, Refund, reversal, recovery, or a case outcome, and confirmed Payment remains immutable. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.7.3` | `2026-08-13` | Product Documentation Team | Bounded adjustment impact to valid Payment Application coverage for zero- or insufficient-Application cases while preserving immutable Payment and adjustment facts and existing owner-controlled settlement boundaries. |
 | `0.7.2` | `2026-08-12` | Product Documentation Team | Applied the Founder-settled indefinite-retention handoff to adjustment, refund, dispute and case records without changing their financial or operational mechanisms. |

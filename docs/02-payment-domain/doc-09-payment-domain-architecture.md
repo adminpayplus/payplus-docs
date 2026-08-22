@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Domain Architecture
-version: 2.0.0
+version: 2.1.0
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-08-18
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Domain Architecture |
-| **Version** | `2.0.0` |
+| **Version** | `2.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-08-18` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
 
@@ -665,15 +665,21 @@ The Tier 3 normative owner boundary is defined: the applicable designated Produc
 
 A material change to approved Category, purpose, amount, economic-Payee or receiving details requires Tier and approval re-evaluation before executable progression. Declaration policy separately determines whether the user change is material and what proportionate reconfirmation is required.
 
+An owner-recorded approval outcome does not itself navigate, Resume, authorize or submit. The Payer remains in, or returns to, the current Bill source context and deliberately invokes `Pay`; the existing Checkout Resolver then performs current revalidation. It may Resume the prepared Workspace only when that Workspace remains active, eligible and continuable. Any subsequent Provider Submission retains its separate fresh Payer authorization. Otherwise the resolver returns the applicable source-owner or historical resolution. This establishes no Tier 3 notification, direct notification-to-Checkout edge, new route, or Payment/Payout state.
+
 ### 13A.4 Declaration and Add/Pay boundaries
 
 Declaration is not payer authorization. Unchanged declared facts require no new Declaration, and C1/G1/G2 re-evaluation alone is not a Declaration trigger. DOC-05/DOC-07 own materiality and proportionate reconfirmation for user changes; DOC-09 consumes current declared facts and continues to require separate authorization for every applicable Provider Submission.
 
 Add a Bill applies C1 only as Save admission and does not create G1/G2 usage or reservation. Pay a Bill re-evaluates current C1/G1/G2. Save, no-Save and Archive do not authorize Payment or change the Payment Domain facts.
 
+At Add Bill, the Payer's review and deliberate confirmation of declared material facts precede the separate Save-admission outcome. An owner-confirmed non-material edit uses ordinary Save; a material edit receives the owner-defined proportionate reconfirmation. Current C1/G1/G2 re-evaluation alone does not repeat Declaration. A no-Save outcome does not by itself reject the source or determine current Payment eligibility: any current Payment progression must resolve its own current Tier, Evidence, approval, destination, risk, security and authorization gates.
+
 ### 13A.5 Financial-truth boundary
 
 Tier 2 Payout hold, Tier 3 approval, Evidence re-upload/rejection, Refund, case, adjustment and reconciliation must not erase or rewrite confirmed Payment or Payment Application. Tier 2 Payment with ordinary Applications is not the Section 18 confirmed-but-unapplied late-confirmation exception merely because Evidence acceptance is pending. DOC-11 retains Refund/case ownership; this section creates no automatic Refund rule.
+
+For Tier 2 presentation, confirmed Payment is immutable Payment truth; Evidence outcome and DOC-10 Payout hold or release remain separately owned conditions. The Payment Domain does not authorize a universal `Pending`, `Complete`, `Failed`, or `Transfer pending` presentation, ordinary Evidence lifecycle Activity, or a Receipt/Proof claim of unconfirmed Payout completion. DOC-06C/DOC-07 compose the Payer surface from current owner-supplied facts, and DOC-18 retains representation/event ownership. This handoff does not select a schema, event, security mechanism, configuration, or production-enablement treatment.
 
 ---
 
@@ -1396,6 +1402,7 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.1.0 | 2026-08-22 | Product Documentation Team | Drafted the approved Tier 3 current-context resolver return, proportionate Declaration/Add-versus-Pay boundary, and Tier 2 financial-truth presentation handoff without defining Tier values, security mechanisms, routes, notifications, events, or production enablement. |
 | 2.0.0 | 2026-08-18 | Product Documentation Team | Implemented the material Bills-only Payment model and fixed-seat compliance supplement; preserved settled ownership, Evidence decision coverage and immutable facts, neutralized active lifecycle-language ambiguity, and retained the complete receiving-account/authoritative-payout-destination G1 key. |
 | 1.2.1 | 2026-08-13 | Product Documentation Team | Bounded effective adjustment impact to valid Payment Application coverage, preserving immutable Payment and adjustment facts and the controlled zero-Application exception without adding a financial object or mechanism. |
 | 1.2.0 | 2026-08-12 | Product Documentation Team | Replaced active Request and Link Request payment-domain references with the Payer-established authoritative Bill/Rent source boundary; preserved the accepted Payable Basis, Payment Obligation, Checkout, Funding Leg, immutable Payment, Payment Application, late-confirmation, and downstream-owner invariants. |

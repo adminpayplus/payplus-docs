@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 1.0.1
+version: 1.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -32,12 +32,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `1.0.1` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
@@ -297,6 +297,7 @@ The following human-readable criteria are the minimum DOC-06D coverage for the r
 | --- | --- | --- |
 | Actor, category and acquisition | The active actor is the Payer; the economic Payee may be an individual or institution/company; acquisition uses one of the twelve controlled Bill Categories or separate Rent through Directory or `Provide Payee myself`, with self-provided Payee remaining Category-bound. | DOC-05/DOC-06C; DOC-20 acceptance evidence; DOC-12 verification handoff |
 | Evidence and readiness | Evidence supports source and intended-Payee verification; Evidence status is distinct from payment readiness and cannot itself become a Payable Basis, Obligation, Checkout, or Payment. | DOC-12/DOC-09; DOC-20 positive and blocked-flow evidence |
+| Tiered Bill presentation and return | Tier 3 approval preserves the current Bill context and requires a deliberate current `Pay` action before the DOC-09 resolver may admit a valid Resume; it creates no route, notification, authorization, submission, or generic status. Tier 2 presents confirmed Payment, current Evidence, and Payout-held/release facts separately, and ordinary Evidence lifecycle is excluded from Activity. Add Bill confirms declared material facts before distinct Save admission; Rent remains outside Bill tiers and requires accepted attached Evidence before Payment. | DOC-05/DOC-06B/DOC-06C/DOC-07/DOC-09/DOC-10; DOC-08/DOC-11 boundaries; DOC-20 positive, negative, exception, and regression evidence |
 | Source and projections | The authoritative Bill/Rent source, deliberate Setup, immediate pay-now, Payment Result, optional same-ID Save, Saved/current, Saved/Archived, history-only and established-but-unprojected projections, Activity/History/Receipt, and source Archive projections remain distinct and are presented without erasure. | DOC-05/DOC-06C/DOC-09; DOC-20 journey/regression evidence; DOC-21 operational handoff |
 | Payment topology | UX acceptance preserves source -> Payable Basis -> applicable Payment Obligations -> one-basis Checkout Workspace -> allocations/Funding Legs -> immutable confirmed Payment -> Payment Applications. The controlled late-confirmation exception may temporarily have zero Applications without invalidating Payment or implying ordinary Payout readiness. | DOC-09; DOC-10/11 handoffs; DOC-20 exception/regression evidence |
 | Checkout and Payment Instruction | Incomplete or partially funded Checkout follows DOC-09 Close/Expiry/continuation semantics and is not a Payment Instruction or source Archive. Deliberate Payment Instruction cancellation/expiry remains separate. | DOC-09/DOC-06B; DOC-20 negative/exception evidence; DOC-21 escalation routing |
@@ -317,6 +318,7 @@ The following human-readable criteria are the minimum DOC-06D coverage for the r
 ## 10. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.0 | 2026-08-22 | Added human-level acceptance coverage for the approved Tier 3 current-context resolver return, Tier 2 Payment/Evidence/Payout separation, Declaration/Save boundary, and separate Rent gate without defining routes, statuses, messages, mechanisms, or tests. |
 | 1.0.1 | 2026-08-21 | Aligned Recovery acceptance ownership with DOC-06B and the reviewed DOC-19 security-control contract without changing approved recovery behavior or creating implementation tests. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.1.29 | 2026-08-12 | Converged Wave 5 acceptance mapping to the accepted Payer-only, fixed-Category/separate-Rent, source/projection, Payment topology, Checkout/Payment Instruction, Archive, notification, privacy, Admin-execution, and retired-runtime boundaries; added human-level coverage for DOC-20 evidence and DOC-21 operations without inventing implementation detail. |

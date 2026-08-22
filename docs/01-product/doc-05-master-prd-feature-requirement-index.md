@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 1.0.1
+version: 1.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `1.0.1` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -337,6 +337,8 @@ G1 exceedance does not prohibit Payment; it elevates the Bill progression to Tie
 
 Tier 3 approval is an admission gate before the First Provider Submission. Before approval there is no executable Payment authorization, Provider Submission or confirmed Payment. Material changes to the approved Category, purpose, amount, Payee or receiving details require Tier and approval re-evaluation. No separate Tier 3 recovery object is created.
 
+An owner-recorded Tier 3 approval outcome keeps the Payer in, or returns the Payer to, the current Bill context. It is not navigation authority, Payer authorization, Provider Submission, or a direction to open an executable Checkout. A deliberate current `Pay` action invokes the DOC-09 Checkout Resolver. The resolver may Resume a prepared Workspace only when current revalidation confirms it remains active, eligible and continuable; every later Provider Submission still requires fresh Payer authorization. Otherwise the resolver returns the applicable source-owner or historical resolution. This policy creates no Tier-specific route, notification or automatic continuation.
+
 ### 7.5 Owner-approved official Bill Evidence
 
 Tier 2/3 mandatory Evidence means owner-approved official current/historical Bill Evidence. Potential formal document examples include an official bill, invoice, fee notice, payment statement, school payment notice or formal receipt used as historical Evidence. These examples are not automatically accepted types.
@@ -355,6 +357,8 @@ Evidence presence, extraction, automated result, owner acceptance, Tier 3 approv
 - Declaration does not replace Evidence where required, payer authorization, account security, sanctions, prohibited-purpose, intended-Payee, destination, risk, provider or Payout gates.
 
 DOC-05 owns the product-policy framework. DOC-07 owns final user-facing expression; DOC-09 consumes current facts and preserves separate Provider Submission authorization; DOC-15 owns privacy and retention controls. Exact operating materiality tests and reconfirmation presentation remain later owner-defined product/content/acceptance inputs unless a future answer contradicts the approved proportionate rule.
+
+At Add a Bill, the Payer reviews the declared material facts and deliberately confirms them before the separate Save-admission decision. An unchanged or owner-confirmed non-material edit uses ordinary Save. A material change receives the owner-defined proportionate reconfirmation before the changed facts are relied upon. Paying a Bill with unchanged declared facts does not repeat Declaration solely because C1/G1/G2 is re-evaluated; every applicable Provider Submission remains separately authorized.
 
 ### 7.7 Add, Pay and prepayment boundaries
 
@@ -905,6 +909,7 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 
 | Version | Date | Summary |
 |---|---|---|
+| v1.1.0 | 2026-08-22 | Drafted the approved Bills Tiered Payer Presentation and Return Contract: deliberate Tier 3 Pay/resolver re-entry, proportionate Declaration, and distinct Save-admission versus current Payment progression, without selecting configuration, routes, notifications, security mechanisms, or enablement. |
 | v1.0.1 | 2026-08-21 | Aligned product handoffs with the reviewed DOC-19 security-control contract while preserving payer authorization, privacy, provider, representation and open-mechanism ownership. |
 | v1.0.0 | 2026-08-18 | Implemented the material Bills-only tier model and fixed-seat compliance supplement; preserved C1 layering and Founder-updated Evidence traceability, retained owner-level dependencies, neutralized the complete active lifecycle-language family, and qualified indefinite retention by lawful scope, required exceptions and restricted data classes. |
 | v0.19.5 | 2026-08-13 | Replaced the named identity-verification provider example with provider-neutral, owner-qualified wording without selecting a provider or changing verification requirements. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 1.0.2
+version: 1.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `1.0.2` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -508,6 +508,8 @@ The design must support reduced-motion accessibility. No replacement action, fif
 | Retired Request Payment | None | The former payee-to-payer Request action is retired from active MVP. No replacement action or route is created by this route baseline. |
 
 The remaining four actions preserve their existing order and meaning. Bill entry remains Category-first; Rent remains a separate journey. Save is an action/projection, not a route. No fifth action, replacement Request flow, Directory root or self-provided root is introduced.
+
+For an owner-recorded Tier 3 approval outcome, the Payer remains in, or returns to, the actual current Bill source context. The outcome does not navigate, authorize, Resume, submit or create an executable Checkout. A preserved Bill, `BILLS-PAY`, or prepared Workspace context must not be replaced by an artificial detail-page hop. The Payer deliberately selects the current Bill `Pay` action to invoke the same DOC-09 Checkout Resolver. It may Resume the prepared Workspace only after current revalidation confirms that Workspace is active, eligible and continuable; otherwise it stays in, or returns to, the current source-owner or historical resolution. No Tier 3 notification, route, direct notification-to-Checkout edge, or new recovery object is created.
 
 #### 5.3.3 Completion, Availability, and Return Rules
 
@@ -2607,6 +2609,7 @@ No numerical accessibility, performance, or usability threshold is established h
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.0 | 2026-08-22 | Drafted the approved Tier 3 Bill current-context and deliberate-resolver return expression without adding a route, notification, automatic transition, stale Resume, authorization, or Provider Submission; preserved the integrated `ENTRANCE-PROMOTION-DETAIL` Defined baseline unchanged. |
 | 1.0.2 | 2026-08-21 | Integrated the Founder-authorized `ENTRANCE-PROMOTION-DETAIL` Defined baseline status transition, preserving the current route, owner, Bills, security, and open-mechanism baseline while retaining the downstream deferrals as non-blocking. |
 | 1.0.1 | 2026-08-21 | Aligned Recovery, provider/tokenization, PCI, risk and security handoffs with the reviewed DOC-19 contract and existing owner boundaries without changing routes, statuses, product behavior or open mechanism decisions. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |

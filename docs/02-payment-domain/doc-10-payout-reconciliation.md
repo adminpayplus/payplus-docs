@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 1.0.1
+version: 1.1.0
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-22
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-10` |
 | **Title** | Payout & Reconciliation |
-| **Version** | `1.0.1` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Finance |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-22` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -167,6 +167,8 @@ Bill Tier Payout rules:
 - Evidence re-upload/rejection, approval, Payout hold, Refund, case, adjustment and reconciliation do not erase or rewrite Payment or Payment Application.
 - DOC-10 creates no automatic Refund rule. An unresolved hold follows DOC-11, Finance, Legal, partner and operational ownership.
 - The Tier 3 authority boundary is settled: an applicable designated Product/Risk/Compliance/Security owner authorizes approval and DOC-22 only executes the approved workflow. Exact role assignment, workflow, segregation and evidence remain later enablement/implementation inputs; DOC-22 cannot supply policy through configuration.
+
+For a Tier 2 Bill, a confirmed Payment remains confirmed Payment while any Evidence outcome and Payout condition remain separate. An Evidence-acceptance hold is a DOC-10 Payout-held condition and must not be presented by default as `Transfer pending`, which could imply that Payout execution has started. It does not create a Payout Submitted, Processing, Completed, recipient-received, or automatic Refund fact. DOC-06C may present current Bill context and DOC-07 may express only safe owner-supplied meaning; neither changes the Payout owner decision. DOC-19 remains a mechanism-neutral enforcement dependency and does not release, hold, or otherwise decide Payout.
 
 This is DOC-10's traceability for the Founder-updated Evidence direction: Tier 2/3 consumes the DOC-12 owner-approved official Bill Evidence framework, formal document examples do not create acceptance, communication material is excluded, and Rent remains on its separate mandatory accepted-Evidence model. Category operating lists remain later owner inputs and block affected-path enablement and acceptance until supplied.
 
@@ -666,6 +668,7 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.0 | 2026-08-22 | Drafted the Tier 2 confirmed-Payment, Evidence, and Payout-held/release separation for downstream source consumers without creating a Payout transition, notification, Refund rule, security mechanism, or enablement claim. |
 | 1.0.1 | 2026-08-21 | Aligned the DOC-19 handoff to mechanism-neutral security enforcement while preserving DOC-10 ownership of Payout, destination, reconciliation and recovery meaning. |
 | 1.0.0 | 2026-08-18 | Implemented the material Bills-only Payout model and fixed-seat compliance supplement; traced the Founder-updated Evidence framework, retained owner-level dependencies, removed active lifecycle ownership language and residual documentation-review adjudication, and preserved Payee/snapshot/no-automatic-Refund and complete G1 destination-key boundaries. |
 | 0.8.2 | 2026-08-13 | Regularized the zero- or insufficient-Payment-Application Payout criterion and its owner-controlled reconciliation/exception boundary; preserved the confirmed Payment, no-fabricated-coverage and no-bypass rules. |
