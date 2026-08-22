@@ -1787,3 +1787,46 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 - `OQ-19-001` through `OQ-19-007` and `DEP-19-001` through `DEP-19-008` remain open.
 - DOC-17 provider/API detail, DOC-18 representation, DOC-20 testing/UAT/release evidence, DOC-21 monitoring/runbooks, owner-permitted DOC-22 actions and DOC-99 policy/supplier evidence remain separately gated.
 - PCI applicability/scope/shared responsibility, implementation, operating effectiveness, compliance, certification, provider approval, production readiness and launch readiness remain unclaimed and unresolved.
+
+### `2026-08-23` - BTPR R2 Documentation Integration Record
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `7664d339e45c6e183cb8d6a2b0b107a405200749` |
+| Primary owner | Existing owners: `DOC-05`, `DOC-06B`, `DOC-06C`, `DOC-07`, `DOC-09`, and `DOC-10` |
+| Decision record | `Not applicable` — this records the already accepted `FD-BTPR-01` contract and creates no new product or governance decision |
+| Founder approval | Founder authorized the exact BTPR R2 Stage 14–19 Commit, Record, and Push sequence on `2026-08-23` |
+
+**Files Changed**
+
+- `docs/01-product/doc-05-master-prd-feature-requirement-index.md`
+- `docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md`
+- `docs/01-product/doc-06a-core-user-journeys-service-blueprint.md`
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md`
+- `docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md`
+- `docs/01-product/doc-07-content-disclosure-user-authorization-spec.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/02-payment-domain/doc-09-payment-domain-architecture.md`
+- `docs/02-payment-domain/doc-10-payout-reconciliation.md`
+- `docs/02-payment-domain/doc-11-refund-cancellation-chargeback.md`
+- `docs/08-qa-release-operations/doc-20-testing-uat-golive-checklist.md`
+- `docs/diagrams/routes/payplus-bills-route-map.md`
+- `docs/diagrams/routes/payplus-payment-checkout-route-map.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+
+**Material Changes**
+
+- Integrated the already accepted `FD-BTPR-01` cross-owner presentation and return contract across its exact approved documentation, traceability, acceptance, and diagram scope.
+- Preserved the exact owner boundaries and deferred dependencies recorded by the accepted source; this commit introduces no new route, status, notification, schema/event, security mechanism, configuration, operational rule, or production-enablement decision.
+
+**Checks Performed**
+
+- Completed the independent Stage 9 Review, Stage 10 Change Impact Manifest, Stage 11 Alignment, Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE`, Stage 13 `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL`, and exact Stage 14 staged-scope gate.
+- Verified the exact 15-file, 119-addition / 55-deletion snapshot; six primary and nine aligned blobs; protected identities; formatting and metadata checks; local links; and `git diff --cached --check` before substantive commit `7664d339e45c6e183cb8d6a2b0b107a405200749`.
+- Performed a live read-only remote check before mutation: `origin/main` equalled validated base `37804153bba3f930836bcedf096867b9d63fb793`, and `refs/heads/codex/btpr-r2-integrated` was absent.
+
+**Remaining Open Items**
+
+- Existing deferred owner dependencies remain unchanged, including C1 configuration, official Evidence lists, Tier 3 operating roles/segregation, Declaration materiality, Tier 2 hold/case operations, G1 representation/concurrency, privacy confirmation, provider/API detail, DOC-18 representation, DOC-19 mechanisms, and later acceptance, operations, implementation, and professional evidence.
+- `ALIGN-BTPR-001` remains preserved pre-existing DOC-11 historical-table debt and is not a BTPR semantic defect.

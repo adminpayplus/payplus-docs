@@ -65,6 +65,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-046` | `2026-08-21` | DOC-19 Mechanism-Neutral Security Control Alignment | Accepted | `DOC-19` | `860fd78cbb7cc5a080e10334291b60ff8902a77d` |
 | `DEC-2026-047` | `2026-08-20` | Bills Tiered Evidence, Declaration, Payment And Payout Model | Accepted | `DOC-05` / `DOC-06C` / `DOC-09` / `DOC-10` / `DOC-12` / `DOC-14` | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
 | `DEC-2026-048` | `2026-08-06` | ENTRANCE-PROMOTION-DETAIL Defined Baseline | Accepted | `DOC-06B` / `DOC-13` / `DOC-22` | `ec9b97bb4cf9b2e5b03992f4a23c546146de97e6` |
+| `Not applicable` | `2026-08-23` | BTPR R2 Documentation Integration Record | Not applicable | Existing `FD-BTPR-01` owners | `7664d339e45c6e183cb8d6a2b0b107a405200749` |
 
 ## 4. Decision Record Template
 
@@ -2211,3 +2212,39 @@ Supersedes the active status references that treated `ENTRANCE-PROMOTION-DETAIL`
 - Responsive measurements, short-viewport treatment, reduced-motion implementation, gesture thresholds, first-use-cue persistence, animation, and visual validation.
 - Technical date/time storage, scheduling, synchronization, source-change detection, permissions, schemas, events, audit, monitoring, security, and platform implementation.
 - DOC-20 testing, UAT, acceptance, and release evidence, plus later DOC-22 operational and technical workflow detail.
+
+### `Not applicable` - BTPR R2 Documentation Integration Record
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-23` |
+| Status | Not applicable — post-commit provenance only; no new product or governance decision |
+| Primary owner | Existing `FD-BTPR-01` owners: `DOC-05`, `DOC-06B`, `DOC-06C`, `DOC-07`, `DOC-09`, and `DOC-10` |
+| Affected documents | The exact 15 paths in substantive commit `7664d339e45c6e183cb8d6a2b0b107a405200749` |
+| Substantive commit | `7664d339e45c6e183cb8d6a2b0b107a405200749` |
+| Founder approval | Existing `FD-BTPR-01` acceptance and Founder-authorized BTPR R2 Stage 14–19 sequence on `2026-08-23` |
+
+**Record**
+
+This record binds the already accepted `FD-BTPR-01` documentation contract to its substantive commit. It does not add, modify, or approve a product or governance decision. Formal source documents remain authoritative for the integrated current-context presentation, return, Payment, Evidence, Payout, Declaration, Rent, notification, and owner-boundary treatment.
+
+**Rationale**
+
+The required records-only follow-up provides accurate post-commit provenance using the actual substantive hash while preserving the Founder-approved source boundary.
+
+**Alternatives Considered**
+
+- Minting a new product or governance decision for this records-only entry was rejected because no such decision was authorized.
+- Omitting the decision-log record was rejected because the workflow requires an explicit `Not applicable` result when a substantive commit implements already accepted material without a new decision record.
+
+**Consequences And Handoffs**
+
+All existing source owners and deferred dependencies remain unchanged. `ALIGN-BTPR-001` remains pre-existing DOC-11 historical-table debt and is not a BTPR semantic defect.
+
+**Supersedes / Superseded By**
+
+None.
+
+**Remaining Open Items**
+
+- Existing deferred owner dependencies remain unchanged; no implementation, compliance, certification, provider approval, production-readiness, or launch-readiness claim is created by this record.
