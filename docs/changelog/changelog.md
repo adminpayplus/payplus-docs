@@ -1830,3 +1830,45 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - Existing deferred owner dependencies remain unchanged, including C1 configuration, official Evidence lists, Tier 3 operating roles/segregation, Declaration materiality, Tier 2 hold/case operations, G1 representation/concurrency, privacy confirmation, provider/API detail, DOC-18 representation, DOC-19 mechanisms, and later acceptance, operations, implementation, and professional evidence.
 - `ALIGN-BTPR-001` remains preserved pre-existing DOC-11 historical-table debt and is not a BTPR semantic defect.
+
+### `2026-08-25` - DOC-17 Provider-Neutral External Interaction Contract
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `339bd8c8dfccf60ab102aa706f04135c9aab9e36` |
+| Primary owner | `DOC-17`, Engineering / Integration |
+| Decision record | `DEC-2026-049` |
+| Founder approval | Founder approved `DOC17-FD-01` through `DOC17-FD-08` as one coherent provider-neutral direction and authorized the chained Stage 12–19 validation, integration, commit, record, and push sequence on `2026-08-25` |
+
+**Files Changed**
+
+- `AGENTS.md`
+- `docs/02-payment-domain/doc-09-payment-domain-architecture.md`
+- `docs/06-engineering/doc-17-api-third-party-integration-spec.md`
+- `docs/08-qa-release-operations/doc-20-testing-uat-golive-checklist.md`
+- `docs/08-qa-release-operations/doc-21-monitoring-incident-response-operational-sops.md`
+- `docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md`
+- `docs/README.md`
+- `docs/glossary/glossary.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/payplus-documentation-management-roadmap.md`
+- `docs/traceability/requirements-traceability-matrix.md`
+
+**Material Changes**
+
+- Replaced the DOC-17 placeholder with the reviewed provider-neutral External Interaction Contract, including 22 `PNIC` requirements, 19-row Functional-Surface Coverage, eight acceptance criteria, owner-evaluation and handoff boundaries, uncertainty treatment, and replacement/exit evidence obligations.
+- Preserved External Observation non-authority, Bill/Rent consume-and-must-not-weaken treatment, Payment/Payout/Evidence/Risk/Privacy separation, candidate/generic separation, and the DOC-16/DOC-18/DOC-19/Engineering realisation boundary.
+- Aligned active operating, Payment, acceptance, operations, Admin, index, glossary, open-question, roadmap, and traceability references without selecting a provider or defining APIs, backend/adapters, schemas/events/statuses, credentials, security mechanisms, implementation, acceptance, enablement, assurance, or readiness.
+
+**Checks Performed**
+
+- Verified the exact Stage 9-passed DOC-17 SHA-256 `23717D5969782F6BD1D0B3E3E7C1F7D3416599C89AEFF5C1DC85BF6B66B7D829`, blob `b44091cd964cfea4420bdbd0b5b869d436e69b11`, and 35,344-byte source identity.
+- Completed the Stage 10 Manifest, exact 11-path Stage 11 Alignment, fresh Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE`, Stage 13 `INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL`, and exact staged-scope gate.
+- Revalidated all 11 final hashes, the unchanged 113-path protected aggregate `FFEEC19CF09AEA9731D1371F7362101F2AAD13C12EFCB7DA8E78F1F34B51A877`, 75 Markdown tables, 13 local links, strict UTF-8, CRLF/final newline, metadata/control mirrors, balanced fences, semantic owner boundaries, prohibited-detail searches, and `git diff --cached --check` before substantive commit `339bd8c8dfccf60ab102aa706f04135c9aab9e36`.
+- Verified live `refs/heads/main` equalled the validated base `6819b03caf637a3e78c9e05905811972ef6e8311` before commit.
+
+**Remaining Open Items**
+
+- Formal DOC-17 reviewer and approver assignments remain `TBD`.
+- Provider selection, commercial terms, provider capability/environment evidence, exact API/file/callback/report/portal/payload contracts, backend/adapters, representation, security mechanisms, professional determinations, implementation, testing, monitoring, acceptance, enablement, assurance, and launch remain separately gated.
+- Candidate-specific evidence remains feasibility-only. Future Backend Capability or Engineering Handoff material remains future Explore input and was not incorporated by this change.

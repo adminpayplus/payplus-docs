@@ -65,6 +65,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-046` | `2026-08-21` | DOC-19 Mechanism-Neutral Security Control Alignment | Accepted | `DOC-19` | `860fd78cbb7cc5a080e10334291b60ff8902a77d` |
 | `DEC-2026-047` | `2026-08-20` | Bills Tiered Evidence, Declaration, Payment And Payout Model | Accepted | `DOC-05` / `DOC-06C` / `DOC-09` / `DOC-10` / `DOC-12` / `DOC-14` | `e84ce35dd0fa4687d2f98dd08191645fcffa69af` |
 | `DEC-2026-048` | `2026-08-06` | ENTRANCE-PROMOTION-DETAIL Defined Baseline | Accepted | `DOC-06B` / `DOC-13` / `DOC-22` | `ec9b97bb4cf9b2e5b03992f4a23c546146de97e6` |
+| `DEC-2026-049` | `2026-08-25` | DOC-17 Provider-Neutral External Interaction Contract | Accepted | `DOC-17` | `339bd8c8dfccf60ab102aa706f04135c9aab9e36` |
 | `Not applicable` | `2026-08-23` | BTPR R2 Documentation Integration Record | Not applicable | Existing `FD-BTPR-01` owners | `7664d339e45c6e183cb8d6a2b0b107a405200749` |
 
 ## 4. Decision Record Template
@@ -2248,3 +2249,48 @@ None.
 **Remaining Open Items**
 
 - Existing deferred owner dependencies remain unchanged; no implementation, compliance, certification, provider approval, production-readiness, or launch-readiness claim is created by this record.
+
+### `DEC-2026-049` - DOC-17 Provider-Neutral External Interaction Contract
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-08-25` |
+| Status | Accepted |
+| Primary owner | `DOC-17`, Engineering / Integration |
+| Affected documents | The exact 11 paths in substantive commit `339bd8c8dfccf60ab102aa706f04135c9aab9e36` |
+| Substantive commit | `339bd8c8dfccf60ab102aa706f04135c9aab9e36` |
+| Founder approval | Founder approved `DOC17-FD-01` through `DOC17-FD-08` as one coherent provider-neutral direction and authorized the chained Stage 12–19 sequence on `2026-08-25` |
+
+**Decision**
+
+PayPlus adopts the reviewed DOC-17 Draft as its provider-neutral External Interaction Contract. DOC-17 owns the contract, Functional-Surface Coverage, interaction-evidence obligations, candidate-evidence method, uncertainty treatment, replacement/exit evidence, and owner handoffs. An External Observation is not authoritative PayPlus truth by itself and cannot independently establish Payment, Payout, Evidence acceptance, risk outcome, payer authorization, notification decision, case consequence, privacy treatment, or privileged effect.
+
+The contract must consume and must not weaken applicable Bill/Rent, Payment, Payout, Evidence, risk, privacy, notification, architecture, representation, security, acceptance, operations, and Admin-owner rules. Duplicate, replayed, late, missing, stale, malformed, contradictory, unknown-origin, and unavailable observations remain visible without creating a second domain, financial, notification, or privileged consequence. Candidate-specific gaps do not block the generic provider-neutral contract but continue to block candidate-specific feasibility, recommendation, selection, mapping, implementation, testing, acceptance, enablement, assurance, and launch conclusions.
+
+Provider selection and provider-specific realisation remain separately gated. DOC-16 retains architecture, reliability, recovery, and reconciliation posture; DOC-18 retains data/event/correlation/audit/lineage representation; DOC-19 retains mechanism-neutral security treatment; DOC-20 and DOC-21 retain acceptance and operational evidence; DOC-22 remains owner-permitted execution only; and future Engineering work may map an accepted contract only after the applicable decisions. DOC-17 selects no provider, API, backend, adapter, schema, event, status, credential, language, framework, security mechanism, implementation, assurance, enablement, or launch model.
+
+**Rationale**
+
+A single provider-neutral contract makes the complete external-interaction universe reviewable while preventing candidate facts or transport observations from becoming product/domain truth. Functional-Surface Coverage and the Extension Rule prevent omissions and silent externalisation, while explicit owner handoffs preserve current PayPlus authority and future technical optionality.
+
+**Alternatives Considered**
+
+- A candidate-first contract was rejected because incomplete or provider-specific evidence cannot define generic PayPlus requirements or establish capability/readiness.
+- A principles-only placeholder was rejected because it would not provide reviewable requirements, complete functional coverage, uncertainty treatment, acceptance traceability, or replacement/exit obligations.
+- Multiple competing provider or profile documents were rejected in favour of one DOC-17 contract with internal provider-neutral interaction profiles and one primary owner.
+- Defining provider APIs, backend/adapters, schemas/events/statuses, security mechanisms, or implementation during this decision was rejected because those matters remain with later separately authorized owners and gates.
+
+**Consequences And Handoffs**
+
+DOC-09 retains Payment, payer authorization, Provider Confirmation acceptance, Payment, and Payment Application meaning. DOC-10 retains Settlement, Payout, and reconciliation; DOC-11 case and financial-adjustment consequences; DOC-12 applicable Evidence/document verification; DOC-14 risk; DOC-15 privacy/vendor/retention; DOC-16 architecture; DOC-18 representation; DOC-19 security; DOC-20 acceptance; DOC-21 operations; and DOC-22 owner-permitted execution. AGENTS, the documentation index, glossary, OQ register, roadmap, RTM, and the bounded DOC-09/20/21/22 handoffs are aligned projections, not new source owners.
+
+**Supersedes / Superseded By**
+
+Supersedes active DOC-17 placeholder, future-owner, missing-acceptance, and representation-ownership wording within the exact aligned scope. Historical changelog/decision entries, backups, AI contexts, task snapshots, and prior protected-scope statements remain append-only or non-authoritative provenance and are not rewritten as current authority.
+
+**Remaining Open Items**
+
+- Formal DOC-17 reviewer and approver assignments remain `TBD`.
+- Provider selection, commercial terms, provider capability/environment evidence, exact API/file/callback/report/portal/payload contracts, backend/adapters, representation, security mechanisms, professional determinations, implementation, testing, monitoring, acceptance, enablement, assurance, and launch remain separately gated.
+- Candidate-specific feasibility and evidence gaps remain unresolved at their applicable gates.
+- External authorized AI remains a future Founder decision. Future Backend Capability or Engineering Handoff material remains future Explore input only.
