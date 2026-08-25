@@ -6,7 +6,7 @@
 | --- | --- |
 | Coordination surface | `PayPlus Documentation Manager` task |
 | Status | Active coordination tracker |
-| Last updated | 2026-08-21 |
+| Last updated | 2026-08-25 |
 | Canonical lifecycle | [PayPlus Documentation Development Workflow](../documentation-system/payplus-documentation-development-workflow.md) |
 | Governance authority | [DOC-00 Documentation Governance](../00-foundation/doc-00-documentation-governance.md) |
 | Repository operating contract | [AGENTS.md](../../AGENTS.md) |
@@ -101,7 +101,7 @@ Coordination status is a management aid only. It must not be used as a document 
 | 4 | `PAYMENT-CHECKOUT` UI/UX | Explore completed; Proposal has not started | Founder instruction to enter Proposal | Prepare a decision-ready Proposal without reopening DOC-09 architecture |
 | 5 | Checkout presentation handoffs | Planned after an accepted checkout UX direction | Accepted `PAYMENT-CHECKOUT` Proposal, primary-owner Draft, and Stage 9 Review gate pass | Begin the Stage 10 Change Impact Manifest and determine affected Outcome, notification, promotion, privacy, acceptance, diagram, and technical handoffs |
 | 6 | Remaining partially defined destinations | Backlog; priority not assigned | Founder prioritization and owner-specific task contracts | Address as separate bounded work items |
-| 7 | DOC-16 to DOC-22 technical and operational specifications | DOC-16 and DOC-19 are Stage 9-passed Drafts; DOC-19 has a complete Stage 10 Manifest and bounded Stage 11 alignment pending separate Stage 12 validation; DOC-18 and DOC-20 to DOC-22 have substantive owner baselines; DOC-17 remains a protected placeholder | Separate owner-first authorization for DOC-17; preserve the reviewed DOC-16 architecture, DOC-19 mechanism-neutral security controls, accepted product/domain decisions, and all unresolved DOC-19 enablement gates | Validate the authorized DOC-19 alignment separately, continue DOC-17 owner-first work, and complete remaining technical/operational evidence before AI conversion |
+| 7 | DOC-16 to DOC-22 technical and operational specifications | DOC-16, DOC-17, and DOC-19 are Stage 9-passed Drafts; DOC-17's provider-neutral External Interaction Contract has bounded Stage 11 alignment pending separate Stage 12 validation; DOC-19 has a complete Stage 10 Manifest and bounded Stage 11 alignment pending separate Stage 12 validation; DOC-18 and DOC-20 to DOC-22 have substantive owner baselines | Preserve the reviewed DOC-16 architecture, DOC-17 provider-neutral and owner-handoff boundaries, DOC-19 mechanism-neutral security controls, accepted product/domain decisions, and all unresolved provider-specific, representation, security, professional, implementation, acceptance, operations, and enablement gates | Validate the authorized DOC-17 and DOC-19 alignments separately under their own snapshots and complete remaining technical/operational evidence before AI conversion |
 | 8 | AI build-execution conversion | Deferred | Accepted human and technical source set plus conversion authorization | Generate only after the documentation baseline is sufficiently complete |
 
 ## 7. Active Work Register
@@ -110,7 +110,7 @@ Coordination status is a management aid only. It must not be used as a document 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `PDM-WI-001` | DOC-09 Payment Domain Architecture baseline | DOC-09 | Stage 20 complete | Complete | Completion and push completed before this tracker was established | Use as canonical payment-domain input | Commits `200bc0e`, `0586c84`, and `883cecd`; version `1.1.0`, `Founder Working Baseline` |
 | `PDM-WI-002` | `PAYMENT-CHECKOUT` UI/UX | DOC-06B for route-level UX; DOC-09 for domain architecture | Stage 4 Explore complete | Waiting for Founder | Explore Pack, 2026-08-01 | Stage 5 Proposal only on explicit Founder instruction | `PAYMENT-CHECKOUT` remains `Partially defined`; OQ-XDOC-015 remains open |
-| `PDM-WI-008` | DOC-16 technical architecture and downstream alignment | DOC-16 | Stage 13 Integration complete | Active | Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE`; Stage 13 pre-commit report, 2026-08-14 | Stage 15 substantive Commit under the Founder's chained authorization; no Push | Locked DOC-16 SHA-256 `454B3F6AD497EAB2C4320C0313536790462F120A64A36426CC93065A443F90CD`; DOC-17/DOC-19 remain protected and open |
+| `PDM-WI-008` | DOC-16 technical architecture and downstream alignment | DOC-16 | Stage 13 Integration complete | Active | Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE`; Stage 13 pre-commit report, 2026-08-14 | Stage 15 substantive Commit under the Founder's chained authorization; no Push | Locked DOC-16 SHA-256 `454B3F6AD497EAB2C4320C0313536790462F120A64A36426CC93065A443F90CD`; DOC-17 and DOC-19 were protected within this work item, and later separate lifecycles do not alter that task snapshot |
 
 ## 8. Current Route-Definition Snapshot
 
@@ -242,6 +242,6 @@ The manager should report programme progress using three views:
 
 The next documentation action is not automatically authorized by this roadmap.
 
-For active `PDM-WI-008`, Alignment, Integrated Validation and Integration completion have passed. The Founder's chained instruction permits the scoped Stage 15 substantive Commit of the locked DOC-16 and ten aligned files. DOC-17 and DOC-19 remain protected and require separate owner-first authorization. No Push, records update, AI conversion, or implementation is authorized by this roadmap entry.
+For active `PDM-WI-008`, Alignment, Integrated Validation and Integration completion have passed. The Founder's chained instruction permits the scoped Stage 15 substantive Commit of the locked DOC-16 and ten aligned files. DOC-17 and DOC-19 were protected within that recorded task scope; their later separate lifecycles do not rewrite the `PDM-WI-008` snapshot or authorize `PDM-WI-008` to act on them. No Push, records update, AI conversion, or implementation is authorized by this roadmap entry.
 
 For `PDM-WI-002`, the permitted next stage remains a read-only `PAYMENT-CHECKOUT` UI/UX Proposal after explicit Founder instruction. The Proposal must preserve DOC-09 Payment Domain architecture and recommend the route-level UX direction, ownership handoffs, affected-document boundary, and remaining Founder decisions without editing files.

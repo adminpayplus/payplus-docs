@@ -1,7 +1,7 @@
 ---
 document_id: DOC-22
 title: Admin Management Dashboard & Operations Workflow
-version: 1.0.1
+version: 1.0.2
 status: Founder Working Baseline
 owner: Operations / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Operations Lead
   - Compliance Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-25
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -37,6 +37,7 @@ related_documents:
   - DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification
   - DOC-15 Privacy, Data Protection & Record Retention Specification
   - DOC-16 Technical Architecture Specification
+  - DOC-17 API & Third-party Integration Specification
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization, Authentication & Admin Control Specification
   - DOC-20 Testing, UAT & Go-Live Checklist
@@ -49,20 +50,20 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-22` |
 | **Title** | Admin Management Dashboard & Operations Workflow |
-| **Version** | `1.0.1` |
+| **Version** | `1.0.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Operations / Product |
 | **Reviewers** | Product Lead<br>Operations Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Security Lead<br>Engineering Lead<br>Data Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Operations Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-25` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
 ## 1. Purpose
 
 ## 2. Scope
 
-DOC-22 describes only operational execution, configuration, queue and audit work that a formal owner has specifically permitted. It does not own or decide product policy, source/Evidence truth, payment or Payout truth, risk outcome, privacy/retention, architecture or security proof, route access, notification eligibility/delivery, or financial correction/reissue outcome. Those matters remain with DOC-05 through DOC-16, DOC-19, DOC-21 and the applicable specialist owner.
+DOC-22 describes only operational execution, configuration, queue and audit work that a formal owner has specifically permitted. It does not own or decide product policy, source/Evidence truth, payment or Payout truth, risk outcome, privacy/retention, external-interaction contract, architecture or security proof, route access, notification eligibility/delivery, or financial correction/reissue outcome. Those matters remain with DOC-05 through DOC-21 and the applicable specialist owner.
 
 Operational execution must preserve DOC-16 trust boundaries, local authoritative ownership, durable cross-boundary handoff meaning, provider-controlled card-data restrictions, least privilege, segregation of duties, auditability, and non-authoritative projection rules. DOC-22 does not choose a deployment, API, event, schema, provider, security mechanism, retry model, or reconciliation design.
 
@@ -211,6 +212,7 @@ Exact Admin workflow, queue, permission, approval, technical, monitoring and imp
 ## 28. Revision History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.2 | 2026-08-25 | Added the reviewed DOC-17 provider-neutral External Interaction Contract to the reference and non-ownership boundary without creating Admin policy, provider capability, API, mechanism, queue, permission, status, schema, event, or implementation detail. |
 | 1.0.1 | 2026-08-21 | Aligned authentication, recovery, access, status/audit, and security handoffs while preserving DOC-22 as owner-permitted execution only and creating no roles, queues, permissions, or Admin policy. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
 | 0.25.0 | 2026-08-14 | Aligned owner-permitted Admin execution with the Stage 9-passed DOC-16 architecture, provider-controlled card-data, authoritative-owner, durable-handoff, monitoring and evidence boundaries without adding Admin policy, mechanisms, queues, statuses, permissions, schemas or providers. |

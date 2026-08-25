@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Domain Architecture
-version: 2.1.0
+version: 2.1.1
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-08-22
+last_updated: 2026-08-25
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Domain Architecture |
-| **Version** | `2.1.0` |
+| **Version** | `2.1.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-08-22` |
+| **Last Updated** | `2026-08-25` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
 
@@ -1206,7 +1206,7 @@ Status-display reference matrix owns display mapping. DOC-07 owns Outcomes, Mess
 |---|---|---|---|
 | Bill Tier and limits | Inbound product/control policy | Consume approved C1/G1/G2, tier precedence, Declaration and Evidence/approval gates without redefining them or selecting technical G1 representation. | DOC-05 owns product meaning; DOC-12 Evidence and C1 Category binding; DOC-14 risk/approval policy; DOC-18 technical representation. |
 | Provider Submission | Outbound integration boundary | Define business submission semantics and target-lock consequence. | DOC-17 owns provider mechanics. |
-| Provider Confirmation Event | Inbound provider evidence | Define confirmation-policy acceptance and Payment-creation consequences. | DOC-17 owns provider evidence; DOC-18 owns technical transport and event implementation. |
+| Provider Confirmation Event | Inbound provider evidence | Define confirmation-policy acceptance and Payment-creation consequences. | DOC-17 owns the provider-neutral observation/evidence contract and any later separately accepted provider-specific contract; DOC-18 owns event and correlation representation. |
 | Confirmed and applied Payment | Outbound Settlement handoff | Preserve immutable Payment, accepted Payment Applications and destination reference. | DOC-10 owns Settlement and payout processing. |
 | Confirmed but unapplied Payment | Shared downstream handling boundary | Supply confirmed-but-unapplied condition and prohibit normal payee payout eligibility. | DOC-10 owns Settlement and reconciliation treatment; DOC-11 owns return or adjustment processing. |
 | Effective Financial Adjustment | Inbound from adjustment domain | Consume authoritative obligation-attributed coverage reduction and recalculate Payment Obligation. | DOC-11 owns occurrence, effectiveness, amount and attribution. |
@@ -1402,6 +1402,7 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.1.1 | 2026-08-25 | Product Documentation Team | Aligned the Provider Confirmation handoff with the reviewed DOC-17 provider-neutral External Interaction Contract and DOC-18 representation ownership without changing Payment meaning, provider mechanics, transport, events, schemas, statuses, or implementation. |
 | 2.1.0 | 2026-08-22 | Product Documentation Team | Drafted the approved Tier 3 current-context resolver return, proportionate Declaration/Add-versus-Pay boundary, and Tier 2 financial-truth presentation handoff without defining Tier values, security mechanisms, routes, notifications, events, or production enablement. |
 | 2.0.0 | 2026-08-18 | Product Documentation Team | Implemented the material Bills-only Payment model and fixed-seat compliance supplement; preserved settled ownership, Evidence decision coverage and immutable facts, neutralized active lifecycle-language ambiguity, and retained the complete receiving-account/authoritative-payout-destination G1 key. |
 | 1.2.1 | 2026-08-13 | Product Documentation Team | Bounded effective adjustment impact to valid Payment Application coverage, preserving immutable Payment and adjustment facts and the controlled zero-Application exception without adding a financial object or mechanism. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-20
 title: Testing, UAT & Go-Live Checklist
-version: 1.1.0
+version: 1.1.1
 status: Founder Working Baseline
 owner: QA / Product / Operations
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-22
+last_updated: 2026-08-25
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -26,6 +26,7 @@ related_documents:
   - DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control
   - DOC-15 Privacy, Data Protection, Record & Retention
   - DOC-16 Technical Architecture Specification
+  - DOC-17 API & Third-party Integration Specification
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
   - DOC-19 Security, Tokenization, Authentication & Admin Control Specification
   - DOC-20 Testing, UAT & Go-Live Checklist
@@ -40,14 +41,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-20` |
 | **Title** | Testing, UAT & Go-Live Checklist |
-| **Version** | `1.1.0` |
+| **Version** | `1.1.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | QA / Product / Operations |
 | **Reviewers** | Product Lead<br>QA Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-22` |
+| **Last Updated** | `2026-08-25` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation, Chargeback & Case<br>DOC-12 Bill Category, Document AI, OCR & Payee Verification<br>DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control<br>DOC-15 Privacy, Data Protection, Record & Retention<br>DOC-16 Technical Architecture Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management & Operations Workflow<br>DOC-99 ISMS Policy Library |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation, Chargeback & Case<br>DOC-12 Bill Category, Document AI, OCR & Payee Verification<br>DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control<br>DOC-15 Privacy, Data Protection, Record & Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management & Operations Workflow<br>DOC-99 ISMS Policy Library |
 
 ---
 
@@ -79,6 +80,7 @@ Testing may be manual, assisted, automated, or otherwise evidenced by a later te
 | Requirement family | Normative owner | DOC-20 evidence expectation | Handoff / dependency |
 | --- | --- | --- | --- |
 | Technical architecture and cross-boundary integrity | DOC-16 | Architecture review and later implementation evidence must cover risk-isolated modular boundaries, provider-controlled card-data handling, local authoritative transaction tests, durable handoff retry/idempotency/correlation/failure/recovery/reconciliation, non-authoritative projections, least privilege, and Security & Compliance by Design without claiming certification from documentation alone. | DOC-17, DOC-18, DOC-19, DOC-21, DOC-22 |
+| Provider-neutral External Interaction Contract | DOC-17 `PNIC-01` to `PNIC-22`, `FSC-01` to `FSC-19`, and `D17-AC-01` to `D17-AC-08` | Later evidence must trace External Observation non-authority, owner evaluation and handoff, uncertainty and duplicate-effect controls, complete Functional-Surface Coverage, Bill/Rent owner consumption, candidate/generic separation, replacement/exit evidence, and every explicit non-decision without treating the Draft as provider selection, API/backend/adapter design, representation, security mechanism, implementation, acceptance, enablement, assurance, or readiness. | DOC-05, DOC-06C, DOC-07, DOC-08, DOC-09 to DOC-16, DOC-18, DOC-19, DOC-21, and DOC-22 as applicable |
 | Security-control contract | DOC-19 `CTRL-19-001` to `CTRL-19-007` and `SEC19-AC-001` to `SEC19-AC-010` | Later evidence must trace each applicable source owner, invariant, prohibited behavior, non-sensitive verification obligation, negative path, handoff, and unresolved enablement gate without treating the Draft as implementation, operating effectiveness, certification, compliance, provider approval, production readiness, or launch readiness. | DOC-06B, DOC-09, DOC-10, DOC-14, DOC-15, DOC-16, DOC-17, DOC-18, DOC-21, DOC-22, DOC-99 |
 | Payer-only actor, economic Payee, Categories and separate Rent | DOC-01 / DOC-05 / DOC-06C | Positive and negative acceptance of actor, exact inventory, Category-bound self-provision, Directory discovery and separate Rent. | DOC-06D, DOC-12, DOC-14 |
 | Evidence and readiness | DOC-12 | Evidence supports verification; Evidence is not source, Payable Basis, Obligation, Checkout or Payment; label-only review cannot bypass concrete gates. | DOC-09, DOC-14, DOC-15 |
@@ -122,6 +124,7 @@ These questions do not reopen settled product meaning and do not authorize imple
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.1 | 2026-08-25 | Added reference-only acceptance coverage for the reviewed DOC-17 provider-neutral External Interaction Contract, Functional-Surface Coverage, owner handoffs, and explicit non-decisions without defining tests, providers, APIs, mechanisms, implementation, acceptance, enablement, assurance, or readiness. |
 | 1.1.0 | 2026-08-22 | Added human-level evidence expectations for the approved Tier 3 return, Tier 2 financial-truth separation, Declaration/Save boundary, and Rent negative control without selecting implementation tests, mechanisms, statuses, or readiness claims. |
 | 1.0.1 | 2026-08-21 | Replaced the future DOC-19 marker and mapped the reviewed security Control Cards and acceptance handoffs without inventing tests, mechanisms, evidence, readiness, compliance, or certification claims. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |

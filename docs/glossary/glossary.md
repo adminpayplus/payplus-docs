@@ -4,7 +4,7 @@ Status: Working alignment reference
 
 Owner: Product / Documentation Owner
 
-Last updated: 2026-08-14
+Last updated: 2026-08-25
 Classification: Internal
 
 This glossary defines approved PayPlus terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
@@ -76,6 +76,18 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Provider-Controlled Card-Data Boundary | The architecture boundary under which provider-controlled capture and tokenization keep raw PAN and card-verification values outside PayPlus systems by default; PayPlus handles only permitted token/reference values and approved masked metadata. | DOC-16 |
 | Local Atomic Authority | The boundary within which one authoritative domain owner atomically commits its own state and invariants. It does not imply a single transaction across independently owned domains, providers, services, or external systems. | DOC-16 |
 | Durable Cross-Boundary Handoff | An owner-approved propagation between boundaries that is durable, retryable, idempotent at the receiving boundary, correlated, auditable, recoverable, and reconcilable. It does not replace or silently rewrite the authoritative domain fact. | DOC-16 / DOC-17 / DOC-18 |
+| Provider-Neutral External Interaction Contract | The reviewed DOC-17 contract for interaction evidence, separation of authority, Functional-Surface Coverage, and owner handoffs. It does not select a provider or define an API, schema, event, status, credential, security mechanism, backend, adapter, or implementation. | DOC-17 |
+| External Interaction | A provider-neutral exchange, delivery, inbound observation, outbound consumer relationship, or operational interaction that may require contract evidence. It does not imply a selected provider or implemented interface. | DOC-17 |
+| External Observation | A received or attempted external signal such as a return, callback, query result, file, report, delivery record, redirect, or manual upload. It is not authoritative PayPlus truth by itself. | DOC-17 |
+| Interaction Reference | A provider-neutral reference used for correlation or later investigation. It is not an authorization, financial result, or protected value. | DOC-17 |
+| Integrity / Provenance Evidence | Evidence concerning source, completeness, correlation, timing, delivery, or limitation. It does not decide domain acceptance. | DOC-17 |
+| Representation / Lineage | The later record of an observation, its source, correlation, and relationship. DOC-18 owns the representation. | DOC-18 / DOC-17 |
+| Owner Evaluation | The applicable formal owner's evaluation of whether an observation is sufficient under its approved rule. DOC-17 cannot perform or pre-decide it. | Applicable formal owner / DOC-17 |
+| Domain Acceptance | An owner-defined decision affecting a domain fact, separate from transport, provenance, and financial or case consequence. | Applicable domain owner |
+| Financial / Case Consequence | A Payment, Payout, refund, reversal, dispute, chargeback, reconciliation, adjustment, hold, or case effect owned by the applicable domain owner. | DOC-09 / DOC-10 / DOC-11 as applicable |
+| Uncertainty | A known absence, ambiguity, conflict, duplication, replay, delay, staleness, malformation, unknown origin, or unavailable observation that must remain visible rather than becoming an assumed result. | DOC-17 / applicable owner |
+| Replacement / Exit Evidence | Evidence needed to retain owner accountability and recoverability when a provider or interaction pattern changes or ends. It does not guarantee portability, support, or a migration mechanism. | DOC-17 / applicable owner |
+| Functional-Surface Coverage | DOC-17's provider-neutral classification of currently identified PayPlus functional families as `No external interaction`, `Conditional`, `Future Decision`, or `Required Coverage`. A row does not approve a capability, provider, integration, permission, route, status, schema, or implementation. | DOC-17 |
 
 ## Records and Status Terms
 
