@@ -214,7 +214,7 @@ Gross Revenue / Gross Transaction Value
 = Take Rate
 ```
 
-Final allocation and reporting definitions belong to DOC-18 and Finance approval.
+Final commercial allocation and reporting definitions remain subject to DOC-02 and Finance approval. DOC-18 owns only business recording and explainability; technical representation remains separately authorized.
 
 ---
 
@@ -352,7 +352,7 @@ Candidate metrics include GTV, funded and paid-out volume, gross/net revenue, ap
 
 Request volume, acceptance, rejection, expiry, completion, Request-origin profitability and Payee Request activation/retention are retired MVP metrics. No historical Request measure or production reporting obligation exists.
 
-Final definitions belong to DOC-18.
+Final commercial metric definitions remain with DOC-02 and Finance approval. DOC-18 owns only business recording and explainability; technical representation remains separately authorized.
 
 ---
 

@@ -2,12 +2,12 @@
 
 Status: Working alignment reference  
 Owner: Product / Founder  
-Last updated: 2026-08-19
+Last updated: 2026-08-27
 Classification: Internal
 
 This matrix aligns PayPlus system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
 
-It is not the final backend status schema. DOC-18 owns the future canonical status, event, audit, and data model taxonomy. Domain documents continue to own their product-rule status meaning:
+It is not the final backend status schema. Domain documents continue to own their product-rule state meaning. The reviewed DOC-18 Draft records business distinctions, history, lineage, audit meaning and explainability obligations only; it does not supply or approve a canonical machine status/event taxonomy, schema, persistence model, or implementation. Any such technical representation requires separate future authority:
 
 - DOC-09: Payment Domain semantic conditions for obligations, Checkout Workspace, funding execution, confirmed Payments, Payment Applications, Effective Coverage, and deliberate Payment Instructions.
 - DOC-10: payout, settlement-calendar, batch, bank-record, and reconciliation statuses.
@@ -68,7 +68,7 @@ Message delivery outcomes such as queued, sent, delivered, failed, or retried be
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Payment Lifecycle | Confirmed payment | Accepted Provider Confirmation produced an immutable `Payment` | DOC-09 | `Paid` | `Processing` | Activity, checkout result, bill/rent detail | This describes one confirmed Payment, not overall Checkout completion. Payee sees `Processing` until DOC-10 payout completes. |
 | Payment Lifecycle | Payout completion | `Payout Completed` | DOC-10 | `Transferred` | `Received` | Activity, receipt/proof, statement | Same transaction entry updates status instead of creating a separate payout activity entry by default. |
-| Payment Lifecycle | Funding attempt unsuccessful | Payment Attempt or Funding Leg did not produce a confirmed Payment | DOC-09 / DOC-17 / DOC-18 | `Failed` | `Rejected` | Activity, checkout result | Role-specific display outcome; exact machine state remains with DOC-18. |
+| Payment Lifecycle | Funding attempt unsuccessful | Payment Attempt or Funding Leg did not produce a confirmed Payment | DOC-09 / DOC-17 / DOC-18 | `Failed` | `Rejected` | Activity, checkout result | Role-specific display outcome; DOC-09 retains state meaning, DOC-18 preserves the business history, and exact machine representation remains separately gated. |
 | Payment Lifecycle | Payout failure | `Payout Failed` / `Payout Cancelled` | DOC-10 | `Failed` / `Returned` | `Rejected` | Activity, activity detail | Exact payer label depends on whether funds are returned or whether payment did not complete. |
 | Payment Lifecycle | Payout return | `Payout Returned` | DOC-10 | `Returned` | `Returned` | Activity, activity detail, receipt/proof re-issue where applicable | Do not imply refund unless DOC-11 confirms a refund. |
 | Payment Lifecycle | Refund completed | `Refund Completed` | DOC-11 | `Refunded` | `Reversed` / `Adjusted` | Activity, receipt re-issue where applicable, statement | Payee label needs final policy confirmation. |
@@ -100,7 +100,7 @@ Referral claim `Issued` means that an entitlement created one canonical reward i
 
 ## Identity Verification - MVP Display Mapping
 
-External-provider results and PayPlus policy outcomes must map into these five user-facing labels. Final provider-specific mapping belongs in DOC-17, DOC-18, and DOC-22 after provider selection.
+External-provider results and PayPlus policy outcomes must map into these five user-facing labels. A later provider-specific contract belongs in DOC-17; the applicable domain owner retains state meaning; DOC-18 supplies the business-recording handoff; and technical mapping or specifically permitted DOC-22 execution requires separate authority.
 
 | Domain | Stage / Status Type | User-Facing Label | Owning Docs | Appears In | User Action / Notes |
 | --- | --- | --- | --- | --- | --- |
@@ -139,14 +139,14 @@ The following domains already have human-readable status requirements or explici
 | Promotion Eligibility and Quote Lifecycle | Eligible, selected, applied, reserved, recalculated, released, or rejected before or during checkout. Issued reward-instrument display uses the MVP mapping above. | DOC-09, DOC-13, DOC-18, DOC-22 |
 | Referral Qualification Lifecycle | `In Progress`, `Qualified`, `Not Qualified`, `Under Review`. These labels belong to attributed-referee progress in `REFERRAL-ROOT`. | DOC-06B, DOC-13, DOC-18, DOC-22 |
 | Referral Reward Presentation | `Available to Claim`, `Issued`, `Expired`, `Reversed`. Entitlement presentation does not create a referral-only issued-instrument status family. `Processing` is transient/internal. A held claim record may remain inactive in Referral History as `Under Review`, while the canonical issued instrument follows the Reward Instrument Lifecycle mapping above. | DOC-06B, DOC-13, DOC-18, DOC-22 |
-| Account / Security Lifecycle | Login, device, passcode, suspended, restricted, and account-closure states not explicitly mapped above. Identity-verification and privacy-request display use the MVP mappings above. DOC-19 may constrain secure use but does not define persistent states or user-facing labels. | DOC-06B and applicable account/domain owner for meaning; DOC-15 for privacy; DOC-18 for representation; DOC-22 for owner-permitted execution |
+| Account / Security Lifecycle | Login, device, passcode, suspended, restricted, and account-closure states not explicitly mapped above. Identity-verification and privacy-request display use the MVP mappings above. DOC-19 may constrain secure use but does not define persistent states or user-facing labels. | DOC-06B and applicable account/domain owner for meaning; DOC-15 for privacy; DOC-18 for business recording/history only; technical representation separately gated; DOC-22 for specifically owner-permitted execution |
 | Support / Case Lifecycle | `Open`, `Pending Information`, `Under Review`, `Resolved`, and `Closed`. Operational action/outcome states and holds remain separate. | DOC-11, DOC-14, DOC-21, DOC-22 |
 
 ---
 
 ## Activity Detail Rule
 
-Activity detail may show system lifecycle milestones, but user-facing labels must follow this matrix or the future DOC-18 canonical mapping. For example, the detail may preserve backend milestones such as payer authorization, accepted Provider Confirmation, confirmed Payment, Settlement readiness, Payout completion, refund, reversal, return, or failed attempt, but the status displayed to payer/payee must use the mapped user-facing label.
+Activity detail may show owner-defined lifecycle milestones, but user-facing labels must follow this matrix and the applicable domain owner. For example, the detail may preserve milestones such as payer authorization, accepted Provider Confirmation, confirmed Payment, Settlement readiness, Payout completion, refund, reversal, return, or failed attempt, but the status displayed to payer/payee must use the mapped user-facing label. DOC-18 preserves their business separation and history; it does not currently define a machine taxonomy.
 
 `BILLS-ACTIVITY` is limited to payment and related payout/transfer, failure, return, refund, and reversal events for one obligation. Request and evidence lifecycle events must not be inserted into that activity route merely because they relate to the same bill/rent/tenancy record.
 

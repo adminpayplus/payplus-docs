@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 1.1.0
+version: 1.1.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-22
+last_updated: 2026-08-27
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06C` |
 | **Title** | Bills, Rent & Tenancy UX Module |
-| **Version** | `1.1.0` |
+| **Version** | `1.1.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-22` |
+| **Last Updated** | `2026-08-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -90,7 +90,7 @@ Rent is independent of the controlled-Bill Directory and the Bill tiers. A Payer
 
 Active Request, BILLS-LINKING, BILLS-RECEIVE, Remind Payer, Payee-user and Consumer Receiving Info behavior is retired. Retired stable IDs and prior meanings remain non-active documentation evidence only. Founder confirmation establishes that no production Request/Payee-role runtime or legacy Request deep-link data exists; no runtime reader, adapter, fallback, dormant runtime or replacement Request product is created.
 
-The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. DOC-06C consumes this outcome and does not independently determine Payee type or make an Admin determination. Institution/company and unresolved/insufficient Individual determination leave notification unavailable. A governed Individual determination plus Payer choice may expose the informational one-way capability. Payer contact responsibility does not remove PayPlus obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. The capability is not Request, Linking, acceptance, consent proof, invitation, reciprocal visibility, payment authorization or a payment-state change. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity/channel/template/preference/delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 represents approved data/audit requirements; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
+The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. DOC-06C consumes this outcome and does not independently determine Payee type or make an Admin determination. Institution/company and unresolved/insufficient Individual determination leave notification unavailable. A governed Individual determination plus Payer choice may expose the informational one-way capability. Payer contact responsibility does not remove PayPlus obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. The capability is not Request, Linking, acceptance, consent proof, invitation, reciprocal visibility, payment authorization or a payment-state change. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity/channel/template/preference/delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 owns business-recording and audit-meaning obligations; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
 
 ---
 
@@ -108,7 +108,7 @@ It is the owning document for the Payer-facing BILLS-ROOT/BILLS-PAY, BILLS-ACTIV
 
 DOC-06C owns the user-facing Payer Bills module route behavior, card/detail actions, evidence sub-flow, reminder management, activity timeline, archived-source visibility boundary and route handoffs.
 
-DOC-06C does not own detailed checkout/payment processing, evidence verification algorithms, final data schema, final event taxonomy, privacy masking rules, notification templates, risk thresholds, or admin queue design. Those remain with DOC-08, DOC-09, DOC-12, DOC-14, DOC-15, DOC-18, DOC-19, and DOC-22 as applicable.
+DOC-06C does not own detailed checkout/payment processing, evidence verification algorithms, technical schema, machine event/status taxonomy, privacy masking rules, notification templates, risk thresholds, or admin queue design. The reviewed DOC-18 Draft owns business-recording, explainability, history, lineage, audit-meaning and owner-handoff obligations only; exact technical representation remains separately gated. The other concerns remain with DOC-08, DOC-09, DOC-12, DOC-14, DOC-15, DOC-19, DOC-22, and future authorized Engineering/Data work as applicable.
 
 ## 3. Completion Markers
 
@@ -119,7 +119,7 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | Bill/rent cards and details | Working baseline | Field set defined; final density, masking, and visual hierarchy remain open. |
 | Activity sub-route | Working baseline | Payment activity and limited milestones defined; global Activity and Receipts & Statements routes remain separate under DOC-06B. |
 | Add Bill / Rent flow | Working baseline | Add Bill C1-only Save admission, optional Bill Evidence assistance, separate mandatory-Evidence Rent, Declaration and Pay-time Tier handoff are defined; exact Copy and visual composition remain open. |
-| Evidence sub-route | Working baseline | Evidence detail/upload behavior and status mapping defined; data model remains DOC-18. |
+| Evidence sub-route | Working baseline | Evidence detail/upload behavior and status mapping defined; DOC-18 supplies the reviewed business-recording handoff, while exact technical representation remains separately gated. |
 | Archived Bills & Rent | Working baseline / Payer-only re-scope | Saved-source visibility projection and non-erasure are current; exact Restore, evidence-version and prior-version behavior remains deferred. |
 | Reminder list/detail route | Working baseline | Linked reminders, defaults, custom override, toggle, and non-destructive deactivation defined; payment-instruction action alerts remain outside Bills reminder management. |
 | User-to-user Linking | Retired active MVP | Retired stable ID and neutral future seams only; no participant Linking flow or runtime reader. |
@@ -148,7 +148,7 @@ The product destination IDs in the first column are stable references for human 
 
 This section defines the working baseline for the `Bills` bottom-navigation route. It is a route-level UX and behavior specification, not a final visual UI design.
 
-Route-level UI specification rule: each route should define user-facing behavior and identify material events/data signals required for AI-ready data-engine support. Detailed schema, event taxonomy, lineage, model registry, and warehouse design remain owned by DOC-18.
+Route-level UI specification rule: each route should define user-facing behavior and identify material business occurrences and explainability needs required for later data-engine work. DOC-18 currently owns the reviewed business-recording and lineage obligation; detailed schema, machine event taxonomy, model registry, warehouse design, and implementation require separate future authority.
 
 ### 5.1 Route and Subsection IDs
 
@@ -208,7 +208,7 @@ Payment/checkout ownership rule:
 
 - DOC-06C owns the user-facing entry point, route handoff, back/return behavior expectation, and the fact that payer-side `Pay` opens checkout.
 - DOC-06B owns the reviewed global `PAYMENT-CHECKOUT` route-level adaptive Workspace UI/UX, including presentation, entry, return, and handoff behavior. DOC-09 owns the underlying Payment Domain architecture and business invariants, including Payment Obligations, Checkout Workspace, monetary and funding allocations, Provider Submission, confirmed Payments, Payment Applications, deliberate Payment Instructions, and incomplete Checkout continuation. DOC-06B `PAYMENT-PROFILE-ROOT` owns reusable card/profile management when Checkout or instruction flows need a card/profile management handoff. DOC-06C continues to own Bill/Rent selection, payer-side `Pay` entry, source facts, consumption of the combined owner-controlled readiness presentation, contextual treatment, and source-aware return behavior; it does not own Checkout composition or payment-domain meaning.
-- DOC-07 owns required user-facing wording and disclosures; DOC-08 owns checkout-related notifications and receipts; DOC-13 owns promotion/coupon/voucher checkout treatment; DOC-15 owns masking and data visibility; DOC-19 owns authentication/security controls; DOC-18 owns route events and data signals.
+- DOC-07 owns required user-facing wording and disclosures; DOC-08 owns checkout-related notifications and receipts; DOC-13 owns promotion/coupon/voucher checkout treatment; DOC-15 owns masking and data visibility; DOC-19 owns authentication/security controls; DOC-18 owns the business-recording and explainability handoff for route occurrences and resulting owner facts, not machine events or technical signals.
 
 Standalone `BILLS-ADD` started from Pay+ hands to the applicable Payer success or payment context under DOC-09. It does not create a Request-origin return; exact incomplete-source treatment remains with DOC-09/DOC-15/DOC-18.
 
@@ -420,8 +420,8 @@ Related ownership:
 | Returned, refunded, reversed, or chargeback-related transaction outcomes; linked dispute cases remain outside Bills Activity unless they produce a transaction outcome | DOC-11 |
 | Evidence approval/rejection meaning | DOC-12 |
 | Masking and role-based visibility | DOC-15 |
-| Full event, audit, data model, and lineage | DOC-18 |
-| Evidence-review history and internal audit representation | DOC-12 for Evidence meaning; DOC-15 for approved-purpose access; DOC-18 for data/audit/lineage representation; DOC-22 for permitted Admin execution |
+| Business occurrence, audit meaning, history, and lineage obligations | DOC-18; exact event/data-model representation remains separately gated |
+| Evidence-review history and internal audit handoff | DOC-12 for Evidence meaning; DOC-15 for approved-purpose access; DOC-18 for business history/audit/lineage obligations; DOC-22 for specifically owner-permitted execution; technical representation remains separately gated |
 
 `BILLS-ACTIVITY` should include:
 
@@ -461,7 +461,7 @@ Initial payment-lifecycle display mapping:
 
 | Role | Example User-Facing Labels | Owning Detail |
 | --- | --- | --- |
-| Payer | `Paid`, `Transferred`, `Failed`, `Returned`, `Refunded`, `Reversed`, `Under Review` | DOC-09 / DOC-10 / DOC-11 / DOC-14 own the applicable outcome; DOC-22 executes only owner-permitted Admin handling and does not make `Under Review` apply where a label-only disagreement is nonblocking. DOC-18 owns later status representation. |
+| Payer | `Paid`, `Transferred`, `Failed`, `Returned`, `Refunded`, `Reversed`, `Under Review` | DOC-09 / DOC-10 / DOC-11 / DOC-14 own the applicable outcome; DOC-22 executes only owner-permitted Admin handling and does not make `Under Review` apply where a label-only disagreement is nonblocking. DOC-18 records the business distinction and historical basis; any machine-status representation remains future separately authorized work. |
 
 Tapping one activity entry should open `BILLS-ACTIVITY-DETAIL` or a later payment detail route if separately defined.
 
@@ -481,7 +481,7 @@ Tapping one activity entry should open `BILLS-ACTIVITY-DETAIL` or a later paymen
 
 Activity detail may show system lifecycle milestones, but user-facing labels must follow the status display reference matrix. Do not expose raw backend milestones such as payment authorization, settlement readiness, payout processing, reversal handling, or review queue status as independent user-facing status labels unless mapped and approved.
 
-Former Request lifecycle text is historical only; no active Request lifecycle belongs in `BILLS-ACTIVITY`. `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD` are route surfaces for Payer Evidence presentation and owner-approved action handoff. DOC-12 owns Evidence, extraction, verification and Evidence-to-Payee meaning; DOC-15 owns approved-purpose access and retention governance; DOC-18 represents approved data, status, event, audit and lineage requirements; and DOC-22 performs only specifically owner-permitted Admin execution. Neither Evidence-policy meaning nor Admin execution belongs in `BILLS-ACTIVITY`.
+Former Request lifecycle text is historical only; no active Request lifecycle belongs in `BILLS-ACTIVITY`. `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD` are route surfaces for Payer Evidence presentation and owner-approved action handoff. DOC-12 owns Evidence, extraction, verification and Evidence-to-Payee meaning; DOC-15 owns approved-purpose access and retention governance; DOC-18 owns business-recording, history, audit-meaning and lineage obligations; exact technical representation remains separately gated; and DOC-22 performs only specifically owner-permitted Admin execution. Neither Evidence-policy meaning nor Admin execution belongs in `BILLS-ACTIVITY`.
 
 Ordinary Evidence lifecycle conditions, including pending review, accepted, rejected, correction-needed, upload, or re-upload, remain in the Bill detail and Evidence surfaces. They do not become Activity entries merely because they affect a Tier 2 Payout hold. `BILLS-ACTIVITY` may show confirmed Payment and a later owner-mapped Payout outcome where that outcome is permitted for Activity; it must not insert a generic verification-completed or other Evidence milestone between them.
 
@@ -524,6 +524,8 @@ Declaration continuity:
 
 An unchanged or owner-confirmed non-material edit uses ordinary Save. A material change to the declared Category, purpose, amount, economic-Payee or receiving details receives the owner-defined proportionate reconfirmation before the changed facts are relied upon. Pay with unchanged declared facts does not repeat Declaration merely because current Bill-tier evaluation occurs; every applicable Provider Submission still requires fresh authorization.
 
+The recording handoff distinguishes four Declaration occurrence contexts: Add Bill; a Pay progression that establishes a new Bill/Rent source; an applicable owner-defined Bill/Rent source setup; and a material change to a Saved Bill/Rent source. This statement does not design a screen, Copy, legal treatment, or reconfirmation mechanic.
+
 Rent:
 
 - enter the separate tenancy journey without Bill Category, Directory, C1/G1/G2 or Bill tiers;
@@ -542,6 +544,15 @@ Illustrative capture areas (not a technical persistence threshold or exact minim
 | Frequency | One-off, monthly, bi-monthly, quarterly, yearly, or custom if enabled. | Usually monthly for rent; custom frequency if enabled. |
 | Payee / Landlord | Name required where available; ID and phone optional unless category rules require them. | Landlord/payee name required where available; ID and phone optional unless category rules require them. |
 | Account / Payout Details | Payer-entered or context-selected recipient name, receiving method, bank/provider, and destination identifier where applicable. | Payer-entered or context-selected landlord/payee name, receiving method, bank/provider, and destination identifier where applicable. |
+
+The following is a business-recording and explainability handoff, not an instruction to display every fact on one screen and not a technical field catalogue:
+
+| Recording scope | Settled facts and treatment |
+| --- | --- |
+| Material Bill facts | Category, Bill Date, declared purpose, economic Payee, Bill Amount, Payee bank name, bank code, and bank account number. |
+| Material Rent facts | Address, period, Rent Amount, Due Day, landlord/economic Payee, Payee bank name, bank code, bank account number, stated payout method, Payer-to-tenant relationship, tenant name, and tenant mobile where applicable. |
+| Category amendment | Category changes on the same Bill identity; current Category updates, every prior Category remains material history, and no reason is inferred. |
+| Other explicit treatment | Bill remark is normally non-material. Optional landlord contact remains optional and unclassified for materiality. Rent Amount and each Payment Amount remain distinct; a difference is not automatically anomalous. Source facts, processing/extraction results, owner assessments, effective facts, Evidence, Payment, Payment Application, Payout, case, risk, privacy/access and downstream consequences remain separate. |
 
 QR scanning belongs inside `BILLS-ADD` and `BILLS-EVIDENCE-UPLOAD` as a setup and Evidence-capture aid. It must not bypass the applicable Bill Tier or Rent Evidence, verification, risk, destination and Payer-authorization gates.
 
@@ -565,8 +576,8 @@ Core model:
 | --- | --- |
 | Main object | Authoritative Bill/Rent source record. |
 | Supporting object | One active evidence set for the bill/rent record under normal operation. |
-| Versioning | DOC-12 owns Evidence replacement and current-version meaning; DOC-18 represents approved version and lineage requirements when drafted. DOC-06C defines no version rule or presentation. |
-| Previous evidence | Detailed presentation and controlled access remain deferred to DOC-12/DOC-15/DOC-18; no new route or prior-version rule is introduced here. |
+| Versioning | DOC-12 owns Evidence replacement and current-version meaning; DOC-18 owns business supersession, prior-history and lineage obligations without defining technical version representation. DOC-06C defines no version rule or presentation. |
+| Previous evidence | DOC-12 defines Evidence meaning and relevant history; DOC-15 controls approved-purpose access/masking/visibility/retention; DOC-18 requires prior-history explainability; and DOC-22 may execute only a specifically owner-permitted presentation or retrieval. No new route, access authority, or prior-version rule is introduced here. |
 | Extracted data | Extracted fields should populate bill/rent detail fields where displayable; evidence detail should not duplicate those fields. |
 
 User-facing evidence labels:
@@ -617,7 +628,7 @@ Upload/update flow:
 
 Permitted evidence viewing and downloading within an authenticated session does not require an extra payment-passcode or step-up prompt solely because the document is opened or downloaded. Role, approved-purpose, masking, stale-session, and access-control rules still apply under DOC-15 and DOC-19.
 
-Evidence replacement, Archive and Restore behavior is not defined in detail here. DOC-06B owns later route presentation, DOC-12 owns Evidence eligibility/revalidation/version meaning, DOC-15 owns retention and approved-purpose access requirements, and DOC-18 represents approved data, version, event, audit and lineage requirements. DOC-06C preserves only the high-level source/projection and non-erasure boundary.
+Evidence replacement, Archive and Restore behavior is not defined in detail here. DOC-06B owns later route presentation, DOC-12 owns Evidence eligibility/revalidation/version meaning, DOC-15 owns retention and approved-purpose access requirements, and DOC-18 owns business supersession, prior-history, audit-meaning and lineage obligations. Exact technical data/version/event representation remains separately gated. DOC-06C preserves only the high-level source/projection and non-erasure boundary.
 
 
 #### 5.10.1 Non-Active Documentation Register - Retired Evidence and Version IDs
@@ -630,7 +641,7 @@ Evidence replacement, Archive and Restore behavior is not defined in detail here
 
 #### 5.10.2 Active Evidence and Readiness Presentation Handoffs
 
-The following Evidence labels are existing illustrative display handoffs only. They are not Bill Tier, Payment readiness, projection or technical taxonomy. DOC-12 owns Evidence outcomes; DOC-09 Payment admission; DOC-10 Payout readiness; DOC-14 risk; DOC-07 exact Copy; and DOC-18 later representation.
+The following Evidence labels are existing illustrative display handoffs only. They are not Bill Tier, Payment readiness, projection or technical taxonomy. DOC-12 owns Evidence outcomes; DOC-09 Payment admission; DOC-10 Payout readiness; DOC-14 risk; DOC-07 exact Copy; and DOC-18 business recording/history. Exact technical representation remains separately gated.
 
 Evidence statuses:
 
@@ -753,7 +764,7 @@ User-created or custom reminder records may be disabled or deactivated. System/d
 
 Due soon, overdue, evidence rejected, and payment-readiness action states belong primarily to the linked bill/rent card and detail page. Reminder cards should focus on reminder state such as next reminder date, reminder off, reminder expired, or custom reminder set.
 
-DOC-08 owns notification IDs, channel matrix, templates, user preferences, retry behavior, and delivery logging. DOC-06B owns `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` route shells and return presentation. DOC-09 owns the domain distinction between deliberate Payment Instructions and incomplete Checkout Workspaces. DOC-15 owns sensitive-data display and masking. DOC-18 owns final schema, event taxonomy, lineage, and analytics definitions.
+DOC-08 owns notification IDs, channel matrix, templates, user preferences, retry behavior, and delivery logging. DOC-06B owns `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` route shells and return presentation. DOC-09 owns the domain distinction between deliberate Payment Instructions and incomplete Checkout Workspaces. DOC-15 owns sensitive-data display and masking. DOC-18 owns current business-recording, history, lineage and explainability obligations; final schema, event taxonomy and analytics implementation remain separately gated.
 
 ### 5.13 Evidence Structure and UX
 
@@ -779,7 +790,7 @@ A controlled late-confirmed Payment may temporarily have zero Payment Applicatio
 
 For bills, invoices, and fees, the evidence usually supports a specific obligation or payment cycle.
 
-For rent, tenancy evidence usually supports a contract or relationship. Rent obligations may then be generated from that tenancy context. Tenancy-related evidence may include tenancy agreement, stamp duty document, CR109, rent demand, property management notice, HKHA tenancy card, carpark invoice, or other approved rent-supporting evidence. Exact evidence categories, fields, review thresholds, and schemas belong in DOC-12 and DOC-18.
+For rent, tenancy evidence usually supports a contract or relationship. Rent obligations may then be generated from that tenancy context. Tenancy-related evidence may include tenancy agreement, stamp duty document, CR109, rent demand, property management notice, HKHA tenancy card, carpark invoice, or other approved rent-supporting evidence. Exact Evidence categories and review thresholds belong to DOC-12; privacy treatment belongs to DOC-15; exact technical fields and schemas remain future separately authorized Engineering/Data work using DOC-18's reviewed business inputs.
 
 The Bills route should therefore support evidence source detection or selection inside `BILLS-EVIDENCE-UPLOAD` when the category or document type is not obvious, instead of assuming every rent flow equals tenancy agreement and every bill flow equals invoice.
 
@@ -878,6 +889,7 @@ DOC-06C defines the following user-journey boundaries:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.1 | 2026-08-27 | Aligned complete Bill/Rent material-fact, same-Bill Category-amendment, prior-history, four-context Declaration, and DOC-18 business-versus-technical handoffs without designing UI, Copy, schemas, events, or implementation. |
 | 1.1.0 | 2026-08-22 | Drafted Bill detail-first Tier 3 return, Tier 2 layered presentation, Evidence-to-Activity separation, proportionate Declaration and Save-versus-current-Payment task expression without creating routes, statuses, notifications, technical controls, or enablement. |
 | 1.0.0 | 2026-08-18 | Implemented the material Bills-only UX baseline and fixed-seat compliance supplement; traced the Founder-updated official Bill Evidence framework, preserved C1/Tier 3/Declaration semantics, neutralized active lifecycle-language ambiguity, qualified reminder retention by lawful scope, and retained exact Copy/representation ownership. |
 | 0.1.23 | 2026-08-12 | Applied the Founder-settled indefinite-retention boundary to reminder controls without introducing a deletion mechanism. |

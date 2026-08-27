@@ -1,7 +1,7 @@
 ---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 1.0.1
+version: 1.0.2
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `1.0.1` |
+| **Version** | `1.0.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
 | **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -99,7 +99,7 @@ Detailed specifications belong to:
 | Promotion, referral, membership, reward, and partner offer data | DOC-13 |
 | AML, anti-cashout, fraud, risk holds, and risk-review data | DOC-14 |
 | API, provider, webhook, file, and third-party integration details | DOC-17 |
-| Final data model, event schema, ledger, reporting, and warehouse design | DOC-18 |
+| Business recording, explainability, history, lineage, audit meaning, and reporting obligations | DOC-18; final data model, event schema, ledger representation, reporting implementation, and warehouse design remain separately authorized future work |
 | Mechanism-neutral authentication, protected-value, access-enforcement, device/session, secure-boundary, and PCI-related security controls | DOC-19; final PCI applicability/scope requires professional confirmation |
 | Incident response, monitoring, and operational escalation | DOC-21 |
 | Admin dashboard workflows, permissions, uploads, overrides, and review queues | DOC-22 executes only expressly owner-permitted operations using approved policy and facts; underlying privacy/access/retention/security/product authority remains with the applicable owner. |
@@ -110,7 +110,7 @@ Detailed specifications belong to:
 
 Privacy requirements apply to the Payer, authoritative Bill/Rent source, source-context economic-Payee facts, applicable Evidence, payment/Payout/adjustment records and owner-permitted operational access. An economic Payee need not be a User. The product has no active Request, Linking, To Receive, Receiving Info, Payee-user, participant-linking, reciprocal-reader, adapter, fallback, deep-link or production legacy runtime/data model.
 
-DOC-15 owns privacy classification, masking, approved-purpose access and the lawful-scope assessment for the Founder-approved indefinite-retention direction, including required exceptions, restricted data classes and prohibited sensitive-data boundaries. DOC-18 represents approved data, status, event, audit, lineage and reporting requirements when drafted; DOC-15 does not define their schema or lifecycle. Source Archive is a non-erasing visibility projection. This document does not define Archive/Restore, prior-version, Evidence-version, replacement-source or reader presentation.
+DOC-15 owns privacy classification, masking, approved-purpose access, visibility and the lawful-scope assessment for the Founder-approved indefinite-retention direction, including required exceptions, restricted data classes and prohibited sensitive-data boundaries. The reviewed DOC-18 Draft owns business-recording, history, lineage, audit-meaning and reporting-explainability obligations; it does not approve schemas, machine states/events or implementation. Source Archive is a non-erasing visibility projection. This document does not define Archive/Restore, prior-version, Evidence-version, replacement-source or reader presentation.
 
 | Area | Baseline |
 | --- | --- |
@@ -171,7 +171,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | Behavioral and Product Analytics Data | Feature usage, funnel steps, payment patterns, Category usage, correction behaviour, conversion, drop-off, retry behaviour, spend behaviour, dashboard shortcut usage and placement performance. | Product improvement, risk intelligence, commercial analytics and segmentation. |
 | Derived and Aggregated Data | Risk indicators, user segments, category economics, OCR quality metrics, fraud trends, campaign performance, anonymized or aggregated insights, model features where approved. | Analytics, approved model improvement, business intelligence, strategic decisions. |
 
-Detailed fields, schemas, lineage, event names, feature/model metadata, and reporting tables belong in DOC-18.
+DOC-18 defines the business facts, provenance, history, lineage and explainability that later work must preserve. Detailed fields, schemas, event names, feature/model metadata and reporting tables remain separately authorized future Engineering/Data work.
 
 ---
 
@@ -215,7 +215,7 @@ Material changes should be grouped by sensitivity and handled with proportionate
 | Identity/KYC change | Correct a governed record or respond to an owner-required identity update. A user cannot voluntarily repeat verification after `Verified`. | The applicable identity/security owner determines any outcome; DOC-22 may execute only an expressly permitted workflow. First-time verification follows the Account Activation exception. |
 | Marketing or communication preference change | Opt-in/out, WhatsApp/SMS/email preference, direct-marketing consent. | Require logged preference update; step-up only if account takeover risk is present. |
 
-Material changes should create audit events and user-facing security notifications where appropriate. Detailed status/event representation belongs in DOC-18, applicable security enforcement in DOC-19, notification policy in DOC-08, and owner-permitted Admin execution in DOC-22.
+Material changes require business audit meaning and user-facing security notifications where appropriate. DOC-18 owns the historical action-basis and explainability obligation; detailed machine status/event representation remains separately gated; applicable security enforcement belongs in DOC-19, notification policy in DOC-08, and specifically owner-permitted Admin execution in DOC-22.
 
 The user-facing Two-Step Verification toggle controls optional routine step-up only. It must not disable mandatory new-device, risk-triggered, contact-change, account-closure, or provider-required authentication. Payment Passcode settings may include a user-controlled preference requiring passcode confirmation for card or payment-profile changes; the default remains ordinary confirmation unless another mandatory rule applies.
 
@@ -240,7 +240,7 @@ DOC-06B `ME-ROOT` is the Payer-only account-control route. DOC-15 supplies priva
 - a Payer may see only owner-approved source-context destination facts for the relevant payment context, subject to DOC-15 approved-purpose access requirements;
 - Archive is a Payer visibility projection that must not erase or rewrite authoritative source, Evidence, Payment, destination, Payout, reconciliation or audit history. `ARCHIVED-ROOT`/`ARCHIVED-BILLS-LIST` presentation belongs to DOC-06B/DOC-06C. `ARCHIVED-DOCS-LIST` is provisional and unreachable through active UI; it has no DOC-15-defined content or interaction. If a later owner authorizes presentation, DOC-15 supplies approved-purpose access and retention requirements only.
 
-DOC-19 defines the mechanism-neutral passcode, session, device, reauthentication, and reveal security-control contract; exact mechanisms remain open with Security/Engineering and provider detail with DOC-17. Final event and data structures belong in DOC-18.
+DOC-19 defines the mechanism-neutral passcode, session, device, reauthentication, and reveal security-control contract; exact mechanisms remain open with Security/Engineering and provider detail with DOC-17. DOC-18 owns the business-recording and explainability handoff; final event and data structures remain separately gated.
 
 ---
 
@@ -257,7 +257,7 @@ Rules:
 - admin access to identity data must be permissioned and logged;
 - KYC/KYB data should link to risk, payment, payout, refund, dispute, and chargeback records where needed for traceability.
 
-Final provider API behavior belongs in DOC-17. Data schema belongs in DOC-18. Security controls belong in DOC-19.
+Final provider API behavior belongs in DOC-17 under an accepted provider-specific contract. DOC-18 supplies the business-recording and explainability contract; a technical data schema remains separately gated. Security controls belong in DOC-19.
 
 ---
 
@@ -281,7 +281,7 @@ Rules:
 - legal hold or required retention may preserve evidence but must not expand user visibility;
 - Archive visibility must not erase or rewrite Evidence, Payment, destination, Payout, reconciliation or audit history; exact Archive, Restore, prior-version, Evidence-version and `ARCHIVED-DOCS-LIST` presentation remains deferred.
 
-DOC-12 owns evidence field sets and verification flow. DOC-18 owns final evidence data model.
+DOC-12 owns Evidence fact meaning, permitted input sets and verification flow. DOC-18 owns the business-recording and explainability handoff; a final technical Evidence data model remains separately gated.
 
 ---
 
@@ -298,7 +298,7 @@ Visibility must reflect role, task, permission, and approved purpose.
 | Engineering | Should not access production personal data unless approved for incident, support, debugging, migration, or security task under controlled process. |
 | Vendor / Partner | May receive only approved data needed for contracted service, integration, fulfilment, risk, payment, payout, or legal purpose. |
 
-Affected owners define whether an action exists and its approval conditions; DOC-15 owns approved-purpose access and masking; DOC-19 enforces least privilege, current authority, reauthentication, and auditability; DOC-22 executes only expressly owner-permitted Admin workflows; and DOC-18 owns audit-event representation.
+Affected domain owners define the purpose, relevant current and historical facts, and whether presentation or retrieval is permitted. DOC-15 owns approved-purpose access, masking, visibility and retention. DOC-19 enforces access only after an owner and DOC-15 permit it and creates no access or retrieval authority. DOC-22 may execute only the specifically owner-permitted presentation or retrieval operation and creates no generic Admin access or mechanics. DOC-21 may consume already permitted operational evidence but has no access, presentation or retrieval authority. DOC-18 requires the business history, action basis, lineage and audit meaning to remain explainable; exact audit-event representation remains separately gated.
 
 ### 9.1 Retired Participant-Linking Privacy
 
@@ -320,7 +320,7 @@ Rules:
 - the referrer may see only the campaign, privacy-safe qualification progress, and a phone number with the middle half of digits masked, using `91****67` as the MVP format for an eight-digit Hong Kong number; the masked phone appears only in the attributed-referee progress area of `REFERRAL-ROOT`, not on referral reward cards or child reward screens;
 - referral views and communications must not disclose the referee's bills, rent, evidence, payment amounts, payment cards/profiles, KYC data, payees, or internal risk reasons.
 
-DOC-13 owns referral relationship, qualification, entitlement, and reward rules. DOC-18 owns final referral objects and events. DOC-22 may execute only expressly owner-permitted access and correction workflows using approved policy and facts.
+DOC-13 owns referral relationship, qualification, entitlement, and reward rules. DOC-18 owns the business-recording and explainability handoff; final referral objects and events remain separately authorized technical work. DOC-22 may execute only expressly owner-permitted access and correction workflows using approved policy and facts.
 
 ### 9.3 Reward Credential and Partner-Fulfilment Privacy
 
@@ -333,7 +333,7 @@ Issued reward metadata may be displayed according to DOC-06B, but usable credent
 - cached reward metadata may be read-only with last-updated information, but credential reveal, checkout use, and partner handoff require authenticated access and current availability checks unless a separately approved fulfilment method permits otherwise;
 - external partners receive only the fields required for the approved fulfilment, reconciliation, support, legal, or contractual purpose.
 
-DOC-13 owns authoritative reward use and fulfilment. DOC-18 owns final credential-reference, access-event, reveal-event, partner-handoff, and lineage structures. DOC-19 owns technical protection and DOC-22 may execute only expressly owner-permitted controlled operational access workflows.
+DOC-13 owns authoritative reward use and fulfilment. DOC-18 owns the business-recording, history, lineage and explainability obligations for credential reference, permitted access/reveal occurrence, and partner handoff. Final technical structures and events remain separately gated. DOC-19 owns technical protection and DOC-22 may execute only expressly owner-permitted controlled operational access workflows.
 
 ---
 
@@ -400,7 +400,7 @@ Marketing, personalization, and partner-offer models should distinguish:
 - partner campaign measurement;
 - external activation, which remains future-gated and not approved by this document.
 
-Detailed warehouse, analytics, lineage, event taxonomy, feature/model registry, aggregation thresholds, and reporting design belongs in DOC-18.
+DOC-18 owns business lineage, audit meaning, reporting obligations and explainability. Detailed warehouse, analytics implementation, machine event taxonomy, feature/model registry, aggregation thresholds and reporting design remain separately authorized future work.
 
 ---
 
@@ -436,7 +436,7 @@ Requirements:
 - distinguish privacy/access/correction requests from account closure and explain that neither changes the accepted indefinite-retention direction, subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries, or erases the underlying record;
 - route complex or sensitive requests to privacy, compliance, legal, support, or risk review.
 
-Detailed support workflow belongs in DOC-21 and DOC-22.
+DOC-21 may consume permitted operational evidence for support and incident handling but creates no access, presentation or retrieval authority. DOC-22 may execute only a specifically owner-permitted workflow. Detailed mechanics remain open and do not grant either document generic access.
 
 ---
 
@@ -518,7 +518,7 @@ Detailed ISO/ISMS policies belong in the DOC-99 policy library. DOC-19 defines P
 | DOC-13 | Promotion, referral, membership, miles account, partner voucher, and marketing consent data. |
 | DOC-14 | Risk data, AML/sanctions, fraud signals, risk holds, and review records. |
 | DOC-17 | Provider API, data transfer, webhook, file, and integration records. |
-| DOC-18 | Data model, data classification metadata, lineage, audit events, warehouse, ledger, reporting, and data marts. |
+| DOC-18 | Reviewed business recording, explainability, material-fact history, historical action basis, lineage, audit meaning, reporting obligations, and owner handoffs; exact technical data model, metadata fields, events, warehouse, ledger representation, reporting implementation, and marts remain separately gated. |
 | DOC-19 | Mechanism-neutral authentication, protected-value, access-enforcement, device/session, secure-boundary, and verification-handoff controls; no final PCI scope, provider mechanism, implementation, or certification claim. |
 | DOC-21 | Incident response, support escalation, data incident workflow, and operations runbooks. |
 | DOC-22 | Execution and operation of expressly owner-permitted permissions, queues, review workflows, overrides, exports, and access logging using approved policy and facts; DOC-22 does not define the underlying privacy, access, retention, security, or product decision. |
@@ -587,6 +587,7 @@ It should not become:
 ## 20. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.2 | 2026-08-27 | Product Documentation Team | Aligned approved-purpose history access, masking, visibility and retention with DOC-18 business recording, DOC-19 enforcement-only, DOC-21 consume-only and DOC-22 specifically permitted execution boundaries. |
 | 1.0.1 | 2026-08-21 | Product Documentation Team | Aligned privacy, recovery, representation, Admin, and PCI handoffs with the reviewed mechanism-neutral DOC-19 contract while retaining DOC-15 privacy ownership and unresolved professional/implementation dependencies. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.9.3` | `2026-08-13` | Product Documentation Team | Distinguished the 30-minute registration-attempt usability window from indefinite record retention without adding a deletion or disposal mechanism. |

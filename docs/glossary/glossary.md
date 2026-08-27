@@ -4,10 +4,12 @@ Status: Working alignment reference
 
 Owner: Product / Documentation Owner
 
-Last updated: 2026-08-25
+Last updated: 2026-08-27
 Classification: Internal
 
 This glossary defines approved PayPlus terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
+
+DOC-18 is currently a Stage 9-passed Draft for business recording, explainability, history, lineage, audit meaning and owner handoffs. References to DOC-18 below do not approve schemas, fields, identifiers, machine states/events, persistence, security mechanisms, implementation, acceptance, enablement or readiness; exact technical representation remains separately gated.
 
 ## Product and Actor Terms
 
@@ -26,6 +28,7 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Obligation | A real-world payment obligation arising from one of the twelve controlled Bill Categories or the separate Rent journey that a payer intends or is required to pay. | DOC-05 / DOC-06C |
 | Bill / Fee Record | A user-facing obligation record for an accepted controlled Bill Category. | DOC-06C |
 | Rent / Tenancy Record | A user-facing obligation record for rent supported by tenancy, rental, or other approved relationship evidence. | DOC-06C |
+| Category Amendment | A material change to the current Category of the same Bill identity. The current Category updates, every prior Category remains material history, and PayPlus does not infer the reason for the change. | DOC-05 / DOC-18 |
 | Evidence | Attached Evidence: a document or approved source proving or supporting an obligation where the applicable Bill tier or mandatory-Evidence Rent rule requires or permits it. Evidence is not itself an obligation, request, or financial activity. | DOC-12 / DOC-06C |
 | Evidence Set | The current supporting evidence linked to one obligation, with retained prior versions where accepted updates occur. | DOC-06C / DOC-12 |
 | Evidence Status | The lifecycle or review condition of evidence, separate from bill/rent payment readiness. | DOC-12 / DOC-06C |
@@ -81,13 +84,27 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | External Observation | A received or attempted external signal such as a return, callback, query result, file, report, delivery record, redirect, or manual upload. It is not authoritative PayPlus truth by itself. | DOC-17 |
 | Interaction Reference | A provider-neutral reference used for correlation or later investigation. It is not an authorization, financial result, or protected value. | DOC-17 |
 | Integrity / Provenance Evidence | Evidence concerning source, completeness, correlation, timing, delivery, or limitation. It does not decide domain acceptance. | DOC-17 |
-| Representation / Lineage | The later record of an observation, its source, correlation, and relationship. DOC-18 owns the representation. | DOC-18 / DOC-17 |
+| Representation / Lineage | The business record of an observation, its source, provenance, relationship, receiving-owner assessment, history, and consequence. DOC-18 owns this reviewed business meaning; exact technical representation and correlation design remain separately gated. | DOC-18 / DOC-17 |
 | Owner Evaluation | The applicable formal owner's evaluation of whether an observation is sufficient under its approved rule. DOC-17 cannot perform or pre-decide it. | Applicable formal owner / DOC-17 |
 | Domain Acceptance | An owner-defined decision affecting a domain fact, separate from transport, provenance, and financial or case consequence. | Applicable domain owner |
 | Financial / Case Consequence | A Payment, Payout, refund, reversal, dispute, chargeback, reconciliation, adjustment, hold, or case effect owned by the applicable domain owner. | DOC-09 / DOC-10 / DOC-11 as applicable |
 | Uncertainty | A known absence, ambiguity, conflict, duplication, replay, delay, staleness, malformation, unknown origin, or unavailable observation that must remain visible rather than becoming an assumed result. | DOC-17 / applicable owner |
 | Replacement / Exit Evidence | Evidence needed to retain owner accountability and recoverability when a provider or interaction pattern changes or ends. It does not guarantee portability, support, or a migration mechanism. | DOC-17 / applicable owner |
 | Functional-Surface Coverage | DOC-17's provider-neutral classification of currently identified PayPlus functional families as `No external interaction`, `Conditional`, `Future Decision`, or `Required Coverage`. A row does not approve a capability, provider, integration, permission, route, status, schema, or implementation. | DOC-17 |
+
+## Business Recording and Explainability Terms
+
+| Term | Canonical Definition | Primary Owner |
+| --- | --- | --- |
+| Business Recording | The obligation to preserve and explain accepted business facts, provenance, assessments, changes, historical action basis, lineage, audit meaning, and owner handoffs without prescribing a technical schema or implementation. | DOC-18 |
+| Source Fact | Information supplied or observed at a source boundary before processing, assessment, or owner acceptance changes its meaning. | Applicable source/domain owner / DOC-18 |
+| Processing / Extraction Result | A derived or extracted result that remains distinguishable from its source fact and from an owner's assessment or effective fact. | DOC-12 or applicable processing owner / DOC-18 |
+| Owner Assessment | The applicable owner's evaluation under its accepted rule. It is separate from source/processing evidence and from any downstream consequence. | Applicable formal owner / DOC-18 |
+| Effective Business Fact | The current owner-governed fact that may be relied upon for an approved business purpose, while prior material facts and the basis of change remain preserved. | Applicable formal owner / DOC-18 |
+| Downstream Consequence | A separately owned Payment, Payout, Evidence, risk, case, notification, access, retention, operational, or other effect that must not be collapsed into the upstream fact or assessment. | Applicable consequence owner / DOC-18 |
+| Material Fact | A business fact whose change can alter meaning, required treatment, historical action basis, or an owner handoff and therefore requires retained prior history and explainability. | Applicable domain owner / DOC-18 |
+| Historical Action Basis | The facts, assessments, rules, time context, and owner decisions that explain why a material historical action was taken without rewriting that action from later knowledge. | Applicable domain owner / DOC-18 |
+| Owner-Permitted History Presentation / Retrieval | A bounded business outcome in which the domain owner defines purpose and relevant history, DOC-15 permits and constrains access, DOC-19 enforces already-permitted access, DOC-22 executes only the specifically permitted operation, and DOC-21 may consume permitted operational evidence only. It does not define UI, search, roles, permissions, raw access, export, queue, workflow, or maker-checker mechanics. | Applicable domain owner / DOC-15 / DOC-18 |
 
 ## Records and Status Terms
 
@@ -97,7 +114,7 @@ This glossary defines approved PayPlus terminology. It does not replace the owni
 | Bills Activity | Payment, payout/transfer, failure, return, refund, and reversal activity linked to one bill/rent/tenancy obligation. It excludes evidence lifecycle history. | DOC-06C |
 | Receipt | A transaction confirmation record for a completed transaction. | DOC-08 / DOC-06B |
 | Statement | A periodic or account-level summary of payer/payee financial activity, not a standalone activity event. | DOC-08 / DOC-06B |
-| System Status | The canonical domain or backend state owned by the applicable domain specification. | Domain owner / DOC-18 |
+| System Status | The canonical domain state owned by the applicable domain specification. DOC-18 currently records business distinctions and history but does not supply a canonical machine-state taxonomy. | Applicable domain owner |
 | User-Facing Label | Approved wording projected from a system/domain state for a specific role and surface. It must follow the status-display reference matrix. | Status display reference matrix |
 | Action Required | A user-facing readiness or resolution label indicating that the user must take a permitted action. It is not one universal backend status. | Relevant domain owner |
 | Under Review | A user-facing label indicating pending approved review without exposing internal risk, provider, fraud, or operational reasons. | Relevant domain owner |

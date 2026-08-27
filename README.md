@@ -32,4 +32,4 @@ Human source docs
 
 Start with `docs/README.md` for document navigation and `AGENTS.md` for AI assistant workflow rules. For UX work, use parent `DOC-06` as the family map, then use `DOC-06A` for core journeys, `DOC-06B` for navigation and route taxonomy, `DOC-06C` for Bills/rent/tenancy UX, and `DOC-06D` for UX acceptance and test mapping.
 
-For the recent AI/data-engine strategy alignment, use `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md` as the technical baseline and `docs/04-growth-ecosystem/payplus-data-strategy-ai-marketing-research.md` as supporting research context only.
+For the current DOC-18 alignment, use `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md` as the Stage 9-passed Draft for business recording, explainability, history, lineage, audit meaning, and owner handoffs. It is not a technical schema, event/status taxonomy, persistence, implementation, acceptance, or readiness baseline. `docs/04-growth-ecosystem/payplus-data-strategy-ai-marketing-research.md` remains supporting research context only.

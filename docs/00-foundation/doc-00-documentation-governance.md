@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.10
+version: 0.7.11
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,7 +12,7 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-08-21
+last_updated: 2026-08-27
 classification: Internal
 related_documents: []
 ---
@@ -23,12 +23,12 @@ related_documents: []
 | --- | --- |
 | **Document ID** | `DOC-00` |
 | **Title** | Documentation Governance |
-| **Version** | `0.7.10` |
+| **Version** | `0.7.11` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Documentation Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead |
 | **Approvers** | Product Lead<br>Engineering Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-08-27` |
 | **Classification** | Internal |
 | **Related Documents** | None |
 
@@ -654,8 +654,8 @@ Foundation documents guide downstream documents as follows:
 | DOC-15 Privacy, Data Protection & Record Retention Specification | Define data handling, classification, consent, masking, approved-purpose access, retention, deletion, visibility, and privacy controls. |
 | DOC-16 Technical Architecture Specification | Translate approved requirements into system architecture. |
 | DOC-17 API & Third-party Integration Specification | Define PSP, acquirer, banking, OCR, webhook, partner API, OpenAPI, credential, and environment integration requirements. |
-| DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification | Define data model, field metadata, classification lineage, transaction state, audit event, reporting, and reconciliation data. |
-| DOC-19 Security, Tokenization, Authentication & Admin Control Specification | Define mechanism-neutral security invariants, enforcement requirements, prohibited exposure, privileged-operation protection, security evidence obligations, and verification handoffs. Provider mechanics remain with DOC-17, representation with DOC-18, owner-permitted Admin execution with DOC-22, and final PCI scope requires professional confirmation. |
+| DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification | Own the reviewed business-recording, explainability, history, lineage, audit-meaning, reporting-obligation, and owner-handoff contract while it remains a Stage 9-passed Draft. Exact schema, field/cardinality, identifier, machine-state, event taxonomy, persistence, and implementation representation remain future separately authorized work. |
+| DOC-19 Security, Tokenization, Authentication & Admin Control Specification | Define mechanism-neutral security invariants, enforcement requirements, prohibited exposure, privileged-operation protection, security evidence obligations, and verification handoffs. Provider mechanics remain with DOC-17; DOC-18 supplies business-recording inputs while exact technical representation remains separately gated; owner-permitted Admin execution remains with DOC-22; and final PCI scope requires professional confirmation. |
 | DOC-20 Testing, UAT & Go-Live Checklist | Convert requirements, controls, gates, and risks into test and launch criteria. |
 | DOC-21 Monitoring, Incident Response & Operational SOPs | Define monitoring, support, incident response, escalation, exception handling, and operational SOPs. |
 | DOC-22 Admin Management Dashboard & Operations Workflow | Define admin permissions, review queues, overrides, configuration, uploads, operational action flows, and dashboard evidence. |
@@ -813,6 +813,7 @@ Example:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.7.11 | 2026-08-27 | Product Documentation Team | Aligned the DOC-18 register role to its Stage 9-passed business-recording and explainability boundary without changing its title, Draft status, or future technical-representation gate. |
 | 0.1.0 | 2026-05-14 | Initial Author | Initial draft. |
 
 ---

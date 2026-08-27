@@ -12,7 +12,7 @@ Enter the operating architecture through the [`Documentation System`](documentat
 | Layer | Status | Notes |
 | --- | --- | --- |
 | Human source documents | Active for DOC-00 to DOC-15 | Founder Working Baseline unless a document says otherwise. DOC-06 is now a parent family with DOC-06A to DOC-06D child documents. |
-| Technical and operational specifications | Active but incomplete for DOC-16 to DOC-22 | DOC-16, DOC-17, and DOC-19 are Stage 9-passed Drafts for technical architecture, the provider-neutral External Interaction Contract, and mechanism-neutral security controls. DOC-18 and DOC-20 to DOC-22 contain substantive Founder Working Baselines. No source authorizes inferred provider selection or exact API, backend, adapter, schema, event, status, credential, security mechanism, implementation, compliance, certification, or readiness. |
+| Technical and operational specifications | Active but incomplete for DOC-16 to DOC-22 | DOC-16, DOC-17, DOC-18, and DOC-19 are Stage 9-passed Drafts for technical architecture, the provider-neutral External Interaction Contract, DOC-18's business-recording/explainability contract, and mechanism-neutral security controls. DOC-20 to DOC-22 contain substantive Founder Working Baselines. DOC-18 does not approve technical representation. No source authorizes inferred provider selection or exact API, backend, adapter, schema, event/status taxonomy, credential, security mechanism, implementation, compliance, certification, acceptance, enablement, or readiness. |
 | AI build-execution materials | Reserved | Regenerate from current human and technical specs before use. |
 | Traceability | Starter registers | Expand when stable requirement/control/test IDs are finalized. |
 
@@ -46,9 +46,9 @@ Enter the operating architecture through the [`Documentation System`](documentat
 3. `DOC-05` to `DOC-08` for product, UX, disclosure, notification, and communication behavior. Read `DOC-06` as the parent UX family map, then `DOC-06A` to `DOC-06D` for core journeys, navigation/route taxonomy, Bills/rent/tenancy UX, and UX acceptance/test mapping.
 4. `DOC-09` to `DOC-11` for payment, payout, reconciliation, refund, cancellation, dispute, and chargeback behavior.
 5. `DOC-12` to `DOC-15` for evidence verification, promotion engine, risk controls, privacy, data classification, and retention.
-6. `DOC-16` for the reviewed technical-architecture posture; `DOC-17` for the reviewed provider-neutral External Interaction Contract, Functional-Surface Coverage, and evidence and owner-handoff obligations; `DOC-19` for the reviewed mechanism-neutral security-control contract; and `DOC-18` plus `DOC-20` to `DOC-22` for their substantive data, acceptance, operations, and Admin baselines. Provider selection and exact provider/API/backend/adapter detail remain separately gated, and exact DOC-19 mechanisms remain open under its recorded dependencies and open questions.
+6. `DOC-16` for the reviewed technical-architecture posture; `DOC-17` for the reviewed provider-neutral External Interaction Contract, Functional-Surface Coverage, and evidence and owner-handoff obligations; `DOC-18` for the reviewed business-recording, explainability, history, lineage, audit-meaning, and owner-handoff contract; `DOC-19` for the reviewed mechanism-neutral security-control contract; and `DOC-20` to `DOC-22` for their substantive acceptance, operations, and Admin baselines. DOC-18's exact technical representation, provider selection and exact provider/API/backend/adapter detail remain separately gated, and exact DOC-19 mechanisms remain open under its recorded dependencies and open questions.
 
-For user-facing status labels across checkout, activity, receipts, statements, notifications, Bills/rent surfaces, and future admin display, also check `traceability/status-display-reference-matrix.md`. The matrix aligns display labels only; domain documents own system status meaning and DOC-18 owns data/status/event/audit representation.
+For user-facing status labels across checkout, activity, receipts, statements, notifications, Bills/rent surfaces, and future admin display, also check `traceability/status-display-reference-matrix.md`. The matrix aligns display labels only; domain documents own system-state meaning. The reviewed DOC-18 Draft records business distinctions and explainability obligations but does not supply a canonical machine status/event taxonomy.
 
 For product destination identity, parentage, type, ownership, and definition status, use `traceability/route-register.md`. Route behavior remains owned by the applicable DOC-06 family or domain document.
 
@@ -56,7 +56,7 @@ For product destination identity, parentage, type, ownership, and definition sta
 
 The recent AI/data-engine strategy update is traceable through:
 
-- `06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md` as the technical baseline for structured events, metadata, lineage, model-use eligibility, audit events, and reporting.
+- `06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md` as the Stage 9-passed Draft for business recording, explainability, history, lineage, audit meaning, reporting obligations, and owner handoffs; exact technical representation remains separately authorized future work.
 - `04-growth-ecosystem/payplus-data-strategy-ai-marketing-research.md` as supporting research context, not a source-of-truth requirements document.
 - `traceability/open-questions-register.md` item `OQ-XDOC-012` for remaining data-engine, model governance, partner reporting, and external activation decisions.
 

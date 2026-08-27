@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-08-19
+last_updated: 2026-08-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -35,12 +35,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-01` |
 | **Title** | Product Overview & Positioning |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Commercial Lead |
 | **Approvers** | Product Lead<br>Project Owner |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-08-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -86,7 +86,7 @@ PayPlus should remain data-disciplined. Material account, Evidence, Bill/Rent, a
 | Bill acquisition | Category-scoped Directory or `Provide Payee myself`; both remain controlled by the selected Category. |
 | Rent | Separate tenancy/relationship journey; no controlled-Bill Directory use in MVP. |
 | Institutional Programme and Directory | Bounded product policy belongs to DOC-05. Enrolment, Category association and Directory publication remain separate from transaction controls. |
-| Bill/Rent identity and Save | One authoritative source identity may become Saved/current through deliberate Setup or post-Payment Save, may become history-only only after confirmed Payment without Save, or may become Saved/Archived after ordinary Archive of a Saved/current source. Save records reuse intent on the same identity. |
+| Bill/Rent identity, Category amendment, and Save | One authoritative source identity may become Saved/current through deliberate Setup or post-Payment Save, may become history-only only after confirmed Payment without Save, or may become Saved/Archived after ordinary Archive of a Saved/current source. Save records reuse intent on the same identity. Category is an amendable material Bill fact: changing it preserves the same Bill identity, updates the current Category, retains every prior Category in material-change history, and does not imply a reason for the change. |
 | Request/BILLS-LINKING | Active behavior is retired. Only append-only documentation history and retired stable IDs remain as non-active evidence; no production runtime, historical reader, adapter or fallback exists. |
 | Bill and Rent payments | MVP scope, subject to Evidence, Payee, destination, Payment, Payout, risk and authorization controls. |
 | First launch jurisdiction | Hong Kong. |
@@ -100,7 +100,7 @@ PayPlus should remain data-disciplined. Material account, Evidence, Bill/Rent, a
 | Notification | Institutional/company Payees are not notified. A governed individual may receive an optional Payer-initiated one-way notification under specialist controls. |
 | Record retention | Indefinite retention remains the Founder-approved product and governance direction, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. That assessment must not silently rewrite immutable financial, audit, Save/Archive or case lineage. |
 | Independent feature controls | Major functions must remain independently configurable or disableable under their owners. |
-| Data and AI readiness | Structured events, classification, lineage, auditability and approved-purpose metadata remain required where relevant. |
+| Data and AI readiness | Business-recording, explainability, history, lineage, auditability and approved-purpose obligations remain required where relevant; exact structured events and technical representation remain separately gated. |
 | Unresolved launch details | Remain assumptions, dependencies, open questions or gated requirements until confirmed. |
 
 This baseline does not remove legal, compliance, PSP/acquirer, payout, risk, privacy, security, commercial or operational approval before production launch.
@@ -310,7 +310,7 @@ The high-level lifecycle then follows the Payer's chosen purpose:
 
 - **Deliberate Setup:** the same source ID becomes Saved/current because the Payer deliberately chose setup/reuse. No Payment or Payment ID exists. Any later Payment receives fresh applicable Evidence, Payee, destination, Payout, risk, readiness, Checkout and Payer-authorization checks.
 - **Immediate pay-now:** no Save decision occurs before Checkout. The Payer reviews current quote, fee, disclosures, timing and material facts, supplies fresh authorization, and proceeds through DOC-09/DOC-10 Payment and Payout controls. A confirmed Payment has its own Payment ID linked to the source. Payment Result then precedes the optional Save resolution for an otherwise-unsaved source: selected Save makes the same source Saved/current; declined, skipped, dismissed or closed Save makes it history-only. That projection resolution occurs before ordinary continuation to Activity, Payment History, Receipt or safe exit. Payment history remains visible regardless of Save.
-- **Pre-confirmed failure or abandonment:** an established source may remain unprojected. It is not Saved/current, Saved/Archived or history-only and receives no invented visible status or route. DOC-09 owns applicable payment-lifecycle continuation or recovery, DOC-15 owns retention requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts.
+- **Pre-confirmed failure or abandonment:** an established source may remain unprojected. It is not Saved/current, Saved/Archived or history-only and receives no invented visible status or route. DOC-09 owns applicable payment-lifecycle continuation or recovery, DOC-15 owns retention requirements, and the reviewed DOC-18 Draft requires the business history and action basis to remain explainable. Exact technical representation and lifecycle implementation remain separately authorized future work.
 
 Detailed state, settlement, Payout, refund and chargeback rules belong to DOC-09, DOC-10 and DOC-11. Archive and source-list visibility never erase financial history.
 
@@ -484,7 +484,7 @@ Detailed launch gates belong to DOC-04 and DOC-20.
 | Contribution margin | Revenue after full attributable costs. |
 | Data quality and analytics readiness | Governed lineage, classification, ownership and auditability. |
 
-Exact metric definitions belong to DOC-18.
+Applicable business facts, provenance, historical action basis, and reporting explainability must follow DOC-18. Exact metric formulae remain with their business owners, and technical metric representation remains separately gated.
 
 ---
 
@@ -504,7 +504,7 @@ Exact metric definitions belong to DOC-18.
 | `DOC-12` | Define Categories, Evidence/OCR, Payee match and verification outcomes. |
 | `DOC-13` | Define promotion and reward behavior without using Directory provenance as eligibility truth. |
 | `DOC-14` / `DOC-15` | Define risk, anti-cashout, privacy, contact and approved-purpose record-access controls. |
-| `DOC-18` | Represent approved IDs, data, events, audit, lineage and metrics; it does not create a Request-runtime reader. |
+| `DOC-18` | Define the reviewed business-recording, explainability, history, lineage, audit-meaning, reporting-obligation, and owner-handoff contract; it does not create a Request-runtime reader or approve IDs, schemas, fields, events, persistence, or implementation. |
 | `DOC-20` / `DOC-21` | Define acceptance, monitoring, support and incident evidence. |
 | `DOC-22` | Execute approved Admin policy through governed queues, permissions and configuration; no product-policy ownership. |
 
@@ -565,6 +565,7 @@ This document remains a concise charter and must not become a detailed PRD, lega
 ## 24. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-27 | Product Documentation Team | Aligned same-Bill Category amendment and prior-history meaning with the reviewed DOC-18 business-recording Draft, and removed current technical-representation implications. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.12.1` | `2026-08-12` | Product Documentation Team | Corrected the high-level Payer lifecycle to distinguish deliberate Setup, immediate pay-now and pre-confirmed unprojected abandonment; placed optional same-ID Save/history-only resolution after confirmed Payment Result; and aligned Acceptance Criteria without adding technical lifecycle detail. |
 | `0.12.2` | `2026-08-12` | Product Documentation Team | Applied the Founder-settled indefinite-retention rule to the charter and reframed the retained-record open question around capture, access, masking and audit controls without adding a disposition mechanism. |

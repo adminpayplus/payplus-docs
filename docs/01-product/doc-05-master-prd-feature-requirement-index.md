@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 1.1.0
+version: 1.1.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-22
+last_updated: 2026-08-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `1.1.0` |
+| **Version** | `1.1.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-22` |
+| **Last Updated** | `2026-08-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -67,7 +67,7 @@ This document defines the master product requirements for PayPlus, a controlled 
 
 DOC-05 is the primary human product-policy owner for the bounded Institutional Payee Programme, Category-scoped Payee Directory, Bill Payee-acquisition model, Bill/Rent Save meaning, individual-notification capability boundary, and target retirement of active Request and BILLS-LINKING behavior. It establishes product meaning, limits, ownership and Acceptance Criteria without taking over specialist rules.
 
-DOC-01 retains high-level product identity and positioning. Evidence truth belongs to DOC-12; Payment Domain invariants to DOC-09; payout and destination execution to DOC-10; risk to DOC-14; privacy to DOC-15; notification delivery to DOC-08; data representation to DOC-18; and Admin execution to DOC-22. Detailed journeys, routes and UI remain with the DOC-06 family.
+DOC-01 retains high-level product identity and positioning. Evidence truth belongs to DOC-12; Payment Domain invariants to DOC-09; payout and destination execution to DOC-10; risk to DOC-14; privacy to DOC-15; notification delivery to DOC-08; reviewed business recording, explainability, history and owner handoffs to DOC-18; and Admin execution to DOC-22. Exact technical representation remains separately gated. Detailed journeys, routes and UI remain with the DOC-06 family.
 
 ---
 
@@ -157,7 +157,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Tokenized cards and saved payment profiles | MVP scope; DOC-06B defines the user route shell, DOC-09 defines checkout use, DOC-16 defines the provider-controlled card-data boundary, DOC-17 owns provider/tokenization mechanics, and DOC-19 defines mechanism-neutral security controls. |
 | Payment Instructions and incomplete Checkout continuation | MVP scope. A Payment Instruction is a deliberate pay-later arrangement. An interrupted immediate payment remains an incomplete Checkout Workspace, although both may be surfaced through DOC-06B Instructions routes for user management. DOC-09 owns their Payment Domain distinction and funding rules; DOC-10 owns Payout. |
 | Pay+ and Bills entry | The accepted Wave 2 route/action baseline is implemented by DOC-06B: Pay+ retains `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment` in that order and material meaning. `Request Payment` is retired, no replacement action is introduced, and no active Request or BILLS-LINKING capability is part of the target MVP. Exact visual, responsive, accessibility, Copy and implementation evidence remains with its applicable owners. |
-| Data and AI readiness | Require structured events, field classification, lineage, auditability, consent/preference state, approved-purpose metadata, and model-use eligibility metadata where relevant; advanced model automation and external activation remain future-gated. |
+| Data and AI readiness | Require business-recording, classification, lineage, auditability, consent/preference, approved-purpose and model-use eligibility obligations where relevant; structured events, fields, persistence, advanced model automation and external activation remain future-gated. |
 
 Current launch assumptions:
 
@@ -267,7 +267,7 @@ The core MVP flow allows a Payer to establish or pay a controlled Bill, or pay a
 
 ### Established but abandoned pre-Payment source
 
-Where an authoritative Bill/Rent ID is established but an immediate-pay journey ends or fails before confirmed Payment, ID establishment alone does not make it Saved/current, Saved/Archived or history-only, expose a Bills/Rent route or list entry, or create a user-facing status. The same unprojected boundary applies where deliberate setup ends before Save/current projection is completed. It never applies after a newly confirmed Payment for an otherwise unsaved source: closing or leaving Payment Result without selecting Save is skipped Save and resolves the same ID to history-only before downstream handoff. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts for a legitimately established-but-unprojected source.
+Where an authoritative Bill/Rent ID is established but an immediate-pay journey ends or fails before confirmed Payment, ID establishment alone does not make it Saved/current, Saved/Archived or history-only, expose a Bills/Rent route or list entry, or create a user-facing status. The same unprojected boundary applies where deliberate setup ends before Save/current projection is completed. It never applies after a newly confirmed Payment for an otherwise unsaved source: closing or leaving Payment Result without selecting Save is skipped Save and resolves the same ID to history-only before downstream handoff. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 requires the source facts, projection distinction, historical action basis and owner handoffs to remain explainable. Exact technical lifecycle representation remains separately authorized future work.
 
 DOC-09 derives payment-facing facts and evaluates Payment Obligation and Checkout eligibility. No Request, Payee acceptance, Directory state, Save action, notification or type label authorizes payment. Payment and Payout proceed through DOC-09 and DOC-10 controls. A Payment remains visible through Activity/Payment History/Receipt after either post-Payment Save branch.
 
@@ -275,7 +275,7 @@ DOC-09 derives payment-facing facts and evaluates Payment Obligation and Checkou
 
 ## 7. Bill-only Tiered Evidence, Declaration, Payment and Payout Policy
 
-This section owns the high-level product policy approved for Bills. It does not redefine DOC-09 Payment Domain objects, DOC-10 Payout, DOC-11 Refund/case treatment, DOC-12 Evidence truth, DOC-14 risk outcomes, DOC-18 representation or DOC-22 execution.
+This section owns the high-level product policy approved for Bills. It does not redefine DOC-09 Payment Domain objects, DOC-10 Payout, DOC-11 Refund/case treatment, DOC-12 Evidence truth, DOC-14 risk outcomes, DOC-18 business-recording and explainability obligations, or DOC-22 execution.
 
 ### 7.1 Terms and scope
 
@@ -295,8 +295,8 @@ The tiered policy applies only to Bills. Rent remains under its existing mandato
 | Limit | Product invariant | Ownership boundary |
 |---|---|---|
 | C1 - Category single-Payment threshold | Each controlled Bill Category has an approved single-Payment threshold. For prepayment, use the selected-period aggregate. | C1 policy authority belongs to the designated product/risk owner. DOC-12 binds the applicable Category configuration, DOC-09 consumes it, and DOC-22 only executes approved configuration. Exact Category values, permitted adjustments, configuration representation and operating change details are later owner-defined configuration/enablement inputs; they do not reopen the settled layering. |
-| G1 - receiving-destination frequency | Maximum five independent user-initiated Bill payment progressions to the same receiving account/authoritative payout destination per Hong Kong calendar month. One progression/Checkout counts once despite split-card Funding Legs, Payment Attempts, confirmed Payments, retries, recovery or continuation. A genuinely new independent progression counts again. | G1 is product-semantic and is not bound here to authorization, Provider Submission, Payment confirmation, a status, an event or a schema. DOC-09 and DOC-18 later map the authoritative technical representation without changing the invariant. The receiving account/authoritative payout destination is the counting key, not economic-Payee identity. |
-| G2 - monthly confirmed Bill value | Maximum HKD1,000,000 per verified Payer account per Hong Kong calendar month. Pre-check confirmed monthly Bill usage plus the proposed obligation-funded amount; final usage records actual successfully confirmed obligation-funded value. | DOC-09 consumes the Payment facts; DOC-14 supplies risk/control treatment; DOC-18 later represents the accepted rule. Payer fees are excluded. |
+| G1 - receiving-destination frequency | Maximum five independent user-initiated Bill payment progressions to the same receiving account/authoritative payout destination per Hong Kong calendar month. One progression/Checkout counts once despite split-card Funding Legs, Payment Attempts, confirmed Payments, retries, recovery or continuation. A genuinely new independent progression counts again. | G1 is product-semantic and is not bound here to authorization, Provider Submission, Payment confirmation, a status, an event or a schema. DOC-18 requires the accepted fact, action basis and history to remain explainable; exact technical representation requires separate Engineering/Data authority. The receiving account/authoritative payout destination is the counting key, not economic-Payee identity. |
+| G2 - monthly confirmed Bill value | Maximum HKD1,000,000 per verified Payer account per Hong Kong calendar month. Pre-check confirmed monthly Bill usage plus the proposed obligation-funded amount; final usage records actual successfully confirmed obligation-funded value. | DOC-09 consumes the Payment facts; DOC-14 supplies risk/control treatment; DOC-18 requires the accepted rule and historical basis to remain explainable. Exact technical representation remains separately gated. Payer fees are excluded. |
 
 G2 permanent-capacity treatment:
 
@@ -359,6 +359,10 @@ Evidence presence, extraction, automated result, owner acceptance, Tier 3 approv
 DOC-05 owns the product-policy framework. DOC-07 owns final user-facing expression; DOC-09 consumes current facts and preserves separate Provider Submission authorization; DOC-15 owns privacy and retention controls. Exact operating materiality tests and reconfirmation presentation remain later owner-defined product/content/acceptance inputs unless a future answer contradicts the approved proportionate rule.
 
 At Add a Bill, the Payer reviews the declared material facts and deliberately confirms them before the separate Save-admission decision. An unchanged or owner-confirmed non-material edit uses ordinary Save. A material change receives the owner-defined proportionate reconfirmation before the changed facts are relied upon. Paying a Bill with unchanged declared facts does not repeat Declaration solely because C1/G1/G2 is re-evaluated; every applicable Provider Submission remains separately authorized.
+
+The DOC-18 business-recording handoff preserves four distinct Declaration occurrence contexts without deciding wording, legal sufficiency, UI, or reconfirmation mechanics: Add Bill; a Pay progression that establishes a new Bill/Rent source; an applicable owner-defined Bill/Rent source setup; and a material change to a Saved Bill/Rent source.
+
+For owner-summary consistency, the settled material Bill facts are Category, Bill Date, declared purpose, economic Payee, Bill Amount, Payee bank name, bank code, and bank account number. The settled material Rent facts are address, period, Rent Amount, Due Day, landlord/economic Payee, Payee bank name, bank code, bank account number, stated payout method, Payer-to-tenant relationship, tenant name, and tenant mobile where applicable. Bill remark remains normally non-material; optional landlord contact remains optional with no inferred materiality. Rent Amount and each Payment Amount remain distinct, and a difference does not by itself imply an anomaly. Category is an amendable material Bill fact on the same Bill identity: the current Category changes, every prior Category remains material history, and no reason is inferred. These are business-recording and explainability facts, not a schema or field catalogue.
 
 ### 7.7 Add, Pay and prepayment boundaries
 
@@ -456,7 +460,7 @@ The notification must not create or require a Request ID, account lookup, PayPlu
 
 When Company/Individual type remains unresolved, payment may proceed if otherwise eligible but the individual-only notification remains unavailable. Payer responsibility for contact input does not remove PayPlus lawful-purpose, minimization, wrong-recipient, abuse/rate-limit, suppression/opt-out, security, delivery-record, retention and support obligations.
 
-DOC-05 owns only the eligibility and product-meaning boundary. DOC-07 owns Copy/disclosure/CTA; DOC-08 owns notification identity, channel, template, preference and delivery; DOC-14 owns abuse/risk controls; DOC-15 owns privacy and retention requirements; DOC-18 represents approved data/audit lineage; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 executes only permitted Admin handling. Exact mechanics remain later owner work.
+DOC-05 owns only the eligibility and product-meaning boundary. DOC-07 owns Copy/disclosure/CTA; DOC-08 owns notification identity, channel, template, preference and delivery; DOC-14 owns abuse/risk controls; DOC-15 owns privacy and retention requirements; DOC-18 owns business-recording, audit-meaning and lineage obligations; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 executes only permitted Admin handling. Exact technical representation and mechanics remain separately gated.
 
 ### 9.3 Request and BILLS-LINKING Retirement
 
@@ -486,7 +490,7 @@ Use one authoritative Bill/Rent source record with multiple user-facing projecti
 | Authoritative source identity | A stable source reference established only after the applicable owner-governed preservation-eligibility outcome. It is distinct from Evidence acceptance, Payee verification, Payment readiness, Payment identity and every user-facing projection. |
 | Saved/current | The Payer deliberately chose Save during setup or selected post-Payment Save, so the same authoritative identity is persisted and visible in the current/active Bill or Rent presentation for reuse. It may have an Under Review, Action Required or Ready handling/readiness condition without changing the projection. It does not establish Evidence acceptance, Payee verification, destination readiness, Payment eligibility or standing authorization. |
 | History-only | A confirmed Payment for an otherwise unsaved source followed by declined, skipped, dismissed, closed or otherwise abandoned post-Payment Save resolution produces this treatment. The same authoritative source remains internal and linked to financial history, is neither Saved/current nor Saved/Archived, and is not visible through Bills/Rent UI. Related Payment, Activity/Payment History and Receipt remain visible after that resolution. |
-| Established but unprojected | An authoritative ID exists after an immediate-pay journey ends or fails before confirmed Payment, or after deliberate setup ends before Saved/current projection is completed. No Saved/current, Saved/Archived or history-only treatment, user-facing status, Bills/Rent route or list entry is implied. This treatment cannot apply after a newly confirmed Payment for an otherwise unsaved source; that source must resolve to Saved/current or history-only before downstream handoff. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage and technical lifecycle facts. |
+| Established but unprojected | An authoritative ID exists after an immediate-pay journey ends or fails before confirmed Payment, or after deliberate setup ends before Saved/current projection is completed. No Saved/current, Saved/Archived or history-only treatment, user-facing status, Bills/Rent route or list entry is implied. This treatment cannot apply after a newly confirmed Payment for an otherwise unsaved source; that source must resolve to Saved/current or history-only before downstream handoff. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 requires the business facts, distinction, history and action basis to remain explainable. Exact data/status/event and technical lifecycle representation remains separately gated. |
 | Saved/Archived | A previously Saved/current Bill/Rent is moved from the current presentation to the governed Archived presentation. Archived sources do not appear in the active/current list. Archive is not a readiness or financial status and does not erase the authoritative source, Evidence, Payment, destination, Payout, reconciliation or audit history. Exact Restore, prior-version and Evidence-version behavior remains deferred. |
 
 One Bill/Rent may support multiple Payment Obligations, Checkouts and Payments. Payment Result and Bill/Rent are not parent/child. A Payment has a separate DOC-09-owned Payment identity linked to the source. Save does not first create or clone the source, create Payment, copy Payment history, establish a new identity or merge similar records. A source already Saved/current before Payment retains that projection without duplicate Save. For an otherwise unsaved source, post-payment Save resolution operates on the same ID: selected Save enables Saved/current, while declined, skipped, dismissed or abandoned Save resolution produces history-only before Activity, Payment History, Receipt or ordinary safe exit.
@@ -513,18 +517,18 @@ No later Save-from-Activity route or behavior is accepted. No separate Unsave ac
 
 ## 11. Admin and Specialist-Owner Handoffs
 
-DOC-05 defines when product policy requires a bounded Admin or operations handoff; it does not grant generic access, queue, action, disposition or override authority. DOC-22 owns the execution workflow, permissions, queue and configuration only within the policy and outcomes supplied by the applicable specialist owner. DOC-15 governs approved-purpose access and masking, and DOC-18 represents approved audit and lineage requirements when drafted.
+DOC-05 defines when product policy requires a bounded Admin or operations handoff; it does not grant generic access, queue, action, disposition or override authority. DOC-22 executes only the specifically owner-permitted operation and does not independently own workflow, permission, queue or configuration policy. DOC-15 governs approved-purpose access and masking, and DOC-18 owns business audit-meaning, history and lineage obligations.
 
 | Concern | Product-policy boundary | Primary owner and Admin handoff |
 |---|---|---|
 | Institutional Payee Programme | Permitted enrolment, Category association and Directory publication work implements DOC-05 policy without creating transaction eligibility or global Payee truth. | DOC-05 policy; DOC-22 execution; DOC-02/DOC-03/DOC-04 and other specialists where their concerns apply. |
 | Company/Individual disagreement | Preserve Payer selection, AI-apparent assessment, Payer response and the scoped reviewed determination. `Reviewed` and `Resolved` remain separate, and label-only review may be asynchronous and nonblocking. | DOC-05 product meaning; DOC-12/DOC-14/DOC-15 outcomes where applicable; DOC-22 execution. |
 | Evidence and Evidence-to-Payee | Admin receives only the context and fields permitted for an owner-required review. DOC-05 does not decide Evidence acceptance, duplicate treatment or a review disposition. | DOC-12 policy/outcome; DOC-14 risk where applicable; DOC-15 access; DOC-22 execution. |
-| Payment and payer authorization | Admin handling cannot create a Payment Obligation, make Checkout ready, authorize Payment or rewrite immutable Payment facts. | DOC-09 policy/outcome; DOC-15 access; DOC-18 representation; DOC-21 operations; DOC-22 execution. |
+| Payment and payer authorization | Admin handling cannot create a Payment Obligation, make Checkout ready, authorize Payment or rewrite immutable Payment facts. | DOC-09 policy/outcome; DOC-15 access; DOC-18 business history/explainability; DOC-21 consume-only operations; DOC-22 specifically permitted execution. |
 | Destination, Payout and reconciliation | Admin handling cannot approve a destination globally or replace destination-readiness, Payout or reconciliation outcomes. | DOC-10 policy/outcome; DOC-14 risk where applicable; DOC-15 access; DOC-22 execution. |
-| Refund, cancellation, reversal, dispute and chargeback | Admin handling consumes the applicable owner-controlled case and outcome; DOC-05 defines no generic approve, reject, hold, cancel or resolve action. | DOC-11 policy/outcome; DOC-15 access; DOC-18 representation; DOC-21 operations; DOC-22 execution. |
-| Risk, sanctions, fraud and anti-cashout | Admin execution cannot waive, reinterpret or replace the applicable risk outcome. | DOC-14 policy/outcome; DOC-15 access; DOC-18 representation; DOC-21 operations; DOC-22 execution. |
-| Privacy, support and audit | Access is approved-purpose, masked and auditable. Support and operational handling cannot create product, Evidence, Payment, payout, refund or risk truth. | DOC-15 privacy/retention; DOC-18 data/audit representation; DOC-21 support/operations; DOC-22 permitted execution. |
+| Refund, cancellation, reversal, dispute and chargeback | Admin handling consumes the applicable owner-controlled case and outcome; DOC-05 defines no generic approve, reject, hold, cancel or resolve action. | DOC-11 policy/outcome; DOC-15 access; DOC-18 business history/explainability; DOC-21 consume-only operations; DOC-22 specifically permitted execution. |
+| Risk, sanctions, fraud and anti-cashout | Admin execution cannot waive, reinterpret or replace the applicable risk outcome. | DOC-14 policy/outcome; DOC-15 access; DOC-18 business history/explainability; DOC-21 consume-only operations; DOC-22 specifically permitted execution. |
+| Privacy, support and audit | Access is approved-purpose, masked and auditable. Support and operational handling cannot create product, Evidence, Payment, payout, refund or risk truth. | DOC-15 privacy/access/retention; DOC-18 business audit meaning/history; DOC-21 consume-only support/operations; DOC-22 specifically permitted execution. |
 
 Every permitted Admin action must be permissioned and auditable under its formal owners. A scoped Admin determination or action does not create global Payee truth, programme enrolment, permanent eligibility, destination approval, Evidence acceptance, Payment readiness, payer authorization or a new cross-domain override.
 
@@ -563,7 +567,7 @@ The MVP should support these basic Payer-facing notifications:
 - payout completed, if applicable.
 - as the only Payee-facing exception, an optional Payer-initiated one-way notification after a governed Individual determination, where DOC-08 and all applicable owners permit it.
 
-No notification channel is selected by DOC-05. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA, DOC-08 owns notification identity/channel/template/preference/delivery, DOC-14 owns risk and abuse controls, DOC-15 owns privacy and retention requirements, DOC-18 represents approved data/audit requirements, DOC-19 owns security requirements, DOC-21 owns support/operations, and DOC-22 performs only permitted Admin execution. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery.
+No notification channel is selected by DOC-05. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA, DOC-08 owns notification identity/channel/template/preference/delivery, DOC-14 owns risk and abuse controls, DOC-15 owns privacy and retention requirements, DOC-18 owns business-recording and audit-meaning requirements, DOC-19 owns security requirements, DOC-21 owns support/operations, and DOC-22 performs only permitted Admin execution. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery.
 
 The MVP Notifications route family separates Inbox category, recipient read/archive state, owning-domain status, and owning-domain `Action Required`. Current Payer route behavior remains owned by DOC-06B and DOC-08. Read/archive actions must not change the underlying payment, payout, Evidence, reward, support, privacy or other domain state. Active Request/Linking notification and route behavior is retired from MVP. Retired IDs and prior meanings remain append-only documentation history only; no runtime reader exists or may be inferred.
 
@@ -571,7 +575,7 @@ The MVP Notifications route family separates Inbox category, recipient read/arch
 
 ## 14. Data Requirements
 
-The MVP must preserve product-level identity, lineage and provenance for the following object families. Detailed fields, physical IDs, relationships, schemas, events, indexes, data-model representation and ledger behavior belong in DOC-18; DOC-15 owns privacy classification, masking, approved-purpose access, retention governance and retention requirements.
+The MVP must preserve product-level identity, lineage and provenance for the following record families. DOC-18 owns that business-recording and explainability obligation. Detailed fields, physical IDs, relationships, schemas, machine events, indexes, data-model representation and ledger behavior remain separately authorized future Engineering/Data work; DOC-15 owns privacy classification, masking, approved-purpose access, retention governance and retention requirements.
 
 - Payer account, identity, authentication, security and KYC context;
 - authoritative Bill/Rent source identity, Save intent, current or Archived projection, history-only treatment and separate readiness/handling condition;
@@ -665,7 +669,7 @@ The Payee is the economic recipient and has no MVP Consumer login, dashboard, ro
 
 ### Admin / Operations Handoff
 
-The UX may expose only owner-permitted Admin execution surfaces. DOC-22 owns their execution route, queue, permission and configuration mechanics and may execute only specifically owner-permitted controlled overrides; each applicable specialist owner supplies the governing policy, outcome and permitted actions. DOC-15 governs approved-purpose access and masking, DOC-18 represents approved audit/lineage requirements, and DOC-21 owns support and operational escalation. This section does not grant generic account, Evidence, Payment, payout, refund, dispute, risk, source, data or audit access and does not define an Admin disposition.
+The UX may expose only owner-permitted Admin execution surfaces. DOC-22 may execute only specifically owner-permitted operations and controlled overrides; it does not independently create route, queue, permission or configuration mechanics. Each applicable specialist owner supplies the governing policy, outcome and permitted actions. DOC-15 governs approved-purpose access and masking, DOC-18 owns business audit-meaning/lineage obligations, and DOC-21 owns support and operational escalation without retrieval authority. This section does not grant generic account, Evidence, Payment, payout, refund, dispute, risk, source, data or audit access and does not define an Admin disposition.
 
 Institutional programme execution, scoped Company/Individual review, Home/feature configuration, Evidence/payment/payout/risk/refund/support handoffs and promotion operations may appear only where their formal owners have authorized the capability and context. Detailed Admin UI, exact actions, queues, permissions and implementation remain outside DOC-05.
 
@@ -835,8 +839,8 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 | DOC-14 | AML, anti-cashout, fake evidence, duplicate evidence, collusion, and risk controls |
 | DOC-15 | Privacy, data protection, masking, retention, lawful data use, consent, personalization, model-improvement, and partner-sharing boundaries |
 | DOC-17 | Third-party APIs including OCR/document AI, PSP, bank, provider, analytics, campaign, and partner-reporting integrations where approved |
-| DOC-18 | Data model, evidence data layers, transaction state, audit events, ledger, event taxonomy, lineage, analytics marts, feature/model metadata, and reporting |
-| DOC-19 | Mechanism-neutral authentication, protected-value, access-enforcement, secure-boundary, telemetry and verification-handoff controls; payer authorization remains with DOC-09, privacy/pseudonymization with DOC-15, provider mechanics with DOC-17, and representation with DOC-18 |
+| DOC-18 | Reviewed business recording, explainability, material-fact history, historical action basis, lineage, audit meaning, reporting obligations, and owner handoffs; exact data model, fields, machine states, events, ledger representation, persistence, marts, and implementation remain future separately authorized work |
+| DOC-19 | Mechanism-neutral authentication, protected-value, access-enforcement, secure-boundary, telemetry and verification-handoff controls; payer authorization remains with DOC-09, privacy/pseudonymization with DOC-15, provider mechanics with DOC-17, DOC-18 supplies business-recording inputs, and exact technical representation remains separately gated |
 | DOC-20 | Mandatory Wave 5 detailed testing, UAT and release-readiness evidence; this document defines human Acceptance Criteria only |
 | DOC-21 | Monitoring, incidents, support escalation, and operations runbooks |
 | DOC-22 | Permitted Admin dashboard execution, queues, permissions, controlled overrides and configuration under the applicable product and specialist owners |
@@ -850,7 +854,7 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 | Tier 3 operating role, workflow and segregation controls | Designated Product/Risk/Compliance/Security owners | DOC-14/09/10/22 | Owner-defined operating/security detail | The normative approval gate remains unchanged; blocks Tier 3 enablement and implementation until supplied |
 | Category-specific eligibility, other Evidence criteria and Directory contents | DOC-12, within DOC-05 Programme boundary | DOC-06C UX after owner rules; DOC-07 Copy | Category owner definition | Explicit material owner gaps block the affected handoff |
 | Exact visual, Copy, motion, accessibility and responsive treatment | DOC-06B/DOC-06C presentation | DOC-07 approved Copy; DOC-20 acceptance evidence | Presentation and acceptance owner detail | Blocks the affected presentation and acceptance work until supplied |
-| ID persistence threshold, schema, events and technical lifecycle | DOC-12 source/Evidence outcome; DOC-09 payment lifecycle; DOC-15 retention governance; DOC-18 representation | DOC-06 consumes outcomes only | Technical-owner detail | Blocks affected technical representation and implementation until supplied |
+| ID persistence threshold, schema, events and technical lifecycle | DOC-12 source/Evidence outcome; DOC-09 payment lifecycle; DOC-15 retention governance; future separately authorized Engineering/Data representation using DOC-18's reviewed business inputs | DOC-06 consumes outcomes only | Technical-owner detail under a separate authority | Blocks affected technical representation and implementation until supplied |
 | Notification channel, provider, legal/contact, suppression, delivery and support mechanics | DOC-08 delivery, with DOC-05 eligibility boundary | DOC-07/14/15/18/19/21/22 | Notification and professional owner detail | Blocks affected notification delivery and support operation until supplied |
 | Exact Archive eligibility, Restore, prior-version, Evidence-version and replacement-source presentation | DOC-06B/DOC-06C presentation under DOC-05 same-source policy | DOC-10/11/12/15/18 owner blockers and representation | Presentation and owner-rule detail | Blocks the affected presentation or owner-controlled operation until supplied |
 | Route Register, status-display matrix, requirements traceability, open-question register and governed diagrams | Each artifact owner | All affected formal owners | Artifact-owner maintenance | Requires later authorized artifact-owner work |
@@ -909,6 +913,7 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 
 | Version | Date | Summary |
 |---|---|---|
+| v1.1.1 | 2026-08-27 | Aligned complete Bill/Rent material-fact, same-Bill Category-amendment, prior-history, four-context Declaration, and current-versus-future DOC-18 ownership handoffs without adding schema, UI, implementation, or enablement detail. |
 | v1.1.0 | 2026-08-22 | Drafted the approved Bills Tiered Payer Presentation and Return Contract: deliberate Tier 3 Pay/resolver re-entry, proportionate Declaration, and distinct Save-admission versus current Payment progression, without selecting configuration, routes, notifications, security mechanisms, or enablement. |
 | v1.0.1 | 2026-08-21 | Aligned product handoffs with the reviewed DOC-19 security-control contract while preserving payer authorization, privacy, provider, representation and open-mechanism ownership. |
 | v1.0.0 | 2026-08-18 | Implemented the material Bills-only tier model and fixed-seat compliance supplement; preserved C1 layering and Founder-updated Evidence traceability, retained owner-level dependencies, neutralized the complete active lifecycle-language family, and qualified indefinite retention by lawful scope, required exceptions and restricted data classes. |

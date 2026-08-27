@@ -227,7 +227,7 @@ DOC-08 must define:
 - retry, failure, escalation, and suppression rules;
 - retention and delivery evidence.
 
-DOC-18 must distinguish the domain event, audit event, notification event type, recipient-specific message, batch/job, and channel delivery attempt.
+This Framework and the applicable domain and notification owners distinguish the domain occurrence, audit meaning, notification event type, recipient-specific message, batch/job, and channel delivery attempt as business concepts. DOC-18 owns only business recording and explainability; technical representation remains separately authorized.
 
 ## 9. Naming Conventions
 

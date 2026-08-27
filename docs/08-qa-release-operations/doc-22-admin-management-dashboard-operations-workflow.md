@@ -1,7 +1,7 @@
 ---
 document_id: DOC-22
 title: Admin Management Dashboard & Operations Workflow
-version: 1.0.2
+version: 1.0.3
 status: Founder Working Baseline
 owner: Operations / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Operations Lead
   - Compliance Lead
-last_updated: 2026-08-25
+last_updated: 2026-08-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-22` |
 | **Title** | Admin Management Dashboard & Operations Workflow |
-| **Version** | `1.0.2` |
+| **Version** | `1.0.3` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Operations / Product |
 | **Reviewers** | Product Lead<br>Operations Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Security Lead<br>Engineering Lead<br>Data Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Operations Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-25` |
+| **Last Updated** | `2026-08-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
@@ -63,7 +63,7 @@ related_documents:
 
 ## 2. Scope
 
-DOC-22 describes only operational execution, configuration, queue and audit work that a formal owner has specifically permitted. It does not own or decide product policy, source/Evidence truth, payment or Payout truth, risk outcome, privacy/retention, external-interaction contract, architecture or security proof, route access, notification eligibility/delivery, or financial correction/reissue outcome. Those matters remain with DOC-05 through DOC-21 and the applicable specialist owner.
+DOC-22 describes only operational execution that a formal owner has specifically permitted. It does not create a generic configuration, queue, workflow, presentation or retrieval authority. It does not own or decide product policy, source/Evidence truth, payment or Payout truth, risk outcome, privacy/retention, external-interaction contract, architecture or security proof, route access, notification eligibility/delivery, or financial correction/reissue outcome. Those matters remain with DOC-05 through DOC-21 and the applicable specialist owner.
 
 Operational execution must preserve DOC-16 trust boundaries, local authoritative ownership, durable cross-boundary handoff meaning, provider-controlled card-data restrictions, least privilege, segregation of duties, auditability, and non-authoritative projection rules. DOC-22 does not choose a deployment, API, event, schema, provider, security mechanism, retry model, or reconciliation design.
 
@@ -83,9 +83,9 @@ The active product is Payer-only. An economic Payee need not be a User. Request,
 ### 7.2 Intended-Payee/Destination Review
 ### 7.3 Evidence Review
 
-Where a formal owner specifically permits an operational workflow, DOC-22 may execute it and record operational evidence. DOC-22 does not assign or override Evidence, readiness, risk, Payment, Payout, privacy, retention or Archive truth, and does not define queue contents, statuses, permissions, dispositions, Archive/Restore or version presentation.
+Where a formal owner specifically permits an operational workflow, presentation or retrieval, DOC-22 may execute only that bounded operation and record permitted operational evidence. The applicable domain owner defines the purpose and relevant history; DOC-15 owns approved-purpose access, masking, visibility and retention; DOC-19 enforces already permitted access; and DOC-21 may only consume permitted operational evidence. DOC-22 creates no generic history access, search, raw access, export, queue, maker-checker or workflow mechanics. It does not assign or override Evidence, readiness, risk, Payment, Payout, privacy, retention or Archive truth, and does not define queue contents, statuses, permissions, dispositions, Archive/Restore or version presentation.
 
-Detailed representation belongs in DOC-18; user routes in DOC-06; Evidence verification in DOC-12; risk escalation in DOC-14.
+DOC-18 owns the reviewed business-recording and explainability handoff; detailed technical representation remains separately gated. User routes remain in DOC-06, Evidence verification in DOC-12, and risk escalation in DOC-14.
 
 ### 7.4 Retired Request Identifier
 
@@ -109,7 +109,7 @@ DOC-10 and specialist owners determine destination/Payout exception meaning. DOC
 ### 7.14 Reward-Entitlement Workflow Handoff
 ### 7.15 Authentication and Account Activation Review
 
-DOC-06B and applicable account/route owners determine authentication/recovery behavior and permitted capabilities; DOC-15 owns approved-purpose access and masking; DOC-18 owns status/audit representation; DOC-19 enforces mechanism-neutral authentication, session/device, protected-value and access security controls; and DOC-21 owns support/operations. DOC-22 may execute only an expressly owner-permitted workflow and must not expose secrets, change owner truth, or define a recovery, outcome, message, queue, role, approval, permission, technical, or notification policy.
+DOC-06B and applicable account/route owners determine authentication/recovery behavior and permitted capabilities; DOC-15 owns approved-purpose access and masking; DOC-18 owns business history, audit meaning and explainability; machine status/audit representation remains separately gated; DOC-19 enforces mechanism-neutral authentication, session/device, protected-value and access security controls; and DOC-21 consumes permitted support/operations evidence only. DOC-22 may execute only an expressly owner-permitted workflow and must not expose secrets, change owner truth, or define a recovery, outcome, message, queue, role, approval, permission, technical, or notification policy.
 
 ## 8. Admin Review Workflows
 
@@ -167,11 +167,11 @@ DOC-13 owns Offers, eligibility, entitlement, placement truth and all promotion 
 
 ### 18.6 Referral Program, Campaign, and Qualification Configuration
 
-DOC-13 owns Referral, qualification, entitlement and Reward truth; DOC-06B owns route presentation; DOC-15 owns privacy; and DOC-18 owns representation. DOC-22 may execute an expressly owner-permitted operational workflow only. It does not define campaign, qualification, entitlement, reward, timing, status, access, notification, audit, data or event policy.
+DOC-13 owns Referral, qualification, entitlement and Reward truth; DOC-06B owns route presentation; DOC-15 owns privacy; and DOC-18 owns business-recording and explainability obligations, with technical representation separately gated. DOC-22 may execute an expressly owner-permitted operational workflow only. It does not define campaign, qualification, entitlement, reward, timing, status, access, notification, audit, data or event policy.
 
 ### 18.7 Reward Instrument and Fulfilment Operations
 
-DOC-13 owns Reward truth and any lifecycle outcome. DOC-22 may execute only an expressly owner-permitted operational workflow; it does not define actions, expiry, status, credential access, user notices or fulfilment policy. DOC-06B owns presentation, DOC-15 privacy, DOC-19 security and DOC-18 representation.
+DOC-13 owns Reward truth and any lifecycle outcome. DOC-22 may execute only an expressly owner-permitted operational workflow; it does not define actions, expiry, status, credential access, user notices or fulfilment policy. DOC-06B owns presentation, DOC-15 privacy, DOC-19 security and DOC-18 business-recording/explainability obligations; technical representation remains separately gated.
 
 ### 18.8 Me Route, Account-Control, and Receiving Info Configuration
 
@@ -179,7 +179,7 @@ DOC-13 owns Reward truth and any lifecycle outcome. DOC-22 may execute only an e
 
 ### 18.9 Notification Configuration and Operations
 
-DOC-08 owns notification identity, eligibility, recipients, channels, templates, preferences and delivery. DOC-06B owns routes; domain owners own status; DOC-15 owns approved-purpose retention/access; DOC-18 owns representation. DOC-22 may execute an expressly owner-permitted workflow and record operational evidence without defining an event, category, route, status, channel, template, schedule, provider, retention or notification mechanism.
+DOC-08 owns notification identity, eligibility, recipients, channels, templates, preferences and delivery. DOC-06B owns routes; domain owners own status; DOC-15 owns approved-purpose retention/access; DOC-18 owns business-recording and explainability obligations, while technical representation remains separately gated. DOC-22 may execute an expressly owner-permitted workflow and record operational evidence without defining an event, category, route, status, channel, template, schedule, provider, retention or notification mechanism.
 
 ## 19. Audit Logging Requirements
 
@@ -195,7 +195,7 @@ DOC-16 owns architecture and trust-boundary requirements, DOC-15 owns approved-p
 
 ## 24. Privacy and Data Handling Requirements
 
-DOC-15 owns data classification, approved-purpose access, masking and retention requirements; DOC-18 owns approved representation. DOC-22 may execute only a specifically owner-permitted workflow using approved facts and must not establish fields, visibility, queue, reveal, export, audit, evidence, deletion or permission requirements.
+DOC-15 owns data classification, approved-purpose access, masking, visibility and retention requirements; DOC-18 owns business-recording, history and explainability obligations, not technical representation. DOC-22 may execute only a specifically owner-permitted workflow, presentation or retrieval using approved facts and must not establish fields, visibility, queue, reveal, export, audit, evidence, deletion or permission requirements.
 
 ## 25. Monitoring and Incident Response Linkage
 
@@ -207,11 +207,12 @@ Detailed acceptance and UAT evidence belong to DOC-20. This document supplies on
 
 ## 27. Open Questions
 
-Exact Admin workflow, queue, permission, approval, technical, monitoring and implementation detail remains with the applicable formal owners. These open matters do not authorize DOC-22 to establish product, security, privacy, route, notification, source, payment, Payout, risk or representation policy.
+Exact Admin workflow, queue, permission, approval, history presentation/retrieval, technical, monitoring and implementation detail remains open with the applicable formal owners. These open matters do not authorize DOC-22 to establish generic access or mechanics, or product, security, privacy, route, notification, source, payment, Payout, risk or representation policy.
 
 ## 28. Revision History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.0.3 | 2026-08-27 | Limited history presentation/retrieval to specifically owner-permitted execution, with no generic Admin access or mechanics, and aligned DOC-18's business-only recording boundary. |
 | 1.0.2 | 2026-08-25 | Added the reviewed DOC-17 provider-neutral External Interaction Contract to the reference and non-ownership boundary without creating Admin policy, provider capability, API, mechanism, queue, permission, status, schema, event, or implementation detail. |
 | 1.0.1 | 2026-08-21 | Aligned authentication, recovery, access, status/audit, and security handoffs while preserving DOC-22 as owner-permitted execution only and creating no roles, queues, permissions, or Admin policy. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |

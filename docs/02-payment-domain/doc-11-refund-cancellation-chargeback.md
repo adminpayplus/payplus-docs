@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 1.1.0
+version: 1.1.1
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Payments Lead
   - Operations Lead
   - Finance Lead
-last_updated: 2026-08-22
+last_updated: 2026-08-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-11` |
 | **Title** | Refund, Cancellation & Chargeback |
-| **Version** | `1.1.0` |
+| **Version** | `1.1.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Operations |
 | **Reviewers** | Product Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Customer Support Lead<br>Engineering Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Operations Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-22` |
+| **Last Updated** | `2026-08-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -100,7 +100,7 @@ Detailed specifications belong to:
 | Fraud, anti-cashout, fake invoice, fake rent, collusion, abuse monitoring | DOC-14 |
 | Privacy, masking, retention, and sensitive evidence data handling | DOC-15 |
 | PSP/acquirer, bank, webhook, file, and partner integration details | DOC-17 |
-| Ledger, data model, reporting schema, audit event model | DOC-18 |
+| Business recording, historical action basis, lineage, audit meaning, and reporting explainability | DOC-18; Finance and the applicable domain owners retain accounting/ledger policy; exact technical representation remains separately gated |
 | Security, evidence access control, authentication | DOC-19 |
 | Operational runbooks, escalation, incidents, monitoring | DOC-21 |
 | Owner-permitted Admin workflow execution, configuration, queues, permissions, and controlled overrides | DOC-22 |
@@ -139,7 +139,7 @@ PayPlus refund, cancellation, dispute, and chargeback handling must follow these
 | Evidence-based decisioning | Decisions must consider obligation evidence, payer authorization, payee verification, payment status, payout status, support record, and risk flags. |
 | Evidence verification traceability | Case review should preserve DOC-12 extraction, correction, duplicate/reuse, verification outcome, and human-review history where applicable. |
 | No false certainty | User-facing status must not state that a refund, payout, reversal, settlement, or chargeback outcome is complete before the relevant system of record confirms it. |
-| Auditability | Owner-permitted case actions must have the applicable permission, reason, Evidence, timestamp, and immutable audit treatment. DOC-18 owns detailed representation. |
+| Auditability | Owner-permitted case actions must preserve the applicable permission, reason, Evidence, time, historical action basis, and immutable audit meaning under DOC-18's reviewed business-recording contract. Exact technical representation remains separately gated. |
 | Reconciliation first | Refunds, reversals, chargebacks, payouts, fees, recoveries, reserves, and write-offs must be reconcilable. |
 
 ---
@@ -196,7 +196,7 @@ Refund, cancellation, dispute, chargeback, and reversal work must separate the c
 | Resolved | A decision or required operational outcome has been reached and recorded. |
 | Closed | Case resolved with final outcome and evidence retained. |
 
-Operational action or outcome states such as `Approved`, `Rejected`, `Processing`, `Completed`, `Failed`, or `Escalated` may be recorded against the relevant refund, reversal, chargeback, recovery, hold, or partner action. They must not be used as substitute case-lifecycle states. DOC-18 owns approved field and reason-code representation; DOC-22 may execute only owner-permitted workflow/configuration and does not define the values or policy.
+Operational action or outcome states such as `Approved`, `Rejected`, `Processing`, `Completed`, `Failed`, or `Escalated` may be recorded against the relevant refund, reversal, chargeback, recovery, hold, or partner action. They must not be used as substitute case-lifecycle states. DOC-11 and the applicable domain owner define the meaning of each action, outcome, and reason. DOC-18 requires the business history and action basis to remain explainable but does not define fields or reason-code design; DOC-22 may execute only owner-permitted workflow/configuration and does not define the values or policy.
 
 ---
 
@@ -292,9 +292,9 @@ The system must track:
 - remaining refundable amount;
 - fee and promotion allocation impact.
 
-Detailed data model belongs in DOC-18. PSP/acquirer API behavior belongs in DOC-17.
+DOC-18 supplies the reviewed business-recording, lineage and explainability contract. Detailed technical data representation remains separately gated. PSP/acquirer API behavior belongs in DOC-17 only under an accepted provider-specific contract.
 
-Refund, reversal, dispute, chargeback, support, evidence package, funding-source allocation, and recovery records must carry DOC-15 classification metadata in DOC-18, including sensitivity, displayability, masking, retention, approved purpose, access roles, audit requirements, and lineage to source payment, evidence, payout, and promotion records.
+Refund, reversal, dispute, chargeback, support, evidence-package, funding-source-allocation, and recovery history must preserve DOC-15 classification, approved-purpose access, masking, retention and visibility treatment, together with DOC-18 business lineage and explainability. This requirement does not approve fields, access roles, schema, storage, or implementation.
 
 ---
 
@@ -321,7 +321,7 @@ Exact fee refundability, fee reversal, coupon restoration, voucher reversal, rew
 
 When an effective DOC-11 adjustment, refund, reversal, dispute, or chargeback outcome affects a reward entitlement, DOC-11 supplies the financial/effective adjustment fact to DOC-13. DOC-13 determines canonical entitlement and issued-instrument truth; DOC-06B and DOC-07 consume that truth for route/presentation and user-facing expression. Uncertain or duplicate refund/chargeback callbacks must not independently alter entitlement or issued-instrument truth.
 
-DOC-02 owns business model and unit economics. DOC-13 owns promotion, entitlement, instrument, and fulfilment rules. DOC-18 owns ledger and reporting treatment. DOC-07 and DOC-08 own user-facing disclosure and receipt wording.
+DOC-02 owns business model and unit economics. Finance and the applicable payment owners own accounting and ledger policy. DOC-13 owns promotion, entitlement, instrument, and fulfilment rules. DOC-18 owns business-recording and reporting-explainability obligations only. DOC-07 and DOC-08 own user-facing disclosure and receipt wording.
 
 ---
 
@@ -392,7 +392,7 @@ After payout, PayPlus may need recovery handling. Recovery methods may include:
 - legal or collections process;
 - finance-approved write-off.
 
-DOC-10 owns payout execution and reconciliation. DOC-18 owns accounting and ledger recording. DOC-21 owns operational escalation.
+DOC-10 owns payout execution and reconciliation. Finance and the applicable financial owners own accounting and ledger policy; DOC-18 requires resulting business facts and history to remain explainable without defining technical ledger representation. DOC-21 owns operational escalation.
 
 ---
 
@@ -406,7 +406,7 @@ At minimum, the system must link the case to:
 - financial impact, including principal, PayPlus fees, Payer/economic-Payee fees where applicable, PSP/acquirer fees, promotions, Payout impact, recovery, write-off, and net exposure where applicable;
 - immutable status history, action reason, approver, timestamp, evidence, communication, partner response, and final outcome.
 
-Detailed ledger schema, journal treatment, chart of accounts, tax treatment, reporting tables, and audit event model belong in DOC-18 and Finance policy.
+Finance and the applicable financial owners retain journal treatment, chart of accounts, tax treatment and ledger policy. DOC-18 owns the reviewed business-recording, historical-basis, lineage, audit-meaning and reporting-obligation contract. Ledger schema, reporting tables and audit-event implementation remain separately authorized technical work.
 
 DOC-15 owns the Founder-settled indefinite-retention requirement and applicable approved-purpose access and privacy controls. DOC-11 consumes that owner-governed outcome, preserves authoritative case and financial history, and does not define a disposition mechanism.
 
@@ -418,7 +418,7 @@ DOC-11 owns case and adjustment policy. DOC-22 may execute only the owner-permit
 
 Customer support must be able to identify case type, explain current status without overpromising outcome, request missing evidence, record communication, and escalate payment, payout, risk, compliance, legal, or finance issues.
 
-User-facing Copy must follow DOC-07. Notification identity, channel routing, delivery, and receipt communication records belong in DOC-08. DOC-15 owns privacy/retention requirements; DOC-18 owns approved representation, status/event, audit, and lineage requirements. Detailed support scripts, SLA targets, escalation playbooks, and incident handling belong in DOC-21. Detailed Admin screens, permissions, review queues, uploads, overrides, and operational action design belong in DOC-22.
+User-facing Copy must follow DOC-07. Notification identity, channel routing, delivery, and receipt communication records belong in DOC-08. DOC-15 owns privacy/retention requirements; DOC-18 owns business-recording, history, audit-meaning, lineage and explainability requirements, not machine status/event representation. Detailed support scripts, SLA targets, escalation playbooks, and incident handling belong in DOC-21. Detailed Admin screens, permissions, review queues, uploads, overrides, and operational action design belong in DOC-22 only where an applicable owner permits them.
 
 ---
 
@@ -449,7 +449,7 @@ Detailed risk scoring, thresholds, velocity rules, and monitoring logic belong i
 
 PayPlus should track cancellation, refund, partial refund, dispute, chargeback, recovery, write-off, net loss, case aging, support SLA, Category concentration, economic-Payee concentration, and multi-card refund failure metrics.
 
-Detailed dashboard, warehouse, ledger, and reporting representation belong in DOC-18; owner-permitted operational dashboard execution belongs in DOC-22.
+DOC-18 defines the business-reporting and explainability obligations. Detailed dashboard, warehouse, ledger and reporting representation remain separately gated; DOC-22 may execute only a specifically owner-permitted operational presentation.
 
 ---
 
@@ -476,7 +476,7 @@ Each outcome supplies its canonical ordering timestamp, canonical amount, and ca
 
 Cases, instructions, failures, intermediate actions, technical callbacks, allocation events, recovery work, and supporting events are not completed Refund or Reversal outcomes merely because they support one. Uncertain or repeated callbacks remain subject to this document's idempotency and canonical-outcome rules.
 
-DOC-11 does not create a cross-domain activity model. DOC-06B is the sole normative owner of Home eligibility, cap, ordering, shared Refund/Reversal presentation, cross-domain consumption, deduplication, navigation, entry, and return behavior. DOC-07 owns user-facing expression; DOC-18 remains the future owner of physical fields, event/status taxonomy, lineage, and audit representation.
+DOC-11 does not create a cross-domain activity model. DOC-06B is the sole normative owner of Home eligibility, cap, ordering, shared Refund/Reversal presentation, cross-domain consumption, deduplication, navigation, entry, and return behavior. DOC-07 owns user-facing expression; DOC-18 supplies the reviewed business-recording and lineage contract. Physical fields, machine event/status taxonomy and audit implementation remain future separately authorized Engineering/Data work.
 
 ---
 
@@ -498,7 +498,7 @@ DOC-11 does not create a cross-domain activity model. DOC-06B is the sole normat
 | CON-11-001 | PSP/acquirer rules may limit refund timing, refund amount, partial refund support, and chargeback workflow. | May change product rules and owner-permitted workflow. | Payments |
 | CON-11-002 | Final legal, compliance, and customer disclosure wording is not yet approved. | User-facing policy must remain draft until reviewed. | Legal / Compliance |
 | CON-11-003 | Refunds after payout may create recovery and loss exposure. | Requires payout hold, reserve, recovery, and write-off controls. | Finance / Operations |
-| CON-11-004 | Detailed accounting and ledger treatment is not finalized. | Requires DOC-18 follow-up before production launch. | Finance |
+| CON-11-004 | Detailed accounting and ledger treatment is not finalized. | Requires Finance and applicable owner decisions plus separately authorized technical representation before affected implementation or launch. DOC-18 supplies business-recording inputs only. | Finance |
 
 ### 20.3 Dependencies
 
@@ -578,6 +578,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.1.1 | 2026-08-27 | Product Documentation Team | Removed overbroad DOC-18 accounting, ledger, field, reason-code and technical-representation ownership while preserving distinct immutable case and financial histories. |
 | 1.1.0 | 2026-08-22 | Product Documentation Team | Aligned Tier 2 Evidence-acceptance Payout holds with the existing case boundary: the hold alone is not cancellation, Refund, reversal, recovery, or a case outcome, and confirmed Payment remains immutable. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.7.3` | `2026-08-13` | Product Documentation Team | Bounded adjustment impact to valid Payment Application coverage for zero- or insufficient-Application cases while preserving immutable Payment and adjustment facts and existing owner-controlled settlement boundaries. |

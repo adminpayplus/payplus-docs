@@ -1,7 +1,7 @@
 ---
 document_id: DOC-19
 title: Security, Tokenization, Authentication & Admin Control Specification
-version: 0.1.1
+version: 0.1.2
 status: Draft
 owner: Security Architecture Owner
 reviewers:
@@ -10,7 +10,7 @@ reviewers:
   - Operations/Acceptance
 approvers:
   - Founder
-last_updated: 2026-08-21
+last_updated: 2026-08-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -39,12 +39,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | DOC-19 |
 | **Title** | Security, Tokenization, Authentication & Admin Control Specification |
-| **Version** | 0.1.1 |
+| **Version** | 0.1.2 |
 | **Status** | Draft |
 | **Owner** | Security Architecture Owner |
 | **Reviewers** | Security Architecture<br>Risk/Privacy<br>Operations/Acceptance |
 | **Approvers** | Founder |
-| **Last Updated** | 2026-08-21 |
+| **Last Updated** | 2026-08-27 |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -63,9 +63,11 @@ DOC-19 is mechanism-neutral. It does not select a provider, API, schema, event, 
 | Security invariants, enforcement requirements, prohibited exposure, and security evidence obligations | Product/account/route behaviour: DOC-05 and DOC-06B |
 | Security enforcement around a controlled Bill/Rent/Evidence/Payment/Payout context | Bills/Rent source and route meaning: DOC-06C; Evidence/verification meaning: DOC-12; Payment/payer authorization: DOC-09; Settlement/Payout/reconciliation: DOC-10 |
 | Technical enforcement of an owner-required security assurance condition | Payer authorization, Payment, and admission: DOC-09; risk trigger, threshold, action, and outcome: DOC-14 |
-| Security treatment of provider-controlled card capture and handoffs | Architecture/trust posture: DOC-16; provider/API/callback/credential contract: DOC-17; representation: DOC-18 |
+| Security treatment of provider-controlled card capture and handoffs | Architecture/trust posture: DOC-16; provider/API/callback/credential contract: DOC-17; business-recording and explainability handoff: DOC-18; exact technical representation remains separately gated |
 | Least privilege, reauthentication, audit, and segregation support for permitted privileged action | Action meaning, maker/checker policy, exceptions, queues, configurations, and Admin workflow: affected owner and DOC-22 |
 | Security-control verification handoffs | Acceptance: DOC-20; operations: DOC-21; privacy and retention: DOC-15; ISMS policy/certification: DOC-99 |
+
+For current or historical information, the applicable domain owner defines the purpose and relevant history; DOC-15 owns approved-purpose access, masking, visibility and retention. DOC-19 only enforces access that those owners have already permitted. It creates no access, presentation or retrieval authority. DOC-22 may execute only a specifically owner-permitted presentation or retrieval operation, and DOC-21 may consume already permitted operational evidence only.
 
 ## 2. Accepted security-control inputs and non-reopening rule
 
@@ -108,12 +110,12 @@ Each card lists one or more applicable consequence classifications below. A clas
 
 | Field | Requirement |
 | --- | --- |
-| **Source owner/rule** | DOC-06B owns AUTH-family route behaviour, Recovery, protected returns, and device/login context; DOC-07 owns disclosure and message/CTA; DOC-15 owns disclosure-safe authentication-data treatment; DOC-18 owns later representation. Matching email addresses do not automatically link, merge, or transfer accounts. |
+| **Source owner/rule** | DOC-06B owns AUTH-family route behaviour, Recovery, protected returns, and device/login context; DOC-07 owns disclosure and message/CTA; DOC-15 owns disclosure-safe authentication-data treatment; DOC-18 owns business-recording and explainability obligations, while exact technical representation remains separately gated. Matching email addresses do not automatically link, merge, or transfer accounts. |
 | **Security invariant** | Authentication and recovery establish only the approved account/login-method context. Session, remembered-device, redirect, notification, callback, or other continuation may be used only while current authority and required assurance remain valid. |
 | **Prohibited behaviour and consequence** | Automatic account merge or provider link by email - **Absolute prohibition**. Public recovery disclosure of account, credential, provider link, phone, identity, device, or restriction existence - **Absolute prohibition**. Treat phone, identity, device, or provider email as a recovery method without an applicable owner-defined recovery rule and required DOC-19 security enforcement - **Permitted only under owner-defined conditions**. Reuse stale, revoked, expired, consumed, or unauthorized continuation - **Revalidation required before proceeding**. No safe recovery or contradictory context - **Escalate to the designated owner**. |
 | **Product/business risk** | Account takeover, enumeration, identity confusion, unsafe recovery, stale access, and unintended protected continuation. |
 | **Reasonable non-sensitive verification evidence** | Protected tests for valid, invalid, expired, repeated, conflicted, revoked, and protected-return cases; neutral-response evidence; correlation/audit evidence that excludes credentials, OTPs, passcodes, and recovery secrets. |
-| **Handoffs** | DOC-18: opaque attempt/outcome/resolution/correlation representation. DOC-20: positive, neutral-equivalence, negative, expiry, replay, interruption, and revalidation evidence. DOC-21: security/support escalation evidence. DOC-15: classification, masking, purpose, and retention constraints. DOC-17: provider identity/recovery detail where a provider contract applies. DOC-22: N/A for ordinary self-service flows; it may execute only expressly owner-permitted Support/Admin action. |
+| **Handoffs** | DOC-18: opaque attempt/outcome/resolution business history and explainability; technical correlation representation remains separately gated. DOC-20: positive, neutral-equivalence, negative, expiry, replay, interruption, and revalidation evidence. DOC-21: consume-only security/support escalation evidence. DOC-15: classification, masking, purpose, and retention constraints. DOC-17: provider identity/recovery detail where a provider contract applies. DOC-22: N/A for ordinary self-service flows; it may execute only expressly owner-permitted Support/Admin action. |
 
 ### CTRL-19-002 - Security-assurance enforcement around payment and risk gates
 
@@ -124,7 +126,7 @@ Each card lists one or more applicable consequence classifications below. A clas
 | **Prohibited behaviour and consequence** | Treat authentication, passcode entry, provider/cardholder challenge, provider observation, or security fact as payer authorization, Provider Confirmation, Payment, Payment Application, or Payout release - **Absolute prohibition**. Submit/resume with stale authorization or without owner-required checks - **Revalidation required before proceeding**. Enforce assurance only where DOC-09, DOC-14, provider, or another owner has supplied the condition - **Permitted only under owner-defined conditions**. Unenforceable or conflicting assurance requirement - **Escalate to the designated owner**. |
 | **Product/business risk** | Unauthorized Provider Submission, risk bypass, false Payment certainty, fraud, chargeback, and payout loss. |
 | **Reasonable non-sensitive verification evidence** | Traceable scenarios separating risk trigger, assurance enforcement, payer authorization, provider evidence, Payment result, and Payout; negative evidence that no automatic submission or Payment claim occurs. |
-| **Handoffs** | DOC-18: permitted assurance references/audit representation. DOC-20: separation and negative-path acceptance evidence. DOC-21: exception/escalation evidence. DOC-15: approved-purpose privacy treatment. DOC-17: provider/cardholder challenge detail where relevant. DOC-10: Payout/reconciliation meaning; security does not determine release. DOC-22: N/A unless an owner permits an operation; no action matrix is created. |
+| **Handoffs** | DOC-18: permitted assurance-reference business history and audit meaning; technical representation remains separately gated. DOC-20: separation and negative-path acceptance evidence. DOC-21: consume-only exception/escalation evidence. DOC-15: approved-purpose privacy treatment. DOC-17: provider/cardholder challenge detail where relevant. DOC-10: Payout/reconciliation meaning; security does not determine release. DOC-22: N/A unless an owner permits an operation; no action matrix is created. |
 
 ### CTRL-19-003 - Protected values, secrets, tokens, and cryptographic material
 
@@ -146,29 +148,29 @@ Each card lists one or more applicable consequence classifications below. A clas
 | **Prohibited behaviour and consequence** | Perform, approve, expose, or override without current authority, approved purpose, required assurance, or auditability - **Absolute prohibition**. Continue after relevant authority/state/assurance changes - **Revalidation required before proceeding**. Apply maker/checker only where owner defines it - **Permitted only under owner-defined conditions**. Unsafe, conflicting, or unavailable privileged treatment - **Escalate to the designated owner**. |
 | **Product/business risk** | Unauthorized data access, Payment/Payout/risk override, operational abuse, privacy breach, and audit failure. |
 | **Reasonable non-sensitive verification evidence** | Current-authority and reauthentication scenarios; permitted audit evidence; proof that no generic Admin queue, role catalogue, override policy, or action matrix was created. |
-| **Handoffs** | DOC-18: access/audit representation. DOC-20: privileged-access and negative-path evidence. DOC-21: security/operations escalation evidence. DOC-15: purpose, masking, retention constraints. DOC-17: N/A unless later provider privileged access applies. DOC-10: Payout/reconciliation meaning where a privileged action affects that domain; security does not decide it. DOC-22: only a separately permitted action; no policy authority. |
+| **Handoffs** | DOC-18: business history, action-basis, lineage and audit-meaning obligations only. DOC-20: privileged-access and negative-path evidence. DOC-21: consume-only security/operations escalation evidence, with no access/presentation/retrieval authority. DOC-15: purpose, masking, visibility and retention constraints. DOC-17: N/A unless later provider privileged access applies. DOC-10: Payout/reconciliation meaning where a privileged action affects that domain; security does not decide it. DOC-22: only a specifically owner-permitted action; no generic access or policy authority. |
 
 ### CTRL-19-005 - Provider-controlled card-data and secure external boundaries
 
 | Field | Requirement |
 | --- | --- |
-| **Source owner/rule** | DOC-16 owns provider-controlled capture/tokenization and no raw PAN/card-verification values. DOC-09 owns payment meaning. DOC-17 owns provider/API/callback/credential/environment detail. DOC-18 owns representation. |
+| **Source owner/rule** | DOC-16 owns provider-controlled capture/tokenization and no raw PAN/card-verification values. DOC-09 owns payment meaning. DOC-17 owns provider/API/callback/credential/environment detail. DOC-18 owns business-recording and explainability obligations; technical representation remains separately gated. |
 | **Security invariant** | PayPlus controls preserve the provider-card boundary across normal, failure, retry, support, reconciliation, audit, and test paths. Public input, callback, redirect, notification context, handoff, projection, and operational signal must not become authority for another owner's fact. |
 | **Prohibited behaviour and consequence** | Receive, process, transmit, retain, reconstruct, display, infer, log, or hand off raw PAN/card-verification values under the accepted boundary - **Absolute prohibition**. Treat provider return/callback/redirect/token/reference as payer authorization, Payment, or Payout truth - **Absolute prohibition**. Continue a provider or boundary operation without current validity/security/state checks - **Revalidation required before proceeding**. Process external/handoff data only under owner-defined contract, classification, and purpose - **Permitted only under owner-defined conditions**. Preserve duplicate, late, missing, unknown, or contradictory observation without rewriting owner truth - **Monitor/record only and must not automatically block**. Suspected exposure, contract contradiction, or unsafe boundary - **Escalate to the designated owner**. |
 | **Product/business risk** | Card-data exposure, replay/tampering, duplicate financial effects, incorrect Payment confirmation, PCI/shared-responsibility risk, and loss of authoritative truth. |
 | **Reasonable non-sensitive verification evidence** | Boundary and prohibited-value checks; duplicate/late/replay/stale scenario evidence; non-sensitive separation of provider observation from Payment creation; provider responsibility evidence when later available. |
-| **Handoffs** | DOC-18: permitted token/reference and correlation/audit representation. DOC-20: boundary and prohibited-value evidence. DOC-21: incident, recovery, reconciliation, and escalation evidence. DOC-15: masking, purpose, retention, lawful-scope constraints. DOC-17: required for provider-specific contract detail. DOC-10: Payout/reconciliation meaning; provider/security observation cannot establish release. DOC-22: N/A unless an owner permits an operational response; it cannot configure card-data policy. |
+| **Handoffs** | DOC-18: permitted token/reference business history, lineage and audit meaning; technical correlation/audit representation remains separately gated. DOC-20: boundary and prohibited-value evidence. DOC-21: consume-only incident, recovery, reconciliation, and escalation evidence. DOC-15: masking, purpose, retention, lawful-scope constraints. DOC-17: required for provider-specific contract detail. DOC-10: Payout/reconciliation meaning; provider/security observation cannot establish release. DOC-22: N/A unless an owner permits an operational response; it cannot configure card-data policy. |
 
 ### CTRL-19-006 - Logging, technical anti-automation, and safe telemetry
 
 | Field | Requirement |
 | --- | --- |
-| **Source owner/rule** | DOC-16 owns architecture-level observability/evidence obligations. DOC-15 owns privacy controls. DOC-14 owns fraud/risk meaning and financial outcomes. DOC-18 owns representation; DOC-20 acceptance; DOC-21 operations. |
+| **Source owner/rule** | DOC-16 owns architecture-level observability/evidence obligations. DOC-15 owns privacy controls. DOC-14 owns fraud/risk meaning and financial outcomes. DOC-18 owns business-recording and explainability obligations; exact representation remains separately gated; DOC-20 owns acceptance; DOC-21 owns operations without access/retrieval authority. |
 | **Security invariant** | Security facts needed for assurance, recovery, privileged action, boundary handling, anti-automation, and suspected exposure are safely observable without copying prohibited/unnecessary sensitive values. Authentication, recovery, session, protected-access, and privileged-operation surfaces require proportionate technical anti-automation protection where security analysis indicates it. |
 | **Prohibited behaviour and consequence** | Include raw PAN/card-verification values, credentials, secrets, OTPs, passcodes, recovery material, unnecessary provider payloads, or unnecessary restricted identity/evidence values in logs, traces, analytics, support exports, screenshots, test fixtures, or handoffs - **Absolute prohibition**. Treat telemetry/anti-automation signal as Payment, Payout, fraud, or risk decision - **Absolute prohibition**. Continue a protected attempt where control state requires current verification - **Revalidation required before proceeding**. Expose/use telemetry or apply protection only under owner-defined access/purpose/policy conditions - **Permitted only under owner-defined conditions**. Record permitted control signal without automatic business block - **Monitor/record only and must not automatically block**. Suspected leakage, tampering, repeated unsafe condition, or material evidence gap - **Escalate to the designated owner**. |
 | **Product/business risk** | Sensitive-data exposure, credential stuffing/enumeration, false assurance, improper operational action, and inability to investigate safely. |
 | **Reasonable non-sensitive verification evidence** | Redaction/minimisation inspection; repeated/expired/replayed attempt tests; evidence that financial/risk meaning stays with DOC-14; control-to-source traceability and safe operational routing. |
-| **Handoffs** | DOC-18: event/audit/lineage representation. DOC-20: redaction, negative, regression, and verification evidence. DOC-21: monitoring, incident, support, escalation, and closure evidence. DOC-15: classification, masking, purpose, retention, lawful-scope controls. DOC-17: N/A except later provider logging/throttling contract. DOC-10: Payout/reconciliation meaning where telemetry concerns that domain; telemetry cannot decide release. DOC-22: may consume only owner-permitted operational evidence. |
+| **Handoffs** | DOC-18: business occurrence, audit meaning, history and lineage obligations; machine event/audit representation remains separately gated. DOC-20: redaction, negative, regression, and verification evidence. DOC-21: consume-only monitoring, incident, support, escalation, and closure evidence. DOC-15: classification, masking, purpose, retention, lawful-scope controls. DOC-17: N/A except later provider logging/throttling contract. DOC-10: Payout/reconciliation meaning where telemetry concerns that domain; telemetry cannot decide release. DOC-22: may execute only owner-permitted operational action. |
 
 ### CTRL-19-007 - Security verification, change exposure, and supplier-security handoff
 
@@ -196,7 +198,7 @@ These do not block documentation expression. They block the affected scope from 
 | DEP-19-001 | PCI DSS applicability, scope, shared responsibility, assessment path, and acquirer/QSA expectations. | Security / Payments / Compliance / professional assessment | Provider/card-data and payment-related enablement. |
 | DEP-19-002 | Provider/API/callback/credential/environment contract and supplier-security evidence. | DOC-17 / provider owners | Provider-dependent control implementation and assurance. |
 | DEP-19-003 | Lawful scope, exceptions, restricted data, retention, masking, and approved-purpose treatment. | DOC-15 / Legal / Privacy | Data-bearing controls and operational access. |
-| DEP-19-004 | Final security data/event/audit/correlation representation. | DOC-18 | Implementation and traceability representation. |
+| DEP-19-004 | Final security data/event/audit/correlation representation that preserves DOC-18's reviewed business meaning. | Future separately authorized Engineering / Data work; DOC-18 supplies business inputs | Implementation and traceability representation. |
 | DEP-19-005 | Detailed security acceptance/UAT/release evidence. | DOC-20 | Acceptance/readiness claims. |
 | DEP-19-006 | Monitoring, incident, support, escalation, and runbook detail. | DOC-21 | Operational enablement/evidence. |
 | DEP-19-007 | Owner-permitted Admin action, maker/checker rule, queue, exception, and configuration detail. | Affected owner / DOC-22 | Privileged operational action. |
@@ -223,7 +225,7 @@ These do not block documentation expression. They block the affected scope from 
 | --- | --- | --- | --- |
 | OQ-19-001 | Which mechanisms, protocols, factors, session/device values, recovery proofs, retry/lockout controls, and rate limits implement these requirements? | Security / Engineering | Open; delegated technical decision. |
 | OQ-19-002 | Which provider security, callback, credential, payment-page, and shared-responsibility contract applies to each enabled path? | DOC-17 / Security / Payments | Open; provider enablement gate. |
-| OQ-19-003 | Which fields, events, correlations, and audit representations implement the control cards? | DOC-18 / Security / Data | Open. |
+| OQ-19-003 | Which fields, events, correlations, and audit representations implement the control cards while preserving DOC-18's reviewed business meaning? | Engineering / Data / Security under separate future authority | Open; DOC-18 does not currently approve the mechanism. |
 | OQ-19-004 | Which detailed tests, UAT evidence, release gates, monitoring signals, and runbooks demonstrate enabled controls? | DOC-20 / DOC-21 / Security | Open. |
 | OQ-19-005 | Which privileged actions, maker/checker rules, roles, queues, exceptions, and configurations are owner-permitted? | Affected owner / DOC-22 | Open; not owned by DOC-19. |
 | OQ-19-006 | Which lawful-scope, exception, restricted-data, purpose, masking, retention, and supplier-security treatments apply? | DOC-15 / Legal / Privacy / Compliance | Open. |
@@ -233,5 +235,6 @@ These do not block documentation expression. They block the affected scope from 
 
 | Version | Date | Owner | Change Summary |
 | --- | --- | --- | --- |
+| 0.1.2 | 2026-08-27 | Security Architecture Owner | Made the history-access handoff explicitly enforcement-only after owner and DOC-15 permission, with no access, presentation, retrieval, or technical-representation authority. |
 | 0.1.1 | 2026-08-21 | Security Architecture Owner | Refined the source-document boundary and corrected dependency-table structure without changing security-control meaning. |
 | 0.1.0 | 2026-08-21 | Security Architecture Owner | Initial Draft: mechanism-neutral cross-domain security controls, Control Cards, owner handoffs, verification treatment, and enablement gates without selected mechanisms or assurance claims. |

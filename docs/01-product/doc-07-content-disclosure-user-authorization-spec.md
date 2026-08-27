@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 1.1.0
+version: 1.1.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-22
+last_updated: 2026-08-27
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,12 +43,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `1.1.0` |
+| **Version** | `1.1.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-22` |
+| **Last Updated** | `2026-08-27` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -380,7 +380,7 @@ PayPlus must preserve evidence of what the payer was shown and accepted for each
 - the authorization occurrence, timestamp, and result; and
 - any applicable Notification template or channel variant without treating notification state as authorization evidence.
 
-DOC-07 defines this user-facing evidence intent. DOC-09 retains payment and authorization-rule ownership. DOC-18 owns final data fields, schema, event, correlation, lineage, and storage implementation.
+DOC-07 defines this user-facing evidence intent. DOC-09 retains payment and authorization-rule ownership. DOC-18 owns the reviewed business occurrence, historical-basis, lineage, audit-meaning and explainability handoff; final fields, schema, machine events, correlation design, storage, and implementation remain separately gated.
 
 ---
 
@@ -390,7 +390,7 @@ DOC-07 may describe the Payer's owner-approved Payment Instruction, Checkout, pa
 
 DOC-07 may communicate owner-approved source capture, Declaration, tier-dependent attached Evidence, verification, Checkout, Payer authorization, Payment Result, optional post-Payment Save, Activity/Receipt and source Archive meaning. Tier 1 content must not imply mandatory attached Evidence; Tier 2/3 content must distinguish Evidence presence from acceptance; Rent content must preserve mandatory attached Evidence and acceptance-before-Payment. DOC-07 must not create Category-specific rules, a Payee action, recipient library, link, delivery, acceptance, reminder or reciprocal communication. Exact expression remains deferred to the applicable DOC-07 slice and source-owner input.
 
-For Bills, the communication contract keeps Declaration separate from Evidence, Save, Payer authorization, Payment and Payout. Add Bill communicates reviewed declared facts and deliberate confirmation before the distinct Save-admission outcome. An owner-confirmed non-material edit may communicate ordinary Save; a material edit communicates only the owner-defined proportionate reconfirmation. A Pay action with unchanged declared facts communicates current Payment terms and the separate applicable authorization, not a repeated full Declaration. DOC-19 may enforce the relevant security boundary but does not change these product meanings or select Copy.
+For Bills, the communication contract keeps Declaration separate from Evidence, Save, Payer authorization, Payment and Payout. Add Bill communicates reviewed declared facts and deliberate confirmation before the distinct Save-admission outcome. An owner-confirmed non-material edit may communicate ordinary Save; a material edit communicates only the owner-defined proportionate reconfirmation. A Pay action with unchanged declared facts communicates current Payment terms and the separate applicable authorization, not a repeated full Declaration. The recording handoff distinguishes four occurrence contexts: Add Bill; a Pay progression that establishes a new Bill/Rent source; an applicable owner-defined Bill/Rent source setup; and a material change to a Saved Bill/Rent source. Exact wording, legal sufficiency and reconfirmation treatment remain with their owners. DOC-19 may enforce the relevant security boundary but does not change these product meanings or select Copy.
 
 ---
 
@@ -601,7 +601,7 @@ The capability-aware Outcome and Resolution relationship remains confirmed. The 
 - a DOC-07 **Semantic Contract**, **Disclosure Contract**, and **CTA Contract** governing communicated meaning;
 - **Copy**, **Locale Variant**, and **Presentation Mapping** expressing accepted meaning when approved;
 - a DOC-08 Notification relationship or `None` with reason;
-- a DOC-18 occurrence/correlation and audit handoff; and
+- a DOC-18 business-occurrence, historical-basis, lineage and audit-meaning handoff, with technical correlation separately gated; and
 - a DOC-20 acceptance handoff.
 
 Multiple internal Outcomes may map to one neutral user-facing Semantic and Copy expression where separate wording would expose whether an account, identifier, credential, provider link, or security restriction exists.
@@ -617,7 +617,7 @@ The Slice must provide or reference the following layered coverage. Separate tab
 | Copy and Locale | Approved expression or explicit `TBD`; meaning-preservation and variable constraints. | DOC-07; final Copy/Locale review remains open. |
 | Presentation Mapping | Owner-defined surface/component/slot reference, hierarchy, accessibility, and responsive evidence or explicit `TBD`. | DOC-06B surface owner with DOC-07 mapping. |
 | Notification | DOC-08 relationship or `None`; an in-flow message is not automatically a Notification. | DOC-08. |
-| Runtime and audit | Occurrence/correlation, event, version, lineage, and implementation handoff or explicit `TBD`. | DOC-18 for representation; DOC-19 only for applicable security-control constraints. |
+| Runtime and audit | Business occurrence, historical action basis, lineage and audit-meaning handoff, plus separately gated technical representation or explicit `TBD`. | DOC-18 for the reviewed business contract; future Engineering/Data authority for technical representation; DOC-19 only for applicable security-control constraints. |
 | Support and operations | Controlled Support/Admin visibility and handoff without granting an override. | DOC-21/DOC-22. |
 | Acceptance | Semantic, negative-path, accessibility, localization, revalidation, and implementation evidence or explicit `TBD`. | DOC-20 and applicable acceptance owners. |
 
@@ -633,7 +633,7 @@ The Slice must cover, at minimum:
 
 Exact Outcome Type IDs, Message IDs, Action IDs, approved Copy, Locale Variants, CTA labels/hierarchy, Presentation Mappings, notification mappings, and technical mappings remain open. They must not be invented during implementation. Route or domain documents must not create competing message identifiers or copy.
 
-DOC-06B and applicable route/domain owners retain Outcome meaning, permitted Resolution Strategies, route placement, destination, and return behavior. DOC-07 owns the governed user-facing Semantic, Disclosure, CTA, approved Copy, Locale constraints, and Presentation references. DOC-08 owns Notification identity, trigger, recipient, channel eligibility, templates, delivery, retry, delivery evidence, and read/archive behavior. DOC-18 owns occurrence/correlation records and event mapping. DOC-17 owns provider contracts; DOC-19 owns mechanism-neutral authentication, protected-value, retry/replay, session/device and access-enforcement controls while exact mechanisms remain open. DOC-20 owns detailed acceptance, DOC-21 owns Support procedure, and DOC-22 may execute only expressly owner-permitted future Admin operations.
+DOC-06B and applicable route/domain owners retain Outcome meaning, permitted Resolution Strategies, route placement, destination, and return behavior. DOC-07 owns the governed user-facing Semantic, Disclosure, CTA, approved Copy, Locale constraints, and Presentation references. DOC-08 owns Notification identity, trigger, recipient, channel eligibility, templates, delivery, retry, delivery evidence, and read/archive behavior. DOC-18 owns the business occurrence, historical basis, lineage, audit-meaning and explainability handoff; exact correlation records and machine event mapping remain separately gated. DOC-17 owns provider contracts; DOC-19 owns mechanism-neutral authentication, protected-value, retry/replay, session/device and access-enforcement controls while exact mechanisms remain open. DOC-20 owns detailed acceptance, DOC-21 owns Support procedure, and DOC-22 may execute only expressly owner-permitted future Admin operations.
 
 #### 15.2.1 Authentication Slice Order
 
@@ -749,7 +749,7 @@ This matrix defines logical responsibility boundaries only. Formal documentation
 
 Service-fee rates and allocation, promotion/entitlement calculations, the confirmed six-card maximum, narrower card restrictions, eligibility, and policy rules are source facts, not editable communication semantics. Communication changes may express only current owner-supplied values and constraints.
 
-Final Admin roles, permissions, technical enforcement, publication workflow, approval screens, activation mechanism, and implemented rollback remain `TBD` under DOC-22 / DOC-18 / Security / Operations. This section grants no Admin or implementation authority.
+Final Admin roles, permissions, technical enforcement, publication workflow, approval screens, activation mechanism, technical representation, and implemented rollback remain `TBD` under the applicable owner, Security, Operations and separately authorized Engineering/Data work. DOC-22 may execute only a specifically owner-permitted operation; DOC-18 supplies business-recording inputs only. This section grants no Admin or implementation authority.
 
 ---
 
@@ -771,7 +771,7 @@ Authoritative Source Contract
     -> user-facing authorization or acceptance evidence
 ```
 
-The traceability requirement is logical and applies even where final Copy, Locale, Presentation, runtime, or acceptance evidence remains pending. Physical schema, runtime/database representation, storage mechanics, technical version keys, implemented rollback, and audit-event implementation remain future DOC-18/DOC-22 handoffs.
+The traceability requirement is logical and applies even where final Copy, Locale, Presentation, runtime, or acceptance evidence remains pending. DOC-18 supplies the reviewed business-recording and explainability contract. Physical schema, runtime/database representation, storage mechanics, technical version keys and audit-event implementation require separate future Engineering/Data authority; operational rollback remains an owner-permitted DOC-22 handoff.
 
 Required audit evidence includes:
 
@@ -789,7 +789,7 @@ Required audit evidence includes:
 | Economic-Payee and destination | Owner-supplied disclosure reference, masking boundary and authorization evidence where applicable; no library, recipient notification or source-version contract is created. |
 | Refund/dispute/chargeback case | User-facing status, case messages, evidence submitted, and admin actions. |
 
-Detailed event schema, physical version keys, storage, runtime linkage, and audit-event implementation belong in DOC-18. Operational activation, rollback, and administrative audit workflow belong in DOC-22. These handoffs do not transfer user-facing Semantic authority.
+DOC-18 owns the business-recording, historical-basis, lineage, audit-meaning and explainability obligations for this evidence. Detailed event schema, physical version keys, storage, runtime linkage and audit-event implementation remain future separately authorized Engineering/Data work. Operational activation, rollback, and administrative audit workflow belong in DOC-22 only where a source owner specifically permits them. These handoffs do not transfer user-facing Semantic authority.
 
 ---
 
@@ -838,7 +838,7 @@ This document does not interpret those sources as final legal advice.
 | Exact fee and allocation authority where not established by current sources. | Product / Commercial / Payments | Open |
 | Narrower partner-, risk-, or category-specific card restrictions and their configuration mechanism. | Payments / Risk / Product / Operations | Open |
 | Final Admin roles, permissions, approval/activation workflow, publication controls, and operational rollback. | DOC-22 Owner / Operations / Security / Compliance | Open |
-| Physical Registry/Reference representation, schema, runtime keys, version linkage, storage, audit events, and implemented rollback. | DOC-18 Owner / Engineering / Data / DOC-22 Owner | Open |
+| Physical Registry/Reference representation, schema, runtime keys, version linkage, storage, audit events, and implemented rollback. | Future separately authorized Engineering / Data work using DOC-18's reviewed business contract; applicable owner plus DOC-22 for specifically permitted rollback execution | Open; DOC-18 does not currently approve the mechanism |
 | Detailed acceptance, UAT, accessibility, localization, implementation, and release evidence. | DOC-20 Owner / QA / Product / Design | Open |
 | Exact later impacts, if any, to the DOC-07 Specialist Guide and Outcome/Message/Notification Framework after change-impact and duplicate-definition analysis. | Documentation Lead / Product / Founder | Open; separate authorization required |
 
@@ -878,6 +878,7 @@ DOC-07 is acceptable when:
 ## 22. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.1 | 2026-08-27 | Aligned the four Declaration occurrence handoffs and narrowed DOC-18 to its reviewed business-recording/explainability contract without approving Copy, technical representation, mechanisms, or implementation. |
 | 1.1.0 | 2026-08-22 | Drafted bounded Tier 2 Payment/Evidence/Payout communication separation and proportionate Declaration expression while preserving DOC-08 notification ownership, DOC-10 Payout truth, DOC-19 mechanism-neutral enforcement, and open Copy. |
 | 1.0.1 | 2026-08-21 | Aligned payer-authorization, provider, runtime/audit and security-control handoffs with DOC-09, DOC-17, DOC-18 and the reviewed mechanism-neutral DOC-19 contract without approving Copy or mechanisms. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
