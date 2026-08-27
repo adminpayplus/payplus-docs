@@ -2294,3 +2294,40 @@ Supersedes active DOC-17 placeholder, future-owner, missing-acceptance, and repr
 - Provider selection, commercial terms, provider capability/environment evidence, exact API/file/callback/report/portal/payload contracts, backend/adapters, representation, security mechanisms, professional determinations, implementation, testing, monitoring, acceptance, enablement, assurance, and launch remain separately gated.
 - Candidate-specific feasibility and evidence gaps remain unresolved at their applicable gates.
 - External authorized AI remains a future Founder decision. Future Backend Capability or Engineering Handoff material remains future Explore input only.
+
+### Not applicable - DOC-18 Business-Recording Boundary Alignment
+
+| Field | Record |
+| --- | --- |
+| Date | 2026-08-27 |
+| Status | Not applicable — post-commit provenance only; no new product or governance decision |
+| Primary owner | DOC-18, Engineering / Data; all existing formal domain owners retain their authority |
+| Affected documents | The exact 27 paths in substantive commit 4464a82dbccc96116762f3877eae72990d790501 |
+| Substantive commit | 4464a82dbccc96116762f3877eae72990d790501 |
+| Founder approval | Founder-authorized DOC-18 Stage 14–19 Commit, Record, Push, and canonical-main integration sequence on 2026-08-27 |
+
+**Record**
+
+This record binds the already accepted DOC-18 business-recording and explainability boundary to substantive commit 4464a82dbccc96116762f3877eae72990d790501. It does not add, modify, or approve a product, governance, owner, technical, provider, security, implementation, assurance, enablement, or launch decision.
+
+**Rationale**
+
+The required records-only follow-up preserves accurate post-commit provenance and the exact delivered scope without inventing a new decision. DOC-18 remains limited to business recording and explainability; technical representation remains separately authorized.
+
+**Alternatives Considered**
+
+- Minting a new decision identifier was rejected because the substantive commit implements already accepted DOC-18 alignment and no new product or governance decision was authorized.
+- Omitting this record was rejected because the Workflow requires an explicit Not applicable result when a substantive commit delivers accepted work without a new decision record.
+
+**Consequences And Handoffs**
+
+Existing owners retain their scopes: Payment and payer authorization; Payout and reconciliation; Evidence; Risk; Privacy; Security; provider interaction; acceptance; operations; and owner-permitted Admin execution. The 30 future Engineering Specification Explore inputs, 8 compatible items, and 1 provenance-only item remain unchanged and do not authorize technical design.
+
+**Supersedes / Superseded By**
+
+None.
+
+**Remaining Open Items**
+
+- Engineering Specification ownership and technical representation remain future separately authorized Explore work.
+- Provider-specific capability and contracts, privacy/access/retention treatment, security mechanisms, Declaration and Category-specific Evidence treatment, Admin mechanics, testing, UAT, operations, implementation, professional assessment, enablement, and launch evidence remain separately gated.

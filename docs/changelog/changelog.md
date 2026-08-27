@@ -1872,3 +1872,56 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 - Formal DOC-17 reviewer and approver assignments remain `TBD`.
 - Provider selection, commercial terms, provider capability/environment evidence, exact API/file/callback/report/portal/payload contracts, backend/adapters, representation, security mechanisms, professional determinations, implementation, testing, monitoring, acceptance, enablement, assurance, and launch remain separately gated.
 - Candidate-specific evidence remains feasibility-only. Future Backend Capability or Engineering Handoff material remains future Explore input and was not incorporated by this change.
+
+### 2026-08-27 - DOC-18 Business-Recording Boundary Alignment
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | 4464a82dbccc96116762f3877eae72990d790501 |
+| Primary owner | DOC-18, Engineering / Data; existing product, domain, privacy, security, acceptance, operations, and Admin owners retain their formal scope |
+| Decision record | Not applicable — this records an already accepted DOC-18 ownership-boundary alignment and creates no new product or governance decision |
+| Founder approval | Founder authorized the chained DOC-18 Stage 14–19 Commit, Record, Push, and canonical-main integration sequence on 2026-08-27 |
+
+**Files Changed**
+
+- AGENTS.md; README.md; docs/README.md
+- docs/00-foundation/doc-00-documentation-governance.md
+- docs/00-foundation/doc-01-project-charter-product-positioning.md
+- docs/00-foundation/doc-02-business-model-unit-economics.md
+- docs/00-foundation/payplus-outcome-message-notification-framework.md
+- docs/01-product/doc-05-master-prd-feature-requirement-index.md
+- docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md
+- docs/01-product/doc-06a-core-user-journeys-service-blueprint.md
+- docs/01-product/doc-06b-navigation-ia-route-taxonomy.md
+- docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md
+- docs/01-product/doc-07-content-disclosure-user-authorization-spec.md
+- docs/01-product/doc-08-notification-receipt-communication-spec.md
+- docs/02-payment-domain/doc-11-refund-cancellation-chargeback.md
+- docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md
+- docs/06-engineering/doc-16-technical-architecture-spec.md
+- docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md
+- docs/07-security-access-control/doc-19-security-tokenization-authentication-admin-control-spec.md
+- docs/08-qa-release-operations/doc-20-testing-uat-golive-checklist.md
+- docs/08-qa-release-operations/doc-21-monitoring-incident-response-operational-sops.md
+- docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md
+- docs/glossary/glossary.md
+- docs/traceability/open-questions-register.md
+- docs/traceability/payplus-documentation-management-roadmap.md
+- docs/traceability/requirements-traceability-matrix.md
+- docs/traceability/status-display-reference-matrix.md
+
+**Material Changes**
+
+- Aligned active cross-document references to DOC-18's business-recording and explainability boundary.
+- Preserved formal owner separation for Payment, Payout, Evidence, Risk, Privacy, Security, notification, routes, provider interaction, acceptance, operations, and owner-permitted Admin execution.
+- Deferred technical representation and Engineering Specification architecture without selecting a technical owner, schema, event, API, backend, adapter, mechanism, implementation, assurance, enablement, or launch outcome.
+
+**Checks Performed**
+
+- Completed the exact Stage 12 REVALIDATE_PASS - READY_TO_INTEGRATE and Stage 13 INTEGRATE_PASS - READY_FOR_COMMIT_APPROVAL gates.
+- Reverified the 27-path final aggregate B0A8741CDBBBAAA6BAF91719ABA8B95F56A8A3286054878C8A75DC0287FF73E9, frozen 21-path aggregate, protected 97-path aggregate, R5 DOC-18 identity, exact 17/17 direct alignment delta, and clean staged scope before substantive commit 4464a82dbccc96116762f3877eae72990d790501.
+
+**Remaining Open Items**
+
+- Engineering Specification ownership and technical representation remain future separately authorized Explore work.
+- Provider-specific capability and contracts, privacy/access/retention treatment, security mechanisms, Declaration and Category-specific Evidence treatment, Admin mechanics, testing, UAT, operations, implementation, professional assessment, enablement, and launch evidence remain with their applicable owners.
