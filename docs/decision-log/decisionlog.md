@@ -2331,3 +2331,39 @@ None.
 
 - Engineering Specification ownership and technical representation remain future separately authorized Explore work.
 - Provider-specific capability and contracts, privacy/access/retention treatment, security mechanisms, Declaration and Category-specific Evidence treatment, Admin mechanics, testing, UAT, operations, implementation, professional assessment, enablement, and launch evidence remain separately gated.
+
+### Not applicable - Engineering Specification Family Integration Record
+
+| Field | Record |
+| --- | --- |
+| Date | 2026-08-30 |
+| Status | Not applicable — post-commit provenance only; no new product or governance decision |
+| Primary owner | `DOC-23` Engineering Core; `DOC-24` and `DOC-25` are bounded Engineering Specifications that consume accepted owner inputs |
+| Affected documents | The exact nine paths in substantive commit `10dd64508a3c3161eaa1d4494c22c98704f43d90` |
+| Substantive commit | `10dd64508a3c3161eaa1d4494c22c98704f43d90` |
+| Founder authorization | User-authorized Stage 13, substantive commit, records-only follow-up, and canonical-main push chain on 2026-08-30 |
+
+**Record**
+
+This record binds the already accepted Engineering Specification Family documentation to substantive commit `10dd64508a3c3161eaa1d4494c22c98704f43d90`. It does not add, modify, or approve a product, governance, owner, provider, technical-representation, security-mechanism, implementation, acceptance, enablement, or launch decision.
+
+**Rationale**
+
+The required records-only follow-up preserves the actual substantive commit identity and delivered nine-path scope. `DOC-23` remains the Engineering Core; `DOC-24` and `DOC-25` remain bounded Engineering Specifications, and accepted source owners retain their authority.
+
+**Alternatives Considered**
+
+- Minting a new decision identifier was rejected because the substantive commit implements already accepted Engineering Specification Family work and no new product or governance decision was authorized.
+- Omitting this record was rejected because the Documentation Development Workflow requires the immediate decision-log provenance treatment for every substantive documentation commit.
+
+**Consequences And Handoffs**
+
+The registry, routing, index, traceability, and `DOC-18` handoff projections are aligned to the reviewed family. Product, domain, provider, representation, security, acceptance, operations, Admin, and AI build-execution owners remain unchanged; the record selects no provider, API, schema, event taxonomy, security mechanism, implementation, acceptance, enablement, or launch outcome.
+
+**Supersedes / Superseded By**
+
+None.
+
+**Remaining Open Items**
+
+- Provider/API and bank detail, technical representation/schema/event taxonomy, security mechanisms, implementation, testing/acceptance, operations, enablement, launch, and AI build-execution conversion remain separately gated with their applicable owners.

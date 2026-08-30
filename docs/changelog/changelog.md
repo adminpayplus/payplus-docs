@@ -1925,3 +1925,38 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - Engineering Specification ownership and technical representation remain future separately authorized Explore work.
 - Provider-specific capability and contracts, privacy/access/retention treatment, security mechanisms, Declaration and Category-specific Evidence treatment, Admin mechanics, testing, UAT, operations, implementation, professional assessment, enablement, and launch evidence remain with their applicable owners.
+
+### `2026-08-30` - Engineering Specification Family Integration Record
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `10dd64508a3c3161eaa1d4494c22c98704f43d90` |
+| Primary owner | `DOC-23` Engineering Core; `DOC-24` and `DOC-25` are bounded Engineering Specifications that consume accepted owner inputs |
+| Decision record | `Not applicable` — this records already accepted Engineering Specification Family work and creates no new product or governance decision |
+| Founder authorization | User-authorized Stage 13, substantive commit, records-only follow-up, and canonical-main push chain on `2026-08-30` |
+
+**Files Changed**
+
+- `AGENTS.md`
+- `docs/00-foundation/doc-00-documentation-governance.md`
+- `docs/README.md`
+- `docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md`
+- `docs/06-engineering/doc-23-engineering-core.md`
+- `docs/06-engineering/doc-24-payment-confirmation-financial-effect-integrity-engineering-spec.md`
+- `docs/06-engineering/doc-25-settlement-payout-reconciliation-integrity-engineering-spec.md`
+- `docs/traceability/open-questions-register.md`
+- `docs/traceability/payplus-documentation-management-roadmap.md`
+
+**Material Changes**
+
+- Added the reviewed Engineering Core and the two bounded Engineering Specifications, then aligned only their registry, routing, ownership/handoff, documentation-index, traceability, and stale future-family projections.
+- Preserved the applicable product, domain, provider, representation, security, acceptance, operations, Admin, and AI build-execution owners. This commit selects no provider, API, schema, event taxonomy, security mechanism, implementation, acceptance, enablement, or launch outcome.
+
+**Checks Performed**
+
+- Completed the Stage 10 Change Impact Manifest, bounded six-path Stage 11 Alignment, fresh Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE`, and Stage 13 pre-commit verification.
+- Reverified the three reviewed Specification identities, the 118-path protected complement, the exact nine-path staged scope, clean staged diff, and live `origin/main` equality with the validated base before substantive commit `10dd64508a3c3161eaa1d4494c22c98704f43d90`.
+
+**Remaining Open Items**
+
+- Provider/API and bank detail, technical representation/schema/event taxonomy, security mechanisms, implementation, testing/acceptance, operations, enablement, launch, and AI build-execution conversion remain separately gated with their applicable owners.
