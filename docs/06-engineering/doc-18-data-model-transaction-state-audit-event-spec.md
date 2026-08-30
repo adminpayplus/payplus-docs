@@ -1,7 +1,7 @@
 ---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 2.0.0
+version: 2.0.1
 status: Draft
 owner: Engineering / Data
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-08-27
+last_updated: 2026-08-30
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -39,6 +39,9 @@ related_documents:
   - DOC-20 Testing, UAT & Go-Live Checklist
   - DOC-21 Monitoring, Incident Response & Operational SOPs
   - DOC-22 Admin Management Dashboard & Operations Workflow
+  - DOC-23 Engineering Core
+  - DOC-24 Payment Confirmation & Financial-Effect Integrity Engineering Spec
+  - DOC-25 Settlement, Payout & Reconciliation Integrity Engineering Spec
 ---
 
 # DOC-18 - Data Model, Transaction State, Audit Event & Reporting Specification
@@ -47,14 +50,14 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `2.0.0` |
+| **Version** | `2.0.1` |
 | **Status** | Draft |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Data Lead |
-| **Last Updated** | `2026-08-27` |
+| **Last Updated** | `2026-08-30` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow<br>DOC-23 Engineering Core<br>DOC-24 Payment Confirmation & Financial-Effect Integrity Engineering Spec<br>DOC-25 Settlement, Payout & Reconciliation Integrity Engineering Spec |
 
 > **Draft boundary.** This Draft defines business-recording, explainability, history, lineage, and owner-handoff requirements. It is not an Approved source of truth and does not approve a physical or logical schema, event or status taxonomy, timestamp or versioning convention, cardinality, identifier, API, payload, service, persistence product, queue, job, provider, security mechanism, backend design, implementation, acceptance result, enablement, production operation, or launch readiness.
 
@@ -80,7 +83,7 @@ The following are explicit non-decisions:
 - no new route, user-facing label, cross-domain status, product capability, domain entity, or owner is created;
 - no external capability, operating effectiveness, compliance conclusion, or readiness claim is established;
 - no exact Admin retrieval interface, search, permission, workflow, raw-access, export, queue, or maker-checker treatment is designed; and
-- the working label `Engineering Specification` remains only a future documentation-architecture Explore input. DOC-18 does not assign its owner, document number, family, structure, or technical content.
+- DOC-23 now owns the Engineering Core and DOC-24/DOC-25 own the two bounded Engineering Specifications. DOC-18 may supply only its accepted business-recording inputs; it does not assign their source-owner meaning, expand their scope, or authorize technical representation or implementation.
 
 ## 2. Inherited owner contracts and controlled terminology
 
@@ -579,9 +582,9 @@ This Draft establishes the business-recording horizon: semantic separation, mini
 
 Exact technical representation remains a later horizon requiring separate evidence, Proposal, authorization, technical drafting, review, acceptance, and implementation. Deferral does not transfer DOC-18's assigned future representation responsibilities to another document, and it does not approve any technical choice now.
 
-### 10.4 Engineering Specification governance gap
+### 10.4 Engineering Specification handoff
 
-`Engineering Specification` is retained only as a working label for a possible future documentation-architecture Explore concerning implementation-facing application capabilities and technical handoffs. That Explore has not begun and has no approved owner, document number, family, structure, artifact, or technical decision. It does not block this business-recording rulebook.
+DOC-23 owns source qualification, qualified Core Rules, Scenario and Artefact treatment, and bounded evidence handoffs; DOC-24 and DOC-25 apply that Core only to their reviewed responsibilities. They may consume the accepted DOC-18 business-recording, explainability, history, lineage, and owner-handoff inputs, but they do not decide exact representation, schema, event/status taxonomy, persistence, implementation, acceptance, enablement, or launch. This handoff does not change DOC-18's business-recording boundary or create a DOC-18 technical decision.
 
 ## 11. Decision coverage, Acceptance Criteria, traceability, and open dependencies
 
@@ -591,7 +594,7 @@ Exact technical representation remains a later horizon requiring separate eviden
 | --- | --- | --- | --- |
 | `FD-DOC18-01` | Approved eleven-section hybrid active body | `REQ-18-BR-001` through `REQ-18-BR-012` | DOC-00 and the owner map in Section 2 |
 | `FD-DOC18-02` | Business recording, explainability, time, relationships, history, supersession, non-rewrite, External Observation, no generic readiness, and retrieval rules | `REQ-18-BR-002` through `REQ-18-BR-011` | DOC-05 through DOC-22 according to concern |
-| `FD-DOC18-03` | DOC-18-only business-rulebook boundary, settled Category treatment, Admin retrieval boundary, two horizons, and Engineering gap | `REQ-18-BR-001`, `REQ-18-BR-004`, `REQ-18-BR-006`, `REQ-18-BR-009`, `REQ-18-BR-011`, `REQ-18-BR-012` | DOC-00/05/06C/15/16/17/19/22 |
+| `FD-DOC18-03` | DOC-18-only business-rulebook boundary, settled Category treatment, Admin retrieval boundary, two horizons, and Engineering Specification handoff | `REQ-18-BR-001`, `REQ-18-BR-004`, `REQ-18-BR-006`, `REQ-18-BR-009`, `REQ-18-BR-011`, `REQ-18-BR-012` | DOC-00/05/06C/15/16/17/19/22/23/24/25 |
 | Direct Founder bounded correction authority dated 2026-08-27 | Positive Bill/Rent fact and rule coverage, owner-permitted history presentation/retrieval boundary, DOC-00 metadata-label normalization, and positive-coverage verification control | `REQ-18-BR-004`, `REQ-18-BR-006`, `REQ-18-BR-010`, `REQ-18-BR-013`; `AC-18-004`, `AC-18-006`, `AC-18-010`, `AC-18-013` | Product and financial sources: DOC-05/06C/07/09/10/11/12/14; metadata: DOC-00; retrieval: applicable domain owner for purpose, DOC-15 for privacy/access/retention, DOC-19 for enforcement only, DOC-22 for owner-permitted execution, and DOC-21 for consume-only operational evidence |
 
 | Requirement ID | Requirement | Acceptance coverage |
@@ -673,7 +676,7 @@ This traceability requirement does not authorize edits to a register, create an 
 | Exact technical representation and implementation | Engineering / Data and applicable owners under separate authority | Deferred; no technical choice or implementation readiness is established. |
 | External capability and provider-specific facts | DOC-17 and applicable domain/professional owners | Deferred; blocks only affected feasibility, implementation, acceptance, or enablement. |
 | Testing, UAT, monitoring, support, incident, operational and launch evidence | DOC-20/21 and applicable owners | Not performed by this Draft; blocks the corresponding acceptance, operations, or readiness claim. |
-| Engineering Specification ownership and documentation architecture | Future separately authorized documentation-architecture Explore | Not a DOC-18 decision and not a blocker to this rulebook. |
+| Engineering Specification source qualification and bounded handoff | DOC-23, DOC-24, and DOC-25 within their reviewed boundaries | Not a DOC-18 decision and not a blocker to this rulebook; exact representation and implementation remain separately authorized. |
 
 No open dependency authorizes DOC-18 to infer missing owner truth or technical detail.
 
@@ -681,6 +684,7 @@ No open dependency authorizes DOC-18 to infer missing owner truth or technical d
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.0.1 | 2026-08-30 | Product Documentation Team | Aligned the reviewed Engineering Core and two bounded Engineering Specifications as DOC-18 consuming-document handoffs without changing business-recording truth or authorizing representation, implementation, acceptance, enablement, or launch. |
 | 2.0.0 | 2026-08-27 | Product Documentation Team | Reorganized DOC-18 into the Founder-approved eleven-section business-recording rulebook; added positive Bill/Rent fact and materiality coverage, minimum explainability, amendable Category history, non-rewrite, External Observation, no-generic-readiness, bounded owner-permitted history presentation/retrieval, safe-extension, and decision/acceptance traceability while deferring all technical representation and implementation choices. |
 | 1.0.1 | 2026-08-21 | Product Documentation Team | Aligned DOC-18 ownership with DOC-19 security-control facts while retaining DOC-15 privacy/pseudonymization policy and DOC-18 schema, event, audit, correlation, and lineage representation. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |

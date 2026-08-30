@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.11
+version: 0.7.12
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,7 +12,7 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-08-27
+last_updated: 2026-08-30
 classification: Internal
 related_documents: []
 ---
@@ -23,12 +23,12 @@ related_documents: []
 | --- | --- |
 | **Document ID** | `DOC-00` |
 | **Title** | Documentation Governance |
-| **Version** | `0.7.11` |
+| **Version** | `0.7.12` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Documentation Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead |
 | **Approvers** | Product Lead<br>Engineering Lead |
-| **Last Updated** | `2026-08-27` |
+| **Last Updated** | `2026-08-30` |
 | **Classification** | Internal |
 | **Related Documents** | None |
 
@@ -177,7 +177,10 @@ payplus-docs/
 |   |   |   `-- openapi.yaml
 |   |   |-- doc-16-technical-architecture-spec.md
 |   |   |-- doc-17-api-third-party-integration-spec.md
-|   |   `-- doc-18-data-model-transaction-state-audit-event-spec.md
+|   |   |-- doc-18-data-model-transaction-state-audit-event-spec.md
+|   |   |-- doc-23-engineering-core.md
+|   |   |-- doc-24-payment-confirmation-financial-effect-integrity-engineering-spec.md
+|   |   `-- doc-25-settlement-payout-reconciliation-integrity-engineering-spec.md
 |   |-- 07-security-access-control/
 |   |   `-- doc-19-security-tokenization-authentication-admin-control-spec.md
 |   |-- 08-qa-release-operations/
@@ -314,6 +317,9 @@ Document IDs must not be reused. Deprecated or retired document IDs remain reser
 | DOC-20 | Testing, UAT & Go-Live Checklist | 08-qa-release-operations/ | doc-20-testing-uat-golive-checklist.md |
 | DOC-21 | Monitoring, Incident Response & Operational SOPs | 08-qa-release-operations/ | doc-21-monitoring-incident-response-operational-sops.md |
 | DOC-22 | Admin Management Dashboard & Operations Workflow | 08-qa-release-operations/ | doc-22-admin-management-dashboard-operations-workflow.md |
+| DOC-23 | Engineering Core | 06-engineering/ | doc-23-engineering-core.md |
+| DOC-24 | Payment Confirmation & Financial-Effect Integrity Engineering Spec | 06-engineering/ | doc-24-payment-confirmation-financial-effect-integrity-engineering-spec.md |
+| DOC-25 | Settlement, Payout & Reconciliation Integrity Engineering Spec | 06-engineering/ | doc-25-settlement-payout-reconciliation-integrity-engineering-spec.md |
 
 ---
 
@@ -659,6 +665,9 @@ Foundation documents guide downstream documents as follows:
 | DOC-20 Testing, UAT & Go-Live Checklist | Convert requirements, controls, gates, and risks into test and launch criteria. |
 | DOC-21 Monitoring, Incident Response & Operational SOPs | Define monitoring, support, incident response, escalation, exception handling, and operational SOPs. |
 | DOC-22 Admin Management Dashboard & Operations Workflow | Define admin permissions, review queues, overrides, configuration, uploads, operational action flows, and dashboard evidence. |
+| DOC-23 Engineering Core | Define source qualification, qualified Core Rules, Scenario and Artefact treatment, and bounded evidence handoffs for Engineering Specifications without replacing formal source owners or selecting implementation. |
+| DOC-24 Payment Confirmation & Financial-Effect Integrity Engineering Spec | Technicalise only the DOC-09-owned recognised-confirmation-to-one-Payment and financial-effect integrity responsibility without selecting policy, provider, representation, mechanism, implementation, acceptance, or readiness. |
+| DOC-25 Settlement, Payout & Reconciliation Integrity Engineering Spec | Technicalise only Settlement, Payout, and reconciliation integrity using source-owned inputs without selecting policy, provider or bank detail, representation, mechanism, implementation, acceptance, or readiness. |
 
 Detailed scope belongs in each downstream document.
 
@@ -862,6 +871,7 @@ DOC-00 must remain focused on documentation governance only.
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.7.12 | 2026-08-30 | Product Documentation Team | Registered the Stage 9-passed DOC-23 Engineering Core and DOC-24/DOC-25 bounded Engineering Specifications, preserving formal source-owner, technical-representation, provider, security, implementation, acceptance, and readiness boundaries. |
 | 0.7.10 | 2026-08-21 | Product Documentation Team | Aligned DOC-19 governance scope with its reviewed mechanism-neutral security-control contract without assigning provider mechanics, representation, Admin policy, final PCI scope, implementation, or assurance claims. |
 | 0.7.9 | 2026-08-02 | Product Documentation Team | Registered the derived PayPlus Documentation Management Roadmap in the repository structure and traceability inventory without assigning product-truth or Documentation Lifecycle authority. |
 | 0.7.8 | 2026-07-31 | Product Documentation Team | Aligned the DOC-09 register title and ownership description with the accepted Payment Domain Architecture and renamed its canonical file to `doc-09-payment-domain-architecture.md` following Founder approval. |
