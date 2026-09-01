@@ -1993,3 +1993,35 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - Existing `DOC-09` and `DOC-13` technical-allocation clauses remain protected future Explore inputs and were not aligned by this change.
 - Exact schema, data, event, reason-code, API, provider, algorithm, persistence, mechanism, implementation, acceptance, enablement, and launch detail remain separately gated without a selected technical owner.
+
+### `2026-09-01` - DOC-09 Technical Allocation Reconciliation
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `c11fa2e3a4807b1c601fc20d1052ff84bcf48263` |
+| Primary owner | `DOC-09` Payments / Product |
+| Decision record | `Not applicable` - this records an already accepted source-owner boundary correction and creates no new product, governance, owner, or technical decision |
+| Founder authorization | User-authorized Stage 9 review through records, branch push, and canonical-main integration chain on `2026-09-01` |
+
+**Files Changed**
+
+- `docs/02-payment-domain/doc-09-payment-domain-architecture.md`
+
+**Material Changes**
+
+- Removed or qualified sixteen legacy technical-allocation statements while preserving one successfully confirmed Funding Leg to one immutable Payment, replay without duplicate financial effect, Payment Application conservation/order/non-rewrite, and G1 independent-progression meaning.
+- Preserved Evidence/Rent, Payment/Application/Settlement/Payout, External Observation/confirmation acceptance, risk, privacy, security, and downstream owner boundaries.
+- Limited active `DOC-18` references to its reviewed business-recording, explainability, history, lineage, audit-meaning, and owner-handoff contract; no technical recipient or implementation decision was selected.
+- Updated the DOC-09 YAML and Document Control mirror to version `2.1.2` and date `2026-09-01`, with one truthful append-only version-history row.
+
+**Checks Performed**
+
+- Completed fresh independent Stage 9 full-body/full-diff Primary Review with `REVIEW_EXECUTED - GATE_PASS`.
+- Completed a read-only Stage 10 Manifest with an empty Stage 11 alignment allowlist, fresh Stage 12 validation, and Stage 13 exact-snapshot, live-main, protected-aggregate, scope, and records-path verification.
+- Verified final DOC-09 blob `b05821e6ede404c2d422b51ad27c2f25800b100e`, SHA-256 `5A09C42606815F353DA5528BC69C9B85C964EAC2A5F7B81A14E1730BEF5E3E48`, 77,580 bytes, UTF-8/no-BOM, 1,389 CRLF, zero bare LF, balanced Markdown, stable IDs, clean links, and `git diff --check`.
+- Staged exactly the one approved source path before substantive commit `c11fa2e3a4807b1c601fc20d1052ff84bcf48263`.
+
+**Remaining Open Items**
+
+- Protected `DOC-13` and broader pre-existing technical-representation allocations remain future owner-specific Explore inputs and were not aligned by this change.
+- Exact schema, event/state model, persistence, correlation/idempotency mechanism, API, provider, algorithm, implementation, acceptance, operations, enablement, and launch detail remain separately gated without a selected technical owner.

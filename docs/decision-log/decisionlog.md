@@ -68,6 +68,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-049` | `2026-08-25` | DOC-17 Provider-Neutral External Interaction Contract | Accepted | `DOC-17` | `339bd8c8dfccf60ab102aa706f04135c9aab9e36` |
 | `Not applicable` | `2026-08-23` | BTPR R2 Documentation Integration Record | Not applicable | Existing `FD-BTPR-01` owners | `7664d339e45c6e183cb8d6a2b0b107a405200749` |
 | `Not applicable` | `2026-09-01` | DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation | Not applicable | `DOC-10` / `DOC-12` / `DOC-14` | `f33e3cf88e57bb22c3269d50a9fdc34258b12049` |
+| `Not applicable` | `2026-09-01` | DOC-09 Technical Allocation Reconciliation | Not applicable | `DOC-09` | `c11fa2e3a4807b1c601fc20d1052ff84bcf48263` |
 
 ## 4. Decision Record Template
 
@@ -2405,3 +2406,40 @@ None.
 
 - Existing `DOC-09` and `DOC-13` technical-allocation clauses require their own future owner-led Explore before any Proposal or edit.
 - Exact technical representation and all provider, mechanism, implementation, acceptance, enablement, and launch detail remain separately gated with their applicable owners.
+
+### Not applicable - DOC-09 Technical Allocation Reconciliation
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-09-01` |
+| Status | Not applicable - post-commit provenance only; no new product, governance, owner, or technical decision |
+| Primary owner | `DOC-09` Payments / Product |
+| Affected documents | `docs/02-payment-domain/doc-09-payment-domain-architecture.md` |
+| Substantive commit | `c11fa2e3a4807b1c601fc20d1052ff84bcf48263` |
+| Founder authorization | User-authorized Stage 9 review, Stage 10 Manifest, conditional Stage 11 Alignment, Stage 12 validation, Stage 13 integration, substantive commit, records-only follow-up, branch push, and canonical-main integration chain on `2026-09-01` |
+
+**Record**
+
+This record binds the already accepted `DOC-09` technical-allocation correction to substantive commit `c11fa2e3a4807b1c601fc20d1052ff84bcf48263`. It does not add, modify, or approve a product, governance, owner, technical-representation, provider, security-mechanism, implementation, acceptance, enablement, or launch decision.
+
+**Rationale**
+
+The records-only follow-up preserves the exact delivered DOC-09 identity and commit provenance while retaining Payment, replay, Payment Application, G1, Evidence/Rent, Payout, external-observation, risk, privacy, security, and formal owner boundaries. Exact technical representation remains separately authorized without a selected recipient.
+
+**Alternatives Considered**
+
+- Minting a new decision identifier was rejected because the substantive commit publishes an already accepted source-owner boundary correction and introduces no new product, governance, owner, or technical decision.
+- Omitting the record was rejected because the Documentation Development Workflow requires explicit decision-log treatment for every substantive documentation commit.
+
+**Consequences And Handoffs**
+
+`DOC-09` retains payer authorization, Funding Leg, immutable Payment, replay, Payment Application, G1 consumption, and financial non-rewrite meaning. Existing downstream owner contracts remain unchanged. The Stage 10 Manifest required no alignment edit; protected `DOC-13` and broader pre-existing technical-representation allocations remain future owner-specific Explore inputs rather than being silently treated as aligned.
+
+**Supersedes / Superseded By**
+
+None.
+
+**Remaining Open Items**
+
+- Protected `DOC-13` and broader pre-existing technical-representation allocations require their own owner-led Explore and Proposal authority before any correction.
+- Exact schema, event/state model, persistence, correlation/idempotency mechanism, API, provider, algorithm, implementation, acceptance, operations, enablement, and launch detail remain separately gated without a selected technical owner.
