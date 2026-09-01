@@ -1,7 +1,7 @@
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 1.0.1
+version: 1.0.2
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -17,7 +17,7 @@ approvers:
   - Project Owner
   - Compliance Lead
   - Risk Lead
-last_updated: 2026-08-21
+last_updated: 2026-09-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-14` |
 | **Title** | AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification |
-| **Version** | `1.0.1` |
+| **Version** | `1.0.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Risk / Compliance |
 | **Reviewers** | Product Lead<br>Compliance Lead<br>Risk Lead<br>Payments Lead<br>Operations Lead<br>Engineering Lead<br>Data Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Compliance Lead<br>Risk Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-09-01` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -101,7 +101,7 @@ Detailed specifications belong to:
 | Promotion, coupon, voucher, referral, membership abuse boundaries | DOC-13 |
 | Privacy, retention, masking, lawful use | DOC-15 |
 | Third-party APIs and provider integration | DOC-17 |
-| Data model, risk events, audit schema, reporting | DOC-18 |
+| Business recording, explainability, history, lineage, audit meaning, and reporting obligations handoff | DOC-18 |
 | Security, tokenization, authentication, RBAC | DOC-19 |
 | Monitoring, incidents, escalation, SOPs | DOC-21 |
 | Admin dashboard queues, permissions, overrides, workflows | DOC-22 |
@@ -124,7 +124,7 @@ Request, Linking, To Receive, Receiving Info, Payee-user and production legacy d
 | Prohibited model | PayPlus must not operate as a wallet, stored-value account, cashout product, remittance product, lending product, or unrestricted P2P transfer app. |
 | Risk priority | AML/legal risk, obvious fraud, chargeback risk, credit card fraud, payout loss, and cashout risk are first-priority controls. |
 | Risk strictness | Not every red flag should block a transaction. Risk signals must map to proportionate actions. |
-| Risk engine | MVP should use explainable owner-governed rules, reason categories, configurable thresholds, risk bands, manual review, and audit trails. Exact technical reason codes remain with DOC-18; black-box ML is not MVP. |
+| Risk engine | MVP should use explainable owner-governed rules, reason categories, configurable thresholds, risk bands, manual review, and audit trails; black-box ML is not MVP. |
 | Future AI risk support | AI or model-assisted risk scoring, relationship graph analysis, suspicious-pattern detection, and narrative support may be future enhancements only after sufficient data, privacy review, model governance, monitoring, and human-review controls are defined. |
 | Dynamic authentication | Extra authentication may be skipped below an owner-permitted threshold only where risk, security, partner, and compliance rules allow. Risk flags override the amount threshold. |
 
@@ -228,9 +228,7 @@ G1 permits a maximum of five independent user-initiated Bill payment progression
 - One progression/Checkout counts once despite split-card Funding Legs, Payment Attempts, confirmed Payments, retries, recovery or continuation.
 - A genuinely new independent user-initiated progression counts again.
 - G1 is a product-semantic anti-abuse invariant and is not bound here to Payer authorization, Provider Submission, Payment confirmation, a status, an event or a schema.
-- DOC-09 and DOC-18 later map the authoritative technical representation without changing the invariant.
 - The key is the receiving account/authoritative payout destination, not economic-Payee identity. The rule is a deliberate predictable, low-cost simplification and does not merge or redefine economic Payees.
-- Technical normalization across payout rails remains for DOC-10, DOC-18 and later technical owners.
 
 When the current progression would exceed five, G1 elevates the Bill to Tier 2; it does not prohibit the Payment.
 
@@ -297,14 +295,12 @@ Risk decisioning may consume signals from:
 - DOC-10 payout readiness, destination change, payout hold, bank result, and reconciliation records;
 - DOC-11 refund, dispute, chargeback, reversal, recovery, and write-off cases;
 - DOC-13 campaign, offer, entitlement, reward, referral, coupon, voucher, membership, promotion quote reservation, and reversal records;
-- device, session, login, authentication, and other security-relevant facts governed by DOC-19 controls and represented through DOC-18-owned events, audit records, correlation, and lineage;
+- device, session, login, authentication, and other security-relevant facts governed by DOC-19 controls, with a bounded DOC-18 business-recording, explainability, history, lineage, and audit-meaning handoff;
 - support, complaint, escalation, and admin review history from DOC-21 and DOC-22.
 
-Detailed event schema and data model belong in DOC-18.
+Risk signals, scores, bands, rule triggers, same-party indicators, fraud flags, sanctions/AML results, review outcomes, and escalation notes are Risk and Compliance Data under DOC-15. DOC-15 governs their classification, sensitivity, displayability, masking, Founder-approved indefinite-retention product and governance direction subject to lawful-scope confirmation, required exceptions, restricted data classes and prohibited sensitive-data boundaries, approved purpose, access roles, retention, and audit requirements. DOC-18 receives only a bounded business-recording, explainability, history, lineage, audit-meaning, and reporting-obligation handoff.
 
-Risk signals, scores, bands, rule triggers, same-party indicators, fraud flags, sanctions/AML results, review outcomes, and escalation notes are Risk and Compliance Data under DOC-15. DOC-18 should preserve classification metadata, sensitivity, displayability, masking, the Founder-approved indefinite-retention product and governance direction subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries, approved purpose, access roles, audit requirements, and lineage to source data.
-
-Future model features, graph signals, and AI-assisted risk outputs should also preserve model purpose, permitted inputs, prohibited inputs, reason codes, confidence where applicable, human-review requirement, monitoring owner, and audit linkage under DOC-18. Risk and compliance signals should not be reused for marketing, partner reporting, credit scoring, insurance underwriting, or external activation unless separately assessed and approved under DOC-15 and the relevant source documents.
+Future model features, graph signals, and AI-assisted risk outputs should retain model purpose, permitted inputs, prohibited inputs, explainability, human-review requirement, monitoring owner, audit linkage, reason categories, and confidence where applicable as future safeguards. DOC-18 receives only a bounded business-recording, explainability, history, lineage, audit-meaning, and reporting-obligation handoff. Risk and compliance signals should not be reused for marketing, partner reporting, credit scoring, insurance underwriting, or external activation unless separately assessed and approved under DOC-15 and the relevant source documents.
 
 ---
 
@@ -499,7 +495,7 @@ PayPlus should monitor:
 - admin override count;
 - risk decision outcomes by category, user type, payee type, and payment method.
 
-Detailed dashboards, alerts, incidents, and escalation procedures belong in DOC-21 and DOC-22. Reporting data model belongs in DOC-18.
+Detailed dashboards, alerts, incidents, and escalation procedures belong in DOC-21 and DOC-22.
 
 ---
 
@@ -575,6 +571,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `1.0.2` | `2026-09-01` | Product Documentation Team | Clarified DOC-14 owner handoffs by removing or qualifying obsolete technical-representation allocations; risk-control meaning remains unchanged and technical representation remains deferred. |
 | `1.0.1` | `2026-08-21` | Product Documentation Team | Aligned security-fact consumption with DOC-19 controls and DOC-18 representation while preserving DOC-14 ownership of risk triggers, thresholds, actions, and outcomes. |
 | `1.0.0` | `2026-08-18` | Product Documentation Team | Implemented the material Bills-only risk model and fixed-seat compliance supplement; preserved settled ownership and Evidence traceability, neutralized active lifecycle-language ambiguity, qualified retention by lawful scope, and retained the exact G1 key and Tier 1 voluntary-Evidence Payout-hold boundary. |
 | `0.7.2` | `2026-08-13` | Product Documentation Team | Clarified DOC-14 risk-threshold ownership and bounded DOC-22 to execution of expressly owner-permitted configuration without prescribing an Admin mechanism. |

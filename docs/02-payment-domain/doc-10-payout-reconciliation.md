@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 1.1.0
+version: 1.1.2
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-08-22
+last_updated: 2026-08-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-10` |
 | **Title** | Payout & Reconciliation |
-| **Version** | `1.1.0` |
+| **Version** | `1.1.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Finance |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-22` |
+| **Last Updated** | `2026-08-31` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -90,7 +90,7 @@ Detailed specifications belong to:
 | Risk scoring, anti-cashout, fake invoice, fake rent, and monitoring rules | DOC-14 |
 | Privacy, masking, retention, and approved-purpose access for payout and bank records | DOC-15 |
 | Bank API, bank file, SFTP, webhook, and integration details | DOC-17 |
-| Payout, batch, bank-feed, ledger, and reconciliation data model | DOC-18 |
+| Payout, batch, bank-feed, ledger, and reconciliation policy, with any business-recording/explainability handoff | DOC-10; DOC-18 only for its reviewed business-recording and explainability contract |
 | Operational monitoring, incident handling, and escalation | DOC-21 |
 | Owner-permitted workflow execution for upload, review, override, and resolution | DOC-22 |
 
@@ -193,7 +193,7 @@ Destination processing must:
 - keep internal provider, risk, match-score, and review reasons out of ordinary user display; and
 - use DOC-22 only for owner-permitted workflow execution. DOC-22 does not determine destination, payment, payout, risk, privacy, or security policy.
 
-DOC-12 owns Evidence and Evidence-to-Payee matching. DOC-14 owns risk meaning and routing. DOC-15 owns approved-purpose access and retention. DOC-18 owns approved representation, status/event, audit, and lineage requirements. DOC-19 enforces applicable security controls around owner-defined handling; it does not decide Payout release, destination replacement, reconciliation, or recovery behavior. DOC-21 owns support and operations. DOC-08 owns notification identity, channel, and delivery. Exact user-facing presentation remains with DOC-06/DOC-07.
+DOC-12 owns Evidence and Evidence-to-Payee matching. DOC-14 owns risk meaning and routing. DOC-15 owns approved-purpose access and retention. DOC-18 provides its reviewed business-recording, explainability, lineage, and audit-meaning handoff. Detailed technical representation and any status/event taxonomy remain deferred without a selected owner. DOC-19 enforces applicable security controls around owner-defined handling; it does not decide Payout release, destination replacement, reconciliation, or recovery behavior. DOC-21 owns support and operations. DOC-08 owns notification identity, channel, and delivery. Exact user-facing presentation remains with DOC-06/DOC-07.
 
 ### 6.3 G1 receiving-destination handoff
 
@@ -208,7 +208,7 @@ Keep these concepts separate:
 | Effective Payout Destination Snapshot | Immutable authorization-time transaction representation preserved by each confirmed Payment. |
 | Bill source | Authoritative obligation context; not a receiving-account identity. |
 
-The same economic Payee may use different receiving destinations, and different Payee contexts may use the same receiving account/authoritative payout destination, without changing their underlying identity. Technical normalization and matching across bank, FPS, cheque, EPS or future rails remain for DOC-18/DOC-17 and later technical owners. DOC-10 does not invent the algorithm, matching score, event or schema.
+The same economic Payee may use different receiving destinations, and different Payee contexts may use the same receiving account/authoritative payout destination, without changing their underlying identity. Technical normalization and matching across bank, FPS, cheque, EPS or future rails remain an open later technical question without a selected owner. DOC-10 does not invent the algorithm, matching score, event or schema.
 
 An unresolved normalization rule blocks reliable G1 implementation but does not change the approved product invariant.
 
@@ -264,7 +264,7 @@ Examples include:
 
 China holidays, including longer May and October holiday periods, may affect settlement timing. Calendar rules must be configurable by PSP/acquirer, payment method, issuer/platform, currency, rail, and jurisdiction where applicable.
 
-Detailed calendar data structures belong in DOC-18.
+Detailed calendar data structures remain deferred without a selected technical owner.
 
 ---
 
@@ -307,7 +307,7 @@ The system must preserve links between:
 - bank result record;
 - reconciliation match.
 
-Detailed data model belongs in DOC-18.
+Detailed technical data representation for these links remains deferred without a selected owner.
 
 ### 9.3 Payout from an Incomplete Checkout
 
@@ -366,7 +366,7 @@ Each payout item must have its own status, bank reference where available, recon
 
 ## 11. Payout Status Model
 
-DOC-10 owns payout status meaning at product-rule level. Canonical schema belongs in DOC-18.
+DOC-10 owns payout status meaning at product-rule level. Technical schema representation remains deferred without a selected owner.
 
 | Status | Meaning |
 | --- | --- |
@@ -404,7 +404,7 @@ Where API or automated feed is unavailable, owner-permitted manual upload and re
 
 Integration formats, API behavior, file validation, and provider-specific rules belong in DOC-17.
 
-Data model and matching records belong in DOC-18.
+Technical data representation and matching records remain deferred without a selected owner.
 
 ---
 
@@ -437,7 +437,7 @@ Matching may use:
 | Mismatched | Amount, payee, destination, date, rail, or reference conflicts. |
 | Duplicate | Same bank record or payout item appears more than once. |
 
-Auto-match thresholds and matching keys must be configurable. Detailed matching data model belongs in DOC-18.
+Auto-match thresholds and matching keys must be configurable. Detailed technical matching representation remains deferred without a selected owner.
 
 ---
 
@@ -467,9 +467,9 @@ Reconciliation should identify:
 - payee or destination mismatches;
 - stale pending items.
 
-For G2 reconciliation, preserve the verified Payer, Hong Kong calendar month, proposed obligation-funded amount, actual successfully confirmed obligation-funded value and any confirmed duplicate/error correction as distinct owner facts. Payer fees are excluded. Partial funding contributes only actual confirmed obligation-funded value. Refund, reversal, Payout, fee, adjustment and case records remain separate and do not restore G2 capacity. DOC-09 owns Payment values, DOC-14 the risk/control policy and DOC-18 the later representation.
+For G2 reconciliation, preserve the verified Payer, Hong Kong calendar month, proposed obligation-funded amount, actual successfully confirmed obligation-funded value and any confirmed duplicate/error correction as distinct owner facts. Payer fees are excluded. Partial funding contributes only actual confirmed obligation-funded value. Refund, reversal, Payout, fee, adjustment and case records remain separate and do not restore G2 capacity. DOC-09 owns Payment values, DOC-14 the risk/control policy and DOC-18 provides its reviewed business-recording, explainability, lineage, and audit-meaning handoff.
 
-Ledger schema belongs in DOC-18. Accounting treatment and revenue recognition policy are not defined in DOC-10.
+Technical ledger representation remains deferred without a selected owner. Accounting treatment and revenue recognition policy are not defined in DOC-10.
 
 ---
 
@@ -518,7 +518,7 @@ Rules:
 - a payout item must not be included in multiple active batches unless the prior attempt is cancelled, failed, returned, or explicitly superseded;
 - manual override must require permission, reason, evidence, and audit log.
 
-Detailed idempotency keys, constraints, and schema belong in DOC-18. API/file behavior belongs in DOC-17.
+Detailed idempotency keys, constraints, and schema remain deferred without a selected owner. API/file behavior belongs in DOC-17.
 
 ---
 
@@ -526,7 +526,7 @@ Detailed idempotency keys, constraints, and schema belong in DOC-18. API/file be
 
 DOC-10 defines the Payout and reconciliation policy boundaries. Where an owner authorizes a manual, exception, hold, release, retry, cancellation, matching, or correction workflow, DOC-22 may execute that specific workflow with the owner-required reason, Evidence, permission, and audit treatment. DOC-22 does not independently decide payout policy, financial truth, destination validity, risk disposition, or retention.
 
-Access to Payout destination, bank account, FPS, cheque, EPS, Payout batch, bank-feed, reconciliation, and economic-Payee-sensitive records must follow DOC-15 classification, masking, approved-purpose access, retention, export-control, and audit requirements. Detailed screens, queues, permissions, workflow, and audit representation remain with DOC-22 and DOC-18.
+Access to Payout destination, bank account, FPS, cheque, EPS, Payout batch, bank-feed, reconciliation, and economic-Payee-sensitive records must follow DOC-15 classification, masking, approved-purpose access, retention, export-control, and audit requirements. DOC-10 does not define detailed screens, queues, permissions, workflow, or technical audit representation. DOC-22 may execute only a specifically owner-permitted operation; any technical representation remains deferred without a selected owner.
 
 Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A conflict that changes product meaning must be handled under the canonical PayPlus Documentation Development Workflow.
 
@@ -547,7 +547,7 @@ Finance and accounting review must determine:
 - tax reporting implications.
 - promotion, reward, voucher, miles, partner reimbursement, or campaign-funded benefit accounting where applicable.
 
-DOC-18 should define ledger and reporting fields. Finance policy should define accounting conclusions.
+DOC-18 provides its reviewed business-recording and explainability handoff; technical ledger and reporting fields remain deferred without a selected owner. Finance policy should define accounting conclusions.
 
 ---
 
@@ -583,13 +583,13 @@ Useful dimensions include:
 - reconciliation status.
 - campaign, offer, or reward identifier where promotion settlement or partner reimbursement is involved.
 
-Detailed reporting schema belongs in DOC-18.
+Detailed reporting schema remains deferred without a selected owner.
 
 ---
 
 ## 20. Event and Notification Boundary
 
-DOC-10 emits payout and reconciliation events.
+DOC-10 supplies semantic payout and reconciliation outcomes and occurrences for permitted owner consumption; it does not define technical events or an event taxonomy.
 
 DOC-08 determines whether and how users or admins are notified.
 
@@ -609,7 +609,7 @@ DOC-10 publishes each canonical completed `Payout Complete` outcome for consumpt
 
 Settlement, batch, bank-ingestion, reconciliation, retry, intermediate, failure, and supporting events are not completed Payout outcomes merely because they support one.
 
-DOC-10 does not create a cross-domain activity model. DOC-06B is the sole normative owner of Home eligibility, cap, ordering, cross-domain consumption, deduplication, presentation, navigation, entry, and return behavior. DOC-07 owns user-facing expression; DOC-18 remains the future owner of physical fields, event/status taxonomy, lineage, and audit representation.
+DOC-10 does not create a cross-domain activity model. DOC-06B is the sole normative owner of Home eligibility, cap, ordering, cross-domain consumption, deduplication, presentation, navigation, entry, and return behavior. DOC-07 owns user-facing expression; DOC-18 provides its reviewed business-recording, explainability, lineage, and audit-meaning handoff. Physical fields, event/status taxonomy, and technical audit representation remain deferred without a selected owner.
 
 ---
 
@@ -658,7 +658,7 @@ DOC-10 is acceptable when:
 - reconciliation process and exceptions are clear;
 - idempotency and duplicate prevention are required;
 - owner-permitted operational-execution boundary is explicit;
-- detailed integration, privacy, data model, and workflow ownership is clearly assigned to DOC-15, DOC-17, DOC-18, and DOC-22.
+- detailed integration, privacy, and owner-permitted workflow-execution ownership is clearly assigned to DOC-15, DOC-17, and DOC-22; DOC-18 provides its reviewed business-recording and explainability handoff, while detailed technical data representation remains deferred without a selected owner.
 - promotion-related reimbursement or reward settlement exceptions are routed to DOC-13, DOC-18, and DOC-22 where applicable.
 - DOC-10 publishes canonical Payout Complete outcomes with their ordering timestamp, amount, and funds-flow direction for the DOC-06B HOME-ROOT handoff; supporting events remain separate non-outcomes, and DOC-06B owns Home eligibility, ordering, deduplication, sign presentation, navigation, and return behavior.
 
@@ -668,6 +668,8 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.2 | 2026-08-31 | Corrected the limited §22 technical data-model allocation while preserving its valid integration, privacy, workflow-execution, business-recording/explainability-handoff, and DOC-10 acceptance meaning; detailed technical data representation remains deferred without selecting an owner. |
+| 1.1.1 | 2026-08-31 | Corrected the fifteen limited technical-allocation references while preserving DOC-10 Payout, Settlement, reconciliation, Finance, valid owner-handoff, `Payout Complete`, and HOME-ROOT meanings; technical representation remains deferred without selecting an owner. |
 | 1.1.0 | 2026-08-22 | Drafted the Tier 2 confirmed-Payment, Evidence, and Payout-held/release separation for downstream source consumers without creating a Payout transition, notification, Refund rule, security mechanism, or enablement claim. |
 | 1.0.1 | 2026-08-21 | Aligned the DOC-19 handoff to mechanism-neutral security enforcement while preserving DOC-10 ownership of Payout, destination, reconciliation and recovery meaning. |
 | 1.0.0 | 2026-08-18 | Implemented the material Bills-only Payout model and fixed-seat compliance supplement; traced the Founder-updated Evidence framework, retained owner-level dependencies, removed active lifecycle ownership language and residual documentation-review adjudication, and preserved Payee/snapshot/no-automatic-Refund and complete G1 destination-key boundaries. |

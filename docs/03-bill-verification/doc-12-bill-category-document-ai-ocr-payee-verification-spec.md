@@ -1,7 +1,7 @@
 ---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 1.0.0
+version: 1.0.1
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-08-18
+last_updated: 2026-08-31
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-12` |
 | **Title** | Bill Category, Document AI/OCR & Payee Verification Specification |
-| **Version** | `1.0.0` |
+| **Version** | `1.0.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Risk |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Operations Lead<br>Payments Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Risk Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-18` |
+| **Last Updated** | `2026-08-31` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -98,7 +98,7 @@ Detailed specifications belong to:
 | Fraud, anti-cashout, duplicate evidence, collusion, and risk-routing framework | DOC-14 |
 | Privacy, masking, retention, and lawful data use | DOC-15 |
 | OCR/document AI provider API and integration design | DOC-17 |
-| Evidence data model, document store, audit events, reporting schema | DOC-18 |
+| Evidence handling, traceability, and reporting obligations | DOC-12, with DOC-15 privacy handling and DOC-18's bounded business-recording, explainability, history, lineage, audit-meaning, reporting-obligation, and owner-handoff contract |
 | Access control, encryption, authentication, and evidence security | DOC-19 |
 | Monitoring, support, escalation, and operations runbooks | DOC-21 |
 | Owner-permitted Admin workflow execution, configuration and permissions | DOC-22 |
@@ -237,7 +237,7 @@ DOC-12 defines the following verification flow:
 14. Bill Tier 1 proceeds without an attached-Evidence gate where every other owner gate passes; Tier 2 may proceed to Payment only after qualifying Evidence presence, while acceptance remains a Payout gate; Tier 3 and Rent require the applicable Evidence acceptance before Payment.
 15. Unresolved Tier 2 cases may use exception-only owner-approved human review. Tier 3 requires authorized approval under the designated owner policy. DOC-22 may execute only the permitted workflow and cannot create Evidence or approval truth.
 
-The UX flow belongs in DOC-06. Provider API details belong in DOC-17. Data objects and audit events belong in DOC-18.
+The UX flow belongs in DOC-06. Provider API details belong in DOC-17. DOC-12 preserves the OCR-to-owner-outcome history and auditability required for Evidence-domain handoffs; any exact technical representation is deferred under separate authority.
 
 ---
 
@@ -260,9 +260,9 @@ DOC-12 owns the document-derived evidence data layers:
 | Final Evidence Snapshot | The version of evidence and fields used for payer review and payment authorization. |
 | Analytics Layer | Aggregated or permitted data used for product quality, OCR performance, risk analytics, and category insights. |
 
-Other PayPlus data layers, such as payment behavior, spending patterns, owner-governed source and economic-Payee context, risk-derived association facts, referral/member-get-member activity, refunds, chargebacks, support behavior, and payout history, belong in DOC-18 and later analytics specifications.
+Evidence-derived information remains distinct from broader PayPlus domain meanings, including payment behavior, spending patterns, owner-governed source and economic-Payee context, risk-derived association facts, referral/member-get-member activity, refunds, chargebacks, support behavior, and payout history. Those meanings remain with their applicable source owners and must not be redefined by DOC-12.
 
-Each evidence layer and material field should carry DOC-15 classification metadata in DOC-18, including data class, sensitivity, displayability, masking rule, retention policy, owner, approved purpose, access role, audit requirement, source, and lineage. Evidence-derived data is normally Evidence and Obligation Data, but some extracted fields may also support KYC/KYB, payout/payee, risk/compliance, payment, analytics, or derived-data classifications depending on use.
+Each Evidence layer and material field is subject to DOC-15's classification, sensitivity, displayability, masking, retention, approved-purpose, access, and lawful-handling policy. DOC-12 must preserve the relevant Evidence provenance and explainability handoff; any exact technical representation is deferred under separate authority. Evidence-derived data is normally Evidence and Obligation Data, but some extracted fields may also support KYC/KYB, payout/payee, risk/compliance, payment, analytics, or derived-data classifications depending on use.
 
 ### 7.1 Evidence Source and Payment Handoff Boundary
 
@@ -277,7 +277,7 @@ DOC-09 -> owns later materialization, Payment Obligation, Checkout, Funding, Pay
 
 Bills, invoices, fee notices, and rent demands may support owner-governed verification of source facts for a specific payment context. Tenancy agreements and similar documents may support verification of tenancy context without replacing the authoritative Bill/Rent source. Applicable tenancy or relationship context may precede individual Payment Obligations; DOC-09 owns any later Payable Basis, Payment Obligation, Checkout, and Payment lifecycle behavior.
 
-Detailed logical and physical schema belongs in DOC-18. DOC-06C owns the user-facing evidence source selection and Bills route behavior.
+This document preserves the conceptual Evidence, tenancy/relationship, Bill/Rent source, and Payment handoff boundary. DOC-06C owns the user-facing evidence source selection and Bills route behavior.
 
 ---
 
@@ -408,7 +408,7 @@ The system should compare extracted, user-entered, selected, and historical data
 | Same-party risk | Detect payer/payee, tenant/landlord, or related-party indicators. |
 | Completeness | Check mandatory fields for the category. |
 
-Risk meaning, routing, and threshold framework belong in DOC-14. Final matching algorithms, score data, and event schema belong in DOC-18, with production thresholds controlled through approved configuration.
+Evidence validation, matching, and duplicate policy remain with DOC-12. DOC-14 retains risk meaning, routing, and the threshold-framework boundary. Production thresholds remain subject to approved configuration.
 
 ---
 
@@ -426,7 +426,7 @@ Rules:
 - lower-risk business bills or business-entity fee payments may use softer handling where compliance and risk approve;
 - owner-governed duplicate policy may be executed through permitted DOC-22 configuration/workflow, with audit trail.
 
-Duplicate detection must not disclose another user's sensitive details. Risk-routing framework belongs in DOC-14. DOC-22 executes only owner-permitted configuration and review workflow; DOC-18 owns the approved representation.
+Duplicate detection must not disclose another user's sensitive details. Risk-routing framework belongs in DOC-14. DOC-22 executes only owner-permitted configuration and review workflow.
 
 ---
 
@@ -472,7 +472,7 @@ DOC-09 and DOC-10 consume the outcome according to the approved product scope: B
 
 ### 16.1 DOC-06C Evidence Status and Payment Readiness Mapping
 
-DOC-12 verification outcomes must map cleanly to the DOC-06C user-facing Evidence and readiness presentation without collapsing Bill tiers or Rent. DOC-12 outcomes describe verification decisions; DOC-06C owns presentation. Exact labels and technical representation remain with DOC-07/DOC-18.
+DOC-12 verification outcomes must map cleanly to the DOC-06C user-facing Evidence and readiness presentation without collapsing Bill tiers or Rent. DOC-12 outcomes describe verification decisions; DOC-06C owns presentation. Exact labels remain with DOC-07. DOC-12 outcomes, DOC-06C presentation, and the applicable tier or Rent gate remain separate; any exact technical representation is deferred under separate authority.
 
 | DOC-12 Outcome | DOC-06C Evidence Status / Handling |
 | --- | --- |
@@ -496,7 +496,7 @@ Tier consumption rules:
 
 DOC-12 publishes Evidence and Evidence-to-Payee outcomes. DOC-06C owns the user-facing readiness/handling presentation and consumes the applicable tier or Rent rule. DOC-09 consumes payment-facing facts and Payment-admission outcomes; DOC-10 consumes Evidence acceptance and Tier 3 approval for Payout. Settlement and Payout remain downstream under DOC-10.
 
-Evidence replacement, expiry, Archive, Restore, prior-version, Evidence-version, replacement-source, retention, and presentation behaviour are not defined here. High-level source/non-erasure policy belongs in DOC-05; route and Bills/Rent presentation belongs in DOC-06B/DOC-06C; Evidence criteria belong in DOC-12; retention/access belongs in DOC-15; and approved representation/lineage belongs in DOC-18.
+Evidence replacement, expiry, Archive, Restore, prior-version, Evidence-version, replacement-source, retention, and presentation behaviour are not defined here. High-level source/non-erasure policy belongs in DOC-05; route and Bills/Rent presentation belongs in DOC-06B/DOC-06C; Evidence criteria belong in DOC-12; and retention/access belongs in DOC-15. DOC-12 preserves the applicable business provenance and historical explanation handoff; any exact technical representation is deferred under separate authority.
 
 Extracted fields approved for display should populate the bill/rent detail record in DOC-06C. Evidence detail screens should avoid duplicating those fields except where needed for evidence review, correction, or status explanation.
 
@@ -519,7 +519,7 @@ Rules:
 
 Evidence extraction may support owner-governed matching of intended-Payee and destination facts for one controlled Bill/Rent source. It does not establish bank-account validity, payout readiness, a reusable destination library, a Payee account, or a payment authorization.
 
-The applicable owner must resolve Evidence-to-Payee and destination mismatches under the relevant Evidence, payout, risk, privacy, and security policies. DOC-10 owns payout destination readiness and the immutable authorization-time destination snapshot; DOC-14 and DOC-19 own applicable risk/security controls; DOC-15 owns approved-purpose access and retention; DOC-18 owns representation and lineage; and DOC-22 executes only owner-permitted workflow.
+The applicable owner must resolve Evidence-to-Payee and destination mismatches under the relevant Evidence, payout, risk, privacy, and security policies. DOC-10 owns payout destination readiness and the immutable authorization-time destination snapshot; DOC-14 and DOC-19 own applicable risk/security controls; DOC-15 owns approved-purpose access and retention; and DOC-22 executes only owner-permitted workflow. DOC-12 preserves the relevant business provenance and explainability handoff; exact technical representation is deferred under separate authority.
 
 ---
 
@@ -527,7 +527,7 @@ The applicable owner must resolve Evidence-to-Payee and destination mismatches u
 
 DOC-12 defines the Evidence-domain policy needs that may require approved configuration, such as controlled Category support, Evidence fields, extraction scope, matching, duplicate handling, and review routing. It does not define generic Admin capability, queue, permission, override, threshold, or disposition design.
 
-The applicable product, Evidence, risk, privacy, security, payment, and payout owners retain their policy and decision authority. DOC-22 may execute only the workflow/configuration specifically permitted by those owners, while DOC-18 owns the approved representation and audit/lineage requirements.
+The applicable product, Evidence, risk, privacy, security, payment, and payout owners retain their policy and decision authority. DOC-22 may execute only the workflow/configuration specifically permitted by those owners. DOC-12 preserves the applicable business audit and provenance handoff; exact technical representation is deferred under separate authority.
 
 ---
 
@@ -556,7 +556,7 @@ Evidence-derived data must be labeled separately from broader PayPlus user lifec
 
 Evidence-derived model features, analytics signals, or AI training inputs must preserve lineage to raw, extracted, corrected, verified, and final evidence layers. Raw evidence text, tenancy/property details, medical details, identity document data, domestic helper employment details, and other sensitive fields should not be used for marketing models, partner reporting, external activation, credit scoring, or insurance underwriting unless separately assessed, approved, and documented under DOC-15 and the relevant source documents.
 
-Detailed reporting, warehouse, data marts, lineage, feature/model metadata, and privacy controls belong in DOC-18 and DOC-15.
+Business reporting, analytics, and model-use boundaries remain subject to the applicable business owner and DOC-15 privacy and prohibited-use treatment; DOC-12 preserves the applicable business provenance and lineage handoff. Any exact technical representation is deferred under separate authority.
 
 ---
 
@@ -662,6 +662,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| `1.0.1` | `2026-08-31` | Product Documentation Team | Reconciled DOC-12 technical-allocation references with the Founder decision: removed direct allocations, retained domain-policy and bounded business-recording handoffs, and deferred exact technical representation under separate authority. |
 | `1.0.0` | `2026-08-18` | Product Documentation Team | Implemented the material Bills-only Evidence boundary and fixed-seat compliance supplement; traced the Founder-updated framework, neutralized active lifecycle-language ambiguity, qualified indefinite retention by lawful scope, and kept examples and operating lists correctly classified with final Evidence snapshots conditional where required. |
 | `0.8.2` | `2026-08-12` | Product Documentation Team | Applied the Founder-settled indefinite-retention rule to Evidence records and reframed the sensitive-tenancy open question around approved-purpose access and masking without changing Evidence ownership. |
 | `0.8.1` | `2026-08-12` | Product Documentation Team | Clarified Evidence as verification support rather than source or Payment lifecycle, constrained Evidence examples from creating Category eligibility, and retained economic-Payee association as source context only. |
