@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Domain Architecture
-version: 2.1.1
+version: 2.1.2
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-08-25
+last_updated: 2026-09-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Domain Architecture |
-| **Version** | `2.1.1` |
+| **Version** | `2.1.2` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-08-25` |
+| **Last Updated** | `2026-09-01` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
 
@@ -148,7 +148,7 @@ It must not execute directly against:
 | Settlement, payout and reconciliation | DOC-10 |
 | Refund, reversal, cancellation, chargeback and dispute processing | DOC-11 |
 | Provider-specific submission, authorization, capture, callback, query and confirmation evidence | DOC-17 |
-| Technical read models, machine states, transitions, persistence and event processing | DOC-18 |
+| Exact technical representation and implementation detail | Deferred to separately authorized future work; DOC-09 retains business semantics only. |
 | Security, authentication and technical authorization controls | DOC-19 |
 | User-facing Outcomes, Messages and CTAs | DOC-07 |
 | Notifications and delivery policy | DOC-08 |
@@ -183,7 +183,7 @@ Configurable product values must not be treated as permanent architectural const
 | `PDA-06` | One successfully confirmed Funding Leg produces exactly one Payment. |
 | `PDA-07` | DOC-09 is the canonical human-readable owner of Payment Domain architecture. |
 | `PDA-08` | Bill Payment admission consumes the approved C1/G1/G2 highest-tier rule without applying it to Rent. |
-| `PDA-09` | G1 counts the product-semantic user-initiated Bill payment progression once per Checkout/independent progression, not Funding Legs, Attempts or Payments; the technical representation remains DOC-18 work. |
+| `PDA-09` | G1 counts the product-semantic user-initiated Bill payment progression once per Checkout/independent progression, not Funding Legs, Attempts or Payments; DOC-09 does not select its technical representation. |
 | `PDA-10` | G2 pre-checks confirmed monthly Bill usage plus proposed obligation-funded value and finalizes usage from actual confirmed obligation-funded value without rewriting immutable Payment facts. |
 | `PDA-11` | Tier 2/3 consumes the Founder-updated owner-approved official Bill Evidence framework, treats formal document examples as non-authoritative, excludes communication-originated material, and preserves separate Rent Evidence gates. |
 
@@ -441,16 +441,7 @@ DOC-09 owns:
 - scheduling meaning;
 - next-period meaning.
 
-DOC-18 owns:
-
-- technical read-model implementation;
-- persistence;
-- event processing;
-- refresh mechanics;
-- technical correlation;
-- concurrency;
-- schemas;
-- machine states and transitions.
+Exact technical treatment of Projection is deferred to separately authorized future work. DOC-09 retains the Projection business semantics, inputs and outputs stated here.
 
 ### 11.2 Projection Inputs
 
@@ -623,7 +614,7 @@ This section consumes the approved DOC-05/DOC-12/DOC-14 product and control mean
 | G1 | Consume the product-semantic count of independent user-initiated Bill payment progressions to the same receiving account/authoritative payout destination in the Hong Kong calendar month. One Checkout progression counts once despite Funding Legs, Payment Attempts, Payments, retries, recovery or continuation. A genuinely new independent progression counts again. |
 | G2 | Pre-check confirmed Bill usage for the verified Payer account in the Hong Kong calendar month plus the proposed obligation-funded amount. Final usage records actual successfully confirmed obligation-funded value; payer fees are excluded. |
 
-G1 is not bound by DOC-09 to Payer authorization, Provider Submission, Payment confirmation, a status, an event or a schema. DOC-18 and later technical owners must map an authoritative representation that preserves the product invariant. The receiving account/authoritative payout destination is the G1 key and does not redefine economic-Payee identity or the transaction-specific Effective Payout Destination Snapshot.
+G1 is not bound by DOC-09 to Payer authorization, Provider Submission, Payment confirmation, a status, an event or a schema. DOC-09 does not select a technical representation of the product invariant. The receiving account/authoritative payout destination is the G1 key and does not redefine economic-Payee identity or the transaction-specific Effective Payout Destination Snapshot.
 
 G2 capacity treatment:
 
@@ -631,7 +622,7 @@ G2 capacity treatment:
 - confirmed Payments remain in their original month after Refund or reversal;
 - only confirmed duplicate/error correction restores usage;
 - original Tier 3 classification is not retroactively downgraded when actual confirmed value remains below HKD1,000,000; and
-- concurrent evaluation must not permit the accepted Tier outcome to be bypassed, while the mechanism remains DOC-16/DOC-18 work.
+- concurrent evaluation must not permit the accepted Tier outcome to be bypassed; DOC-09 does not select a mechanism.
 
 Apply only the highest Tier workflow while retaining all trigger reasons:
 
@@ -679,7 +670,7 @@ At Add Bill, the Payer's review and deliberate confirmation of declared material
 
 Tier 2 Payout hold, Tier 3 approval, Evidence re-upload/rejection, Refund, case, adjustment and reconciliation must not erase or rewrite confirmed Payment or Payment Application. Tier 2 Payment with ordinary Applications is not the Section 18 confirmed-but-unapplied late-confirmation exception merely because Evidence acceptance is pending. DOC-11 retains Refund/case ownership; this section creates no automatic Refund rule.
 
-For Tier 2 presentation, confirmed Payment is immutable Payment truth; Evidence outcome and DOC-10 Payout hold or release remain separately owned conditions. The Payment Domain does not authorize a universal `Pending`, `Complete`, `Failed`, or `Transfer pending` presentation, ordinary Evidence lifecycle Activity, or a Receipt/Proof claim of unconfirmed Payout completion. DOC-06C/DOC-07 compose the Payer surface from current owner-supplied facts, and DOC-18 retains representation/event ownership. This handoff does not select a schema, event, security mechanism, configuration, or production-enablement treatment.
+For Tier 2 presentation, confirmed Payment is immutable Payment truth; Evidence outcome and DOC-10 Payout hold or release remain separately owned conditions. The Payment Domain does not authorize a universal `Pending`, `Complete`, `Failed`, or `Transfer pending` presentation, ordinary Evidence lifecycle Activity, or a Receipt/Proof claim of unconfirmed Payout completion. DOC-06C/DOC-07 compose the Payer surface from current owner-supplied facts. This handoff does not select a schema, event, security mechanism, configuration, or production-enablement treatment.
 
 ---
 
@@ -1048,7 +1039,7 @@ DOC-09 consumes authoritative effective obligation-attributed coverage reduction
 - recalculation of Projection and payment eligibility;
 - eligibility for a subsequent Checkout.
 
-Machine representation and event taxonomy remain owned by DOC-18.
+DOC-09 does not define technical representation or a taxonomy for these semantic conditions.
 
 ---
 
@@ -1165,7 +1156,7 @@ Detailed authentication and security controls remain owned by DOC-19.
 
 ---
 
-## 24. Semantic Conditions and DOC-18 Boundary
+## 24. Semantic Conditions and Deferred Technical Boundary
 
 DOC-09 defines semantic business conditions rather than final implementation enums.
 
@@ -1184,17 +1175,7 @@ DOC-09 defines semantic business conditions rather than final implementation enu
 
 DOC-09 owns Projection business semantics, inputs and outputs.
 
-DOC-18 owns:
-
-- technical read-model implementation;
-- persistence;
-- event processing;
-- refresh mechanics;
-- technical correlation;
-- concurrency;
-- machine states and transitions;
-- schemas;
-- idempotency records.
+Exact technical treatment of these semantic conditions and Projection remains deferred to separately authorized future work. DOC-09 does not select a technical recipient.
 
 Status-display reference matrix owns display mapping. DOC-07 owns Outcomes, Messages and CTAs.
 
@@ -1204,9 +1185,9 @@ Status-display reference matrix owns display mapping. DOC-07 owns Outcomes, Mess
 
 | Boundary | Direction Relative to DOC-09 | DOC-09 Responsibility | Other Canonical Owner |
 |---|---|---|---|
-| Bill Tier and limits | Inbound product/control policy | Consume approved C1/G1/G2, tier precedence, Declaration and Evidence/approval gates without redefining them or selecting technical G1 representation. | DOC-05 owns product meaning; DOC-12 Evidence and C1 Category binding; DOC-14 risk/approval policy; DOC-18 technical representation. |
+| Bill Tier and limits | Inbound product/control policy | Consume approved C1/G1/G2, tier precedence, Declaration and Evidence/approval gates without redefining them or selecting technical G1 representation. | DOC-05 owns product meaning; DOC-12 Evidence and C1 Category binding; DOC-14 risk/approval policy. Exact technical representation remains deferred. |
 | Provider Submission | Outbound integration boundary | Define business submission semantics and target-lock consequence. | DOC-17 owns provider mechanics. |
-| Provider Confirmation Event | Inbound provider evidence | Define confirmation-policy acceptance and Payment-creation consequences. | DOC-17 owns the provider-neutral observation/evidence contract and any later separately accepted provider-specific contract; DOC-18 owns event and correlation representation. |
+| Provider Confirmation Event | Inbound provider evidence | Define confirmation-policy acceptance and Payment-creation consequences. | DOC-17 owns the provider-neutral observation/evidence contract and any later separately accepted provider-specific contract. |
 | Confirmed and applied Payment | Outbound Settlement handoff | Preserve immutable Payment, accepted Payment Applications and destination reference. | DOC-10 owns Settlement and payout processing. |
 | Confirmed but unapplied Payment | Shared downstream handling boundary | Supply confirmed-but-unapplied condition and prohibit normal payee payout eligibility. | DOC-10 owns Settlement and reconciliation treatment; DOC-11 owns return or adjustment processing. |
 | Effective Financial Adjustment | Inbound from adjustment domain | Consume authoritative obligation-attributed coverage reduction and recalculate Payment Obligation. | DOC-11 owns occurrence, effectiveness, amount and attribution. |
@@ -1214,34 +1195,29 @@ Status-display reference matrix owns display mapping. DOC-07 owns Outcomes, Mess
 | User Outcome Context | Outbound presentation boundary | Supply semantic condition and decision context. | DOC-07 owns Outcome, Message and CTA. |
 | Notification Context | Outbound communication boundary | Supply triggering business result. | DOC-08 owns notification identity, channel and delivery. |
 | Late-Confirmation Exception | Shared operational escalation boundary | Prohibit automatic application and require controlled capacity review and new reservations where application is authorized. | DOC-21 owns operational handling; DOC-22 executes only the owner-permitted administrative workflow. |
-| Machine Implementation | Downstream technical specification | Supply invariants, business semantics, inputs and expected outputs. | DOC-18 owns implementation. |
 | Acceptance Testing | Downstream verification specification | Supply testable domain requirements. | DOC-20 owns test and acceptance evidence. |
 
 ---
 
 ## 26. Audit and Data Requirements
 
-Implementation must preserve:
+Business invariants and record-meaning handoffs that later authorized work must preserve:
 
-- stable identifiers for Payable Basis, Projection context, Payment Obligation, Checkout Workspace, Obligation Allocation, reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Payment and Payment Application;
-- Provider Submission and Provider Confirmation correlation;
-- payer-authorization reference;
-- Effective Payout Destination Snapshot reference;
+- the business identities and relationships of Payable Basis, Projection context, Payment Obligation, Checkout Workspace, Obligation Allocation, reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Payment and Payment Application;
+- the relationship of Provider Submission and Provider Confirmation to the applicable Funding Leg and Payment consequence;
+- payer-authorization basis;
+- authorization-time Effective Payout Destination Snapshot relationship;
 - allocation and reservation history;
 - Active Reserved Amount and Available Payable Capacity calculation inputs;
-- every released historical-reservation identity;
-- every new controlled late-application reservation identity;
-- each new reservation’s affected Payment Obligation and historical Obligation Allocation lineage;
-- controlled exception-resolution reference;
-- aggregate controlled late-reservation amount;
-- Payment Application conservation checks;
-- application-order evidence;
+- released historical-reservation history;
+- controlled late-application reservation history and its affected Payment Obligation and historical Obligation Allocation lineage;
+- controlled exception-resolution basis and aggregate controlled late-reservation amount;
+- Payment Application conservation and payer-approved application order;
 - Effective Coverage and Outstanding Amount calculation inputs;
-- adjustment-effectiveness and obligation-attribution references;
-- idempotent confirmation and Payment creation;
+- adjustment-effectiveness and obligation-attribution relationships; and
 - complete audit history without exposing restricted provider payloads or credentials.
 
-Exact schema and event names remain owned by DOC-18.
+DOC-09 does not select exact technical representation for these business requirements.
 
 ---
 
@@ -1287,7 +1263,7 @@ Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Op
 | `PDA-06` exactly one Payment per successfully confirmed Funding Leg | Sections 17, 18 and 19 |
 | `PDA-07` DOC-09 canonical ownership | Sections 1, 2, 11, 24, 25 and 28 |
 | `PDA-08` Bills-only tier admission | Section 13A and Acceptance Criteria 68-75 |
-| `PDA-09` product-semantic G1 without Payment-cardinality change | Sections 5, 13A, 24 and 25; technical representation deferred to DOC-18 |
+| `PDA-09` product-semantic G1 without Payment-cardinality change | Sections 5, 13A, 24 and 25; technical representation remains deferred. |
 | `PDA-10` G2 projected/final confirmed-value usage | Sections 13A, 14, 17-21 and Acceptance Criteria 77-80 |
 | `PDA-11` Founder-updated official Bill Evidence and Rent separation | Sections 2, 6, 13A, 25, 27 and Acceptance Criteria 72-75 and 84 |
 
@@ -1301,7 +1277,7 @@ Each published outcome supplies its canonical outcome identity, canonical orderi
 
 Funding events, Provider Submission or confirmation events, Payment Applications, instructions, failures, intermediate states, and general Bill/Rent changes are not completed Payment outcomes merely because they support one.
 
-DOC-09 does not create a cross-domain activity model. DOC-06B is the sole normative owner of Home inclusion/exclusion, cap, ordering, supporting-event deduplication, shared presentation, navigation, entry, and return behavior. DOC-07 owns user-facing outcome expression; DOC-18 remains the future owner of physical fields, event/status taxonomy, lineage, and audit representation.
+DOC-09 does not create a cross-domain activity model. DOC-06B is the sole normative owner of Home inclusion/exclusion, cap, ordering, supporting-event deduplication, shared presentation, navigation, entry, and return behavior. DOC-07 owns user-facing outcome expression. DOC-18 provides the distinct business-recording, history, explainability, lineage, audit-meaning and owner-handoff contract; DOC-09 does not select physical-field, event/status or audit representation.
 
 ---
 
@@ -1368,7 +1344,7 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 55. Unapplied Payment is not normal payee payout-eligible value.
 56. Unapplied Payment may still require Settlement and reconciliation handling under DOC-10.
 57. Normal payout eligibility requires accepted Payment Applications or explicit controlled downstream resolution that does not derive payout amount or readiness from adjustment value outside valid Payment Application coverage.
-58. Machine-state design remains with DOC-18.
+58. DOC-09 does not select a machine-state design.
 59. Adjustment workflow remains with DOC-11.
 60. Outcomes, Messages and CTAs remain with DOC-07.
 61. Instruction `Pay Now` invokes the Checkout Resolver rather than unconditionally creating, activating or resuming Checkout.
@@ -1402,6 +1378,7 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.1.2 | 2026-09-01 | Product Documentation Team | Removed or qualified sixteen legacy technical-allocation statements while preserving Payment, replay, Payment Application, G1, Evidence/Rent, Payout, external-observation, risk, privacy, security and owner-boundary meaning; no technical recipient or implementation decision selected. |
 | 2.1.1 | 2026-08-25 | Product Documentation Team | Aligned the Provider Confirmation handoff with the reviewed DOC-17 provider-neutral External Interaction Contract and DOC-18 representation ownership without changing Payment meaning, provider mechanics, transport, events, schemas, statuses, or implementation. |
 | 2.1.0 | 2026-08-22 | Product Documentation Team | Drafted the approved Tier 3 current-context resolver return, proportionate Declaration/Add-versus-Pay boundary, and Tier 2 financial-truth presentation handoff without defining Tier values, security mechanisms, routes, notifications, events, or production enablement. |
 | 2.0.0 | 2026-08-18 | Product Documentation Team | Implemented the material Bills-only Payment model and fixed-seat compliance supplement; preserved settled ownership, Evidence decision coverage and immutable facts, neutralized active lifecycle-language ambiguity, and retained the complete receiving-account/authoritative-payout-destination G1 key. |
