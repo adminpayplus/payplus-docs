@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.2.8
+version: 1.2.9
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-08-21
+last_updated: 2026-09-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -52,12 +52,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-13` |
 | **Title** | Promotion Engine, Coupon, Voucher, Referral & Membership Specification |
-| **Version** | `1.2.8` |
+| **Version** | `1.2.9` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Growth / Product |
 | **Reviewers** | Product Lead<br>Commercial Lead<br>Finance Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Commercial Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-09-01` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -67,9 +67,9 @@ related_documents:
 
 This document defines PayPlus promotion, coupon, voucher, discount code, card-linked offer, miles reward, referral, member-get-member, membership, and partner-offer rules.
 
-DOC-13 exists to protect checkout, payment quotes, ledger records, partner reconciliation, and user communication from promotion bugs, miscalculation, duplicate reward issuance, unclear eligibility, and uncontrolled campaign cost.
+DOC-13 exists to protect checkout, payment quotes, promotion business records, partner reconciliation, and user communication from promotion bugs, miscalculation, duplicate reward issuance, unclear eligibility, and uncontrolled campaign cost.
 
-It defines the promotion-engine structure and core data-layer requirements. It does not approve any campaign for launch.
+It defines the promotion-engine structure and core promotion business-rule and business-recording requirements. It does not approve any campaign for launch.
 
 ---
 
@@ -96,9 +96,9 @@ DOC-13 does not own:
 | Refund, chargeback, reversal, and clawback operations | DOC-11 |
 | Fraud, AML, anti-cashout, and abuse risk-control framework | DOC-14 |
 | Privacy, consent, retention, and marketing permissions | DOC-15 |
-| Partner APIs, files, webhooks, and integration details | DOC-17 |
-| Database schema, ledger, events, and warehouse model | DOC-18 |
-| Provider-controlled card-data architecture and tokenization mechanics | DOC-16 / DOC-17; DOC-19 owns applicable security controls and PCI applicability/scope remains professionally assessed |
+| Provider-neutral external interaction, evidence, and handoff boundary; exact provider/API/file/webhook detail remains Open under separate authority | DOC-17 |
+| Business-recording, explainability, history, lineage, audit-meaning, reporting-obligation, and owner-handoff boundary; exact technical representation remains separately authorized | DOC-18 |
+| Provider-controlled card-data architecture and applicable security-control boundary | DOC-16 / DOC-17; DOC-19 owns applicable security controls and PCI applicability/scope remains professionally assessed |
 | Testing and go-live acceptance | DOC-20 |
 | Monitoring and incident operations | DOC-21 |
 | Admin dashboard workflows | DOC-22 |
@@ -111,7 +111,7 @@ DOC-13 does not own:
 | --- | --- |
 | Promotion engine | Required as a unified rule engine; individual campaign launch remains gated. |
 | Checkout impact | Promotion impact must be calculated before payer authorization and included in the payment quote. |
-| Deferred payment instruction | Promotion quote may be stored with a DOC-09 payment instruction, but eligibility, quota, budget, and instrument status must be revalidated before actual funding submission unless explicit reservation rules apply. |
+| Deferred payment instruction | Promotion quote meaning may remain available with a DOC-09 payment instruction, but eligibility, quota, budget, and instrument status must be revalidated before actual funding submission unless explicit reservation rules apply. |
 | Card-linked offers | Selected tokenized payment-card reference or gateway-returned card metadata is preferred; BIN check is supplementary. |
 | Service-fee benefits | Service-fee rate changes, reductions, or waivers are calculated before absolute checkout amount discounts. |
 | Spending rewards | Accumulated spend rewards track entitlement, not raw card usage. |
@@ -122,7 +122,7 @@ DOC-13 does not own:
 | Stacking | Configurable by offer and campaign, with conservative defaults. |
 | Dashboard placement | Hot Offer is a DOC-06B HOME-ROOT carousel placement. DOC-13 owns canonical Offer content and truth, including campaign, Offer, eligibility, entitlement, budget, and reversal logic; DOC-22 owns Admin Home-presentation and publication-quality controls. |
 | Public Entrance placement | `ENTRANCE-CAROUSEL` may show only approved public, non-personalized Promotion or Feature content. A Promotion placement may reference canonical Promotion or Offer source truth. DOC-06B owns the Carousel and `ENTRANCE-PROMOTION-DETAIL` presentation; DOC-13 or the applicable Promotion/Offer owner retains source meaning; the applicable formal Feature owner retains Feature truth; and DOC-22 owns Feature Management and central Entrance placement workflow/configuration only. Announcement is excluded, and no personalized eligibility or user-specific claim may be exposed before authentication. |
-| Promotion intelligence | Promotion analytics, offer ranking, campaign measurement, and partner reporting must follow DOC-15 data-use tiers and DOC-18 event, lineage, and model-readiness rules. |
+| Promotion intelligence | Promotion analytics, offer ranking, campaign measurement, and partner reporting must follow DOC-15 data-use tiers and the applicable DOC-18 business-recording, explainability, lineage, reporting-obligation, and owner-handoff boundary. |
 
 ---
 
@@ -516,7 +516,7 @@ Checkout calculation sequence:
 11. Apply remaining approved stacking, priority, budget, quota, and usage rules.
 12. Produce promotion quote.
 13. Pass promotion quote to payment quote.
-14. Store applied promotion terms, selection basis, and user-value result for authorization and audit.
+14. Retain applied promotion terms, selection basis, and user-value result as business information for authorization and audit.
 15. Revalidate or recalculate before actual funding submission where DOC-09 deferred payment instruction is used.
 
 After the payer selects a payment card or Payment Profile where applicable, DOC-13 owns promotion eligibility, selection, quote, and recalculation rules; DOC-09 owns payment-domain and authorization meaning; and DOC-06B owns presentation within the Checkout Workspace. The Workspace must identify the automatically applied Card Offer, allow a separate eligible coupon/voucher/discount selection, and present the recalculated fee, discount, benefit, and final total before authorization. These facts may be adaptively combined or separated within the Checkout Workspace and are not required to use one fixed screen or step. Changing the payment card, profile, funding allocation, amount, or other material eligibility input invalidates the prior promotion quote and triggers re-evaluation.
@@ -532,14 +532,14 @@ Reservation behavior must be configurable:
 - hard reservation: reserve budget, quota, or instrument for a configured expiry window;
 - expiry release: release reserved benefit if instruction expires or is cancelled.
 
-Promotion quote should include:
+Promotion quote must make the following business information distinguishable where applicable:
 
-- promotion quote ID;
-- payer and source/transaction context references where applicable;
-- payment quote ID;
-- campaign ID;
-- offer ID;
-- instrument ID, if applicable;
+- promotion-quote context;
+- payer and source/transaction context;
+- payment-quote context;
+- campaign;
+- offer;
+- instrument, if applicable;
 - eligibility and qualification result;
 - entitlement result;
 - benefit target and method;
@@ -553,7 +553,7 @@ Promotion quote should include:
 - final service fee;
 - total promotion impact;
 - funding source and cost bearer;
-- reservation status and expiry where applicable;
+- reservation and expiry meaning where applicable;
 - rejection reason if not eligible.
 
 ---
@@ -642,93 +642,36 @@ Correct: user has not already become entitled to this benefit this month.
 
 ---
 
-## 8. Data-Layer Requirements
+## 8. Business Information and Recording Requirements
 
-DOC-13 defines business data requirements. DOC-18 owns final schema.
+DOC-13 defines promotion business-information and recording requirements. Exact technical representation remains separately authorized.
 
-Promotion, referral, membership, miles, external voucher, partner, card-linked eligibility, and campaign-behavior data must be classified under DOC-15. DOC-18 should store field-level metadata for data class, sensitivity, displayability, masking, retention, owner, approved purpose, access role, audit requirement, source, partner-sharing status, consent/preference dependency, lineage, and model-use eligibility where applicable.
+Promotion, referral, membership, miles, external voucher, partner, card-linked eligibility, and campaign-behavior information must be classified under DOC-15. The applicable business-recording handoff must preserve data-class, sensitivity, displayability, masking, retention, owner, approved-purpose, access, audit, source, partner-sharing, consent/preference, lineage, and model-use obligations where applicable. This does not prescribe fields, schema, or storage.
 
-Recommended core objects:
+DOC-13 requires the applicable business meanings to remain distinguishable: campaign, offer, rule, qualification progress, entitlement, promotion quote and reservation, benefit application, campaign usage, reward instrument, redemption or fulfilment, referral relationship, membership, partner fulfilment, budget and quota, reversal or clawback, placement exposure, and approved campaign measurement or partner reporting. This does not define an object, ledger, event, schema, or reporting representation.
 
-- campaign;
-- offer;
-- offer rule;
-- qualification accumulator;
-- benefit entitlement;
-- promotion quote;
-- promotion quote reservation where applicable;
-- benefit application;
-- campaign usage;
-- reward instrument;
-- redemption / fulfilment;
-- referral relationship;
-- membership account;
-- partner fulfilment record;
-- budget ledger;
-- reversal / clawback record;
-- placement exposure and impression/action event;
-- campaign measurement or aggregate partner report where approved.
+### 8.1 Campaign Business Meaning
 
-### 8.1 Campaign
+A Campaign is the commercial container. DOC-13 requires the applicable campaign meaning to distinguish its name and type, sponsor, funding source, display, campaign, claim, and usage periods, budget, quota, current campaign and approval meaning, and owner. It does not prescribe identifiers, fields, storage, or technical status representation.
 
-Campaign stores the commercial container:
+### 8.2 Offer Business Meaning
 
-- campaign ID;
-- name;
-- campaign type;
-- sponsor;
-- funding source;
-- display period;
-- campaign period;
-- claim period;
-- usage period;
-- budget;
-- quota;
-- status;
-- approval status;
-- owner.
+An Offer is the benefit package. DOC-13 requires the applicable offer meaning to distinguish its campaign context, name and type, application path, discovery collections, approved placement and content, action and destination, benefit target and method, display priority, payment-method sensitivity, application mode, approved user value, stacking, funding source, cost bearer, and current availability meaning. It does not prescribe identifiers, fields, storage, relational design, or technical status representation.
 
-### 8.2 Offer
-
-Offer stores the benefit package:
-
-- offer ID;
-- campaign ID;
-- offer name;
-- offer type;
-- application path;
-- one or more discovery collection references, such as Card, Pay+, or Partner;
-- Featured / Hot placement flag where applicable;
-- primary `OFFERS-ROOT` placement;
-- category/label references for user-facing filtering;
-- key-visual or approved content-asset reference;
-- action type and approved destination reference, such as in-app route, redemption, campaign landing page, card application, or external link;
-- benefit target;
-- benefit method;
-- display priority by collection;
-- payment-method-sensitive flag;
-- application mode, including automatic or user-selected;
-- approved user-value amount, method, or deterministic comparison priority;
-- stacking group;
-- stackable flag;
-- funding source;
-- cost bearer;
-- status.
-
-Each offer displayed in a filterable Pay+ or Partner collection must carry at least one approved category/label reference. Label values and display wording remain to be confirmed. DOC-18 owns the final relational/schema design and DOC-22 owns admin creation, localization, ordering, enablement, and audit controls.
+Each offer displayed in a filterable Pay+ or Partner collection must carry at least one approved category/label reference. Label values and display wording remain to be confirmed. The applicable business-recording handoff remains separate, and DOC-22 owns admin creation, localization, ordering, enablement, and audit controls.
 
 Discovery collection rules:
 
-- one Offer ID may belong to multiple discovery collections where the offer genuinely satisfies each collection's purpose;
+- one Offer may belong to multiple discovery collections where it genuinely satisfies each collection's purpose;
 - Featured / Hot is a placement flag, not a mutually exclusive offer type;
-- different Offer IDs remain distinct even when the same payment card qualifies for each offer;
-- the same Offer ID should appear once on a normal `OFFERS-ROOT` rendering, using its configured primary root placement, while remaining available in every relevant complete child collection;
-- an approved, audited admin override may intentionally repeat an Offer ID on `OFFERS-ROOT`;
+- different Offers remain distinct even when the same payment card qualifies for each;
+- the same Offer should appear once on a normal `OFFERS-ROOT` rendering, using its configured primary root placement, while remaining available in every relevant complete child collection;
+- an approved, audited admin override may intentionally repeat an Offer on `OFFERS-ROOT`;
 - display priority is configured by collection and must remain separate from stacking or benefit-selection priority.
 
 ### 8.3 Offer Rule
 
-Offer rules should be typed and configurable.
+Offer rules must keep the applicable rule families distinct and remain configurable.
 
 Rule types:
 
@@ -743,63 +686,25 @@ Rule types:
 - reversal;
 - fulfilment.
 
-Rule fields should support:
+The applicable rule conditions may distinguish operator, value, amount cap, count limit, period, and current rule meaning without prescribing a field, key, or technical status representation.
 
-- rule key;
-- operator;
-- value;
-- amount cap;
-- count limit;
-- period type;
-- period start/end;
-- status.
+### 8.4 Qualification Progress
 
-### 8.4 Qualification Accumulator
-
-Qualification accumulator tracks progress toward a qualification target.
-
-Required for accumulated spend, transaction count, or consecutive usage rewards.
-
-Fields:
-
-- accumulator ID;
-- campaign ID;
-- offer ID;
-- user ID;
-- payment-card token/reference or funding-leg ID, if applicable;
-- category;
-- period start/end;
-- accumulated qualifying amount;
-- qualifying transaction count;
-- last qualifying transaction ID;
-- status.
+DOC-13 requires qualification progress toward a target to remain distinguishable for accumulated spend, transaction-count, or consecutive-usage rewards. Where applicable, the business meaning identifies the relevant campaign and offer, eligible Payer/User and payment-card or Funding Leg context, category, period, qualifying amount or count, and current qualification outcome. It does not prescribe an accumulator, identifier, field, or technical status representation.
 
 ### 8.5 Benefit Entitlement
 
-Benefit entitlement records that the user has earned a benefit.
-
-Fields:
-
-- entitlement ID;
-- campaign ID;
-- offer ID;
-- user ID;
-- entitlement period;
-- source transaction ID or accumulator ID;
-- entitlement status;
-- threshold reached timestamp;
-- reward instrument ID, if issued;
-- reversal status.
+Benefit entitlement means that an eligible user has earned a benefit. DOC-13 requires the applicable entitlement meaning to distinguish campaign and offer, beneficiary, entitlement period, qualifying basis, earned outcome, issued reward where applicable, and reversal outcome. It does not prescribe identifiers, fields, timestamps, records, or technical status representation.
 
 ### 8.6 Promotion Quote and Benefit Application
 
 Promotion quote is the pre-authorization calculation result.
 
-Promotion quote reservation records whether a quote benefit is not reserved, softly reserved, or hard reserved for a DOC-09 deferred payment instruction, including expiry and release status.
+Promotion quote reservation expresses whether a quote benefit is not reserved, softly reserved, or hard reserved for a DOC-09 deferred payment instruction, including expiry and release meaning.
 
 Benefit application is the actual confirmed use of a benefit after authorization, payment completion, or other configured trigger.
 
-Promotion quote, reservation, and benefit application records must link to campaign, offer, payer and source/transaction context where applicable, Payment Instruction where applicable, Funding Leg where applicable, Payment, funding source, applied amount, and reversal status. DOC-09 owns the underlying Payment, Payment Instruction, Funding Leg, and Payment Application meaning; DOC-13 does not redefine that topology.
+Promotion quote, reservation, and benefit-application meaning must remain related to the applicable campaign, offer, payer and source/transaction context, Payment Instruction, Funding Leg, Payment, funding source, applied amount, and reversal outcome. DOC-09 owns the underlying Payment, Payment Instruction, Funding Leg, and Payment Application meaning; DOC-13 does not redefine that topology.
 
 ### 8.7 Reward Instrument and Redemption / Fulfilment
 
@@ -813,9 +718,9 @@ Instrument types:
 - external voucher;
 - miles entitlement.
 
-Redemption / fulfilment records later use or delivery, such as checkout redemption, QR redemption, partner API confirmation, manual fulfilment, or Asia Miles crediting.
+Redemption or fulfilment covers later use or delivery, such as checkout redemption, QR redemption, externally confirmed partner fulfilment where available, manual fulfilment, or Asia Miles crediting.
 
-Reward records must not overload one `reward type` field with unrelated meanings. The logical model must preserve these independent dimensions:
+Reward meaning must not overload one category with unrelated meanings. The business requirements must preserve these independent dimensions:
 
 | Dimension | Required Meaning | Examples |
 | --- | --- | --- |
@@ -823,27 +728,27 @@ Reward records must not overload one `reward type` field with unrelated meanings
 | Earning source | Why the user earned or received it. | Referral, spending, membership, partner campaign, approved administration. |
 | Participant role | Which eligible promotion role earned the entitlement where role-sensitive. | Referrer, referee, eligible Payer/User, or not applicable; economic Payee alone is not an entitlement participant. |
 | Program context | Which business program produced the entitlement. | Referral Program, membership program, partner promotion. |
-| Campaign and offer source | Which approved campaign, offer, and entitlement created the instrument. | Campaign ID, Offer ID, Entitlement ID. |
-| Fulfilment method | How authoritative use or delivery is confirmed. | Checkout, QR, code, partner link, API, file, portal, manual, miles credit. |
+| Campaign and offer source | Which approved campaign, offer, and entitlement created the instrument. | The applicable campaign, offer, and entitlement. |
+| Fulfilment method | How authoritative use or delivery is confirmed. | Checkout, QR, code, partner link, externally confirmed partner fulfilment where available, manual fulfilment, miles credit. |
 
-A referral cash coupon is therefore a cash-coupon instrument earned from referral, linked to its campaign and entitlement, and marked with `referrer` or `referee` beneficiary role. These dimensions are business requirements in DOC-13; DOC-18 owns final objects, keys, field names, relationships, lineage, and events.
+A referral cash coupon is therefore a cash-coupon instrument earned from referral, related to its campaign and entitlement, and marked with `referrer` or `referee` beneficiary role. These dimensions are business requirements in DOC-13; the applicable DOC-18 business-recording, explainability, history, lineage, audit-meaning, reporting-obligation, and owner-handoff boundary applies without selecting technical representation.
 
 Issued instruments use the status-display reference matrix. Non-terminal instruments appear in DOC-06B `REWARDS-ROOT` Active view as `Available`, `Action Required`, `In Progress`, or `Under Review`; terminal instruments appear in History as `Used`, `Credited`, `Expired`, or `Reversed`. `Active` and `History` are views, not statuses. Referral claim `Issued` describes entitlement-to-instrument conversion; the issued instrument then uses the canonical reward lifecycle.
 
 MVP instruments are single-use by default and must not create a monetary partial-use balance. A future instrument may permit a fixed count of atomic uses only where the offer rules define the count, authoritative confirmation, remaining-use presentation, reversal, and reconciliation behavior. An instrument remains non-terminal until its permitted uses are exhausted.
 
-Viewing details, revealing or copying an approved credential, or opening a partner destination does not by itself confirm use. One authoritative redemption or fulfilment outcome must determine `Used`, `Credited`, `Action Required`, or another approved state. Duplicate taps, retries, callbacks, and uncertain outcomes must resolve idempotently; an unknown result must block unsafe repeated use until reconciled.
+Viewing details, revealing or copying an approved credential, or opening a partner destination does not by itself confirm use. One authoritative redemption or fulfilment outcome must determine `Used`, `Credited`, `Action Required`, or another approved state. Duplicate taps, retries, external responses, and uncertain outcomes must not create duplicate use; an unknown result must block unsafe repeated use until reconciled.
 
 For checkout instruments, DOC-09 owns selection after payment-card/profile choice. DOC-13 revalidates eligibility, availability, stacking, limits, and status before authorization and records consumption only at the configured authoritative result. `REWARD-DETAIL` is primarily informational and does not create a second checkout path.
 
-A referral code/link is an attribution credential, not a reward instrument. It must be stored and governed through the referral relationship and campaign-attribution model below.
+A referral code/link is an attribution credential, not a reward instrument. It must be governed through the referral relationship and campaign-attribution business meaning below.
 
 ### 8.8 Referral Relationship and Qualification
 
-Referral data must preserve separate, linked records for:
+Referral information must preserve separate, related business meanings for:
 
 - referrer account;
-- reusable user-linked referral code/reference;
+- reusable user-linked referral code or link;
 - referral campaign and separate referrer/referee offers;
 - referee account after valid registration attribution;
 - attribution timestamp and source context;
@@ -851,11 +756,11 @@ Referral data must preserve separate, linked records for:
 - referrer and referee benefit entitlements;
 - beneficiary role for each entitlement;
 - reserved campaign quota/value and applicable campaign, offer, benefit, claim-deadline, usage-expiry, and terms snapshot;
-- issued reward-instrument references;
+- issued reward-instrument meaning;
 - idempotent entitlement-to-instrument issuance result;
 - hold, reversal, and clawback outcomes.
 
-Sharing, copying, or displaying a referral link/QR is an event only. It does not identify a recipient or create a referral relationship. The relationship starts when an eligible new user completes registration with a valid referral code/link. DOC-18 owns final objects, identifiers, statuses, event taxonomy, lineage, and schema.
+Sharing, copying, or displaying a referral link/QR is an action only. It does not identify a recipient or create a referral relationship. The relationship starts when an eligible new user completes registration with a valid referral code/link. The applicable DOC-18 business-recording, explainability, history, lineage, audit-meaning, reporting-obligation, and owner-handoff boundary applies without selecting technical representation.
 
 ---
 
@@ -900,18 +805,18 @@ DOC-06B `REWARDS-ROOT` may show issued instruments from different earning source
 
 The route may combine those instruments in one list only because instrument type, earning source, participant role where applicable, program context, campaign/offer source, and fulfilment method remain separately identifiable. Referral role is not an instrument type, and a cash coupon is not inherently a referral reward.
 
-The UI does not need to show every structured field separately. It may show a human-readable summary, key conditions, expiry, status, and expandable terms. DOC-06B owns route/screen placement; DOC-07 owns wording.
+The UI does not need to show every underlying business distinction separately. It may show a human-readable summary, key conditions, expiry, status, and expandable terms. DOC-06B owns route/screen placement; DOC-07 owns wording.
 
-Asia Miles rewards should support:
+Asia Miles reward meaning should distinguish:
 
 - mileage account number;
 - account validation status where available;
 - miles formula;
 - eligible amount;
-- pending, submitted, credited, failed, and reversed domain states, mapped to the approved user-facing reward labels in the status-display reference matrix;
-- manual, file, portal, API, webhook, or manual adjustment fulfilment.
+- pending, submitted, credited, failed, and reversed business outcomes, mapped to the approved user-facing reward labels in the status-display reference matrix;
+- authoritative fulfilment that may be manual or externally evidenced where applicable.
 
-`Failed` is a domain outcome, not a separate user-facing reward label. While the outcome is unresolved or automatically retrying, display `In Progress`; where the user can correct it, display `Action Required`; where the instrument is terminally withdrawn, display `Reversed`. DOC-18 must preserve the underlying failure state and reason without exposing internal-only detail.
+`Failed` is a domain outcome, not a separate user-facing reward label. While the outcome is unresolved or automatically retrying, display `In Progress`; where the user can correct it, display `Action Required`; where the instrument is terminally withdrawn, display `Reversed`. The applicable DOC-18 business-recording handoff must preserve sufficient business basis for an owner-defined failure outcome and reason without exposing internal-only detail.
 
 If auto-credit is available, DOC-08 must support app communication and notification.
 
@@ -922,18 +827,18 @@ Referral/MGM is separate from membership/tier:
 - each campaign may define separate, role-sensitive referrer and referee offers using the same rule, entitlement, and reward-instrument structures;
 - a reusable user-linked referral code does not expire by default, while campaign availability, qualification period, quotas, limits, and optional future code-validity controls remain configurable;
 - a referral deeplink or QR carries an opaque referral reference and campaign context into registration; the code is displayed, prefilled, and not editable;
-- ordinary registration provides an optional manual referral-code field; an invalid code may be re-entered or cleared, but successful attribution is not editable through the normal user UI after registration completes;
+- ordinary registration provides optional manual referral-code entry; an invalid code may be re-entered or cleared, but successful attribution is not editable through the normal user UI after registration completes;
 - the MVP has one campaign; when multiple campaigns are later enabled, manual code entry requires campaign selection before code entry;
 - external sharing does not create a known invitation, recipient, or invitation status;
-- referral attribution begins only when an eligible new user's restricted PayPlus account is successfully created using a valid code/link; a temporary registration attempt creates no attribution and reserves no identifier;
+- referral attribution begins only when an eligible new user's restricted PayPlus account is successfully created using a valid code/link; a temporary registration attempt creates no attribution and no promotion entitlement;
 - referral qualification tracks the configured campaign conditions after attribution;
-- referrer and referee entitlements are separate linked records and preserve beneficiary role;
+- referrer and referee entitlements remain separate and preserve beneficiary role;
 - corresponding referrer and referee rewards may be claimed through DOC-06B Referral entitlement screens; beneficiary role remains preserved, while issued instruments use the same canonical reward records and statuses as `REWARDS-ROOT` and `REWARD-DETAIL`;
 - membership tracks usage-oriented tier, payment volume, transaction count, consecutive usage, tier status, and benefits.
 
 Both modules may issue normal reward instruments into `REWARDS-ROOT`.
 
-Referral campaign conditions must be configurable and event-driven. DOC-13 owns condition and entitlement meaning; DOC-18 must later define the qualifying signal/event contract; DOC-22 must later define admin configuration, enablement, limits, qualification rules, manual review, holds, release, reversal, and audit controls. Exact MVP condition values and payment/risk finality remain to be configured.
+Referral campaign conditions must be configurable. DOC-13 owns condition and entitlement meaning; the applicable DOC-18 business-recording handoff and DOC-22 owner-permitted Admin-execution boundary apply without allocating a technical signal/event contract or execution mechanism. Exact MVP condition values and payment/risk finality remain to be configured.
 
 Referral qualification user-facing outcomes may be summarized as `In Progress`, `Qualified`, `Not Qualified`, and `Under Review`. Referral reward entitlement and issued-instrument states must reuse the canonical promotion/reward status model rather than define a second referral-only status family. DOC-06B owns the child-screen projections `Available to Claim`, `Issued`, `Expired`, and `Reversed`; internal processing is not a persistent user-facing status.
 
@@ -944,10 +849,10 @@ For each role-sensitive entitlement:
 - campaign participation end, claim deadline, and issued-reward usage expiry are separate lifecycle dates;
 - campaign end stops new participation or attribution as configured but does not remove a valid earned entitlement;
 - claim must revalidate current ownership, claimability, applicable hold/finality gates, deadline, and prior issuance without rerunning ordinary historical qualification;
-- one entitlement may create at most one canonical reward instrument, and duplicate, concurrent, retried, or uncertain submissions must resolve idempotently to the existing issuance result;
+- one entitlement may create at most one canonical reward instrument, and duplicate, concurrent, retried, or uncertain submissions must not create duplicate issuance and must preserve the existing outcome;
 - after successful claim, issued-reward usage and fulfilment remain governed through `REWARDS-ROOT` and `REWARD-DETAIL`, not Referral claim history.
 
-`Under Review` is not a normal Referral Rewards tab or claim-processing label. If an authorized administrator holds an already-claimed entitlement or issued reward, DOC-06B may show the affected History item as inactive with `Under Review` until resolution. The hold, release, reversal, permissions, reasons, and audit trail remain subject to DOC-22 and future DOC-18 specification; internal reasons must not be exposed to the user.
+`Under Review` is not a normal Referral Rewards tab or claim-processing label. If an authorized administrator holds an already-claimed entitlement or issued reward, DOC-06B may show the affected History item as inactive with `Under Review` until resolution. The hold, release, reversal, permissions, reasons, and audit trail remain subject to DOC-22 and the applicable DOC-18 business-recording handoff; internal reasons must not be exposed to the user.
 
 Membership conversion ratios and tier formulas remain to be confirmed.
 
@@ -992,7 +897,7 @@ Controls should address:
 - partner data leakage;
 - miles account personal data.
 
-DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries. Privacy, consent, and partner sharing remain with DOC-15; provider/tokenization mechanics with DOC-17; representation with DOC-18; mechanism-neutral security enforcement with DOC-19; monitoring with DOC-21; and owner-permitted Admin execution with DOC-22. Final thresholds remain with their applicable owner.
+DOC-14 owns risk-control framework, risk routing, and abuse handling boundaries. Privacy, consent, and partner sharing remain with DOC-15; the provider-neutral external-interaction boundary with DOC-17; the business-recording, explainability, history, lineage, audit-meaning, reporting-obligation, and owner-handoff boundary with DOC-18; mechanism-neutral security enforcement with DOC-19; monitoring with DOC-21; and owner-permitted Admin execution with DOC-22. Final thresholds remain with their applicable owner.
 
 Promotion data must not be used as a back door for unrestricted profiling, raw user-level partner data sharing, offsite advertising activation, credit scoring, insurance underwriting, or sensitive evidence-based targeting. Offer ranking, placement targeting, campaign lift measurement, and partner reporting should use the minimum necessary data, respect consent and preference rules, preserve lineage, and prefer aggregated or de-identified outputs where partner visibility is needed.
 
@@ -1018,13 +923,13 @@ DOC-13 publishes canonical Offer identity, content, status, validity, redemption
 
 Admin placement does not alter, suppress, reinterpret, or falsify canonical Offer truth. DOC-13 supplies the current canonical status and available-action truth presented through `OFFER-DETAIL`. The fact that an Offer is selected for Home presentation does not establish eligibility, validity, reservation, entitlement, redemption availability, budget availability, or checkout application.
 
-DOC-13 owns canonical Offer content and truth and supplies the fields available for presentation. DOC-22 owns publication and Admin quality controls. Retrieval and other source-domain failures retain their owning-domain classification.
+DOC-13 owns canonical Offer content and truth and supplies the applicable content for presentation. DOC-22 owns publication and Admin quality controls. Retrieval and other source-domain failures retain their owning-domain classification.
 
 DOC-06B is the sole normative owner of HOME-ROOT card and CTA routing, maximum cap, zero state, fixed/random ordering presentation, fresh-entry reshuffle, rotation interval, stop/resume interaction, reduced-motion treatment, focus, and accessible carousel behavior. DOC-22 owns the corresponding Admin configuration controls without owning or changing canonical Offer truth.
 
 The legal, privacy, permission, masking, and prohibited-content exceptions above remain canonical restrictions. Offer eligibility, status, validity, and redemption eligibility must not be repurposed as additional Home visibility gates.
 
-If future AI or model-assisted ranking is used outside the approved Admin-selected Home ordering, DOC-13 should define business eligibility and benefit rules, while DOC-15 defines permitted data use and DOC-18 defines event, feature, model, lineage, and reporting metadata. It must not silently replace the approved Home contract. Human review or approval should remain available for sensitive campaign categories, partner-funded targeting, and exception handling.
+If future AI or model-assisted ranking is used outside the approved Admin-selected Home ordering, DOC-13 should define business eligibility and benefit rules, while DOC-15 defines permitted data use. Where applicable, business-recording, explainability, lineage, reporting-obligation, and owner-handoff treatment remains subject to DOC-18 without selecting model, feature, event, or technical representation. It must not silently replace the approved Home contract. Human review or approval should remain available for sensitive campaign categories, partner-funded targeting, and exception handling.
 
 ### 12.1.1 Public Entrance Source and Placement Timing Boundary
 
@@ -1041,7 +946,7 @@ Entrance placement may reference zero or one action already approved by the appl
 
 A referenced Promotion or Offer source that is withdrawn, no longer authorized for public display, prohibited by an applicable legal, privacy, permission, masking, or content restriction, or materially changed after the placement's last approved preview/publication requires the associated Entrance placement to be suspended. Suspension removes the item from active Entrance presentation without deleting the canonical source record or historical placement evidence. Return requires updated preview and republication through the authorized DOC-22 workflow.
 
-Exact date storage, timezone, synchronization, validation, scheduling, event/audit schema, and implementation mechanics remain deferred to DOC-18, DOC-22, and the applicable technical and operational owners.
+Exact technical realisation remains deferred under separate authority. This document selects no date/time, storage, synchronization, validation, scheduling, audit representation, or implementation treatment.
 
 ---
 
@@ -1053,16 +958,16 @@ Exact date storage, timezone, synchronization, validation, scheduling, event/aud
 | DOC-05 | Feature index, MVP gating, admin configuration, and promotion requirements. |
 | DOC-06B | Coupon/voucher library route placement, MGM/referral placement, membership/reward status UX surfaces, and Hot Offer HOME-ROOT carousel placement. |
 | DOC-07 | Promotion, fee, discount, miles, voucher, eligibility, expiry, and T&C disclosure. |
-| DOC-08 | Reward, referral, coupon, voucher, miles, campaign, entitlement, and fulfilment notification events. |
+| DOC-08 | Reward, referral, coupon, voucher, miles, campaign, entitlement, and fulfilment notification requirements. |
 | DOC-09 | Promotion quote, final payment quote, deferred payment instruction revalidation, card-linked eligibility, recalculation, and reauthorization. |
 | DOC-10 | Partner reimbursement and promotion settlement/reconciliation where applicable. |
 | DOC-11 | Refund, reversal, chargeback, coupon restoration, miles reversal, and clawback. |
 | DOC-12 | Keep promotion, referral, membership, and payment behavior data separate from evidence-derived data. |
 | DOC-14 | Promotion abuse, referral abuse, fake accounts, coupon farming, card offer gaming, and proportionate reward-hold versus payment-blocking decisions. |
 | DOC-15 | Promotion/referral/membership data classification, marketing consent, retention, partner sharing, model-use boundaries, and miles account data. |
-| DOC-17 | Partner APIs, voucher redemption, miles API, card metadata, and webhooks. |
-| DOC-18 | Campaign, offer, rule, quote, accumulator, entitlement, redemption, ledger, event, lineage, analytics, model-feature metadata, and reporting schema. |
-| DOC-19 | Mechanism-neutral protected-value, token/reference, access-enforcement, encryption-related and secure-boundary controls; payment-profile metadata remains with DOC-18, provider tokenization with DOC-17, architecture boundary with DOC-16, and final PCI scope with professional assessment. |
+| DOC-17 | Provider-neutral partner-interaction evidence and handoffs; provider-specific capability remains Open. |
+| DOC-18 | Business-recording, explainability, history, lineage, audit-meaning, reporting obligations, and owner handoffs. |
+| DOC-19 | Mechanism-neutral protected-value, access-enforcement, and secure-boundary control contract; applicable architecture, provider, business-recording, privacy, and PCI-assessment boundaries remain with their owners. |
 | DOC-20 | Promotion calculation, entitlement, redemption, and reversal test cases. |
 | DOC-21 | Campaign monitoring, abuse alerts, partner failures, and incidents. |
 | DOC-22 | Admin setup, approval, override, void, reissue, reconciliation upload, and support workflow. |
@@ -1126,6 +1031,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.9 | 2026-09-01 | Removed or qualified only the approved legacy technical-form allocations in TAR-13-02, 03, and 05–19; preserved promotion/commercial meaning and established owner boundaries without selecting technical representation, provider, mechanism, implementation, or readiness. |
 | 1.2.8 | 2026-08-21 | Aligned promotion handoffs with DOC-16/DOC-17 provider boundaries, DOC-18 representation and the reviewed DOC-19 security-control contract without selecting mechanisms, thresholds or PCI scope. |
 | 1.2.7 | 2026-08-13 | Qualified economic-Payee facts as owner-approved source context only and restricted reward instruments and participant roles to eligible Payer/User or promotion roles, without adding Payee-user eligibility or runtime behavior. |
 | 1.2.6 | 2026-08-13 | Removed active Request/request-origin and Rent-as-Category assumptions, aligned promotion lineage to payer and authoritative source/transaction context, and preserved DOC-09 owner handoffs without adding runtime or schema behavior. |

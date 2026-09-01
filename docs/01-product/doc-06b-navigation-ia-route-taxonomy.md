@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 1.1.0
+version: 1.1.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-22
+last_updated: 2026-09-01
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `1.1.0` |
+| **Version** | `1.1.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-22` |
+| **Last Updated** | `2026-09-01` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -1466,7 +1466,7 @@ All three child collection screens use this shared behavior:
 
 Child-list ordering controls discovery position only. After mandatory approval, display-period, market, privacy, consent, targeting, compliance, and enablement gates, apply collection-specific admin pinning/priority, permitted personalization within that priority band, and then a deterministic fallback. Preserve the resulting order during the browsing session. Child lists do not randomize or provide user sorting for MVP; the limited root Card Offers carousel remains a separate placement behavior.
 
-Offer label-filter values for Pay+ Offers and Partner Offers remain open. This concerns Offer filtering only and does not reopen the settled four-action `PAYPLUS-ACTION-SHEET` labels, order or destinations. Each relevant offer must carry one or more approved category/label references so filtering can be supported. DOC-13 owns the business metadata requirement, DOC-18 owns final schema, and DOC-22 owns label administration and placement controls.
+Offer label-filter values for Pay+ Offers and Partner Offers remain open. This concerns Offer filtering only and does not reopen the settled four-action `PAYPLUS-ACTION-SHEET` labels, order or destinations. Each relevant offer must carry one or more approved category/label references so filtering can be supported. DOC-13 owns the business-information requirement, the applicable DOC-18 business-recording and lineage boundary applies without selecting a schema or technical representation, and DOC-22 owns label administration and placement controls.
 
 Back from a collection route returns to `OFFERS-ROOT` at the originating section and prior scroll position. Back from `OFFERS-ROOT` returns to the prior app context where one exists; otherwise it returns to Home.
 
@@ -1629,7 +1629,7 @@ DOC-13 owns campaign, offer, qualification, entitlement, benefit, instrument, re
 
 DOC-22 should later define only the permitted execution controls for owner-approved Offer placement, priority, scheduling, targeting, enable/disable, Category/label filters and exception handling; DOC-13 and the applicable product/commercial owners retain Offer approval and business truth. Dashboard What's New administration remains a separate placement concern. DOC-15 owns consent, permitted personalization, masking, and partner-data boundaries. Sensitive evidence-derived data must not be used for offer targeting unless expressly approved under DOC-15.
 
-Material route-level signals for later DOC-18 specification include offer impression, search/filter use, offer open, claim attempt/result, reward open, use action, checkout handoff, referral handoff, referral share action, registration attribution, qualification outcome, entitlement availability, referral claim/issuance result, external fulfilment handoff, and return outcome. A share action is not proof of delivery or recipient identity. DOC-18 owns final event IDs, schema, lineage, analytics, and model-use metadata.
+Material route-level business occurrences that later technical work may need to represent include offer impression, search/filter use, offer open, claim attempt/result, reward open, use action, checkout handoff, referral handoff, referral share action, registration attribution, qualification outcome, entitlement availability, referral claim/issuance result, external fulfilment handoff, and return outcome. A share action is not proof of delivery or recipient identity. DOC-18 owns the applicable business-recording, history, lineage, audit-meaning, reporting-obligation, and owner-handoff boundary; exact event IDs, schema, analytics representation, model-use metadata, and implementation remain separately authorized.
 
 #### 5.16.7 Open Items
 
@@ -2609,6 +2609,7 @@ No numerical accessibility, performance, or usability threshold is established h
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.1 | 2026-09-01 | Aligned Offer-label and Offers/Rewards/Referral occurrence handoffs to DOC-13 business meaning and the DOC-18 business-recording boundary without selecting event IDs, schema, analytics/model representation, implementation, or a technical owner. |
 | 1.1.0 | 2026-08-22 | Drafted the approved Tier 3 Bill current-context and deliberate-resolver return expression without adding a route, notification, automatic transition, stale Resume, authorization, or Provider Submission; preserved the integrated `ENTRANCE-PROMOTION-DETAIL` Defined baseline unchanged. |
 | 1.0.2 | 2026-08-21 | Integrated the Founder-authorized `ENTRANCE-PROMOTION-DETAIL` Defined baseline status transition, preserving the current route, owner, Bills, security, and open-mechanism baseline while retaining the downstream deferrals as non-blocking. |
 | 1.0.1 | 2026-08-21 | Aligned Recovery, provider/tokenization, PCI, risk and security handoffs with the reviewed DOC-19 contract and existing owner boundaries without changing routes, statuses, product behavior or open mechanism decisions. |

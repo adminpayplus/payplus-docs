@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 2.1.0
+version: 2.1.1
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-22
+last_updated: 2026-09-01
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,12 +43,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `2.1.0` |
+| **Version** | `2.1.1` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-22` |
+| **Last Updated** | `2026-09-01` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -322,7 +322,7 @@ IDs should remain stable once used in production.
 | Timestamps | Created, scheduled, sent, read, and archived timestamps as applicable. |
 | Delivery attempts | Separate per-channel attempt ID, provider reference, status, timestamp, retry, and failure outcome. |
 
-System-triggered, scheduled, campaign, manual, and support messages should use this common model. DOC-18 owns the final schema and lineage; DOC-22 may execute only expressly owner-permitted operational lookup, approved manual/batch actions, and audit workflow using approved policy and facts.
+System-triggered, scheduled, campaign, manual, and support messages should use this common business model. DOC-18 owns the applicable business-recording, history, lineage, audit-meaning, reporting-obligation, and owner-handoff boundary; exact schema and technical representation remain separately authorized. DOC-22 may execute only expressly owner-permitted operational lookup, approved manual/batch actions, and audit workflow using approved policy and facts.
 
 ---
 
@@ -770,6 +770,7 @@ DOC-08 is acceptable when:
 ## 21. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.1.1 | 2026-09-01 | Aligned the common notification-model handoff to the DOC-18 business-recording boundary while deferring schema and technical representation; notification identity, delivery, and operational policy remain unchanged. |
 | 2.1.0 | 2026-08-22 | Aligned notification boundaries to the approved Tier 3 current-context return: owner-recorded approval creates no notification, direct Checkout path, authorization, submission, Payment, Payout release, or user-facing status. |
 | 2.0.1 | 2026-08-21 | Separated masking, representation, provider delivery and security-enforcement ownership and removed the stale future DOC-19 marker without changing notification identity or delivery policy. |
 | 2.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
