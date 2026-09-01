@@ -69,6 +69,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `Not applicable` | `2026-08-23` | BTPR R2 Documentation Integration Record | Not applicable | Existing `FD-BTPR-01` owners | `7664d339e45c6e183cb8d6a2b0b107a405200749` |
 | `Not applicable` | `2026-09-01` | DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation | Not applicable | `DOC-10` / `DOC-12` / `DOC-14` | `f33e3cf88e57bb22c3269d50a9fdc34258b12049` |
 | `Not applicable` | `2026-09-01` | DOC-09 Technical Allocation Reconciliation | Not applicable | `DOC-09` | `c11fa2e3a4807b1c601fc20d1052ff84bcf48263` |
+| `Not applicable` | `2026-09-01` | DOC-13 Technical Allocation Reconciliation | Not applicable | `DOC-13` | `c8b6a8d55039e6bfe9a8773e7253db073753cf13` |
 
 ## 4. Decision Record Template
 
@@ -2443,3 +2444,41 @@ None.
 
 - Protected `DOC-13` and broader pre-existing technical-representation allocations require their own owner-led Explore and Proposal authority before any correction.
 - Exact schema, event/state model, persistence, correlation/idempotency mechanism, API, provider, algorithm, implementation, acceptance, operations, enablement, and launch detail remain separately gated without a selected technical owner.
+
+### Not applicable - DOC-13 Technical Allocation Reconciliation
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-09-01` |
+| Status | Not applicable - post-commit provenance only; no new product, governance, owner, or technical decision |
+| Primary owner | `DOC-13` Growth / Product |
+| Affected documents | `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`; `docs/01-product/doc-08-notification-receipt-communication-spec.md`; `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md` |
+| Substantive commit | `c8b6a8d55039e6bfe9a8773e7253db073753cf13` |
+| Founder authorization | User-authorized Stage 10 Manifest, conditional Stage 11 Alignment, Stage 12 validation, Stage 13 integration, substantive commit, records-only follow-up, non-force branch push, and fast-forward canonical-main integration chain on `2026-09-01` |
+
+**Record**
+
+This record binds the already accepted DOC-13 technical-allocation correction and its two exact downstream owner-boundary alignments to substantive commit `c8b6a8d55039e6bfe9a8773e7253db073753cf13`. It does not add, modify, or approve a product, governance, owner, technical-representation, provider, security-mechanism, implementation, acceptance, enablement, or launch decision.
+
+**Rationale**
+
+The records-only follow-up preserves the exact delivered DOC-13, DOC-06B, and DOC-08 identities and commit provenance while retaining DOC-13 promotion/commercial truth, DOC-06B route presentation, DOC-08 notification policy, DOC-22 owner-permitted execution, and DOC-18's reviewed business-recording boundary. Exact technical representation remains separately authorized without a selected recipient.
+
+**Alternatives Considered**
+
+- Minting a new decision identifier was rejected because the substantive commit publishes an already accepted source-owner boundary correction and introduces no new product, governance, owner, or technical decision.
+- Omitting the two downstream alignment clauses was rejected because their active schema/event allocations would have contradicted the reviewed DOC-13/DOC-18 owner boundary.
+- Omitting this record was rejected because the Documentation Development Workflow requires explicit decision-log treatment for every substantive documentation commit.
+
+**Consequences And Handoffs**
+
+DOC-13 retains campaign, Offer, eligibility, qualification, entitlement, benefit, quote, reservation, budget, quota, stacking, funding, reversal, fulfilment, referral, membership, reward, and promotion-commercial meaning. DOC-06B retains route and presentation ownership; DOC-08 retains notification identity, eligibility, recipient, channel, template, preference, delivery, and retry ownership; DOC-18 retains business-recording, explainability, history, lineage, audit-meaning, reporting-obligation, and owner-handoff obligations only. No technical owner, shared specification, schema, event taxonomy, API, provider, persistence, model representation, security mechanism, implementation, acceptance, enablement, or launch outcome is selected.
+
+**Supersedes / Superseded By**
+
+No decision record is superseded. The substantive commit replaces only the active legacy technical-allocation wording in the three affected documents; append-only historical records remain provenance.
+
+**Remaining Open Items**
+
+- Provider/API/file/webhook capability, exact technical representation, schema, event/state taxonomy, identifiers, persistence, analytics/model representation, security mechanisms, implementation, acceptance, operations, enablement, and launch remain separately gated with their applicable owners.
+- Broader pre-existing technical-allocation wording outside the DOC-13 promotion, notification, and route-handoff boundary remains future owner-specific Explore input and was not widened into this change.

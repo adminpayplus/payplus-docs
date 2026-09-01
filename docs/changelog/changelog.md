@@ -2025,3 +2025,36 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - Protected `DOC-13` and broader pre-existing technical-representation allocations remain future owner-specific Explore inputs and were not aligned by this change.
 - Exact schema, event/state model, persistence, correlation/idempotency mechanism, API, provider, algorithm, implementation, acceptance, operations, enablement, and launch detail remain separately gated without a selected technical owner.
+
+### `2026-09-01` - DOC-13 Technical Allocation Reconciliation
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `c8b6a8d55039e6bfe9a8773e7253db073753cf13` |
+| Primary owner | `DOC-13` Growth / Product |
+| Decision record | `Not applicable` - this records an already accepted source-owner boundary correction and creates no new product, governance, owner, or technical decision |
+| Founder authorization | User-authorized Stage 10 through Stage 13, substantive commit, records-only follow-up, non-force branch push, and fast-forward canonical-main integration chain on `2026-09-01` |
+
+**Files Changed**
+
+- `docs/01-product/doc-06b-navigation-ia-route-taxonomy.md`
+- `docs/01-product/doc-08-notification-receipt-communication-spec.md`
+- `docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md`
+
+**Material Changes**
+
+- Removed or qualified the approved legacy DOC-13 technical-form allocations while preserving campaign, Offer, qualification, entitlement, benefit, quote, reservation, budget, quota, stacking, funding, reversal, fulfilment, referral, membership, promotion-commercial, and no-wallet meaning.
+- Aligned only the two materially affected downstream handoffs: DOC-06B Offer-label and Offers/Rewards/Referral occurrence wording, and DOC-08's common notification-model wording.
+- Limited DOC-18 references to its reviewed business-recording, explainability, history, lineage, audit-meaning, reporting-obligation, and owner-handoff contract. Exact technical representation remains separately gated without a selected owner.
+
+**Checks Performed**
+
+- Consumed the fresh independent Stage 9 `REVIEW_EXECUTED - GATE_PASS` result without reconstructing or substituting it.
+- Completed the read-only Stage 10 Change Impact Manifest, exact two-path Stage 11 Alignment, Stage 12 `REVALIDATE_PASS - READY_TO_INTEGRATE`, and read-only Stage 13 live-main, branch-availability, protected-scope, records-path, and pre-commit gate.
+- Verified final SHA-256 values `AAEB307E429C2E6A2393A2A03550109D51796957C60C04423CEB029D5783BF26` for DOC-06B, `9D04C7C893F57751516A1488206B62515FA50C6F93FEF2158CCAB79025C1680E` for DOC-08, and `1B2C78415B339EE5426B719F7CA7E30A938ABD402CA7BFDE5E11EB20B2B085A7` for DOC-13, with UTF-8/no-BOM CRLF, clean links, metadata mirrors, protected aggregate, and `git diff --check` evidence.
+- Staged exactly the three approved substantive paths and verified their Git blobs before substantive commit `c8b6a8d55039e6bfe9a8773e7253db073753cf13`.
+
+**Remaining Open Items**
+
+- Provider/API/file/webhook capability, exact technical representation, schema, event/state taxonomy, identifiers, persistence, analytics/model representation, security mechanisms, implementation, acceptance, operations, enablement, and launch remain separately gated with their applicable owners.
+- Broader pre-existing technical-allocation wording outside the DOC-13 promotion, notification, and route-handoff boundary remains future owner-specific Explore input and was not widened into this change.
