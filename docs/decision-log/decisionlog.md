@@ -67,6 +67,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-048` | `2026-08-06` | ENTRANCE-PROMOTION-DETAIL Defined Baseline | Accepted | `DOC-06B` / `DOC-13` / `DOC-22` | `ec9b97bb4cf9b2e5b03992f4a23c546146de97e6` |
 | `DEC-2026-049` | `2026-08-25` | DOC-17 Provider-Neutral External Interaction Contract | Accepted | `DOC-17` | `339bd8c8dfccf60ab102aa706f04135c9aab9e36` |
 | `Not applicable` | `2026-08-23` | BTPR R2 Documentation Integration Record | Not applicable | Existing `FD-BTPR-01` owners | `7664d339e45c6e183cb8d6a2b0b107a405200749` |
+| `Not applicable` | `2026-09-01` | DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation | Not applicable | `DOC-10` / `DOC-12` / `DOC-14` | `f33e3cf88e57bb22c3269d50a9fdc34258b12049` |
 
 ## 4. Decision Record Template
 
@@ -2367,3 +2368,40 @@ None.
 **Remaining Open Items**
 
 - Provider/API and bank detail, technical representation/schema/event taxonomy, security mechanisms, implementation, testing/acceptance, operations, enablement, launch, and AI build-execution conversion remain separately gated with their applicable owners.
+
+### Not applicable - DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-09-01` |
+| Status | Not applicable - post-commit provenance only; no new product, governance, owner, or technical decision |
+| Primary owner | `DOC-10` Payments / Finance; `DOC-12` Product / Risk; `DOC-14` Risk / Compliance |
+| Affected documents | The exact three paths in substantive commit `f33e3cf88e57bb22c3269d50a9fdc34258b12049` |
+| Substantive commit | `f33e3cf88e57bb22c3269d50a9fdc34258b12049` |
+| Founder authorization | User-authorized Stage 12, Stage 13, substantive commit, records-only follow-up, branch push, and canonical-main integration chain on `2026-09-01` |
+
+**Record**
+
+This record binds the already accepted `DOC-10`, `DOC-12`, and `DOC-14` technical-allocation corrections to substantive commit `f33e3cf88e57bb22c3269d50a9fdc34258b12049`. It does not add, modify, or approve a product, governance, owner, technical-representation, provider, security-mechanism, implementation, acceptance, enablement, or launch decision.
+
+**Rationale**
+
+The records-only follow-up preserves the exact delivered source identities and commit provenance while retaining each formal source owner's meaning. `DOC-18` remains limited to its reviewed business-recording and explainability contract; exact technical representation remains separately authorized without a selected owner.
+
+**Alternatives Considered**
+
+- Minting a new decision identifier was rejected because the substantive commit publishes already accepted source-owner boundary corrections and introduces no new product, governance, owner, or technical decision.
+- Omitting the record was rejected because the Documentation Development Workflow requires explicit decision-log treatment for every substantive documentation commit.
+
+**Consequences And Handoffs**
+
+`DOC-10` retains Settlement, Payout, Finance, and reconciliation ownership; `DOC-12` retains Evidence, OCR, validation, matching, and duplicate policy; and `DOC-14` retains AML, anti-cashout, fraud, risk, and control meaning. Existing `DOC-09` and `DOC-13` technical-allocation clauses remain protected future Explore inputs. No technical owner, `DOC-26`, shared Engineering Specification, schema, data model, event taxonomy, reason-code model, API, provider, algorithm, persistence, security mechanism, implementation, acceptance, enablement, or launch outcome is selected.
+
+**Supersedes / Superseded By**
+
+None.
+
+**Remaining Open Items**
+
+- Existing `DOC-09` and `DOC-13` technical-allocation clauses require their own future owner-led Explore before any Proposal or edit.
+- Exact technical representation and all provider, mechanism, implementation, acceptance, enablement, and launch detail remain separately gated with their applicable owners.

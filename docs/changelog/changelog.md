@@ -1960,3 +1960,36 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 **Remaining Open Items**
 
 - Provider/API and bank detail, technical representation/schema/event taxonomy, security mechanisms, implementation, testing/acceptance, operations, enablement, launch, and AI build-execution conversion remain separately gated with their applicable owners.
+
+### `2026-09-01` - DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `f33e3cf88e57bb22c3269d50a9fdc34258b12049` |
+| Primary owner | `DOC-10` Payments / Finance; `DOC-12` Product / Risk; `DOC-14` Risk / Compliance |
+| Decision record | `Not applicable` - this records already accepted source-owner boundary corrections and creates no new product, governance, owner, or technical decision |
+| Founder authorization | User-authorized Stage 12, Stage 13, substantive commit, records-only follow-up, branch push, and canonical-main integration chain on `2026-09-01` |
+
+**Files Changed**
+
+- `docs/02-payment-domain/doc-10-payout-reconciliation.md`
+- `docs/03-bill-verification/doc-12-bill-category-document-ai-ocr-payee-verification-spec.md`
+- `docs/05-risk-compliance-privacy/doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md`
+
+**Material Changes**
+
+- Reconciled obsolete technical-allocation wording while preserving `DOC-10` Settlement, Payout, Finance, reconciliation, duplicate-prevention, and `Payout Complete` meaning.
+- Preserved `DOC-12` Evidence, OCR, validation, matching, duplicate, intended-Payee, and separate Rent accepted-Evidence-before-Payment meaning.
+- Preserved `DOC-14` AML, anti-cashout, fraud, C1/G1/G2/Tier, risk-decision, hold/action, privacy, security, and operations meaning.
+- Limited `DOC-18` references to its reviewed business-recording, explainability, history, lineage, audit-meaning, reporting-obligation, and owner-handoff contract. Exact technical representation remains separately gated without a selected owner.
+
+**Checks Performed**
+
+- Completed fresh Stage 12 full-body and full-diff validation with exact SHA-256, byte, UTF-8/no-BOM, CRLF, metadata/control, history, Markdown table, link, owner-boundary, protected-complement, aggregate, scope, and `git diff --check` verification.
+- Completed the read-only Stage 13 candidate, live-remote-main, branch-availability, protected-scope, records-path, and pre-commit gate.
+- Staged exactly the three approved source paths and verified the reviewed Git blobs before substantive commit `f33e3cf88e57bb22c3269d50a9fdc34258b12049`.
+
+**Remaining Open Items**
+
+- Existing `DOC-09` and `DOC-13` technical-allocation clauses remain protected future Explore inputs and were not aligned by this change.
+- Exact schema, data, event, reason-code, API, provider, algorithm, persistence, mechanism, implementation, acceptance, enablement, and launch detail remain separately gated without a selected technical owner.
