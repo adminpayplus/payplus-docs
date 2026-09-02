@@ -67,9 +67,9 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-048` | `2026-08-06` | ENTRANCE-PROMOTION-DETAIL Defined Baseline | Accepted | `DOC-06B` / `DOC-13` / `DOC-22` | `ec9b97bb4cf9b2e5b03992f4a23c546146de97e6` |
 | `DEC-2026-049` | `2026-08-25` | DOC-17 Provider-Neutral External Interaction Contract | Accepted | `DOC-17` | `339bd8c8dfccf60ab102aa706f04135c9aab9e36` |
 | `Not applicable` | `2026-08-23` | BTPR R2 Documentation Integration Record | Not applicable | Existing `FD-BTPR-01` owners | `7664d339e45c6e183cb8d6a2b0b107a405200749` |
-| `Not applicable` | `2026-09-01` | DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation | Not applicable | `DOC-10` / `DOC-12` / `DOC-14` | `f33e3cf88e57bb22c3269d50a9fdc34258b12049` |
-| `Not applicable` | `2026-09-01` | DOC-09 Technical Allocation Reconciliation | Not applicable | `DOC-09` | `c11fa2e3a4807b1c601fc20d1052ff84bcf48263` |
-| `Not applicable` | `2026-09-01` | DOC-13 Technical Allocation Reconciliation | Not applicable | `DOC-13` | `c8b6a8d55039e6bfe9a8773e7253db073753cf13` |
+| `Not applicable` | `2026-09-01` | Historical source-owner correction provenance only — superseded task wording: former `DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation` | Not applicable | `DOC-10` / `DOC-12` / `DOC-14` | `f33e3cf88e57bb22c3269d50a9fdc34258b12049` |
+| `Not applicable` | `2026-09-01` | Historical source-owner correction provenance only — superseded task wording: former `DOC-09 Technical Allocation Reconciliation` | Not applicable | `DOC-09` | `c11fa2e3a4807b1c601fc20d1052ff84bcf48263` |
+| `Not applicable` | `2026-09-01` | Historical source-owner correction provenance only — superseded task wording: former `DOC-13 Technical Allocation Reconciliation` | Not applicable | `DOC-13` | `c8b6a8d55039e6bfe9a8773e7253db073753cf13` |
 
 ## 4. Decision Record Template
 
@@ -2371,7 +2371,7 @@ None.
 
 - Provider/API and bank detail, technical representation/schema/event taxonomy, security mechanisms, implementation, testing/acceptance, operations, enablement, launch, and AI build-execution conversion remain separately gated with their applicable owners.
 
-### Not applicable - DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation
+### Not applicable - Historical source-owner correction provenance only — superseded task wording: former `DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation`
 
 | Field | Record |
 | --- | --- |
@@ -2408,7 +2408,7 @@ None.
 - Existing `DOC-09` and `DOC-13` technical-allocation clauses require their own future owner-led Explore before any Proposal or edit.
 - Exact technical representation and all provider, mechanism, implementation, acceptance, enablement, and launch detail remain separately gated with their applicable owners.
 
-### Not applicable - DOC-09 Technical Allocation Reconciliation
+### Not applicable - Historical source-owner correction provenance only — superseded task wording: former `DOC-09 Technical Allocation Reconciliation`
 
 | Field | Record |
 | --- | --- |
@@ -2445,7 +2445,7 @@ None.
 - Protected `DOC-13` and broader pre-existing technical-representation allocations require their own owner-led Explore and Proposal authority before any correction.
 - Exact schema, event/state model, persistence, correlation/idempotency mechanism, API, provider, algorithm, implementation, acceptance, operations, enablement, and launch detail remain separately gated without a selected technical owner.
 
-### Not applicable - DOC-13 Technical Allocation Reconciliation
+### Not applicable - Historical source-owner correction provenance only — superseded task wording: former `DOC-13 Technical Allocation Reconciliation`
 
 | Field | Record |
 | --- | --- |

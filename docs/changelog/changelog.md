@@ -1961,7 +1961,7 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - Provider/API and bank detail, technical representation/schema/event taxonomy, security mechanisms, implementation, testing/acceptance, operations, enablement, launch, and AI build-execution conversion remain separately gated with their applicable owners.
 
-### `2026-09-01` - DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation
+### `2026-09-01` - Historical source-owner correction provenance only — superseded task wording: former `DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation`
 
 | Field | Record |
 | --- | --- |
@@ -1994,7 +1994,7 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 - Existing `DOC-09` and `DOC-13` technical-allocation clauses remain protected future Explore inputs and were not aligned by this change.
 - Exact schema, data, event, reason-code, API, provider, algorithm, persistence, mechanism, implementation, acceptance, enablement, and launch detail remain separately gated without a selected technical owner.
 
-### `2026-09-01` - DOC-09 Technical Allocation Reconciliation
+### `2026-09-01` - Historical source-owner correction provenance only — superseded task wording: former `DOC-09 Technical Allocation Reconciliation`
 
 | Field | Record |
 | --- | --- |
@@ -2026,7 +2026,7 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 - Protected `DOC-13` and broader pre-existing technical-representation allocations remain future owner-specific Explore inputs and were not aligned by this change.
 - Exact schema, event/state model, persistence, correlation/idempotency mechanism, API, provider, algorithm, implementation, acceptance, operations, enablement, and launch detail remain separately gated without a selected technical owner.
 
-### `2026-09-01` - DOC-13 Technical Allocation Reconciliation
+### `2026-09-01` - Historical source-owner correction provenance only — superseded task wording: former `DOC-13 Technical Allocation Reconciliation`
 
 | Field | Record |
 | --- | --- |
