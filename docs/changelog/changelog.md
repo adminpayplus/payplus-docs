@@ -2058,3 +2058,63 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - Provider/API/file/webhook capability, exact technical representation, schema, event/state taxonomy, identifiers, persistence, analytics/model representation, security mechanisms, implementation, acceptance, operations, enablement, and launch remain separately gated with their applicable owners.
 - Broader pre-existing technical-allocation wording outside the DOC-13 promotion, notification, and route-handoff boundary remains future owner-specific Explore input and was not widened into this change.
+
+### `2026-11-13` - PP-MVP-20261112-R1 Canonical UX Incorporation And Bounded Consumer Alignment
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `49782861fa0fd8a7e4b6efee5c17c497439b95ca` |
+| Primary owner | [DOC-05](../01-product/doc-05-master-prd-feature-requirement-index.md), [DOC-06B](../01-product/doc-06b-navigation-ia-route-taxonomy.md), [DOC-06C](../01-product/doc-06c-bills-rent-tenancy-ux-module.md), [DOC-08](../01-product/doc-08-notification-receipt-communication-spec.md), and [DOC-15](../05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md), each for its existing owned concern |
+| Decision record | [`DEC-2026-050`](../decision-log/decisionlog.md) |
+| Founder approval | Founder-authorized R1 owner incorporation, the exact DOC-01 Section 11 / glossary Notification Inbox and Fast Login selector addendum, and the controlled substantive/records/non-force publication chain on 2026-11-13; existing Docs Manager approval messages 01a1cffe-559c-79b2-9ba8-e820cef9602f, 01a1d253-bc23-7d60-a10c-6497cf93914b and 01a1d2a8-1edc-72a0-983c-cfb95892fc69. |
+
+**Files Changed**
+
+- [docs/00-foundation/doc-01-project-charter-product-positioning.md](../00-foundation/doc-01-project-charter-product-positioning.md)
+- [docs/01-product/doc-05-master-prd-feature-requirement-index.md](../01-product/doc-05-master-prd-feature-requirement-index.md)
+- [docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md](../01-product/doc-06-user-journey-ux-flow-service-blueprint.md)
+- [docs/01-product/doc-06a-core-user-journeys-service-blueprint.md](../01-product/doc-06a-core-user-journeys-service-blueprint.md)
+- [docs/01-product/doc-06b-navigation-ia-route-taxonomy.md](../01-product/doc-06b-navigation-ia-route-taxonomy.md)
+- [docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md](../01-product/doc-06c-bills-rent-tenancy-ux-module.md)
+- [docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md](../01-product/doc-06d-ux-requirements-acceptance-test-matrix.md)
+- [docs/01-product/doc-07-content-disclosure-user-authorization-spec.md](../01-product/doc-07-content-disclosure-user-authorization-spec.md)
+- [docs/01-product/doc-08-notification-receipt-communication-spec.md](../01-product/doc-08-notification-receipt-communication-spec.md)
+- [docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md](../05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md)
+- [docs/diagrams/routes/payplus-account-activation-route-map.md](../diagrams/routes/payplus-account-activation-route-map.md)
+- [docs/diagrams/routes/payplus-activity-receipts-route-map.md](../diagrams/routes/payplus-activity-receipts-route-map.md)
+- [docs/diagrams/routes/payplus-authentication-route-map.md](../diagrams/routes/payplus-authentication-route-map.md)
+- [docs/diagrams/routes/payplus-bills-route-map.md](../diagrams/routes/payplus-bills-route-map.md)
+- [docs/diagrams/routes/payplus-home-route-map.md](../diagrams/routes/payplus-home-route-map.md)
+- [docs/diagrams/routes/payplus-instructions-route-map.md](../diagrams/routes/payplus-instructions-route-map.md)
+- [docs/diagrams/routes/payplus-me-route-map.md](../diagrams/routes/payplus-me-route-map.md)
+- [docs/diagrams/routes/payplus-notification-route-map.md](../diagrams/routes/payplus-notification-route-map.md)
+- [docs/diagrams/routes/payplus-offers-rewards-referral-route-map.md](../diagrams/routes/payplus-offers-rewards-referral-route-map.md)
+- [docs/diagrams/routes/payplus-payment-checkout-route-map.md](../diagrams/routes/payplus-payment-checkout-route-map.md)
+- [docs/diagrams/routes/payplus-payment-profile-route-map.md](../diagrams/routes/payplus-payment-profile-route-map.md)
+- [docs/glossary/glossary.md](../glossary/glossary.md)
+- [docs/traceability/open-questions-register.md](../traceability/open-questions-register.md)
+- [docs/traceability/requirements-traceability-matrix.md](../traceability/requirements-traceability-matrix.md)
+- [docs/traceability/route-register.md](../traceability/route-register.md)
+- [docs/traceability/status-display-reference-matrix.md](../traceability/status-display-reference-matrix.md)
+
+**Material Changes**
+
+- Incorporated the already-adopted R1 OTP/provider registration/login and distinct PIN purposes, direct identity callers, Home calendar/labels, controlled source capture/new-source Pay and source-bound Bill reminders in their existing human owners.
+- Preserved actual same-ID Save truth, unknown reconciliation/non-fabricating Skip and the narrow independently permitted confirmed-result artifact exception; retained separate Rent, Instruction, financial, risk, Evidence and fresh-authorization controls.
+- Recorded internal Activity Statistics, actual Payment-based private Single/Combined documents, independently qualified seven-field public PNG/truthful image handoff, Inbox reading/preferences, growth/referral and current grouped My Account without new route/status/schema/provider or implementation authority.
+- Replaced only the approved contrary current summaries/edges, including the exact Charter/glossary selectors; aligned four traceability files and eleven existing route maps. Working-baseline status, formal owners, existing IDs and prior history remain intact.
+
+**Checks Performed**
+
+- Completed the material Stage 8 single-Writer/three-Specialist/consolidated correction/semantic-closure and independent actual-final-byte WDR controls, followed by fresh independent Stage 9 `REVIEW_EXECUTED - GATE_PASS`.
+- Completed the approved Stage 10 manifest/addendum and one coordinated Stage 11 batch; the same Change Integrator passed the single batched Stage 12 validation and Stage 13 pre-commit checks. Ninety scoped semantic/documentary/static controls and six actual local links passed; static tables/fences/Mermaid checks are not parser/render/runtime/UAT assurance.
+- Verified exact 26-file candidate, immutable nine-source bytes, protected complements and original per-file UTF-8/no-BOM LF/CRLF. At publication staging, all 26 filtered Git blob IDs and logical texts matched the approved working files; the complete staged diff matched 527863 bytes / SHA-256 `2955d734d4b0ac54e7499c2d8a04b634fc4ed5904fc4588285e12fb3a26ff37c`.
+- Existing five-map future-touch LF warnings did not change current working bytes; no Git configuration or source normalization was performed. Record writing follows the actual substantive SHA and introduces no additional product decision.
+
+**Remaining Open Items**
+
+- R03: production paid/date/refund/fee/time/category/label Statistics inputs remain with financial/data/privacy owners.
+- R04: public-artifact reference/date/access and native Save/WhatsApp capability remain owner-backed enablement inputs; no arrival/reference or native success is invented.
+- R05: authoritative period/payment inputs, delivery/time/channel, extraction and future persistence/correlation remain owned; the material-Edit/C1 prototype gap is separate from reminder-only preferences.
+- R06: Archive/growth Make/native parity gaps remain implementation limits, not policy deletion. R01's bounded manual-code window is resolved; R02 retains the configurable seven-calendar-day default.
+- Provider, representation, security mechanisms, implementation, UAT/operations, professional assessment, enablement and launch evidence remain separately gated. Separate November 13 C1/Admin/Payout/CS/no-bank-feed discussions are excluded; this record does not resume roadmap work or authorize coding.

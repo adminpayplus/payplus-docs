@@ -70,6 +70,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `Not applicable` | `2026-09-01` | Historical source-owner correction provenance only — superseded task wording: former `DOC-10, DOC-12, And DOC-14 Technical Allocation Reconciliation` | Not applicable | `DOC-10` / `DOC-12` / `DOC-14` | `f33e3cf88e57bb22c3269d50a9fdc34258b12049` |
 | `Not applicable` | `2026-09-01` | Historical source-owner correction provenance only — superseded task wording: former `DOC-09 Technical Allocation Reconciliation` | Not applicable | `DOC-09` | `c11fa2e3a4807b1c601fc20d1052ff84bcf48263` |
 | `Not applicable` | `2026-09-01` | Historical source-owner correction provenance only — superseded task wording: former `DOC-13 Technical Allocation Reconciliation` | Not applicable | `DOC-13` | `c8b6a8d55039e6bfe9a8773e7253db073753cf13` |
+| `DEC-2026-050` | `2026-11-13` | PP-MVP-20261112-R1 Canonical UX Incorporation And Bounded Consumer Alignment | Accepted | `DOC-05` / `DOC-06B` / `DOC-06C` / `DOC-08` / `DOC-15` | `49782861fa0fd8a7e4b6efee5c17c497439b95ca` |
 
 ## 4. Decision Record Template
 
@@ -2482,3 +2483,76 @@ No decision record is superseded. The substantive commit replaces only the activ
 
 - Provider/API/file/webhook capability, exact technical representation, schema, event/state taxonomy, identifiers, persistence, analytics/model representation, security mechanisms, implementation, acceptance, operations, enablement, and launch remain separately gated with their applicable owners.
 - Broader pre-existing technical-allocation wording outside the DOC-13 promotion, notification, and route-handoff boundary remains future owner-specific Explore input and was not widened into this change.
+
+### `DEC-2026-050` - PP-MVP-20261112-R1 Canonical UX Incorporation And Bounded Consumer Alignment
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-11-13` |
+| Status | Accepted |
+| Primary owner | [DOC-05](../01-product/doc-05-master-prd-feature-requirement-index.md), [DOC-06B](../01-product/doc-06b-navigation-ia-route-taxonomy.md), [DOC-06C](../01-product/doc-06c-bills-rent-tenancy-ux-module.md), [DOC-08](../01-product/doc-08-notification-receipt-communication-spec.md), and [DOC-15](../05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md), each for its existing owned concern |
+| Affected documents | The exact 26 existing substantive files listed below |
+| Substantive commit | `49782861fa0fd8a7e4b6efee5c17c497439b95ca` |
+| Founder approval | Founder-authorized R1 owner incorporation, the exact DOC-01 Section 11 / glossary Notification Inbox and Fast Login selector addendum, and the controlled substantive/records/non-force publication chain on 2026-11-13; existing Docs Manager approval messages 01a1cffe-559c-79b2-9ba8-e820cef9602f, 01a1d253-bc23-7d60-a10c-6497cf93914b and 01a1d2a8-1edc-72a0-983c-cfb95892fc69. |
+
+**Decision**
+
+Publish the already-adopted `PP-MVP-20261112-R1` UX decisions through their existing formal owners and bounded actual consumers under the existing Payplus UIUX Refinement Roadmap. This is material canonical incorporation, not a Not-applicable provenance record. The exact selector addendum permits only the contrary DOC-01 Section 11 post-Result summary, existing glossary Notification Inbox/Fast Login definitions and necessary same-file maintenance beyond the original conditional consumers. It changes no accepted R1 decision or source owner.
+
+**Rationale**
+
+One current owner-backed meaning is required across definitions, summaries, caller transitions, diagrams, traceability and acceptance. Fixed adopted Design/associated Make evidence is task-scoped intake; fixtures, WIP, counts and synthetic behavior do not become financial/security/provider policy or runtime assurance. The nine reviewed sources remained byte-fixed during integration; the detected protected summary/term conflicts were returned for explicit exact-scope Founder authority rather than silently widened.
+
+**Alternatives Considered**
+
+- Leaving the superseded current clauses beside R1 or adding a dated appendix was rejected because it leaves opposing operational definitions.
+- Reopening settled UX, changing the reviewed nine sources in Align, or broadly refreshing glossary/Archive/backend design was excluded by the accepted task and exact addendum.
+- Globally retiring Rent reminder IDs because Bill preferences became inline was rejected; the same IDs retain their separately permitted Rent consumers.
+- Treating optional Save/Skip as general history/list authority, using route existence to create an unadopted Me entry, or deriving metric/reference/arrival/native behavior from fixtures was rejected by the accepted owner contracts.
+
+**Consequences And Handoffs**
+
+DOC-05 retains actual Save/product-policy meaning; DOC-06B/06C retain route/source/reminder UX; DOC-08 retains communication/artifact/effect contracts; DOC-15 retains account/privacy/masking/access/retention. DOC-09/10/11/12/13/14 retain their financial, Evidence, promotion and risk domains; DOC-18 retains business recording/explainability only; representation, provider/security mechanisms and operating evidence remain separately authorized. No permanent destination, domain aggregate, event/status taxonomy, fee/metric formula or implementation mechanism was created. Formal statuses remain Founder Working Baseline, not Approved or launch/coding authority.
+
+The complete Specialist/closure/WDR evidence and fresh independent Stage 9 pass bound the unchanged nine-source snapshot. The exact consumer alignment passed the existing integrated validation/pre-commit gate; this records-only follow-up binds the actual substantive commit without a recursive self-record. Canonical remote publication/convergence is verified by the publication execution result, not presumed from this entry. Manager owns the subsequent baseline handback and authorized roadmap-entry handling; this record performs neither roadmap design nor implementation.
+
+**Supersedes / Superseded By**
+
+Only the named contrary current R1 auth/checklist, central-Bill, unknown-Save/result-access, Inbox Archive, Me/caller and presentation meanings are replaced by their delivered formal owners. Existing historical decision/changelog prose and unrelated legacy terms remain append-only provenance; this entry does not broadly revoke prior records or change global source hierarchy.
+
+**Affected Files**
+
+- [docs/00-foundation/doc-01-project-charter-product-positioning.md](../00-foundation/doc-01-project-charter-product-positioning.md)
+- [docs/01-product/doc-05-master-prd-feature-requirement-index.md](../01-product/doc-05-master-prd-feature-requirement-index.md)
+- [docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md](../01-product/doc-06-user-journey-ux-flow-service-blueprint.md)
+- [docs/01-product/doc-06a-core-user-journeys-service-blueprint.md](../01-product/doc-06a-core-user-journeys-service-blueprint.md)
+- [docs/01-product/doc-06b-navigation-ia-route-taxonomy.md](../01-product/doc-06b-navigation-ia-route-taxonomy.md)
+- [docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md](../01-product/doc-06c-bills-rent-tenancy-ux-module.md)
+- [docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md](../01-product/doc-06d-ux-requirements-acceptance-test-matrix.md)
+- [docs/01-product/doc-07-content-disclosure-user-authorization-spec.md](../01-product/doc-07-content-disclosure-user-authorization-spec.md)
+- [docs/01-product/doc-08-notification-receipt-communication-spec.md](../01-product/doc-08-notification-receipt-communication-spec.md)
+- [docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md](../05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md)
+- [docs/diagrams/routes/payplus-account-activation-route-map.md](../diagrams/routes/payplus-account-activation-route-map.md)
+- [docs/diagrams/routes/payplus-activity-receipts-route-map.md](../diagrams/routes/payplus-activity-receipts-route-map.md)
+- [docs/diagrams/routes/payplus-authentication-route-map.md](../diagrams/routes/payplus-authentication-route-map.md)
+- [docs/diagrams/routes/payplus-bills-route-map.md](../diagrams/routes/payplus-bills-route-map.md)
+- [docs/diagrams/routes/payplus-home-route-map.md](../diagrams/routes/payplus-home-route-map.md)
+- [docs/diagrams/routes/payplus-instructions-route-map.md](../diagrams/routes/payplus-instructions-route-map.md)
+- [docs/diagrams/routes/payplus-me-route-map.md](../diagrams/routes/payplus-me-route-map.md)
+- [docs/diagrams/routes/payplus-notification-route-map.md](../diagrams/routes/payplus-notification-route-map.md)
+- [docs/diagrams/routes/payplus-offers-rewards-referral-route-map.md](../diagrams/routes/payplus-offers-rewards-referral-route-map.md)
+- [docs/diagrams/routes/payplus-payment-checkout-route-map.md](../diagrams/routes/payplus-payment-checkout-route-map.md)
+- [docs/diagrams/routes/payplus-payment-profile-route-map.md](../diagrams/routes/payplus-payment-profile-route-map.md)
+- [docs/glossary/glossary.md](../glossary/glossary.md)
+- [docs/traceability/open-questions-register.md](../traceability/open-questions-register.md)
+- [docs/traceability/requirements-traceability-matrix.md](../traceability/requirements-traceability-matrix.md)
+- [docs/traceability/route-register.md](../traceability/route-register.md)
+- [docs/traceability/status-display-reference-matrix.md](../traceability/status-display-reference-matrix.md)
+
+**Remaining Open Items**
+
+- R03: production paid/date/refund/fee/time/category/label Statistics inputs remain with financial/data/privacy owners.
+- R04: public-artifact reference/date/access and native Save/WhatsApp capability remain owner-backed enablement inputs; no arrival/reference or native success is invented.
+- R05: authoritative period/payment inputs, delivery/time/channel, extraction and future persistence/correlation remain owned; the material-Edit/C1 prototype gap is separate from reminder-only preferences.
+- R06: Archive/growth Make/native parity gaps remain implementation limits, not policy deletion. R01's bounded manual-code window is resolved; R02 retains the configurable seven-calendar-day default.
+- Provider, representation, security mechanisms, implementation, UAT/operations, professional assessment, enablement and launch evidence remain separately gated. Separate November 13 C1/Admin/Payout/CS/no-bank-feed discussions are excluded; this record does not resume roadmap work or authorize coding.
