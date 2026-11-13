@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 1.1.1
+version: 2.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-27
+last_updated: 2026-11-13
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06C` |
 | **Title** | Bills, Rent & Tenancy UX Module |
-| **Version** | `1.1.1` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-27` |
+| **Last Updated** | `2026-11-13` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -61,9 +61,9 @@ This is the current normative DOC-06C Founder Working Baseline. Active sections 
 
 - Opening Pay a Bill/Rent or Setup a Bill/Rent creates temporary pre-validation capture/session state only; it does not establish a durable authoritative Bill/Rent ID.
 - ID establishment consumes an owner-governed source-preservation eligibility outcome. DOC-06C defines the journey boundary and does not define the technical persistence threshold or minimum fields. The ID exists before Save/current projection, Payable Basis or Payment Obligation materialization, or a payment-facing handoff requires it. Pending Evidence, mismatch or scoped Admin review does not automatically prevent ID establishment once the outcome permits it. ID establishment alone does not imply accepted Evidence, verified Payee, destination/Payout readiness, risk clearance, Payment Obligation or Checkout readiness, Declaration, payer authorization, successful Payment, Save or current/Archived/history-only projection.
-- Immediate pay-now never asks for Save before Checkout. After confirmed Payment with its separate Payment ID linked to the source, show Payment Result. A source already Saved/current before Payment keeps that projection without duplicate Save. For an otherwise unsaved source, selected Save makes the same ID Saved/current; declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes it history-only before Activity, Payment History, Receipt or ordinary safe exit.
+- Immediate pay-now never asks for Save before Checkout. After confirmed Payment, preserve an existing Saved/current source without duplicate Save. For an otherwise unsaved source, confirmed Save gives same-ID Saved/current and a known declined Save may receive history-only treatment. Unknown Retry reconciles the original effect; Skip/exit does not assert cancellation, failure or history-only and cannot negate successful Save. DOC-05 Section 10.1 governs the narrow permitted confirmed-result artifact exception and all other source/projection handoffs.
 - Deliberate Save establishes persistence, visibility and reuse intent on the same source ID without Payment. Saved/current does not mean Evidence accepted, ready, approved or authorized. A later Payment is created only under current owner checks and separate DOC-09 payer authorization.
-- Failure or abandonment after ID establishment may leave the source unprojected only when immediate pay ends before confirmed Payment or deliberate setup ends before Save/current projection. It creates no Bills/Rent entry or user-facing incomplete-source status. A newly confirmed Payment for an otherwise unsaved source must resolve to Saved/current or history-only before downstream handoff.
+- Failure or abandonment before confirmed Payment or before deliberate Setup Save may leave the established source unprojected without a Bills/Rent entry or new visible status. After Payment, navigation does not fabricate a Save/projection outcome: preserve known facts and reconcile any unknown operation under DOC-05 Section 10.1.
 
 ### Controlled Bill journeys
 
@@ -81,7 +81,7 @@ Rent is independent of the controlled-Bill Directory and the Bill tiers. A Payer
 ### Save, visibility, Activity and Archive
 
 - Save establishes persistence, visibility and reuse intent on the same authoritative source ID. A Saved/current Bill appears in the active/current list and may be Under Review, Action Required or Ready; those are handling/readiness conditions, not projections.
-- A confirmed Payment for an otherwise unsaved source followed by declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes that same ID history-only. It is neither Saved/current nor Saved/Archived and has no Bills/Rent UI entry. A source already Saved/current before Payment keeps its projection without duplicate Save. The Payment remains visible in global Activity, Payment History and Receipt.
+- A confirmed Payment followed by a known declined Save may receive same-ID history-only treatment without a Bills/Rent UI entry. Unknown, skipped or dismissed Save is not automatically history-only. Preserve an existing Saved/current projection and actual financial history; permitted confirmed-result artifact access before optional Save is only the DOC-05 Section 10.1 exception, not a general list or Save-from-Activity right.
 - Post-payment Save gives the existing source the Saved/current projection; it creates no second source and moves/recreates no Payment lineage.
 - Archive moves a Saved/current source into the Saved/Archived projection and governed Archived Bills presentation. Archived sources do not appear in the active/current list. Archive is not a readiness or financial status and never erases or rewrites Evidence, financial history, destination/payment snapshots, Payout, reconciliation or audit lineage.
 - ARCHIVED-DOCS-LIST remains provisionally retained under the Founder-approved W2-FD-05 decision (Option A); this does not change route status. Exact Restore eligibility, revalidation, prior-version/Evidence-version/replacement-source presentation and detailed Archive/Restore UI remain deferred to DOC-06B/DOC-06C with DOC-10 payout/reconciliation blockers, DOC-11 refund/dispute/chargeback/case blockers and DOC-12/DOC-15/DOC-18 Evidence, privacy/retention and data/lineage handoffs.
@@ -121,7 +121,7 @@ DOC-06C does not own detailed checkout/payment processing, evidence verification
 | Add Bill / Rent flow | Working baseline | Add Bill C1-only Save admission, optional Bill Evidence assistance, separate mandatory-Evidence Rent, Declaration and Pay-time Tier handoff are defined; exact Copy and visual composition remain open. |
 | Evidence sub-route | Working baseline | Evidence detail/upload behavior and status mapping defined; DOC-18 supplies the reviewed business-recording handoff, while exact technical representation remains separately gated. |
 | Archived Bills & Rent | Working baseline / Payer-only re-scope | Saved-source visibility projection and non-erasure are current; exact Restore, evidence-version and prior-version behavior remains deferred. |
-| Reminder list/detail route | Working baseline | Linked reminders, defaults, custom override, toggle, and non-destructive deactivation defined; payment-instruction action alerts remain outside Bills reminder management. |
+| Bill inline / retained Rent reminder consumers | Working baseline | Bill B/D/I and original-day/period-isolated inline policy is defined in §5.12; existing Rent list/detail/defaults remain separate. Delivery and authoritative period inputs remain owner dependencies. |
 | User-to-user Linking | Retired active MVP | Retired stable ID and neutral future seams only; no participant Linking flow or runtime reader. |
 
 ## 4. Product Destination and Retired-ID Traceability Map
@@ -181,8 +181,8 @@ Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER
 | `BILLS-EVIDENCE` | Sub-flow group / shorthand | Evidence sub-flow | Detail-page evidence area, `BILLS-ADD`, or evidence action-required state | Shorthand for bill/rent evidence actions. Evidence is a supporting attachment/status layer of a bill/rent record, not a standalone user object. |
 | `BILLS-EVIDENCE-DETAIL` | Screen or sheet | Evidence detail | Evidence section inside `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` | View and manage the current active evidence set for one bill/rent record. |
 | `BILLS-EVIDENCE-UPLOAD` | Flow / screen group | Evidence upload/update | `Upload` or `Update` from evidence detail, or Evidence step inside `BILLS-ADD` | Upload file, take photo or scan QR; supports OCR/autofill and user correction. Manual Tier 1 Bill facts remain source input in `BILLS-ADD` and are not attached Evidence. |
-| `BILLS-REMINDER-LIST` | Screen | Reminder management | Dashboard shortcut `Reminders` | Alarm-style reminder management screen for reminders linked to a Bill/Rent source or an applicable owner-governed obligation reference. |
-| `BILLS-REMINDER-DETAIL` | Sheet or screen | Reminder setup/edit | `Set Reminder`, `Edit Reminder`, or `+ Add Reminder` | Create or edit one reminder linked to a specific Bill/Rent source or applicable owner-governed obligation reference without treating their identities as interchangeable. |
+| `BILLS-REMINDER-LIST` | Existing screen identity | Retained Rent reminder management | Existing permitted Rent entry | Retained Rent consumers only; source-bound Bill preferences use inline detail/result controls, not a central/manual list. |
+| `BILLS-REMINDER-DETAIL` | Existing sheet/screen identity | Retained Rent reminder setup/edit | Existing permitted Rent callers | Rent behavior remains separate. Bill inline Next Payment Reminder is a control/view, not a new or duplicated route. |
 
 Initial route ownership:
 
@@ -194,9 +194,9 @@ Initial route ownership:
 | Tap `Add Bill / Rent` | `BILLS-ROOT` or Pay+ action sheet | Opens `BILLS-ADD`. Add a Bill applies C1 only before Save; Add Rent follows the separate mandatory-Evidence journey. G1/G2 do not apply or reserve capacity in Add. No active Request-origin return is created. |
 | Tap `Pay` on a payer-side card/detail | `BILLS-PAY`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. DOC-06C owns the entry point and route handoff only. |
 | Tap `Details` | Bill/rent card | Opens the relevant detail screen. |
-| Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Opens `BILLS-REMINDER-DETAIL` for the selected linked record. |
-| Tap `Reminders` shortcut | Dashboard shortcut grid | Opens `BILLS-REMINDER-LIST`. |
-| Tap `+ Add Reminder` | `BILLS-REMINDER-LIST` | Payer selects an existing Bill/Rent source context, then opens `BILLS-REMINDER-DETAIL`; any linked Payment Obligation reference remains distinct and owner-governed. |
+| Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Bill opens/focuses its own detail inline settings; Rent retains its separately permitted `BILLS-REMINDER-DETAIL` caller. |
+| Existing permitted Rent `Reminders` entry | Existing caller | Opens retained Rent `BILLS-REMINDER-LIST`; it is not central/manual Bill management. |
+| Tap `+ Add Reminder` | `BILLS-REMINDER-LIST` | Payer selects an existing permitted Rent source context, then opens `BILLS-REMINDER-DETAIL`; any linked obligation remains distinct and owner-governed. Bill settings are source-bound inline controls. |
 | Tap `View Activities` | Detail page | Opens `BILLS-ACTIVITY`. |
 | Tap one activity entry | `BILLS-ACTIVITY` | Opens `BILLS-ACTIVITY-DETAIL` or a later payment detail route if separately defined. |
 | Tap contextual `View` evidence action | Evidence status area inside bill/rent detail page | Opens `BILLS-EVIDENCE-DETAIL` for the selected bill/rent record. |
@@ -255,7 +255,7 @@ Payer-side card actions when rendered in `BILLS-PAY`:
 | --- | --- |
 | Pay | Opens payment/Checkout handoff for the selected Bill source; DOC-09 owns any applicable Payable Basis, Payment Obligation, eligibility and authorization rules. |
 | View Details | Opens `BILLS-DETAIL-BILL`. |
-| Set Reminder | Opens `BILLS-REMINDER-DETAIL` for this Bill source or an applicable owner-governed obligation reference without treating their identities as interchangeable. |
+| Set Reminder | Opens the same Bill detail and its source-bound inline Next Payment Reminder; this control is not a separate route or source edit. |
 | Update Detail | Replaces normal edit/detail prompt when the card is action-required due to required Evidence or other owner-governed information being rejected, missing, expired or inconsistent. Tier 1 Evidence absence alone is not Action Required. |
 
 Former Payee-side card actions remain append-only documentation history only; no BILLS-RECEIVE action or runtime reader is available.
@@ -289,7 +289,7 @@ Payer-side detail actions when opened from `BILLS-PAY`:
 | --- | --- |
 | Pay | Opens payment/checkout flow. |
 | View Activities | Opens `BILLS-ACTIVITY` for payment and related payout/refund/reversal activity linked to this Bill source. |
-| Set Reminder / Edit Reminder | Opens `BILLS-REMINDER-DETAIL` for this Bill source or an applicable linked obligation without changing their identity. |
+| Next Payment Reminder | Uses the shared source-bound inline editor in this Bill detail, as in applicable payment results; date picker is not a new route. |
 | Edit Details | Opens editable bill/payee/detail fields subject to verification and audit rules. |
 | Archive | Moves this Saved/current Bill source to the Saved/Archived projection and removes it from the current list without deleting the source or history. Exact eligibility and Restore behavior remain deferred to the applicable owners. |
 
@@ -401,11 +401,11 @@ A missing amount or due date is an upstream invariant or retrieval failure. Over
 
 For a Rent reminder, DOC-06C supplies the canonical due timestamp: the effective due date at `23:59` in its canonical timezone. A proposed due-date change does not change this value until applied to the canonical Bill/Rent record.
 
-DOC-06B is the sole normative owner of the HOME-ROOT cap, deterministic ranking and ordering, card presentation, selected Home actions, Home route and return behavior, additional Home masking prohibition, and Important Notice Rent-reminder eligibility window. DOC-06C publishes the canonical source values and revalidation truth above without restating the Home algorithm.
+DOC-06B is the sole normative owner of the HOME-ROOT date/label windows, independent selection and calendar-view behavior, cap/Show All, deterministic ranking and ordering, card presentation, selected Home actions, Home route and return behavior, additional Home masking prohibition, and Important Notice Rent-reminder eligibility window. Manual labels remain source associations; reminder predictions never create confirmed source obligations or due candidates. DOC-06C publishes the canonical source values and revalidation truth above without restating the Home algorithm.
 
 ### 5.8 Bill / Rent Activity Sub-Route
 
-`BILLS-ACTIVITY` is a user-facing sub-route for one selected Saved/current Bill/Rent record. It should be opened from `View Activities` inside the applicable detail screen. It never offers Save and cannot bypass Payment Result projection resolution; a newly confirmed Payment for an otherwise unsaved source reaches global Activity/Payment History/Receipt only after same-ID Saved/current or history-only resolution.
+`BILLS-ACTIVITY` is a user-facing sub-route for one selected Saved/current Bill/Rent record. It should be opened from `View Activities` inside the applicable detail screen. It never offers Save. Global history/list access consumes the actual owner-permitted source/projection facts; unknown Save is not forced into history-only by Skip. Only an independently permitted artifact at confirmed Payment Result may precede optional Save under DOC-05 Section 10.1, with Back to that result.
 
 Primary owner: DOC-06C.
 
@@ -493,11 +493,12 @@ Add a Bill:
 
 1. Select one of the twelve accepted launch controlled Categories first.
 2. Choose the Category-scoped Directory or Provide Payee myself; neither bypasses Category, risk, Payee or destination controls.
-3. Capture the Bill source facts and the owner-required Declaration concerning Category, purpose, amount and Payee/receiving details. Declaration is not Save intent or Payment authorization.
-4. At initial Bill capture, attached Evidence is optional and may be supplied through `BILLS-EVIDENCE-UPLOAD` for AI/OCR-assisted prefill. Manual source-fact input remains available for Tier 1.
+3. In the individual/company entry, select an initially unselected reminder interval: Single, every 1, 2, 3, 4, 6 or 12 calendar months, before upload/manual continuation. Later capture displays that choice without asking again. Capture Bill Date B, payment deadline D and the other Bill source facts, with the owner-required Declaration concerning Category, purpose, amount and Payee/receiving details. Declaration is not Save intent or Payment authorization.
+4. Category-scoped acquisition retains compatible draft on same-category Back; category changes clear incompatible merchant, recipient, attachment and label draft. Directory error is not upload success, and fictional merchants do not establish launch inventory. At initial Bill capture, attached Evidence is optional and may be supplied through `BILLS-EVIDENCE-UPLOAD` for AI/OCR-assisted prefill. Manual source-fact input remains available for Tier 1.
 5. The Payer reviews the declared material facts and deliberately confirms them before the separate Save-admission decision. Apply C1 only before Save. If the proposed amount exceeds C1, Save is not permitted. G1/G2 do not apply and no monthly capacity is reserved.
 6. Consume the owner-governed source-preservation outcome and establish one authoritative Bill ID where permitted. Deliberate Save gives that ID the Saved/current projection without Payment.
-7. Save does not establish Evidence acceptance, readiness, approval, Payment authorization or future Tier.
+7. Ordinary Bill/Rent review/save presents Save, not Continue Payment. Confirmed creation of a saved source offers `立即付款` bound to that exact current same-account source, alongside View/Home; editing success does not gain the new-source Pay CTA. Instruction-origin confirmed source Save instead returns to the original Instruction draft, selects that source and preserves target/date; explicit Create or Pay is still required. Cancel or unknown Save does not take the confirmed-success path.
+8. Save does not establish Evidence acceptance, readiness, approval, Payment authorization or future Tier. Immediate-pay acquisition has no forced prior Save. The C1 no-Save/current-payment fallback below is a separate owner-conditional exception, not an ordinary pre-save payment CTA.
 
 | Add / current Payment condition | Required Payer task meaning | Current action boundary |
 | --- | --- | --- |
@@ -514,7 +515,7 @@ Pay a Bill:
 3. C1 or G1 without G2 uses Tier 2: require qualifying owner-approved official Bill Evidence presence before Payment. Payment may proceed while acceptance remains pending; Payout remains held.
 4. G2 uses Tier 3: require qualifying official Bill Evidence and mandatory authorized approval before any executable Payment action.
 5. A prepared Tier 3 `PAYMENT-CHECKOUT` Workspace may preserve context, but before approval it exposes no executable Payment authorization, Provider Submission or confirmed Payment. After approval, present the current Bill context first; a deliberate `Pay` action invokes the DOC-09 resolver. It may Resume only when current revalidation confirms the prepared Workspace remains active, eligible and continuable. No new route, approval notification or recovery object is created.
-6. After confirmed Payment, retain an existing Saved/current projection without duplicate Save; otherwise resolve optional Save on the same ID to Saved/current or history-only before downstream Activity/Payment History/Receipt or ordinary safe exit.
+6. After confirmed Payment, preserve an existing Saved/current projection or consume the actual same-ID optional Save outcome under DOC-05 Section 10.1. Unknown Retry reconciles; Skip/exit never fabricates cancellation/history-only. Independently permitted confirmed-result artifacts use only its narrow exception.
 
 Declaration continuity:
 
@@ -540,8 +541,8 @@ Illustrative capture areas (not a technical persistence threshold or exact minim
 | --- | --- | --- |
 | Name | Bill name, required. | Rent/tenancy name, required. |
 | Amount | Bill amount / invoice amount. | Rent amount. |
-| Date / Period | Invoice date and due date. | Rent period and rent due date. |
-| Frequency | One-off, monthly, bi-monthly, quarterly, yearly, or custom if enabled. | Usually monthly for rent; custom frequency if enabled. |
+| Date / Period | Required Bill Date B and payment deadline D, deliberately reviewed when extracted. | Rent period and rent due date. |
+| Frequency | Required upfront, initially unselected Single or every 1/2/3/4/6/12 calendar months; detail displays it in Data → Bill Data. No monthly default or custom/irregular interval. | Usually monthly for rent; custom frequency if enabled. |
 | Payee / Landlord | Name required where available; ID and phone optional unless category rules require them. | Landlord/payee name required where available; ID and phone optional unless category rules require them. |
 | Account / Payout Details | Payer-entered or context-selected recipient name, receiving method, bank/provider, and destination identifier where applicable. | Payer-entered or context-selected landlord/payee name, receiving method, bank/provider, and destination identifier where applicable. |
 
@@ -689,6 +690,33 @@ Archive moves an already Saved/current authoritative Bill/Rent source into the S
 
 ### 5.12 Reminder Route
 
+#### Source-bound Bill reminder policy
+
+Bill reminders are settings of the same authoritative Bill, not central/manual task management, automatic payment, a new obligation or a source Save. Detail and applicable single/split payment results share one inline Next Payment Reminder; no duplicate Bill list or obsolete editor popup is required. Date selection remains an inline control/date picker, not a newly assigned route.
+
+| Bill input or condition | Required treatment |
+| --- | --- |
+| New capture | Bill Date B and payment deadline D are required. Require initially unselected interval I: Single, every 1/2/3/4/6/12 calendar months, upfront in the individual/company entry before upload/manual continuation. Later capture shows that choice; detail places frequency in Data → Bill Data. No monthly default, custom/irregular interval or repeated interval question. |
+| Current unpaid period | Reference R is D unless that selected period has a deliberate custom reminder date C. B, source creation date, actual payment date and C do not become cycle anchors. |
+| Next period | Use original confirmed D+I, preserving the original day across calendar months: clamp to short-month end only for that occurrence and return to the original day in later months. Do not calculate iteratively from a clamped February date. Single has no recurring interval. |
+| Notification modes | Default Three uses R−7 days, R−3 days and R; Once uses R. Show actual remaining dates and never backfill elapsed dates or imply delivery. Actual time, timezone, channel, permission and delivery eligibility belong to DOC-08; no new delivery time/time picker or background service is selected. |
+| Old past-due Bill | Ask Still Unpaid versus Forward Reminders. Still Unpaid retains that period. Only explicit Forward chooses the smallest n≥1 with original D+nI≥today and asks confirmation. This is not an automatic rule for late payment. |
+| Old Single + Forward | Permit one manually selected future date and one reminder, without inventing a recurring interval. |
+| Custom C or late payment | C affects only the selected period; the next returns to original D+I. A very late payment does not silently skip known unpaid periods. No-backfill remains. First interval assignment preserves an already-selected C; a genuine I change preserves period isolation. |
+| Whole-period paid | Only the applicable authoritative whole-period paid confirmation ends the current reminder. A single Payment/Funding Leg or completed partial Checkout is insufficient. DOC-09 supplies the qualifying truth, not a local UI sum. |
+| Partial or pending | Known unpaid remainder retains its applicable reminder. Pending avoids duplicate-payment prompting for processing value without declaring paid or hiding other known unpaid value. |
+| Inline On/Off | Detail and applicable single-result, split-leg and all-complete results use the same source-bound settings. Off disables Three/Once and hides pending dates but permits date selection; On restores choices. Return/reopen does not create another settings copy. |
+| Valid-D/missing-B existing Bill | An existing same-account Bill with valid known D but absent B may save reminder preferences alone, without fabricated B, source Edit, C1 refresh, new Save, projection/due-fact or financial-snapshot change. This does not cover new, missing, foreign or invalid-D sources. |
+| Real source edit | New capture and actual material Bill-data edits still require B/D/I and applicable fresh owner admission/reconfirmation. Preference success is not source admission or a repair of the separate material Edit/C1 implementation gap. |
+| Archived Bill | Source Archive makes the Bill's linked reminders inactive while preserving historical settings and source/financial facts. Archive is not whole-period paid confirmation and defines no Restore behavior. |
+| Source and records | Settings never create another Bill, obligation, Payment, financial status or authorization. Predictions do not populate Home/calendar as confirmed obligations. Archive/retention remains lawful, source-bound and non-destructive. |
+
+DOC-12 extracted dates remain proposals for deliberate review. DOC-09 supplies period/payment/pending truth, DOC-08 delivery/channel/time controls, DOC-15 privacy/retention and DOC-18 business-recording obligations. Production period inputs, delivery capability, persistence and operation correlation remain owned implementation/enablement dependencies, not unresolved UX votes.
+
+#### Existing Rent reminder consumers — unchanged separate policy
+
+The following retained list/detail identities and management behavior apply to the existing Rent policy only. They are not a central/manual Bill entry or a new Bill route. Stable IDs retain their provenance; no global retirement is inferred from the Bill inline change.
+
 Reminder routes must use specific route IDs:
 
 - `BILLS-REMINDER-LIST` for the reminder management screen.
@@ -696,15 +724,15 @@ Reminder routes must use specific route IDs:
 
 `BILLS-REMINDER` may be used only as a shorthand discussion label. AI build documents should use the specific list/detail route ID so screens, sheets, and actions are not confused.
 
-Reminder source type should be stored internally without overexposing technical labels to users. MVP source types should include system due-date reminder, user manual reminder, and user custom override reminder. Payment instruction action alerts are not ordinary Bills reminder records and should not appear in `BILLS-REMINDER-LIST`.
+Reminder source type should be stored internally without overexposing technical labels to users. MVP source types should include system due-date reminder, user manual reminder, and user custom override reminder. Payment instruction action alerts are not ordinary Rent reminder records and should not appear in `BILLS-REMINDER-LIST`.
 
-Every Bills reminder must have a `reminderID` and link to exactly one existing Bill/Rent source ID or, where the applicable owner permits, one linked obligation reference. The reminder must not treat those identities as interchangeable. A reminder created from a Bill/Rent card or detail page should inherit its governing source context. A reminder created from `BILLS-REMINDER-LIST` through `+ Add Reminder` must first require the Payer to select an existing Bill/Rent source context. Free-floating reminders are not MVP scope.
+Every retained Rent reminder must have a `reminderID` and link to exactly one existing Rent source ID or, where the applicable owner permits, one linked obligation reference. The reminder must not treat those identities as interchangeable. A reminder created from a Rent card or detail page should inherit its governing source context. A reminder created from `BILLS-REMINDER-LIST` through `+ Add Reminder` must first require the Payer to select an existing Rent source context. Free-floating reminders are not MVP scope.
 
 `BILLS-REMINDER-LIST` should use the following rough screen order:
 
 1. Page title: `Reminders`.
 2. Top action: `+ Add Reminder`.
-3. Filter row: All, Bill, Rent, Due Soon, Inactive.
+3. Filter row: All, Rent, Due Soon, Inactive.
 4. Optional sort control: Due Date or Amount.
 5. Reminder card list, ranked by due date by default.
 6. Empty state when no reminders exist.
@@ -713,7 +741,7 @@ Every Bills reminder must have a `reminderID` and link to exactly one existing B
 Reminder cards should show, in compact order:
 
 - reminder summary;
-- linked Bill/Rent name, the controlled Bill Category where applicable or Rent journey/source type, and the current owner-governed readiness/status presentation;
+- linked Rent name, the controlled Bill Category where applicable or Rent journey/source type, and the current owner-governed readiness/status presentation;
 - amount and due date;
 - reminder timing and next reminder date;
 - on/off toggle on the right side.
@@ -722,7 +750,7 @@ Tapping the non-toggle area of a reminder card opens `BILLS-REMINDER-DETAIL`.
 
 `BILLS-REMINDER-DETAIL` should use the following rough screen order:
 
-1. Linked bill/rent/fee summary.
+1. Linked rent/fee summary.
 2. Active/inactive toggle.
 3. Reminder type: due-date based or custom date/time.
 4. Cycle: one-off, monthly, bi-monthly, quarterly, yearly, or custom if enabled.
@@ -736,19 +764,16 @@ DOC-06C owns the approved reminder-default product policy. DOC-22 may expose and
 | Record Type | Default Reminder |
 | --- | --- |
 | Rent | Monthly, 3 days before due date. |
-| Monthly bill | Monthly, 3 days before due date. |
-| One-off invoice | Once, 3 days before due date. |
 
-If a user custom reminder exists for the same bill/rent reminder period, it overrides the system/default reminder for that instance.
+If a user custom reminder exists for the same rent reminder period, it overrides the system/default reminder for that instance.
 
 Reminder status and lifecycle:
 
 | Condition | Reminder Behavior |
 | --- | --- |
-| Linked bill/rent is archived | Reminder becomes inactive. |
-| One-off invoice is fully paid | Reminder becomes inactive. |
+| Linked rent is archived | Reminder becomes inactive. |
 | Reminder date has passed and reminder is not recurring | Reminder becomes expired or inactive. |
-| Evidence is expired, invalid, rejected, or requires review | Reminder remains valid. For Tier 1 Bills, absence alone does not create Action Required; Tier 2/3 and Rent consume the applicable owner-controlled Evidence gate. The linked presentation must preserve its Tier/Rent meaning. |
+| Evidence is expired, invalid, rejected, or requires review | The retained Rent reminder remains valid; the linked Rent Evidence/readiness presentation consumes its applicable owner-controlled gate and is not payment authorization. |
 
 Reminder deactivation should be supported from `BILLS-REMINDER-LIST`:
 
@@ -762,7 +787,7 @@ Reminder deactivation should be supported from `BILLS-REMINDER-LIST`:
 
 User-created or custom reminder records may be disabled or deactivated. System/default due-date reminders should normally be disabled. Payment instruction action alerts are excluded from this reminder-management flow; no reminder record is destroyed.
 
-Due soon, overdue, evidence rejected, and payment-readiness action states belong primarily to the linked bill/rent card and detail page. Reminder cards should focus on reminder state such as next reminder date, reminder off, reminder expired, or custom reminder set.
+Due soon, overdue, evidence rejected, and payment-readiness action states belong primarily to the linked rent card and detail page. Reminder cards should focus on reminder state such as next reminder date, reminder off, reminder expired, or custom reminder set.
 
 DOC-08 owns notification IDs, channel matrix, templates, user preferences, retry behavior, and delivery logging. DOC-06B owns `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` route shells and return presentation. DOC-09 owns the domain distinction between deliberate Payment Instructions and incomplete Checkout Workspaces. DOC-15 owns sensitive-data display and masking. DOC-18 owns current business-recording, history, lineage and explainability obligations; final schema, event taxonomy and analytics implementation remain separately gated.
 
@@ -880,15 +905,18 @@ DOC-06C defines the following user-journey boundaries:
 7. Declaration, Save intent and Payment authorization remain distinct; unchanged facts require no new Declaration; user changes use owner-defined proportionate reconfirmation.
 8. Saved/current Bills may remain visible while Under Review, Action Required or Ready; those conditions do not create or remove the projection.
 9. Archive moves a Saved/current source to Saved/Archived presentation, excludes it from `BILLS-PAY`, and does not erase source or history.
-10. History-only treatment remains limited to the established confirmed-Payment/no-Save rule.
+10. Confirmed Save/known declined/unknown Save remain distinct under DOC-05 §10.1: Retry reconciles, Skip does not fabricate history-only, and only an independently permitted confirmed-result artifact has the narrow pre-Save exception.
 11. Category prepayment uses the aggregate C1/G2 amount and one G1 progression without creating Evidence-coverage classification.
 12. Rent remains outside Bill C1/G1/G2 and tiers, requires attached Evidence accepted before Payment, and cannot use Declaration to bypass that gate.
-13. C1 values/operating details, official Bill Evidence Category lists, Tier 3 operating controls, Declaration presentation and professional confirmations remain visible later dependencies at their actual enablement/implementation/acceptance/launch blocking level rather than being hidden in DOC-22 workflow language.
+13. Bill reminder coverage includes upfront unselected seven intervals/B/D, original-day calendar anchoring, selected-period C, explicit old-Bill forward/Single-once, no backfill/auto-skip, authoritative whole-period/partial/pending handling, shared inline Off/On/reopen and the exact valid-D/missing-B preference-only exception without source/C1/projection effects.
+14. Confirmed new-source Save exposes exact-source Immediate Pay; ordinary review uses Save and edit success does not gain Pay. Immediate Checkout has no forced prior Save. By contrast, Instruction source-add success and auto-selection require confirmed current same-account source Save, preserving the original Instruction draft/date/target and requiring explicit Create or Pay; cancel or unknown Save is not success.
+15. C1 values/operating details, official Bill Evidence Category lists, Tier 3 operating controls, Declaration presentation and professional confirmations remain visible later dependencies at their actual enablement/implementation/acceptance/launch blocking level rather than being hidden in DOC-22 workflow language.
 
 ## 8. Version History
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.0.0 | 2026-11-13 | Canonical Writer: Drafted PP-MVP-20261112-R1 controlled capture/new-source Pay, unknown-Save exception and source-bound Bill B/D/I reminder policy with shared inline editor and narrow legacy preferences exception; retained separate Rent and admission controls. Corrected confirmed Instruction-source Save versus immediate Checkout and restored Bill Archive reminder inactivation through the consolidated Specialist batch. |
 | 1.1.1 | 2026-08-27 | Aligned complete Bill/Rent material-fact, same-Bill Category-amendment, prior-history, four-context Declaration, and DOC-18 business-versus-technical handoffs without designing UI, Copy, schemas, events, or implementation. |
 | 1.1.0 | 2026-08-22 | Drafted Bill detail-first Tier 3 return, Tier 2 layered presentation, Evidence-to-Activity separation, proportionate Declaration and Save-versus-current-Payment task expression without creating routes, statuses, notifications, technical controls, or enablement. |
 | 1.0.0 | 2026-08-18 | Implemented the material Bills-only UX baseline and fixed-seat compliance supplement; traced the Founder-updated official Bill Evidence framework, preserved C1/Tier 3/Declaration semantics, neutralized active lifecycle-language ambiguity, qualified reminder retention by lawful scope, and retained exact Copy/representation ownership. |

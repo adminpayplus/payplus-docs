@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 1.0.1
+version: 1.1.0
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-08-27
+last_updated: 2026-11-13
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -35,12 +35,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-01` |
 | **Title** | Product Overview & Positioning |
-| **Version** | `1.0.1` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Commercial Lead |
 | **Approvers** | Product Lead<br>Project Owner |
-| **Last Updated** | `2026-08-27` |
+| **Last Updated** | `2026-11-13` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -309,7 +309,7 @@ The narrow controlled MVP includes:
 The high-level lifecycle then follows the Payer's chosen purpose:
 
 - **Deliberate Setup:** the same source ID becomes Saved/current because the Payer deliberately chose setup/reuse. No Payment or Payment ID exists. Any later Payment receives fresh applicable Evidence, Payee, destination, Payout, risk, readiness, Checkout and Payer-authorization checks.
-- **Immediate pay-now:** no Save decision occurs before Checkout. The Payer reviews current quote, fee, disclosures, timing and material facts, supplies fresh authorization, and proceeds through DOC-09/DOC-10 Payment and Payout controls. A confirmed Payment has its own Payment ID linked to the source. Payment Result then precedes the optional Save resolution for an otherwise-unsaved source: selected Save makes the same source Saved/current; declined, skipped, dismissed or closed Save makes it history-only. That projection resolution occurs before ordinary continuation to Activity, Payment History, Receipt or safe exit. Payment history remains visible regardless of Save.
+- **Immediate pay-now:** no Save decision occurs before Checkout. The Payer reviews current quote, fee, disclosures, timing and material facts, supplies fresh authorization, and proceeds through DOC-09/DOC-10 Payment and Payout controls. A confirmed Payment has its own Payment ID linked to the source. Payment Result preserves actual optional same-ID Save truth under DOC-05 Section 10.1: confirmed Save gives Saved/current; a known declined Save may receive history-only, while unknown Retry reconciles the original effect and Skip/exit does not establish cancellation, failure or history-only. That owner also governs the narrow independently eligible confirmed-result artifact exception before optional Save, with return to Result and no general history/list or Save-from-Activity right. Financial records exist independently of Save; current access remains owner-governed.
 - **Pre-confirmed failure or abandonment:** an established source may remain unprojected. It is not Saved/current, Saved/Archived or history-only and receives no invented visible status or route. DOC-09 owns applicable payment-lifecycle continuation or recovery, DOC-15 owns retention requirements, and the reviewed DOC-18 Draft requires the business history and action basis to remain explainable. Exact technical representation and lifecycle implementation remain separately authorized future work.
 
 Detailed state, settlement, Payout, refund and chargeback rules belong to DOC-09, DOC-10 and DOC-11. Archive and source-list visibility never erase financial history.
@@ -565,6 +565,7 @@ This document remains a concise charter and must not become a detailed PRD, lega
 ## 24. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-11-13 | Canonical Change Integrator | Synchronized only the high-level immediate-pay post-Result summary with the reviewed DOC-05 actual-Save and independently permitted result-artifact contract under the exact R1 scope addendum; no source-owner policy, approval status, implementation or Git publication was changed. |
 | 1.0.1 | 2026-08-27 | Product Documentation Team | Aligned same-Bill Category amendment and prior-history meaning with the reviewed DOC-18 business-recording Draft, and removed current technical-representation implications. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.12.1` | `2026-08-12` | Product Documentation Team | Corrected the high-level Payer lifecycle to distinguish deliberate Setup, immediate pay-now and pre-confirmed unprojected abandonment; placed optional same-ID Save/history-only resolution after confirmed Payment Result; and aligned Acceptance Criteria without adding technical lifecycle detail. |

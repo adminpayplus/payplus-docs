@@ -2,7 +2,7 @@
 
 Status: Current discussion reference
 Owner: DOC-06B for route-level UI/UX; DOC-09 for Payment Domain architecture
-Last updated: 2026-08-22
+Last updated: 2026-11-13
 
 This derived diagram projects the reviewed payer-visible `PAYMENT-CHECKOUT` journey from DOC-06B Section 5.20. DOC-06B remains the primary source for adaptive presentation behavior, DOC-09 remains authoritative for payment-domain facts and invariants, and the route register remains authoritative for destination identity and definition status.
 
@@ -46,12 +46,20 @@ flowchart TD
         U -->|"Owner-confirmed recovery"| F
     end
 
-    D --> X["Safe completion exit"]
-    P -->|"Close if permitted"| H
-    P -->|"Safe return; continuation preserved"| X2["Safe return or approved later continuation"]
-    W -->|"Safe return"| X2
-    U -->|"Close if permitted"| H
-    U -->|"Safe return"| X2
+    D --> G{"Newly confirmed Payment<br/>on otherwise-unsaved source?"}
+    P -->|"Permitted close / safe return"| G
+    W -->|"Safe return; no cancellation inference"| G
+    U -->|"Permitted close / safe return"| G
+    G -->|"No; retain actual existing facts"| X["Current condition-permitted safe exit<br/>no general list entitlement"]
+    G -->|"Yes"| SAVE["Optional same-ID source Save<br/>DOC-05 Section 10.1"]
+    SAVE -->|"Confirmed Save"| SAVED["Same ID Saved/current"]
+    SAVE -->|"Known declined Save"| HISTORY["Owner-defined history-only"]
+    SAVE -->|"Unknown: Retry reconciles same effect"| UNKNOWN["Preserve known facts<br/>not a new projection/status"]
+    UNKNOWN -->|"Skip / exit does not cancel or fabricate history-only"| X
+    SAVED --> X
+    HISTORY --> X
+    D -. "Independently permitted result artifact; Back to this Result" .-> ARTIFACT["Existing eligible receipt / public PNG artifact"]
+    P -. "Private receipt if eligible; public proof has separate full-Bill gate<br/>Back to actual Result" .-> ARTIFACT
 
     classDef source fill:#f3f4f6,stroke:#4b5563,color:#111827,stroke-width:1.5px;
     classDef presentation fill:#e8f2ff,stroke:#2563eb,color:#102a43,stroke-width:1.5px;
@@ -62,8 +70,8 @@ flowchart TD
     class SRC,INS,NOTIF,NDETAIL source;
     class N,O,F,SC,MC,V,A,E,P,W,U presentation;
     class R,C condition;
-    class D,X completion;
-    class H,X2 resolution;
+    class D,X,SAVED,HISTORY completion;
+    class H,SAVE,UNKNOWN,ARTIFACT resolution;
     style WORKSPACE fill:#ffffff,stroke:#2563eb,stroke-width:2px
 ```
 
@@ -77,6 +85,8 @@ flowchart TD
 - Intentional Resume proceeds to Funding only when Funding is the next permitted task. Otherwise DOC-06B's decision map and Minimum Adaptive UI Contract restore the applicable Review, progress, pending, result, or safe-return presentation after required revalidation.
 - Approved Card, Payment Profile, provider, 3DS, reauthentication, and application handoffs return to the safest valid presentation only after the checks owned by the applicable domain, provider, and security documents; the diagram intentionally leaves that detailed resolution in DOC-06B.
 - Fully funded completion is terminal and exposes no Funding, Continue, adjust, retry, wait, or Close Checkout action. Pending evidence exposes no retry or alternate-funding submission while evidence remains unresolved. Partial and unsuccessful results expose only owner- and condition-permitted actions.
+- Optional source Save is not a financial continuation/pending state. Known success/decline/unknown remain distinct; Retry reconciles the same effect, Skip never negates successful Save, and eligible result artifacts may precede optional Save only under DOC-05 Section 10.1 with actual Result return. No general history/list/Save-from-Activity right follows.
+- Private Single/Combined receipts preserve actual eligible confirmed Payment membership, including individual partial-leg receipts. Public PNG requires independent current same-account full linked-Bill coverage and valid identity/source/reference/access binding under DOC-08 Section 12.2; neither a smaller completed target nor one leg proves it. Save/Share revalidate; arrival/reference/native capability stays owner-backed Open, with truthful download-start/observed-save/user-confirmed handoff.
 - Late confirmation remains outside ordinary Checkout continuation and follows DOC-09's independent controlled-resolution treatment.
 - Instruction `Pay Now` invokes the DOC-09 Checkout Resolver rather than predetermining new-versus-Resume identity. An existing Checkout resumes only when it remains active, eligible, and continuable; a later eligible Checkout may begin only when no active continuable Checkout exists; otherwise the payer receives the applicable source or historical resolution.
 - Every instruction-related notification enters `NOTIFICATION-DETAIL` first. Notification content and delivery do not establish current eligibility or result; only after current-state, payer, permission, target, and action-availability revalidation may an owner-approved current CTA invoke the same resolver. There is no notification-to-Checkout bypass edge.

@@ -4,7 +4,7 @@ Status: Working alignment reference
 
 Owner: Product / Documentation Owner
 
-Last updated: 2026-08-27
+Last updated: 2026-11-13
 Classification: Internal
 
 This glossary defines approved PayPlus terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
@@ -135,7 +135,7 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 | Notification Batch | Optional grouping for campaign, scheduled, manual, support, or other approved multi-message activity. | DOC-08 / DOC-18 / DOC-22 |
 | Notification Category | Inbox presentation grouping: `System`, `Service`, `Transaction`, or `Promotion`. It is not a lifecycle status. | DOC-08 |
 | Inbox Presentation State | Recipient-specific `Unread`, `Read`, or `Archived` state. It does not change the owning domain object or resolve Action Required. | DOC-06B / DOC-08 |
-| Notification Inbox | `NOTIFICATION-INBOX`, the default child screen under `NOTIFICATION-ROOT` for searching, filtering, reading, and archiving notification records. | DOC-06B / DOC-08 |
+| Notification Inbox | `NOTIFICATION-INBOX`, the default child screen under `NOTIFICATION-ROOT` for searching, filtering and reading permitted notification records. The adopted MVP has no Inbox Archive/Restore affordance or Archived filter; retained historical metadata is not deleted by this UI boundary. | DOC-06B / DOC-08 |
 | Notification Detail | `NOTIFICATION-DETAIL`, the child screen for one permitted message, mapped domain context, and current valid action. | DOC-06B / DOC-08 |
 | Notification Settings | `NOTIFICATION-SETTINGS`, the child screen for permitted channel and communication preferences. Privacy & Data remains the source for underlying consent/data-use choices. | DOC-06B / DOC-08 / DOC-15 |
 
@@ -161,7 +161,7 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 | Primary Account Email | The unique verified email assigned to one PayPlus account for account communication and supported authentication. The same primary email cannot belong to another PayPlus account. | DOC-15 |
 | Entrance Root | `ENTRANCE-ROOT`, the sole unauthenticated app root providing approved public content plus Log In and Create Account entry actions. | DOC-06B |
 | Login Route Family | `AUTH-LOGIN`, the authentication entry resolver that opens Fast Login for an eligible remembered account and Full Login otherwise. | DOC-06B |
-| Fast Login | `AUTH-LOGIN-FAST`, the eligible remembered-account login experience using enabled OS biometric authentication or password fallback. Eligibility rolls for one month from each successful login and may end earlier for approved risk, device, credential, account, or security reasons. | DOC-06B / DOC-15 |
+| Fast Login | `AUTH-LOGIN-FAST`, the eligible remembered-account login experience using its distinct Login PIN or previously enabled OS biometric authentication. Eligibility rolls for one month from each successful login and may end earlier for approved risk, device, credential, account, or security reasons. Separately applicable optional password/recovery remains owner-governed. | DOC-06B / DOC-15 |
 | Login Method | An explicitly enabled way to authenticate to one PayPlus account: email/password, Google, or Apple. Login methods do not create separate product accounts. | DOC-06B / DOC-15 |
 | External Login Provider Identity | The stable provider-specific Google or Apple identity linked to one PayPlus account after explicit provider authentication. Matching email alone never creates or transfers this link. | DOC-15 / DOC-18 |
 | Registration Attempt | A temporary pre-account record used to complete registration checks. It creates no PayPlus account, does not reserve proposed identifiers, grants no login or financial rights, and creates no referral attribution. | DOC-06B / DOC-15 / DOC-18 |

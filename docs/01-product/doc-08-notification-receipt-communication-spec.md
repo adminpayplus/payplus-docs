@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 2.1.1
+version: 3.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-09-01
+last_updated: 2026-11-13
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,12 +43,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `2.1.1` |
+| **Version** | `3.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-09-01` |
+| **Last Updated** | `2026-11-13` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -228,7 +228,7 @@ For DOC-06B dashboard placements:
 | Hot Offer | Home presentation does not create a notification event or Inbox record. Canonical Offer content and truth belong in DOC-13; Home placement configuration and publication quality controls belong in DOC-22; notification delivery remains a separate DOC-08 decision. |
 | Inbox icon | Opens `NOTIFICATION-INBOX`, which may show notification-backed messages, announcements, support replies, and user action items according to configured rules. |
 
-The user-facing notification family is `NOTIFICATION-ROOT`, with `NOTIFICATION-INBOX` as its default child screen, `NOTIFICATION-DETAIL` for one message, and `NOTIFICATION-SETTINGS` for preferences. `NOTIFICATION-LIST` and `NOTIFICATION-CARD` are components, and Archived is an Inbox filter rather than a separate route. DOC-06B owns screen behavior, entry points, and return rules; DOC-08 owns which records exist and how they are categorized, delivered, retained, and controlled.
+The user-facing notification family is `NOTIFICATION-ROOT`, with `NOTIFICATION-INBOX` as its default child screen, `NOTIFICATION-DETAIL` for one message, and `NOTIFICATION-SETTINGS` for preferences. `NOTIFICATION-LIST` and `NOTIFICATION-CARD` are components. The adopted MVP exposes no Inbox Archive/Restore action or Archived filter; any retained historical archive metadata is non-UI and this presentation decision changes no record-retention rule. DOC-06B owns screen behavior, entry points, and return rules; DOC-08 owns which records exist and how they are categorized, delivered, retained, and controlled.
 
 ### 7.1 HOME-ROOT Important Notice Notification Contract
 
@@ -267,11 +267,11 @@ Every Inbox record must keep these concepts separate:
 | Signal | Rule |
 | --- | --- |
 | Category | Use the approved `System`, `Service`, `Transaction`, or `Promotion` presentation group associated with the notification event. |
-| Presentation state | Store recipient-specific `Unread`, `Read`, or `Archived`; `All` excludes Archived. |
+| Reading state | Recipient-specific Unread or Read, independent of category and domain status. The adopted MVP has no Inbox Archive/Restore affordance; retained historical record or archive metadata is not deleted or reclassified by that UI decision. |
 | Domain status | Resolve the current user-facing label from the owning domain and `status-display-reference-matrix.md`. |
 | Action Required | Derive from the owning domain's current user task or resolution need. Inbox must not invent or clear it. |
 
-Opening a notification must revalidate the target, permission, domain status, and action availability. The message may retain status/action-at-send snapshots for audit, while the current UI uses the latest authorized state. Marking a message read or archived changes only the recipient's Inbox presentation.
+Opening a notification must revalidate the target, permission, domain status, and action availability. The message may retain status/action-at-send snapshots for audit, while the current UI uses the latest authorized state. Mark a message read only after its necessary permitted detail content loads successfully, not on card tap, failed retrieval or unavailable content. Reading changes only the recipient's Inbox presentation; it does not resolve an action or domain state. Cards and approved external entries open Detail before material actions, which revalidate the current owning state.
 
 ---
 
@@ -489,7 +489,7 @@ Normal due-date reminders and user manual bill/rent reminders continue to route 
 | `NOTIF-REM-002` | Bill/rent reminder due | App, push where permission granted | Optional service |
 | `NOTIF-REM-003` | Bill/rent reminder disabled, deactivated, expired, or inactive | App or disabled external channels | Optional service |
 
-Ordinary reminder events are governed by DOC-06C `BILLS-REMINDER-LIST` and `BILLS-REMINDER-DETAIL`. App notification and push notification are MVP where permission is granted. Email, SMS, and WhatsApp may be enabled through the channel matrix, but should avoid sensitive bill, rent, evidence, account, and payee details outside the authenticated app. Payment instruction action alerts remain under `NOTIF-PINS-*` and must not create ordinary bill/rent reminder records.
+Bill reminder events consume the current source-bound settings defined in DOC-06C Section 5.12, shared by Bill detail and applicable payment results; a central/manual Bill list is not required. Bill Date, deadline, interval, period-specific custom date and applicable whole-period paid/partial/pending inputs retain their source/financial owners and do not create an obligation or authorize payment. Rent retains its separate existing reminder policy and any still-permitted list/detail consumers. App notification and push are MVP where permission is granted; actual delivery/time/timezone/channel rules remain owner-governed, with no invented delivery time or past-date backfill. Email, SMS and WhatsApp remain subject to the channel matrix and sensitive-content restrictions. Payment Instruction alerts remain under `NOTIF-PINS-*` and create no ordinary reminder record.
 
 ### 11.6 Payout Events
 
@@ -568,7 +568,7 @@ Detailed policy and operational handling belong in DOC-11 and DOC-21.
 
 ### 12.1 Payment Receipt
 
-A payment receipt should include:
+A private payment receipt preserves actual eligible confirmed Payment membership: one Payment uses Single, including one confirmed split leg; two or more use Combined with individual Single access for each actual member. Zero eligible confirmed Payments has no enabled receipt. This presentation does not merge Payment identities, prove whole-Bill coverage or establish Payout completion. It should include the applicable source-owned facts:
 
 - receipt ID;
 - payment ID where available;
@@ -590,9 +590,23 @@ Receipt access, format and presentation remain with the applicable route, conten
 
 ### 12.2 Proof of Payment
 
-Proof of payment should be available only when the relevant payment outcome is confirmed.
+Public proof is separate from the Payer's private receipt. The selected MVP output is a PNG containing exactly:
 
-It should not imply payout is complete unless payout completion is separately confirmed.
+1. recipient name;
+2. receiving method;
+3. approved masked receiving account;
+4. Bill principal total;
+5. context payment date;
+6. authoritative arrival-date treatment; and
+7. one public reference.
+
+Exclude funding methods/card tails, nicknames, Funding Leg lists, fees, discounts, private Payment IDs and recipient phone. Payment date is not arrival date; missing arrival information must be shown as unavailable, not guessed. A public reference cannot be inferred from another transaction, card tail or arbitrary bank identifier.
+
+Public proof requires current same-account fully confirmed linked-Bill coverage and valid source, transaction and reference binding supplied by the applicable financial/access owners. A smaller completed Checkout target, one partial split leg, pending/failed, foreign, stale or tampered context does not establish eligibility. Eligible individual Payments may still have private receipts. Revalidate current identity, ownership, coverage, access and artifact binding before both Save and Share; public proof never asserts Payout completion without DOC-10 confirmation.
+
+User-requested WhatsApp handoff carries that same PNG. A valid recipient phone with known international code from the same source targets that recipient chat; otherwise use ordinary recipient selection. The user chooses and confirms transmission. Recipient phone is not added to the public PNG. A deeplink is not an attached image, clipboard preparation is not sending, download initiation is not gallery storage, and automatic attachment/sending or public hosting is not authorized. Present only the actual supported fallback without false success.
+
+DOC-08 owns this content/handoff contract; DOC-06B owns result/file presentation and return, DOC-07 safe expression, DOC-15 masking/approved-purpose access, and DOC-09/DOC-10 actual financial/date truth. Formal reference issuance, context payment-date/aggregate-date basis, arrival information, production access predicate and native Save/WhatsApp capabilities remain Open with those owners and the applicable technical/security owners before affected artifact enablement. No metric, ledger, provider mechanism or reference service is created here.
 
 ### 12.3 Transaction-Document Corrections
 
@@ -657,7 +671,7 @@ Mandatory service messages may remain enabled even if optional channels are disa
 
 WhatsApp, SMS, email, and marketing communications must follow consent, privacy, direct marketing, and provider requirements.
 
-Required communication groups must be labelled `Required` and must not use misleading disableable toggles. Preference changes save immediately. On failure, restore the prior effective value and offer Retry. Account-level preferences and Inbox read/archive state should synchronize across approved devices; operating-system push permission remains device-specific.
+Required communication groups must be labelled `Required` and must not use misleading disableable toggles. Preference changes save immediately. On failure, restore the prior effective value and offer Retry. An expired or superseded preference operation must not later change the effective setting; exact expiry, operation correlation, reconciliation and timing remain Open with the effect/technical owners rather than a UI-selected timeout or polling schedule. Each optional setting has its own effective outcome. There is no page Save. Account-level preferences and Inbox reading state synchronize across approved devices; operating-system push permission remains device-specific. The absence of Archive/Restore UI changes no record-retention requirement.
 
 `PRIVACY-DATA-CONTROLS` owns the underlying direct-marketing, personalization, and approved partner-data-use choice. `NOTIFICATION-SETTINGS` controls permitted delivery for communications supported by that choice; it must not create a second consent source of truth.
 
@@ -728,7 +742,7 @@ Detailed schema belongs in DOC-18.
 | OQ-08-003 | What exact templates are required for each notification event and channel? | Product / Design / Legal | Open |
 | OQ-08-004 | What WhatsApp consent and opt-out flow is required? | Legal / Product | Open |
 | OQ-08-005 | What SMS consent, fallback, and cost controls are required? | Product / Operations | Open |
-| OQ-08-006 | What additional receipt or statement export formats, if any, are required beyond the MVP PDF? | Product / Finance | Open |
+| OQ-08-006 | Which additional private receipt/statement export formats, if any, are required beyond PDF, and which owner-supplied reference/date/access and native handoff inputs enable the separately defined public PNG? | Product / Finance | Open |
 | OQ-08-007 | What notification delivery failure threshold should create an admin alert? | Operations / Engineering | Open |
 | OQ-08-008 | Which approved-purpose access, masking, audit and privacy-request handling controls apply by notification-record class under the accepted indefinite-retention direction and its lawful-scope qualification? | Legal / Privacy | Open |
 | OQ-08-009 | Which evidence verification events should notify users versus remain app status or admin-only dashboard tasks? | Product / Operations / Legal | Open |
@@ -749,12 +763,12 @@ DOC-08 is acceptable when:
 - recipient messages, batches, source events/objects, templates, destinations, and delivery attempts are separately traceable;
 - Inbox category, presentation state, domain status, and action-required signals remain separate;
 - `NOTIFICATION-ROOT`, Inbox, Detail, and Settings ownership and handoffs align with DOC-06B;
-- read/archive actions do not change owning-domain state and contextual actions revalidate current state;
+- successful necessary-content loading, rather than card tap or failed retrieval, marks an individual message read; the MVP exposes no Archive/Restore UI, preserves retained records, and contextual actions revalidate current state;
 - default channels are defined without forcing every status to notify users;
 - the boundary for parameters expressly permitted for operational configuration is defined without assigning Admin policy authority;
 - mandatory, optional, disabled, and admin-only messages are distinguished;
 - sensitive data rules are clear;
-- receipt and statement rules are defined;
+- private Single/Combined receipts preserve actual Payment membership and individual access; Statements remain distinct from Statistics; public proof follows the separate seven-field PNG, current full linked-Bill coverage, masking/binding and user-confirmed same-image WhatsApp contract with truthful capability limitations;
 - evidence verification, correction, duplicate warning, and admin review message boundaries are defined;
 - promotion, reward, coupon, voucher, referral, membership, miles, entitlement, and fulfilment message boundaries are defined;
 - referral share actions do not create recipient notifications, while attribution, qualification, entitlement, claim, and issued-reward events route to their defined destinations;
@@ -762,6 +776,7 @@ DOC-08 is acceptable when:
 - deferred payment quote or promotion change notification boundaries are defined without renumbering existing notification IDs;
 - dashboard placement boundaries are defined so Important Notice / Action Required, Inbox, Hot Offer, and notification events remain separate but linkable surfaces;
 - DOC-08 publishes existing Inbox-backed notification records and canonical source signals for DOC-06B consumption, creates no duplicate Home record, and leaves Home selection, ordering, dismissal, routing, and return behavior to DOC-06B;
+- optional preferences take immediate independent effect with prior-value restoration on failure and no later effect from an expired/superseded operation; required communications, account delivery preferences, device permission and Privacy-owned consent remain distinct;
 - delivery logging and retention expectations are defined;
 - detailed payment, payout, refund, dispute, and data-model logic is left to owning documents.
 
@@ -770,6 +785,7 @@ DOC-08 is acceptable when:
 ## 21. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 3.0.0 | 2026-11-13 | Canonical Writer: Drafted PP-MVP-20261112-R1 private/public document content, source-bound Bill reminder inputs, successful-content read and immediate preference-effect contracts, preserving delivery/security/financial enablement dependencies. Corrected the inherited Archived-Inbox-filter summary through the consolidated Specialist batch without changing retained records. |
 | 2.1.1 | 2026-09-01 | Aligned the common notification-model handoff to the DOC-18 business-recording boundary while deferring schema and technical representation; notification identity, delivery, and operational policy remain unchanged. |
 | 2.1.0 | 2026-08-22 | Aligned notification boundaries to the approved Tier 3 current-context return: owner-recorded approval creates no notification, direct Checkout path, authorization, submission, Payment, Payout release, or user-facing status. |
 | 2.0.1 | 2026-08-21 | Separated masking, representation, provider delivery and security-enforcement ownership and removed the stale future DOC-19 marker without changing notification identity or delivery policy. |

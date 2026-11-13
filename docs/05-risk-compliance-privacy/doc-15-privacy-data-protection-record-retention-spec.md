@@ -1,7 +1,7 @@
 ---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 1.0.2
+version: 2.0.0
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-08-27
+last_updated: 2026-11-12
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `1.0.2` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
 | **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
-| **Last Updated** | `2026-08-27` |
+| **Last Updated** | `2026-11-12` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -116,12 +116,12 @@ DOC-15 owns privacy classification, masking, approved-purpose access, visibility
 | --- | --- |
 | Launch market | Hong Kong. |
 | Data strategy | PayPlus should support broad, lawful, purpose-linked data collection and analytics while preserving trust, consent, data minimization, access controls, and product-boundary restrictions. |
-| Account creation and activation | A temporary registration attempt creates no account and reserves no identifier. Restricted account creation requires one unique verified primary email, accepted Terms and Privacy notices, and at least one usable login method. Verified phone, identity verification, and six-digit payment-passcode setup may be completed later but are mandatory through `ACCOUNT-ACTIVATION` before full registration and financially restricted actions. |
+| Account creation and activation | A temporary registration attempt creates no account and reserves no identifier. Restricted creation follows verified phone, name/email with required email proof, mandatory matching Login PIN and explicit Terms/Privacy agreement. Identity and Payment Passcode may remain incomplete and still gate financial actions; new Done/Home callers open the shared identity child directly under DOC-06B without replacing other controlled activation callers. |
 | Identity verification | Individual identity verification may use a provider selected and approved by the applicable formal owners. PayPlus may receive or store required identity attributes, provider references, verification outcomes, and approved evidence artifacts. |
 | KYC attributes | Name, ID number, sex, ID document data, and other provider-returned attributes may be used where connected to KYC, risk, compliance, payee verification, audit, support, or legal purpose. |
-| Login methods | One PayPlus account may use email/password and explicitly linked Google and Apple provider identities. Provider identities are linked by stable provider identifier, never by email match alone. |
+| Login methods | Full Login uses Phone/Email OTP views and explicitly enabled Google/Apple identities. Remembered Login PIN is a separate eligible entry; optional password capabilities retain their account/security owners. Provider linking uses stable provider identifier, never email equality. |
 | Primary email | One verified primary email may belong to only one PayPlus account. A provider-returned verified email may be selected; another entered email must be verified before use. |
-| Password | A password is required only when email/password login is enabled. A social-authenticated account may set its first PayPlus password later through `ACCOUNT-SECURITY`. |
+| Password | The adopted Full Login/registration sequence does not require a password. Existing optional Set/Change Password and recovery remain separately controlled under `ACCOUNT-SECURITY`/`AUTH-RECOVERY`; they do not become mandatory OTP-entry steps. |
 | Biometric unlock | User-enabled Fingerprint and Face ID may support device-local Fast Login. PayPlus should not store biometric templates or plaintext passwords. |
 | New-device 2FA | Required on new device. Channel precedence and fallback remain subject to DOC-19 security and applicable owner confirmation. |
 | Fast Login | Eligibility uses a rolling one-month period renewed by each successful login and may be revoked earlier by risk, device, credential, account, or security changes. A separate dormant-account threshold remains open. |
@@ -157,7 +157,7 @@ PayPlus data should be classified by source, sensitivity, and permitted purpose.
 | --- | --- | --- |
 | Registration Attempt Data | Temporary attempt ID, proposed but unreserved identifiers, provider/OTP/referral/consent context, timestamps, inactivity expiry, completion/abandonment outcome, abuse-control and correlation references. | Registration continuity, duplicate prevention, abuse control, audit, and support without creating an account. |
 | Account Identity Data | Unique primary email, phone, nickname/display name, account ID, user type, registration date, restricted-account and account-activation state, verification status. | Account operation, notices, fraud prevention, support, analytics. |
-| Authentication and Security Data | Login-method type and state, stable external-provider subject/reference, provider-link status, password-set status and hash where applicable, payment passcode hash, OTP events, device ID, session logs, remembered masked-email reference, Fast Login eligibility, login history, failed attempts, new-device flags, biometric unlock status. | Authentication, account linking, step-up, security monitoring, incident investigation. |
+| Authentication and Security Data | Login-method type and state, stable external-provider subject/reference, provider-link status, distinct registration/remembered Login PIN and Payment Passcode protection contexts, password-set status and hash where applicable, payment passcode hash, purpose-bound OTP events, device ID, session logs, remembered masked-email reference, Fast Login eligibility, login history, failed attempts, new-device flags, biometric unlock status. | Authentication, account linking, step-up, security monitoring, incident investigation. |
 | KYC / KYB Data | Provider reference, ID type, ID number, name, sex where returned, date of birth where required, nationality where required, Business Registration document, owner ID, verification outcome. | Onboarding, compliance, payee approval, risk control, dispute and chargeback evidence. |
 | Evidence and Obligation Data | Bills, invoices, tenancy agreements, contracts, OCR text, extracted fields, corrected fields, final evidence snapshot, landlord/payee details, property address, due date, amount, reference number. | Payment validation, autofill, payer review, payee verification, duplicate detection, audit, analytics. |
 | Payment and Funding Data | Bill/Rent Payable Basis reference, Projection inputs/outputs where retained, Payment Obligation, Due Amount, Effective Coverage, Outstanding Amount, Checkout Workspace, Checkout Target, Obligation Allocation, payable-capacity reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Provider Submission, Provider Confirmation reference, Payment, Payment Application, Effective Payout Destination Snapshot, deliberate Payment Instruction, deferred funding date, authorization record, payment token reference, masked card summary, permitted masked cardholder name, card nickname, card brand, expiry, issuer/BIN metadata where available, default-card marker, saved split-card profile name, profile ratios, starred/frequent marker, profile action-required state, step-up result, provider reference. | Payment processing, risk, reconciliation, chargeback defense, product analytics. |
@@ -182,12 +182,12 @@ PayPlus should support the following account and authentication model:
 | Function | Requirement |
 | --- | --- |
 | Registration attempt | Before account creation, use a temporary attempt record rather than a partial account. Proposed email, phone, provider identity, and other identifiers remain unreserved; app exit permits an immediate new attempt. An attempt may remain usable for up to 30 minutes of inactivity for security and continuation handling; after that window it is expired/inactive for continuation and a new attempt may be required. The attempt record follows the accepted indefinite-retention direction subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries; it is not deleted, purged, erased, anonymised or disposed by this document. Final creation atomically rechecks uniqueness and required gates. |
-| Restricted account creation | Require one unique verified primary email, accepted Terms and Privacy notices, and one usable login method. Google/Apple registration stores the verified provider identity by stable provider identifier; email registration requires verified email and password. |
-| Account activation | `ACCOUNT-ACTIVATION` completes phone verification, identity verification, and six-digit payment-passcode setup after restricted account creation. Completion removes the registration-level restriction but does not bypass feature-specific evidence, risk, payment, provider, or role gates. |
-| Login methods | One account may use email/password, Google, and Apple only where each method has been explicitly enabled or linked. Matching email addresses never create or merge a provider link automatically. |
+| Restricted account creation | Require verified supported phone, required name/email and one unique verified primary email, mandatory six-digit Login PIN with matching repeat, explicit Terms/Privacy acceptance and a usable login method before confirmed creation. Phone/Google/Apple registrations join the same phone/data flow. An unchanged provider-confirmed verified email needs no repeated OTP; changed, missing or unconfirmed email does. No password or gender requirement is inserted. Final creation rechecks uniqueness and valid current verification; an unknown result reconciles the same attempt. |
+| Account activation | Phone is already verified at registration. Identity and six-digit Payment Passcode remain required for financially restricted actions; shared activation orchestration retains every actual missing requirement and domain gate. Created-account Done and the new-user Home identity-only prompt invoke shared identity directly with their actual caller return. Missing Payment Passcode alone does not revive the old onboarding checklist prompt. |
+| Login methods | Full Phone/Email OTP and explicitly enabled Google/Apple methods use the shared account; remembered Login PIN and optional password controls remain separate purposes. Matching email addresses never create, merge or link an account/provider automatically. |
 | Primary email uniqueness | A verified primary email may belong to only one PayPlus account. An attempted social registration using an existing verified primary email must stop account creation and direct the authenticated user to log in to the existing account before linking the provider. |
-| Phone and identity uniqueness | One verified phone and one verified individual identity may each belong to only one active individual account. A conflict found during Account Activation blocks activation and routes to Login, Recovery, or controlled Support handling without automatic merge. |
-| Password | Email/password registration sets a password. A social-authenticated account may have no PayPlus password until the user selects `Set Password` in `ACCOUNT-SECURITY`; thereafter the action becomes `Change Password`. Password storage and hashing belong in DOC-19. |
+| Phone and identity uniqueness | One verified phone and one verified individual identity may each belong to only one active individual account. Phone verification and uniqueness apply before creation; a later identity/other conflict blocks the affected activation/action and routes to permitted Login, Recovery or controlled Support without automatic merging. |
+| Password | Password is not required by the adopted OTP Full Login or phone/provider registration. Retained authenticated Set/Change Password and password recovery apply only where that capability exists. Login PIN, Payment Passcode and optional password are distinct protected purposes; exact storage, hashing and security mechanisms remain with DOC-19 and separately authorized technical work. |
 | Provider linking | Linking or unlinking Google/Apple requires an authenticated session, fresh approved reauthentication, successful provider authentication, explicit confirmation, audit, and security notification. A provider identity may link to only one PayPlus account, and the final usable login method cannot be removed. |
 | Fast Login and device-local biometric | Each successful login renews a one-month Fast Login period. User-enabled Fingerprint or Face ID may activate the approved device credential; biometric templates remain on device or approved platform service. PayPlus stores no plaintext password and masks the remembered email. |
 | New-device 2FA | New-device login requires step-up. Channel precedence and fallback remain subject to DOC-19 security and applicable owner confirmation. |
@@ -195,6 +195,8 @@ PayPlus should support the following account and authentication model:
 | Payment passcode | Payment passcode is required before proceeding with payment authorization. |
 | Password reset | Email deeplink must be single-use, short-lived, and logged. User should receive security notification after reset. |
 | Core account changes | Changes to an existing email, phone, password, payment passcode, immutable identifier or KYC/KYB record require payment passcode or approved reauthentication before route-specific owner controls. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. Payment-profile changes retain their separately approved optional-passcode rule. |
+
+OTP proofs remain confined to the current purpose, recipient, attempt and data revision; stale callbacks cannot verify changed data or another tab. Unknown send/create/update reconciles the same operation rather than automatic duplicate send. DOC-06B owns the route sequence; DOC-19 owns security enforcement and exact mechanisms remain Open.
 
 DOC-15 defines data handling and privacy boundaries. DOC-19 owns mechanism-neutral security invariants, enforcement requirements, prohibited exposure, and verification handoffs for authentication, protected values, device/session assurance, and access enforcement. Exact mechanisms remain open technical decisions and provider contracts remain with DOC-17.
 
@@ -206,7 +208,7 @@ Material changes should be grouped by sensitivity and handled with proportionate
 
 | Change Type | Examples | Recommended Treatment |
 | --- | --- | --- |
-| Contact rebinding | Change phone or email. Nickname/display name is not a login identifier. | Require payment passcode or approved reauthentication first. For phone change, send OTP to the registered email and then verify the new phone by SMS OTP. For email change, send SMS OTP to the registered phone and then verify the new email by OTP or deeplink. Notify old and new channels where available. Route users without a trusted old channel to support-assisted identity recovery. |
+| Contact rebinding | Change phone or email. Nickname/display name is not a login identifier. | Require payment passcode or approved current reauthentication. Phone replacement retains registered-email OTP then new-phone SMS OTP. Email change uses matching NEW email twice, payment passcode/approved reauthentication, NEW-email purpose-bound OTP, then confirmed profile update; no registered-phone SMS or old-email OTP is inserted. OTP success alone does not change the authoritative contact. Cancelled/failed/unknown update preserves the last confirmed value until reconciled. Preserve uniqueness, safe recovery and security notices to old/new channels where available; unavailable trusted channels follow the applicable controlled recovery, not an invented bypass. |
 | Credential or login-method change | Set or change password, link or unlink Google/Apple, change payment passcode, recovery method, or 2FA setting. | Require fresh approved reauthentication and route-specific confirmation; require successful authentication by a provider being linked; prevent removal of the final usable login method; notify user after completion. |
 | Device trust change | New device, trusted-device addition/removal, device reset. | Require step-up where applicable and log the device/session event. Removing another trusted device revokes its trust and active session; removing the current device logs the user out. |
 | Payment profile change | Add, remove/archive, update, suspend, reactivate, star/unstar, or change default card/payment profile. | Require payer confirmation by default; payment passcode confirmation may be enabled by user setting; step-up may still apply where risk, PSP/acquirer, or security rules require; never expose raw card data. |
@@ -298,6 +300,8 @@ Visibility must reflect role, task, permission, and approved purpose.
 | Engineering | Should not access production personal data unless approved for incident, support, debugging, migration, or security task under controlled process. |
 | Vendor / Partner | May receive only approved data needed for contracted service, integration, fulfilment, risk, payment, payout, or legal purpose. |
 
+Public payment proof has only the DOC-08 Section 12.2 seven-field PNG projection: recipient name, receiving method, approved masked receiving account, Bill principal total, context payment date, authoritative arrival-date treatment and public reference. It excludes recipient phone, funding/card details, nicknames, legs, fees/discounts and private Payment IDs. Current same-account full linked-Bill coverage and valid source/transaction/reference binding are independently required; partial, foreign, stale, pending or tampered context grants no public access. User-confirmed same-image WhatsApp handoff may use the source recipient phone to select a chat without adding it to the PNG, automatically sending, public hosting or granting general external visibility. Missing authoritative date/reference/access or native capability remains an owned enablement dependency, never guessed.
+
 Affected domain owners define the purpose, relevant current and historical facts, and whether presentation or retrieval is permitted. DOC-15 owns approved-purpose access, masking, visibility and retention. DOC-19 enforces access only after an owner and DOC-15 permit it and creates no access or retrieval authority. DOC-22 may execute only the specifically owner-permitted presentation or retrieval operation and creates no generic Admin access or mechanics. DOC-21 may consume already permitted operational evidence but has no access, presentation or retrieval authority. DOC-18 requires the business history, action basis, lineage and audit meaning to remain explainable; exact audit-event representation remains separately gated.
 
 ### 9.1 Retired Participant-Linking Privacy
@@ -349,7 +353,7 @@ PayPlus should separate service communication from optional marketing or promoti
 | Template governance | Privacy, legal, payment, risk, and commercial-sensitive templates should require approval before production use. |
 | Consent records | Consent, preference, opt-in, opt-out, and template version records should be retained. |
 
-Detailed notification IDs, templates, channel routing, preference controls, and delivery logging belong in DOC-08.
+Detailed notification IDs, templates, channel routing, preference controls, and delivery logging belong in DOC-08. Marketing delivery settings do not create another consent source. Immediate independent notification preference effects, failed restoration and the prohibition on late effects from expired/superseded operations consume DOC-08's contract; exact correlation/expiry mechanisms are not selected here.
 
 ### 10.1 Data-Use Tiers
 
@@ -587,6 +591,7 @@ It should not become:
 ## 20. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.0.0 | 2026-11-12 | Canonical Writer | Drafted PP-MVP-20261112-R1 OTP/phone-first registration and distinct PIN purposes, bounded email-change and seven-field public-proof privacy alignment; preserved lawful retention, access, recovery and technical-owner gates. |
 | 1.0.2 | 2026-08-27 | Product Documentation Team | Aligned approved-purpose history access, masking, visibility and retention with DOC-18 business recording, DOC-19 enforcement-only, DOC-21 consume-only and DOC-22 specifically permitted execution boundaries. |
 | 1.0.1 | 2026-08-21 | Product Documentation Team | Aligned privacy, recovery, representation, Admin, and PCI handoffs with the reviewed mechanism-neutral DOC-19 contract while retaining DOC-15 privacy ownership and unresolved professional/implementation dependencies. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |

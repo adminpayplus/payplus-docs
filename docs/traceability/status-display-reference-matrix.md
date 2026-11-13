@@ -2,7 +2,7 @@
 
 Status: Working alignment reference  
 Owner: Product / Founder  
-Last updated: 2026-08-27
+Last updated: 2026-11-13
 Classification: Internal
 
 This matrix aligns PayPlus system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
@@ -27,7 +27,7 @@ User-facing labels should be mapped from system/domain statuses. A route should 
 | Concept | Definition |
 | --- | --- |
 | Activity | Event or lifecycle view of what happened in the user account. |
-| Receipt | Transaction confirmation record for a completed transaction. It may be viewed, downloaded, shared where allowed, or re-issued/replaced according to DOC-08 rules. |
+| Receipt | Private confirmation presentation follows actual eligible confirmed Payment membership under DOC-08 Section 12.1 / DOC-06B Section 5.15: Single/Combined never merge Payments or establish whole-Bill paid/Payout truth. Public proof is a separate qualified projection. |
 | Statement | Periodic or account-level summary record. It may include payer and payee-side financial activity for the same user account, but should not include unrelated system events. |
 
 ---
@@ -39,7 +39,7 @@ Notification UI must keep four signal families separate:
 | Signal Family | Permitted Display | Source of Truth | Rule |
 | --- | --- | --- | --- |
 | Category | `System`, `Service`, `Transaction`, `Promotion` | DOC-08 notification event definition | Presentation grouping only; not a domain status. |
-| Inbox presentation | `Unread`, `Read`, `Archived` | Recipient-specific notification record | Read/archive does not alter the owning domain object or resolve user action. |
+| Inbox reading | `Unread`, `Read` after successful necessary permitted Detail content | DOC-08 / recipient-specific record | No Inbox Archive/Restore affordance or Archived filter. Any retained historical archive metadata is non-UI; reading does not change domain state or resolve user action. |
 | Domain status | Label mapped elsewhere in this matrix | Owning domain | Notification detail must not invent a new status or use delivery/read status as a substitute. |
 | Action Required | `Action Required` only where the owning domain currently requires user action | Owning domain/task | Revalidate current state before displaying an active action. |
 
@@ -66,11 +66,11 @@ Message delivery outcomes such as queued, sent, delivered, failed, or retried be
 
 | Domain | Stage / Status Type | System / Domain Status | Owning Doc | Payer-Facing Label | Payee-Facing Label | Appears In | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Payment Lifecycle | Confirmed payment | Accepted Provider Confirmation produced an immutable `Payment` | DOC-09 | `Paid` | `Processing` | Activity, checkout result, bill/rent detail | This describes one confirmed Payment, not overall Checkout completion. Payee sees `Processing` until DOC-10 payout completes. |
-| Payment Lifecycle | Payout completion | `Payout Completed` | DOC-10 | `Transferred` | `Received` | Activity, receipt/proof, statement | Same transaction entry updates status instead of creating a separate payout activity entry by default. |
+| Payment Lifecycle | Confirmed payment | Accepted Provider Confirmation produced an immutable `Payment` | DOC-09 | `Paid` | `Processing` | Activity, checkout result, bill/rent detail | This describes one confirmed Payment, not overall Checkout completion, whole-period paid confirmation or public-proof eligibility. Payee-facing treatment, where separately permitted by its owner, is not an active Consumer-Payee app surface. |
+| Payment Lifecycle | Payout completion | `Payout Completed` | DOC-10 | `Transferred` | `Received` | Activity, private receipt, statement | Same transaction entry updates status by default; the separate public PNG follows only DOC-08 Section 12.2's seven permitted fields/authoritative arrival treatment and never adds a Payout-status claim without owner confirmation. |
 | Payment Lifecycle | Funding attempt unsuccessful | Payment Attempt or Funding Leg did not produce a confirmed Payment | DOC-09 / DOC-17 / DOC-18 | `Failed` | `Rejected` | Activity, checkout result | Role-specific display outcome; DOC-09 retains state meaning, DOC-18 preserves the business history, and exact machine representation remains separately gated. |
 | Payment Lifecycle | Payout failure | `Payout Failed` / `Payout Cancelled` | DOC-10 | `Failed` / `Returned` | `Rejected` | Activity, activity detail | Exact payer label depends on whether funds are returned or whether payment did not complete. |
-| Payment Lifecycle | Payout return | `Payout Returned` | DOC-10 | `Returned` | `Returned` | Activity, activity detail, receipt/proof re-issue where applicable | Do not imply refund unless DOC-11 confirms a refund. |
+| Payment Lifecycle | Payout return | `Payout Returned` | DOC-10 | `Returned` | `Returned` | Activity, activity detail, private receipt re-issue where applicable | Do not imply refund unless DOC-11 confirms a refund. |
 | Payment Lifecycle | Refund completed | `Refund Completed` | DOC-11 | `Refunded` | `Reversed` / `Adjusted` | Activity, receipt re-issue where applicable, statement | Payee label needs final policy confirmation. |
 | Payment Lifecycle | Reversal completed | `Reversal Completed` | DOC-11 | `Reversed` | `Reversed` | Activity, statement | Must link to original transaction. |
 | Payment Lifecycle | Case under review | `Under Review` | DOC-11 / DOC-14 / DOC-22 | `Under Review` | `Under Review` | Activity detail, action-required surfaces | Do not expose hidden risk, fraud, AML, or internal review reasons unless approved. |
@@ -79,7 +79,7 @@ Message delivery outcomes such as queued, sent, delivered, failed, or retried be
 
 ## Reward Instrument Lifecycle - MVP Display Mapping
 
-`Active` and `History` are route-local views in `REWARDS-ROOT`, not statuses. Instrument filters such as Coupons & Codes, Vouchers, Partner Benefits, and Miles are classifications and must not be used as lifecycle labels.
+`Active` and `History` are route-local views in `REWARDS-ROOT`, not statuses. Earning source, current lifecycle status and instrument category remain independent. Restricted and Expiring Soon are owner-supplied condition/filter matches, not reward categories or new lifecycle states; the configurable seven-calendar-day default remains with DOC-06B Section 5.16.4, not a demo value or an inferred Available/Soon partition. Unassigned qualification/Browse and named issued-instrument/Use remain distinct under DOC-13. Instrument filters such as Coupons & Codes, Vouchers, Partner Benefits, and Miles are classifications and must not be used as lifecycle labels.
 
 | Domain | Stage / Status Type | System / Domain State | Owning Doc | User-Facing Label | Appears In | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -145,6 +145,8 @@ The following domains already have human-readable status requirements or explici
 ---
 
 ## Activity Detail Rule
+
+Global spending Statistics is an internal Activity child view, not a Statement, financial status or second ledger. Its applied-scope/chart/Back behavior follows DOC-06B Section 5.14.3; paid/date/refund/fee/time/category/label production inputs remain Open with financial/data/privacy owners. Do not count parent and legs twice or treat pending/failed value as paid.
 
 Activity detail may show owner-defined lifecycle milestones, but user-facing labels must follow this matrix and the applicable domain owner. For example, the detail may preserve milestones such as payer authorization, accepted Provider Confirmation, confirmed Payment, Settlement readiness, Payout completion, refund, reversal, return, or failed attempt, but the status displayed to payer/payee must use the mapped user-facing label. DOC-18 preserves their business separation and history; it does not currently define a machine taxonomy.
 

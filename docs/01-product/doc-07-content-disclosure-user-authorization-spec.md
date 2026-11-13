@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 1.1.1
+version: 1.2.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-27
+last_updated: 2026-11-12
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,12 +43,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `1.1.1` |
+| **Version** | `1.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-27` |
+| **Last Updated** | `2026-11-12` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -315,7 +315,7 @@ Required fields:
 | Payee | Show approved payee name or display name. |
 | Source context | Show owner-approved source and economic-Payee facts without implying a participant relationship or Payee action. |
 | Category | Show the selected accepted controlled Bill Category or separate Rent context; no additional Category is implied. |
-| Amount | Show payment amount. |
+| Amount | Show owner-supplied obligation-funded Checkout Target/current Funding Leg value, distinct from payer charge; do not derive fee, capacity or metric policy from a fixture. |
 | Service fee | Show payer fee where applicable. |
 | Total charge | Show final amount charged to the payer. |
 | Payment method | Show selected card or selected split-card payment profile with masked funding summary. |
@@ -326,7 +326,7 @@ Required fields:
 | Refund/cancellation note | Show applicable high-level limitations or policy link. |
 | PayPlus role | Explain that PayPlus facilitates payment of an eligible Bill/Rent Payment Obligation to an approved economic Payee. |
 
-The payer must be able to cancel or go back before authorization.
+The payer must be able to cancel or go back before authorization. Supporting profile/card/source selection returns to its actual caller/draft and is not authorization or submission. Continue names the exact unfinished Checkout/mode/remaining legs, not an Instruction or new attempt; terminal work is not continuable.
 
 ---
 
@@ -389,6 +389,10 @@ DOC-07 defines this user-facing evidence intent. DOC-09 retains payment and auth
 DOC-07 may describe the Payer's owner-approved Payment Instruction, Checkout, payment authorization, confirmed result and owner-supplied safe next handling. It must not create an economic-Payee action, acceptance, reminder, Request delivery, recipient library or reciprocal communication. Payer authorization is governed by DOC-09 and product context; DOC-07 provides only the approved user-facing communication mapping.
 
 DOC-07 may communicate owner-approved source capture, Declaration, tier-dependent attached Evidence, verification, Checkout, Payer authorization, Payment Result, optional post-Payment Save, Activity/Receipt and source Archive meaning. Tier 1 content must not imply mandatory attached Evidence; Tier 2/3 content must distinguish Evidence presence from acceptance; Rent content must preserve mandatory attached Evidence and acceptance-before-Payment. DOC-07 must not create Category-specific rules, a Payee action, recipient library, link, delivery, acceptance, reminder or reciprocal communication. Exact expression remains deferred to the applicable DOC-07 slice and source-owner input.
+
+Within these source-approved flows, ordinary Bill/Rent review/save communicates Save rather than Continue Payment. Only confirmed creation of a saved source adds the exact-source `立即付款` result action beside View/Home; edit success does not gain it. Immediate-pay has no forced prior Save and the C1 no-Save/current-payment fallback remains conditional. Every Pay action still revalidates current source, Declaration, Evidence/tier, destination, ownership, risk and fresh authorization; the CTA is not a readiness claim.
+
+Optional post-Payment Save uses DOC-05 §10.1: confirmed successful Save is authoritative, known decline and unknown remain distinct, Retry first reconciles the original effect, and Skip/exit must not say cancelled, failed, unsaved or history-only merely because the user left. A permitted confirmed-result receipt/public-proof artifact may precede optional Save only under independently supplied current access/identity/eligibility and returns to Result; no general history/list or Save-from-Activity right is communicated. This is not the notification-preference expired-operation contract.
 
 For Bills, the communication contract keeps Declaration separate from Evidence, Save, Payer authorization, Payment and Payout. Add Bill communicates reviewed declared facts and deliberate confirmation before the distinct Save-admission outcome. An owner-confirmed non-material edit may communicate ordinary Save; a material edit communicates only the owner-defined proportionate reconfirmation. A Pay action with unchanged declared facts communicates current Payment terms and the separate applicable authorization, not a repeated full Declaration. The recording handoff distinguishes four occurrence contexts: Add Bill; a Pay progression that establishes a new Bill/Rent source; an applicable owner-defined Bill/Rent source setup; and a material change to a Saved Bill/Rent source. Exact wording, legal sufficiency and reconfirmation treatment remain with their owners. DOC-19 may enforce the relevant security boundary but does not change these product meanings or select Copy.
 
@@ -462,12 +466,14 @@ PayPlus must distinguish four user-facing concepts:
 
 | Concept | User-Facing Meaning | Action Destination |
 | --- | --- | --- |
-| Normal due-date reminder | Reminder based on bill, rent, or obligation due date; payment flow has not started. | Bill/rent/obligation detail. |
-| User manual reminder | Reminder date or offset set by user for a bill, rent, or obligation. | Bill/rent/obligation detail. |
+| Bill source-bound reminder | Current Bill period/date/Three-or-Once preferences under DOC-06C, with no payment execution or new obligation. | Same Bill detail inline settings; applicable results share those settings. |
+| Retained Rent reminder | Existing separate Rent due/manual policy and permitted management consumers, not the Bill interval policy. | Applicable Rent detail/retained reminder caller under DOC-06C. |
 | Payment Instruction action alert | The user deliberately created a pay-later arrangement and action is now due. | An instruction-related notification enters `NOTIFICATION-DETAIL`; after current revalidation, an owner-approved CTA may invoke the DOC-09 Checkout Resolver. |
 | Incomplete Checkout continuation alert | Immediate payment execution started but the Checkout Target remains partly unfunded. This is not a Payment Instruction. | The preserved Checkout context. |
 
 Bill/rent reminder cycles, custom reminder dates, reminder toggles, and reminder deactivation must be described as reminder tools only. They must not imply automatic recurring payment, stored authorization, card authorization, gateway submission, payout readiness, or payment completion.
+
+Bill wording distinguishes required B/D and upfront unselected seven intervals, current deadline versus original-D+I, selected-period custom date, Three/Once/no backfill and explicit forward-purpose from automatic payment. Off disables modes/hides pending dates without forbidding date selection; On restores choices. Whole-period paid, partial and pending meanings consume their authoritative owners, not UI sums. The existing valid-D/missing-B path is reminder preferences only, not source Edit/Save, C1 renewal or a new projection. Rent wording keeps its separate policy.
 
 If a reminder is linked to a recurring bill/rent frequency, the user-facing wording should distinguish recurring reminder scheduling from recurring payment authorization. Reminder route behavior belongs in DOC-06. Notification channel and template wording belongs in DOC-08.
 
@@ -506,6 +512,12 @@ PayPlus must distinguish the following source-owned semantic conditions. They ar
 | Payout pending or completed | Use only the current Payout meaning supplied by DOC-10 and the applicable payout owner. |
 
 For a Tier 2 Bill, a confirmed Payment, the current Evidence condition, and a Payout hold or release remain distinct communicated truths. Receipt or proof communicates confirmed Payment and must not communicate Payout completion unless the Payout owner has confirmed it. Bill detail may explain a current Payout hold using owner-supplied safe context; ordinary Evidence lifecycle is not recast as payment-lifecycle Activity. `Transfer pending` is not a default expression for an Evidence-acceptance Payout hold because it could imply that Payout execution has begun. Exact safe wording, including any Payer action or no-action presentation, remains subject to DOC-07, DOC-08, DOC-10, privacy, risk and applicable owner input; this section creates no notification or new user-facing status.
+
+Private Single/Combined receipt wording preserves actual eligible confirmed Payment membership and individual access, including a Single for an eligible partial split leg; it does not claim whole-Bill paid status. The separate seven-field public PNG follows DOC-08 §12.2 full current same-account linked-Bill coverage, source/transaction/reference binding and DOC-15 masking. Smaller target completion, one partial leg, pending/foreign/stale/tampered context supplies no public-proof entitlement. Missing arrival/reference facts cannot be guessed or imply Payout complete.
+
+Receipt/Statement views render the actual permitted PDF and Download uses that file. Statistics is not a Statement and owner-supplied metric definitions remain Open. Result Save Image has no App thumbnail/new preview route: observed write completion alone permits Saved; a started download says initiated, while cancel/failure does not report saved. User-requested WhatsApp carries the same PNG and requires user-confirmed transmission; a source phone may select the recipient chat but is not public payload. Link/clipboard preparation is not attachment/send. Unsupported capabilities use truthful fallback, not fictitious completion. Exact unadopted copy, locale, Message/Outcome IDs and presentation mappings remain owner-assigned TBD.
+
+Reward expressions distinguish earning source, category and current status; Restricted/Soon are conditions, not product categories. Unassigned qualification offers browsing active choices, while a named issued instrument uses its configured Use action rather than Claim again. Explain separate qualification and usage expiry using owner facts; no 30-day demo replaces the existing configurable seven-day Soon default. Viewing/reveal/copy does not consume a reward, and external return does not prove use.
 
 PayPlus may disclose working settlement and payout assumptions only when the applicable PSP/acquirer, bank, payout, risk, legal, partner and reconciliation owners have confirmed them.
 
@@ -573,12 +585,12 @@ Where evidence, tenancy, KYC/KYB, payment profile, payout, or risk data is store
 
 DOC-06B owns screen behavior. User-facing content must:
 
-- use the verified primary email for email/password login and keep any nickname/display name separate from authentication;
-- explain that one verified primary email belongs to one PayPlus account and that Google, Apple, and email/password are explicitly linked login methods rather than separate accounts;
-- distinguish `Set Password` from `Change Password`, because a user who registered through Google or Apple may not yet have a PayPlus password;
+- express Phone/Email OTP Full Login and provider entry without a password requirement, retain eligible remembered Login PIN separately, and keep nickname/display name distinct from login identifiers;
+- explain unique verified identifiers, stable provider identity and explicitly enabled methods without email-based merging; registration verifies phone and required email before mandatory matching Login PIN, Terms/Privacy and confirmed creation;
+- retain optional Set/Change Password and recovery wording only for their applicable capability, not password-first OTP login/registration; distinguish registration Login PIN, remembered PIN and the shared Payment Passcode;
 - explain that matching email addresses do not automatically link, merge, or transfer accounts and that provider linking or unlinking requires an authenticated Account Security action;
 - warn before unlinking a login method and prevent removal of the account's final usable login method;
-- explain cross-channel verification before phone or email change without exposing OTP or recovery logic;
+- keep phone replacement's separate factors; email change communicates double NEW email, payment passcode/approved reauthentication, NEW-email OTP then confirmed profile update, with no old-email/registered-phone step or premature update success;
 - present only `Not Verified`, `Processing`, `Verified`, `Failed`, or `Update Required` identity-verification labels with the context-aware actions defined in DOC-06B and the status-display matrix;
 - distinguish incomplete capture from submitted provider processing, show no voluntary re-verification action after `Verified`, and prevent wording that encourages duplicate submission;
 - explain that Two-Step Verification and Biometric Unlock toggles do not disable mandatory new-device, risk, contact-change, closure, or provider-required authentication;
@@ -625,15 +637,17 @@ The Slice must cover, at minimum:
 
 - registration attempt interruption, expiry, identifier conflict, and atomic account-creation failure;
 - provider-login unavailable, unlinked, conflict, cancellation, and authentication failure;
-- password-login failure, recovery-link expiry, and recovery failure;
+- Phone/Email Full Login OTP invalid/unknown/stale-recipient/tab outcomes, mandatory PIN/repeat mismatch and unconfirmed creation, remembered PIN entry and distinct optional password-recovery outcomes;
+- direct Done/Home identity callers, Later confirmation/dismissal, identity-only prompt disappearance and retained financial-action gates;
 - phone format, occupied-number, OTP delivery, resend, expiry, incorrect-code, attempt-limit, and replacement failure;
 - identity capture interruption, processing, provider failure, PayPlus-policy failure including duplicate identity, and admin-required update;
 - payment-passcode Set mismatch/failure, Change authentication/failure, Reset reauthentication/phone-OTP/recovery failure, and unknown save result;
+- email-change double-entry mismatch, purpose-bound new-email OTP and cancelled/failed/unknown profile-update outcomes without changing phone/passcode-reset assurance;
 - protected-return invalid, expired, consumed, unauthorized, or unavailable outcomes.
 
 Exact Outcome Type IDs, Message IDs, Action IDs, approved Copy, Locale Variants, CTA labels/hierarchy, Presentation Mappings, notification mappings, and technical mappings remain open. They must not be invented during implementation. Route or domain documents must not create competing message identifiers or copy.
 
-DOC-06B and applicable route/domain owners retain Outcome meaning, permitted Resolution Strategies, route placement, destination, and return behavior. DOC-07 owns the governed user-facing Semantic, Disclosure, CTA, approved Copy, Locale constraints, and Presentation references. DOC-08 owns Notification identity, trigger, recipient, channel eligibility, templates, delivery, retry, delivery evidence, and read/archive behavior. DOC-18 owns the business occurrence, historical basis, lineage, audit-meaning and explainability handoff; exact correlation records and machine event mapping remain separately gated. DOC-17 owns provider contracts; DOC-19 owns mechanism-neutral authentication, protected-value, retry/replay, session/device and access-enforcement controls while exact mechanisms remain open. DOC-20 owns detailed acceptance, DOC-21 owns Support procedure, and DOC-22 may execute only expressly owner-permitted future Admin operations.
+DOC-06B and applicable route/domain owners retain Outcome meaning, permitted Resolution Strategies, route placement, destination, and return behavior. DOC-07 owns the governed user-facing Semantic, Disclosure, CTA, approved Copy, Locale constraints, and Presentation references. DOC-08 owns Notification identity, trigger, recipient, channel eligibility, templates, delivery, retry, evidence and reading semantics; no Archive/Restore UI is exposed in the adopted MVP. DOC-18 owns the business occurrence, historical basis, lineage, audit-meaning and explainability handoff; exact correlation records and machine event mapping remain separately gated. DOC-17 owns provider contracts; DOC-19 owns mechanism-neutral authentication, protected-value, retry/replay, session/device and access-enforcement controls while exact mechanisms remain open. DOC-20 owns detailed acceptance, DOC-21 owns Support procedure, and DOC-22 may execute only expressly owner-permitted future Admin operations.
 
 #### 15.2.1 Authentication Slice Order
 
@@ -679,11 +693,13 @@ DOC-07 owns governed Semantic, Disclosure, CTA, and approved Copy requirements w
 - channel-template expression;
 - delivery and retry;
 - delivery evidence;
-- read/archive behavior;
+- successful-content reading semantics, with no Archive/Restore UI in the adopted MVP and no retention change;
 - receipt and statement communication rules; and
 - mandatory `NOTIFICATION-DETAIL`-first entry for instruction-related notifications.
 
-Every instruction-related notification must enter `NOTIFICATION-DETAIL`. Notification Detail revalidates current state, authenticated payer, permission, target, and action availability before an owner-approved current CTA may invoke the DOC-09 Checkout Resolver. Notification content, delivery, read/archive state, and stored snapshots do not establish current Checkout eligibility, payer authorization, Provider Confirmation, Payment, or payment result.
+Every instruction-related notification must enter `NOTIFICATION-DETAIL`. Notification Detail revalidates current state, authenticated payer, permission, target, and action availability before an owner-approved current CTA may invoke the DOC-09 Checkout Resolver. Notification content, delivery, reading/historical record metadata and stored snapshots do not establish current Checkout eligibility, payer authorization, Provider Confirmation, Payment, or payment result.
+
+Inbox cards communicate category/read/domain/action signals independently. Individual Read follows successful necessary Detail content, not card tap or failed load. Optional notification settings communicate immediate independent effects without page Save; failed change restores the prior value, and an expired/superseded operation cannot later apply. Required communications stay locked; device permission, delivery preference and Privacy-owned consent remain separate. Do not invent expiry duration, query count or reconciliation protocol.
 
 Any future mapping between DOC-07-owned requirements and DOC-08-owned channel-template expression remains subject to TA-21 and must not transfer Notification ownership to DOC-07.
 
@@ -701,6 +717,10 @@ DOC-07 owns the Traditional Chinese, Simplified Chinese, and English presentatio
 - The visual presentation is normally one line. Assistive technology receives the complete rendered greeting even where visual adaptation is required.
 - The greeting must not imply a navigation action.
 - Exact approved Traditional Chinese, Simplified Chinese, and English expressions remain governed Copy and Locale Variants under this document; technical time, timezone, and account-data mechanics remain with their formal owners.
+
+#### Upcoming scope and new-user identity expression
+
+Use the DOC-06B applied seven-day default, label-three-week, selected-day or date/label-intersection heading without implying calendar browsing changed source facts. All means no label filter, not stored metadata. The adopted no-match text is `沒有符合條件的帳單`. Preserve max-three/Show All and independent disclosures. The new-user Home completion prompt concerns identity only and disappears on confirmed completion; missing Payment Passcode alone does not restore the generic checklist. Done/Home identity actions name their actual caller return without promising financial readiness. Other exact locale strings remain governed/TBD rather than an invented translation set.
 
 #### Important Notice and Recent Activity expression
 
@@ -871,13 +891,18 @@ DOC-07 is acceptable when:
 - HOME-ROOT Greeting, Important Notice, and Recent Activity expression boundaries preserve complete locale output, source meaning, notification separation, and canonical funds-flow direction without transferring route or business ownership to DOC-07;
 - logical traceability from source authority through user-facing authorization or acceptance evidence is defined, with physical implementation deferred;
 - content audit evidence is defined;
-- open questions are clear and do not block continued drafting.
+- OTP/mandatory Login PIN/remembered PIN/Payment Passcode purposes, direct identity callers and bounded email-change sequence reflect DOC-06B/DOC-15 without inventing factors or final Copy;
+- Save unknown/Retry/Skip, permitted result artifacts, public/private eligibility, actual-file feedback, reminder-only legacy exception, Statistics scope and reward qualification/use distinctions preserve their owners;
+- Inbox reading and immediate preference late-operation effects remain distinct from source Save, consent, device permission and retention;
+- ordinary CTA groups scroll with content while genuine overlays retain their own placement, and shared returns preserve the actual caller without side effects;
+- open questions remain owned and visible without being represented as accepted Copy, service availability or runtime evidence.
 
 ---
 
 ## 22. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.0 | 2026-11-12 | Canonical Writer: Aligned bounded PP-MVP-20261112-R1 account, source/reminder, financial/document, notification, Home and reward expressions/acceptance to source owners while retaining open exact Copy/Locale/IDs/legal review and implementation handoffs. |
 | 1.1.1 | 2026-08-27 | Aligned the four Declaration occurrence handoffs and narrowed DOC-18 to its reviewed business-recording/explainability contract without approving Copy, technical representation, mechanisms, or implementation. |
 | 1.1.0 | 2026-08-22 | Drafted bounded Tier 2 Payment/Evidence/Payout communication separation and proportionate Declaration expression while preserving DOC-08 notification ownership, DOC-10 Payout truth, DOC-19 mechanism-neutral enforcement, and open Copy. |
 | 1.0.1 | 2026-08-21 | Aligned payer-authorization, provider, runtime/audit and security-control handoffs with DOC-09, DOC-17, DOC-18 and the reviewed mechanism-neutral DOC-19 contract without approving Copy or mechanisms. |

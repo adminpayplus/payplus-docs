@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 1.1.0
+version: 1.2.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-22
+last_updated: 2026-11-12
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `1.1.0` |
+| **Version** | `1.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-22` |
+| **Last Updated** | `2026-11-12` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -76,12 +76,12 @@ Immediate pay-now journey:
 5. complete DOC-10 destination/Payout, DOC-14 risk/sanctions/fraud/anti-cashout, DOC-09 obligation/Checkout/authorization and other applicable owner gates;
 6. complete Payment, whose separate Payment ID links to the Bill/Rent ID;
 7. show Payment Result with the separate Payment ID already linked to the same Bill/Rent ID;
-8. if the source was already Saved/current before Payment, retain that projection without duplicate Save; for an otherwise unsaved source, resolve the optional Save decision before downstream handoff: selected Save makes the same ID Saved/current, while declined, skipped, dismissed, closed or otherwise abandoned Save resolution makes the same ID history-only;
-9. only after that existing-projection or Save-resolution outcome, continue to Activity, Payment History, Receipt or ordinary safe exit. Payment, Activity and Receipt existence does not depend on Save, but those destinations do not bypass the projection resolution.
+8. preserve an existing Saved/current source without duplicate Save; otherwise consume the actual same-ID optional Save outcome under DOC-05 §10.1. Unknown Retry reconciles the original effect and Skip/exit does not prove cancellation, failure or history-only;
+9. an independently permitted receipt/public-proof artifact at confirmed Result may precede optional Save and returns there; it grants no general history/list or Save-from-Activity right. Other handoffs retain current source/access eligibility.
 
 For a Tier 3 Bill, a prepared Workspace may preserve current context but remains non-executable before qualifying Evidence and authorized approval. An owner-recorded approval keeps the Payer in, or returns the Payer to, the current Bill context; it does not navigate, notify, authorize, submit, or create Checkout. The Payer deliberately selects the current Bill `Pay` action to invoke the DOC-09 Checkout Resolver, which may Resume only after current revalidation confirms the Workspace is active, eligible, and continuable. For Tier 2, confirmed Payment, the current Evidence condition, and DOC-10 Payout hold or release remain separate; ordinary Evidence lifecycle is not Bills Activity. At Add Bill, deliberate confirmation of declared material facts precedes the separate Save-admission outcome, and Rent remains outside Bill tiers with accepted attached Evidence before Payment.
 
-Failure or abandonment after Bill/Rent ID establishment may leave the source unprojected only when immediate pay ends before confirmed Payment, or deliberate Setup ends before its Saved/current projection is completed. Such an outcome does not by itself expose a Bills/Rent route or list entry or create a user-facing incomplete-source status. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 owns only business recording and explainability; technical representation remains separately authorized. After a newly confirmed Payment for an otherwise unsaved source, closing or leaving Payment Result without selecting Save is skipped Save and produces same-ID history-only before Activity, Payment History, Receipt or ordinary safe exit; it cannot remain unprojected.
+Failure or abandonment after Bill/Rent ID establishment may leave the source unprojected only when immediate pay ends before confirmed Payment, or deliberate Setup ends before its Saved/current projection is completed. Such an outcome does not by itself expose a Bills/Rent route or list entry or create a user-facing incomplete-source status. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 owns only business recording and explainability; technical representation remains separately authorized. After confirmed Payment, preserve actual source/Save facts rather than fabricating a projection from departure; unknown reconciliation and the narrow result-artifact exception follow DOC-05 §10.1.
 
 Deliberate Setup Bill/Rent journey:
 
@@ -104,9 +104,9 @@ The optional one-way Payee notification is available only where the Payee is eli
 | Category-first controlled Bill / Provide Payee myself | Active Payer journey; remains Category-bound and consumes the applicable Bill Tier 1/2/3 or separate Rent Evidence treatment. |
 | Separate Rent/tenancy | Active Payer journey; no Bill Directory or Category selection. |
 | Company/Individual provenance and scoped Admin review | Active handoff; label-only disagreement may be asynchronous/non-user-facing; concrete defects remain owner-controlled. |
-| Immediate pay-now Save | No Save before Checkout. After confirmed Payment, an already Saved/current source retains its projection; an otherwise unsaved source resolves selected Save to same-ID Saved/current or declined/skipped/dismissed Save to same-ID history-only before downstream handoff. |
+| Immediate pay-now Save | No Save before Checkout. After confirmed Payment, retain actual same-ID Save/projection truth; Retry reconciles unknown and Skip/exit cannot fabricate history-only. Independently permitted confirmed-result artifacts use only DOC-05 §10.1. |
 | Deliberate Setup Bill/Rent | Owner-governed source/Evidence preservation eligibility establishes the same ID; Setup gives it Saved/current projection before Payment without implying acceptance or readiness. |
-| No-Save/history-only | A confirmed Payment followed by skipped, declined, dismissed, closed or otherwise abandoned Save resolution produces same-ID history-only; an established but unprojected source is limited to pre-confirmed immediate-pay or incomplete-Setup abandonment. Payment remains visible in Activity/History/Receipt after projection resolution. |
+| No-Save/history-only | Known declined Save after confirmed Payment may receive history-only without Bills/Rent UI; unknown/Skip is not automatically that treatment. Pre-confirmed immediate-pay/incomplete-Setup unprojected treatment remains distinct. |
 | Archive | Ordinary Archive only for saved sources; non-erasure; detailed Restore/prior-version behavior deferred. |
 | Request/BILLS-LINKING | Active behavior retired; append-only documentation history and retired stable IDs only; no runtime reader, adapter, fallback or dormant runtime. |
 
@@ -184,24 +184,15 @@ The MVP must support the following essential journeys:
 
 ### Progressive Account Creation and Financial Activation
 
-Payer registration uses the current account model:
+The Payer enters `ENTRANCE-ROOT` and the existing `AUTH-LOGIN` / `AUTH-REGISTRATION` family. `AUTH-LOGIN` resolves eligible remembered entry to `AUTH-LOGIN-FAST` or signed-out entry to `AUTH-LOGIN-FULL`. Full Login uses Phone/Email destination-specific OTP views and Google/Apple; remembered Login PIN/previously enabled biometrics remain separate from Full Login and Payment Passcode.
 
-1. enter through `ENTRANCE-ROOT`, then use email, Google, or Apple through the defined DOC-06B Login or Registration routes;
-2. establish one unique verified primary email and at least one usable login method;
-3. accept the required Terms and Privacy notices;
-4. create a restricted PayPlus account and enter `HOME-ROOT`;
-5. complete full registration through `ACCOUNT-ACTIVATION`, covering phone verification, identity verification, and six-digit payment-passcode setup;
-6. preserve the originating permitted context so successful completion can return the user to the interrupted action where applicable.
+New Phone/provider registration joins verified phone → required name/email/optional invitation → required current email proof where needed → mandatory matching Login PIN → explicit Terms/Privacy → confirmed restricted-account creation. Provider-confirmed unchanged verified email needs no new OTP; missing/changed/unconfirmed email does. No password or gender requirement is inserted. Uniqueness, stable provider identifiers, no email-based merging, non-reserving attempts and confirmed-creation-only attribution remain. Stale purpose/recipient/attempt/data proofs cannot verify a new context; unknown send/create reconciles the same operation without automatic duplicate effects.
 
-Google/Apple identities are linked by stable provider identifier only through explicit account creation or authenticated `ACCOUNT-SECURITY` linking. Email equality never creates an automatic account merge or provider link. Social-authenticated users may set a PayPlus password later through `ACCOUNT-SECURITY`.
+Account Created Done opens shared identity directly and returns to Done. Later uses its one confirmation before new-user Home; dismissal returns Done. Home's identity-only prompt directly invokes that child and disappears on confirmed identity completion. Missing Payment Passcode alone does not restore the old checklist. Financially protected actions still check every actual missing requirement and all domain/security gates; other permitted `ACCOUNT-ACTIVATION` callers retain their orchestration and actual caller returns. Phone is already verified at registration.
 
-Before account creation, a temporary registration attempt may preserve verified in-flow context and security records but creates no account and reserves no email, phone, provider identity, or other proposed identifier. Account creation atomically rechecks uniqueness. Referral attribution begins only when restricted-account creation succeeds.
+DOC-06B defines detailed route behavior; DOC-15 privacy/account handling and DOC-19 enforcement remain authoritative. Existing one-month Fast Login eligibility, authenticated `ACCOUNT-SECURITY` password controls and optional `AUTH-RECOVERY` capabilities are not silently replaced by an OTP input specimen.
 
-The `AUTH-LOGIN` family resolves remembered eligible users to `AUTH-LOGIN-FAST` and other users to `AUTH-LOGIN-FULL`. Each successful login renews the one-month Fast Login period; approved risk, device, credential, account, or security changes may revoke it earlier. `AUTH-RECOVERY` owns password recovery. DOC-06B owns detailed route and return behavior.
-
-Authentication journeys use capability-aware resolution without changing their approved route sequence. After an operation Outcome is known, PayPlus may continue, restart, redirect, wait, invoke controlled Support, or stop according to the current permitted capability and control context. The Resolution Strategy is separate from persistent status, user-facing message, CTA, notification, and audit event. DOC-06B owns route-level resolution behavior; DOC-07 owns presentation; DOC-08 owns notification; and DOC-18/DOC-19/DOC-20/DOC-21/DOC-22 own their respective data, security, testing, Support, and admin specifications.
-
----
+Authentication Outcomes, permitted Resolutions, user-facing communication, notification and audit meaning remain distinct. Shared account/contact/passcode support returns preserve context, never authenticate or submit automatically. Email change follows double NEW email → payment passcode/approved current reauthentication → NEW-email OTP → confirmed update; phone replacement and Payment Passcode Reset retain separate assurance. First-time identity requires no existing passcode; Verified remains non-navigable unless an owner-required update permits action.
 
 ### Common Account Journey
 
@@ -216,7 +207,7 @@ Allows a Payer to access PayPlus, create controlled Bill/Rent contexts, authoriz
 A payer must be able to:
 
 - register;
-- create a restricted account with a unique verified primary email and complete `ACCOUNT-ACTIVATION` before full registration;
+- create a restricted account only after required phone/email proofs, matching Login PIN and explicit Terms/Privacy; complete actual identity/Payment Passcode gates before financial actions through the applicable shared callers;
 - log in;
 - complete new-device 2FA and dormant-login reauthentication where required;
 - confirm material account, credential, payment profile, or contact changes using password, payment passcode, 2FA, or approved confirmation;
@@ -235,7 +226,7 @@ A payer must be able to:
 - view failed payment status;
 - view completed payment status;
 - view receipts or confirmations;
-- view Payment, Activity, Receipt and history-only source lineage without a Bills/Rent UI entry when unsaved.
+- view only currently permitted source/Payment/history/artifact context; known history-only sources have no Bills/Rent UI, while unknown optional Save is not fabricated as history-only;
 
 ##### Payer Entry Points
 
@@ -349,7 +340,7 @@ MVP evidence may include:
 | --- | --- |
 | Evidence boundary | Evidence supports a controlled Bill Category or separate Rent journey. Evidence truth, acceptance and matching remain with DOC-12; Evidence alone never creates eligibility outside the approved product boundary. |
 | Evidence linked | Evidence links to the Bill/Rent source and downstream Payment Domain lineage; Checkout executes only through DOC-09 Payment Obligation controls. |
-| OCR/autofill | Where enabled, extracted fields assist Bill/Rent capture but must not remove Payer review. |
+| OCR/autofill | Where enabled, extracted fields remain proposals for deliberate review. Bill B/D and upfront unselected interval are required under DOC-06C; failed read is not empty/success. The existing valid-D/missing-B reminder-only exception is not new capture, material source Edit, Evidence acceptance or C1 renewal. |
 | User correction | Users must be able to correct autofilled fields before submission. |
 | Extractable vs displayable | Sensitive extracted fields may be stored under controls without being shown broadly in UI. |
 | Duplicate warning | Duplicate or reused Evidence may produce a DOC-12/DOC-14-owner-approved Payer warning or bounded Admin-review handoff, subject to DOC-15 privacy controls. |
@@ -542,7 +533,7 @@ Admin queue and notification eligibility remain owner-controlled. DOC-06A identi
 
 ### Receipt and History Touchpoints  - Current Payer Boundary
 
-Confirmed Payment has a separate Payment ID linked to the authoritative Bill/Rent ID. A source already Saved/current before Payment retains that projection without duplicate Save. For an otherwise unsaved source, Payment Result must resolve selected Save to same-ID Saved/current or declined/skipped/dismissed/closed Save to same-ID history-only before Activity, Payment History, Receipt or ordinary safe exit. Those records exist independently of Save, but they do not provide a bypass; no Save-from-Activity or Unsave action exists. DOC-09 owns Payment lifecycle and record meaning, DOC-15 owns retention governance and requirements, and DOC-18 represents approved data/status/event/audit lineage. Retired Request/Linking IDs remain non-active documentation evidence only.
+Confirmed Payment has its own DOC-09 identity linked to the source. Preserve actual same-ID Save truth under DOC-05 §10.1; unknown Retry reconciles and Skip/exit cannot fabricate cancellation/history-only or negate successful Save. Independently permitted confirmed-result artifacts may precede optional Save with Back to Result but no general list or Save-from-Activity entitlement. Retired Request/Linking remains non-active lineage only.
 
 #### Purpose
 
@@ -560,6 +551,10 @@ Payers should be able to view:
 - completed payment records;
 - failed payment records;
 - receipts or confirmations. Retired Request/Linking IDs are not an active user or runtime-reader surface.
+
+Global history, source history and shared immutable financial detail preserve their distinct scope/caller. Only global history gains recent-30-day summary and the existing Activity child-view Statistics; its own draft/applied filters and Back do not change the record list. Production paid/date/refund/fee/category/label aggregate meaning remains Open with financial/data/privacy owners; no fixture arithmetic becomes a ledger.
+
+Private Single/Combined documents preserve actual eligible confirmed Payment membership and individual access. Public PNG proof has separate current full linked-Bill coverage/binding and masking under DOC-08/DOC-15. Receipt/Statement views use actual PDF files; Statement is not Statistics. Save Image/WhatsApp use the same eligible PNG and truthful observed-save/download-start/user-confirmed handoff boundaries, with native/reference/date/access gaps explicit.
 
 #### Receipt or Confirmation Contents
 
@@ -605,7 +600,7 @@ A receipt or confirmation should include:
 5. Any Payee-facing notification remains subject to governed Individual eligibility plus affirmative Payer choice; it is not automatic and is unavailable for institution/company or unresolved/insufficient Individual determination.
 6. Where an owner-controlled support or Admin review is required, the journey hands off to the applicable DOC-09/DOC-21/DOC-22 process without defining its queue, permission, action or disposition.
 7. User may retry only if allowed by approved rules.
-8. If no Payment is confirmed, no post-Payment Save outcome is created. Any separate newly confirmed Payment in the same Checkout follows the required existing-projection or Save-resolution boundary before Activity, Receipt or ordinary safe exit.
+8. With no confirmed Payment, no post-Payment Save is created. Any separately confirmed Payment retains its actual source/Save facts and the DOC-05 §10.1 unknown-safe/artifact boundary; failed/unknown navigation never fabricates Save or financial truth.
 
 #### Retired Request Concepts
 
@@ -673,6 +668,7 @@ Core journey open questions should remain here when they affect Payer journeys, 
 ## 7. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.0 | 2026-11-12 | Canonical Writer: Aligned PP-MVP-20261112-R1 core account/source/payment/history journeys and shared returns to accepted defining owners, preserving financial gates, actual Save truth, private/public boundaries and explicit production dependencies. |
 | 1.1.0 | 2026-08-22 | Aligned the Bill journey to approved Tier 3 current-context and deliberate-resolver return, Tier 2 separate Payment/Evidence/Payout treatment, and Add-Bill Declaration/Save boundary while preserving Rent, owner, and no-invention constraints. |
 | 1.0.1 | 2026-08-21 | Separated payment, risk, privacy and provider step-up conditions from DOC-19 mechanism-neutral security enforcement without changing journey behavior. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. |
