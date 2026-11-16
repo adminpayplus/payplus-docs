@@ -73,6 +73,11 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-050` | `2026-11-13` | PP-MVP-20261112-R1 Canonical UX Incorporation And Bounded Consumer Alignment | Accepted | `DOC-05` / `DOC-06B` / `DOC-06C` / `DOC-08` / `DOC-15` | `49782861fa0fd8a7e4b6efee5c17c497439b95ca` |
 | `DEC-2026-051` | `2026-11-16` | Current CardMore Product Naming And Compatibility | Accepted | `DOC-01` | `91bbabe5372120524b5a95cd9fb6ae7435ccc7f8` |
 | `DEC-2026-052` | `2026-11-16` | Bounded Engineering Principles And Verification Evidence | Accepted | `DOC-16` / `DOC-20` | `91bbabe5372120524b5a95cd9fb6ae7435ccc7f8` |
+| `DEC-2026-053` | `2026-11-16` | Deliberate Payment Instruction Retirement And Retained Checkout | Accepted | `DOC-09` | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| `DEC-2026-054` | `2026-11-16` | Category C1 Values, Zero Disablement And Save/Pay Comparison | Accepted | `DOC-05` | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| `DEC-2026-055` | `2026-11-16` | Payout Evidence Release And Transaction Approval Boundaries | Accepted | `DOC-10` / `DOC-14` by concern | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| `DEC-2026-056` | `2026-11-16` | Case Accountability And Fee Responsibility Records | Accepted | `DOC-11` / `DOC-21` by concern | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| `DEC-2026-057` | `2026-11-16` | MVP Bank Evidence Without Mandatory Automatic Feed | Accepted | `DOC-10` | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
 
 ## 4. Decision Record Template
 
@@ -2623,3 +2628,178 @@ None. These principles extend the existing owner baselines without superseding a
 **Remaining Open Items**
 
 Provider contracts, exact data/event representation, security mechanisms, implementation, operational evidence, acceptance, UAT and launch remain separately authorized. Section 5 product and operating choices remain deferred. No runtime, PCI, compliance or production-readiness claim is made.
+
+### `DEC-2026-053` - Deliberate Payment Instruction Retirement And Retained Checkout
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-11-16` |
+| Status | Accepted |
+| Primary owner | [DOC-09 — Payment Domain Architecture](../02-payment-domain/doc-09-payment-domain-architecture.md) for domain meaning; [DOC-06B](../01-product/doc-06b-navigation-ia-route-taxonomy.md) for retained route behavior |
+| Affected documents | DOC-01–11 including DOC-06A–D, DOC-13/14/15/18/20/21/22 and affected references/maps/AGENTS; the actual 37-file delivery is listed in the [changelog](../changelog/changelog.md). |
+| Substantive commit | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| Founder approval | Founder confirmed the five-topic bounded correction scope and execution, then approved publication of the verified 37-file result, required records follow-up and non-force publication/main pushes on 2026-11-16; stop on divergence and preserve handoff/Figma. |
+
+**Decision**
+
+Retire deliberate user-created pay-later Payment Instruction creation, update, cancellation, date/target edits, Instruction-origin source-add draft return, dedicated Pay Now caller/notifications and feature-specific promotion reservation, risk, reporting and acceptance requirements. Retain `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` for existing incomplete Checkout continuation only. Preserve the common Bill/Rent resolver, global zero/one/many handling, exact existing Checkout identity, 30-day Continue/Close/Expiry, current revalidation and fresh authorization for each Provider Submission. Locked Target/Allocations, funding versions, reservations, confirmed Payments/Applications and late-confirmation treatment remain authoritative.
+
+**Rationale**
+
+The accepted retirement must remove active contradictory feature requirements without erasing the independently retained Checkout capability or financial history.
+
+**Alternatives Considered**
+
+This publication implements the direct Founder instruction; no new Proposal comparison is reconstructed. Wholesale retirement/renaming of the mixed Instructions route IDs, replacement objects/routes and conversion of incomplete Checkout into a pay-later arrangement were explicitly excluded.
+
+**Consequences And Handoffs**
+
+DOC-07/08 retire the dedicated communication caller while preserving general Detail-first/current-action safeguards. DOC-13 retains unrelated campaign/entitlement truth; DOC-15/18 retain conditional historical preservation. Ordinary Bill/Rent reminders remain separate. No production Instruction-data absence, migration, adapter or historical-reader authority is inferred. Existing document statuses and ownership remain unchanged.
+
+**Supersedes / Superseded By**
+
+Supersedes only the deliberate Instruction-specific caller/notification requirements recorded in DEC-2026-036 and the replaced current source clauses. Retained common resolver, current checks and general Notification Detail safeguards survive; DEC-2026-037 communication architecture is unchanged. Earlier entries remain historical and are not rewritten or globally retired.
+
+**Remaining Open Items**
+
+Exact retained expression, technical and operating evidence remain owner-backed. Any actual legacy Instruction data/access/retention/migration issue requires separate scope; existence or absence is not established here. Sealed handoff/Figma/prototype were not refreshed.
+
+### `DEC-2026-054` - Category C1 Values, Zero Disablement And Save/Pay Comparison
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-11-16` |
+| Status | Accepted |
+| Primary owner | [DOC-05 — Master PRD & Feature Requirement Index](../01-product/doc-05-master-prd-feature-requirement-index.md) for the sole policy/value table; DOC-14 for risk meaning and DOC-12 for Category binding |
+| Affected documents | DOC-05/06C/06D/07/09/12/14/18/20/22 and affected status, OQ, traceability and route-map consumers; see the [changelog](../changelog/changelog.md) for actual paths. |
+| Substantive commit | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| Founder approval | Founder confirmed the five-topic bounded correction scope and execution, then approved publication of the verified 37-file result, required records follow-up and non-force publication/main pushes on 2026-11-16; stop on divergence and preserve handoff/Figma. |
+
+**Decision**
+
+The unchanged twelve accepted Bill Categories each start with C1 HKD5,000 in the sole DOC-05 Section 7.2 table. C1 is backend-configurable, not hard-coded. A configured 0 disables only that Category C1 check: it is not a zero cap and does not disable the Category, G1/G2 or any other applicable gate. Save compares source Bill Amount against enabled C1; an amount above enabled C1 blocks Save, while equality stays within it. Pay compares selected obligation-funded principal, including an allowed prepayment-period aggregate, not fees, total card charge or individual Funding Legs. Rent remains separate.
+
+**Rationale**
+
+One owned table and explicit comparison bases prevent inconsistent thresholds, zero-as-cap interpretation and split-card or fee-based distortion of the accepted rule.
+
+**Alternatives Considered**
+
+No new value comparison round is reconstructed. Hard-coding the initial values, applying zero as a maximum or treating C1 disablement as waiver of other gates were excluded by the accepted instruction. Alternative ranges, precision/FX treatment, dynamic formulas and Admin grades were not selected.
+
+**Consequences And Handoffs**
+
+DOC-09 consumes current approved configuration; DOC-22 executes approved configuration only, without policy authority. DOC-18 preserves actor/time, old/new values, version and then-effective evaluation basis without rewriting old evaluations or financial history. DOC-06D/DOC-20 and RTM carry future boundary/regression evidence, not executed tests.
+
+**Supersedes / Superseded By**
+
+No decision-ID-level supersession. Resolves the initial-value/configurability/zero-meaning portion of the earlier deferred C1 scope recorded in DEC-2026-051/052 and narrows the corresponding current OQs; their unrelated branding/engineering decisions remain unchanged.
+
+**Remaining Open Items**
+
+Permitted adjustments, operating change mechanics, precision/FX, representation and actual configuration/acceptance/enablement evidence remain owner-defined. Official Evidence lists and other independent gates remain open where their owners require them.
+
+### `DEC-2026-055` - Payout Evidence Release And Transaction Approval Boundaries
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-11-16` |
+| Status | Accepted |
+| Primary owner | [DOC-10 — Payout & Reconciliation](../02-payment-domain/doc-10-payout-reconciliation.md) for Payout/Evidence-hold release; [DOC-14](../05-risk-compliance-privacy/doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md) for risk/approval policy; DOC-12 retains Evidence truth |
+| Affected documents | DOC-05/06A/06C/06D/07/09/10/12/14/18/20/21/22 and affected OQ/status/RTM/map consumers; actual paths are listed in the [changelog](../changelog/changelog.md). |
+| Substantive commit | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| Founder approval | Founder confirmed the five-topic bounded correction scope and execution, then approved publication of the verified 37-file result, required records follow-up and non-force publication/main pushes on 2026-11-16; stop on divergence and preserve handoff/Figma. |
+
+**Decision**
+
+Normal eligible Payout has no generic manual/dual approval. If Evidence acceptance was the only blocker, actual acceptance plus passage of every other applicable gate permits normal readiness/release without another Payout approval. DOC-10 separately permits an authorized manual exception while Evidence remains not acceptable: preserve reason, supporting Evidence, authority, actor/approver identities, time, scope and history; release only the specified Evidence hold. It does not mark Evidence accepted, remove another hold, bypass Payer authorization/destination snapshot/duplicate controls or imply submission, success or arrival.
+
+**Rationale**
+
+Ordinary release, Evidence assessment, authorized exception and actual financial outcomes must remain separate. Human execution must not become policy-definition authority.
+
+**Alternatives Considered**
+
+No new Proposal alternatives are invented. Universal approval for every normal Payout, treating an exception as Evidence acceptance and using it to bypass another gate were excluded. Exact Admin grades, permissions, workflow and exception mechanisms were not selected.
+
+**Consequences And Handoffs**
+
+Rent retains accepted attached Evidence before Payment. Tier 3 requires accepted qualifying Evidence and per-transaction authorized human approval before executable Payment/Submission; AI preliminary assessment is neither acceptance nor human approval and creates no permanent whitelist. The applicable designated Product/Risk/Compliance/Security owner defines Tier 3 approval; Payments retains its separately owned Payment/Payout concerns. Authorized Ops/Admin may execute permitted transaction/human approval without policy authority. Designated funds exceptions require two different natural persons with Operations and Accounting capabilities; qualified Admin participation is authorization-bound and one person cannot provide both approvals by switching roles or self-approve.
+
+**Supersedes / Superseded By**
+
+No wholesale decision-ID supersession. Replaces the affected current release/approval ambiguity and resolves that part of the earlier DEC-2026-051/052 deferral. Historical entries and unrelated control requirements remain intact.
+
+**Remaining Open Items**
+
+OQ-10-015 financial/Refund/fee/liquidity/support enablement remains unresolved. Operating assignments, segregation implementation and approval evidence remain owner inputs. A complete exception-business-case list was not required for this correction; no new enumeration gate is imposed.
+
+### `DEC-2026-056` - Case Accountability And Fee Responsibility Records
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-11-16` |
+| Status | Accepted |
+| Primary owner | [DOC-11 — Refund, Cancellation & Chargeback](../02-payment-domain/doc-11-refund-cancellation-chargeback.md) for case/fee meaning; [DOC-21 — Monitoring, Incident Response & Operational SOPs](../08-qa-release-operations/doc-21-monitoring-incident-response-operational-sops.md) for support accountability |
+| Affected documents | DOC-07/11/18/20/21/22, DOC-06D and affected status/OQ/RTM consumers; actual paths are listed in the [changelog](../changelog/changelog.md). |
+| Substantive commit | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| Founder approval | Founder confirmed the five-topic bounded correction scope and execution, then approved publication of the verified 37-file result, required records follow-up and non-force publication/main pushes on 2026-11-16; stop on divergence and preserve handoff/Figma. |
+
+**Decision**
+
+Internal handling has no automatic case-resolution or Refund-completion deadline. Preserve who acted, when, why, responsible owner and follow-up rather than closing a case or refunding merely because time elapsed. Fee-applicability selection, amount/currency, CardMore/user responsibility and actor/time/reason are business records only: they are not an actual charge, Refund execution/confirmation or bank/partner result.
+
+**Rationale**
+
+Accountable support history and fee-responsibility facts must remain explainable without fabricating case closure or a financial consequence.
+
+**Alternatives Considered**
+
+No new option-selection round is reconstructed. Automatic internal completion and equating responsibility records with money movement were excluded. No fee rate, refundability, pro-rata, allocation or liquidity model was chosen.
+
+**Consequences And Handoffs**
+
+Actual partner, card-network, legal and chargeback deadlines remain applicable; OQ-14-006 remains the separate risk-review SLA/escalation question. DOC-18 owns business recording and historical explainability, not schema/event implementation. DOC-22 performs only specifically owner-permitted execution. Confirmed financial, case and audit history are not rewritten.
+
+**Supersedes / Superseded By**
+
+No decision-ID-level supersession. Resolves only the accepted CS/fee-record portion of the earlier DEC-2026-051/052 deferral and narrows current support questions; existing actual financial obligations remain owned and open.
+
+**Remaining Open Items**
+
+OQ-10-015 and actual fee/Refund/liquidity/partner treatment remain open. Detailed support arrangements, external obligations, technical representation, operating evidence and professional assessment are not supplied by this record.
+
+### `DEC-2026-057` - MVP Bank Evidence Without Mandatory Automatic Feed
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-11-16` |
+| Status | Accepted |
+| Primary owner | [DOC-10 — Payout & Reconciliation](../02-payment-domain/doc-10-payout-reconciliation.md) |
+| Affected documents | DOC-10/18/20/21/22 and affected OQ/RTM consumers; actual paths are listed in the [changelog](../changelog/changelog.md). |
+| Substantive commit | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| Founder approval | Founder confirmed the five-topic bounded correction scope and execution, then approved publication of the verified 37-file result, required records follow-up and non-force publication/main pushes on 2026-11-16; stop on divergence and preserve handoff/Figma. |
+
+**Decision**
+
+MVP does not require an automatic bank feed. Retain owner-permitted portal/file/manual-upload evidence routes that provide actual bank/partner evidence, individual item outcomes and reconciliation. Missing, ambiguous or unknown results are neither confirmed failure nor success and do not authorize blind resend. An operator selection cannot manufacture bank success.
+
+**Rationale**
+
+Operational evidence can be manual without becoming weaker financial truth or making unselected automation a prerequisite.
+
+**Alternatives Considered**
+
+The accepted direction removes mandatory automatic-feed dependence; it does not reject future automation or select a bank/API/file format/matching algorithm. No new provider or mechanism comparison was performed.
+
+**Consequences And Handoffs**
+
+DOC-17 retains external-interaction/provider-specific ownership; observations and uploads do not independently become authoritative Payout truth. DOC-18 preserves business lineage and uncertainty, DOC-21 owner routing and DOC-22 only permitted execution. Destination, duplicate, settlement, reconciliation, security and other owner gates remain.
+
+**Supersedes / Superseded By**
+
+No decision-ID-level supersession. Resolves the mandatory-feed-assumption portion of the earlier DEC-2026-051/052 deferral while preserving historical entries and future provider/automation options.
+
+**Remaining Open Items**
+
+Operating bank/provider, formats/API, matching, cutoff/calendar, accounting and actual operating/acceptance evidence remain owner-defined. No implementation, operating-effectiveness or launch-readiness claim follows.

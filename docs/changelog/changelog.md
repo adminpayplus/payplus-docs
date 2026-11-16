@@ -2215,3 +2215,73 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - Section 5 Payment Instruction retirement, C1 threshold/zero/Admin gates, Payout approval, CS and bank-feed policy and associated trial assumptions remain deferred to their existing owners; this change adopts none of them.
 - Provider-specific contracts, DOC-18 technical representation, security mechanisms, operational implementation, acceptance, UAT, professional assessment, enablement and launch remain separately gated. The sealed handoff and Figma/prototype were not modified; this record makes no runtime, compliance or readiness claim.
+
+### `2026-11-16` - Accepted CardMore Payment And Control Corrections
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| Primary owner | DOC-09 for Instruction/Checkout; DOC-05 for C1; DOC-10 for Payout/bank evidence; DOC-14 for risk/approval; DOC-11/21 for case/fee/support concerns, each within its owned scope |
+| Decision record | [DEC-2026-053](../decision-log/decisionlog.md), [DEC-2026-054](../decision-log/decisionlog.md), [DEC-2026-055](../decision-log/decisionlog.md), [DEC-2026-056](../decision-log/decisionlog.md), [DEC-2026-057](../decision-log/decisionlog.md) |
+| Founder approval | Founder confirmed the five-topic bounded correction scope and execution, then approved publication of the verified 37-file result, required records follow-up and non-force publication/main pushes on 2026-11-16; stop on divergence and preserve handoff/Figma. |
+
+**Files Changed**
+
+- [AGENTS.md](../../AGENTS.md)
+- [docs/00-foundation/doc-01-project-charter-product-positioning.md](../00-foundation/doc-01-project-charter-product-positioning.md)
+- [docs/00-foundation/doc-02-business-model-unit-economics.md](../00-foundation/doc-02-business-model-unit-economics.md)
+- [docs/00-foundation/doc-03-regulatory-psp-acquirer-assessment.md](../00-foundation/doc-03-regulatory-psp-acquirer-assessment.md)
+- [docs/00-foundation/doc-04-compliance-certification-roadmap-control-framework.md](../00-foundation/doc-04-compliance-certification-roadmap-control-framework.md)
+- [docs/01-product/doc-05-master-prd-feature-requirement-index.md](../01-product/doc-05-master-prd-feature-requirement-index.md)
+- [docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md](../01-product/doc-06-user-journey-ux-flow-service-blueprint.md)
+- [docs/01-product/doc-06a-core-user-journeys-service-blueprint.md](../01-product/doc-06a-core-user-journeys-service-blueprint.md)
+- [docs/01-product/doc-06b-navigation-ia-route-taxonomy.md](../01-product/doc-06b-navigation-ia-route-taxonomy.md)
+- [docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md](../01-product/doc-06c-bills-rent-tenancy-ux-module.md)
+- [docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md](../01-product/doc-06d-ux-requirements-acceptance-test-matrix.md)
+- [docs/01-product/doc-07-content-disclosure-user-authorization-spec.md](../01-product/doc-07-content-disclosure-user-authorization-spec.md)
+- [docs/01-product/doc-08-notification-receipt-communication-spec.md](../01-product/doc-08-notification-receipt-communication-spec.md)
+- [docs/02-payment-domain/doc-09-payment-domain-architecture.md](../02-payment-domain/doc-09-payment-domain-architecture.md)
+- [docs/02-payment-domain/doc-10-payout-reconciliation.md](../02-payment-domain/doc-10-payout-reconciliation.md)
+- [docs/02-payment-domain/doc-11-refund-cancellation-chargeback.md](../02-payment-domain/doc-11-refund-cancellation-chargeback.md)
+- [docs/03-bill-verification/doc-12-bill-category-document-ai-ocr-payee-verification-spec.md](../03-bill-verification/doc-12-bill-category-document-ai-ocr-payee-verification-spec.md)
+- [docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md](../04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md)
+- [docs/05-risk-compliance-privacy/doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md](../05-risk-compliance-privacy/doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md)
+- [docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md](../05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md)
+- [docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md](../06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md)
+- [docs/08-qa-release-operations/doc-20-testing-uat-golive-checklist.md](../08-qa-release-operations/doc-20-testing-uat-golive-checklist.md)
+- [docs/08-qa-release-operations/doc-21-monitoring-incident-response-operational-sops.md](../08-qa-release-operations/doc-21-monitoring-incident-response-operational-sops.md)
+- [docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md](../08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md)
+- [docs/README.md](../README.md)
+- [docs/diagrams/README.md](../diagrams/README.md)
+- [docs/diagrams/routes/payplus-action-sheet-route-map.md](../diagrams/routes/payplus-action-sheet-route-map.md)
+- [docs/diagrams/routes/payplus-bills-route-map.md](../diagrams/routes/payplus-bills-route-map.md)
+- [docs/diagrams/routes/payplus-instructions-route-map.md](../diagrams/routes/payplus-instructions-route-map.md)
+- [docs/diagrams/routes/payplus-me-route-map.md](../diagrams/routes/payplus-me-route-map.md)
+- [docs/diagrams/routes/payplus-payment-checkout-route-map.md](../diagrams/routes/payplus-payment-checkout-route-map.md)
+- [docs/diagrams/routes/payplus-payment-profile-route-map.md](../diagrams/routes/payplus-payment-profile-route-map.md)
+- [docs/glossary/glossary.md](../glossary/glossary.md)
+- [docs/traceability/open-questions-register.md](../traceability/open-questions-register.md)
+- [docs/traceability/requirements-traceability-matrix.md](../traceability/requirements-traceability-matrix.md)
+- [docs/traceability/route-register.md](../traceability/route-register.md)
+- [docs/traceability/status-display-reference-matrix.md](../traceability/status-display-reference-matrix.md)
+
+**Material Changes**
+
+- Retired deliberate pay-later Instruction setup/actions, source-add draft/date/target return, dedicated Pay Now/notifications and feature-specific reservation/risk/reporting requirements. Retained existing Instructions route IDs for exact incomplete Checkout continuation, thirty-day Continue/Close/Expiry, common resolver precedence, financial locks/versions/reservations/history, current checks and fresh authorization.
+- Established DOC-05's sole unchanged twelve-Category C1 table, initially HKD5,000 each, backend-configurable with 0 disabling only Category C1. Save uses source Bill Amount; Pay uses selected principal/allowed prepayment aggregate, not fees/card charge/per-leg amounts. Other gates, Rent and then-effective configuration history remain separate.
+- Distinguished normal Payout without generic approval, actual Evidence acceptance and separately authorized release of only a specified Evidence hold while Evidence remains not acceptable. Preserved other holds and Rent/Tier 3 before-Payment gates, per-transaction human approval, distinct-person Ops/Accounting controls and exact policy/executor boundaries.
+- Recorded accountable CS and fee responsibility without automatic internal case/Refund completion deadlines or fabricated charges, Refunds or bank results. Preserved real external deadlines and risk-review SLA.
+- Retained actual manual portal/file/upload item evidence and reconciliation without mandatory automatic bank feed, unknown-as-failure/success, blind resend or fabricated bank success.
+- Aligned current references, OQs, acceptance handoffs, six existing route-map sources and only two AGENTS enumerations. Qualified only the unchanged Home SVG's PI-specific examples at owner/index references; no redraw, replacement fixture or adjacent legacy cleanup.
+
+**Checks Performed**
+
+- Completed material-Draft review by three distinct Specialists, one consolidated two-finding correction batch, affected two-lens semantic closures, independent whole-Draft review and actual final-byte inspection, fresh independent Stage 9 Primary Review, and independent Stage 12 coordinated Validation of the 37-file result. Review covered the accepted change universe and material owner context, not a word-for-word audit of unrelated platform requirements.
+- Verified exact 37-path staging/commit scope, all 37 staged and committed Git blobs against approved working text after LF normalization, unchanged approved raw working bytes, no out-of-scope file, metadata/history/ID preservation, 68 route IDs/owners/definition states, 22 OQ IDs/statuses, links, table/fence and source-Mermaid edge/class references. The complete approved and committed binary diff is 480,163 bytes, SHA-256 `7193651bb4377d9ae49c60a342d194ee8c14e30a5422981bfb0e8ab6328136ae`.
+- At substantive-commit verification, all 90 files outside that 37-file set matched the original ledger. This records follow-up appends only the two existing registers; the remaining 88 files remain byte-identical. Handoff preservation covers 9 MD and 26 SVG files and both sealed ZIPs; it is not a canonical refresh. Me retains LF; other edited source files retain CRLF, all without BOM. Diff checks passed.
+- Mermaid checks are source/structure checks, not fresh rendering/pixel/accessibility proof. No runtime/UAT, production-data inspection, provider/bank test, professional assurance, certification or operating-effectiveness result is claimed.
+
+**Remaining Open Items**
+
+- OQ-10-015 financial/Refund/fee/liquidity/support enablement; actual operating assignments/segregation evidence, Evidence lists, configuration mechanics, bank/provider/format/matching/cutoff/calendar, exact expression and implementation evidence remain owner-backed. No new exception-case enumeration gate is imposed.
+- Handoff/Figma were not changed or refreshed. The unvalidated July prototype and pre-existing derived programme-tracker staleness remain excluded, not claimed aligned. Existing document status/owner/reviewer/approver metadata and historical records are preserved.
