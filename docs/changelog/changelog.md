@@ -2118,3 +2118,100 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 - R05: authoritative period/payment inputs, delivery/time/channel, extraction and future persistence/correlation remain owned; the material-Edit/C1 prototype gap is separate from reminder-only preferences.
 - R06: Archive/growth Make/native parity gaps remain implementation limits, not policy deletion. R01's bounded manual-code window is resolved; R02 retains the configurable seven-calendar-day default.
 - Provider, representation, security mechanisms, implementation, UAT/operations, professional assessment, enablement and launch evidence remain separately gated. Separate November 13 C1/Admin/Payout/CS/no-bank-feed discussions are excluded; this record does not resume roadmap work or authorize coding.
+
+
+### `2026-11-16` - CardMore Naming And Documentation Principles
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `91bbabe5372120524b5a95cd9fb6ae7435ccc7f8` |
+| Primary owner | DOC-01 product identity; DOC-16 architecture; DOC-20 acceptance evidence; existing DOC-05/06B/06C/08/18 owners for bounded reference alignment |
+| Decision record | `DEC-2026-051`, `DEC-2026-052` |
+| Founder approval | Founder approved A+B+C and necessary review/integration through pre-commit, separately authorized the two-file Archive projection alignment, and approved the substantive/records/non-force publication chain on 2026-11-16. |
+
+**Files Changed**
+
+- [AGENTS.md](../../AGENTS.md)
+- [README.md](../../README.md)
+- [docs/00-foundation/doc-00-documentation-governance.md](../00-foundation/doc-00-documentation-governance.md)
+- [docs/00-foundation/doc-01-project-charter-product-positioning.md](../00-foundation/doc-01-project-charter-product-positioning.md)
+- [docs/00-foundation/doc-02-business-model-unit-economics.md](../00-foundation/doc-02-business-model-unit-economics.md)
+- [docs/00-foundation/doc-03-regulatory-psp-acquirer-assessment.md](../00-foundation/doc-03-regulatory-psp-acquirer-assessment.md)
+- [docs/00-foundation/doc-04-compliance-certification-roadmap-control-framework.md](../00-foundation/doc-04-compliance-certification-roadmap-control-framework.md)
+- [docs/00-foundation/payplus-outcome-message-notification-framework.md](../00-foundation/payplus-outcome-message-notification-framework.md)
+- [docs/00-foundation/payplus-platform-design-principles.md](../00-foundation/payplus-platform-design-principles.md)
+- [docs/01-product/doc-05-master-prd-feature-requirement-index.md](../01-product/doc-05-master-prd-feature-requirement-index.md)
+- [docs/01-product/doc-06-user-journey-ux-flow-service-blueprint.md](../01-product/doc-06-user-journey-ux-flow-service-blueprint.md)
+- [docs/01-product/doc-06a-core-user-journeys-service-blueprint.md](../01-product/doc-06a-core-user-journeys-service-blueprint.md)
+- [docs/01-product/doc-06b-navigation-ia-route-taxonomy.md](../01-product/doc-06b-navigation-ia-route-taxonomy.md)
+- [docs/01-product/doc-06c-bills-rent-tenancy-ux-module.md](../01-product/doc-06c-bills-rent-tenancy-ux-module.md)
+- [docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md](../01-product/doc-06d-ux-requirements-acceptance-test-matrix.md)
+- [docs/01-product/doc-07-content-disclosure-user-authorization-spec.md](../01-product/doc-07-content-disclosure-user-authorization-spec.md)
+- [docs/01-product/doc-08-notification-receipt-communication-spec.md](../01-product/doc-08-notification-receipt-communication-spec.md)
+- [docs/02-payment-domain/doc-09-payment-domain-architecture.md](../02-payment-domain/doc-09-payment-domain-architecture.md)
+- [docs/02-payment-domain/doc-10-payout-reconciliation.md](../02-payment-domain/doc-10-payout-reconciliation.md)
+- [docs/02-payment-domain/doc-11-refund-cancellation-chargeback.md](../02-payment-domain/doc-11-refund-cancellation-chargeback.md)
+- [docs/03-bill-verification/doc-12-bill-category-document-ai-ocr-payee-verification-spec.md](../03-bill-verification/doc-12-bill-category-document-ai-ocr-payee-verification-spec.md)
+- [docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md](../04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md)
+- [docs/04-growth-ecosystem/payplus-data-strategy-ai-marketing-research.md](../04-growth-ecosystem/payplus-data-strategy-ai-marketing-research.md)
+- [docs/05-risk-compliance-privacy/doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md](../05-risk-compliance-privacy/doc-14-aml-anti-cashout-fraud-dynamic-auth-risk-control-spec.md)
+- [docs/05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md](../05-risk-compliance-privacy/doc-15-privacy-data-protection-record-retention-spec.md)
+- [docs/06-engineering/doc-16-technical-architecture-spec.md](../06-engineering/doc-16-technical-architecture-spec.md)
+- [docs/06-engineering/doc-17-api-third-party-integration-spec.md](../06-engineering/doc-17-api-third-party-integration-spec.md)
+- [docs/06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md](../06-engineering/doc-18-data-model-transaction-state-audit-event-spec.md)
+- [docs/06-engineering/doc-23-engineering-core.md](../06-engineering/doc-23-engineering-core.md)
+- [docs/07-security-access-control/doc-19-security-tokenization-authentication-admin-control-spec.md](../07-security-access-control/doc-19-security-tokenization-authentication-admin-control-spec.md)
+- [docs/08-qa-release-operations/doc-20-testing-uat-golive-checklist.md](../08-qa-release-operations/doc-20-testing-uat-golive-checklist.md)
+- [docs/08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md](../08-qa-release-operations/doc-22-admin-management-dashboard-operations-workflow.md)
+- [docs/README.md](../README.md)
+- [docs/diagrams/README.md](../diagrams/README.md)
+- [docs/diagrams/payplus-home-dashboard-mvp-wireframe.svg](../diagrams/payplus-home-dashboard-mvp-wireframe.svg)
+- [docs/diagrams/payplus-promotion-engine-structure.md](../diagrams/payplus-promotion-engine-structure.md)
+- [docs/diagrams/routes/payplus-account-activation-route-map.md](../diagrams/routes/payplus-account-activation-route-map.md)
+- [docs/diagrams/routes/payplus-action-sheet-route-map.md](../diagrams/routes/payplus-action-sheet-route-map.md)
+- [docs/diagrams/routes/payplus-activity-receipts-route-map.md](../diagrams/routes/payplus-activity-receipts-route-map.md)
+- [docs/diagrams/routes/payplus-app-route-map.md](../diagrams/routes/payplus-app-route-map.md)
+- [docs/diagrams/routes/payplus-archive-route-map.md](../diagrams/routes/payplus-archive-route-map.md)
+- [docs/diagrams/routes/payplus-authentication-route-map.md](../diagrams/routes/payplus-authentication-route-map.md)
+- [docs/diagrams/routes/payplus-bills-route-map.md](../diagrams/routes/payplus-bills-route-map.md)
+- [docs/diagrams/routes/payplus-home-route-map.md](../diagrams/routes/payplus-home-route-map.md)
+- [docs/diagrams/routes/payplus-instructions-route-map.md](../diagrams/routes/payplus-instructions-route-map.md)
+- [docs/diagrams/routes/payplus-me-route-map.md](../diagrams/routes/payplus-me-route-map.md)
+- [docs/diagrams/routes/payplus-more-route-map.md](../diagrams/routes/payplus-more-route-map.md)
+- [docs/diagrams/routes/payplus-notification-route-map.md](../diagrams/routes/payplus-notification-route-map.md)
+- [docs/diagrams/routes/payplus-offers-rewards-referral-route-map.md](../diagrams/routes/payplus-offers-rewards-referral-route-map.md)
+- [docs/diagrams/routes/payplus-payment-checkout-route-map.md](../diagrams/routes/payplus-payment-checkout-route-map.md)
+- [docs/diagrams/routes/payplus-payment-profile-route-map.md](../diagrams/routes/payplus-payment-profile-route-map.md)
+- [docs/diagrams/user-flow/README.md](../diagrams/user-flow/README.md)
+- [docs/documentation-system/README.md](../documentation-system/README.md)
+- [docs/documentation-system/documentation-architecture-map.md](../documentation-system/documentation-architecture-map.md)
+- [docs/documentation-system/payplus-doc-07-design-specification-specialist-guide.md](../documentation-system/payplus-doc-07-design-specification-specialist-guide.md)
+- [docs/documentation-system/payplus-documentation-development-workflow.md](../documentation-system/payplus-documentation-development-workflow.md)
+- [docs/documentation-system/payplus-parallel-agent-documentation-procedure.md](../documentation-system/payplus-parallel-agent-documentation-procedure.md)
+- [docs/documentation-system/payplus-prototype-design-validation-specialist-guide.md](../documentation-system/payplus-prototype-design-validation-specialist-guide.md)
+- [docs/documentation-system/payplus-work-command-language.md](../documentation-system/payplus-work-command-language.md)
+- [docs/glossary/glossary.md](../glossary/glossary.md)
+- [docs/prototypes/README.md](../prototypes/README.md)
+- [docs/prototypes/payplus-current-mobile-prototype/README.md](../prototypes/payplus-current-mobile-prototype/README.md)
+- [docs/traceability/open-questions-register.md](../traceability/open-questions-register.md)
+- [docs/traceability/payplus-documentation-management-roadmap.md](../traceability/payplus-documentation-management-roadmap.md)
+- [docs/traceability/requirements-traceability-matrix.md](../traceability/requirements-traceability-matrix.md)
+- [docs/traceability/route-register.md](../traceability/route-register.md)
+- [docs/traceability/status-display-reference-matrix.md](../traceability/status-display-reference-matrix.md)
+
+**Material Changes**
+
+- Adopted CardMore as the current product name and aligned current human-facing branding and the nine approved framework-title prefixes. Existing IDs, filenames, paths, historical provenance and the DOC-01 formal title remain intact; legacy heading anchors preserve old links.
+- Corrected bounded Archive and Statement references, current DOC-01 title references and DOC-18 business-recording versus separately authorized future representation handoffs. Aligned the existing Archive route map and its index to current Payer source visibility and deferred document/Restore presentation without creating a route or policy.
+- Added DOC-16 principles for inspectable module boundaries, reusable conventions, versioned code-repository guidance, safe diagnostics and capability-preserving evolution; DOC-20 records truthful whole-change verification and reproduction evidence without selecting tools or creating a new approval gate.
+
+**Checks Performed**
+
+- Completed independent material-Draft Specialist and whole-Draft review, fresh Stage 9 Primary Review, bounded Archive alignment and independent affected verification, and coordinated integrated validation. The Stage 12 index-ID restoration received independent closure.
+- Verified the exact 67-file candidate, all clean-filtered staged and committed Git blobs against the reviewed working files, protected-60 raw aggregate, links, IDs, history, metadata, anchors, EOL/BOM, handoff integrity and diff checks. Mermaid source/edge structure was checked without a fresh pixel-render claim.
+- The initial Lead classification of REF-A1-003 was not recorded before Manager coordination. A later source-backed Lead assessment, fresh affected Specialist closures and independent whole-Draft and Primary review resolved current bounded completeness without backdating or certifying the earlier sequencing control. This exception is not a precedent for changing the Workflow.
+
+**Remaining Open Items**
+
+- Section 5 Payment Instruction retirement, C1 threshold/zero/Admin gates, Payout approval, CS and bank-feed policy and associated trial assumptions remain deferred to their existing owners; this change adopts none of them.
+- Provider-specific contracts, DOC-18 technical representation, security mechanisms, operational implementation, acceptance, UAT, professional assessment, enablement and launch remain separately gated. The sealed handoff and Figma/prototype were not modified; this record makes no runtime, compliance or readiness claim.

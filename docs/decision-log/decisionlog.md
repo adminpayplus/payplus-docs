@@ -71,6 +71,8 @@ Formal source documents remain authoritative. This log records why and where a d
 | `Not applicable` | `2026-09-01` | Historical source-owner correction provenance only — superseded task wording: former `DOC-09 Technical Allocation Reconciliation` | Not applicable | `DOC-09` | `c11fa2e3a4807b1c601fc20d1052ff84bcf48263` |
 | `Not applicable` | `2026-09-01` | Historical source-owner correction provenance only — superseded task wording: former `DOC-13 Technical Allocation Reconciliation` | Not applicable | `DOC-13` | `c8b6a8d55039e6bfe9a8773e7253db073753cf13` |
 | `DEC-2026-050` | `2026-11-13` | PP-MVP-20261112-R1 Canonical UX Incorporation And Bounded Consumer Alignment | Accepted | `DOC-05` / `DOC-06B` / `DOC-06C` / `DOC-08` / `DOC-15` | `49782861fa0fd8a7e4b6efee5c17c497439b95ca` |
+| `DEC-2026-051` | `2026-11-16` | Current CardMore Product Naming And Compatibility | Accepted | `DOC-01` | `91bbabe5372120524b5a95cd9fb6ae7435ccc7f8` |
+| `DEC-2026-052` | `2026-11-16` | Bounded Engineering Principles And Verification Evidence | Accepted | `DOC-16` / `DOC-20` | `91bbabe5372120524b5a95cd9fb6ae7435ccc7f8` |
 
 ## 4. Decision Record Template
 
@@ -2556,3 +2558,68 @@ Only the named contrary current R1 auth/checklist, central-Bill, unknown-Save/re
 - R05: authoritative period/payment inputs, delivery/time/channel, extraction and future persistence/correlation remain owned; the material-Edit/C1 prototype gap is separate from reminder-only preferences.
 - R06: Archive/growth Make/native parity gaps remain implementation limits, not policy deletion. R01's bounded manual-code window is resolved; R02 retains the configurable seven-calendar-day default.
 - Provider, representation, security mechanisms, implementation, UAT/operations, professional assessment, enablement and launch evidence remain separately gated. Separate November 13 C1/Admin/Payout/CS/no-bank-feed discussions are excluded; this record does not resume roadmap work or authorize coding.
+
+
+### `DEC-2026-051` - Current CardMore Product Naming And Compatibility
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-11-16` |
+| Status | Accepted |
+| Primary owner | [DOC-01](../00-foundation/doc-01-project-charter-product-positioning.md) for product identity |
+| Affected documents | The 67 substantive files listed in the [changelog](../changelog/changelog.md); current title references use DOC-00 metadata governance. |
+| Substantive commit | `91bbabe5372120524b5a95cd9fb6ae7435ccc7f8` |
+| Founder approval | Founder approved current CardMore adoption within A+B+C, the necessary existing Archive map/index alignment, and the publication chain on 2026-11-16. |
+
+**Decision**
+
+Adopt CardMore as the current product name in DOC-01 and accepted current human-facing consumers, UI labels and the nine approved framework-title prefixes. The formal DOC-01 title remains Product Overview & Positioning. Preserve existing technical identifiers, filenames, paths, link destinations, task and branch identities, append-only history and historical naming; retain old generated heading anchors.
+
+**Rationale And Alternatives**
+
+A single current owner-backed identity avoids conflicting current product names. A global rename of identifiers, paths or historical records was excluded because it would break compatibility and rewrite provenance. The earlier PayPlus/Pay+ names remain historical or technical where applicable, not a second current product brand.
+
+**Consequences And Handoffs**
+
+The bounded Archive/Statement and current title-reference alignments consume existing DOC-05/06B/06C/08 and DOC-00 owners; the separately authorized map/index correction projects those owners without establishing archived-document entry or Restore/version policy. DOC-18 retains current business recording and its separately gated future representation responsibilities. No new route, policy, product boundary, approval status or implementation authority is created.
+
+**Supersedes / Superseded By**
+
+None at the decision-ID level. Current branding replaces prior current branding; historical decision names and provenance remain unchanged.
+
+**Remaining Open Items**
+
+Section 5 Payment Instruction retirement, C1/Admin gates, Payout approval, CS and bank-feed policy remain deferred with their existing owners. The sealed handoff and Figma/prototype were not changed.
+
+### `DEC-2026-052` - Bounded Engineering Principles And Verification Evidence
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-11-16` |
+| Status | Accepted |
+| Primary owner | [DOC-16](../06-engineering/doc-16-technical-architecture-spec.md) for architecture principles; [DOC-20](../08-qa-release-operations/doc-20-testing-uat-golive-checklist.md) for acceptance evidence |
+| Affected documents | DOC-16 and DOC-20; the complete 67-file substantive scope is listed in the [changelog](../changelog/changelog.md). |
+| Substantive commit | `91bbabe5372120524b5a95cd9fb6ae7435ccc7f8` |
+| Founder approval | Founder approved the bounded A+B+C documentation changes and publication chain on 2026-11-16. |
+
+**Decision**
+
+DOC-16 records inspectable module/public-contract boundaries, allowed dependency direction, reusable and testable conventions with reasoned tested exceptions, persistent versioned code-repository Coding Standard, Pattern Library and Agent Rules responsibilities, explicit safely diagnosable material effects/errors, and evolution that preserves owner-required record/history/query/Admin capability and financial effects. DOC-20 requires truthful whole-change and applicable-branch evidence, distinct evidenced/failed/unverified/genuine-not-applicable outcomes, reproducible context and non-interchangeability of UI/build/mock/HTTP results with required backend/file/external evidence.
+
+**Rationale And Alternatives**
+
+These principles make architecture boundaries and evidence reproducible without selecting an implementation. Creating a new formal engineering manual or mandating three separate files was excluded; code-repository guidance remains subordinate to existing formal owners. No stack, provider, schema, security mechanism, CI tool or new approval gate is chosen.
+
+**Consequences And Handoffs**
+
+DOC-18 retains business-recording, explainability, history and its assigned separately authorized future representation responsibilities; DOC-19 retains security controls. DOC-21/22 and applicable domain owners retain operations and permitted Admin execution. Existing formal statuses and Founder material-risk decisions remain unchanged.
+
+The initial Lead classification of REF-A1-003 was not recorded before Manager coordination. The later current Lead assessment, fresh affected Specialist closures and independent whole-Draft and Primary reviews resolved current bounded completeness but do not certify the earlier sequence or establish a new procedure precedent.
+
+**Supersedes / Superseded By**
+
+None. These principles extend the existing owner baselines without superseding an earlier decision ID.
+
+**Remaining Open Items**
+
+Provider contracts, exact data/event representation, security mechanisms, implementation, operational evidence, acceptance, UAT and launch remain separately authorized. Section 5 product and operating choices remain deferred. No runtime, PCI, compliance or production-readiness claim is made.
