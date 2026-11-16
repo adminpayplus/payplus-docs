@@ -1,7 +1,7 @@
 ---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 2.0.1
+version: 2.1.0
 status: Draft
 owner: Engineering / Data
 reviewers:
@@ -16,11 +16,11 @@ approvers:
   - Project Owner
   - Engineering Lead
   - Data Lead
-last_updated: 2026-08-30
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
-  - DOC-01 Project Charter & Product Positioning
+  - DOC-01 Product Overview & Positioning
   - DOC-05 Master PRD & Feature Requirement Index
   - DOC-06B Navigation, IA & Route Taxonomy
   - DOC-06C Bills, Rent & Tenancy UX Module
@@ -50,20 +50,20 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `2.0.1` |
+| **Version** | `2.1.0` |
 | **Status** | Draft |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Data Lead |
-| **Last Updated** | `2026-08-30` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow<br>DOC-23 Engineering Core<br>DOC-24 Payment Confirmation & Financial-Effect Integrity Engineering Spec<br>DOC-25 Settlement, Payout & Reconciliation Integrity Engineering Spec |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow<br>DOC-23 Engineering Core<br>DOC-24 Payment Confirmation & Financial-Effect Integrity Engineering Spec<br>DOC-25 Settlement, Payout & Reconciliation Integrity Engineering Spec |
 
 > **Draft boundary.** This Draft defines business-recording, explainability, history, lineage, and owner-handoff requirements. It is not an Approved source of truth and does not approve a physical or logical schema, event or status taxonomy, timestamp or versioning convention, cardinality, identifier, API, payload, service, persistence product, queue, job, provider, security mechanism, backend design, implementation, acceptance result, enablement, production operation, or launch readiness.
 
 ## 1. Purpose, mission, authority, ownership, and non-decisions
 
-DOC-18 is PayPlus's detailed business-recording rulebook. It defines what PayPlus must be able to remember, distinguish, relate, reconstruct, and explain about material business facts and actions, while the applicable product, domain, privacy, security, risk, operations, and acceptance owners retain authority over what those facts mean and what consequences they permit.
+DOC-18 is CardMore's detailed business-recording rulebook. It defines what CardMore must be able to remember, distinguish, relate, reconstruct, and explain about material business facts and actions, while the applicable product, domain, privacy, security, risk, operations, and acceptance owners retain authority over what those facts mean and what consequences they permit.
 
 DOC-18 owns the business-level recording and explainability contract for:
 
@@ -117,8 +117,8 @@ The terms below are business-recording meanings, not technical structures:
 | **Source Fact** | Information supplied by a user, an accepted document, an owner, or another permitted source, with its provenance and limitations preserved. |
 | **Processing or Extraction Result** | A candidate interpretation or transformation of source information that has not become owner truth merely because processing occurred. |
 | **Owner Assessment or Decision** | The applicable owner's evaluation under its accepted rules. |
-| **Effective PayPlus Business Fact** | The fact the applicable owner recognizes as current or historically effective for its own purpose. |
-| **External Observation** | Information received from outside the authoritative PayPlus owner boundary; it remains non-authoritative until owner evaluation. |
+| **Effective CardMore Business Fact** | The fact the applicable owner recognizes as current or historically effective for its own purpose. |
+| **External Observation** | Information received from outside the authoritative CardMore owner boundary; it remains non-authoritative until owner evaluation. |
 | **Downstream Consequence** | An action, decision, restriction, financial fact, case, presentation, or other result governed by its own owner. |
 | **Current Effectiveness** | Whether an owner currently treats a fact as effective for a defined purpose. It is not generic readiness. |
 | **Historical Action Basis** | The facts, owner decisions, and context that supported an action or consequence when it occurred. |
@@ -131,13 +131,13 @@ The terms below are business-recording meanings, not technical structures:
 
 ### 3.1 Required semantic separation
 
-Where the meanings differ, PayPlus must preserve this separation:
+Where the meanings differ, CardMore must preserve this separation:
 
 ```text
 Source Fact
 -> Processing or Extraction Result
 -> Owner Assessment or Decision
--> Effective PayPlus Business Fact
+-> Effective CardMore Business Fact
 -> Downstream Consequence
 ```
 
@@ -145,7 +145,7 @@ This is an explainability relationship, not a universal processing sequence. A f
 
 ### 3.2 Minimum Explainability Lens
 
-For every applicable material record family, PayPlus must be able to answer the following business questions:
+For every applicable material record family, CardMore must be able to answer the following business questions:
 
 | Explainability question | Required answer |
 | --- | --- |
@@ -205,55 +205,55 @@ Two existing boundaries are mandatory across these rows. An ordinary Bill/Rent r
 
 ### 4.2 Positive Bill and Rent recording coverage
 
-This table is the positive coverage record for the complete settled Bill/Rent fact, materiality, Declaration, change-history, and historical-action-basis universe applicable to this Draft. Each DOC-18 obligation states what PayPlus must remember and explain. Where a settled materiality classification exists, the obligation states it explicitly; optional or unclassified facts remain separately identified without inferred materiality. The table does not approve fields, schemas, cardinality, events, payloads, identifiers, persistence, or implementation.
+This table is the positive coverage record for the complete settled Bill/Rent fact, materiality, Declaration, change-history, and historical-action-basis universe applicable to this Draft. Each DOC-18 obligation states what CardMore must remember and explain. Where a settled materiality classification exists, the obligation states it explicitly; optional or unclassified facts remain separately identified without inferred materiality. The table does not approve fields, schemas, cardinality, events, payloads, identifiers, persistence, or implementation.
 
 | Business fact / rule | Source authority | DOC-18 obligation |
 | --- | --- | --- |
-| Authoritative Bill/Rent identity and projection boundary | DOC-01; DOC-05; DOC-06B; DOC-06C; DOC-09; DOC-15 | PayPlus must remember and explain the same authoritative Bill/Rent identity across Saved/current, Saved/Archived, history-only, established-but-unprojected, no-Save, and permitted post-Payment Save treatment without allowing a projection change to rewrite source, financial, case, or audit history. |
-| Category-bound Bill acquisition and acquisition provenance | DOC-01; DOC-05; DOC-06C; DOC-12 | PayPlus must remember and explain whether the Bill Payee context was acquired through the Category-scoped Directory or `Provide Payee myself`, the selected controlled Category, and the acquisition provenance without treating either method as current eligibility, Evidence, destination, risk, Payment, Payout, or authorization truth. |
-| Bill source, biller reference, and due/period context | DOC-05; DOC-06C; DOC-09; DOC-12 | PayPlus must remember and explain the applicable Bill source or biller reference, due or period context, provenance, relationship to the authoritative Bill, and the then-effective context relied upon for later owner assessment or action. |
-| Bill Category | Direct Founder correction authority; DOC-05; DOC-06C; DOC-12 | PayPlus must remember and explain Category as a material and amendable Bill fact, the current controlled Category, its source and authority, and its relationship to the same authoritative Bill identity. |
-| Bill date | Direct Founder correction authority; DOC-05; DOC-06C; DOC-12 | PayPlus must remember and explain Bill Date as a material Bill fact, its provenance, the applicable business-time meaning, and any later material change. |
-| Bill declared purpose | DOC-05; DOC-06C; DOC-07; DOC-09; DOC-12 | PayPlus must remember and explain declared purpose as a material Bill fact, its provenance, the applicable Declaration or reconfirmation context, and the owner treatment applied when that purpose changes. |
-| Bill economic Payee | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12 | PayPlus must remember and explain economic Payee as a material Bill fact and the context relied upon without inferring PayPlus membership, reciprocal relationship, destination truth, or authorization. |
-| Bill amount | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12 | PayPlus must remember and explain Bill Amount as a material Bill fact and its applicable purpose or period, separately from any individual Payment Amount, applied amount, paid-out amount, or outstanding amount. |
-| Bill date and amount non-reusability | DOC-05; DOC-06C; DOC-09 | PayPlus must remember and explain that a prior Bill date and Bill amount are not reusable as current facts for a later Bill context, while other owner-permitted stable context may only be prefilled and remains subject to current Declaration, Tier, destination, risk, and authorization rules. |
-| Bill Payee bank name | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | PayPlus must remember and explain Payee bank name as a material Bill fact and its provenance, subject to DOC-15 privacy/access/masking/retention treatment and DOC-10 destination/Payout authority. |
-| Bill Payee bank code | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | PayPlus must remember and explain Payee bank code as a material Bill fact and its provenance without treating that fact as economic-Payee, destination, Payment, or Payout truth by itself. |
-| Bill Payee bank account number | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | PayPlus must remember and explain Payee bank account number as a material Bill fact and its provenance, subject to DOC-15 privacy/access/masking/retention treatment and DOC-10 effective destination, Payout, and reconciliation authority. |
-| Bill remark | Direct Founder correction authority; DOC-05/06C owner boundary | PayPlus must remember and explain a supplied remark and its provenance while treating it as normally non-material unless an applicable owner rule expressly makes it material for a defined purpose. |
-| Bill materiality | Direct Founder correction authority; DOC-05; DOC-06C; DOC-07; DOC-09; DOC-10; DOC-12 | PayPlus must remember and explain that Category, Bill date, declared purpose, economic Payee, Bill amount, Payee bank name, bank code, and bank account number are material facts, while a remark is normally non-material, together with the owner treatment applied to any change. |
-| C1/G1/G2 trigger reason and highest-tier evaluation | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | PayPlus must remember and explain which owner-defined C1, G1, or G2 trigger reason applied, the applicable highest-tier result, the facts and owner authority used, and the historical evaluation basis without defining values or technical treatment. |
-| Bill Tier 1/2/3 recording | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | PayPlus must remember and explain the owner-defined Tier 1, Tier 2, or Tier 3 treatment, applicable Declaration, Evidence-presence, Evidence-acceptance, approval, Payment, and Payout relationships, and the then-effective basis without turning Tier into generic readiness. |
-| Bill Evidence presence, acceptance, and financial consequence separation | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | PayPlus must remember and explain Evidence presence separately from processing and owner acceptance, and each separately from Payment admission, payer authorization, confirmed Payment, Payout hold or release, reconciliation, and other owner consequences. |
-| Payment, Payment Application, Payout, and reconciliation history | DOC-09; DOC-10; DOC-11; DOC-14 | PayPlus must remember and explain immutable confirmed Payment and Payment Application facts separately from Payout, reconciliation, refund, reversal, adjustment, case, Evidence, and risk history, including which owner governed each later consequence. |
-| Category amendment | `FD-DOC18-03`; DOC-05/06C/09/10/12/14/15 owner boundaries | PayPlus must remember and explain Category amendment as a material amendment on the same Bill identity, the current authoritative Category, every prior Category retained in material history, and that PayPlus does not infer or distinguish why the user changed it. |
-| Category historical and downstream boundary | `FD-DOC18-02/03`; DOC-09; DOC-10; DOC-11; DOC-12; DOC-14 | PayPlus must remember and explain that a Category amendment does not rewrite historical Payment, Payment Application, Payout, reconciliation, case, adjustment, Evidence, risk, or audit facts, and that every downstream consequence remains governed by its owner. |
-| Rent is separate from Bill tiers and retains mandatory accepted Evidence | DOC-01; DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | PayPlus must remember and explain that Rent is not a Bill Category, does not use C1/G1/G2 or Tier 1/2/3, and requires attached Evidence and the owner-defined accepted outcome before Payment; a Declaration cannot replace, waive, reduce, or defer that requirement. |
-| Rent address | Direct Founder correction authority; DOC-05; DOC-06C; DOC-12; DOC-15 | PayPlus must remember and explain address as a material Rent fact, its provenance, applicable relationship, and any later material change without defining display or access treatment. |
-| Rent period | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12 | PayPlus must remember and explain period as a material Rent fact and its relationship to the Rent source, obligation context, Rent Amount, Due Day, and historical action basis. |
-| Rent Amount | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12 | PayPlus must remember and explain Rent Amount as a material Rent fact for the applicable period, distinct from each individual Payment Amount and later financial consequence. |
-| Rent Due Day | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12 | PayPlus must remember and explain Due Day as a material Rent fact, its business-time meaning, provenance, and any owner-governed change. |
-| Rent landlord or economic Payee | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12 | PayPlus must remember and explain landlord or economic Payee as a material Rent fact and its provenance without creating PayPlus membership, reciprocal relationship, or Payout truth. |
-| Rent Payee bank name | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | PayPlus must remember and explain Payee bank name as a material Rent fact and its provenance, subject to DOC-15 privacy/access/masking/retention treatment and DOC-10 destination/Payout authority. |
-| Rent Payee bank code | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | PayPlus must remember and explain Payee bank code as a material Rent fact and its provenance without treating that fact as economic-Payee, destination, Payment, or Payout truth by itself. |
-| Rent Payee bank account number | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | PayPlus must remember and explain Payee bank account number as a material Rent fact and its provenance, subject to DOC-15 privacy/access/masking/retention treatment and DOC-10 effective destination, Payout, and reconciliation authority. |
-| Rent stated payout method | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12 | PayPlus must remember and explain stated payout method as a material Rent fact and its provenance while DOC-10 retains effective destination, Payout, and reconciliation authority. |
-| Optional landlord contact | Direct Founder correction authority; DOC-05/06C/15 owner boundary | PayPlus must remember and explain optional landlord contact as a separate optional fact only where supplied and owner-permitted, including its provenance and approved purpose; PayPlus must not infer that it is material or non-material solely because it is present, absent, or changed. |
-| Rent Payer-to-tenant relationship | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12; DOC-15 | PayPlus must remember and explain the Payer-to-tenant relationship as a material Rent fact where the Payer pays for another tenant, without creating account linkage or a reciprocal participant runtime. |
-| Rent tenant name | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12; DOC-15 | PayPlus must remember and explain tenant name as required and material where the Payer-to-tenant relationship context applies, including its provenance and approved purpose. |
-| Rent tenant mobile | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12; DOC-15 | PayPlus must remember and explain tenant mobile as required and material where the Payer-to-tenant relationship context applies, including its provenance and approved purpose. |
-| Rent Amount versus individual Payment Amount | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-10 | PayPlus must remember and explain both amounts and their relationship; a difference is not automatically an anomaly, mismatch, risk result, underpayment, overpayment, or owner consequence, and any reasonableness assessment remains with its applicable owner. |
-| Applicable Rent materiality | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-15 | PayPlus must remember and explain that address, period, Rent Amount, Due Day, landlord/economic Payee, Payee bank name, bank code, bank account number, stated payout method, Payer-to-tenant relationship, tenant name, and tenant mobile are material Rent facts; optional landlord contact remains a separate optional fact with no inferred materiality; and each change retains its owner-defined Evidence or reconfirmation treatment. |
-| Rent/tenancy and accepted-Evidence reuse boundary | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-15 | PayPlus must remember and explain which accepted tenancy context and Rent Evidence remain applicable for reuse, and that reuse ends when expiry, replacement, or material change requires renewed owner-governed Evidence, materiality, or payment treatment. |
-| Declaration and reconfirmation contexts | `FD-DOC18-02`; DOC-05; DOC-06C; DOC-07 | PayPlus must remember and explain the facts and confirmation context for Add Bill, a Pay progression that creates a new source, applicable source setup, and material change to a Saved source, while keeping Declaration separate from Save, Evidence, payer authorization, Payment, and Payout. |
-| Ordinary Bill/Rent reminder versus Payment Instruction action alert | DOC-06C; DOC-08; DOC-09 | PayPlus must remember and explain whether a communication concerns an ordinary Bill/Rent reminder or an owner-defined Payment Instruction action alert, the applicable source or obligation context, and the separate history without converting one into the other. |
-| Deliberate Payment Instruction versus incomplete Checkout Workspace | DOC-06B; DOC-08; DOC-09 | PayPlus must remember and explain a deliberate Payment Instruction and its owner-defined intent separately from an incomplete, partially funded, closed, expired, or otherwise non-continuable Checkout Workspace and its historical context. |
-| Controlled late confirmation and immutable application history | DOC-06B; DOC-09; DOC-10; DOC-11; DOC-17 | PayPlus must remember and explain the exactly-one immutable confirmed Payment resulting from accepted late confirmation, any temporary absence of Payment Applications, the closed or expired historical Checkout, the controlled-resolution relationship, and separately owner-governed application, return, adjustment, Settlement, reconciliation, and Payout consequences. |
-| Material-change history | `FD-DOC18-02/03`; DOC-05 through DOC-15 according to concern | PayPlus must remember and explain the prior fact, changed fact, provenance, actor/authority, owner materiality assessment, current authoritative fact, supersession, and separately governed consequence without historical rewrite. |
-| Historical action basis and then-effective facts | `FD-DOC18-02`; DOC-09/10/11/12/14/15/18 owner boundaries | PayPlus must remember and explain which then-effective facts, owner decisions, qualifications, and relationships supported each historical action or consequence, even when a different fact is current now. |
+| Authoritative Bill/Rent identity and projection boundary | DOC-01; DOC-05; DOC-06B; DOC-06C; DOC-09; DOC-15 | CardMore must remember and explain the same authoritative Bill/Rent identity across Saved/current, Saved/Archived, history-only, established-but-unprojected, no-Save, and permitted post-Payment Save treatment without allowing a projection change to rewrite source, financial, case, or audit history. |
+| Category-bound Bill acquisition and acquisition provenance | DOC-01; DOC-05; DOC-06C; DOC-12 | CardMore must remember and explain whether the Bill Payee context was acquired through the Category-scoped Directory or `Provide Payee myself`, the selected controlled Category, and the acquisition provenance without treating either method as current eligibility, Evidence, destination, risk, Payment, Payout, or authorization truth. |
+| Bill source, biller reference, and due/period context | DOC-05; DOC-06C; DOC-09; DOC-12 | CardMore must remember and explain the applicable Bill source or biller reference, due or period context, provenance, relationship to the authoritative Bill, and the then-effective context relied upon for later owner assessment or action. |
+| Bill Category | Direct Founder correction authority; DOC-05; DOC-06C; DOC-12 | CardMore must remember and explain Category as a material and amendable Bill fact, the current controlled Category, its source and authority, and its relationship to the same authoritative Bill identity. |
+| Bill date | Direct Founder correction authority; DOC-05; DOC-06C; DOC-12 | CardMore must remember and explain Bill Date as a material Bill fact, its provenance, the applicable business-time meaning, and any later material change. |
+| Bill declared purpose | DOC-05; DOC-06C; DOC-07; DOC-09; DOC-12 | CardMore must remember and explain declared purpose as a material Bill fact, its provenance, the applicable Declaration or reconfirmation context, and the owner treatment applied when that purpose changes. |
+| Bill economic Payee | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12 | CardMore must remember and explain economic Payee as a material Bill fact and the context relied upon without inferring CardMore membership, reciprocal relationship, destination truth, or authorization. |
+| Bill amount | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12 | CardMore must remember and explain Bill Amount as a material Bill fact and its applicable purpose or period, separately from any individual Payment Amount, applied amount, paid-out amount, or outstanding amount. |
+| Bill date and amount non-reusability | DOC-05; DOC-06C; DOC-09 | CardMore must remember and explain that a prior Bill date and Bill amount are not reusable as current facts for a later Bill context, while other owner-permitted stable context may only be prefilled and remains subject to current Declaration, Tier, destination, risk, and authorization rules. |
+| Bill Payee bank name | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain Payee bank name as a material Bill fact and its provenance, subject to DOC-15 privacy/access/masking/retention treatment and DOC-10 destination/Payout authority. |
+| Bill Payee bank code | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain Payee bank code as a material Bill fact and its provenance without treating that fact as economic-Payee, destination, Payment, or Payout truth by itself. |
+| Bill Payee bank account number | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain Payee bank account number as a material Bill fact and its provenance, subject to DOC-15 privacy/access/masking/retention treatment and DOC-10 effective destination, Payout, and reconciliation authority. |
+| Bill remark | Direct Founder correction authority; DOC-05/06C owner boundary | CardMore must remember and explain a supplied remark and its provenance while treating it as normally non-material unless an applicable owner rule expressly makes it material for a defined purpose. |
+| Bill materiality | Direct Founder correction authority; DOC-05; DOC-06C; DOC-07; DOC-09; DOC-10; DOC-12 | CardMore must remember and explain that Category, Bill date, declared purpose, economic Payee, Bill amount, Payee bank name, bank code, and bank account number are material facts, while a remark is normally non-material, together with the owner treatment applied to any change. |
+| C1/G1/G2 trigger reason and highest-tier evaluation | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | CardMore must remember and explain which owner-defined C1, G1, or G2 trigger reason applied, the applicable highest-tier result, the facts and owner authority used, and the historical evaluation basis without defining values or technical treatment. |
+| Bill Tier 1/2/3 recording | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | CardMore must remember and explain the owner-defined Tier 1, Tier 2, or Tier 3 treatment, applicable Declaration, Evidence-presence, Evidence-acceptance, approval, Payment, and Payout relationships, and the then-effective basis without turning Tier into generic readiness. |
+| Bill Evidence presence, acceptance, and financial consequence separation | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | CardMore must remember and explain Evidence presence separately from processing and owner acceptance, and each separately from Payment admission, payer authorization, confirmed Payment, Payout hold or release, reconciliation, and other owner consequences. |
+| Payment, Payment Application, Payout, and reconciliation history | DOC-09; DOC-10; DOC-11; DOC-14 | CardMore must remember and explain immutable confirmed Payment and Payment Application facts separately from Payout, reconciliation, refund, reversal, adjustment, case, Evidence, and risk history, including which owner governed each later consequence. |
+| Category amendment | `FD-DOC18-03`; DOC-05/06C/09/10/12/14/15 owner boundaries | CardMore must remember and explain Category amendment as a material amendment on the same Bill identity, the current authoritative Category, every prior Category retained in material history, and that CardMore does not infer or distinguish why the user changed it. |
+| Category historical and downstream boundary | `FD-DOC18-02/03`; DOC-09; DOC-10; DOC-11; DOC-12; DOC-14 | CardMore must remember and explain that a Category amendment does not rewrite historical Payment, Payment Application, Payout, reconciliation, case, adjustment, Evidence, risk, or audit facts, and that every downstream consequence remains governed by its owner. |
+| Rent is separate from Bill tiers and retains mandatory accepted Evidence | DOC-01; DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | CardMore must remember and explain that Rent is not a Bill Category, does not use C1/G1/G2 or Tier 1/2/3, and requires attached Evidence and the owner-defined accepted outcome before Payment; a Declaration cannot replace, waive, reduce, or defer that requirement. |
+| Rent address | Direct Founder correction authority; DOC-05; DOC-06C; DOC-12; DOC-15 | CardMore must remember and explain address as a material Rent fact, its provenance, applicable relationship, and any later material change without defining display or access treatment. |
+| Rent period | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12 | CardMore must remember and explain period as a material Rent fact and its relationship to the Rent source, obligation context, Rent Amount, Due Day, and historical action basis. |
+| Rent Amount | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12 | CardMore must remember and explain Rent Amount as a material Rent fact for the applicable period, distinct from each individual Payment Amount and later financial consequence. |
+| Rent Due Day | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12 | CardMore must remember and explain Due Day as a material Rent fact, its business-time meaning, provenance, and any owner-governed change. |
+| Rent landlord or economic Payee | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12 | CardMore must remember and explain landlord or economic Payee as a material Rent fact and its provenance without creating CardMore membership, reciprocal relationship, or Payout truth. |
+| Rent Payee bank name | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain Payee bank name as a material Rent fact and its provenance, subject to DOC-15 privacy/access/masking/retention treatment and DOC-10 destination/Payout authority. |
+| Rent Payee bank code | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain Payee bank code as a material Rent fact and its provenance without treating that fact as economic-Payee, destination, Payment, or Payout truth by itself. |
+| Rent Payee bank account number | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain Payee bank account number as a material Rent fact and its provenance, subject to DOC-15 privacy/access/masking/retention treatment and DOC-10 effective destination, Payout, and reconciliation authority. |
+| Rent stated payout method | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12 | CardMore must remember and explain stated payout method as a material Rent fact and its provenance while DOC-10 retains effective destination, Payout, and reconciliation authority. |
+| Optional landlord contact | Direct Founder correction authority; DOC-05/06C/15 owner boundary | CardMore must remember and explain optional landlord contact as a separate optional fact only where supplied and owner-permitted, including its provenance and approved purpose; CardMore must not infer that it is material or non-material solely because it is present, absent, or changed. |
+| Rent Payer-to-tenant relationship | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12; DOC-15 | CardMore must remember and explain the Payer-to-tenant relationship as a material Rent fact where the Payer pays for another tenant, without creating account linkage or a reciprocal participant runtime. |
+| Rent tenant name | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12; DOC-15 | CardMore must remember and explain tenant name as required and material where the Payer-to-tenant relationship context applies, including its provenance and approved purpose. |
+| Rent tenant mobile | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-12; DOC-15 | CardMore must remember and explain tenant mobile as required and material where the Payer-to-tenant relationship context applies, including its provenance and approved purpose. |
+| Rent Amount versus individual Payment Amount | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-10 | CardMore must remember and explain both amounts and their relationship; a difference is not automatically an anomaly, mismatch, risk result, underpayment, overpayment, or owner consequence, and any reasonableness assessment remains with its applicable owner. |
+| Applicable Rent materiality | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain that address, period, Rent Amount, Due Day, landlord/economic Payee, Payee bank name, bank code, bank account number, stated payout method, Payer-to-tenant relationship, tenant name, and tenant mobile are material Rent facts; optional landlord contact remains a separate optional fact with no inferred materiality; and each change retains its owner-defined Evidence or reconfirmation treatment. |
+| Rent/tenancy and accepted-Evidence reuse boundary | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain which accepted tenancy context and Rent Evidence remain applicable for reuse, and that reuse ends when expiry, replacement, or material change requires renewed owner-governed Evidence, materiality, or payment treatment. |
+| Declaration and reconfirmation contexts | `FD-DOC18-02`; DOC-05; DOC-06C; DOC-07 | CardMore must remember and explain the facts and confirmation context for Add Bill, a Pay progression that creates a new source, applicable source setup, and material change to a Saved source, while keeping Declaration separate from Save, Evidence, payer authorization, Payment, and Payout. |
+| Ordinary Bill/Rent reminder versus Payment Instruction action alert | DOC-06C; DOC-08; DOC-09 | CardMore must remember and explain whether a communication concerns an ordinary Bill/Rent reminder or an owner-defined Payment Instruction action alert, the applicable source or obligation context, and the separate history without converting one into the other. |
+| Deliberate Payment Instruction versus incomplete Checkout Workspace | DOC-06B; DOC-08; DOC-09 | CardMore must remember and explain a deliberate Payment Instruction and its owner-defined intent separately from an incomplete, partially funded, closed, expired, or otherwise non-continuable Checkout Workspace and its historical context. |
+| Controlled late confirmation and immutable application history | DOC-06B; DOC-09; DOC-10; DOC-11; DOC-17 | CardMore must remember and explain the exactly-one immutable confirmed Payment resulting from accepted late confirmation, any temporary absence of Payment Applications, the closed or expired historical Checkout, the controlled-resolution relationship, and separately owner-governed application, return, adjustment, Settlement, reconciliation, and Payout consequences. |
+| Material-change history | `FD-DOC18-02/03`; DOC-05 through DOC-15 according to concern | CardMore must remember and explain the prior fact, changed fact, provenance, actor/authority, owner materiality assessment, current authoritative fact, supersession, and separately governed consequence without historical rewrite. |
+| Historical action basis and then-effective facts | `FD-DOC18-02`; DOC-09/10/11/12/14/15/18 owner boundaries | CardMore must remember and explain which then-effective facts, owner decisions, qualifications, and relationships supported each historical action or consequence, even when a different fact is current now. |
 
-The table proves positive coverage only when every applicable settled fact or rule has a source-authority row and an explicit obligation describing what PayPlus must remember and explain. A generic family row, requirement ID, topic reference, umbrella phrase, or negative exclusion does not substitute for this fact-level coverage. In particular, `bank account context` cannot substitute for an explicit bank account number, and combined `bank and payout-method context` cannot substitute for separate Payee bank name, bank code, bank account number, and stated payout method facts.
+The table proves positive coverage only when every applicable settled fact or rule has a source-authority row and an explicit obligation describing what CardMore must remember and explain. A generic family row, requirement ID, topic reference, umbrella phrase, or negative exclusion does not substitute for this fact-level coverage. In particular, `bank account context` cannot substitute for an explicit bank account number, and combined `bank and payout-method context` cannot substitute for separate Payee bank name, bank code, bank account number, and stated payout method facts.
 
 ### 4.3 Bill minimum business facts and materiality
 
@@ -282,13 +282,13 @@ Rent is a separate tenancy or relationship journey and is not a Bill Category. R
 - source provenance, Declaration or reconfirmation context where applicable, and material-change history; and
 - separate Payment amounts, because an individual Payment Amount may differ from the Rent Amount without being anomalous merely for that reason.
 
-The recording must not infer a reciprocal participant relationship, PayPlus account linkage, or user-to-user runtime from factual Payer, tenant, landlord, or economic-Payee context.
+The recording must not infer a reciprocal participant relationship, CardMore account linkage, or user-to-user runtime from factual Payer, tenant, landlord, or economic-Payee context.
 
 Address, period, Rent Amount, Due Day, landlord/economic Payee, Payee bank name, bank code, bank account number, stated payout method, and—where another-tenant context applies—the Payer-to-tenant relationship, tenant name, and tenant mobile are material Rent facts. Optional landlord contact remains a separate optional fact; its presence, absence, or change does not by itself establish materiality.
 
 ### 4.5 Declaration coverage
 
-PayPlus must preserve the applicable Declaration or proportionate reconfirmation context for:
+CardMore must preserve the applicable Declaration or proportionate reconfirmation context for:
 
 1. Add Bill;
 2. a Pay progression that establishes a new Bill or Rent source;
@@ -312,7 +312,7 @@ Evidence presence is not Evidence acceptance. Processing confidence is not Evide
 
 ### 4.7 Bill-tier recording handoff
 
-For Bills, PayPlus must preserve the applicable owner-defined Tier evaluation and its historical basis without turning the Tier into a generic state. The recording must keep distinguishable:
+For Bills, CardMore must preserve the applicable owner-defined Tier evaluation and its historical basis without turning the Tier into a generic state. The recording must keep distinguishable:
 
 - the current owner-defined C1 Category single-Payment evaluation, G1 receiving-destination frequency evaluation, and G2 monthly confirmed Bill-value evaluation, including which trigger reason applied;
 - the resulting Tier 1, Tier 2, or Tier 3 treatment and the owner-defined precedence where more than one trigger applies;
@@ -365,7 +365,7 @@ DOC-18 does not select a timestamp model or ordering mechanism. It requires only
 
 ### 5.3 Material change and historical non-rewrite
 
-For every material change, PayPlus must preserve:
+For every material change, CardMore must preserve:
 
 1. the prior fact and its provenance;
 2. the change or new information and its provenance;
@@ -378,7 +378,7 @@ A new current fact must not rewrite what was supplied, assessed, declared, autho
 
 ### 5.4 Category amendment rule
 
-Category is an amendable material Bill fact. PayPlus does not distinguish or infer why the user changes Category.
+Category is an amendable material Bill fact. CardMore does not distinguish or infer why the user changes Category.
 
 A Category amendment:
 
@@ -394,7 +394,7 @@ The changed Category governs only the purposes for which the applicable owner re
 
 Supersession changes which fact an owner treats as current for a defined purpose. It does not convert the superseded fact into false history, delete it, or make every dependent consequence automatically current again.
 
-For a superseded fact, PayPlus must remain able to explain:
+For a superseded fact, CardMore must remain able to explain:
 
 - what was previously current and for which purpose;
 - which owner recognized that effectiveness;
@@ -428,7 +428,7 @@ Bill or Rent source treatment
 != access or retention treatment
 ```
 
-`Ready`, `Under Review`, `Action Required`, `complete`, `accepted`, or similar language has meaning only within the scope of the owner that defines it. DOC-18 must not create an overall PayPlus readiness state or imply production, enablement, or launch readiness.
+`Ready`, `Under Review`, `Action Required`, `complete`, `accepted`, or similar language has meaning only within the scope of the owner that defines it. DOC-18 must not create an overall CardMore readiness state or imply production, enablement, or launch readiness.
 
 ### 6.2 Owner state and business outcome
 
@@ -444,7 +444,7 @@ Historical presentation may accurately show a then-effective fact or action even
 
 ### 7.1 External Observation non-authority
 
-Information received from outside an authoritative PayPlus owner boundary is an External Observation until the applicable owner evaluates it under accepted rules. Receipt, repetition, apparent success, or technical validity does not by itself establish:
+Information received from outside an authoritative CardMore owner boundary is an External Observation until the applicable owner evaluates it under accepted rules. Receipt, repetition, apparent success, or technical validity does not by itself establish:
 
 - Evidence acceptance;
 - Payee, destination, Payment, payer authorization, Payout, reconciliation, refund, case, risk, privacy, security, notification, or Admin truth;
@@ -474,7 +474,7 @@ Repeated, late, stale, missing, malformed, or contradictory information must not
 
 ### 8.1 Six separate questions
 
-For every material current or historical fact, PayPlus must keep these questions separate:
+For every material current or historical fact, CardMore must keep these questions separate:
 
 | Question | Owner-governed meaning |
 | --- | --- |
@@ -489,7 +489,7 @@ A record can remain historically preserved without being current, actionable, pr
 
 ### 8.2 Owner-permitted history retrieval and normal Admin/operational presentation outcome
 
-PayPlus must support owner-permitted normal Admin/operational presentation and retrieval of material history where needed for an approved operational, support, dispute, reconciliation, privacy, risk, audit, or other owner purpose. The permitted presentation or retrieval must be sufficient to explain the source, changes, then-effective facts, decisions, actions, consequences, supersession, and qualifications relevant to that purpose.
+CardMore must support owner-permitted normal Admin/operational presentation and retrieval of material history where needed for an approved operational, support, dispute, reconciliation, privacy, risk, audit, or other owner purpose. The permitted presentation or retrieval must be sufficient to explain the source, changes, then-effective facts, decisions, actions, consequences, supersession, and qualifications relevant to that purpose.
 
 This is a required business outcome, not a grant of generic Admin or operational access:
 
@@ -506,7 +506,7 @@ DOC-18 does not define an Admin UI, search, role, permission, workflow, queue, r
 
 ### 8.3 Protected and sensitive information
 
-Business-recording completeness does not authorize unnecessary collection, exposure, copying, or retention. Raw PAN, card-verification values, credentials, secrets, one-time codes, passcodes, recovery secrets, cryptographic private material, and other prohibited protected values must not appear in PayPlus business, audit, analytics, support, or reporting representations. Owner-permitted references and masked context are not by themselves Payment, Payout, identity, or authorization truth.
+Business-recording completeness does not authorize unnecessary collection, exposure, copying, or retention. Raw PAN, card-verification values, credentials, secrets, one-time codes, passcodes, recovery secrets, cryptographic private material, and other prohibited protected values must not appear in CardMore business, audit, analytics, support, or reporting representations. Owner-permitted references and masked context are not by themselves Payment, Payout, identity, or authorization truth.
 
 ## 9. Audit, lineage, reporting, analytics, AI/model, and partner-reporting boundaries
 
@@ -541,7 +541,7 @@ An aggregate, dashboard, report, metric, or analytic inference is not automatica
 
 DOC-18 may state the business evidence and explainability obligations for a separately approved AI-assisted or model-supported use. It does not approve any model, feature, input, output, training use, automated decision, external activation, marketing use, credit use, insurance use, partner sharing, or production deployment.
 
-Before an approved use can rely on PayPlus records, the applicable owners must determine purpose, permitted and prohibited inputs, privacy and security treatment, human review, explanation or reason requirements, monitoring, acceptance, and adverse-impact considerations. A model output remains an input or assessment aid until the applicable owner recognizes a business fact or consequence.
+Before an approved use can rely on CardMore records, the applicable owners must determine purpose, permitted and prohibited inputs, privacy and security treatment, human review, explanation or reason requirements, monitoring, acceptance, and adverse-impact considerations. A model output remains an input or assessment aid until the applicable owner recognizes a business fact or consequence.
 
 ### 9.4 Partner reporting
 
@@ -611,7 +611,7 @@ DOC-23 owns source qualification, qualified Core Rules, Scenario and Artefact tr
 | `REQ-18-BR-010` | Continuity, actionability, presentation, access, retention, and owner-permitted history presentation/retrieval remain separate; the applicable domain owner defines purpose, DOC-15 owns privacy/access/retention, DOC-19 enforces already-permitted access only, DOC-22 executes owner-permitted operations, and DOC-21 consumes permitted operational evidence without access or retrieval authority. | `AC-18-010` |
 | `REQ-18-BR-011` | Coding discoveries and deferred implementation questions route to their owners without invented business or technical truth. | `AC-18-011` |
 | `REQ-18-BR-012` | Audit, lineage, reporting, analytics, AI/model, partner reporting, acceptance, and operations remain qualified and owner-governed. | `AC-18-012` |
-| `REQ-18-BR-013` | Every settled Founder business fact is individually named in positive, source-identified DOC-18 coverage stating what PayPlus must remember and explain; every settled material fact is explicitly classified as material in its own clause, and optional or unclassified facts remain separate without inferred materiality; generic matrices, topic labels, umbrella phrases, owner lists, or requirement IDs cannot substitute, and policy/access authority, enforcement, owner-permitted execution, and evidence consumption remain distinguished wherever those roles differ. | `AC-18-013` |
+| `REQ-18-BR-013` | Every settled Founder business fact is individually named in positive, source-identified DOC-18 coverage stating what CardMore must remember and explain; every settled material fact is explicitly classified as material in its own clause, and optional or unclassified facts remain separate without inferred materiality; generic matrices, topic labels, umbrella phrases, owner lists, or requirement IDs cannot substitute, and policy/access authority, enforcement, owner-permitted execution, and evidence consumption remain distinguished wherever those roles differ. | `AC-18-013` |
 
 ### 11.2 Positive coverage verification control
 
@@ -621,7 +621,7 @@ Coverage evidence must make separately inspectable:
 
 1. the exact business fact or rule;
 2. its current source authority;
-3. an explicit DOC-18 obligation stating what PayPlus must remember and explain;
+3. an explicit DOC-18 obligation stating what CardMore must remember and explain;
 4. the applicable requirement and Acceptance Criterion;
 5. the source owner and every separately governed consequence; and
 6. any qualified open or deferred treatment.
@@ -648,7 +648,7 @@ DOC-18 is acceptable for this Draft scope when:
 | `AC-18-010` | Owner-permitted history presentation/retrieval is a required business outcome with the applicable domain owner defining purpose, DOC-15 owning privacy/access/retention, DOC-19 enforcing already-permitted access only, DOC-22 executing owner-permitted operations, and DOC-21 consuming permitted operational evidence without access or retrieval authority; UI, search, roles, permissions, workflow, raw access, export, queue, override, and maker-checker design remain excluded. |
 | `AC-18-011` | Safe-extension and coding-discovery routing prevents code, prototypes, tests, external material, and supporting documents from inventing owner truth or technical design. |
 | `AC-18-012` | Privacy, security, provider, acceptance, operations, analytics, AI/model, partner reporting, Engineering Specification, and technical-realisation boundaries are explicit and make no effectiveness or readiness claim. |
-| `AC-18-013` | Each settled Founder business fact is individually named with a positive source-authority mapping and an explicit statement of what PayPlus must remember and explain; every settled material fact is explicitly classified as material in its own clause; optional or unclassified facts remain separate without inferred materiality; policy/access authority, enforcement, owner-permitted execution, and evidence consumption are not collectively assigned; and generic matrices, topic labels, umbrella phrases, owner lists, or requirement IDs do not count as complete coverage. |
+| `AC-18-013` | Each settled Founder business fact is individually named with a positive source-authority mapping and an explicit statement of what CardMore must remember and explain; every settled material fact is explicitly classified as material in its own clause; optional or unclassified facts remain separate without inferred materiality; policy/access authority, enforcement, owner-permitted execution, and evidence consumption are not collectively assigned; and generic matrices, topic labels, umbrella phrases, owner lists, or requirement IDs do not count as complete coverage. |
 
 ### 11.4 Traceability and downstream evidence
 
@@ -684,6 +684,7 @@ No open dependency authorizes DOC-18 to infer missing owner truth or technical d
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 2.0.1 | 2026-08-30 | Product Documentation Team | Aligned the reviewed Engineering Core and two bounded Engineering Specifications as DOC-18 consuming-document handoffs without changing business-recording truth or authorizing representation, implementation, acceptance, enablement, or launch. |
 | 2.0.0 | 2026-08-27 | Product Documentation Team | Reorganized DOC-18 into the Founder-approved eleven-section business-recording rulebook; added positive Bill/Rent fact and materiality coverage, minimum explainability, amendable Category history, non-rewrite, External Observation, no-generic-readiness, bounded owner-permitted history presentation/retrieval, safe-extension, and decision/acceptance traceability while deferring all technical representation and implementation choices. |
 | 1.0.1 | 2026-08-21 | Product Documentation Team | Aligned DOC-18 ownership with DOC-19 security-control facts while retaining DOC-15 privacy/pseudonymization policy and DOC-18 schema, event, audit, correlation, and lineage representation. |

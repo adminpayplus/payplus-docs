@@ -1,7 +1,7 @@
 ---
 document_id: DOC-23
 title: Engineering Core
-version: 0.1.0
+version: 0.2.0
 status: Draft
 owner: Engineering / Architecture
 reviewers:
@@ -16,7 +16,7 @@ reviewers:
 approvers:
   - Project Owner
   - Engineering Lead
-last_updated: 2026-08-29
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -40,12 +40,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-23` |
 | **Title** | Engineering Core |
-| **Version** | `0.1.0` |
+| **Version** | `0.2.0` |
 | **Status** | Draft |
 | **Owner** | Engineering / Architecture |
 | **Reviewers** | Architecture Lead<br>Payments Lead<br>Integration Lead<br>Data Lead<br>Security Lead<br>Privacy Lead<br>QA/Acceptance Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Engineering Lead |
-| **Last Updated** | `2026-08-29` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
 
@@ -53,7 +53,7 @@ related_documents:
 
 ## 1. Purpose, scope, and ownership
 
-DOC-23 defines the common rules that every PayPlus Engineering Specification must apply when translating accepted source contracts into bounded engineering requirements. It owns only:
+DOC-23 defines the common rules that every CardMore Engineering Specification must apply when translating accepted source contracts into bounded engineering requirements. It owns only:
 
 - source qualification and the mandatory engineering grammar;
 - the qualified Core Rules `R1` to `R8`;
@@ -243,4 +243,5 @@ Specialist and Whole-Draft Completeness review under Stage 8 support drafting co
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 0.1.0 | 2026-08-29 | Engineering / Architecture | Initial Draft of the Engineering Core source-discipline, qualified-rule, Scenario, artefact, deferred-scope, and downstream handoff contract. |

@@ -1,4 +1,5 @@
-# PayPlus Payment Instructions Route Map
+<a id="payplus-payment-instructions-route-map"></a>
+# CardMore Payment Instructions Route Map
 
 Status: Current discussion reference
 Owner: DOC-06B / DOC-09
@@ -7,7 +8,7 @@ Last updated: 2026-11-13
 ```mermaid
 flowchart TD
   SHORTCUT["Dashboard Instructions shortcut"] --> ROOT["INSTRUCTIONS-ROOT"]
-  PAYPLUS["PAYPLUS-ACTION-SHEET<br/>see Pay+ map"] -. "More than one active managed item" .-> ROOT
+  PAYPLUS["PAYPLUS-ACTION-SHEET<br/>see CardMore map"] -. "More than one active managed item" .-> ROOT
   PAYPLUS -. "Exactly one active managed item" .-> DETAIL["INSTRUCTIONS-DETAIL"]
   ALERT["Notification-backed Instruction alert"] --> NDETAIL["NOTIFICATION-DETAIL"]
   NDETAIL -->|"Current state / payer / permission / target / action"| NCTA{"Owner-approved CTA?"}

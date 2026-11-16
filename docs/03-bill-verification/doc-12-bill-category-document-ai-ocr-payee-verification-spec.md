@@ -1,7 +1,7 @@
 ---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 1.0.1
+version: 1.1.0
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Product Lead
   - Risk Lead
   - Compliance Lead
-last_updated: 2026-08-31
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-12` |
 | **Title** | Bill Category, Document AI/OCR & Payee Verification Specification |
-| **Version** | `1.0.1` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Risk |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Operations Lead<br>Payments Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Risk Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-31` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -60,9 +60,9 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines PayPlus MVP rules for controlled Bill Category support, document AI/OCR extraction, autofill, Evidence verification, duplicate detection, Evidence-to-Payee matching, and owner-governed human-review routing.
+This document defines CardMore MVP rules for controlled Bill Category support, document AI/OCR extraction, autofill, Evidence verification, duplicate detection, Evidence-to-Payee matching, and owner-governed human-review routing.
 
-Bill verification is a core PayPlus capability. It improves the Payer journey by reading bills, invoices, tenancy agreements, contracts, and other Evidence, then autofilling permitted Bill/Rent source facts while preserving Evidence, traceability, compliance controls, and risk review.
+Bill verification is a core CardMore capability. It improves the Payer journey by reading bills, invoices, tenancy agreements, contracts, and other Evidence, then autofilling permitted Bill/Rent source facts while preserving Evidence, traceability, compliance controls, and risk review.
 
 This document is not a final database schema, AI model design, OCR provider API specification, fraud rulebook, admin dashboard design, or legal/privacy policy.
 
@@ -109,13 +109,13 @@ Detailed specifications belong to:
 
 | Area | Baseline |
 | --- | --- |
-| Product model | PayPlus uses an approved Bills-only tiered Evidence model and a separate mandatory-Evidence Rent model. Tier 1 Bills do not require attached Evidence; Tier 2/3 Bills and all Rent use the applicable attached-Evidence gates. |
+| Product model | CardMore uses an approved Bills-only tiered Evidence model and a separate mandatory-Evidence Rent model. Tier 1 Bills do not require attached Evidence; Tier 2/3 Bills and all Rent use the applicable attached-Evidence gates. |
 | Bill verification | Important MVP capability for better UX, autofill, evidence quality, and risk control. |
 | Evidence types | Tier 2/3 Bills require owner-approved official current/historical Bill Evidence. Rent retains its separate mandatory attached-Evidence types and acceptance rules. Potential examples never establish automatic acceptance. |
 | AI/OCR role | System should read Evidence, capture fields, classify documents, and autofill permitted Bill/Rent source facts where confidence is acceptable. |
 | User correction | Users must be able to review and correct autofilled fields before submission. |
 | Human review | Most evidence should be system-processed; unclear, inconsistent, duplicate, reused, sensitive, or risky cases route to human review. |
-| Data asset | Extracted evidence data is an important PayPlus data asset, but it is only one component of the broader PayPlus data profile and must remain classified, purpose-linked, and governed under DOC-15 and DOC-18. |
+| Data asset | Extracted evidence data is an important CardMore data asset, but it is only one component of the broader CardMore data profile and must remain classified, purpose-linked, and governed under DOC-15 and DOC-18. |
 | Configuration | Category fields, confidence thresholds, duplicate strictness, red flags, and review-routing policy remain owner-governed; DOC-22 may execute only permitted configuration/workflow. |
 
 Unconfirmed items should remain editable owner-assigned assumptions or gated requirements. They block only affected configuration, enablement, implementation or acceptance until resolved.
@@ -243,7 +243,7 @@ The UX flow belongs in DOC-06. Provider API details belong in DOC-17. DOC-12 pre
 
 ## 7. Evidence Data Layer Model
 
-Evidence verification data must be stored and labeled carefully because it is one part of the broader PayPlus data ecosystem.
+Evidence verification data must be stored and labeled carefully because it is one part of the broader CardMore data ecosystem.
 
 DOC-12 owns the document-derived evidence data layers:
 
@@ -260,7 +260,7 @@ DOC-12 owns the document-derived evidence data layers:
 | Final Evidence Snapshot | The version of evidence and fields used for payer review and payment authorization. |
 | Analytics Layer | Aggregated or permitted data used for product quality, OCR performance, risk analytics, and category insights. |
 
-Evidence-derived information remains distinct from broader PayPlus domain meanings, including payment behavior, spending patterns, owner-governed source and economic-Payee context, risk-derived association facts, referral/member-get-member activity, refunds, chargebacks, support behavior, and payout history. Those meanings remain with their applicable source owners and must not be redefined by DOC-12.
+Evidence-derived information remains distinct from broader CardMore domain meanings, including payment behavior, spending patterns, owner-governed source and economic-Payee context, risk-derived association facts, referral/member-get-member activity, refunds, chargebacks, support behavior, and payout history. Those meanings remain with their applicable source owners and must not be redefined by DOC-12.
 
 Each Evidence layer and material field is subject to DOC-15's classification, sensitivity, displayability, masking, retention, approved-purpose, access, and lawful-handling policy. DOC-12 must preserve the relevant Evidence provenance and explainability handoff; any exact technical representation is deferred under separate authority. Evidence-derived data is normally Evidence and Obligation Data, but some extracted fields may also support KYC/KYB, payout/payee, risk/compliance, payment, analytics, or derived-data classifications depending on use.
 
@@ -302,7 +302,7 @@ Field requirements must be configurable by category, document type, payee type, 
 
 ## 9. Bill and Invoice Field Set
 
-For bills and invoices, PayPlus should extract and validate:
+For bills and invoices, CardMore should extract and validate:
 
 | Field | Use |
 | --- | --- |
@@ -356,7 +356,7 @@ Detailed UX display rules belong in DOC-06A, DOC-06C, and DOC-07. Privacy, maski
 
 ## 11. Contract and Service Evidence Field Set
 
-For contracts, service agreements, and similar obligation Evidence, PayPlus should extract:
+For contracts, service agreements, and similar obligation Evidence, CardMore should extract:
 
 | Field | Use |
 | --- | --- |
@@ -552,7 +552,7 @@ DOC-12 analytics signals may include:
 - payment success after verification;
 - refund, dispute, or chargeback linkage where applicable.
 
-Evidence-derived data must be labeled separately from broader PayPlus user lifecycle data such as Payment behavior, Payer spending behavior, authoritative source and economic-Payee context, owner-governed risk-derived association facts, referral/member-get-member data, support history, refund behavior, and payout history.
+Evidence-derived data must be labeled separately from broader CardMore user lifecycle data such as Payment behavior, Payer spending behavior, authoritative source and economic-Payee context, owner-governed risk-derived association facts, referral/member-get-member data, support history, refund behavior, and payout history.
 
 Evidence-derived model features, analytics signals, or AI training inputs must preserve lineage to raw, extracted, corrected, verified, and final evidence layers. Raw evidence text, tenancy/property details, medical details, identity document data, domestic helper employment details, and other sensitive fields should not be used for marketing models, partner reporting, external activation, credit scoring, or insurance underwriting unless separately assessed, approved, and documented under DOC-15 and the relevant source documents.
 
@@ -607,13 +607,13 @@ DOC-06 remains the parent UX source map; DOC-06C should remain a user-facing Bil
 | OQ-12-006 | Which lawful-scope assessment, required exceptions, restricted data classes and prohibited sensitive-data boundaries govern sensitive tenancy fields that may be extracted, stored, masked or displayed while indefinite retention remains the Founder-approved product and governance direction? | Privacy / Legal / Compliance | High | Open |
 | OQ-12-007 | What user warning wording is allowed for duplicate/reused evidence without disclosing another user's information? | Legal / Product / Risk | Medium | Open |
 | OQ-12-008 | Can evidence-derived data be used for model improvement, analytics, and risk training? | Privacy / Legal / Data | High | Open |
-| OQ-12-009 | Retired as a current launch-Category question: no domestic-helper, driver, or personal-service Category is inferred outside the accepted DOC-05 inventory. Any future Category change requires handling under the canonical PayPlus Documentation Development Workflow and owner evidence rules. | Product / Compliance / Risk | Medium | Not current scope |
+| OQ-12-009 | Retired as a current launch-Category question: no domestic-helper, driver, or personal-service Category is inferred outside the accepted DOC-05 inventory. Any future Category change requires handling under the canonical CardMore Documentation Development Workflow and owner evidence rules. | Product / Compliance / Risk | Medium | Not current scope |
 | OQ-12-010 | What owner-permitted DOC-22 workflow/configuration and reason capture are required for Evidence review? | Operations / Risk / Product | Medium | Open |
 | OQ-12-011 | Which evidence-derived fields and model features are prohibited from marketing, partner reporting, external activation, credit scoring, or insurance-related targeting? | Privacy / Legal / Risk | High | Open |
 | OQ-12-012 | What final mapping, reason codes and exception rules should connect DOC-12 outcomes to Bill Tier 1/2/3 and separate Rent readiness presentation without treating presentation as domain truth? | Product / Risk / Operations / Engineering | High | Open; representation detail does not change the accepted gate semantics |
 | OQ-12-013 | Which approved C1 Category values, permitted adjustments, configuration representation and operating change details bind here under the settled designated product/risk authority? | Product / Risk / Compliance | High | Open later configuration/enablement input; blocks affected configuration, enablement and acceptance until supplied |
 
-Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning or makes the accepted Evidence framework impossible must be handled under the canonical PayPlus Documentation Development Workflow.
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning or makes the accepted Evidence framework impossible must be handled under the canonical CardMore Documentation Development Workflow.
 
 ---
 
@@ -642,7 +642,7 @@ DOC-12 is acceptable when it clearly defines:
 - privacy, security, and access-control expectations;
 - related documents for detailed UX, API, data model, risk, privacy, owner-permitted workflow, and operations specifications.
 
-The accepted official Bill Evidence framework is defined without final Category-by-Category operating lists. Those lists remain explicit enablement/acceptance dependencies. A later owner or professional answer that contradicts the approved framework or makes it impossible must be handled under the canonical PayPlus Documentation Development Workflow.
+The accepted official Bill Evidence framework is defined without final Category-by-Category operating lists. Those lists remain explicit enablement/acceptance dependencies. A later owner or professional answer that contradicts the approved framework or makes it impossible must be handled under the canonical CardMore Documentation Development Workflow.
 
 This document must remain a compact bill verification and evidence-domain specification.
 
@@ -662,6 +662,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | `1.0.1` | `2026-08-31` | Product Documentation Team | Reconciled DOC-12 technical-allocation references with the Founder decision: removed direct allocations, retained domain-policy and bounded business-recording handoffs, and deferred exact technical representation under separate authority. |
 | `1.0.0` | `2026-08-18` | Product Documentation Team | Implemented the material Bills-only Evidence boundary and fixed-seat compliance supplement; traced the Founder-updated framework, neutralized active lifecycle-language ambiguity, qualified indefinite retention by lawful scope, and kept examples and operating lists correctly classified with final Evidence snapshots conditional where required. |
 | `0.8.2` | `2026-08-12` | Product Documentation Team | Applied the Founder-settled indefinite-retention rule to Evidence records and reframed the sensitive-tenancy open question around approved-purpose access and masking without changing Evidence ownership. |

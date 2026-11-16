@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 3.0.0
+version: 3.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-13
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,12 +43,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `3.0.0` |
+| **Version** | `3.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-13` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -56,7 +56,7 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines PayPlus MVP rules for notifications, receipts, statements, proof-of-payment messages, and communication delivery.
+This document defines CardMore MVP rules for notifications, receipts, statements, proof-of-payment messages, and communication delivery.
 
 It ensures users, payees, and admins receive clear, timely, role-appropriate communication without confusing status events with user notifications.
 
@@ -201,7 +201,7 @@ Where notifications, receipts, statements, proof messages, or in-app communicati
 
 ## 7. Notification Architecture
 
-PayPlus should use a four-layer notification model.
+CardMore should use a four-layer notification model.
 
 | Layer | Description | Example |
 | --- | --- | --- |
@@ -367,8 +367,8 @@ Payment apps usually keep payment completion, failed payment, security, receipt,
 
 | ID | Event | Default Channels | Classification |
 | --- | --- | --- | --- |
-| `NOTIF-ACCT-001` | Restricted PayPlus account created; setup remains incomplete | App, email | Important service |
-| `NOTIF-ACCT-002` | Full PayPlus registration completed through Account Activation | App, email | Important service |
+| `NOTIF-ACCT-001` | Restricted CardMore account created; setup remains incomplete | App, email | Important service |
+| `NOTIF-ACCT-002` | Full CardMore registration completed through Account Activation | App, email | Important service |
 | `NOTIF-ACCT-003` | Security or account change | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-004` | New-device login or 2FA challenge | App, email, SMS optional | Mandatory service |
 | `NOTIF-ACCT-005` | Dormant-login reauthentication required or completed | App, email optional, SMS optional | Mandatory service |
@@ -703,7 +703,7 @@ DOC-22 may execute only a workflow expressly authorized by DOC-08 or another app
 
 ## 18. Delivery Logging and Retention
 
-PayPlus should log:
+CardMore should log:
 
 - notification event ID;
 - unique recipient-specific notification message ID;
@@ -729,7 +729,7 @@ PayPlus should log:
 
 Receipt, payment, account, tax, and audit records follow the accepted indefinite-retention direction subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. DOC-08 consumes DOC-15 access, masking and lawful handling requirements; notification delivery or account closure does not erase the underlying record within that lawful scope.
 
-Detailed schema belongs in DOC-18.
+DOC-18 owns the current business-recording, explainability and lineage obligations; detailed schema remains separately authorized future work without transferring DOC-18's assigned future representation responsibilities. DOC-08 retains notification policy and delivery ownership.
 
 ---
 
@@ -785,6 +785,7 @@ DOC-08 is acceptable when:
 ## 21. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 3.1.0 | 2026-11-16 | Aligned the current name and the bounded DOC-18 business-recording versus future representation handoff. |
 | 3.0.0 | 2026-11-13 | Canonical Writer: Drafted PP-MVP-20261112-R1 private/public document content, source-bound Bill reminder inputs, successful-content read and immediate preference-effect contracts, preserving delivery/security/financial enablement dependencies. Corrected the inherited Archived-Inbox-filter summary through the consolidated Specialist batch without changing retained records. |
 | 2.1.1 | 2026-09-01 | Aligned the common notification-model handoff to the DOC-18 business-recording boundary while deferring schema and technical representation; notification identity, delivery, and operational policy remain unchanged. |
 | 2.1.0 | 2026-08-22 | Aligned notification boundaries to the approved Tier 3 current-context return: owner-recorded approval creates no notification, direct Checkout path, authorization, submission, Payment, Payout release, or user-facing status. |

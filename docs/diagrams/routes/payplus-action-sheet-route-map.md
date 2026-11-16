@@ -1,4 +1,5 @@
-# PayPlus Action Sheet Route Map
+<a id="payplus-action-sheet-route-map"></a>
+# CardMore Action Sheet Route Map
 
 Status: Current discussion reference
 Owner: DOC-06B
@@ -8,7 +9,7 @@ This map owns the four accepted `PAYPLUS-ACTION-SHEET` handoffs. Destination int
 
 ```mermaid
 flowchart TD
-  PLUS["Bottom navigation: Pay+"] --> SHEET["PAYPLUS-ACTION-SHEET"]
+  PLUS["Bottom navigation: CardMore"] --> SHEET["PAYPLUS-ACTION-SHEET"]
 
   SHEET --> BILL["Pay a Bill"]
   SHEET --> RENT["Pay Rent"]
@@ -42,7 +43,7 @@ flowchart TD
 
 ```
 
-The Pay+ sheet contains only the accepted Bill, Rent, Add Bill / Rent, and Continue Payment actions. Retired Request and Linking runtime is not a current Pay+ destination.
+The CardMore sheet contains only the accepted Bill, Rent, Add Bill / Rent, and Continue Payment actions. Retired Request and Linking runtime is not a current CardMore destination.
 
 After `Continue Payment` reaches `INSTRUCTIONS-DETAIL`, only an incomplete Checkout that remains active, eligible, and continuable may follow the connected continuation edge to the existing `PAYMENT-CHECKOUT`.
 

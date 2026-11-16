@@ -1,16 +1,17 @@
-# PayPlus Platform Design Principles
+<a id="payplus-platform-design-principles"></a>
+# CardMore Platform Design Principles
 
 Last updated: 2026-07-29
 
 ## 1. Purpose
 
-This document defines reusable platform design principles for PayPlus. It provides a common decision baseline for product, journey, payment, risk, compliance, privacy, security, engineering, operations, and AI-assisted documentation work.
+This document defines reusable platform design principles for CardMore. It provides a common decision baseline for product, journey, payment, risk, compliance, privacy, security, engineering, operations, and AI-assisted documentation work.
 
-These principles guide design decisions across features and workflows. They do not replace the detailed requirements, controls, acceptance criteria, or implementation specifications owned by the applicable PayPlus documents.
+These principles guide design decisions across features and workflows. They do not replace the detailed requirements, controls, acceptance criteria, or implementation specifications owned by the applicable CardMore documents.
 
 ## 2. Scope
 
-These principles apply across PayPlus, including:
+These principles apply across CardMore, including:
 
 - authentication, account activation, recovery, and access control;
 - navigation, interrupted journeys, and protected workflow continuation;
@@ -27,20 +28,20 @@ Where a principle requires feature-specific behavior, the applicable domain docu
 - This document is a repository-wide design reference. It does not override an approved formal requirement or specialist control.
 - Each detailed rule must have one primary owning document. Other documents should reference that owner rather than duplicate or reinterpret the rule.
 - Conflicts, exceptions, or material deviations must be identified and resolved through the applicable owner and approval process.
-- New principles require founder approval and should be added only when they are reusable across multiple PayPlus domains.
+- New principles require founder approval and should be added only when they are reusable across multiple CardMore domains.
 - Downstream technical and AI execution documents must derive from approved human-readable sources and must not introduce new product or policy decisions.
 
 ## 4. Core Principles
 
 ### PP-DP-01 - Preserve Navigation Context, Never Security State
 
-PayPlus may preserve only the minimum navigation or workflow context required to help a user return to an intended destination.
+CardMore may preserve only the minimum navigation or workflow context required to help a user return to an intended destination.
 
 Preserved context must never bypass or carry forward authentication, authorization, activation, eligibility, payment validation, evidence, fraud, privacy, compliance, or other security decisions. Sensitive context must be minimized, protected, time-bounded, and discarded when no longer required.
 
 ### PP-DP-02 - Revalidate Before Protected Continuation
 
-Before continuing any protected workflow, PayPlus must revalidate the user, current permissions, workflow state, destination, and applicable security and domain gates.
+Before continuing any protected workflow, CardMore must revalidate the user, current permissions, workflow state, destination, and applicable security and domain gates.
 
 Previous success, cached state, a saved destination, or completion of a related step must not be treated as proof that the user or workflow remains eligible to continue.
 
@@ -48,7 +49,7 @@ Previous success, cached state, a saved destination, or completion of a related 
 
 An interrupted or blocked flow must have an explicit resolution.
 
-PayPlus must distinguish between:
+CardMore must distinguish between:
 
 - **Resume**, where the prior workflow state remains valid and can safely continue;
 - **Restart**, where the workflow must begin again because required state is missing, expired, invalid, consumed, or no longer trusted;
@@ -60,7 +61,7 @@ The user-facing action and destination must reflect the current system decision.
 
 ### PP-DP-04 - Separate Outcome, Resolution, Message, and Notification
 
-PayPlus must treat the following as separate concepts:
+CardMore must treat the following as separate concepts:
 
 - **Outcome** - the authoritative result produced by a workflow or evaluation;
 - **Resolution Strategy** - the safe next handling permitted after considering the outcome, current context, user capability, and governing controls;
@@ -71,7 +72,7 @@ A resolution must not create a new persistent status by itself. A message or not
 
 ### PP-DP-05 - Resolve by Permitted Capability, Not Raw Error Alone
 
-Where more than one valid continuation method may exist, PayPlus should evaluate the capabilities the user is permitted to use and select or present the safest usable path.
+Where more than one valid continuation method may exist, CardMore should evaluate the capabilities the user is permitted to use and select or present the safest usable path.
 
 Capability-aware handling must not:
 
@@ -91,7 +92,7 @@ Reference documents may summarize, link, or define handoffs, but must not mainta
 
 ### PP-DP-07 - Apply Security First with Proportionate Usability
 
-PayPlus must protect authorization, funds, evidence, identity, personal data, and regulated workflows without creating avoidable user confusion or dead ends.
+CardMore must protect authorization, funds, evidence, identity, personal data, and regulated workflows without creating avoidable user confusion or dead ends.
 
 Usability may simplify explanation, navigation, and recovery, but must not weaken required security, risk, privacy, compliance, or payment controls. Security decisions should provide the safest clear next action that may be disclosed to the user.
 
@@ -123,7 +124,7 @@ Derived documents and implementation artifacts must link back to their authorita
 
 ## 5. Outcome Architecture Reference
 
-PP-DP-04 establishes the durable principle that Outcome, Resolution Strategy, Message/CTA, and Notification are separate concepts. The detailed canonical chain, definitions, mappings, traceability fields, and acceptance model are owned by the [`PayPlus Outcome, Resolution, Message and Notification Framework`](payplus-outcome-message-notification-framework.md). This principles document must not maintain a competing copy of that detailed framework.
+PP-DP-04 establishes the durable principle that Outcome, Resolution Strategy, Message/CTA, and Notification are separate concepts. The detailed canonical chain, definitions, mappings, traceability fields, and acceptance model are owned by the [`CardMore Outcome, Resolution, Message and Notification Framework`](payplus-outcome-message-notification-framework.md). This principles document must not maintain a competing copy of that detailed framework.
 
 ## 6. Application Rule
 
@@ -145,4 +146,4 @@ Principles should be referenced by ID where this improves clarity. They should n
 
 These principles define design intent, not implementation architecture. The owning formal documents define the detailed requirement, control, status model, data rule, API behavior, test, or operational procedure.
 
-Where two principles appear to conflict, PayPlus must preserve security, authorization, regulatory, privacy, and payment integrity first, then select the clearest usable path within those boundaries.
+Where two principles appear to conflict, CardMore must preserve security, authorization, regulatory, privacy, and payment integrity first, then select the clearest usable path within those boundaries.

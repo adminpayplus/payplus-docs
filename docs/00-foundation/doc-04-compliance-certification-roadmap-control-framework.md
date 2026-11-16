@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 1.0.0
+version: 1.1.0
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -22,11 +22,11 @@ approvers:
   - Risk Lead
   - Payments Lead
   - Finance Lead
-last_updated: 2026-08-19
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
-  - DOC-01 Project Charter & Product Positioning
+  - DOC-01 Product Overview & Positioning
   - DOC-02 Business Model & Unit Economics
   - DOC-03 Regulatory Assessment
   - DOC-05 Master PRD & Feature Requirement Index
@@ -55,22 +55,22 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-04` |
 | **Title** | Compliance Control Framework |
-| **Version** | `1.0.0` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance Lead |
 | **Reviewers** | Legal Lead<br>Risk Lead<br>Security Lead<br>Privacy Lead<br>Payments Lead<br>Product Lead<br>Engineering Lead<br>Operations Lead<br>Finance Lead |
 | **Approvers** | Project Owner<br>Legal Lead<br>Compliance Lead<br>Security Lead<br>Risk Lead<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory Assessment<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory Assessment<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
 ---
 
 ## 1. Purpose
 
-This document defines the compliance control framework for PayPlus.
+This document defines the compliance control framework for CardMore.
 
-It translates PayPlus legal, regulatory, PSP/acquirer, payout, AML, sanctions, fraud, consumer protection, privacy, security, finance, reconciliation, and operational requirements into testable controls.
+It translates CardMore legal, regulatory, PSP/acquirer, payout, AML, sanctions, fraud, consumer protection, privacy, security, finance, reconciliation, and operational requirements into testable controls.
 
 This document determines:
 
@@ -91,7 +91,7 @@ This document is not a legal opinion, final AML policy, PSP/acquirer approval, r
 
 ## 2. Control Objectives
 
-PayPlus controls must support the following objectives.
+CardMore controls must support the following objectives.
 
 | Objective ID | Objective |
 | --- | --- |
@@ -113,7 +113,7 @@ PayPlus controls must support the following objectives.
 
 ## 3. Control Categories
 
-PayPlus controls are grouped into the following categories.
+CardMore controls are grouped into the following categories.
 
 | Category ID | Category | Primary Owner | Related Documents |
 | --- | --- | --- | --- |
@@ -272,7 +272,7 @@ The twelve accepted controlled Bill Categories and separate Rent journey are the
 
 ## 12. Prohibited Activity Controls
 
-PayPlus must prevent or restrict activity that could undermine the product's tier-aware, payer-authorized accepted controlled Bill/Rent Payment Obligation model and its applicable Evidence treatment.
+CardMore must prevent or restrict activity that could undermine the product's tier-aware, payer-authorized accepted controlled Bill/Rent Payment Obligation model and its applicable Evidence treatment.
 
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
@@ -324,10 +324,10 @@ PayPlus must prevent or restrict activity that could undermine the product's tie
 | Control ID | Tier | Requirement | Owner | Evidence |
 | --- | --- | --- | --- | --- |
 | `CTRL-DOC04-SEC-001` | `T0` | PCI scope and card data handling model must be approved before production card processing. | Security | PCI scope document |
-| `CTRL-DOC04-SEC-002` | `T0` | Provider-controlled capture/tokenization must keep raw PAN, CVV and other prohibited sensitive authentication data outside PayPlus storage and retention scope. | Security / Engineering | Architecture review |
+| `CTRL-DOC04-SEC-002` | `T0` | Provider-controlled capture/tokenization must keep raw PAN, CVV and other prohibited sensitive authentication data outside CardMore storage and retention scope. | Security / Engineering | Architecture review |
 | `CTRL-DOC04-SEC-003` | `T1` | Use tokenized card handling where applicable. | Security / Payments / Engineering | Tokenization evidence |
 | `CTRL-DOC04-SEC-004` | `T1` | Encrypt sensitive data in transit and at rest. | Security / Engineering | Security review |
-| `CTRL-DOC04-SEC-005` | `T1` | Restrict Admin, support, risk and engineering access by role; an economic Payee is not a PayPlus User role. | Security / Engineering | RBAC matrix |
+| `CTRL-DOC04-SEC-005` | `T1` | Restrict Admin, support, risk and engineering access by role; an economic Payee is not a CardMore User role. | Security / Engineering | RBAC matrix |
 | `CTRL-DOC04-SEC-006` | `T1` | Log approved-purpose access to sensitive Payer, source-context economic-Payee, Payment, Evidence, Payout and risk data. | Security / Engineering | Access logs |
 | `CTRL-DOC04-SEC-007` | `T1` | Maintain privacy notice, consent records, data map, the lawful-scope-qualified indefinite-retention direction, approved-purpose access and correction/request handling; no time-triggered deletion process is implied without the required lawful exception. | Privacy / Legal / Product | Privacy records |
 | `CTRL-DOC04-SEC-008` | `T1` | Enforce Payer and source-context economic-Payee approved-purpose visibility without reciprocal runtime. | Privacy / Security / Engineering | Visibility test evidence |
@@ -344,7 +344,7 @@ PayPlus must prevent or restrict activity that could undermine the product's tie
 | `CTRL-DOC04-LAUNCH-001` | `T0` | Launch scope must define Hong Kong requirements, the accepted controlled Categories and separate Rent, payment methods, Payout methods, partners and economic-Payee types. | Project Owner / Compliance | Launch scope record |
 | `CTRL-DOC04-LAUNCH-002` | `T0` | Regulatory role and licensing path must be assessed before launch. | Legal / Compliance | DOC-03 assessment |
 | `CTRL-DOC04-LAUNCH-003` | `T0` | PSP/acquirer support must be confirmed for use case, funds flow, accepted Category/separate Rent paths, fees and intended MCC/classification. | Payments / Legal | Partner confirmation |
-| `CTRL-DOC04-LAUNCH-004` | `T0` | PayPlus operating bank setup and approved Hong Kong payout rails must be confirmed before production payout. | Payments / Legal | Partner confirmation |
+| `CTRL-DOC04-LAUNCH-004` | `T0` | CardMore operating bank setup and approved Hong Kong payout rails must be confirmed before production payout. | Payments / Legal | Partner confirmation |
 | `CTRL-DOC04-LAUNCH-005` | `T0` | Fee model, total charge display, and required disclosures must be approved before launch. | Legal / Product / Finance | Approval record |
 | `CTRL-DOC04-LAUNCH-006` | `T0` | Required T0 controls must be implemented, tested, and evidenced before launch. | Compliance / QA | Test evidence |
 | `CTRL-DOC04-LAUNCH-007` | `T1` | T1 exceptions must be remediated or formally risk-accepted with mitigation and target date. | Compliance / Functional Owner | Exception log |
@@ -356,7 +356,7 @@ PayPlus must prevent or restrict activity that could undermine the product's tie
 
 ## 17. Launch Blockers
 
-PayPlus must not launch if any of the following are unresolved.
+CardMore must not launch if any of the following are unresolved.
 
 | Blocker ID | Requirement | Owner |
 | --- | --- | --- |
@@ -364,7 +364,7 @@ PayPlus must not launch if any of the following are unresolved.
 | `BLK-DOC04-002` | PSP/acquirer approval or equivalent confirmation is missing for the core payment flow. | Payments |
 | `BLK-DOC04-003` | Payout provider and payout flow are not approved or tested. | Payments / Finance |
 | `BLK-DOC04-004` | Approved, restricted, and prohibited categories are not defined or enforced. | Compliance / Product |
-| `BLK-DOC04-005` | Fee, total charge, timing, refund/cancellation, and PayPlus role disclosures are not shown before authorization. | Legal / Product |
+| `BLK-DOC04-005` | Fee, total charge, timing, refund/cancellation, and CardMore role disclosures are not shown before authorization. | Legal / Product |
 | `BLK-DOC04-006` | Payer authorization is not captured before funding, capture, or payout. | Product / Payments |
 | `BLK-DOC04-007` | PCI scope and card data handling model are not approved before card processing. | Security |
 | `BLK-DOC04-008` | Sanctions screening and escalation requirements are not implemented where required. | Compliance |
@@ -478,7 +478,7 @@ For separate Rent, applicable tests include:
 
 ## 20. Monitoring and Reporting
 
-After launch, PayPlus must monitor the following.
+After launch, CardMore must monitor the following.
 
 | Area | Required Monitoring |
 | --- | --- |
@@ -601,7 +601,7 @@ Exception log fields:
 | `OQ-DOC04-001` | What Hong Kong-specific launch requirements must be satisfied? | Project Owner / Legal | Critical | Open |
 | `OQ-DOC04-002` | Which confirmed MVP categories are enabled at initial launch, and what gates, limits, evidence standards, and review controls apply by category? | Product / Compliance / Risk | Critical | Open |
 | `OQ-DOC04-003` | What is the final MVP funds flow? | Product / Payments / Legal | Critical | Open |
-| `OQ-DOC04-004` | What is PayPlus’s legal and partner role? | Legal / Compliance | Critical | Open |
+| `OQ-DOC04-004` | What is CardMore’s legal and partner role? | Legal / Compliance | Critical | Open |
 | `OQ-DOC04-005` | What licensing, exemption, or partner coverage applies? | Legal / Compliance | Critical | Open |
 | `OQ-DOC04-006` | Which PSP/acquirer will support MVP in Hong Kong? | Payments | Critical | Open |
 | `OQ-DOC04-007` | What written PSP/acquirer confirmations are available? | Payments / Legal | Critical | Open |
@@ -642,7 +642,7 @@ Exception log fields:
 
 `DOC-04` is acceptable when it clearly defines:
 
-- PayPlus control objectives;
+- CardMore control objectives;
 - control categories;
 - control tiers;
 - user controls;
@@ -687,6 +687,7 @@ It should not become:
 ## 25. Revision History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.13.4` | `2026-08-13` | Product Documentation Team | Qualified Payout control evidence for confirmed Payment with valid sufficient Application lineage or an owner-controlled zero- or insufficient-Application resolution, without creating a Payout bypass or new mechanism. |
 | `0.13.1` | `2026-08-12` | Product Documentation Team | Consolidated fixed-inventory, source/Payment Obligation, timing, retention and active/history corrections; removed the retired non-inventory control row from the active table. |

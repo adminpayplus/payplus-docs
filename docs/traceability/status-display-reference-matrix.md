@@ -2,10 +2,10 @@
 
 Status: Working alignment reference  
 Owner: Product / Founder  
-Last updated: 2026-11-13
+Last updated: 2026-11-16
 Classification: Internal
 
-This matrix aligns PayPlus system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
+This matrix aligns CardMore system/domain statuses with user-facing labels across activity, receipts, checkout, bills, notifications, statements, and future admin views.
 
 It is not the final backend status schema. Domain documents continue to own their product-rule state meaning. The reviewed DOC-18 Draft records business distinctions, history, lineage, audit meaning and explainability obligations only; it does not supply or approve a canonical machine status/event taxonomy, schema, persistence model, or implementation. Any such technical representation requires separate future authority:
 
@@ -28,7 +28,7 @@ User-facing labels should be mapped from system/domain statuses. A route should 
 | --- | --- |
 | Activity | Event or lifecycle view of what happened in the user account. |
 | Receipt | Private confirmation presentation follows actual eligible confirmed Payment membership under DOC-08 Section 12.1 / DOC-06B Section 5.15: Single/Combined never merge Payments or establish whole-Bill paid/Payout truth. Public proof is a separate qualified projection. |
-| Statement | Periodic or account-level summary record. It may include payer and payee-side financial activity for the same user account, but should not include unrelated system events. |
+| Statement | Periodic or on-demand Payer account/payment summary, where defined by its formal owners. Transaction recipient context may be included; the economic Payee is not a statement-holder user role. Unrelated system events are excluded. |
 
 ---
 
@@ -100,14 +100,14 @@ Referral claim `Issued` means that an entitlement created one canonical reward i
 
 ## Identity Verification - MVP Display Mapping
 
-External-provider results and PayPlus policy outcomes must map into these five user-facing labels. A later provider-specific contract belongs in DOC-17; the applicable domain owner retains state meaning; DOC-18 supplies the business-recording handoff; and technical mapping or specifically permitted DOC-22 execution requires separate authority.
+External-provider results and CardMore policy outcomes must map into these five user-facing labels. A later provider-specific contract belongs in DOC-17; the applicable domain owner retains state meaning; DOC-18 supplies the business-recording handoff; and technical mapping or specifically permitted DOC-22 execution requires separate authority.
 
 | Domain | Stage / Status Type | User-Facing Label | Owning Docs | Appears In | User Action / Notes |
 | --- | --- | --- | --- | --- | --- |
 | Identity Verification | Not started, incomplete capture, or authorized admin reset | `Not Verified` | DOC-06B / DOC-15 | Account Information, Identity Verification, activation banner where applicable | Show `Verify Now` or `Continue Verification`. |
-| Identity Verification | Submitted; authoritative provider result or PayPlus policy decision pending | `Processing` | DOC-06B / DOC-15 | Account Information, Identity Verification, Home banner, notification where applicable | Show `View Status`; do not permit duplicate submission. |
-| Identity Verification | Authoritative provider result and PayPlus policy checks passed | `Verified` | DOC-06B / DOC-15 | Account Information, Identity Verification, dismissible completion banner | No verification action; user cannot voluntarily re-verify. |
-| Identity Verification | Provider verification or PayPlus policy check failed, including duplicate identity | `Failed` | DOC-06B / DOC-15 | Account Information, Identity Verification, Action Required banner, notification where applicable | Show `Verify Again` and `Get Help`, subject to retry controls and safe reason disclosure. |
+| Identity Verification | Submitted; authoritative provider result or CardMore policy decision pending | `Processing` | DOC-06B / DOC-15 | Account Information, Identity Verification, Home banner, notification where applicable | Show `View Status`; do not permit duplicate submission. |
+| Identity Verification | Authoritative provider result and CardMore policy checks passed | `Verified` | DOC-06B / DOC-15 | Account Information, Identity Verification, dismissible completion banner | No verification action; user cannot voluntarily re-verify. |
+| Identity Verification | Provider verification or CardMore policy check failed, including duplicate identity | `Failed` | DOC-06B / DOC-15 | Account Information, Identity Verification, Action Required banner, notification where applicable | Show `Verify Again` and `Get Help`, subject to retry controls and safe reason disclosure. |
 | Identity Verification | Authorized admin review requires updated information | `Update Required` | DOC-06B / DOC-15 / DOC-22 | Account Information, Identity Verification, Action Required banner, notification where applicable | Show `Update Verification`; admin cannot directly set `Verified`. |
 
 Provider-specific states, internal review states, suspension, retry restrictions, duplicate checks, and admin workflow states are not additional user-facing labels. They must map to the five labels above according to the owning domain meaning. `Verified` to `Not Verified` requires dual admin approval for MVP.
@@ -135,7 +135,7 @@ The following domains already have human-readable status requirements or explici
 | Checkout Continuation | Incomplete, continuable, closed, or expired Checkout Workspace presentation. It is separate from Payment Instruction, confirmed Payment, and Payment Obligation coverage. | DOC-06B, DOC-09, DOC-18 |
 | Payment Obligation Coverage | `Fully Paid`, `Partially Paid`, or `Unpaid` semantic condition derived from Effective Coverage against Due Amount. Final cross-surface display mapping must not be inferred beyond DOC-09. | DOC-09, DOC-18 |
 | Evidence Lifecycle | `Not Provided`, `Pending Review`, `Accepted`, `Correction Needed`, `Update Needed`, `Rejected`, and `Duplicate Suspected`. Evidence status may affect obligation readiness but is not payment activity or archive visibility. | DOC-06C, DOC-12, DOC-18, DOC-22 |
-| Obligation Archive and Evidence History | `Archived` is an obligation/document visibility label; `Previous version` is evidence history created after accepted replacement. Neither is an evidence-processing status. Restore eligibility belongs to the archived obligation and is not offered on evidence. | DOC-06B, DOC-06C, DOC-12, DOC-15, DOC-18 |
+| Obligation Archive and Evidence History | Payer Saved/Archived is a visibility projection of the same authoritative Bill/Rent source, not an Evidence-processing status; retained Evidence and history are not erased or rewritten. `ARCHIVED-DOCS-LIST` is provisional with no active entry or interaction. Detailed Restore eligibility, revalidation, prior-version and Evidence-version presentation remain deferred to the applicable owners. | DOC-06B, DOC-06C, DOC-12, DOC-15, DOC-18 |
 | Promotion Eligibility and Quote Lifecycle | Eligible, selected, applied, reserved, recalculated, released, or rejected before or during checkout. Issued reward-instrument display uses the MVP mapping above. | DOC-09, DOC-13, DOC-18, DOC-22 |
 | Referral Qualification Lifecycle | `In Progress`, `Qualified`, `Not Qualified`, `Under Review`. These labels belong to attributed-referee progress in `REFERRAL-ROOT`. | DOC-06B, DOC-13, DOC-18, DOC-22 |
 | Referral Reward Presentation | `Available to Claim`, `Issued`, `Expired`, `Reversed`. Entitlement presentation does not create a referral-only issued-instrument status family. `Processing` is transient/internal. A held claim record may remain inactive in Referral History as `Under Review`, while the canonical issued instrument follows the Reward Instrument Lifecycle mapping above. | DOC-06B, DOC-13, DOC-18, DOC-22 |
@@ -156,11 +156,7 @@ Activity detail may show owner-defined lifecycle milestones, but user-facing lab
 
 | Record / Condition | User-Facing Label | Appears In | Mapping Rule |
 | --- | --- | --- | --- |
-| Bill/rent manually archived | `Archived` | `ARCHIVED-BILLS-LIST` | A per-user visibility label. The current linked evidence, where one exists, appears in the same user's `ARCHIVED-DOCS-LIST`; counterparty visibility and canonical records remain unchanged. |
-| Current evidence replaced by an accepted newer version | `Previous version` | `ARCHIVED-DOCS-LIST` | Historical and non-restorable; it cannot replace the newer accepted version. |
-| Evidence inherited from an archived obligation | `Archived` | `ARCHIVED-DOCS-LIST` | Visibility/history descriptor only; preserve the retained verification outcome separately. |
-| Archived obligation eligible for restore from its archive-time class and not blocked by a current operational condition | `Restore available` | `ARCHIVED-BILLS-LIST` and archived detail | Eligibility hint, not a lifecycle or readiness status. Later evidence expiry does not remove the hint; revalidation after restore may produce `Action Required` or `Under Review`. Where restore is unavailable, show a neutral reason only in detail rather than a `Cannot be restored` label. |
-| Eligible archived obligation restored | No archive label in active Bills views | Bills detail / readiness surface | Restore its last current evidence and re-evaluate validity, expiry, verification, recipient, compliance, and risk before projecting readiness. |
-| Already-expired obligation manually archived | `Archived` | `ARCHIVED-BILLS-LIST`; linked evidence in `ARCHIVED-DOCS-LIST` | Non-restorable. Expiry alone does not auto-archive an obligation. |
+| Previously Saved/current Bill/Rent source archived | `Archived` | `ARCHIVED-BILLS-LIST` | Payer-only visibility projection of the same authoritative source; exclude it from the current/active list without erasing or rewriting Evidence, financial or audit history. The active Archive entry remains available. |
+| Retained Evidence and financial history | Owner-governed history | Applicable permitted read-only surfaces | Archive does not erase or rewrite retained Evidence, Payment, destination, Payout, reconciliation or audit history. This does not establish an archived-document entry or access contract. |
 
-The sole current evidence linked to an active bill/rent cannot be archived independently. Missing, pending, rejected, expired, or update-required evidence uses the evidence-processing and obligation-readiness mappings rather than an archive label.
+`ARCHIVED-DOCS-LIST` is a provisional identity without an active entry or interaction contract. Exact Restore eligibility, revalidation, prior-version and Evidence-version presentation and detailed Archive/Restore UI remain deferred to the applicable owners; DOC-10/DOC-11 blockers remain effective. Missing, pending, rejected, expired or update-required Evidence uses the owner-governed evidence-processing and obligation-readiness mappings rather than an archive label.

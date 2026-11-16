@@ -1,7 +1,7 @@
 ---
 document_id: DOC-20
 title: Testing, UAT & Go-Live Checklist
-version: 1.1.2
+version: 1.2.0
 status: Founder Working Baseline
 owner: QA / Product / Operations
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-08-27
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -41,12 +41,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-20` |
 | **Title** | Testing, UAT & Go-Live Checklist |
-| **Version** | `1.1.2` |
+| **Version** | `1.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | QA / Product / Operations |
 | **Reviewers** | Product Lead<br>QA Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-08-27` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation, Chargeback & Case<br>DOC-12 Bill Category, Document AI, OCR & Payee Verification<br>DOC-14 AML, Anti-Cashout, Fraud & Dynamic Risk Control<br>DOC-15 Privacy, Data Protection, Record & Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management & Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -64,6 +64,8 @@ DOC-20 owns the acceptance evidence contract and the human-level readiness decis
 
 An acceptance item should identify its source requirement, expected human-observable outcome, applicable preconditions, observed result, evidence owner, exception or limitation, and downstream handoff. The representation must not invent a schema, event, API, status taxonomy, automation architecture, provider behavior, alert value, SLA, deployment mechanism, security control, legal conclusion, or final Copy.
 
+Verification must account truthfully for the whole change and its independently applicable branches, integration, recovery and data-evolution paths. Distinguish implemented and evidenced results, failures, unrun or otherwise unverified work, and genuinely not-applicable items with their reasons. Unverified work is not a pass, and this evidence contract does not waive a material Founder decision or create a new manual approval gate.
+
 ## 3. Test and acceptance evidence families
 
 | Family | Purpose | Minimum human-level evidence |
@@ -74,6 +76,8 @@ An acceptance item should identify its source requirement, expected human-observ
 | Regression | Demonstrate earlier accepted decisions and corrections remain true after change. | Prior requirement/correction reference, comparison outcome and evidence owner. |
 
 Testing may be manual, assisted, automated, or otherwise evidenced by a later technical owner. DOC-20 does not choose the mechanism. Evidence must be sufficient for the named gate and traceable to the source owner.
+
+Provide enough source and setup context, build and start steps, seed and reset instructions where applicable, test actions, observed results and limitations for another reviewer to reproduce the evidence. Do not prescribe the tool or evidence store. A UI demonstration, successful build, mock result or HTTP success response is not interchangeable with evidence of backend runtime, file behavior or an external interaction when those are relevant to the requirement.
 
 ## 4. Wave 1-4 acceptance coverage
 
@@ -105,6 +109,8 @@ UAT is ready when the applicable source requirements, acceptance criteria, owner
 
 UAT must not be treated as legal approval, security certification, production validation, or proof of a technical mechanism not yet owned and specified. An unresolved owner decision or blocked dependency is recorded as such rather than hidden by a pass label.
 
+Completion reporting preserves the distinction between evidenced, failed, unrun/unverified and genuinely not-applicable branches, including integration, recovery and data-evolution evidence where applicable. It records limitations and owner handoffs without implying that a partial demonstration proves the whole change.
+
 ## 6. Go-live readiness evidence
 
 The go-live decision should identify the accepted scope, evidence reviewed, open exceptions, owner approvals required by DOC-00, operational/support handoffs, and any explicit exclusion. It must show that the negative product boundaries, DOC-16 architecture and card-data boundaries, local-authority/durable-handoff evidence, retention rule, payment/application exception, Archive blockers, notification ownership, privacy access, and Admin execution boundary remain intact.
@@ -125,6 +131,7 @@ These questions do not reopen settled product meaning and do not authorize imple
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.0 | 2026-11-16 | Added truthful whole-change verification, reproduction and evidence-boundary expectations. |
 | 1.1.2 | 2026-08-27 | Added traceability for all 13 DOC-18 business-recording requirements and 13 Acceptance Criteria as later evidence obligations without making an acceptance, implementation, enablement, readiness, or launch claim. |
 | 1.1.1 | 2026-08-25 | Added reference-only acceptance coverage for the reviewed DOC-17 provider-neutral External Interaction Contract, Functional-Surface Coverage, owner handoffs, and explicit non-decisions without defining tests, providers, APIs, mechanisms, implementation, acceptance, enablement, assurance, or readiness. |
 | 1.1.0 | 2026-08-22 | Added human-level evidence expectations for the approved Tier 3 return, Tier 2 financial-truth separation, Declaration/Save boundary, and Rent negative control without selecting implementation tests, mechanisms, statuses, or readiness claims. |

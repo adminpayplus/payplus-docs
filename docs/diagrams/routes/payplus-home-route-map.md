@@ -1,10 +1,11 @@
-# PayPlus Home Route Map
+<a id="payplus-home-route-map"></a>
+# CardMore Home Route Map
 
 Status: Current discussion reference
 Owner: DOC-06B
 Last updated: 2026-11-13
 
-This map projects the DOC-06B Home presentation and navigation baseline against the route register; it does not independently own behavior. Home has a default and maximum of 8 shortcuts, with up to 7 configurable entries plus protected `More`; the effective set may contain fewer configurable entries. Greeting is presentation-only and has no navigation action. Pay+ and destination internals belong to their route-family maps.
+This map projects the DOC-06B Home presentation and navigation baseline against the route register; it does not independently own behavior. Home has a default and maximum of 8 shortcuts, with up to 7 configurable entries plus protected `More`; the effective set may contain fewer configurable entries. Greeting is presentation-only and has no navigation action. CardMore and destination internals belong to their route-family maps.
 
 ```mermaid
 flowchart TD
@@ -43,7 +44,7 @@ flowchart TD
   ACTIVITYDETAIL -. "Actual Home origin" .-> HOME
   ACTIVITY -. "See Activity / Statistics map" .-> ACTFAMILY["Activity route family"]
   HOME --> PAYPLUS["PAYPLUS-ACTION-SHEET"]
-  PAYPLUS -. "See Pay+ map" .-> PAYPLUSHANDOFFS["Pay+ handoffs"]
+  PAYPLUS -. "See CardMore map" .-> PAYPLUSHANDOFFS["CardMore handoffs"]
   INBOX -. "See Notifications map" .-> NOTIFICATIONFAMILY["Notifications family"]
 ```
 

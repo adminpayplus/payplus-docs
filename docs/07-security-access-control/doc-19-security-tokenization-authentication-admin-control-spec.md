@@ -1,7 +1,7 @@
 ---
 document_id: DOC-19
 title: Security, Tokenization, Authentication & Admin Control Specification
-version: 0.1.2
+version: 0.2.0
 status: Draft
 owner: Security Architecture Owner
 reviewers:
@@ -10,7 +10,7 @@ reviewers:
   - Operations/Acceptance
 approvers:
   - Founder
-last_updated: 2026-08-27
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -39,12 +39,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | DOC-19 |
 | **Title** | Security, Tokenization, Authentication & Admin Control Specification |
-| **Version** | 0.1.2 |
+| **Version** | 0.2.0 |
 | **Status** | Draft |
 | **Owner** | Security Architecture Owner |
 | **Reviewers** | Security Architecture<br>Risk/Privacy<br>Operations/Acceptance |
 | **Approvers** | Founder |
-| **Last Updated** | 2026-08-27 |
+| **Last Updated** | 2026-11-16 |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -52,7 +52,7 @@ related_documents:
 
 ## 1. Purpose, scope, and ownership
 
-DOC-19 is PayPlus's cross-domain technical security-control contract. It translates accepted owner rules and the DOC-16 trust-boundary posture into security invariants, technical enforcement requirements, prohibited exposure, and verification handoffs.
+DOC-19 is CardMore's cross-domain technical security-control contract. It translates accepted owner rules and the DOC-16 trust-boundary posture into security invariants, technical enforcement requirements, prohibited exposure, and verification handoffs.
 
 It owns security-control requirements for identity and authentication, sessions/devices, recovery, credentials/secrets, token and cryptographic-material treatment, access enforcement, privileged operations, provider/card-data treatment, secure boundary handling, logging/redaction, technical anti-automation, security telemetry, and verification handoffs.
 
@@ -71,7 +71,7 @@ For current or historical information, the applicable domain owner defines the p
 
 ## 2. Accepted security-control inputs and non-reopening rule
 
-The following inputs are consumed without redefinition: risk-isolated modular architecture; provider-controlled capture/tokenization with no PayPlus raw PAN or card-verification values; local atomic authority; durable/idempotent/auditable handoffs; the established Bills/Evidence/Payment/Payout baseline; existing owner separation; and Security & Compliance by Design.
+The following inputs are consumed without redefinition: risk-isolated modular architecture; provider-controlled capture/tokenization with no CardMore raw PAN or card-verification values; local atomic authority; durable/idempotent/auditable handoffs; the established Bills/Evidence/Payment/Payout baseline; existing owner separation; and Security & Compliance by Design.
 
 Applicable ISO/IEC 27001 and PCI DSS requirements are design and evidence direction for the affected security controls. Their applicability, scope, shared responsibility, assessment path, and compliance outcome require appropriate professional confirmation. This Draft does not claim implementation, operating effectiveness, certification, compliance, provider approval, production readiness, or launch.
 
@@ -134,7 +134,7 @@ Each card lists one or more applicable consequence classifications below. A clas
 | --- | --- |
 | **Source owner/rule** | DOC-15 owns classification, approved purpose, masking, retention, and lawful-scope assessment. DOC-16 requires minimisation and prohibits raw PAN/card-verification values in logs, analytics, handoffs, test data, and support tools. |
 | **Security invariant** | Credentials, secrets, one-time values, passcodes, OTPs, security tokens, and cryptographic material are minimised, purpose-separated, protected, and never confused with provider token/reference values or raw card data. Any later non-human or integration credential is purpose-separated and least privileged under an owner-approved DOC-17 contract; it cannot confer generic domain, Payment, or privileged-action authority. |
-| **Prohibited behaviour and consequence** | Store, process, transmit, retain, reconstruct, display, infer, log, or hand off raw PAN or card-verification values in PayPlus systems under the accepted boundary - **Absolute prohibition**. Expose raw/plaintext passwords, passcodes, OTPs, recovery secrets, or cryptographic private material, if later used, in logs, traces, analytics, support exports, screenshots, test fixtures, examples, or handoffs - **Absolute prohibition**. Reuse expired, revoked, consumed, or purpose-mismatched protected value - **Revalidation required before proceeding**. Use or retain permitted hashes, references, security-lifecycle facts, or necessary protected material only under later security-owner technical treatment, owner-defined purpose, and DOC-15 classification/lawful handling - **Permitted only under owner-defined conditions**. Suspected protected-value exposure - **Escalate to the designated owner**. |
+| **Prohibited behaviour and consequence** | Store, process, transmit, retain, reconstruct, display, infer, log, or hand off raw PAN or card-verification values in CardMore systems under the accepted boundary - **Absolute prohibition**. Expose raw/plaintext passwords, passcodes, OTPs, recovery secrets, or cryptographic private material, if later used, in logs, traces, analytics, support exports, screenshots, test fixtures, examples, or handoffs - **Absolute prohibition**. Reuse expired, revoked, consumed, or purpose-mismatched protected value - **Revalidation required before proceeding**. Use or retain permitted hashes, references, security-lifecycle facts, or necessary protected material only under later security-owner technical treatment, owner-defined purpose, and DOC-15 classification/lawful handling - **Permitted only under owner-defined conditions**. Suspected protected-value exposure - **Escalate to the designated owner**. |
 | **Product/business risk** | Credential theft, payment-data exposure, account takeover, PCI exposure, privacy harm, fraud, and incident impact. |
 | **Reasonable non-sensitive verification evidence** | Redaction/minimisation inspection; protected negative tests; non-sensitive inventory/configuration evidence separating value families; suspected-exposure escalation evidence. |
 | **Handoffs** | DOC-18: only permitted references/classifications/audit facts. DOC-20: prohibited-value and expiry/revocation evidence. DOC-21: incident/support evidence. DOC-15: classification, purpose, masking, retention, and lawful-scope constraints. DOC-17: provider token/reference and credential detail where applicable. DOC-22: N/A unless an owner permits an operational action. |
@@ -155,7 +155,7 @@ Each card lists one or more applicable consequence classifications below. A clas
 | Field | Requirement |
 | --- | --- |
 | **Source owner/rule** | DOC-16 owns provider-controlled capture/tokenization and no raw PAN/card-verification values. DOC-09 owns payment meaning. DOC-17 owns provider/API/callback/credential/environment detail. DOC-18 owns business-recording and explainability obligations; technical representation remains separately gated. |
-| **Security invariant** | PayPlus controls preserve the provider-card boundary across normal, failure, retry, support, reconciliation, audit, and test paths. Public input, callback, redirect, notification context, handoff, projection, and operational signal must not become authority for another owner's fact. |
+| **Security invariant** | CardMore controls preserve the provider-card boundary across normal, failure, retry, support, reconciliation, audit, and test paths. Public input, callback, redirect, notification context, handoff, projection, and operational signal must not become authority for another owner's fact. |
 | **Prohibited behaviour and consequence** | Receive, process, transmit, retain, reconstruct, display, infer, log, or hand off raw PAN/card-verification values under the accepted boundary - **Absolute prohibition**. Treat provider return/callback/redirect/token/reference as payer authorization, Payment, or Payout truth - **Absolute prohibition**. Continue a provider or boundary operation without current validity/security/state checks - **Revalidation required before proceeding**. Process external/handoff data only under owner-defined contract, classification, and purpose - **Permitted only under owner-defined conditions**. Preserve duplicate, late, missing, unknown, or contradictory observation without rewriting owner truth - **Monitor/record only and must not automatically block**. Suspected exposure, contract contradiction, or unsafe boundary - **Escalate to the designated owner**. |
 | **Product/business risk** | Card-data exposure, replay/tampering, duplicate financial effects, incorrect Payment confirmation, PCI/shared-responsibility risk, and loss of authoritative truth. |
 | **Reasonable non-sensitive verification evidence** | Boundary and prohibited-value checks; duplicate/late/replay/stale scenario evidence; non-sensitive separation of provider observation from Payment creation; provider responsibility evidence when later available. |
@@ -235,6 +235,7 @@ These do not block documentation expression. They block the affected scope from 
 
 | Version | Date | Owner | Change Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 0.1.2 | 2026-08-27 | Security Architecture Owner | Made the history-access handoff explicitly enforcement-only after owner and DOC-15 permission, with no access, presentation, retrieval, or technical-representation authority. |
 | 0.1.1 | 2026-08-21 | Security Architecture Owner | Refined the source-document boundary and corrected dependency-table structure without changing security-control meaning. |
 | 0.1.0 | 2026-08-21 | Security Architecture Owner | Initial Draft: mechanism-neutral cross-domain security controls, Control Cards, owner handoffs, verification treatment, and enablement gates without selected mechanisms or assurance claims. |

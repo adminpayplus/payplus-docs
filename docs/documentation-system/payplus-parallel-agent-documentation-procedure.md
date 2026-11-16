@@ -1,10 +1,11 @@
-# PayPlus Parallel-Agent Documentation Procedure
+<a id="payplus-parallel-agent-documentation-procedure"></a>
+# CardMore Parallel-Agent Documentation Procedure
 
 ## 1. Purpose
 
-This procedure governs how parallel AI agents and Git worktrees may be used within PayPlus documentation work. It defines parallel-execution mechanics only: orchestration, task decomposition, work packets, role assignment, worktree isolation, consolidation, conflict handling, and parallel review.
+This procedure governs how parallel AI agents and Git worktrees may be used within CardMore documentation work. It defines parallel-execution mechanics only: orchestration, task decomposition, work packets, role assignment, worktree isolation, consolidation, conflict handling, and parallel review.
 
-The PayPlus Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, Validation, Commit, Records Commit, Push, and Completion. This procedure supplements that lifecycle and **MUST NOT** redefine, duplicate, weaken, bypass, or replace any lifecycle stage, owner, or gate.
+The CardMore Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, Validation, Commit, Records Commit, Push, and Completion. This procedure supplements that lifecycle and **MUST NOT** redefine, duplicate, weaken, bypass, or replace any lifecycle stage, owner, or gate.
 
 Parallel execution may be invoked only from an applicable stage of the canonical lifecycle. When the assigned parallel work is consolidated, this procedure returns control to the canonical lifecycle at the stage named by the Orchestrator. Nothing in this procedure independently authorizes editing, a product decision, document approval, a commit, a records update, a push, or completion.
 
@@ -29,7 +30,7 @@ Use only the roles needed for the task, subject to the canonical Workflow's mand
 | Founder | Supplies decisions or authorization only through the applicable canonical lifecycle gate. | Decision authority defined by the canonical workflow |
 | Orchestrator / Integration Lead | Receives the invocation stage, decomposes work, implements the Manager-recorded material assignments or assigns proportionate non-material roles, controls context and file ownership, consolidates findings, resolves execution conflicts, and returns control to the canonical lifecycle. | Controlled orchestration access |
 | Drafting Agent | Produces the assigned analysis or content contribution within the work packet. | Read-only by default; any write access must come from the canonical lifecycle scope |
-| Product Reviewer | Checks the charter, PRD, MVP scope, actors, user intent, and PayPlus boundaries. | Read-only |
+| Product Reviewer | Checks the charter, PRD, MVP scope, actors, user intent, and CardMore boundaries. | Read-only |
 | Domain Reviewer | Checks the relevant payment, accounting, compliance, risk, privacy, data, UX, security, or operations requirements. | Read-only |
 | Consistency Reviewer | Checks ownership, terminology, stable IDs, references, duplication, contradictions, and affected documents. | Read-only |
 | Acceptance Reviewer | Checks that accepted behavior is testable and can map to acceptance criteria and traceability. | Read-only |
@@ -112,7 +113,7 @@ Before an agent begins, the Orchestrator must provide a task-scoped work packet 
 3. concept classification under `AGENTS.md`;
 4. primary owning document;
 5. required reading and reference-only documents;
-6. confirmed requirements and PayPlus boundaries;
+6. confirmed requirements and CardMore boundaries;
 7. assumptions, examples, and open questions;
 8. writable-file allowlist;
 9. read-only dependencies and locked shared files;
@@ -244,7 +245,7 @@ When the canonical lifecycle requests parallel review, reviewers may check the a
 
 - scope compliance and preservation of unrelated content;
 - product and domain alignment;
-- PayPlus boundary compliance;
+- CardMore boundary compliance;
 - contradictions, duplication, terminology, route IDs, and references;
 - missing affected-document alignment;
 - testability and acceptance coverage where applicable.
@@ -355,7 +356,7 @@ An agent must stop and report to the Orchestrator when it encounters:
 ### Level 1 Parallel Analysis
 
 ```text
-Within the PayPlus Documentation Development Workflow, invoke the Level 1
+Within the CardMore Documentation Development Workflow, invoke the Level 1
 Parallel-Agent Documentation Procedure for [bounded task] during canonical
 Stage [stage]. Use only the necessary analysis and review roles. Return one
 consolidated, decision-complete pack to canonical Stage [return stage].

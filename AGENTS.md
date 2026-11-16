@@ -2,7 +2,7 @@
 
 ## 1. Purpose and Authority
 
-This file is the PayPlus repository Operating Contract and Routing Layer for AI assistants.
+This file is the CardMore repository Operating Contract and Routing Layer for AI assistants.
 
 It defines durable repository boundaries, source precedence, concept and document ownership, task routing, approval boundaries, and safe operating rules. It tells an agent which authority, workflow, procedure, framework, guide, and domain owner to use.
 
@@ -12,13 +12,14 @@ This file is not a Documentation Lifecycle and must not define or duplicate life
 
 All documentation work must be routed through that Documentation Development Workflow. Parallel work and specialist guides extend the canonical workflow only when their triggers apply.
 
-## 2. PayPlus Repository Context and Product Boundary
+<a id="2-payplus-repository-context-and-product-boundary"></a>
+## 2. CardMore Repository Context and Product Boundary
 
-PayPlus is a controlled bill, fee, rent, and approved-payee payment application.
+CardMore is a controlled bill, fee, rent, and approved-payee payment application.
 
 The product supports eligible real-world bills and approved payment obligations with evidence, payer authorization, payee verification, risk controls, auditability, reconciliation, and operational oversight.
 
-PayPlus must not be casually described, specified, prototyped, or implemented as:
+CardMore must not be casually described, specified, prototyped, or implemented as:
 
 - a wallet or stored-value account;
 - an unrestricted peer-to-peer transfer product;
@@ -26,7 +27,7 @@ PayPlus must not be casually described, specified, prototyped, or implemented as
 - a lending or cash-advance product;
 - an open money-request marketplace.
 
-Any feature that may move PayPlus toward one of these models must be treated as a risk or unresolved decision. An agent must not convert it into accepted scope without the required Founder decision and source-document update through the canonical workflow.
+Any feature that may move CardMore toward one of these models must be treated as a risk or unresolved decision. An agent must not convert it into accepted scope without the required Founder decision and source-document update through the canonical workflow.
 
 ## 3. Source-of-Truth Authority
 
@@ -43,7 +44,7 @@ An explicit current Founder instruction controls the task scope and authorizatio
 
 ## 4. Documentation Layers
 
-PayPlus documentation must be developed in this order:
+CardMore documentation must be developed in this order:
 
 ```text
 Human source documents
@@ -72,7 +73,7 @@ Use `docs/documentation-system/documentation-architecture-map.md` for canonical 
 
 | Task category or trigger | Canonical owner | Required or conditional specialist reference |
 | --- | --- | --- |
-| Founder uses a PayPlus work command such as Explore, Proposal, Draft, Review, Edit, Align, Validate, Integrate, Commit, Record, or Push | Documentation Development Workflow | PayPlus Work Command Language for command interpretation and routing only |
+| Founder uses a CardMore work command such as Explore, Proposal, Draft, Review, Edit, Align, Validate, Integrate, Commit, Record, or Push | Documentation Development Workflow | CardMore Work Command Language for command interpretation and routing only |
 | Any documentation review, proposal, drafting, restructuring, alignment, validation, approval request, Git action, records treatment, or completion report | Documentation Development Workflow | `DOC-00` plus the primary owning document |
 | Parallel agents, a review swarm, multiple workstreams, or worktrees are explicitly requested | Documentation Development Workflow | Parallel-Agent Documentation Procedure |
 | Interactive prototype, route prototype, wireframe, UI proof of concept, prototype review, or prototype-status change | Documentation Development Workflow | Prototype Design and Validation Specialist Guide |
@@ -98,7 +99,7 @@ Use `docs/documentation-system/documentation-architecture-map.md` for canonical 
 ### Routing Rules
 
 - Start every documentation task with the Documentation Development Workflow and the primary owning document.
-- Interpret a named PayPlus work command through the Work Command Language, then apply the mapped canonical lifecycle stage and gate without treating the command as independent authority.
+- Interpret a named CardMore work command through the Work Command Language, then apply the mapped canonical lifecycle stage and gate without treating the command as independent authority.
 - Load only the specialist references whose triggers are present.
 - The Parallel Procedure controls distribution and consolidation only.
 - The Prototype Guide controls prototype-specific methods and checks only.
@@ -115,7 +116,7 @@ This matrix covers every Markdown document currently located in `docs/00-foundat
 | Document | Purpose and responsibility | Owns | MUST NOT own |
 | --- | --- | --- | --- |
 | `00-foundation/doc-00-documentation-governance.md` | Documentation governance authority | Source hierarchy; document status; metadata; ownership/review/approval model; change control; IDs; templates; traceability governance | Product behavior; domain requirements; specialist authoring methods; Documentation Lifecycle execution |
-| `00-foundation/doc-01-project-charter-product-positioning.md` | Product charter, overview, positioning, actors, MVP intent, and high-level boundaries | PayPlus product identity; market problem; target users; MVP framing; prohibited-product positioning | Detailed payment/evidence/risk behavior; technical design; specialist procedures; lifecycle rules |
+| `00-foundation/doc-01-project-charter-product-positioning.md` | Product charter, overview, positioning, actors, MVP intent, and high-level boundaries | CardMore product identity; market problem; target users; MVP framing; prohibited-product positioning | Detailed payment/evidence/risk behavior; technical design; specialist procedures; lifecycle rules |
 | `00-foundation/doc-02-business-model-unit-economics.md` | Commercial model, fee principles, costs, unit economics, subsidies, reserves, and viability | Commercial intent and economic assumptions; pricing and viability governance at business level | Detailed transaction implementation; final regulatory conclusions; accounting schemas; lifecycle rules |
 | `00-foundation/doc-03-regulatory-psp-acquirer-assessment.md` | Regulatory, PSP, acquirer, partner-model assessment and open professional-review items | Product-model assessment; regulatory boundaries and risks; required external assessment questions | Final legal advice; invented partner approval; detailed product mechanics owned elsewhere; lifecycle rules |
 | `00-foundation/doc-04-compliance-certification-roadmap-control-framework.md` | Foundation compliance-control objectives, tiers, categories, and readiness roadmap | Cross-domain compliance-control baseline and launch-readiness control expectations | Detailed domain implementation; final certification claims; technical control design owned elsewhere; lifecycle rules |

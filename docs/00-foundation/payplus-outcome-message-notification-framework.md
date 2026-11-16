@@ -1,12 +1,13 @@
-# PayPlus Outcome, Resolution, Message and Notification Framework
+<a id="payplus-outcome-resolution-message-and-notification-framework"></a>
+# CardMore Outcome, Resolution, Message and Notification Framework
 
 Last updated: 2026-08-21
 
 ## 1. Purpose
 
-This framework defines the repository-wide architecture for translating a PayPlus business rule into a system result, user-facing communication, follow-up action, external notification, audit evidence, acceptance coverage, and implementation.
+This framework defines the repository-wide architecture for translating a CardMore business rule into a system result, user-facing communication, follow-up action, external notification, audit evidence, acceptance coverage, and implementation.
 
-It is the detailed canonical owner of the Outcome → Resolution Strategy → Message/CTA → Notification architecture and the supporting traceability chain for DOC-07 and every future PayPlus specification that defines or consumes user-visible outcomes. Platform Design Principles owns the durable separation doctrine. DOC-07 remains the formal product owner of user-facing outcome, message, disclosure, and CTA mappings. DOC-08 remains the formal owner of notification events, channels, delivery rules, preferences, and notification templates.
+It is the detailed canonical owner of the Outcome → Resolution Strategy → Message/CTA → Notification architecture and the supporting traceability chain for DOC-07 and every future CardMore specification that defines or consumes user-visible outcomes. Platform Design Principles owns the durable separation doctrine. DOC-07 remains the formal product owner of user-facing outcome, message, disclosure, and CTA mappings. DOC-08 remains the formal owner of notification events, channels, delivery rules, preferences, and notification templates.
 
 This framework supplements DOC-00 and `AGENTS.md`. It does not replace formal product, domain, privacy, security, data, testing, support, or admin requirements.
 
@@ -97,7 +98,7 @@ Each canonical outcome record must contain:
 
 ### 3.2 Resolution Strategy
 
-A Resolution Strategy states what PayPlus permits the user or system to do next after an Outcome is known and the current context and available capabilities have been checked.
+A Resolution Strategy states what CardMore permits the user or system to do next after an Outcome is known and the current context and available capabilities have been checked.
 
 Common strategies include:
 
@@ -361,7 +362,7 @@ This example defines structure only. DOC-07, DOC-18, DOC-20, and the owning rout
 
 ## 15. Change and Maintenance Rules
 
-Changes to this framework are governance-sensitive. Apply the [`PayPlus Documentation Development Workflow`](../documentation-system/payplus-documentation-development-workflow.md).
+Changes to this framework are governance-sensitive. Apply the [`CardMore Documentation Development Workflow`](../documentation-system/payplus-documentation-development-workflow.md).
 
 When a canonical mapping changes:
 

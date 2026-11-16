@@ -1,7 +1,7 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 1.0.1
+version: 1.1.0
 status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
@@ -16,11 +16,11 @@ approvers:
   - Legal Lead
   - Compliance Lead
   - Payments Lead
-last_updated: 2026-08-21
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
-  - DOC-01 Project Charter & Product Positioning
+  - DOC-01 Product Overview & Positioning
   - DOC-02 Business Model & Unit Economics
   - DOC-04 Compliance Certification Roadmap & Control Framework
   - DOC-05 Master PRD & Feature Requirement Index
@@ -48,26 +48,26 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-03` |
 | **Title** | Regulatory Assessment |
-| **Version** | `1.0.1` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance / Payments Owner |
 | **Reviewers** | Legal Lead<br>Compliance Lead<br>Payments Lead<br>Risk Lead<br>Finance Lead<br>Product Lead |
 | **Approvers** | Project Owner<br>Legal Lead<br>Compliance Lead<br>Payments Lead |
-| **Last Updated** | `2026-08-21` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Communication<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT, Release & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook |
 
 ---
 
 ## 1. Purpose
 
-This document defines the regulatory assessment framework for PayPlus.
+This document defines the regulatory assessment framework for CardMore.
 
-It explains the intended regulatory posture of the PayPlus MVP and identifies the key legal, compliance, PSP/acquirer, payment partner, and risk questions that must be resolved before launch.
+It explains the intended regulatory posture of the CardMore MVP and identifies the key legal, compliance, PSP/acquirer, payment partner, and risk questions that must be resolved before launch.
 
-PayPlus is intended to operate as a **payer-authorized payment platform for accepted controlled Bill Categories and the separate Rent journey**. Bills use the accepted tiered Evidence model, while Rent retains mandatory attached Evidence; professional assessment remains required.
+CardMore is intended to operate as a **payer-authorized payment platform for accepted controlled Bill Categories and the separate Rent journey**. Bills use the accepted tiered Evidence model, while Rent retains mandatory attached Evidence; professional assessment remains required.
 
-PayPlus is **not intended** to operate as:
+CardMore is **not intended** to operate as:
 
 - a wallet;
 - a stored-value account;
@@ -82,19 +82,19 @@ This document is not a final legal opinion. Final legal, regulatory, licensing, 
 
 ## 2. Regulatory Position Summary
 
-The PayPlus MVP is designed around the following regulatory position:
+The CardMore MVP is designed around the following regulatory position:
 
 ```text
-PayPlus enables payments tied to a valid accepted controlled Bill source or separate Rent source.
-PayPlus requires the applicable owner-governed source and Evidence outcome for the Bill/Rent Payment Obligation: Bills follow their accepted tier and Rent retains attached Evidence accepted before Payment.
-PayPlus requires payer review and authorization before payment.
-PayPlus does not provide user-controlled stored balances.
-PayPlus does not allow arbitrary P2P transfers.
-PayPlus does not allow cashout or self-payment.
-PayPlus relies on approved PSP/acquirer, processor, payout, banking, or licensed partner arrangements where required.
+CardMore enables payments tied to a valid accepted controlled Bill source or separate Rent source.
+CardMore requires the applicable owner-governed source and Evidence outcome for the Bill/Rent Payment Obligation: Bills follow their accepted tier and Rent retains attached Evidence accepted before Payment.
+CardMore requires payer review and authorization before payment.
+CardMore does not provide user-controlled stored balances.
+CardMore does not allow arbitrary P2P transfers.
+CardMore does not allow cashout or self-payment.
+CardMore relies on approved PSP/acquirer, processor, payout, banking, or licensed partner arrangements where required.
 ```
 
-The intended regulatory distinction is that PayPlus should support controlled Bill/Rent Payment Obligations subject to their applicable source, Evidence, authorization, risk and Payout controls, rather than function as an unrestricted value-transfer, stored-value, or cash-equivalent product.
+The intended regulatory distinction is that CardMore should support controlled Bill/Rent Payment Obligations subject to their applicable source, Evidence, authorization, risk and Payout controls, rather than function as an unrestricted value-transfer, stored-value, or cash-equivalent product.
 
 This distinction depends on the actual product design, funds flow, contractual structure, partner model, and jurisdiction-specific legal analysis.
 
@@ -102,7 +102,7 @@ No flow should launch unless Legal, Compliance, Payments, Risk, Finance, and rel
 
 ### 2.1 Current Regulatory Baseline
 
-Payer-created controlled Bill payments and the separate Rent journey are the MVP product baseline. A Consumer User is a Payer. A Payee is the economic recipient of an applicable Payment Obligation arising from an accepted controlled Bill source or separate Rent source and may be an individual or an institution/company; the Payee need not be a PayPlus User. PayPlus has no active Request, Linking, To Receive, Consumer-Payee, Receiving Info, or production legacy-Request runtime.
+Payer-created controlled Bill payments and the separate Rent journey are the MVP product baseline. A Consumer User is a Payer. A Payee is the economic recipient of an applicable Payment Obligation arising from an accepted controlled Bill source or separate Rent source and may be an individual or an institution/company; the Payee need not be a CardMore User. CardMore has no active Request, Linking, To Receive, Consumer-Payee, Receiving Info, or production legacy-Request runtime.
 
 The accepted launch inventory contains twelve controlled Bill Categories: 會計費用; 法律費用; 醫療費用; 電訊、流動電話及寬頻費; 物業管理費; 學費; 安老院、殘疾人士院舍及受規管照顧服務; 其他專業費用; 車輛維修費; 小型工程及樓宇維修費; 註冊幼兒中心及育嬰園費用; and 寵物醫療及寄養費. Rent is separate. Category-specific eligibility, evidence criteria, Directory contents, and partner approval remain owner-governed launch gates and are not implied by that inventory.
 
@@ -110,9 +110,9 @@ Regulatory, PSP/acquirer, payout, AML, privacy, card network, and partner approv
 
 The initial launch jurisdiction is Hong Kong.
 
-The current transaction classification assumption is that PayPlus card payments will be treated as bill payment or ordinary online card purchase transactions, subject to PSP/acquirer, card network, legal, and compliance confirmation. The acquirer remains undecided. PayPlus expects to seek an appropriate or special MCC from the selected acquirer and must avoid classification as quasi-cash, cash advance, account funding, unrestricted money transfer, or cash-equivalent activity unless separately assessed and approved.
+The current transaction classification assumption is that CardMore card payments will be treated as bill payment or ordinary online card purchase transactions, subject to PSP/acquirer, card network, legal, and compliance confirmation. The acquirer remains undecided. CardMore expects to seek an appropriate or special MCC from the selected acquirer and must avoid classification as quasi-cash, cash advance, account funding, unrestricted money transfer, or cash-equivalent activity unless separately assessed and approved.
 
-The working payout assumption is direct payout from the PayPlus operating bank account after upstream settlement. FPS, cheque, and EPS are illustrative Hong Kong rail considerations, not a selected launch configuration. Payment gateway settlement and same-day-after-settlement payout timing remain working assumptions subject to PSP/acquirer, bank, liquidity, risk, legal, partner, and reconciliation confirmation. Final operating-bank setup, rail configuration, liquidity treatment, reserves, exception handling, and reconciliation remain open.
+The working payout assumption is direct payout from the CardMore operating bank account after upstream settlement. FPS, cheque, and EPS are illustrative Hong Kong rail considerations, not a selected launch configuration. Payment gateway settlement and same-day-after-settlement payout timing remain working assumptions subject to PSP/acquirer, bank, liquidity, risk, legal, partner, and reconciliation confirmation. Final operating-bank setup, rail configuration, liquidity treatment, reserves, exception handling, and reconciliation remain open.
 
 The working KYC/KYB assumption is that individuals may complete eKYC through a selected provider and businesses may provide Business Registration documentation and owner ID, subject to applicable owner, legal, PSP/acquirer, privacy, security, and risk confirmation. No provider is selected by this document. Final provider selection, check depth, sanctions screening, exception handling, and risk-tier rules remain open.
 
@@ -128,23 +128,23 @@ The source is distinct from Evidence, Payable Basis, Payment Obligation, Checkou
 
 Each active flow must remain Category-bound or the separate Rent journey, use attached Evidence where the applicable Bill tier or Rent rule requires it, be payer-authorized before funding, remain subject to owner-governed risk, payment, payout and privacy gates, and be recorded under the appropriate domain owners. Directory discovery does not replace Evidence, intended-Payee, destination, Payout, risk, readiness, or authorization gates.
 
-Economic Payees may include approved billers, service providers, institutions, businesses, landlords/property recipients, or individuals where their applicable owner-governed outcomes permit payment. This assessment does not grant PayPlus User accounts, payee-created capabilities, recipient libraries, reciprocal visibility, or Request creation.
+Economic Payees may include approved billers, service providers, institutions, businesses, landlords/property recipients, or individuals where their applicable owner-governed outcomes permit payment. This assessment does not grant CardMore User accounts, payee-created capabilities, recipient libraries, reciprocal visibility, or Request creation.
 
 ---
 
 ## 4. Key Regulatory Boundaries
 
-PayPlus must maintain the following boundaries.
+CardMore must maintain the following boundaries.
 
 | Boundary | Requirement | Reason |
 | --- | --- | --- |
 | Bill-backed | Every payment must relate to an accepted controlled Bill source or separate Rent source and its applicable Payment Obligation. | Supports distinction from arbitrary money transfer. |
 | Controlled source and Evidence | Each payment context must rely on an authoritative Bill/Rent source and its applicable Bill-tier or Rent Evidence outcome. | Supports dispute handling, fraud controls, and regulatory posture. |
 | Payer-authorized | Payer must explicitly authorize payment before funds move. | Prevents unauthorized payments and consumer harm. |
-| No wallet | PayPlus must not provide user-controlled balances. | Reduces stored-value / e-money risk. |
-| No stored value | PayPlus must not allow users to preload, hold, or reuse balances. | Avoids wallet-like functionality. |
-| No cashout | PayPlus must not let users convert card funding into cash or cash-equivalent value. | Reduces cash advance, AML, and partner risk. |
-| No arbitrary P2P | PayPlus must not allow unsupported person-to-person transfers. | Preserves obligation-backed payment model. |
+| No wallet | CardMore must not provide user-controlled balances. | Reduces stored-value / e-money risk. |
+| No stored value | CardMore must not allow users to preload, hold, or reuse balances. | Avoids wallet-like functionality. |
+| No cashout | CardMore must not let users convert card funding into cash or cash-equivalent value. | Reduces cash advance, AML, and partner risk. |
+| No arbitrary P2P | CardMore must not allow unsupported person-to-person transfers. | Preserves obligation-backed payment model. |
 | No self-payment | Payer and payee must not be the same person or collusive related parties unless explicitly approved. | Reduces cashout and fraud risk. |
 | Approved categories only | Each bill category must be approved or restricted before launch. | Prevents unsupported legal or partner use cases. |
 | Approved partners only | PSP/acquirer/payout partners must support the use case. | Prevents partner rule breach and settlement failure. |
@@ -155,7 +155,7 @@ These boundaries must be reflected in product requirements, compliance controls,
 
 ## 5. Money Movement Analysis
 
-Each PayPlus payment flow must have a documented funds-flow assessment before launch.
+Each CardMore payment flow must have a documented funds-flow assessment before launch.
 
 The assessment must answer:
 
@@ -167,12 +167,12 @@ The assessment must answer:
 - who is merchant of record, if applicable;
 - who submits authorization and capture;
 - who receives PSP/acquirer settlement;
-- whether funds enter PayPlus-controlled accounts;
-- whether PayPlus has discretion over funds;
+- whether funds enter CardMore-controlled accounts;
+- whether CardMore has discretion over funds;
 - who initiates payout;
 - who receives payout;
 - whether payout occurs before settlement;
-- whether PayPlus prefunds payout;
+- whether CardMore prefunds payout;
 - whether reserves, holds, or collateral apply;
 - when the payer’s obligation is satisfied;
 - how refunds, reversals, failed payments, cancellation, and chargebacks are handled.
@@ -193,7 +193,7 @@ The assessment must confirm that the Payer receives current material facts and s
 
 ## 6. Wallet / Stored Value Analysis
 
-PayPlus is not intended to be a wallet, stored-value account, or e-money product.
+CardMore is not intended to be a wallet, stored-value account, or e-money product.
 
 The product must not allow users to:
 
@@ -207,13 +207,13 @@ The product must not allow users to:
 
 Any credits, refunds, adjustments, promotional value, or failed-payment amounts must be reviewed to ensure they do not create stored value or wallet-like functionality.
 
-If PayPlus ever introduces balances, credits, prefunding, overpayment handling, or reusable funds, Legal and Compliance must reassess whether PayPlus requires stored-value, e-money, money transmission, payment institution, or similar authorization.
+If CardMore ever introduces balances, credits, prefunding, overpayment handling, or reusable funds, Legal and Compliance must reassess whether CardMore requires stored-value, e-money, money transmission, payment institution, or similar authorization.
 
 ---
 
 ## 7. P2P / Cashout Risk Analysis
 
-PayPlus must not support arbitrary P2P transfers, self-payments, or cashout.
+CardMore must not support arbitrary P2P transfers, self-payments, or cashout.
 
 The product should prevent or restrict:
 
@@ -236,7 +236,7 @@ Payer-created source facts can still create fake-obligation, self-payment, relat
 
 ## 8. Payment Institution / MSB Considerations
 
-Legal and Compliance must assess whether PayPlus requires, or can rely on, any of the following:
+Legal and Compliance must assess whether CardMore requires, or can rely on, any of the following:
 
 - money transmission license;
 - payment services license or registration;
@@ -265,9 +265,9 @@ No MVP flow should launch without a documented conclusion or documented unresolv
 
 ## 9. PSP, Acquirer, and Partner Assessment
 
-PayPlus must confirm that PSPs, acquirers, processors, gateways, payout providers, and other material payment partners support the proposed flow.
+CardMore must confirm that PSPs, acquirers, processors, gateways, payout providers, and other material payment partners support the proposed flow.
 
-Before launch, PayPlus should obtain written confirmation for:
+Before launch, CardMore should obtain written confirmation for:
 
 - supported product use case;
 - supported jurisdictions;
@@ -306,7 +306,7 @@ The following controls are required or must be explicitly risk-accepted before l
 
 | Control Area | Required Control |
 | --- | --- |
-| Regulatory role | Document PayPlus role for each Payer-created flow, jurisdiction, controlled Category or separate Rent, and economic-Payee type. |
+| Regulatory role | Document CardMore role for each Payer-created flow, jurisdiction, controlled Category or separate Rent, and economic-Payee type. |
 | Licensing path | Document required licenses, exemptions, partner sponsorships, agency models, or unresolved risk. |
 | Funds flow | Maintain approved funds-flow diagram and description. |
 | PSP/acquirer approval | Confirm partner support for use case, Category or separate Rent, MCC/classification, and Payout model. |
@@ -316,7 +316,7 @@ The following controls are required or must be explicitly risk-accepted before l
 | Evidence | Require each payment context to reference an authoritative Bill/Rent source and applicable supporting Evidence outcomes. |
 | Anti-cashout | Prevent self-payment, fake obligation, circular payment, related-party abuse, and unsupported P2P. |
 | Transaction monitoring | Monitor fraud, velocity, duplicate source indicators, complaints, chargebacks, and Payout anomalies. |
-| Disclosure | Disclose PayPlus role, relevant Payee identity, fees, timing, authorization, refunds, disputes, and failed-payment behavior as owned by DOC-07. |
+| Disclosure | Disclose CardMore role, relevant Payee identity, fees, timing, authorization, refunds, disputes, and failed-payment behavior as owned by DOC-07. |
 | Privacy | Define Payer/economic-Payee data visibility and approved-purpose access boundaries. |
 | Security / PCI | Review PCI scope, tokenization, authentication, encryption, RBAC, audit logs, and partner security. |
 | Recordkeeping | Retain source, Evidence, authorization, disclosure, communication, Payout, adjustment, and reconciliation records under their formal owners. |
@@ -338,11 +338,11 @@ Detailed control implementation belongs in:
 
 ## 11. Compliance Readiness Gates
 
-PayPlus should not launch a jurisdiction, controlled Category or separate Rent path, payment method, partner, economic-Payee type, or funds flow until applicable gates are satisfied.
+CardMore should not launch a jurisdiction, controlled Category or separate Rent path, payment method, partner, economic-Payee type, or funds flow until applicable gates are satisfied.
 
 | Gate ID | Gate | Acceptance Condition |
 | --- | --- | --- |
-| `GATE-DOC03-001` | Regulatory role assessed | Legal/Compliance documents PayPlus role for the Payer-created flow, economic-Payee type, and jurisdiction. |
+| `GATE-DOC03-001` | Regulatory role assessed | Legal/Compliance documents CardMore role for the Payer-created flow, economic-Payee type, and jurisdiction. |
 | `GATE-DOC03-002` | Licensing path confirmed | Required licenses, exemptions, sponsorships, agency arrangements, PayFac arrangements, or partner coverage are documented. |
 | `GATE-DOC03-003` | Funds flow approved | Funds flow diagram and description are approved by Legal, Compliance, Payments, and Finance. |
 | `GATE-DOC03-004` | PSP/acquirer acceptability confirmed | Partner confirms use case, controlled Category or separate Rent, economic-Payee type, MCC/classification, and flow support. |
@@ -370,9 +370,9 @@ Legal and Compliance must review and document conclusions for the following item
 | Review Item | Required Question | Priority |
 | --- | --- | --- |
 | Launch jurisdiction | What Hong Kong-specific regulatory and partner requirements apply before launch? | Critical |
-| Regulatory role | What role does PayPlus take in each MVP funds flow? | Critical |
+| Regulatory role | What role does CardMore take in each MVP funds flow? | Critical |
 | Licensing | Does the MVP require money transmission, payment service, bill payment, e-money, or similar licensing? | Critical |
-| Partner reliance | Can PayPlus rely on a regulated partner, exemption, sponsorship, or agent model? | Critical |
+| Partner reliance | Can CardMore rely on a regulated partner, exemption, sponsorship, or agent model? | Critical |
 | PSP/acquirer support | Which PSP/acquirer supports the Hong Kong bill payment use case? | Critical |
 | Transaction classification | What MCC or transaction classification applies, and can it support bill payment or ordinary online card purchase treatment? | Critical |
 | Cash-like treatment | Could transactions be treated as quasi-cash, cash advance, account funding, money transfer, or cash equivalent? | Critical |
@@ -398,9 +398,9 @@ Legal and Compliance must review and document conclusions for the following item
 
 | Risk ID | Risk | Initial Mitigation | Owner |
 | --- | --- | --- | --- |
-| `RISK-DOC03-001` | PayPlus launches with incorrect regulatory role classification. | Obtain legal assessment per jurisdiction and flow. | Legal / Compliance |
+| `RISK-DOC03-001` | CardMore launches with incorrect regulatory role classification. | Obtain legal assessment per jurisdiction and flow. | Legal / Compliance |
 | `RISK-DOC03-002` | Flow is treated as money transmission or regulated payment service requiring licensing. | Evaluate licenses, exemptions, partner sponsorship, or licensed provider model. | Legal / Compliance |
-| `RISK-DOC03-003` | PSP/acquirer rejects PayPlus use case or category. | Obtain written partner confirmation early. | Payments / Commercial |
+| `RISK-DOC03-003` | PSP/acquirer rejects CardMore use case or category. | Obtain written partner confirmation early. | Payments / Commercial |
 | `RISK-DOC03-004` | Transaction is classified as quasi-cash, cash advance, account funding, or money transfer. | Confirm MCC/classification and add disclosures if required. | Payments / Legal |
 | `RISK-DOC03-005` | Fee model violates law, network rules, or partner restrictions. | Complete legal, card network, and partner fee review before launch. | Legal / Payments |
 | `RISK-DOC03-006` | An accepted Payer-created payment model is characterized as PayFac, marketplace, agent, or regulated payment service without assessment. | Complete role assessment and partner confirmation. | Legal / Compliance / Payments |
@@ -447,7 +447,7 @@ Reviewers:
 - Safe support/adjustment handling, if applicable:
 
 3. Regulatory Role Assessment
-- PayPlus role:
+- CardMore role:
 - Partner role:
 - Payee role:
 - Payer role:
@@ -544,10 +544,10 @@ Reviewers:
 | Question ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
 | `OQ-DOC03-001` | What Hong Kong-specific regulatory, payment, privacy, tax, audit, and operational requirements apply before launch? | Project Owner / Legal | Critical | Open |
-| `OQ-DOC03-002` | What legal role will PayPlus take in the MVP funds flow? | Legal / Compliance | Critical | Open |
+| `OQ-DOC03-002` | What legal role will CardMore take in the MVP funds flow? | Legal / Compliance | Critical | Open |
 | `OQ-DOC03-003` | Does the MVP funds flow require money transmission, payment service, bill payment, e-money, or similar licensing? | Legal / Compliance | Critical | Open |
-| `OQ-DOC03-004` | Can PayPlus rely on a regulated partner, exemption, sponsorship, or agent model? | Legal / Compliance | Critical | Open |
-| `OQ-DOC03-005` | Which PSP/acquirer will support the PayPlus Hong Kong bill payment use case? | Payments / Commercial | Critical | Open |
+| `OQ-DOC03-004` | Can CardMore rely on a regulated partner, exemption, sponsorship, or agent model? | Legal / Compliance | Critical | Open |
+| `OQ-DOC03-005` | Which PSP/acquirer will support the CardMore Hong Kong bill payment use case? | Payments / Commercial | Critical | Open |
 | `OQ-DOC03-006` | What appropriate or special MCC will the selected acquirer assign? | Payments | Critical | Open |
 | `OQ-DOC03-007` | Can transactions be confirmed as bill payment or ordinary online card purchase rather than quasi-cash, cash advance, account funding, money transfer, or cash equivalent? | Payments / Legal | Critical | Open |
 | `OQ-DOC03-008` | Are payer-paid, payee-paid, service, convenience, platform, surcharge, or payout fees permitted? | Legal / Payments | Critical | Open |
@@ -610,11 +610,11 @@ Reviewers:
 
 `DOC-03` is acceptable when it clearly defines:
 
-- PayPlus’s intended regulatory posture;
+- CardMore’s intended regulatory posture;
 - the Payer-only controlled Bill and separate Rent MVP model;
 - how the product uses tier-aware Bill Evidence and the separate mandatory-Evidence Rent journey for applicable Payment Obligations arising from accepted controlled sources;
 - why payer authorization is mandatory;
-- why PayPlus is not intended to be a wallet or stored-value product;
+- why CardMore is not intended to be a wallet or stored-value product;
 - why arbitrary P2P and cashout are prohibited;
 - money movement assessment requirements;
 - licensing, MSB, payment institution, PayFac, marketplace, agency, and partner reliance questions;
@@ -643,6 +643,7 @@ This document must remain an assessment framework and must not become:
 ## 18. Revision History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.0.1 | 2026-08-21 | Product Documentation Team | Replaced the future DOC-19 marker with the reviewed mechanism-neutral security-control handoff while preserving provider, privacy, representation and professional PCI ownership. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.11.1` | 2026-08-12 | Product Documentation Team | Consolidated provider/rail/timing qualification and active source, Evidence, Payment Obligation and inventory-boundary corrections without selecting a provider or rail. |

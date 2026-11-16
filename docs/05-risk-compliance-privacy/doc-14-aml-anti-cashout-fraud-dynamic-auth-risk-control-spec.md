@@ -1,7 +1,7 @@
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 1.0.2
+version: 1.1.0
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -17,7 +17,7 @@ approvers:
   - Project Owner
   - Compliance Lead
   - Risk Lead
-last_updated: 2026-09-01
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -47,12 +47,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-14` |
 | **Title** | AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification |
-| **Version** | `1.0.2` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Risk / Compliance |
 | **Reviewers** | Product Lead<br>Compliance Lead<br>Risk Lead<br>Payments Lead<br>Operations Lead<br>Engineering Lead<br>Data Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Compliance Lead<br>Risk Lead |
-| **Last Updated** | `2026-09-01` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -60,9 +60,9 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines the PayPlus MVP risk-control framework for AML, sanctions, anti-cashout, fraud, credit card fraud, chargeback exposure, suspicious refund behavior, payout risk, dynamic authentication, and manual review routing.
+This document defines the CardMore MVP risk-control framework for AML, sanctions, anti-cashout, fraud, credit card fraud, chargeback exposure, suspicious refund behavior, payout risk, dynamic authentication, and manual review routing.
 
-DOC-14 protects PayPlus from legal risk, fraud loss, card/payment loss, chargeback exposure, unsupported money movement, and operational abuse while avoiding unnecessarily strict rules that block legitimate bill, fee, rent, invoice, and approved-obligation payments.
+DOC-14 protects CardMore from legal risk, fraud loss, card/payment loss, chargeback exposure, unsupported money movement, and operational abuse while avoiding unnecessarily strict rules that block legitimate bill, fee, rent, invoice, and approved-obligation payments.
 
 This document is not a final AML policy, legal opinion, fraud model design, database schema, admin dashboard design, security architecture, or operations runbook.
 
@@ -110,7 +110,7 @@ Detailed specifications belong to:
 
 ## 3. Current Decision Baseline
 
-PayPlus is Payer-only. Risk consumes the authoritative Bill/Rent source, applicable Evidence/verification outcomes, intended economic-Payee and destination facts, Payment and Payout context, and approved privacy/security inputs. A Payee is not required to be a User, and source-context facts must not be expressed as an application-level Payer–Payee relationship, linking capability, participant object, reciprocal runtime or reader.
+CardMore is Payer-only. Risk consumes the authoritative Bill/Rent source, applicable Evidence/verification outcomes, intended economic-Payee and destination facts, Payment and Payout context, and approved privacy/security inputs. A Payee is not required to be a User, and source-context facts must not be expressed as an application-level Payer–Payee relationship, linking capability, participant object, reciprocal runtime or reader.
 
 Risk may block or condition the concrete owner-controlled product, Payment, Payout, refund, account or risk outcome to which it applies. Evidence status is not payment readiness. A label-only Company/Individual disagreement may remain asynchronous and nonblocking when all concrete owner gates pass. DOC-14 does not define Category eligibility, Evidence lifecycle, payment readiness, Payout mechanics, retention, representation, routes, Copy, or Admin permissions.
 
@@ -121,7 +121,7 @@ Request, Linking, To Receive, Receiving Info, Payee-user and production legacy d
 | Launch market | Hong Kong. |
 | Product model | Bills use the approved C1/G1/G2 tiered Evidence, Declaration, Payment and Payout policy. Rent remains separate and always requires attached Evidence accepted before Payment. |
 | MVP scope | The accepted twelve Bill Categories are the only launch Bill inventory; Rent is a separate journey. Examples such as invoices or domestic services create neither a Category nor eligibility. |
-| Prohibited model | PayPlus must not operate as a wallet, stored-value account, cashout product, remittance product, lending product, or unrestricted P2P transfer app. |
+| Prohibited model | CardMore must not operate as a wallet, stored-value account, cashout product, remittance product, lending product, or unrestricted P2P transfer app. |
 | Risk priority | AML/legal risk, obvious fraud, chargeback risk, credit card fraud, payout loss, and cashout risk are first-priority controls. |
 | Risk strictness | Not every red flag should block a transaction. Risk signals must map to proportionate actions. |
 | Risk engine | MVP should use explainable owner-governed rules, reason categories, configurable thresholds, risk bands, manual review, and audit trails; black-box ML is not MVP. |
@@ -139,7 +139,7 @@ Unconfirmed thresholds, providers, sanctions scope, monitoring rules, and owner-
 | Proportionate control | Controls should reduce legal, fraud, payment, and loss risk without creating excessive false positives. |
 | Evidence-informed risk | Risk consumes applicable DOC-12 verification outcomes; Evidence is not itself the source, obligation or Payment. |
 | Payer authorization | Payment cannot proceed without payer authorization. |
-| No cashout | PayPlus must block self-cashout, circular payment, fake obligation, and unsupported P2P patterns. |
+| No cashout | CardMore must block self-cashout, circular payment, fake obligation, and unsupported P2P patterns. |
 | Explainability | Every risk decision must have reason codes and traceable signals. |
 | Configurability | Thresholds, review triggers, category rules, and module enablement must be configurable only under risk-owner and applicable formal-owner governance. |
 | Human review for sensitive cases | High-risk or ambiguous cases should route to admin/risk review instead of relying only on automation. |
@@ -158,7 +158,7 @@ Each risk signal should map to one or more approved actions.
 | Allow | Proceed without extra action. |
 | Warn | Show allowed user warning or internal warning. |
 | User Clarification | Ask user to correct or provide additional information. |
-| Step-Up | Require extra authentication, such as OTP, biometric, 3DS, PSP challenge, or PayPlus risk challenge. |
+| Step-Up | Require extra authentication, such as OTP, biometric, 3DS, PSP challenge, or CardMore risk challenge. |
 | Manual Review | Route to admin/risk queue before proceeding. |
 | Payment Hold | Hold payment processing or retry. |
 | Payout Hold | Block payout release pending review or resolution. |
@@ -306,7 +306,7 @@ Future model features, graph signals, and AI-assisted risk outputs should retain
 
 ## 10. AML, Sanctions, and KYC/KYB Controls
 
-PayPlus must support AML and sanctions controls appropriate to its final legal, regulatory, PSP/acquirer, and operating model.
+CardMore must support AML and sanctions controls appropriate to its final legal, regulatory, PSP/acquirer, and operating model.
 
 At product-rule level, the system should support:
 
@@ -319,13 +319,13 @@ At product-rule level, the system should support:
 - compliance escalation case status;
 - audit trail for onboarding, review, and exceptions.
 
-DOC-14 does not conclude whether PayPlus is subject to a specific licensing or AML regime. Final conclusions belong to legal, compliance, and DOC-03/DOC-04 assessment.
+DOC-14 does not conclude whether CardMore is subject to a specific licensing or AML regime. Final conclusions belong to legal, compliance, and DOC-03/DOC-04 assessment.
 
 ---
 
 ## 11. Anti-Cashout and Prohibited-Flow Controls
 
-PayPlus must prevent payments from being used as card-to-bank cashout, unsupported P2P transfer, circular transfer, or disguised remittance.
+CardMore must prevent payments from being used as card-to-bank cashout, unsupported P2P transfer, circular transfer, or disguised remittance.
 
 Required controls include:
 
@@ -398,7 +398,7 @@ Step-up may also be required below the threshold when:
 - user attempts retry after repeated failure;
 - promotion, coupon, referral, or reward abuse is suspected.
 
-Partner, network, regulatory, or risk rules may require stronger authentication regardless of amount and cannot be overridden by the PayPlus threshold.
+Partner, network, regulatory, or risk rules may require stronger authentication regardless of amount and cannot be overridden by the CardMore threshold.
 
 Deferred payment instruction and partial funded-portion payout should be risk-monitored. Risk rules may warn, remind, hold payout, require step-up, route to review, or block where patterns suggest cashout, collusion, card testing, promotion quota holding, card-linked benefit testing, fraud, chargeback risk, or unsupported obligation use. Ordinary incomplete user action should not be treated as fraud by default.
 
@@ -480,7 +480,7 @@ The applicable formal owner determines any review, hold, override, audit or acce
 
 ## 19. Monitoring and Reporting
 
-PayPlus should monitor:
+CardMore should monitor:
 
 - risk review volume and aging;
 - false-positive and false-negative indicators;
@@ -503,7 +503,7 @@ Detailed dashboards, alerts, incidents, and escalation procedures belong in DOC-
 
 DOC-14 defines risk outcomes and owner-level reason requirements. The applicable formal owner determines configuration, approval, threshold, hold, audit and change-control detail under the settled C1 and Tier 3 ownership boundaries. C1 values/operating details and Tier 3 role/workflow/segregation implementation remain explicit later configuration/enablement inputs. DOC-22 may execute only a specifically owner-permitted workflow/configuration; this document does not define queues, permissions, overrides, technical configuration or an implementation mechanism.
 
-Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning or makes the approved model impossible must be handled under the canonical PayPlus Documentation Development Workflow.
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning or makes the approved model impossible must be handled under the canonical CardMore Documentation Development Workflow.
 
 ---
 
@@ -571,6 +571,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | `1.0.2` | `2026-09-01` | Product Documentation Team | Clarified DOC-14 owner handoffs by removing or qualifying obsolete technical-representation allocations; risk-control meaning remains unchanged and technical representation remains deferred. |
 | `1.0.1` | `2026-08-21` | Product Documentation Team | Aligned security-fact consumption with DOC-19 controls and DOC-18 representation while preserving DOC-14 ownership of risk triggers, thresholds, actions, and outcomes. |
 | `1.0.0` | `2026-08-18` | Product Documentation Team | Implemented the material Bills-only risk model and fixed-seat compliance supplement; preserved settled ownership and Evidence traceability, neutralized active lifecycle-language ambiguity, qualified retention by lawful scope, and retained the exact G1 key and Tier 1 voluntary-Evidence Payout-hold boundary. |

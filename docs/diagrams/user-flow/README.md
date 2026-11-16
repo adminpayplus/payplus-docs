@@ -1,6 +1,7 @@
-# PayPlus Simplified User Flows
+<a id="payplus-simplified-user-flows"></a>
+# CardMore Simplified User Flows
 
-These diagrams are presentation-style summaries of the PayPlus experience. They are intended for founder, product, design, and stakeholder discussion where the detailed route-entry map is too dense.
+These diagrams are presentation-style summaries of the CardMore experience. They are intended for founder, product, design, and stakeholder discussion where the detailed route-entry map is too dense.
 
 They do not define new routes, statuses, controls, or product behavior. The formal `DOC-XX` documents and the canonical route register remain authoritative. Current hierarchical route maps are indexed in [`docs/diagrams/README.md`](../README.md).
 
@@ -28,4 +29,4 @@ Editable Mermaid sources, when present, are stored beside their rendered PNG or 
 - Payer authorization is required before payment processing.
 - Evidence status and payment readiness remain separate concepts.
 - Category-bound source and Evidence gates remain separate from payment readiness.
-- PayPlus is not shown as a wallet, cashout product, remittance product, or unrestricted peer-to-peer transfer app.
+- CardMore is not shown as a wallet, cashout product, remittance product, or unrestricted peer-to-peer transfer app.

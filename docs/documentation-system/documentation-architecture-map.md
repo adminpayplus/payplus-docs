@@ -1,8 +1,9 @@
-# PayPlus Documentation Architecture Map
+<a id="payplus-documentation-architecture-map"></a>
+# CardMore Documentation Architecture Map
 
 ## 1. Purpose and Scope
 
-This map is the canonical navigation artifact for the PayPlus documentation operating architecture. It identifies authority, concept ownership, task routing, directory responsibility, and allowed dependencies without redefining governance, lifecycle gates, product rules, or subject frameworks.
+This map is the canonical navigation artifact for the CardMore documentation operating architecture. It identifies authority, concept ownership, task routing, directory responsibility, and allowed dependencies without redefining governance, lifecycle gates, product rules, or subject frameworks.
 
 ## 2. Authority and Dependency Diagram
 
@@ -48,7 +49,7 @@ Arrows show permitted authority, routing, or reference dependency. They do not t
 | Repository operating contract and routing | [`AGENTS.md`](../../AGENTS.md) | Ranked precedence or lifecycle stages and gates |
 | Documentation architecture navigation | This Architecture Map | Governance, lifecycle gates, or subject rules |
 | Complete Documentation Lifecycle and lifecycle gates | [Documentation Development Workflow](payplus-documentation-development-workflow.md) | Product/domain rules or specialist methods |
-| Founder work-command meaning and lifecycle routing | [PayPlus Work Command Language](payplus-work-command-language.md) | Lifecycle stages or gates, approval authority, subject rules, or execution mechanics |
+| Founder work-command meaning and lifecycle routing | [CardMore Work Command Language](payplus-work-command-language.md) | Lifecycle stages or gates, approval authority, subject rules, or execution mechanics |
 | Durable platform and product design doctrine | [Platform Design Principles](../00-foundation/payplus-platform-design-principles.md) | Detailed outcome mappings or lifecycle rules |
 | Outcome → Resolution Strategy → Message/CTA → Notification architecture | [Outcome Framework](../00-foundation/payplus-outcome-message-notification-framework.md) | Route rules, approved copy, delivery policy, or lifecycle rules |
 | Parallel execution mechanics | [Parallel-Agent Documentation Procedure](payplus-parallel-agent-documentation-procedure.md) | Proposal, approval, validation, Git, records, push, or completion authority |
@@ -61,7 +62,7 @@ Arrows show permitted authority, routing, or reference dependency. They do not t
 | Trigger | Start with | Add when applicable | Control returns to |
 | --- | --- | --- | --- |
 | Any documentation task or Git/records action | `AGENTS.md`, DOC-00, primary owner, Documentation Development Workflow | Relevant subject framework | Documentation Development Workflow |
-| Founder uses a named PayPlus work command | Work Command Language and Documentation Development Workflow | Primary owner; applicable procedure, framework, or specialist guide | Mapped canonical lifecycle stage |
+| Founder uses a named CardMore work command | Work Command Language and Documentation Development Workflow | Primary owner; applicable procedure, framework, or specialist guide | Mapped canonical lifecycle stage |
 | Parallel agents, workstreams, review swarm, or worktrees | Documentation Development Workflow | Parallel Procedure | Named canonical lifecycle stage |
 | DOC-07 Outcome, Resolution, Message, disclosure, copy, or CTA work | Documentation Development Workflow and owning route/domain document | Outcome Framework and DOC-07 Specialist Guide | Named canonical lifecycle stage |
 | Prototype planning, build, review, validation, status change, or retirement | Documentation Development Workflow and source owner | Prototype Specialist Guide; Parallel Procedure only if authorized | Named canonical lifecycle stage |

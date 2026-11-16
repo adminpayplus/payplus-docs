@@ -1,4 +1,5 @@
-# PayPlus App Route Map
+<a id="payplus-app-route-map"></a>
+# CardMore App Route Map
 
 Status: Current discussion reference
 Level: 0 - app navigation
@@ -23,7 +24,7 @@ flowchart TD
 
   HOME -. "See Home route map" .-> HOMEFAMILY["Home and shortcuts"]
   BILLS -. "See Bills route map" .-> BILLSFAMILY["Bills route family"]
-  PAYPLUS -. "See Pay+ route map" .-> PAYPLUSHANDOFFS["Pay+ action handoffs"]
+  PAYPLUS -. "See CardMore route map" .-> PAYPLUSHANDOFFS["CardMore action handoffs"]
   OFFERS -. "See Offers route map" .-> OFFERSFAMILY["Offers, Rewards, Referral"]
   ME -. "See Me route map" .-> MEFAMILY["Me direct children"]
 ```

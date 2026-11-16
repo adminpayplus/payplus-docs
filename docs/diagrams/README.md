@@ -1,7 +1,7 @@
 
 # Diagrams
 
-This folder stores visual reference artifacts for PayPlus documentation.
+This folder stores visual reference artifacts for CardMore documentation.
 
 Diagrams help human reviewers and AI coding agents understand structure, flow, hierarchy, and relationships. They do not override formal `DOC-XX` source documents.
 
@@ -14,7 +14,7 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 | `routes/payplus-authentication-route-map.md` | Entrance, Fast/Full Login, Registration, Recovery, protected-context return, and the Account Activation handoff. | DOC-06B / DOC-07 / DOC-15 |
 | `routes/payplus-account-activation-route-map.md` | Account Activation entry contexts, contextual verification/passcode handoffs, and origin-aware return. | DOC-06B / DOC-15 / DOC-19 |
 | `routes/payplus-home-route-map.md` | Home, dashboard shortcuts, and direct dashboard-section handoffs. | DOC-06B |
-| `routes/payplus-action-sheet-route-map.md` | Pay+ action-sheet actions, availability decisions, and destination handoffs. It does not define final visual design. | DOC-06B |
+| `routes/payplus-action-sheet-route-map.md` | CardMore action-sheet actions, availability decisions, and destination handoffs. It does not define final visual design. | DOC-06B |
 | `routes/payplus-bills-route-map.md` | Bills, rent, evidence, activity, reminder, checkout, and Archive-family handoffs. | DOC-06C |
 | `routes/payplus-instructions-route-map.md` | Payment Instructions, checkout, and Payment Profile handoffs. | DOC-06B / DOC-09 |
 | `routes/payplus-payment-profile-route-map.md` | Cards/Profile tabs, child screens, tokenization, and contextual return. | DOC-06B / DOC-09 |
@@ -23,7 +23,7 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 | `routes/payplus-offers-rewards-referral-route-map.md` | Offers discovery, Rewards, Referral, registration attribution, and checkout handoffs. | DOC-06B / DOC-13 |
 | `routes/payplus-me-route-map.md` | `ME-ROOT` direct child destinations plus Account Profile and Account Security handoffs to phone, identity, and payment-passcode controls. | DOC-06B |
 | `routes/payplus-more-route-map.md` | Compact `MORE-ROOT` route boundary, Normal/Manage modes, and generic handoff to independently owned destinations. Detailed shortcut behavior remains in DOC-06B. | DOC-06B |
-| `routes/payplus-archive-route-map.md` | `ARCHIVED-ROOT`, Archived Bills & Rent, Archived Documents, archived detail, and restore handoffs. | DOC-06B / DOC-06C |
+| `routes/payplus-archive-route-map.md` | Active Payer Archive root (`ARCHIVED-ROOT`), archived Bills/Rent and read-only detail; provisional archived-document identity without active entry. Restore and version presentation remain deferred. | DOC-06B / DOC-06C |
 | `routes/payplus-notification-route-map.md` | Notifications parent, Inbox, Detail, Settings, Home/Me entries, and owning-destination handoff. | DOC-06B / DOC-08 |
 | `payplus-promotion-engine-structure.md` | Mermaid business-structure reference for the unified promotion engine, program contexts, campaigns, offers, rule evaluation, and benefit-delivery paths. DOC-13 remains authoritative. | DOC-13 |
 

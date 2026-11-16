@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 1.1.0
+version: 1.2.0
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Product Lead
   - Project Owner
-last_updated: 2026-11-13
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -35,12 +35,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-01` |
 | **Title** | Product Overview & Positioning |
-| **Version** | `1.1.0` |
+| **Version** | `1.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Commercial Lead |
 | **Approvers** | Product Lead<br>Project Owner |
-| **Last Updated** | `2026-11-13` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -48,7 +48,7 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines the PayPlus product overview, positioning, MVP scope, product boundaries, key assumptions, risks, dependencies, success criteria, and open questions.
+This document defines the CardMore product overview, positioning, MVP scope, product boundaries, key assumptions, risks, dependencies, success criteria, and open questions.
 
 `DOC-01` is a foundation document.
 
@@ -61,9 +61,9 @@ This document does not define detailed product requirements, technical architect
 
 ## 2. Product Summary
 
-PayPlus is a controlled Bill and Rent Payment App. Bills use the accepted tiered Evidence, Declaration, Payment and Payout model; Tier 1 does not require attached Evidence, while Tier 2 and Tier 3 use the applicable official Bill Evidence gates. Rent remains a separate mandatory attached-Evidence journey. Consumer Users act as Payers and use cards subject to specialist-owned controls and fresh Payer authorization.
+CardMore is a controlled Bill and Rent Payment App. Bills use the accepted tiered Evidence, Declaration, Payment and Payout model; Tier 1 does not require attached Evidence, while Tier 2 and Tier 3 use the applicable official Bill Evidence gates. Rent remains a separate mandatory attached-Evidence journey. Consumer Users act as Payers and use cards subject to specialist-owned controls and fresh Payer authorization.
 
-A Payee is the economic recipient. The Payee may be an individual or an institution/company and does not need to be a PayPlus User.
+A Payee is the economic recipient. The Payee may be an individual or an institution/company and does not need to be a CardMore User.
 
 MVP scope is limited to:
 
@@ -72,16 +72,16 @@ MVP scope is limited to:
 
 For Bills, the Payer either uses a Category-scoped Payee Directory or selects `Provide Payee myself`. Both methods remain governed by the already selected supported Bill Category. Neither method creates an open Payee marketplace or authorizes arbitrary payment.
 
-PayPlus must not be positioned as a wallet, stored-value account, cashout service, peer-to-peer transfer app, remittance service, lending product, open invoice marketplace or arbitrary company-payment service.
+CardMore must not be positioned as a wallet, stored-value account, cashout service, peer-to-peer transfer app, remittance service, lending product, open invoice marketplace or arbitrary company-payment service.
 
-PayPlus should remain data-disciplined. Material account, Evidence, Bill/Rent, acquisition, payment, payout, risk, promotion, support, communication and Admin actions should create structured, classified, auditable and purpose-linked data where appropriate. This does not approve advertising-network, data-broker, offsite activation, credit-scoring, insurance-underwriting or unrestricted profiling behavior.
+CardMore should remain data-disciplined. Material account, Evidence, Bill/Rent, acquisition, payment, payout, risk, promotion, support, communication and Admin actions should create structured, classified, auditable and purpose-linked data where appropriate. This does not approve advertising-network, data-broker, offsite activation, credit-scoring, insurance-underwriting or unrestricted profiling behavior.
 
 ### 2.1 Current MVP Decision Baseline
 
 | Decision | Baseline |
 |---|---|
 | Consumer actor | Consumer Users are Payers only. |
-| Economic Payee | An individual or institution/company recipient; PayPlus membership is not required. |
+| Economic Payee | An individual or institution/company recipient; CardMore membership is not required. |
 | Product families | Rent and specified supported controlled Bill Categories only. |
 | Bill acquisition | Category-scoped Directory or `Provide Payee myself`; both remain controlled by the selected Category. |
 | Rent | Separate tenancy/relationship journey; no controlled-Bill Directory use in MVP. |
@@ -111,7 +111,7 @@ This baseline does not remove legal, compliance, PSP/acquirer, payout, risk, pri
 
 Many Payers want to pay eligible Bills or Rent by card for convenience, liquidity management, rewards, recordkeeping or payment flexibility, while many economic Payees do not directly accept cards.
 
-PayPlus addresses this gap by allowing eligible card-funded payment to be routed to the intended individual or institutional recipient while preserving Evidence, Payer authorization, Payee and destination checks, risk controls, reconciliation and auditability.
+CardMore addresses this gap by allowing eligible card-funded payment to be routed to the intended individual or institutional recipient while preserving Evidence, Payer authorization, Payee and destination checks, risk controls, reconciliation and auditability.
 
 The product does not depend on a Payee becoming a Consumer User, creating a Request or accepting a participant link.
 
@@ -119,9 +119,9 @@ The product does not depend on a Payee becoming a Consumer User, creating a Requ
 
 ## 4. Product Positioning
 
-PayPlus should be positioned as:
+CardMore should be positioned as:
 
-> A controlled Bill and Rent Payment App that lets Payers use cards for eligible Rent and supported Bill Categories while Bills apply their accepted tiered Evidence model and PayPlus applies verification, risk, payout, reconciliation and audit controls.
+> A controlled Bill and Rent Payment App that lets Payers use cards for eligible Rent and supported Bill Categories while Bills apply their accepted tiered Evidence model and CardMore applies verification, risk, payout, reconciliation and audit controls.
 
 Allowed language may include:
 
@@ -144,7 +144,7 @@ Final public language belongs to DOC-07.
 | Actor | High-level meaning |
 |---|---|
 | Payer | The sole Consumer User for MVP; pays eligible controlled Bills or Rent obligations by card under the applicable Evidence treatment. |
-| Economic Payee | Individual or institution/company recipient. A PayPlus User account is not required. |
+| Economic Payee | Individual or institution/company recipient. A CardMore User account is not required. |
 | Admin and Operations | Internal actors applying owner-approved reviews, configuration and exception handling. |
 | Partners | PSPs, acquirers, payout providers, banks, OCR, KYC/KYB, risk, notification and approved commercial service providers. |
 
@@ -159,12 +159,12 @@ DOC-05 owns detailed product-policy roles. An institution may enrol in the bound
 | Directory-selected Bill payment | Payer selects a supported controlled Bill Category, chooses a published institutional Payee for that Category, provides Evidence and authorizes an eligible payment after all applicable controls pass. |
 | Self-provided Bill payment | Payer selects a supported controlled Bill Category, provides an institutional or individual Payee within that Category, supplies Evidence and authorizes an eligible payment after all applicable controls pass. |
 | Rent payment | Payer uses the separate tenancy/relationship journey and Rent-specific Evidence and controls. |
-| Bill/Rent verification | PayPlus evaluates applicable Category, Evidence and Payee facts without treating Directory state as transaction truth. |
+| Bill/Rent verification | CardMore evaluates applicable Category, Evidence and Payee facts without treating Directory state as transaction truth. |
 | Save or no-Save | Deliberate Setup makes the same authoritative Bill/Rent identity Saved/current without Payment. In immediate pay-now, an otherwise-unsaved source becomes Saved/current or history-only only after confirmed Payment, Payment Result and the optional Save resolution. Save never creates payment authorization. |
 | Card-funded payment | Payer funds an eligible Payment through a supported card source. |
 | Multi-card payment | Payer may use up to 6 cards per payment/profile subject to narrower owner controls. |
 | User Payment Instruction | Payer may pay immediately or create a deliberate deferred instruction under DOC-09. |
-| Payout and reconciliation | PayPlus applies approved settlement, payout and reconciliation controls for the intended economic Payee. |
+| Payout and reconciliation | CardMore applies approved settlement, payout and reconciliation controls for the intended economic Payee. |
 | Receipt, Activity and audit | Payment remains visible through Activity/Payment History/Receipt even when its Bill/Rent source is history-only. |
 | Optional individual notification | Payer may initiate a separately permitted one-way notification to a governed individual Payee; it is not Request, Linking, acceptance or authorization. |
 | Manual review and monitoring | Higher-risk or mismatched facts follow their specialist-owned review and blocking rules. |
@@ -334,14 +334,14 @@ The model must account for processing, payout, refunds, chargebacks, fraud, prom
 
 ## 13. Compliance and Risk Positioning
 
-PayPlus requires applicable legal, regulatory, network, partner, privacy, AML, consumer-protection and advertising assessment before launch.
+CardMore requires applicable legal, regulatory, network, partner, privacy, AML, consumer-protection and advertising assessment before launch.
 
 Key boundaries:
 
-- PayPlus is intended as controlled Bill/Rent payment facilitation.
+- CardMore is intended as controlled Bill/Rent payment facilitation.
 - Directory publication and acquisition provenance do not establish transaction eligibility.
 - Self-provided acquisition cannot bypass Category, Evidence, Payee, destination, sanctions, fraud, anti-cashout, payout or authorization controls.
-- PayPlus must not enable wallet, stored value, unrestricted transmission or card-funded cashout.
+- CardMore must not enable wallet, stored value, unrestricted transmission or card-funded cashout.
 - Each Payment requires applicable Evidence, intended-Payee/destination checks and fresh Payer authorization.
 - Company/Individual label disagreement remains distinct from concrete defects.
 - Optional individual notification remains one-way and subject to privacy, abuse, wrong-recipient, suppression, security, delivery-record and support controls.
@@ -448,7 +448,7 @@ No partner capability or commercial term is approved by this charter.
 
 ## 19. Launch Readiness Themes
 
-PayPlus should not launch until:
+CardMore should not launch until:
 
 - scope and positioning are approved, and each Category in the accepted twelve-category inventory meets its applicable owner-controlled launch gates;
 - PSP/acquirer, payout and jurisdictional models are approved;
@@ -543,9 +543,9 @@ Applicable business facts, provenance, historical action basis, and reporting ex
 
 DOC-01 is acceptable when it:
 
-1. defines PayPlus as an controlled Bill/Rent Payment App;
+1. defines CardMore as a controlled Bill/Rent Payment App;
 2. states that Consumer Users are Payers only;
-3. defines Payee as an individual or institution/company economic recipient that need not be a PayPlus User;
+3. defines Payee as an individual or institution/company economic recipient that need not be a CardMore User;
 4. limits MVP to Rent and specified supported controlled Bill Categories;
 5. states both Bill acquisition methods and the continuing Category restriction;
 6. keeps Rent separate from the Bill Directory;
@@ -565,6 +565,7 @@ This document remains a concise charter and must not become a detailed PRD, lega
 ## 24. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.2.0 | 2026-11-16 | Product Documentation Team | Adopted CardMore as the current product name without changing the formal document title or product boundaries. |
 | 1.1.0 | 2026-11-13 | Canonical Change Integrator | Synchronized only the high-level immediate-pay post-Result summary with the reviewed DOC-05 actual-Save and independently permitted result-artifact contract under the exact R1 scope addendum; no source-owner policy, approval status, implementation or Git publication was changed. |
 | 1.0.1 | 2026-08-27 | Product Documentation Team | Aligned same-Bill Category amendment and prior-history meaning with the reviewed DOC-18 business-recording Draft, and removed current technical-representation implications. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |

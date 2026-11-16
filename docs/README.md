@@ -1,11 +1,12 @@
 
-# PayPlus Documentation Index
+<a id="payplus-documentation-index"></a>
+# CardMore Documentation Index
 
-This folder contains the PayPlus documentation set.
+This folder contains the CardMore documentation set.
 
-Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance and ranked source-of-truth authority. Use `AGENTS.md` as the repository Operating Contract and Routing Layer. Use the [`PayPlus Platform Design Principles`](00-foundation/payplus-platform-design-principles.md) for durable platform doctrine and the [`Outcome, Resolution, Message and Notification Framework`](00-foundation/payplus-outcome-message-notification-framework.md) for the detailed Outcome → Resolution → Message/CTA/Notification chain.
+Use `docs/00-foundation/doc-00-documentation-governance.md` as the documentation governance and ranked source-of-truth authority. Use `AGENTS.md` as the repository Operating Contract and Routing Layer. Use the [`CardMore Platform Design Principles`](00-foundation/payplus-platform-design-principles.md) for durable platform doctrine and the [`Outcome, Resolution, Message and Notification Framework`](00-foundation/payplus-outcome-message-notification-framework.md) for the detailed Outcome → Resolution → Message/CTA/Notification chain.
 
-Enter the operating architecture through the [`Documentation System`](documentation-system/README.md) and its independent [`Documentation Architecture Map`](documentation-system/documentation-architecture-map.md). Founder work commands are interpreted through the [`PayPlus Work Command Language`](documentation-system/payplus-work-command-language.md), while all documentation work uses the [`Documentation Development Workflow`](documentation-system/payplus-documentation-development-workflow.md), the sole owner of the complete Documentation Lifecycle and its gates. The directory README routes to the optional procedure and specialist guides without duplicating their rules. Substantive commits are recorded in [`changelog/changelog.md`](changelog/changelog.md) and [`decision-log/decisionlog.md`](decision-log/decisionlog.md).
+Enter the operating architecture through the [`Documentation System`](documentation-system/README.md) and its independent [`Documentation Architecture Map`](documentation-system/documentation-architecture-map.md). Founder work commands are interpreted through the [`CardMore Work Command Language`](documentation-system/payplus-work-command-language.md), while all documentation work uses the [`Documentation Development Workflow`](documentation-system/payplus-documentation-development-workflow.md), the sole owner of the complete Documentation Lifecycle and its gates. The directory README routes to the optional procedure and specialist guides without duplicating their rules. Substantive commits are recorded in [`changelog/changelog.md`](changelog/changelog.md) and [`decision-log/decisionlog.md`](decision-log/decisionlog.md).
 
 ## Current Baseline
 
@@ -35,14 +36,14 @@ Enter the operating architecture through the [`Documentation System`](documentat
 | `changelog/` | Append-only documentation delivery history linked to substantive commits. |
 | `decision-log/` | Append-only accepted decision records linked to owning documents and substantive commits. |
 | `diagrams/` | Governed route, product-structure, and user-flow visual references. |
-| `glossary/` | Controlled PayPlus terminology and source-owner references. |
+| `glossary/` | Controlled CardMore terminology and source-owner references. |
 | `prototypes/` | Prototype register. Current and archived artifacts appear only when registered under the Prototype Design and Validation Specialist Guide and governed through the canonical Documentation Development Workflow. |
 | `traceability/` | Requirements traceability, route register, open-question register, and status-display alignment references. |
 
 ## Reading Order
 
 1. `DOC-00` for governance and source-of-truth rules.
-2. `DOC-01` to `DOC-04` for PayPlus foundation, business, regulatory, and control baseline.
+2. `DOC-01` to `DOC-04` for CardMore foundation, business, regulatory, and control baseline.
 3. `DOC-05` to `DOC-08` for product, UX, disclosure, notification, and communication behavior. Read `DOC-06` as the parent UX family map, then `DOC-06A` to `DOC-06D` for core journeys, navigation/route taxonomy, Bills/rent/tenancy UX, and UX acceptance/test mapping.
 4. `DOC-09` to `DOC-11` for payment, payout, reconciliation, refund, cancellation, dispute, and chargeback behavior.
 5. `DOC-12` to `DOC-15` for evidence verification, promotion engine, risk controls, privacy, data classification, and retention.
@@ -62,8 +63,8 @@ The recent AI/data-engine strategy update is traceable through:
 
 ## Current Product Baseline
 
-PayPlus is a controlled, payer-authorized payment service for the twelve accepted controlled Bill Categories plus separate Rent. Bills use the accepted Tier 1/2/3 Evidence model; Rent retains mandatory attached Evidence accepted before Payment.
+CardMore is a controlled, payer-authorized payment service for the twelve accepted controlled Bill Categories plus separate Rent. Bills use the accepted Tier 1/2/3 Evidence model; Rent retains mandatory attached Evidence accepted before Payment.
 
-PayPlus is not a wallet, stored-value account, unrestricted P2P transfer app, cashout product, remittance product, lending product, or open money-request marketplace.
+CardMore is not a wallet, stored-value account, unrestricted P2P transfer app, cashout product, remittance product, lending product, or open money-request marketplace.
 
 Category-bound Bill payments, rent/tenancy payments, multi-card payment, and deliberate user Payment Instructions are MVP scope where supported by the applicable Bill tier or Rent Evidence rule and enabled controls. Request, Linking, Receive, Receiving Info, and Consumer-Payee runtime is retired.

@@ -1,4 +1,5 @@
-# PayPlus Account Activation Route Map
+<a id="payplus-account-activation-route-map"></a>
+# CardMore Account Activation Route Map
 
 Status: Current discussion reference
 Owner: DOC-06B

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="1800" viewBox="0 0 900 1800" role="img" aria-labelledby="title desc">
-  <title id="title">PayPlus MVP Home Dashboard Wireframe</title>
-  <desc id="desc">Designated MVP dashboard flow and layout reference for PayPlus showing header, action required, shortcut grid, featured carousel, upcoming bills, recent activity, and bottom navigation with Pay+ center action. This is not a finalized UI design or exact component specification.</desc>
+  <title id="title">CardMore MVP Home Dashboard Wireframe</title>
+  <desc id="desc">Designated MVP dashboard flow and layout reference for CardMore showing header, action required, shortcut grid, featured carousel, upcoming bills, recent activity, and bottom navigation with CardMore center action. This is not a finalized UI design or exact component specification.</desc>
   <defs>
     <style>
       .bg { fill: #f7f8fb; }
@@ -156,7 +156,7 @@
   </g>
   <g transform="translate(450 1608)">
     <circle class="soft-green" cx="0" cy="40" r="78"/>
-    <text class="text heading" x="0" y="50" text-anchor="middle">Pay+</text>
+    <text class="text heading" x="0" y="50" text-anchor="middle">CardMore</text>
     <text class="text route" x="0" y="78" text-anchor="middle">opens sheet</text>
   </g>
   <g transform="translate(650 1660)">

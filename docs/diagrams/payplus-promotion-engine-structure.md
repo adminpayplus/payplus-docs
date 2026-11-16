@@ -1,4 +1,5 @@
-# PayPlus Promotion-Engine Structure
+<a id="payplus-promotion-engine-structure"></a>
+# CardMore Promotion-Engine Structure
 
 Status: Business-structure reference
 
@@ -18,7 +19,7 @@ flowchart TD
 
     CAMPAIGNS["Each context contains Campaigns"]
     OFFERS["Each campaign contains Offers"]
-    COLLECTIONS["Discovery Membership<br/>Card, Pay+ and/or Partner<br/>Featured / Hot placement flag"]
+    COLLECTIONS["Discovery Membership<br/>Card, CardMore and/or Partner<br/>Featured / Hot placement flag"]
     RULES["Rule Sets<br/>Eligibility, qualification, entitlement and limits"]
     DECISION{"Benefit Decision"}
 
@@ -53,6 +54,6 @@ flowchart TD
 
 Each general-promotion, referral, or membership context may contain multiple campaigns. Each campaign may contain multiple offers. An offer may combine multiple rule groups and conditions and may belong to multiple discovery collections without duplicating the underlying Offer ID.
 
-For each payment card or split-payment funding leg, only one eligible payment-method-sensitive Card Offer applies. PayPlus automatically selects the Card Offer with the highest user value and displays it in checkout. A separate eligible checkout coupon, voucher, or discount may also be selected before the promotion quote is finalized.
+For each payment card or split-payment funding leg, only one eligible payment-method-sensitive Card Offer applies. CardMore automatically selects the Card Offer with the highest user value and displays it in checkout. A separate eligible checkout coupon, voucher, or discount may also be selected before the promotion quote is finalized.
 
 This is a business-structure diagram, not an app navigation map. DOC-06B and `routes/payplus-offers-rewards-referral-route-map.md` separately govern how users discover offers, manage issued rewards, and enter referral functions.

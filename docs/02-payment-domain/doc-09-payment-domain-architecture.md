@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Domain Architecture
-version: 2.1.2
+version: 2.2.0
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -16,11 +16,11 @@ approvers:
   - Project Owner
   - Product Lead
   - Payments Lead
-last_updated: 2026-09-01
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
-  - DOC-01 Project Charter & Product Positioning
+  - DOC-01 Product Overview & Positioning
   - DOC-03 Regulatory, PSP & Acquirer Assessment
   - DOC-04 Compliance Certification Roadmap & Control Framework
   - DOC-05 Master PRD & Feature Requirement Index
@@ -47,20 +47,20 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Domain Architecture |
-| **Version** | `2.1.2` |
+| **Version** | `2.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Payments Lead |
-| **Last Updated** | `2026-09-01` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
 
 ---
 
 ## 1. Purpose
 
-DOC-09 defines the canonical PayPlus Payment Domain architecture from payment-facing Bill/Rent information through payable obligation, Checkout, funding execution, confirmed Payment and application of confirmed value.
+DOC-09 defines the canonical CardMore Payment Domain architecture from payment-facing Bill/Rent information through payable obligation, Checkout, funding execution, confirmed Payment and application of confirmed value.
 
 It defines:
 
@@ -91,7 +91,7 @@ DOC-09 defines business architecture, invariants and semantic conditions. It doe
 ### 2.1 Upstream Concepts
 
 - Attached Evidence supports verification of an authoritative Bill/Rent source where it exists or is required. Bill Tier 1 does not require attached Evidence; Tier 2/3 and Rent follow their accepted Evidence gates. Evidence is not payable.
-- A Payer establishes and references the authoritative Bill/Rent source under the applicable owner-governed source and Evidence outcomes. An economic Payee may be an individual or institution/company and need not be a PayPlus User.
+- A Payer establishes and references the authoritative Bill/Rent source under the applicable owner-governed source and Evidence outcomes. An economic Payee may be an individual or institution/company and need not be a CardMore User.
 - Bill/Rent remains the authoritative business object outside the Payment Domain. DOC-09 does not define source-identity persistence, Evidence verification, source projection, Save, or Archive presentation.
 
 ### 2.2 Payment Domain Entry
@@ -163,7 +163,7 @@ It must not execute directly against:
 |---|---|
 | Architecture Rule | Defines domain ownership, relationships or authoritative boundaries. |
 | Domain Invariant | Must remain true regardless of implementation. |
-| Product Behaviour | Defines required PayPlus behaviour. |
+| Product Behaviour | Defines required CardMore behaviour. |
 | MVP Configuration | Approved launch value that may later become configurable. |
 | Cross-document Dependency | Requirement completed by another canonical owner. |
 
@@ -213,7 +213,7 @@ Configurable product values must not be treated as permanent architectural const
 | Funding Leg | Planned execution portion assigned to one funding method. |
 | Payment Attempt | One execution attempt for a Funding Leg. |
 | Provider Submission | Initiation of a provider-bound Payment Attempt for a Funding Leg. |
-| Provider Confirmation Event | Provider-neutral confirmation evidence evaluated under PayPlus confirmation policy. |
+| Provider Confirmation Event | Provider-neutral confirmation evidence evaluated under CardMore confirmation policy. |
 | Payment | Immutable confirmed financial fact produced by one successfully confirmed Funding Leg. |
 | Payment Application | Immutable application of confirmed obligation value from one Payment to one Payment Obligation. |
 | Effective Financial Adjustment | Separate downstream financial fact whose effective obligation-attributed amount reduces Effective Coverage. |
@@ -482,7 +482,7 @@ Future periods must not be eagerly materialized merely because they appear in Pr
 For recurring Bill/Rent payment:
 
 - payer may select the current eligible period or immediately next eligible period;
-- payer need not complete the current period through PayPlus before selecting the next period because payment may have occurred outside PayPlus;
+- payer need not complete the current period through CardMore before selecting the next period because payment may have occurred outside CardMore;
 - payer must not skip the immediately next eligible period and select a later period directly;
 - multi-period selection must follow the approved contiguous-period rule.
 
@@ -864,7 +864,7 @@ These reservations provide current payable-capacity protection only. They do not
 Payment Attempt
     -> Provider Submission
     -> Provider Confirmation Event
-    -> PayPlus confirmation-policy acceptance
+    -> CardMore confirmation-policy acceptance
     -> Funding Leg becomes successfully confirmed
     -> exactly one Payment is created or returned idempotently
 ```
@@ -1247,7 +1247,7 @@ The following remain outside DOC-09 architecture ownership:
 
 These are downstream specifications, not unresolved DOC-09 architecture decisions.
 
-Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A conflict that changes product meaning must be handled under the canonical PayPlus Documentation Development Workflow.
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A conflict that changes product meaning must be handled under the canonical CardMore Documentation Development Workflow.
 
 ---
 
@@ -1378,6 +1378,7 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.2.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 2.1.2 | 2026-09-01 | Product Documentation Team | Removed or qualified sixteen legacy technical-allocation statements while preserving Payment, replay, Payment Application, G1, Evidence/Rent, Payout, external-observation, risk, privacy, security and owner-boundary meaning; no technical recipient or implementation decision selected. |
 | 2.1.1 | 2026-08-25 | Product Documentation Team | Aligned the Provider Confirmation handoff with the reviewed DOC-17 provider-neutral External Interaction Contract and DOC-18 representation ownership without changing Payment meaning, provider mechanics, transport, events, schemas, statuses, or implementation. |
 | 2.1.0 | 2026-08-22 | Product Documentation Team | Drafted the approved Tier 3 current-context resolver return, proportionate Declaration/Add-versus-Pay boundary, and Tier 2 financial-truth presentation handoff without defining Tier values, security mechanisms, routes, notifications, events, or production enablement. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 1.0.0
+version: 1.1.0
 status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
@@ -15,7 +15,7 @@ approvers:
   - Project Owner
   - Finance Lead
   - Commercial Lead
-last_updated: 2026-08-19
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -37,12 +37,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-02` |
 | **Title** | Business Model & Unit Economics |
-| **Version** | `1.0.0` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Commercial / Finance Owner |
 | **Reviewers** | Product Lead<br>Finance Lead<br>Commercial Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Finance Lead<br>Commercial Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -51,9 +51,9 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines the commercial framework and unit-economics model for PayPlus.
+This document defines the commercial framework and unit-economics model for CardMore.
 
-It explains how PayPlus may generate revenue, incur costs, evaluate profitability, govern pricing, manage promotions and assess whether a controlled Bill Category, Rent journey, economic-Payee type, Institutional Payee Programme, payment method, partner model or campaign is commercially viable.
+It explains how CardMore may generate revenue, incur costs, evaluate profitability, govern pricing, manage promotions and assess whether a controlled Bill Category, Rent journey, economic-Payee type, Institutional Payee Programme, payment method, partner model or campaign is commercially viable.
 
 DOC-02 consumes the product meanings owned by DOC-01 and DOC-05. It does not define product eligibility, Directory truth, final pricing, accounting policy, tax treatment, legal conclusions, partner terms, payment or payout rules, promotion logic, or Institutional Programme commercial approval.
 
@@ -61,7 +61,7 @@ DOC-02 consumes the product meanings owned by DOC-01 and DOC-05. It does not def
 
 ## 2. Commercial Objective
 
-PayPlus aims to create a sustainable controlled Bill and Rent payment business in which approved revenue exceeds the full variable and allocated cost of processing, paying, verifying, supporting and governing each transaction and applicable programme activity. Bill tier, Evidence, Payout hold, review and professional-assessment effects remain with their formal owners.
+CardMore aims to create a sustainable controlled Bill and Rent payment business in which approved revenue exceeds the full variable and allocated cost of processing, paying, verifying, supporting and governing each transaction and applicable programme activity. Bill tier, Evidence, Payout hold, review and professional-assessment effects remain with their formal owners.
 
 Profitability should be evaluated by:
 
@@ -134,7 +134,7 @@ All institutional or Payee-side revenue remains a candidate only. It requires ag
 | Contracted | Institutional or other non-Payer fees require an approved agreement. |
 | Compliant | Applicable legal, network, partner, tax and consumer requirements apply. |
 | Economically justified | Fees consider processing, payout, risk, review, support and margin. |
-| Non-misleading | Subsidies do not obscure total cost or PayPlus role. |
+| Non-misleading | Subsidies do not obscure total cost or CardMore role. |
 | Reversible where required | Refund, cancellation, dispute and chargeback treatment is defined. |
 | Reportable | Fees are attributable by transaction, Payer, Payee class, Category, programme, campaign and partner where applicable. |
 
@@ -371,7 +371,7 @@ Commercial reporting requires, where applicable:
 - Payer, economic-Payee class, institution and partner attribution where lawful and approved;
 - transaction, Payout and reconciliation status under their owners.
 
-Exact fields, IDs, schemas and ledger design belong to DOC-18. Institutional enrolment, Category association and Directory publication must remain separate. Acquisition provenance remains outside commercial ledger/reporting use except controlled audit/troubleshooting access. Retired Request stable IDs and append-only documentation history do not create commercial fields, records or reporting requirements.
+DOC-18 owns the current business-recording and explainability obligation. Exact fields, IDs, schemas and ledger representation remain future separately authorized work, without transferring DOC-18's assigned future responsibilities. Institutional enrolment, Category association and Directory publication must remain separate. Acquisition provenance remains outside commercial ledger/reporting use except controlled audit/troubleshooting access. Retired Request stable IDs and append-only documentation history do not create commercial fields, records or reporting requirements.
 
 ---
 
@@ -563,6 +563,7 @@ This document remains a commercial framework, not a pricing sheet, accounting po
 ## 27. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-11-16 | Product Documentation Team | Aligned the current name and the bounded DOC-18 business-recording versus future representation handoff. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.11.0` | 2026-08-12 | Product Documentation Team | Aligned the commercial framework to the Founder-confirmed twelve-category inventory and separate Rent economic line, and removed nonexistent production Request records, measures, fields, transactions and historical-reporting obligations while preserving retired IDs and append-only documentation history. |
 | `0.10.0` | 2026-08-10 | Product Documentation Team | Drafted the narrow Wave 1 commercial alignment: retired active Request/Payee-user economics, retained transaction economics, and identified institutional programme operating costs and legacy reporting without approving pricing, terms, new formulas or acquisition-provenance use. |

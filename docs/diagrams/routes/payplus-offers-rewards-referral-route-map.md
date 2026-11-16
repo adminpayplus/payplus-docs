@@ -1,4 +1,5 @@
-# PayPlus Offers, Rewards, and Referral Route Map
+<a id="payplus-offers-rewards-and-referral-route-map"></a>
+# CardMore Offers, Rewards, and Referral Route Map
 
 Status: Current discussion reference
 Owner: DOC-06B / DOC-13

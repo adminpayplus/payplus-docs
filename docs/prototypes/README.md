@@ -1,12 +1,13 @@
-# PayPlus Prototype Registry
+<a id="payplus-prototype-registry"></a>
+# CardMore Prototype Registry
 
-This folder contains review aids derived from approved PayPlus source documents. Prototypes do not create product requirements and must not override the owning documents.
+This folder contains review aids derived from approved CardMore source documents. Prototypes do not create product requirements and must not override the owning documents.
 
 ## Current Prototype
 
 No current prototype is registered.
 
-A prototype may be listed here only after its scope, source baseline, status, and required specialist validation have been recorded under the [`PayPlus Prototype Design and Validation Specialist Guide`](../documentation-system/payplus-prototype-design-validation-specialist-guide.md) and processed through the canonical [`Documentation Development Workflow`](../documentation-system/payplus-documentation-development-workflow.md).
+A prototype may be listed here only after its scope, source baseline, status, and required specialist validation have been recorded under the [`CardMore Prototype Design and Validation Specialist Guide`](../documentation-system/payplus-prototype-design-validation-specialist-guide.md) and processed through the canonical [`Documentation Development Workflow`](../documentation-system/payplus-documentation-development-workflow.md).
 
 ## Lifecycle Rules
 

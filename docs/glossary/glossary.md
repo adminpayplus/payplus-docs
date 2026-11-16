@@ -1,13 +1,14 @@
-# PayPlus Controlled Glossary
+<a id="payplus-controlled-glossary"></a>
+# CardMore Controlled Glossary
 
 Status: Working alignment reference
 
 Owner: Product / Documentation Owner
 
-Last updated: 2026-11-13
+Last updated: 2026-11-16
 Classification: Internal
 
-This glossary defines approved PayPlus terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
+This glossary defines approved CardMore terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
 
 DOC-18 is currently a Stage 9-passed Draft for business recording, explainability, history, lineage, audit meaning and owner handoffs. References to DOC-18 below do not approve schemas, fields, identifiers, machine states/events, persistence, security mechanisms, implementation, acceptance, enablement or readiness; exact technical representation remains separately gated.
 
@@ -15,11 +16,11 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
-| PayPlus | A controlled application for the twelve accepted Bill Categories using the tiered Evidence model plus separate Rent with mandatory attached Evidence. It is not a wallet, stored-value account, cashout, remittance, lending, or unrestricted P2P product. | DOC-01 / DOC-05 |
+| CardMore | A controlled application for the twelve accepted Bill Categories using the tiered Evidence model plus separate Rent with mandatory attached Evidence. It is not a wallet, stored-value account, cashout, remittance, lending, or unrestricted P2P product. | DOC-01 / DOC-05 |
 | Payer | The user who reviews the payment context and gives the final payment authorization. | DOC-05 / DOC-06A |
-| Payee | The economic person or business intended to receive a payout. A Payee may or may not be a PayPlus User; receiving destination/account is a separate matching concept. | DOC-05 / DOC-10 |
-| Economic Payee Context | Factual source or transaction context identifying the economic recipient. It does not make the Payee a PayPlus User or create a participant, linking, entitlement, or notification role. | DOC-05 / DOC-09 / DOC-13 |
-| Non-Member Payee | A payee without a PayPlus account. A payer may still create and pay a valid controlled Bill/Rent obligation to the designated destination where the applicable Evidence treatment and all other gates pass. | DOC-05 / DOC-10 |
+| Payee | The economic person or business intended to receive a payout. A Payee may or may not be a CardMore User; receiving destination/account is a separate matching concept. | DOC-05 / DOC-10 |
+| Economic Payee Context | Factual source or transaction context identifying the economic recipient. It does not make the Payee a CardMore User or create a participant, linking, entitlement, or notification role. | DOC-05 / DOC-09 / DOC-13 |
+| Non-Member Payee | A payee without a CardMore account. A payer may still create and pay a valid controlled Bill/Rent obligation to the designated destination where the applicable Evidence treatment and all other gates pass. | DOC-05 / DOC-10 |
 
 ## Obligation and Evidence Terms
 
@@ -28,7 +29,7 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 | Obligation | A real-world payment obligation arising from one of the twelve controlled Bill Categories or the separate Rent journey that a payer intends or is required to pay. | DOC-05 / DOC-06C |
 | Bill / Fee Record | A user-facing obligation record for an accepted controlled Bill Category. | DOC-06C |
 | Rent / Tenancy Record | A user-facing obligation record for rent supported by tenancy, rental, or other approved relationship evidence. | DOC-06C |
-| Category Amendment | A material change to the current Category of the same Bill identity. The current Category updates, every prior Category remains material history, and PayPlus does not infer the reason for the change. | DOC-05 / DOC-18 |
+| Category Amendment | A material change to the current Category of the same Bill identity. The current Category updates, every prior Category remains material history, and CardMore does not infer the reason for the change. | DOC-05 / DOC-18 |
 | Evidence | Attached Evidence: a document or approved source proving or supporting an obligation where the applicable Bill tier or mandatory-Evidence Rent rule requires or permits it. Evidence is not itself an obligation, request, or financial activity. | DOC-12 / DOC-06C |
 | Evidence Set | The current supporting evidence linked to one obligation, with retained prior versions where accepted updates occur. | DOC-06C / DOC-12 |
 | Evidence Status | The lifecycle or review condition of evidence, separate from bill/rent payment readiness. | DOC-12 / DOC-06C |
@@ -53,12 +54,12 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 | Payment Instruction | A deliberate user-created pay-later arrangement. An interrupted or partly funded immediate Checkout does not automatically become a Payment Instruction. | DOC-09 / DOC-06B |
 | Incomplete Checkout Workspace | A Checkout Workspace that has started execution but has not fully funded its immutable Checkout Target. It may be continuable, closed, or expired without rewriting confirmed Payments or Payment Applications. | DOC-09 / DOC-06B |
 | Reminder | A user- or system-configured alert linked to a bill/rent/tenancy obligation. It does not itself create or authorize a payment. | DOC-06C / DOC-08 |
-| Tokenized Card | A card represented by a provider-permitted token/reference and approved masked metadata. Under the canonical architecture boundary, provider-controlled capture and tokenization keep raw PAN and card-verification values outside PayPlus systems unless a separately authorized Proposal changes that boundary. | DOC-09 / DOC-16 / DOC-19 |
+| Tokenized Card | A card represented by a provider-permitted token/reference and approved masked metadata. Under the canonical architecture boundary, provider-controlled capture and tokenization keep raw PAN and card-verification values outside CardMore systems unless a separately authorized Proposal changes that boundary. | DOC-09 / DOC-16 / DOC-19 |
 | Payment Profile | A payer-owned reusable split-card allocation profile. It stores card ratios, not wallet value, and supports up to 6 cards for MVP. | DOC-06B / DOC-09 |
 | Funding Leg | One separately authorized funding component within a Checkout Workspace. Each successfully confirmed Funding Leg produces exactly one Payment. | DOC-09 |
 | Payment Attempt | One execution attempt for a Funding Leg. A Funding Leg may have multiple attempts, but failed or unconfirmed attempts produce no Payment. | DOC-09 |
 | Provider Submission | The provider-neutral boundary at which a Payment Attempt is initiated toward a provider and the Checkout Target and Obligation Allocations become locked. | DOC-09 |
-| Provider Confirmation Event | Provider evidence evaluated under PayPlus confirmation policy. Acceptance confirms the Funding Leg and produces one Payment; provider-specific mechanics remain with DOC-17. | DOC-09 / DOC-17 |
+| Provider Confirmation Event | Provider evidence evaluated under CardMore confirmation policy. Acceptance confirms the Funding Leg and produces one Payment; provider-specific mechanics remain with DOC-17. | DOC-09 / DOC-17 |
 | Split-Card Payment | One obligation payment funded through sequential authorization of multiple card funding legs, subject to an MVP maximum of 6 cards. | DOC-09 |
 | Payment Quote | The current calculated payment amount, fee, promotion effect, and payable total requiring payer review before authorization. | DOC-09 / DOC-13 |
 | Effective Financial Adjustment | A separate downstream financial fact whose effective obligation-attributed amount reduces previously applied obligation coverage without modifying the original Payment or Payment Application. | DOC-11 / DOC-09 |
@@ -67,7 +68,7 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 | Settlement Ready | A DOC-10-owned internal condition indicating a confirmed Payment satisfies applicable Settlement and Payout preparation rules. It is not a generic user-facing payment label. | DOC-10 |
 | Destination Snapshot | An immutable context-specific copy of approved destination information selected or entered for an obligation, Checkout, Payment, or Payout. Later source changes must not mutate it. | DOC-09 / DOC-10 / DOC-15 / DOC-18 |
 | Effective Payout Destination Snapshot | The authorization-time destination snapshot frozen for a Checkout and referenced by each resulting Payment. Later Bill/Rent, payee-profile, or payout-configuration changes must not silently mutate it. | DOC-09 / DOC-10 / DOC-18 |
-| Payout | PayPlus's transfer of settlement-ready funds to the designated economic Payee's receiving destination. It remains distinct from Payment, Refund, case and reconciliation truth. | DOC-10 |
+| Payout | CardMore's transfer of settlement-ready funds to the designated economic Payee's receiving destination. It remains distinct from Payment, Refund, case and reconciliation truth. | DOC-10 |
 | Payout Rail | The operational method used for payout. FPS, cheque, and EPS are accepted Hong Kong rails, subject to operating-bank support and enablement. | DOC-10 |
 | Reconciliation | Matching payment, settlement, payout, bank, batch/API, return, and exception records to confirm financial completeness and identify differences. | DOC-10 |
 
@@ -75,13 +76,13 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
-| Risk-Isolated Modular Architecture | A cohesive modular core by default, with a separate process, deployment, or security boundary introduced only when evidence justifies the added isolation for sensitivity, trust, failure, scaling, compliance, or operational reasons. It does not pre-commit PayPlus to full microservices. | DOC-16 |
-| Provider-Controlled Card-Data Boundary | The architecture boundary under which provider-controlled capture and tokenization keep raw PAN and card-verification values outside PayPlus systems by default; PayPlus handles only permitted token/reference values and approved masked metadata. | DOC-16 |
+| Risk-Isolated Modular Architecture | A cohesive modular core by default, with a separate process, deployment, or security boundary introduced only when evidence justifies the added isolation for sensitivity, trust, failure, scaling, compliance, or operational reasons. It does not pre-commit CardMore to full microservices. | DOC-16 |
+| Provider-Controlled Card-Data Boundary | The architecture boundary under which provider-controlled capture and tokenization keep raw PAN and card-verification values outside CardMore systems by default; CardMore handles only permitted token/reference values and approved masked metadata. | DOC-16 |
 | Local Atomic Authority | The boundary within which one authoritative domain owner atomically commits its own state and invariants. It does not imply a single transaction across independently owned domains, providers, services, or external systems. | DOC-16 |
 | Durable Cross-Boundary Handoff | An owner-approved propagation between boundaries that is durable, retryable, idempotent at the receiving boundary, correlated, auditable, recoverable, and reconcilable. It does not replace or silently rewrite the authoritative domain fact. | DOC-16 / DOC-17 / DOC-18 |
 | Provider-Neutral External Interaction Contract | The reviewed DOC-17 contract for interaction evidence, separation of authority, Functional-Surface Coverage, and owner handoffs. It does not select a provider or define an API, schema, event, status, credential, security mechanism, backend, adapter, or implementation. | DOC-17 |
 | External Interaction | A provider-neutral exchange, delivery, inbound observation, outbound consumer relationship, or operational interaction that may require contract evidence. It does not imply a selected provider or implemented interface. | DOC-17 |
-| External Observation | A received or attempted external signal such as a return, callback, query result, file, report, delivery record, redirect, or manual upload. It is not authoritative PayPlus truth by itself. | DOC-17 |
+| External Observation | A received or attempted external signal such as a return, callback, query result, file, report, delivery record, redirect, or manual upload. It is not authoritative CardMore truth by itself. | DOC-17 |
 | Interaction Reference | A provider-neutral reference used for correlation or later investigation. It is not an authorization, financial result, or protected value. | DOC-17 |
 | Integrity / Provenance Evidence | Evidence concerning source, completeness, correlation, timing, delivery, or limitation. It does not decide domain acceptance. | DOC-17 |
 | Representation / Lineage | The business record of an observation, its source, provenance, relationship, receiving-owner assessment, history, and consequence. DOC-18 owns this reviewed business meaning; exact technical representation and correlation design remain separately gated. | DOC-18 / DOC-17 |
@@ -90,7 +91,7 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 | Financial / Case Consequence | A Payment, Payout, refund, reversal, dispute, chargeback, reconciliation, adjustment, hold, or case effect owned by the applicable domain owner. | DOC-09 / DOC-10 / DOC-11 as applicable |
 | Uncertainty | A known absence, ambiguity, conflict, duplication, replay, delay, staleness, malformation, unknown origin, or unavailable observation that must remain visible rather than becoming an assumed result. | DOC-17 / applicable owner |
 | Replacement / Exit Evidence | Evidence needed to retain owner accountability and recoverability when a provider or interaction pattern changes or ends. It does not guarantee portability, support, or a migration mechanism. | DOC-17 / applicable owner |
-| Functional-Surface Coverage | DOC-17's provider-neutral classification of currently identified PayPlus functional families as `No external interaction`, `Conditional`, `Future Decision`, or `Required Coverage`. A row does not approve a capability, provider, integration, permission, route, status, schema, or implementation. | DOC-17 |
+| Functional-Surface Coverage | DOC-17's provider-neutral classification of currently identified CardMore functional families as `No external interaction`, `Conditional`, `Future Decision`, or `Required Coverage`. A row does not approve a capability, provider, integration, permission, route, status, schema, or implementation. | DOC-17 |
 
 ## Business Recording and Explainability Terms
 
@@ -113,18 +114,18 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 | Activity | A user-facing event or transaction lifecycle view. Global Activity is account-level; Bills Activity is limited to payment-related events for one obligation. | DOC-06B / DOC-06C |
 | Bills Activity | Payment, payout/transfer, failure, return, refund, and reversal activity linked to one bill/rent/tenancy obligation. It excludes evidence lifecycle history. | DOC-06C |
 | Receipt | A transaction confirmation record for a completed transaction. | DOC-08 / DOC-06B |
-| Statement | A periodic or account-level summary of payer/payee financial activity, not a standalone activity event. | DOC-08 / DOC-06B |
+| Statement | A periodic or on-demand Payer account/payment summary, where defined by its formal owners; transaction recipient context may be included, but the economic Payee is not a statement-holder user role. It is not a standalone activity event. | DOC-08 / DOC-06B |
 | System Status | The canonical domain state owned by the applicable domain specification. DOC-18 currently records business distinctions and history but does not supply a canonical machine-state taxonomy. | Applicable domain owner |
 | User-Facing Label | Approved wording projected from a system/domain state for a specific role and surface. It must follow the status-display reference matrix. | Status display reference matrix |
 | Action Required | A user-facing readiness or resolution label indicating that the user must take a permitted action. It is not one universal backend status. | Relevant domain owner |
 | Under Review | A user-facing label indicating pending approved review without exposing internal risk, provider, fraud, or operational reasons. | Relevant domain owner |
 | Linked Case | A support, query, dispute, or exception case associated with an obligation, payment, payout, or evidence context. Its lifecycle is `Open`, `Pending Information`, `Under Review`, `Resolved`, or `Closed` and does not replace the linked object's lifecycle state. | DOC-11 |
 | Archived | A Saved/Archived visibility/history descriptor that places a saved source in Archived presentation rather than the active/current list; it does not decide readiness, hard deletion, retention expiry, or legal hold. | Relevant domain owner / DOC-15 |
-| Archived Records | `ARCHIVED-ROOT`, the Me route separating archived bill/fee and rent obligations from archived or previous evidence documents. | DOC-06B |
-| Archive Projection | A per-user visibility record that hides an obligation and its current linked evidence from that user's active views without changing the canonical obligation, counterparty visibility, party linkage, or completed history. | DOC-06B / DOC-06C / DOC-18 |
-| Archived Bills & Rent | `ARCHIVED-BILLS-LIST`, the mixed-role list of bill/fee and rent obligations archived by the current user. Invoice, tenancy, and rental documents remain evidence and are not duplicate obligations. | DOC-06C |
-| Archived Documents | `ARCHIVED-DOCS-LIST`, the controlled list of current evidence archived with its parent obligation and evidence versions replaced by an accepted newer version. | DOC-06B / DOC-12 |
-| Restore Eligibility | An archived-obligation rule indicating whether the parent bill/rent may return to active visibility. `Restore available` is an eligibility hint, not a lifecycle or readiness status, and restore is never offered at evidence level. | DOC-06C / DOC-18 |
+| Archived Records | `ARCHIVED-ROOT`, the active Payer-only Archive parent in Me, with `ARCHIVED-BILLS-LIST` for previously Saved/current Bill/Rent sources in the Saved/Archived projection. `ARCHIVED-DOCS-LIST` is a provisional identity with no active entry or interaction contract. | DOC-06B / DOC-06C |
+| Archive Projection | Payer-only Saved/Archived visibility for the same previously Saved/current authoritative Bill/Rent source, excluded from the active/current list without erasing or rewriting source, Evidence or financial history. | DOC-06B / DOC-06C / DOC-18 |
+| Archived Bills & Rent | `ARCHIVED-BILLS-LIST`, the active Payer-visible list of previously Saved/current Bill/Rent sources in the Saved/Archived projection. Evidence is not a duplicate obligation. | DOC-06C |
+| Archived Documents | `ARCHIVED-DOCS-LIST` is a provisional identity with no active entry or interaction contract; exact contents and presentation remain deferred. | DOC-06B / DOC-06C / DOC-12 |
+| Restore Eligibility | Detailed Restore eligibility, revalidation and presentation remain deferred to their owners; DOC-10/DOC-11 blockers remain effective. No Restore policy is defined by this glossary. | DOC-06B / DOC-06C / DOC-10 / DOC-11 |
 
 ## Notification and Communication Terms
 
@@ -150,7 +151,7 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 | Entitlement | A beneficiary-specific right to receive or claim an approved reward after qualification. | DOC-13 |
 | Reward Instrument | The issued coupon, voucher, partner benefit, miles item, code, or other supported reward created from an entitlement or approved issuance rule. It is not stored money. | DOC-13 |
 | My Rewards | `REWARDS-ROOT`, the route managing issued reward instruments through Active and History views. | DOC-06B |
-| Referral Program | PayPlus's existing-user-to-new-user invitation program. Every eligible user may share a reusable user-linked code/link; campaign conditions govern qualification and reward. | DOC-13 / DOC-06B |
+| Referral Program | CardMore's existing-user-to-new-user invitation program. Every eligible user may share a reusable user-linked code/link; campaign conditions govern qualification and reward. | DOC-13 / DOC-06B |
 | Referral Attribution | The immutable normal-user relationship created when a new user completes valid registration using a referral code/link. Sharing alone creates no known recipient or invitation status. | DOC-13 / DOC-18 |
 | Referral Qualification | Campaign-specific progress determining whether a referrer or referee earns the corresponding entitlement. | DOC-13 |
 
@@ -158,18 +159,18 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
-| Primary Account Email | The unique verified email assigned to one PayPlus account for account communication and supported authentication. The same primary email cannot belong to another PayPlus account. | DOC-15 |
+| Primary Account Email | The unique verified email assigned to one CardMore account for account communication and supported authentication. The same primary email cannot belong to another CardMore account. | DOC-15 |
 | Entrance Root | `ENTRANCE-ROOT`, the sole unauthenticated app root providing approved public content plus Log In and Create Account entry actions. | DOC-06B |
 | Login Route Family | `AUTH-LOGIN`, the authentication entry resolver that opens Fast Login for an eligible remembered account and Full Login otherwise. | DOC-06B |
 | Fast Login | `AUTH-LOGIN-FAST`, the eligible remembered-account login experience using its distinct Login PIN or previously enabled OS biometric authentication. Eligibility rolls for one month from each successful login and may end earlier for approved risk, device, credential, account, or security reasons. Separately applicable optional password/recovery remains owner-governed. | DOC-06B / DOC-15 |
-| Login Method | An explicitly enabled way to authenticate to one PayPlus account: email/password, Google, or Apple. Login methods do not create separate product accounts. | DOC-06B / DOC-15 |
-| External Login Provider Identity | The stable provider-specific Google or Apple identity linked to one PayPlus account after explicit provider authentication. Matching email alone never creates or transfers this link. | DOC-15 / DOC-18 |
-| Registration Attempt | A temporary pre-account record used to complete registration checks. It creates no PayPlus account, does not reserve proposed identifiers, grants no login or financial rights, and creates no referral attribution. | DOC-06B / DOC-15 / DOC-18 |
-| Restricted Account | A PayPlus account created after successful atomic registration checks, with a unique verified primary email, at least one usable login method, and accepted Terms/Privacy, but with one or more Account Activation gates still incomplete. | DOC-05 / DOC-15 |
+| Login Method | An explicitly enabled way to authenticate to one CardMore account: email/password, Google, or Apple. Login methods do not create separate product accounts. | DOC-06B / DOC-15 |
+| External Login Provider Identity | The stable provider-specific Google or Apple identity linked to one CardMore account after explicit provider authentication. Matching email alone never creates or transfers this link. | DOC-15 / DOC-18 |
+| Registration Attempt | A temporary pre-account record used to complete registration checks. It creates no CardMore account, does not reserve proposed identifiers, grants no login or financial rights, and creates no referral attribution. | DOC-06B / DOC-15 / DOC-18 |
+| Restricted Account | A CardMore account created after successful atomic registration checks, with a unique verified primary email, at least one usable login method, and accepted Terms/Privacy, but with one or more Account Activation gates still incomplete. | DOC-05 / DOC-15 |
 | Account Activation | The reusable flow for completing required phone verification, identity verification, and six-digit payment-passcode setup before payment or another financially restricted action may proceed. | DOC-06B / DOC-15 |
 | Phone Verification | The reusable `ACCOUNT-PROFILE` child flow that verifies or replaces control of the account's primary phone number by SMS OTP. Hong Kong `+852` numbers are the only launch-supported numbers; Account Activation may invoke initial verification contextually. | DOC-06B / DOC-15 |
 | Identity Verification | The reusable `ACCOUNT-PROFILE` child flow for first-time identity verification, processing, retry after failure, or an admin-required update. Its user-facing states are `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`; a verified user cannot voluntarily re-verify. | DOC-06B / DOC-15 |
-| Payment Passcode | The six-digit PayPlus payer-confirmation secret used where DOC-09 or another owner requires it before payment authorization or another specifically approved sensitive control proceeds. It is not payer authorization itself, is not the login password, and is never displayed after setup. | DOC-09 / DOC-15 / DOC-19 |
+| Payment Passcode | The six-digit CardMore payer-confirmation secret used where DOC-09 or another owner requires it before payment authorization or another specifically approved sensitive control proceeds. It is not payer authorization itself, is not the login password, and is never displayed after setup. | DOC-09 / DOC-15 / DOC-19 |
 | Payment Passcode Settings | The reusable `ACCOUNT-SECURITY` child flow for six-digit Set, Change, or Reset and the permitted card/payment-profile confirmation preference. Account Activation may invoke Set contextually; Reset requires fresh login reauthentication and OTP to the registered verified phone. | DOC-06B / DOC-19 |
 | Authentication Outcome Type | A stable internal classification of what resulted from an authentication, registration, activation, or recovery evaluation. It is separate from persistent account status, Resolution Strategy, user-facing Message/CTA, notification, and one occurrence of the result. | DOC-06B / DOC-07 / DOC-18 |
 | Resolution Strategy | The permitted next-handling decision selected after an Outcome, such as Continue, Restart, Redirect, Wait, Support, or Stop. It is not a route, status, message, CTA, or software service. | DOC-06B / DOC-07 |

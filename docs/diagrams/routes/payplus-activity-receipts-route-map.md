@@ -1,4 +1,5 @@
-# PayPlus Activity and Receipts Route Map
+<a id="payplus-activity-and-receipts-route-map"></a>
+# CardMore Activity and Receipts Route Map
 
 Status: Current discussion reference
 Owner: DOC-06B / DOC-06C

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-11
 title: Refund, Cancellation & Chargeback
-version: 1.1.1
+version: 1.2.0
 status: Founder Working Baseline
 owner: Payments / Operations
 reviewers:
@@ -18,7 +18,7 @@ approvers:
   - Payments Lead
   - Operations Lead
   - Finance Lead
-last_updated: 2026-08-27
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -48,12 +48,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-11` |
 | **Title** | Refund, Cancellation & Chargeback |
-| **Version** | `1.1.1` |
+| **Version** | `1.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Operations |
 | **Reviewers** | Product Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Customer Support Lead<br>Engineering Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Operations Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-27` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -61,7 +61,7 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines PayPlus MVP rules for cancellation, refund, reversal, dispute, chargeback, source or payout-recipient exceptions, fee reversal, payout hold, recovery, and related case handling.
+This document defines CardMore MVP rules for cancellation, refund, reversal, dispute, chargeback, source or payout-recipient exceptions, fee reversal, payout hold, recovery, and related case handling.
 
 DOC-11 owns adjustment and case policy for cancellation, refund, reversal, chargeback, dispute, return, recovery, and related exceptions. It does not rewrite DOC-09 Payment or Payment Application facts.
 
@@ -129,12 +129,12 @@ When DOC-11 determines that an obligation-attributed financial adjustment has be
 
 ## 4. Core Principles
 
-PayPlus refund, cancellation, dispute, and chargeback handling must follow these principles:
+CardMore refund, cancellation, dispute, and chargeback handling must follow these principles:
 
 | Principle | Requirement |
 | --- | --- |
 | Original transaction linkage | Every case must link to the authoritative Bill/Rent source where applicable, Evidence, Payer authorization, Payment Obligation, Payment, any existing applicable Payment Application, Payout, fee, and ledger records. |
-| Payer authorization remains central | An economic Payee is not a PayPlus User or a request originator. Payment, cancellation liability, refund liability, and chargeback exposure require the applicable Payer authorization and confirmed Payment facts. |
+| Payer authorization remains central | An economic Payee is not a CardMore User or a request originator. Payment, cancellation liability, refund liability, and chargeback exposure require the applicable Payer authorization and confirmed Payment facts. |
 | No wallet or cashout behavior | Refunds, reversals, recoveries, and payout adjustments must not create stored value, user wallet balance, arbitrary transfer, self-cashout, or cash-equivalent behavior. |
 | Evidence-based decisioning | Decisions must consider obligation evidence, payer authorization, payee verification, payment status, payout status, support record, and risk flags. |
 | Evidence verification traceability | Case review should preserve DOC-12 extraction, correction, duplicate/reuse, verification outcome, and human-review history where applicable. |
@@ -157,7 +157,7 @@ PayPlus refund, cancellation, dispute, and chargeback handling must follow these
 | Refund | Returning all or part of a completed payment to the payer through the permitted payment rail or PSP/acquirer process. |
 | Reversal | Technical, partner, or operational reversal of a payment, fee, promotion, ledger, or payout-related event. |
 | Chargeback | Formal cardholder dispute raised through issuer, card network, acquirer, PSP, or payment gateway process. |
-| Recovery | Attempt to recover funds from a payee, reserve, future payout, bank transfer, legal process, or other approved method after PayPlus incurs or expects a loss. |
+| Recovery | Attempt to recover funds from a payee, reserve, future payout, bank transfer, legal process, or other approved method after CardMore incurs or expects a loss. |
 | Write-off | Approved accounting recognition that an amount is unlikely to be recovered. |
 
 ---
@@ -180,7 +180,7 @@ DOC-11 uses the following case types:
 | Duplicate payment correction | Duplicate or erroneous payment identified | Payments / Operations / Finance |
 | Chargeback | Issuer/card-network/acquirer process | Payments / Operations / Risk |
 | Fraud or abuse case | Suspicious behavior, fake evidence, collusion, cashout risk | Risk / Compliance |
-| Recovery or write-off case | After PayPlus loss or expected loss | Finance / Operations / Legal |
+| Recovery or write-off case | After CardMore loss or expected loss | Finance / Operations / Legal |
 
 ---
 
@@ -252,7 +252,7 @@ A refund decision should consider:
 - authoritative Bill/Rent source and applicable Evidence;
 - DOC-12 evidence verification outcome and duplicate/reused evidence indicators where applicable;
 - payer authorization evidence;
-- Payer and economic-Payee context where applicable; no PayPlus Payee account is required;
+- Payer and economic-Payee context where applicable; no CardMore Payee account is required;
 - dispute or fraud indicators;
 - chargeback status;
 - fee and promotion treatment;
@@ -383,7 +383,7 @@ Payout hold is required or recommended where:
 
 For a Tier 2 Bill, an Evidence-acceptance Payout hold does not itself initiate, approve, or imply cancellation, Refund, reversal, chargeback, recovery, or case outcome. A confirmed Payment remains a DOC-09 immutable financial fact while DOC-10 retains the Payout-held or release decision. DOC-11 determines a refund or case only when its applicable owner-governed policy and evidence require one; it does not derive that result from pending Evidence acceptance.
 
-After payout, PayPlus may need recovery handling. Recovery methods may include:
+After payout, CardMore may need recovery handling. Recovery methods may include:
 
 - offset against future payout;
 - payee repayment;
@@ -403,7 +403,7 @@ Each case must be traceable for accounting, reconciliation, compliance, support,
 At minimum, the system must link the case to:
 
 - authoritative Bill/Rent source, applicable Payment Obligation, Evidence verification outcome, Payer authorization, Payment, any existing applicable Payment Application, Funding Leg, Payout where applicable, ledger entries, Payer/economic-Payee context, owner-permitted actions, partner references, and support ticket where applicable;
-- financial impact, including principal, PayPlus fees, Payer/economic-Payee fees where applicable, PSP/acquirer fees, promotions, Payout impact, recovery, write-off, and net exposure where applicable;
+- financial impact, including principal, CardMore fees, Payer/economic-Payee fees where applicable, PSP/acquirer fees, promotions, Payout impact, recovery, write-off, and net exposure where applicable;
 - immutable status history, action reason, approver, timestamp, evidence, communication, partner response, and final outcome.
 
 Finance and the applicable financial owners retain journal treatment, chart of accounts, tax treatment and ledger policy. DOC-18 owns the reviewed business-recording, historical-basis, lineage, audit-meaning and reporting-obligation contract. Ledger schema, reporting tables and audit-event implementation remain separately authorized technical work.
@@ -447,7 +447,7 @@ Detailed risk scoring, thresholds, velocity rules, and monitoring logic belong i
 
 ## 18. Reporting and Analytics
 
-PayPlus should track cancellation, refund, partial refund, dispute, chargeback, recovery, write-off, net loss, case aging, support SLA, Category concentration, economic-Payee concentration, and multi-card refund failure metrics.
+CardMore should track cancellation, refund, partial refund, dispute, chargeback, recovery, write-off, net loss, case aging, support SLA, Category concentration, economic-Payee concentration, and multi-card refund failure metrics.
 
 DOC-18 defines the business-reporting and explainability obligations. Detailed dashboard, warehouse, ledger and reporting representation remain separately gated; DOC-22 may execute only a specifically owner-permitted operational presentation.
 
@@ -523,7 +523,7 @@ DOC-11 does not create a cross-domain activity model. DOC-06B is the sole normat
 | OQ-11-002 | Which fees are refundable, non-refundable, partially refundable, or reversible? | Finance / Product / Legal | High | Open |
 | OQ-11-003 | How should promotions, coupons, discount codes, and subsidies be reversed or clawed back? | Commercial / Finance | Medium | Open |
 | OQ-11-003A | How should DOC-13 reward entitlement, coupon/voucher restoration, external voucher reversal, membership benefit reversal, and miles clawback work after refund or chargeback? | Commercial / Finance / Growth | Medium | Open |
-| OQ-11-004 | How will chargeback liability be allocated between PayPlus, Payer, economic Payee, PSP/acquirer, and partners? | Legal / Finance / Risk | High | Open |
+| OQ-11-004 | How will chargeback liability be allocated between CardMore, Payer, economic Payee, PSP/acquirer, and partners? | Legal / Finance / Risk | High | Open |
 | OQ-11-005 | What reserve, holdback, or recovery model is required for paid-out transactions? | Finance / Payments / Risk | High | Open |
 | OQ-11-006 | What partial refund allocation method is supported for multi-card payments? | Payments / Engineering | High | Open |
 | OQ-11-007 | What chargeback evidence package format and deadline rules apply under the selected PSP/acquirer? | Payments / Operations | High | Open |
@@ -578,6 +578,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.2.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.1.1 | 2026-08-27 | Product Documentation Team | Removed overbroad DOC-18 accounting, ledger, field, reason-code and technical-representation ownership while preserving distinct immutable case and financial histories. |
 | 1.1.0 | 2026-08-22 | Product Documentation Team | Aligned Tier 2 Evidence-acceptance Payout holds with the existing case boundary: the hold alone is not cancellation, Refund, reversal, recovery, or a case outcome, and confirmed Payment remains immutable. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |

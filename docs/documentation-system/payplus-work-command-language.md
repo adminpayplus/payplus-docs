@@ -1,8 +1,9 @@
-# PayPlus Work Command Language
+<a id="payplus-work-command-language"></a>
+# CardMore Work Command Language
 
 ## 1. Purpose and Classification
 
-This document is the normative command-interface reference for PayPlus documentation work. It gives the Founder a small, stable vocabulary for stating work intent and tells an agent how to route that intent into the canonical [Documentation Development Workflow](payplus-documentation-development-workflow.md).
+This document is the normative command-interface reference for CardMore documentation work. It gives the Founder a small, stable vocabulary for stating work intent and tells an agent how to route that intent into the canonical [Documentation Development Workflow](payplus-documentation-development-workflow.md).
 
 This reference owns command meaning, minimum command inputs, expected outputs, and routing. It is not a workflow and does not own or redefine lifecycle stages, gates, roles, validation authority, Git treatment, records treatment, Push, or Completion. Those rules remain exclusively owned by the Documentation Development Workflow. [`DOC-00`](../00-foundation/doc-00-documentation-governance.md) remains the documentation-governance authority, and [`AGENTS.md`](../../AGENTS.md) remains the repository operating contract and routing layer.
 

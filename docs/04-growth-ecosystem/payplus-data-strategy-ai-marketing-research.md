@@ -1,6 +1,6 @@
 ---
-title: PayPlus Data Strategy, AI Intelligence, and Privacy-Safe Marketing Research
-version: 0.2.0
+title: CardMore Data Strategy, AI Intelligence, and Privacy-Safe Marketing Research
+version: 0.3.0
 status: Draft Research Memo
 owner: Product / Growth / Data
 reviewers:
@@ -11,7 +11,7 @@ reviewers:
   - Compliance Lead
   - Risk Lead
   - Legal Lead
-last_updated: 2026-08-19
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-01 Product Overview & Positioning
@@ -21,16 +21,17 @@ related_documents:
   - DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification
 ---
 
-# PayPlus Data Strategy, AI Intelligence, and Privacy-Safe Marketing Research
+<a id="payplus-data-strategy-ai-intelligence-and-privacy-safe-marketing-research"></a>
+# CardMore Data Strategy, AI Intelligence, and Privacy-Safe Marketing Research
 
 | Document Control | Details |
 | --- | --- |
-| **Title** | PayPlus Data Strategy, AI Intelligence, and Privacy-Safe Marketing Research |
-| **Version** | `0.2.0` |
+| **Title** | CardMore Data Strategy, AI Intelligence, and Privacy-Safe Marketing Research |
+| **Version** | `0.3.0` |
 | **Status** | Draft Research Memo |
 | **Owner** | Product / Growth / Data |
 | **Reviewers** | Product Lead<br>Growth Lead<br>Data Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Legal Lead |
-| **Last Updated** | `2026-08-19` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-01 Product Overview & Positioning<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification |
 
@@ -38,23 +39,23 @@ related_documents:
 
 ## 1. Purpose
 
-This memo explores how PayPlus may use data and AI in the future to support product intelligence, privacy-safe marketing, partner offers, commercial reporting, and data-driven strategic value.
+This memo explores how CardMore may use data and AI in the future to support product intelligence, privacy-safe marketing, partner offers, commercial reporting, and data-driven strategic value.
 
 It is a research and strategy memo only. It does not approve a product feature, marketing practice, partner data transfer, algorithmic decision model, privacy notice, legal position, or implementation plan.
 
-PayPlus must preserve its core positioning as a controlled, payer-authorized Bill and Rent payment platform. Bills use the accepted tiered Evidence model and Rent retains mandatory attached Evidence. Data strategy is supporting/non-authoritative and must not create eligibility, AI decision authority, technical design, marketing permission, or a wallet, stored-value, unrestricted peer-to-peer, cashout, remittance, lending, cash-advance or open-money-request product.
+CardMore must preserve its core positioning as a controlled, payer-authorized Bill and Rent payment platform. Bills use the accepted tiered Evidence model and Rent retains mandatory attached Evidence. Data strategy is supporting/non-authoritative and must not create eligibility, AI decision authority, technical design, marketing permission, or a wallet, stored-value, unrestricted peer-to-peer, cashout, remittance, lending, cash-advance or open-money-request product.
 
 ## 2. Executive View
 
-PayPlus has a credible opportunity to build a valuable data and AI layer, but the opportunity is not to become a generic ad network.
+CardMore has a credible opportunity to build a valuable data and AI layer, but the opportunity is not to become a generic ad network.
 
 The strongest future position is:
 
-> PayPlus may become a privacy-safe intelligence layer for verified obligations, payment intent, payer-payee relationships, bill categories, risk controls, partner offers, and lifecycle financial moments.
+> CardMore may become a privacy-safe intelligence layer for verified obligations, payment intent, payer-payee relationships, bill categories, risk controls, partner offers, and lifecycle financial moments.
 
 This differs from attention platforms such as Meta, mobile ad networks such as AppLovin, retail media networks such as Amazon, and transaction media platforms such as Chase or PayPal.
 
-PayPlus should treat data as a trust asset, not as inventory to sell. The defensible strategy is to use PayPlus data to:
+CardMore should treat data as a trust asset, not as inventory to sell. The defensible strategy is to use CardMore data to:
 
 - improve the core product;
 - reduce fraud and cashout abuse;
@@ -83,13 +84,14 @@ The higher-risk long-term data products are external activation and offsite adve
 - cross-platform ad measurement;
 - offsite media activation.
 
-Those should be deferred until PayPlus has mature consent, privacy, security, data lineage, partner contracts, and legal review.
+Those should be deferred until CardMore has mature consent, privacy, security, data lineage, partner contracts, and legal review.
 
-## 3. Why PayPlus Data May Be Valuable
+<a id="3-why-payplus-data-may-be-valuable"></a>
+## 3. Why CardMore Data May Be Valuable
 
-Most advertising systems infer intent from browsing, content engagement, location, app activity, searches, or purchases. PayPlus may observe a different kind of signal: verified obligations and payment behavior.
+Most advertising systems infer intent from browsing, content engagement, location, app activity, searches, or purchases. CardMore may observe a different kind of signal: verified obligations and payment behavior.
 
-Candidate PayPlus signals include:
+Candidate CardMore signals include:
 
 | Data Signal | Strategic Meaning | Sensitivity |
 | --- | --- | --- |
@@ -108,7 +110,7 @@ This data is commercially interesting because it is closer to real economic beha
 
 The strategic rule should be:
 
-> The more sensitive and unique the signal, the more PayPlus should use it internally, aggregate it, mask it, de-identify it, or require explicit consent before any marketing or partner use.
+> The more sensitive and unique the signal, the more CardMore should use it internally, aggregate it, mask it, de-identify it, or require explicit consent before any marketing or partner use.
 
 ## 4. Market Landscape
 
@@ -118,19 +120,19 @@ Meta's advantage is scale, attention, creative testing, social/context signals, 
 
 Source: [Meta - 2026: AI Drives Performance](https://about.fb.com/news/2026/01/2026-ai-drives-performance/).
 
-What PayPlus can learn:
+What CardMore can learn:
 
 - AI ranking improves when it receives clear outcome signals.
 - Creative, timing, and placement matter as much as audience definition.
 - Messaging can become a commercial funnel, not only a support channel.
 - Automation can scale, but advertiser and user trust may suffer if the system feels opaque.
 
-Where PayPlus differs:
+Where CardMore differs:
 
-- PayPlus will not have Meta-scale daily attention.
-- PayPlus should not rely on broad behavioral surveillance.
-- PayPlus's strongest signals are verified obligation and payment context, not social engagement.
-- PayPlus must apply a stricter trust standard because users are managing payments, evidence, and payees.
+- CardMore will not have Meta-scale daily attention.
+- CardMore should not rely on broad behavioral surveillance.
+- CardMore's strongest signals are verified obligation and payment context, not social engagement.
+- CardMore must apply a stricter trust standard because users are managing payments, evidence, and payees.
 
 ### 4.2 AppLovin
 
@@ -138,18 +140,18 @@ AppLovin's Axon AI is an AI-powered advertising engine for matching advertiser d
 
 Source: [AppLovin - About AppLovin's Axon AI](https://legal.applovin.com/about-applovins-axon-ai/).
 
-What PayPlus can learn:
+What CardMore can learn:
 
 - Optimize toward measurable commercial outcomes, not superficial engagement.
 - Build self-learning models only after clean, governed, consented data is available.
 - Separate model input classes and document prohibited inputs.
 - Use return goals, lift, conversion, and incremental value as model targets.
 
-Where PayPlus differs:
+Where CardMore differs:
 
 - AppLovin is optimized for ad impressions and mobile app growth.
-- PayPlus should be optimized first for trust, payment success, risk reduction, and controlled offers.
-- PayPlus should not create a black-box ad auction around sensitive financial data.
+- CardMore should be optimized first for trust, payment success, risk reduction, and controlled offers.
+- CardMore should not create a black-box ad auction around sensitive financial data.
 
 ### 4.3 Amazon and Retail Media
 
@@ -161,18 +163,18 @@ Retail media networks are attractive because advertisers want first-party purcha
 
 Source: [Nielsen - The future of retail media](https://www.nielsen.com/insights/2025/future-retail-media/).
 
-What PayPlus can learn:
+What CardMore can learn:
 
 - First-party data is most valuable when paired with closed-loop measurement.
 - Clean rooms are becoming a preferred pattern for privacy-safe collaboration.
 - Owned surfaces are easier to govern than offsite activation.
 - Advertisers value incrementality and attribution, not only targeting.
 
-Where PayPlus differs:
+Where CardMore differs:
 
 - Amazon sees shopping and purchase behavior across a large commerce ecosystem.
-- PayPlus sees payment obligations and payee relationships, often in sensitive categories.
-- PayPlus should move more slowly and avoid broad external activation until trust and governance are mature.
+- CardMore sees payment obligations and payee relationships, often in sensitive categories.
+- CardMore should move more slowly and avoid broad external activation until trust and governance are mature.
 
 ### 4.4 Chase, PayPal, Mastercard, and Visa
 
@@ -188,24 +190,25 @@ Mastercard offers shopper intelligence using aggregated and anonymized transacti
 
 Sources: [Mastercard Shopper Intelligence](https://www.mastercard.com/us/en/business/insights-intelligence/economic-market-insights/solutions/shopper-intelligence.html), [Visa Payments Intelligence](https://www.visa.com/en-us/business/solutions/payments-intelligence).
 
-What PayPlus can learn:
+What CardMore can learn:
 
 - Transaction data can support acquisition, reactivation, loyalty, and measurement.
 - Card-linked and bank-owned channels can be trust-preserving if user value is clear.
 - Aggregated and anonymized insights are easier to defend than raw audience sale.
 - Offer activation should be tied to consumer benefit, such as cash back, discount, fee waiver, voucher, or reward.
 
-Where PayPlus differs:
+Where CardMore differs:
 
 - Banks and networks have massive scale, long operating history, and mature compliance structures.
-- PayPlus starts smaller but may have deeper obligation context in specific categories.
-- PayPlus must avoid implying bank, credit, lending, or insurance eligibility decisions unless separately assessed.
+- CardMore starts smaller but may have deeper obligation context in specific categories.
+- CardMore must avoid implying bank, credit, lending, or insurance eligibility decisions unless separately assessed.
 
-## 5. PayPlus Opportunity Map
+<a id="5-payplus-opportunity-map"></a>
+## 5. CardMore Opportunity Map
 
 ### 5.1 Online Marketing
 
-PayPlus may support online marketing through first-party insights and owned-channel campaigns.
+CardMore may support online marketing through first-party insights and owned-channel campaigns.
 
 Possible uses:
 
@@ -218,7 +221,7 @@ Possible uses:
 
 Examples:
 
-| PayPlus Signal | Possible Offer Category | Guardrail |
+| CardMore Signal | Possible Offer Category | Guardrail |
 | --- | --- | --- |
 | Rent or tenancy payment | Home insurance, broadband, moving, furniture, utilities | Avoid sharing property, landlord, or lease data. |
 | School fee payment | Education rewards, card-linked fee waiver, tutoring partner | Avoid child profiling and sensitive family inference. |
@@ -228,7 +231,7 @@ Examples:
 
 ### 5.2 Mobile Marketing
 
-PayPlus's strongest near-term marketing surface is the app itself.
+CardMore's strongest near-term marketing surface is the app itself.
 
 Potential surfaces:
 
@@ -252,7 +255,7 @@ Recommended sequence:
 
 ### 5.3 Banking Sector
 
-Banks may value PayPlus data because it can show card-funded obligation categories, payment timing, card-linked offer response, and bill-payment demand.
+Banks may value CardMore data because it can show card-funded obligation categories, payment timing, card-linked offer response, and bill-payment demand.
 
 Potential bank use cases:
 
@@ -268,8 +271,8 @@ Potential bank use cases:
 Guardrails:
 
 - do not share raw user payment, evidence, KYC, payout, or risk data with banks unless required for payment processing, risk, legal, or approved partner purpose;
-- avoid using PayPlus data to infer creditworthiness without separate legal/compliance review;
-- do not allow bank campaigns to obscure PayPlus fee, authorization, refund, or payout disclosures;
+- avoid using CardMore data to infer creditworthiness without separate legal/compliance review;
+- do not allow bank campaigns to obscure CardMore fee, authorization, refund, or payout disclosures;
 - maintain partner campaign audit records and consent records.
 
 ### 5.4 Insurance Sector
@@ -288,12 +291,12 @@ Guardrails:
 
 - do not use sensitive bill evidence or medical/payment data for insurance targeting without enhanced legal/privacy review;
 - do not transfer user-level obligation or evidence data to insurers without specific consent and contractual controls;
-- do not let insurance partners infer protected or sensitive attributes from PayPlus data;
+- do not let insurance partners infer protected or sensitive attributes from CardMore data;
 - distinguish marketing offer eligibility from underwriting, pricing, claims, or coverage decisions.
 
 ### 5.5 Merchants, Billers, and Product Sellers
 
-PayPlus can help partners sell products when the offer is tied to a legitimate payment moment.
+CardMore can help partners sell products when the offer is tied to a legitimate payment moment.
 
 Potential partner examples:
 
@@ -307,13 +310,13 @@ Potential partner examples:
 - card issuers and reward programs;
 - billers seeking lower-cost collection or card-funded campaigns.
 
-The recommended model is partner-funded benefits inside PayPlus, not raw audience export.
+The recommended model is partner-funded benefits inside CardMore, not raw audience export.
 
 ## 6. Algorithm and AI Roadmap
 
 ### 6.1 Foundational Data Layer
 
-Before advanced AI, PayPlus needs a governed data foundation.
+Before advanced AI, CardMore needs a governed data foundation.
 
 Required capabilities:
 
@@ -351,7 +354,7 @@ The recommended model sequence is:
 
 ### 6.3 Relationship Graph
 
-PayPlus's payer-payee relationship graph may become one of its most strategic assets.
+CardMore's payer-payee relationship graph may become one of its most strategic assets.
 
 Possible graph nodes:
 
@@ -408,7 +411,7 @@ Potential marketing models:
 | Repeat-use propensity | User likelihood to pay again. | lifecycle marketing |
 | Category next-best action | Which category or flow may be useful next. | app personalization |
 | Offer affinity | Which offer type may create user value. | in-app offer ranking |
-| Churn risk | Which users may stop using PayPlus. | retention |
+| Churn risk | Which users may stop using CardMore. | retention |
 | Partner lift | Incremental impact of partner-funded campaign. | partner reporting |
 | Fraud/promotion abuse | Likelihood of abusive reward behavior. | reward hold / review |
 
@@ -418,7 +421,7 @@ Important boundary:
 
 ### 6.5 Generative AI
 
-Generative AI may help PayPlus with:
+Generative AI may help CardMore with:
 
 - document summarization for review teams;
 - support response drafting;
@@ -454,7 +457,7 @@ PCPD direct-marketing guidance also warns against bundled consent and notes that
 
 Source: [PCPD - Guidance on Direct Marketing](https://www.pcpd.org.hk/english/resources_centre/publications/files/GN_DM_e.pdf).
 
-For PayPlus, this implies:
+For CardMore, this implies:
 
 - marketing consent must be separate from service use;
 - consent should specify the kinds of data and marketing subjects;
@@ -471,8 +474,8 @@ For PayPlus, this implies:
 | Tier 0 | Service operation, payment processing, risk, reconciliation, audit, support. | Service basis and required notices. |
 | Tier 1 | Internal product analytics and operational dashboards. | Purpose-linked internal use with masking and access controls. |
 | Tier 2 | Internal aggregate commercial analytics. | Aggregated/de-identified outputs, no user-level partner sharing. |
-| Tier 3 | Owned-channel personalization inside PayPlus. | Marketing/personalization consent where required. |
-| Tier 4 | Partner-funded offers shown inside PayPlus. | Specific partner/campaign approval and consent/preference rules. |
+| Tier 3 | Owned-channel personalization inside CardMore. | Marketing/personalization consent where required. |
+| Tier 4 | Partner-funded offers shown inside CardMore. | Specific partner/campaign approval and consent/preference rules. |
 | Tier 5 | Partner reporting using aggregated campaign results. | Contracted, aggregated, de-identified reporting. |
 | Tier 6 | Clean-room measurement or activation. | Legal/privacy/security review, pseudonymization, output controls. |
 | Tier 7 | Offsite advertising activation. | Future only; explicit approval, user controls, and high governance. |
@@ -480,7 +483,7 @@ For PayPlus, this implies:
 
 ### 7.2 Sensitive Data Red Lines
 
-PayPlus should prohibit or strongly restrict marketing use of:
+CardMore should prohibit or strongly restrict marketing use of:
 
 - raw identity documents;
 - HKID/passport numbers;
@@ -514,7 +517,7 @@ Preferred sequence:
 
 ### 8.1 Owned-Channel Offer Model
 
-PayPlus shows relevant offers in-app. The partner pays for performance, subsidy, voucher funding, or campaign access.
+CardMore shows relevant offers in-app. The partner pays for performance, subsidy, voucher funding, or campaign access.
 
 Examples:
 
@@ -522,7 +525,7 @@ Examples:
 - telecom partner funds broadband offer for users with property/rent signals;
 - insurer funds home insurance offer after user opts into property-related offers;
 - education partner funds fee payment reward;
-- PayPlus funds coupon to drive repeat usage.
+- CardMore funds coupon to drive repeat usage.
 
 Pros:
 
@@ -540,7 +543,7 @@ Cons:
 
 ### 8.2 Partner Insight Model
 
-PayPlus sells or provides aggregated insights.
+CardMore sells or provides aggregated insights.
 
 Examples:
 
@@ -565,7 +568,7 @@ Cons:
 
 ### 8.3 Card-Linked and Bank Campaign Model
 
-PayPlus partners with issuers or card networks to create card-linked benefits.
+CardMore partners with issuers or card networks to create card-linked benefits.
 
 Examples:
 
@@ -579,7 +582,7 @@ Pros:
 
 - aligns with DOC-13 promotion engine;
 - user benefit is obvious;
-- strong measurement through PayPlus payment events.
+- strong measurement through CardMore payment events.
 
 Cons:
 
@@ -589,7 +592,7 @@ Cons:
 
 ### 8.4 Clean-Room Collaboration Model
 
-PayPlus collaborates with a bank, issuer, retailer, insurer, or ad platform in a clean-room environment.
+CardMore collaborates with a bank, issuer, retailer, insurer, or ad platform in a clean-room environment.
 
 Use cases:
 
@@ -614,26 +617,26 @@ Cons:
 
 ### 8.5 Offsite Media Activation
 
-PayPlus uses transaction or obligation-derived audiences outside PayPlus.
+CardMore uses transaction or obligation-derived audiences outside CardMore.
 
 This is the highest-risk and latest-stage model.
 
 Potential use:
 
-- reach PayPlus users or lookalike cohorts on external media channels;
+- reach CardMore users or lookalike cohorts on external media channels;
 - activate partner campaigns offsite;
-- measure offsite exposure to PayPlus conversion.
+- measure offsite exposure to CardMore conversion.
 
 Recommended position:
 
-> Do not pursue offsite activation until PayPlus has a mature user base, privacy notices, consent flows, data clean-room capability, partner contracts, model governance, legal approval, and a clear user-value proposition.
+> Do not pursue offsite activation until CardMore has a mature user base, privacy notices, consent flows, data clean-room capability, partner contracts, model governance, legal approval, and a clear user-value proposition.
 
 ## 9. Pros and Cons Versus Meta and AppLovin
 
-| Dimension | PayPlus | Meta | AppLovin |
+| Dimension | CardMore | Meta | AppLovin |
 | --- | --- | --- | --- |
 | Core signal | Verified obligations and payments | Attention, engagement, social graph | App/ad engagement and impression value |
-| Inventory | PayPlus app and communications | Facebook, Instagram, WhatsApp, Messenger | Mobile app ad supply |
+| Inventory | CardMore app and communications | Facebook, Instagram, WhatsApp, Messenger | Mobile app ad supply |
 | Scale | Initially small | Massive | Large mobile/app ecosystem |
 | Intent quality | Potentially high | Mixed; inferred | App engagement and install/purchase propensity |
 | Privacy sensitivity | Very high | High | Medium to high |
@@ -642,13 +645,13 @@ Recommended position:
 | Best early strategy | Owned offers and insight | AI ad delivery at scale | Performance advertising |
 | Main risk | Perceived financial surveillance | Opaque automation and privacy concerns | Opaque bidding and data practices |
 
-PayPlus should not compete head-on with Meta or AppLovin. It should build a controlled commerce/payment intelligence layer that can complement them later.
+CardMore should not compete head-on with Meta or AppLovin. It should build a controlled commerce/payment intelligence layer that can complement them later.
 
 ## 10. Recommended Phased Roadmap
 
 ### Phase 0: Governance Before Growth
 
-Goal: define what PayPlus will and will not do with data.
+Goal: define what CardMore will and will not do with data.
 
 Actions:
 
@@ -661,7 +664,7 @@ Actions:
 
 ### Phase 1: Internal Intelligence
 
-Goal: use data to run PayPlus better.
+Goal: use data to run CardMore better.
 
 Actions:
 
@@ -675,7 +678,7 @@ Actions:
 
 ### Phase 2: Owned-Channel Personalization
 
-Goal: improve user experience and offer relevance inside PayPlus.
+Goal: improve user experience and offer relevance inside CardMore.
 
 Actions:
 
@@ -739,22 +742,22 @@ Actions:
 6. Build consent and preference controls early, even before advanced personalization.
 7. Design DOC-18 with field-level purpose, sensitivity, lineage, access, masking, retention, and partner-sharing metadata.
 8. Use aggregated and anonymized insights for early external reporting.
-9. Defer clean-room and offsite activation until PayPlus has scale and governance.
+9. Defer clean-room and offsite activation until CardMore has scale and governance.
 10. Require founder, privacy, compliance, legal, and risk approval before any user-level partner marketing data use.
 
 ## 12. Proposed Open Questions
 
 | ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
-| OQ-DATA-MKT-001 | Which PayPlus data classes may be used for internal analytics, segmentation, personalization, and model improvement? | Privacy / Data / Product | High | Open |
-| OQ-DATA-MKT-002 | Which PayPlus data classes are prohibited from marketing models and partner reporting? | Privacy / Legal / Risk | High | Open |
-| OQ-DATA-MKT-003 | What consent categories should PayPlus support for promotions, partner offers, personalization, and direct marketing? | Product / Privacy / Legal | High | Open |
-| OQ-DATA-MKT-004 | Are partner-funded offers inside PayPlus permitted at launch, pilot, or future phase only? | Product / Growth / Compliance | Medium | Open |
+| OQ-DATA-MKT-001 | Which CardMore data classes may be used for internal analytics, segmentation, personalization, and model improvement? | Privacy / Data / Product | High | Open |
+| OQ-DATA-MKT-002 | Which CardMore data classes are prohibited from marketing models and partner reporting? | Privacy / Legal / Risk | High | Open |
+| OQ-DATA-MKT-003 | What consent categories should CardMore support for promotions, partner offers, personalization, and direct marketing? | Product / Privacy / Legal | High | Open |
+| OQ-DATA-MKT-004 | Are partner-funded offers inside CardMore permitted at launch, pilot, or future phase only? | Product / Growth / Compliance | Medium | Open |
 | OQ-DATA-MKT-005 | What aggregation thresholds are required before sharing category or campaign insights externally? | Privacy / Data / Legal | High | Open |
-| OQ-DATA-MKT-006 | Can PayPlus use payer-payee relationship signals for marketing personalization, or only for service, risk, and aggregate analytics? | Privacy / Product / Risk | High | Open |
+| OQ-DATA-MKT-006 | Can CardMore use payer-payee relationship signals for marketing personalization, or only for service, risk, and aggregate analytics? | Privacy / Product / Risk | High | Open |
 | OQ-DATA-MKT-007 | What additional controls apply to insurance-related offers? | Legal / Privacy / Compliance | High | Open |
 | OQ-DATA-MKT-008 | What partner contract terms are required for campaign reporting, clean-room collaboration, or any user-level data transfer? | Legal / Commercial / Privacy | High | Open |
-| OQ-DATA-MKT-009 | Should PayPlus ever support offsite advertising activation using PayPlus-derived audiences? | Founder / Legal / Privacy / Growth | High | Open |
+| OQ-DATA-MKT-009 | Should CardMore ever support offsite advertising activation using CardMore-derived audiences? | Founder / Legal / Privacy / Growth | High | Open |
 | OQ-DATA-MKT-010 | What model governance, monitoring, and human review rules apply to AI-driven offer ranking or segmentation? | Data / Risk / Privacy / Engineering | High | Open |
 
 ## 13. Recommended Follow-Up Documents
@@ -766,7 +769,7 @@ If the founder wants to proceed, this memo should lead to:
 3. `DOC-18` full draft with data lineage, event taxonomy, analytics marts, feature metadata, model registry, and aggregation controls.
 4. A formal data-use policy matrix mapping each data class to approved purposes.
 5. A privacy impact assessment for marketing personalization and partner offers.
-6. A future ADR if PayPlus chooses a clean-room, CDP, analytics warehouse, or AI model platform.
+6. A future ADR if CardMore chooses a clean-room, CDP, analytics warehouse, or AI model platform.
 
 ## 14. Source Notes
 
@@ -789,5 +792,6 @@ Sources reviewed for this research include:
 ## 15. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.3.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 0.2.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | 0.1.0 | 2026-06-07 | AI Research Draft | Initial research memo on PayPlus data strategy, AI intelligence, privacy-safe marketing, market comparisons, algorithm roadmap, commercial models, and open questions. |

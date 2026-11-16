@@ -1,4 +1,5 @@
-# PayPlus Payment Checkout Route Map
+<a id="payplus-payment-checkout-route-map"></a>
+# CardMore Payment Checkout Route Map
 
 Status: Current discussion reference
 Owner: DOC-06B for route-level UI/UX; DOC-09 for Payment Domain architecture

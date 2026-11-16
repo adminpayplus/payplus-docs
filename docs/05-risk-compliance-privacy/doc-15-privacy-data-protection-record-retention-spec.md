@@ -1,7 +1,7 @@
 ---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 2.0.0
+version: 2.1.0
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Privacy Lead
   - Compliance Lead
   - Security Lead
-last_updated: 2026-11-12
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `2.0.0` |
+| **Version** | `2.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
 | **Approvers** | Project Owner<br>Privacy Lead<br>Compliance Lead<br>Security Lead |
-| **Last Updated** | `2026-11-12` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow<br>DOC-99 ISMS Policy Library |
 
@@ -63,9 +63,9 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines PayPlus privacy, data protection, data classification, visibility, masking, lawful-use, consent, vendor, and record-retention requirements.
+This document defines CardMore privacy, data protection, data classification, visibility, masking, lawful-use, consent, vendor, and record-retention requirements.
 
-PayPlus is a data-driven payment platform. It may collect, derive, retain, and use data from account activity, Evidence verification, payment behavior, payout handling, risk review, support activity, and promotion activity to operate the service, verify applicable Bill/Rent Payment Obligations, reduce fraud, improve user experience, support analytics, manage commercial performance, and meet legal, audit, tax, compliance, partner, and operational requirements.
+CardMore is a data-driven payment platform. It may collect, derive, retain, and use data from account activity, Evidence verification, payment behavior, payout handling, risk review, support activity, and promotion activity to operate the service, verify applicable Bill/Rent Payment Obligations, reduce fraud, improve user experience, support analytics, manage commercial performance, and meet legal, audit, tax, compliance, partner, and operational requirements.
 
 This document is not a final privacy policy, legal opinion, database schema, security architecture, authentication specification, or operations runbook.
 
@@ -115,14 +115,14 @@ DOC-15 owns privacy classification, masking, approved-purpose access, visibility
 | Area | Baseline |
 | --- | --- |
 | Launch market | Hong Kong. |
-| Data strategy | PayPlus should support broad, lawful, purpose-linked data collection and analytics while preserving trust, consent, data minimization, access controls, and product-boundary restrictions. |
+| Data strategy | CardMore should support broad, lawful, purpose-linked data collection and analytics while preserving trust, consent, data minimization, access controls, and product-boundary restrictions. |
 | Account creation and activation | A temporary registration attempt creates no account and reserves no identifier. Restricted creation follows verified phone, name/email with required email proof, mandatory matching Login PIN and explicit Terms/Privacy agreement. Identity and Payment Passcode may remain incomplete and still gate financial actions; new Done/Home callers open the shared identity child directly under DOC-06B without replacing other controlled activation callers. |
-| Identity verification | Individual identity verification may use a provider selected and approved by the applicable formal owners. PayPlus may receive or store required identity attributes, provider references, verification outcomes, and approved evidence artifacts. |
+| Identity verification | Individual identity verification may use a provider selected and approved by the applicable formal owners. CardMore may receive or store required identity attributes, provider references, verification outcomes, and approved evidence artifacts. |
 | KYC attributes | Name, ID number, sex, ID document data, and other provider-returned attributes may be used where connected to KYC, risk, compliance, payee verification, audit, support, or legal purpose. |
 | Login methods | Full Login uses Phone/Email OTP views and explicitly enabled Google/Apple identities. Remembered Login PIN is a separate eligible entry; optional password capabilities retain their account/security owners. Provider linking uses stable provider identifier, never email equality. |
-| Primary email | One verified primary email may belong to only one PayPlus account. A provider-returned verified email may be selected; another entered email must be verified before use. |
+| Primary email | One verified primary email may belong to only one CardMore account. A provider-returned verified email may be selected; another entered email must be verified before use. |
 | Password | The adopted Full Login/registration sequence does not require a password. Existing optional Set/Change Password and recovery remain separately controlled under `ACCOUNT-SECURITY`/`AUTH-RECOVERY`; they do not become mandatory OTP-entry steps. |
-| Biometric unlock | User-enabled Fingerprint and Face ID may support device-local Fast Login. PayPlus should not store biometric templates or plaintext passwords. |
+| Biometric unlock | User-enabled Fingerprint and Face ID may support device-local Fast Login. CardMore should not store biometric templates or plaintext passwords. |
 | New-device 2FA | Required on new device. Channel precedence and fallback remain subject to DOC-19 security and applicable owner confirmation. |
 | Fast Login | Eligibility uses a rolling one-month period renewed by each successful login and may be revoked earlier by risk, device, credential, account, or security changes. A separate dormant-account threshold remains open. |
 | Payment confirmation | Payment passcode is required for proceeding with payment. Higher-risk activity may require additional step-up under DOC-14 and DOC-19. |
@@ -137,12 +137,12 @@ Unconfirmed provider, cross-border, sanctions, biometric, security and implement
 
 | Principle | Requirement |
 | --- | --- |
-| Lawful data utility | PayPlus may collect and use data where there is a defined product, payment, compliance, risk, operational, analytical, commercial, support, audit, tax, legal, or partner purpose. |
+| Lawful data utility | CardMore may collect and use data where there is a defined product, payment, compliance, risk, operational, analytical, commercial, support, audit, tax, legal, or partner purpose. |
 | Purpose-linked use | Each data class should have documented purposes and permitted use cases. |
 | Data engine readiness | Data structures should support analytics, segmentation, risk intelligence, evidence quality, commercial reporting, and future model improvement where allowed. |
 | Model-use governance | AI/model improvement, segmentation, personalization, partner reporting, and decision-support use should be governed by approved purpose, field classification, consent/preference state, prohibited-input rules, lineage, monitoring, and human-review requirements where applicable. |
 | Transparency | Users should receive appropriate notices for account, identity, evidence, payment, communication, and marketing data handling. |
-| Role-based visibility | Payers, authorised owner roles, systems, vendors and partners should see only data needed for their approved purpose or task; an economic Payee is not a PayPlus User role. |
+| Role-based visibility | Payers, authorised owner roles, systems, vendors and partners should see only data needed for their approved purpose or task; an economic Payee is not a CardMore User role. |
 | Mask by default for sensitive fields | Sensitive identity, evidence, payment, payout, and risk fields should be masked or restricted unless full access is needed for an approved purpose. |
 | Auditability | Access, use, correction, export, privacy-request, override, review, and disclosure actions should be logged where material. |
 | Retention discipline | Indefinite retention remains the accepted product/governance direction for applicable records, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. Archive changes visibility only and is not deletion, purge, erasure or de-identification. |
@@ -151,7 +151,7 @@ Unconfirmed provider, cross-border, sanctions, biometric, security and implement
 
 ## 5. Data Classification
 
-PayPlus data should be classified by source, sensitivity, and permitted purpose.
+CardMore data should be classified by source, sensitivity, and permitted purpose.
 
 | Data Class | Examples | Core Uses |
 | --- | --- | --- |
@@ -177,7 +177,7 @@ DOC-18 defines the business facts, provenance, history, lineage and explainabili
 
 ## 6. Registration, Login, and Authentication Data
 
-PayPlus should support the following account and authentication model:
+CardMore should support the following account and authentication model:
 
 | Function | Requirement |
 | --- | --- |
@@ -185,11 +185,11 @@ PayPlus should support the following account and authentication model:
 | Restricted account creation | Require verified supported phone, required name/email and one unique verified primary email, mandatory six-digit Login PIN with matching repeat, explicit Terms/Privacy acceptance and a usable login method before confirmed creation. Phone/Google/Apple registrations join the same phone/data flow. An unchanged provider-confirmed verified email needs no repeated OTP; changed, missing or unconfirmed email does. No password or gender requirement is inserted. Final creation rechecks uniqueness and valid current verification; an unknown result reconciles the same attempt. |
 | Account activation | Phone is already verified at registration. Identity and six-digit Payment Passcode remain required for financially restricted actions; shared activation orchestration retains every actual missing requirement and domain gate. Created-account Done and the new-user Home identity-only prompt invoke shared identity directly with their actual caller return. Missing Payment Passcode alone does not revive the old onboarding checklist prompt. |
 | Login methods | Full Phone/Email OTP and explicitly enabled Google/Apple methods use the shared account; remembered Login PIN and optional password controls remain separate purposes. Matching email addresses never create, merge or link an account/provider automatically. |
-| Primary email uniqueness | A verified primary email may belong to only one PayPlus account. An attempted social registration using an existing verified primary email must stop account creation and direct the authenticated user to log in to the existing account before linking the provider. |
+| Primary email uniqueness | A verified primary email may belong to only one CardMore account. An attempted social registration using an existing verified primary email must stop account creation and direct the authenticated user to log in to the existing account before linking the provider. |
 | Phone and identity uniqueness | One verified phone and one verified individual identity may each belong to only one active individual account. Phone verification and uniqueness apply before creation; a later identity/other conflict blocks the affected activation/action and routes to permitted Login, Recovery or controlled Support without automatic merging. |
 | Password | Password is not required by the adopted OTP Full Login or phone/provider registration. Retained authenticated Set/Change Password and password recovery apply only where that capability exists. Login PIN, Payment Passcode and optional password are distinct protected purposes; exact storage, hashing and security mechanisms remain with DOC-19 and separately authorized technical work. |
-| Provider linking | Linking or unlinking Google/Apple requires an authenticated session, fresh approved reauthentication, successful provider authentication, explicit confirmation, audit, and security notification. A provider identity may link to only one PayPlus account, and the final usable login method cannot be removed. |
-| Fast Login and device-local biometric | Each successful login renews a one-month Fast Login period. User-enabled Fingerprint or Face ID may activate the approved device credential; biometric templates remain on device or approved platform service. PayPlus stores no plaintext password and masks the remembered email. |
+| Provider linking | Linking or unlinking Google/Apple requires an authenticated session, fresh approved reauthentication, successful provider authentication, explicit confirmation, audit, and security notification. A provider identity may link to only one CardMore account, and the final usable login method cannot be removed. |
+| Fast Login and device-local biometric | Each successful login renews a one-month Fast Login period. User-enabled Fingerprint or Face ID may activate the approved device credential; biometric templates remain on device or approved platform service. CardMore stores no plaintext password and masks the remembered email. |
 | New-device 2FA | New-device login requires step-up. Channel precedence and fallback remain subject to DOC-19 security and applicable owner confirmation. |
 | Dormant-login reauthentication | Login after a configured long inactivity period should require reauthentication, such as password plus SMS OTP, email OTP, or other approved factor. |
 | Payment passcode | Payment passcode is required before proceeding with payment authorization. |
@@ -200,7 +200,7 @@ OTP proofs remain confined to the current purpose, recipient, attempt and data r
 
 DOC-15 defines data handling and privacy boundaries. DOC-19 owns mechanism-neutral security invariants, enforcement requirements, prohibited exposure, and verification handoffs for authentication, protected values, device/session assurance, and access enforcement. Exact mechanisms remain open technical decisions and provider contracts remain with DOC-17.
 
-Account recovery must be capability-aware and disclosure-safe. PayPlus may evaluate whether approved email, linked-provider, authenticated-account, or controlled Support recovery remains available, but public responses must not reveal the existence of an account, password, provider link, phone, identity record, trusted device, or internal risk restriction. A remembered device, verified phone, verified identity, or provider email is not by itself a recovery method unless the applicable route/account owner permits that capability and DOC-19 security enforcement is satisfied. Recovery records and analytics must use opaque attempt, outcome, resolution, and correlation references rather than credentials, recovery secrets, or unrestricted identity/provider payloads.
+Account recovery must be capability-aware and disclosure-safe. CardMore may evaluate whether approved email, linked-provider, authenticated-account, or controlled Support recovery remains available, but public responses must not reveal the existence of an account, password, provider link, phone, identity record, trusted device, or internal risk restriction. A remembered device, verified phone, verified identity, or provider email is not by itself a recovery method unless the applicable route/account owner permits that capability and DOC-19 security enforcement is satisfied. Recovery records and analytics must use opaque attempt, outcome, resolution, and correlation references rather than credentials, recovery secrets, or unrestricted identity/provider payloads.
 
 ### 6.1 Material Change Handling
 
@@ -228,7 +228,7 @@ DOC-06B `ME-ROOT` is the Payer-only account-control route. DOC-15 supplies priva
 - account surfaces must mask sensitive identity, contact and credential information unless approved-purpose access permits it;
 - authentication, security, route, return and displayed-status requirements remain with DOC-06B, DOC-07 and DOC-19;
 - full identity attributes, identity documents, provider payloads, payment credentials, evidence content, full payout details, and internal risk reasons must not appear on the root;
-- revealing approved masked sensitive account values uses the existing PayPlus payment passcode or approved reauthentication; no second reveal-only passcode should be introduced;
+- revealing approved masked sensitive account values uses the existing CardMore payment passcode or approved reauthentication; no second reveal-only passcode should be introduced;
 - changing existing sensitive identity, contact, security or credential data requires payment passcode or approved reauthentication before applicable owner controls; first-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode;
 - permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading within an authenticated approved-purpose context does not require an extra passcode or step-up solely because the document is opened or downloaded;
 - additional step-up may apply where risk, security, legal, provider, or data-classification rules require it;
@@ -248,7 +248,7 @@ DOC-19 defines the mechanism-neutral passcode, session, device, reauthentication
 
 ## 7. Identity, KYC, and KYB Data Handling
 
-PayPlus may collect and use identity data to support onboarding, verification, fraud prevention, compliance, audit, account recovery, payee validation, landlord verification, dispute handling, and partner requirements.
+CardMore may collect and use identity data to support onboarding, verification, fraud prevention, compliance, audit, account recovery, payee validation, landlord verification, dispute handling, and partner requirements.
 
 Rules:
 
@@ -265,9 +265,9 @@ Final provider API behavior belongs in DOC-17 under an accepted provider-specifi
 
 ## 8. Evidence and Obligation Data Handling
 
-Evidence data is a major PayPlus data asset.
+Evidence data is a major CardMore data asset.
 
-PayPlus may collect and process bills, invoices, tenancy agreements, contracts, statements, rent demands, service records, OCR text, extracted fields, user-corrected fields, verification signals, duplicate signals, review decisions, and final evidence snapshots.
+CardMore may collect and process bills, invoices, tenancy agreements, contracts, statements, rent demands, service records, OCR text, extracted fields, user-corrected fields, verification signals, duplicate signals, review decisions, and final evidence snapshots.
 
 Rules:
 
@@ -294,7 +294,7 @@ Visibility must reflect role, task, permission, and approved purpose.
 | Actor | Visibility Rule |
 | --- | --- |
 | Payer | May view own account, applicable payment summary, owner-approved Evidence summary, selected payment-method summary, source-context destination facts, own masked card/payment-profile summaries, receipts and support history subject to approved-purpose rules. |
-| Economic Payee | Is not a PayPlus User role or active reciprocal reader. Source-context intended-Payee and destination privacy remain with the applicable formal owners. |
+| Economic Payee | Is not a CardMore User role or active reciprocal reader. Source-context intended-Payee and destination privacy remain with the applicable formal owners. |
 | Admin / Operations | May access data required for assigned queue, review, support, payout, refund, dispute, risk, or compliance task. Access must be permissioned and logged. |
 | Risk / Compliance | May access broader identity, evidence, relationship, payment, payout, refund, chargeback, promotion, and risk signals where needed for approved review. |
 | Engineering | Should not access production personal data unless approved for incident, support, debugging, migration, or security task under controlled process. |
@@ -343,7 +343,7 @@ DOC-13 owns authoritative reward use and fulfilment. DOC-18 owns the business-re
 
 ## 10. Consent, Notices, and Communication Privacy
 
-PayPlus should separate service communication from optional marketing or promotional communication.
+CardMore should separate service communication from optional marketing or promotional communication.
 
 | Communication Type | Requirement |
 | --- | --- |
@@ -357,15 +357,15 @@ Detailed notification IDs, templates, channel routing, preference controls, and 
 
 ### 10.1 Data-Use Tiers
 
-PayPlus should classify material data use by purpose and approval level.
+CardMore should classify material data use by purpose and approval level.
 
 | Tier | Use | Baseline Boundary |
 | --- | --- | --- |
 | Tier 0 | Service operation, payment processing, risk, reconciliation, audit, support, legal, tax, compliance, and security. | Required service use with appropriate notices, access controls, and audit logs. |
 | Tier 1 | Internal product, risk, evidence, payment, support, operations, and commercial analytics. | Purpose-linked internal use with masking, role-based access, retention controls, and lineage. |
 | Tier 2 | Internal derived or aggregated reporting and model-improvement preparation. | Use only approved fields and preserve lineage, sensitivity, and prohibited-input controls. |
-| Tier 3 | Owned-channel personalization, promotion ranking, dashboard placement targeting, and partner-offer display inside PayPlus. | Follow consent, preference, campaign approval, role visibility, and sensitive-field exclusions. |
-| Tier 4 | Partner-funded offers and campaign measurement inside PayPlus. | Use minimum necessary data, campaign approval, consent/preference controls, and aggregated or de-identified reporting where possible. |
+| Tier 3 | Owned-channel personalization, promotion ranking, dashboard placement targeting, and partner-offer display inside CardMore. | Follow consent, preference, campaign approval, role visibility, and sensitive-field exclusions. |
+| Tier 4 | Partner-funded offers and campaign measurement inside CardMore. | Use minimum necessary data, campaign approval, consent/preference controls, and aggregated or de-identified reporting where possible. |
 | Tier 5 | External partner reporting, clean-room collaboration, or pseudonymized matching. | Future-gated; requires legal, privacy, security, compliance, contract, and output-control review before use. |
 | Tier 6 | Offsite advertising activation or user-level external marketing data sharing. | Not approved by this document; requires separate founder approval, legal/privacy review, consent model, contracts, and formal source-document updates. |
 
@@ -375,7 +375,7 @@ Prohibited or highly restricted uses include raw personal data sale, raw evidenc
 
 ## 11. Analytics, Data Product, and Derived Data
 
-PayPlus may use collected and derived data to support:
+CardMore may use collected and derived data to support:
 
 - product analytics;
 - payment funnel analysis;
@@ -426,7 +426,7 @@ Indefinite retention remains the accepted product/governance direction. Legal, p
 
 ## 13. Data Subject Access, Correction, and Support
 
-PayPlus should support user requests to access, correct, or query personal data according to approved legal and operational process.
+CardMore should support user requests to access, correct, or query personal data according to approved legal and operational process.
 
 Requirements:
 
@@ -446,7 +446,7 @@ DOC-21 may consume permitted operational evidence for support and incident handl
 
 ## 14. Vendor, Partner, and Cross-Border Data Handling
 
-PayPlus may share or process data with approved vendors and partners where needed for service operation.
+CardMore may share or process data with approved vendors and partners where needed for service operation.
 
 Candidate vendors and partners include:
 
@@ -460,7 +460,7 @@ Candidate vendors and partners include:
 
 Requirements:
 
-- vendor purpose, data scope, retention, security, location, subprocessor, incident, access and termination terms should be reviewed; no vendor operation may destroy a PayPlus record;
+- vendor purpose, data scope, retention, security, location, subprocessor, incident, access and termination terms should be reviewed; no vendor operation may destroy a CardMore record;
 - cross-border processing should be documented where vendor systems or support teams process data outside Hong Kong;
 - partner sharing should be limited to approved purpose and documented in user notices or agreements where required;
 - partner reporting should prefer aggregated, de-identified, or campaign-level outputs over user-level data;
@@ -493,13 +493,13 @@ Security incidents, data incidents, provider incidents, unauthorized access, mis
 
 ## 16. Security Standards Alignment
 
-PayPlus security and privacy controls should be designed to support ISO/IEC 27001-aligned information security management and PCI DSS requirements where payment data, cardholder data, payment pages, tokenization, PSP integrations, or cardholder data environment scope applies.
+CardMore security and privacy controls should be designed to support ISO/IEC 27001-aligned information security management and PCI DSS requirements where payment data, cardholder data, payment pages, tokenization, PSP integrations, or cardholder data environment scope applies.
 
 Requirements:
 
-- information security governance, risk assessment, asset ownership, access control, supplier control, logging, incident response, change management, secure development, vulnerability management, and business continuity should align with the PayPlus ISMS policy set and ISO/IEC 27001 expectations;
+- information security governance, risk assessment, asset ownership, access control, supplier control, logging, incident response, change management, secure development, vulnerability management, and business continuity should align with the CardMore ISMS policy set and ISO/IEC 27001 expectations;
 - card data handling, payment profile tokenization, payment-page security, authentication, access control, logging, vulnerability management, and provider responsibilities should align with PCI DSS requirements where in scope;
-- PayPlus should prefer PSP/acquirer tokenization and avoid storing raw card number, CVV, magnetic stripe data, or sensitive authentication data;
+- CardMore should prefer PSP/acquirer tokenization and avoid storing raw card number, CVV, magnetic stripe data, or sensitive authentication data;
 - PCI scope, SAQ/ROC path, responsibility matrix, and QSA/acquirer expectations must be confirmed before production launch;
 - ISO and PCI evidence should be traceable to policies, controls, logs, approvals, tests, incidents, vendor reviews, and change records.
 
@@ -535,7 +535,7 @@ Detailed ISO/ISMS policies belong in the DOC-99 policy library. DOC-19 defines P
 | ID | Question | Owner | Priority | Status |
 | --- | --- | --- | --- | --- |
 | OQ-15-001 | What final privacy notice, personal information collection statement, and terms wording are required for Hong Kong launch? | Legal / Privacy | High | Open |
-| OQ-15-002 | Which KYC/KYB provider data fields, artifacts, ID copies, and verification results will PayPlus store versus reference through provider? | Compliance / Security / Engineering | High | Open |
+| OQ-15-002 | Which KYC/KYB provider data fields, artifacts, ID copies, and verification results will CardMore store versus reference through provider? | Compliance / Security / Engineering | High | Open |
 | OQ-15-003 | Which approved-purpose access, masking, legal-hold, correction and privacy-request controls apply by data class and purpose under the accepted indefinite-retention direction and its lawful-scope qualification? | Legal / Privacy / Finance | High | Answered: direction is indefinite; controls remain owner-governed |
 | OQ-15-004 | What data may be used for analytics, model improvement, segmentation, and commercial reporting? | Privacy / Data / Product | High | Open |
 | OQ-15-005 | What cross-border processing locations and subprocessors apply for KYC, OCR, PSP, cloud, SMS, email, WhatsApp, analytics, and support providers? | Privacy / Security / Vendor Management | High | Open |
@@ -557,7 +557,7 @@ Detailed ISO/ISMS policies belong in the DOC-99 policy library. DOC-19 defines P
 
 DOC-15 is acceptable when it clearly defines:
 
-- PayPlus's lawful data utility principle;
+- CardMore's lawful data utility principle;
 - data classification for account, authentication, KYC/KYB, evidence, payment, payout, risk, support, promotion, communication, analytics, and derived data;
 - registration, login, new-device 2FA, dormant-login reauthentication, biometric unlock, payment passcode, password reset, and material-change handling baseline;
 - identity and KYC/KYB data boundaries;
@@ -591,6 +591,7 @@ It should not become:
 ## 20. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 2.0.0 | 2026-11-12 | Canonical Writer | Drafted PP-MVP-20261112-R1 OTP/phone-first registration and distinct PIN purposes, bounded email-change and seven-field public-proof privacy alignment; preserved lawful retention, access, recovery and technical-owner gates. |
 | 1.0.2 | 2026-08-27 | Product Documentation Team | Aligned approved-purpose history access, masking, visibility and retention with DOC-18 business recording, DOC-19 enforcement-only, DOC-21 consume-only and DOC-22 specifically permitted execution boundaries. |
 | 1.0.1 | 2026-08-21 | Product Documentation Team | Aligned privacy, recovery, representation, Admin, and PCI handoffs with the reviewed mechanism-neutral DOC-19 contract while retaining DOC-15 privacy ownership and unresolved professional/implementation dependencies. |

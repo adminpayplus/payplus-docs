@@ -1,4 +1,5 @@
-# PayPlus Documentation Development Workflow
+<a id="payplus-documentation-development-workflow"></a>
+# CardMore Documentation Development Workflow
 
 Last updated: 2026-07-29
 Version: 2.0
@@ -6,11 +7,11 @@ Status: Production Ready
 
 ## 1. Purpose
 
-This workflow governs the end-to-end development of PayPlus documentation, from task intake and source review through proposal, drafting, cross-document alignment, validation, founder approval, commit, and repository records. It also defines the normative Thinking Modes that separate Explore, Proposal, Draft, Review, Align, and Integrate behaviour.
+This workflow governs the end-to-end development of CardMore documentation, from task intake and source review through proposal, drafting, cross-document alignment, validation, founder approval, commit, and repository records. It also defines the normative Thinking Modes that separate Explore, Proposal, Draft, Review, Align, and Integrate behaviour.
 
 It applies whether the work is performed by one agent, supported by parallel reviewers, produced through an approved worktree plan, or drafted directly by the founder. Parallel-agent and specialist procedures may supplement this workflow, but they do not replace its ownership, approval, integration, validation, or commit gates.
 
-This workflow supplements [`DOC-00`](../00-foundation/doc-00-documentation-governance.md) and [`AGENTS.md`](../../AGENTS.md). It does not replace their governance, PayPlus product boundaries, documentation layering, product-thinking method, or founder authority.
+This workflow supplements [`DOC-00`](../00-foundation/doc-00-documentation-governance.md) and [`AGENTS.md`](../../AGENTS.md). It does not replace their governance, CardMore product boundaries, documentation layering, product-thinking method, or founder authority.
 
 ## 2. Authority and Core Rules
 
@@ -34,7 +35,7 @@ Update the primary owning document first. Then identify and align only the gover
 
 Checking a file does not mean it must be edited. Do not create mechanical reference churn, duplicate the owning requirement, or change unrelated content.
 
-Workflow v2.0 is the Production Ready baseline. Further changes to its Thinking Modes, Stage Contracts, lifecycle philosophy, or mode boundaries require evidence from real PayPlus documentation work. Hypothetical preference or speculative improvement alone is insufficient: the change request must identify the observed task, failure or friction, affected stage, and supporting repository evidence.
+Workflow v2.0 is the Production Ready baseline. Further changes to its Thinking Modes, Stage Contracts, lifecycle philosophy, or mode boundaries require evidence from real CardMore documentation work. Hypothetical preference or speculative improvement alone is insufficient: the change request must identify the observed task, failure or friction, affected stage, and supporting repository evidence.
 
 ## 3. Applicability, Work Modes, and Roles
 
@@ -195,7 +196,7 @@ Stage 9 remains unchanged as the existing formal, fresh, independent, read-only 
 
 ### 4.1 Sole Canonical Ownership
 
-This workflow is the sole canonical owner of the PayPlus Documentation Lifecycle and its lifecycle gates. It owns the repository-wide rules for:
+This workflow is the sole canonical owner of the CardMore Documentation Lifecycle and its lifecycle gates. It owns the repository-wide rules for:
 
 - task intake and work-mode classification;
 - Proposal and pre-edit review;
@@ -208,7 +209,7 @@ This workflow is the sole canonical owner of the PayPlus Documentation Lifecycle
 - the Records Commit;
 - Push approval and completion reporting.
 
-All other PayPlus workflows, procedures, playbooks, templates, prompts, and `AGENTS.md` routing instructions **MUST** reference this lifecycle when they require one of these stages or gates. They **MUST NOT** redefine, duplicate, weaken, bypass, or create a competing version of a Documentation Lifecycle stage, stage owner, approval rule, validation gate, commit rule, or records requirement.
+All other CardMore workflows, procedures, playbooks, templates, prompts, and `AGENTS.md` routing instructions **MUST** reference this lifecycle when they require one of these stages or gates. They **MUST NOT** redefine, duplicate, weaken, bypass, or create a competing version of a Documentation Lifecycle stage, stage owner, approval rule, validation gate, commit rule, or records requirement.
 
 Specialist materials may define subject-specific inputs, outputs, roles, checks, and execution steps within a lifecycle stage. The parallel-agent procedure may define how work is distributed and consolidated. Neither may replace or restate the lifecycle itself. If a secondary document conflicts with this workflow on a lifecycle matter, this workflow governs subject to `DOC-00` and explicit founder direction.
 
@@ -746,7 +747,7 @@ During Stages 1 to 4, apply only the Explore/Divergent contract.
 - identify current authority and owners as repository findings;
 - identify ownership, terminology, architecture, lifecycle, status, object, and document-treatment candidates only as alternatives;
 - identify dependencies that may need to be decided later;
-- check PayPlus product boundaries and documentation-layer boundaries;
+- check CardMore product boundaries and documentation-layer boundaries;
 - identify specialist frameworks or guides that may be conditionally required;
 - investigate applicable repository and industry evidence;
 - compare alternatives without choosing or recommending one.
@@ -1163,7 +1164,7 @@ Before reporting commit readiness, verify:
 10. document metadata and version history are accurate;
 11. diagrams and current visual artifacts match written behavior where applicable;
 12. derived AI and external handoff documents were correctly included, deferred, or excluded;
-13. PayPlus boundaries and documentation layering remain intact;
+13. CardMore boundaries and documentation layering remain intact;
 14. unrelated content and user changes were preserved;
 15. the actual diff matches the approved scope.
 
@@ -1202,7 +1203,7 @@ After the substantive commit succeeds:
 1. add the substantive commit identifier to both records;
 2. update the changelog with the actual files and material changes delivered;
 3. update the decision log with the accepted decision, rationale, alternatives considered, ownership, consequences, superseded rules, and remaining `TBC` items;
-4. apply the same PayPlus writing, ownership, source-of-truth, scope, and review standards used for formal documentation;
+4. apply the same CardMore writing, ownership, source-of-truth, scope, and review standards used for formal documentation;
 5. validate the registry diff and create one immediate records-only follow-up commit;
 6. do not push or report the documentation change as complete until both the substantive commit and records-only commit exist.
 
@@ -1226,7 +1227,7 @@ Recommended post-edit review roles:
 
 | Role | Integration check |
 | --- | --- |
-| Product Reviewer | Charter, PRD, MVP, actor, and PayPlus boundary alignment. |
+| Product Reviewer | Charter, PRD, MVP, actor, and CardMore boundary alignment. |
 | Domain Reviewer | Governing domain logic and specialist handoffs. |
 | Consistency Reviewer | Contradictions, duplication, ownership, IDs, terminology, references, and affected files. |
 | Acceptance Reviewer | Testability, acceptance coverage, and traceability readiness. |
@@ -1287,7 +1288,7 @@ If the staged diff differs materially from the approved scope, stop and obtain r
 ### 11.1 Explore
 
 ```text
-Explore [topic] under the PayPlus Documentation Development Workflow.
+Explore [topic] under the CardMore Documentation Development Workflow.
 Use Divergent Thinking. Produce the complete Explore Pack: Founder
 Clarifications, Existing Repository Findings, Industry Findings, Alternative
 Comparison, Conflict Analysis, Risks, Open Questions, and Proposal Inputs.
@@ -1299,7 +1300,7 @@ document edits, edit files, commit, or push. Stop before Proposal.
 ### 11.2 Proposal
 
 ```text
-Proposal [change] under the PayPlus Documentation Development Workflow.
+Proposal [change] under the CardMore Documentation Development Workflow.
 Use Convergent Thinking. Evaluate sufficient Explore evidence, recommend one
 direction, and report rationale, alternatives, rejected alternatives,
 trade-offs, impacts, ownership, terminology, architecture, remaining Founder
@@ -1345,7 +1346,7 @@ design, commit, or push. Return every material change to Proposal.
 ### 11.6 Integrate
 
 ```text
-Integrate [approved and reviewed work] under the PayPlus Documentation
+Integrate [approved and reviewed work] under the CardMore Documentation
 Development Workflow. Use Integration Thinking. Complete the Change Impact
 Manifest, coordinate Alignment, perform Integrated Validation, determine
 integration completion and Definition of Done, and return the pre-commit
@@ -1356,7 +1357,7 @@ Return material discoveries to Proposal.
 ### 11.7 Direct Scoped Edit
 
 ```text
-Apply the PayPlus Documentation Development Workflow to this exact scoped edit:
+Apply the CardMore Documentation Development Workflow to this exact scoped edit:
 [scope]. The product decision is already accepted. Confirm the owner and edit
 boundary, treat the instruction as the bounded Draft decision contract,
 implement only the named scope, perform proportionate Review, Alignment, and

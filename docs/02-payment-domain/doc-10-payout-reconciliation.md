@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 1.1.2
+version: 1.2.0
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -16,7 +16,7 @@ approvers:
   - Project Owner
   - Payments Lead
   - Finance Lead
-last_updated: 2026-08-31
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-10` |
 | **Title** | Payout & Reconciliation |
-| **Version** | `1.1.2` |
+| **Version** | `1.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Finance |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Payments Lead<br>Finance Lead |
-| **Last Updated** | `2026-08-31` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -58,9 +58,9 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines PayPlus MVP rules for payout readiness, payout execution, payout batching, payout rails, settlement calendar handling, reconciliation, payout exceptions, and payout reporting.
+This document defines CardMore MVP rules for payout readiness, payout execution, payout batching, payout rails, settlement calendar handling, reconciliation, payout exceptions, and payout reporting.
 
-DOC-10 starts from the confirmed Payment and destination facts handed off by DOC-09. It owns Settlement, Payout, reconciliation, timing, readiness, and the movement of eligible funds from PayPlus's operating bank account to approved payees. Checkout completion is not a prerequisite for accepting a confirmed Payment handoff.
+DOC-10 starts from the confirmed Payment and destination facts handed off by DOC-09. It owns Settlement, Payout, reconciliation, timing, readiness, and the movement of eligible funds from CardMore's operating bank account to approved payees. Checkout completion is not a prerequisite for accepting a confirmed Payment handoff.
 
 This document is not a bank API specification, ledger schema, accounting policy, refund manual, or admin dashboard UI specification.
 
@@ -100,7 +100,7 @@ Detailed specifications belong to:
 
 | Area | Baseline |
 | --- | --- |
-| Payout provider | PayPlus expects to payout directly from its operating bank account. |
+| Payout provider | CardMore expects to payout directly from its operating bank account. |
 | Payout rails | FPS, cheque, and EPS are acceptable Hong Kong payout rails. |
 | Upstream settlement | Payment gateway settlement expected T+1 to T+3. |
 | Payout timing | Payout expected on the same day after upstream settlement, subject to readiness checks, bank processing, holidays, holds, reserves, and exceptions. |
@@ -118,7 +118,7 @@ Unconfirmed bank setup, file formats, API options, exact cutoff mechanics, and r
 
 ## 4. Payout Model
 
-PayPlus routes approved payouts from its operating bank account after upstream payment settlement is confirmed or settlement-ready according to approved evidence.
+CardMore routes approved payouts from its operating bank account after upstream payment settlement is confirmed or settlement-ready according to approved evidence.
 
 Payout must not operate as:
 
@@ -142,7 +142,7 @@ A payout may proceed only when all required checks pass.
 | Payment status | Full payment or funded portion must be completed according to DOC-09. An overall partially funded Checkout Workspace must not be treated as fully completed; a deliberate Payment Instruction is a distinct DOC-09 object. |
 | Payment Application lineage | A confirmed Payment normally reaches Payout with one or more applicable Payment Applications. Under DOC-09's controlled late-confirmation exception, a confirmed Payment may temporarily have zero Applications: it remains a valid Payment but is not ordinarily Payout-ready until the applicable owner-controlled Settlement, reconciliation, or adjustment treatment permits it. |
 | Settlement | Upstream settlement must be confirmed or settlement-ready for the specific funded portion under approved rules. |
-| Payee / recipient status | The economic Payee, whether an individual or institution/company, must be eligible for the applicable payout. A PayPlus User account is not required. |
+| Payee / recipient status | The economic Payee, whether an individual or institution/company, must be eligible for the applicable payout. A CardMore User account is not required. |
 | Payout destination | The immutable authorization-time destination snapshot attached to the confirmed Payment must pass the applicable intended-Payee, Evidence, risk, compliance, and payout checks. Subsequent source changes must not alter the snapshot. |
 | Authoritative source and Evidence boundary | The Payer-controlled Bill/Rent source, applicable Evidence-to-Payee outcome, and payment-facing facts must support the payout context. No Request lifecycle, Payee acceptance, Linking relationship, or Consumer Receiving Info profile is a payout gate. |
 | Bill Tier Evidence and approval | Tier 1 consumes no attached-Evidence Payout gate. Tier 2 requires qualifying official Bill Evidence acceptance before the Evidence-related Payout gate may pass, even where Payment confirmed while review was pending. Tier 3 requires qualifying Evidence and the designated authorized approval. |
@@ -216,7 +216,7 @@ An unresolved normalization rule blocks reliable G1 implementation but does not 
 
 ## 7. Payout Rails
 
-PayPlus MVP payout rails may include:
+CardMore MVP payout rails may include:
 
 | Rail | Use | Notes |
 | --- | --- | --- |
@@ -277,7 +277,7 @@ Backend and data handling must preserve the full split-payment structure while a
 Core rule:
 
 ```text
-PayPlus may aggregate payout to the payee, but must not collapse or overwrite the underlying split-payment funding records.
+CardMore may aggregate payout to the payee, but must not collapse or overwrite the underlying split-payment funding records.
 ```
 
 ### 9.1 Same-Business-Day Grouping
@@ -343,7 +343,7 @@ Batch rules:
 
 ### 10.2 Bank File and API Options
 
-PayPlus should support:
+CardMore should support:
 
 - generating a batch file for bank upload;
 - manual upload to bank portal where API is unavailable;
@@ -410,7 +410,7 @@ Technical data representation and matching records remain deferred without a sel
 
 ## 13. Reconciliation Matching Rules
 
-PayPlus must recognize successful individual payouts from bank feeds or uploaded records.
+CardMore must recognize successful individual payouts from bank feeds or uploaded records.
 
 Matching may use:
 
@@ -528,7 +528,7 @@ DOC-10 defines the Payout and reconciliation policy boundaries. Where an owner a
 
 Access to Payout destination, bank account, FPS, cheque, EPS, Payout batch, bank-feed, reconciliation, and economic-Payee-sensitive records must follow DOC-15 classification, masking, approved-purpose access, retention, export-control, and audit requirements. DOC-10 does not define detailed screens, queues, permissions, workflow, or technical audit representation. DOC-22 may execute only a specifically owner-permitted operation; any technical representation remains deferred without a selected owner.
 
-Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A conflict that changes product meaning must be handled under the canonical PayPlus Documentation Development Workflow.
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A conflict that changes product meaning must be handled under the canonical CardMore Documentation Development Workflow.
 
 ---
 
@@ -668,6 +668,7 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.2.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.1.2 | 2026-08-31 | Corrected the limited §22 technical data-model allocation while preserving its valid integration, privacy, workflow-execution, business-recording/explainability-handoff, and DOC-10 acceptance meaning; detailed technical data representation remains deferred without selecting an owner. |
 | 1.1.1 | 2026-08-31 | Corrected the fifteen limited technical-allocation references while preserving DOC-10 Payout, Settlement, reconciliation, Finance, valid owner-handoff, `Payout Complete`, and HOME-ROOT meanings; technical representation remains deferred without selecting an owner. |
 | 1.1.0 | 2026-08-22 | Drafted the Tier 2 confirmed-Payment, Evidence, and Payout-held/release separation for downstream source consumers without creating a Payout transition, notification, Refund rule, security mechanism, or enablement claim. |

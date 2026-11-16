@@ -1,7 +1,7 @@
 ---
 document_id: DOC-16
 title: Technical Architecture Specification
-version: 0.2.2
+version: 0.3.0
 status: Draft
 owner: Engineering / Architecture
 reviewers:
@@ -18,11 +18,11 @@ approvers:
   - Engineering Lead
   - Security Lead
   - Compliance Lead
-last_updated: 2026-08-27
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
-  - DOC-01 Project Charter & Product Positioning
+  - DOC-01 Product Overview & Positioning
   - DOC-04 Compliance Control Framework
   - DOC-05 Master PRD & Feature Requirement Index
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -50,20 +50,20 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-16` |
 | **Title** | Technical Architecture Specification |
-| **Version** | `0.2.2` |
+| **Version** | `0.3.0` |
 | **Status** | Draft |
 | **Owner** | Engineering / Architecture |
 | **Reviewers** | Engineering Lead<br>Architecture Lead<br>Payments Lead<br>Security Lead<br>Privacy Lead<br>Data Lead<br>Operations Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Engineering Lead<br>Security Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-27` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
-| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Project Charter & Product Positioning<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow<br>DOC-99 ISMS Policy Library |
+| **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow<br>DOC-99 ISMS Policy Library |
 
 > This is a Stage 9-passed Draft. It is not Approved and does not establish production readiness, provider approval, regulatory approval, ISO/IEC 27001 certification, PCI DSS compliance, or PCI DSS scope elimination.
 
 ## 1. Purpose, scope, and ownership
 
-DOC-16 translates accepted PayPlus product, payment, risk, privacy, compliance, and operational requirements into a vendor-neutral technical architecture posture and owner contracts.
+DOC-16 translates accepted CardMore product, payment, risk, privacy, compliance, and operational requirements into a vendor-neutral technical architecture posture and owner contracts.
 
 It owns system context, trust boundaries, modular architecture, evidence-based isolation, local transaction and cross-boundary handoff principles, reliability, recovery, reconciliation, observability, technical evidence obligations, and technical owner routing.
 
@@ -85,7 +85,7 @@ Engineering / Architecture is the primary owner. A handoff is complete only when
 | Decision | Accepted direction | DOC-16 representation |
 | --- | --- | --- |
 | `DOC16-FD-01` | Risk-isolated modular architecture; cohesive modular core by default; isolate only where evidence justifies it; no full-microservices commitment | Sections 3 and 4 |
-| `DOC16-FD-02` | Provider-controlled card-data capture and tokenization; PayPlus systems do not receive, process, transmit, or retain raw PAN or card-verification values under the current provider-controlled boundary | Section 5 |
+| `DOC16-FD-02` | Provider-controlled card-data capture and tokenization; CardMore systems do not receive, process, transmit, or retain raw PAN or card-verification values under the current provider-controlled boundary | Section 5 |
 | `DOC16-FD-03` | Each authoritative owner commits local state and invariants atomically within its own boundary; no cross-owner single transaction; durable retryable idempotent handoffs with correlation, auditability, recovery, and reconciliation | Sections 6 and 7 |
 | `DOC16-FD-04` | Engineering / Architecture owns DOC-16; only DOC-16 is writable in this Draft; DOC-17, DOC-18, DOC-19, and all other files are protected | Sections 1, 2, and 10 |
 
@@ -105,7 +105,7 @@ Technical recommendations must distinguish accepted requirements, assumptions, r
 
 ### 2.4 Accepted product and domain constraints
 
-- PayPlus is a controlled bill, fee, rent, and approved-payee payment application, not a wallet, stored-value account, unrestricted peer-to-peer transfer product, cashout/remittance product, lending product, or open money-request marketplace.
+- CardMore is a controlled bill, fee, rent, and approved-payee payment application, not a wallet, stored-value account, unrestricted peer-to-peer transfer product, cashout/remittance product, lending product, or open money-request marketplace.
 - Bill/Rent remains the authoritative source business object. Evidence supports verification and is not itself payable.
 - DOC-09 owns Payment Domain semantics from Bill/Rent Payable Basis through Payment Obligation, Checkout Workspace, funding execution, Payment, and Payment Application.
 - Checkout executes against Payment Obligations and not directly against Evidence, Bill/Rent, Projection, or Bill/Rent Payable Basis.
@@ -118,9 +118,9 @@ Technical recommendations must distinguish accepted requirements, assumptions, r
 
 ### 3.1 Risk-isolated modular architecture
 
-PayPlus uses a cohesive modular core by default. A separate process, deployment, or security boundary is introduced only when evidence shows a material benefit for sensitivity, payment-data exposure, trust, least privilege, failure isolation, scaling, reliability, compliance evidence, or independent change.
+CardMore uses a cohesive modular core by default. A separate process, deployment, or security boundary is introduced only when evidence shows a material benefit for sensitivity, payment-data exposure, trust, least privilege, failure isolation, scaling, reliability, compliance evidence, or independent change.
 
-This is not a predefined service catalogue and does not commit PayPlus to full microservices. The absence of evidence for separation is a reason to retain a cohesive module, not a reason to invent a service topology.
+This is not a predefined service catalogue and does not commit CardMore to full microservices. The absence of evidence for separation is a reason to retain a cohesive module, not a reason to invent a service topology.
 
 For each proposed boundary, Engineering / Architecture should record the problem, owner, evidence, alternatives rejected, business and operational impact, cost and complexity, failure and recovery effect, and later rollback or exit treatment.
 
@@ -131,7 +131,7 @@ For each proposed boundary, Engineering / Architecture should record the problem
 | Public and client entry | Receive untrusted input and present approved interaction | Cannot authorize Payment, identity, status, or privileged access. |
 | Authenticated application capabilities | Coordinate approved user actions | Must revalidate current owner facts, authorization, eligibility, risk, and privacy controls. |
 | Authoritative domain modules | Own accepted product and domain facts and invariants | One primary owner; downstream views cannot silently rewrite truth. |
-| Provider-controlled card-data boundary | Keep protected card values outside PayPlus by default | PayPlus handles only provider token/reference values and approved masked metadata where permitted. |
+| Provider-controlled card-data boundary | Keep protected card values outside CardMore by default | CardMore handles only provider token/reference values and approved masked metadata where permitted. |
 | Privileged operations | Support owner-permitted review, support, incident, and reconciliation work | Least privilege, segregation of duties, revalidation, and audit are required. |
 | Data, audit, reporting, and analytics | Preserve lineage and approved-purpose downstream representations | Must not become a competing source of financial or product truth. |
 
@@ -156,7 +156,7 @@ This view names relationships only. It does not imply that every arrow is asynch
 
 - Re-evaluate identity, authorization, data sensitivity, approved purpose, and current state at every material boundary.
 - A client, notification, redirect, callback, or projection cannot establish an authoritative financial fact by itself.
-- A provider observation is evidence to be evaluated under PayPlus policy, not proof of successful Payment by itself.
+- A provider observation is evidence to be evaluated under CardMore policy, not proof of successful Payment by itself.
 - Privileged operations require owner permission, current-state revalidation, reason capture where applicable, and audit evidence.
 - Boundary failure must preserve committed authoritative facts, stop unsafe transitions, and route recovery or reconciliation to the responsible owner.
 
@@ -169,6 +169,9 @@ This view names relationships only. It does not imply that every arrow is asynch
 - A projection or read model may be rebuilt from authoritative inputs where its owner permits; rebuilding must not mutate the source fact.
 - Shared infrastructure must not bypass owner boundaries, least privilege, audit, or data classification.
 - Technical convenience must not omit payment, evidence, risk, privacy, security, or reconciliation controls from an MVP path.
+- Modules and their public contracts must be identifiable and inspectable in the implementation, with allowed dependency directions explicit. Dependencies must not form cycles or bypass another module's private boundary or an authoritative owner's contract.
+- Equivalent responsibilities should use discoverable default conventions and genuine reusable, testable behavior. A real exception must have an explicit reason and be tested; convention alone must not erase a necessary owner boundary.
+- Maintain versioned, persistent code-repository guidance for Coding Standard, Pattern Library and Agent Rules. These are guidance responsibilities, not a requirement for three separate files or a new canonical product document; they consume, and cannot override, the formal owners' accepted requirements.
 
 ### 4.2 Isolation evidence
 
@@ -188,7 +191,7 @@ Isolation is not automatically microservices. A later owner may recommend a diff
 
 ### 5.1 Canonical expression
 
-> Provider-controlled card-data capture and tokenization; PayPlus systems do not receive, process, transmit, or retain raw PAN or card-verification values unless a future separately authorized Proposal explicitly changes that boundary.
+> Provider-controlled card-data capture and tokenization; CardMore systems do not receive, process, transmit, or retain raw PAN or card-verification values unless a future separately authorized Proposal explicitly changes that boundary.
 
 Provider token/reference values and approved masked metadata are distinct from raw PAN or card-verification values. A token/reference is an integration reference and does not authorize reconstruction, display, or inference of the protected values.
 
@@ -196,14 +199,14 @@ Provider token/reference values and approved masked metadata are distinct from r
 
 - Prefer provider-controlled capture and tokenization for supported payment-card flows.
 - Keep the capture boundary explicit in context, trust-boundary analysis, integration ownership, and later implementation evidence.
-- Do not place raw PAN or card-verification values in PayPlus state, logs, traces, analytics, support tools, test fixtures, screenshots, documentation examples, or durable handoffs.
+- Do not place raw PAN or card-verification values in CardMore state, logs, traces, analytics, support tools, test fixtures, screenshots, documentation examples, or durable handoffs.
 - Pass only the minimum provider-approved information required for an owner-authorized operation.
 - Apply the same boundary to normal, failure, retry, support, reconciliation, and audit paths.
 - Treat a future request to receive, process, transmit, or retain raw PAN or card-verification values as a new material architecture/security Proposal.
 
 ### 5.3 Assurance boundary
 
-Provider-controlled capture is an intended scope-minimization posture. It does not eliminate PayPlus responsibilities and does not establish PCI DSS scope, compliance, certification, or regulatory approval. Final applicability, shared responsibility, provider evidence, payment-page security, controls, tests, and assessment remain later owner work.
+Provider-controlled capture is an intended scope-minimization posture. It does not eliminate CardMore responsibilities and does not establish PCI DSS scope, compliance, certification, or regulatory approval. Final applicability, shared responsibility, provider evidence, payment-page security, controls, tests, and assessment remain later owner work.
 
 ## 6. Authoritative transactions and durable handoffs
 
@@ -211,7 +214,7 @@ Provider-controlled capture is an intended scope-minimization posture. It does n
 
 Each authoritative domain owner commits its own local state and invariants atomically within its owned transactional boundary. This is the boundary within which that owner can guarantee the required transition and invariants.
 
-No single database transaction is assumed across independently owned domains, providers, services, or external systems. DOC-16 does not imply a distributed transaction, shared database authority, or atomic provider-plus-PayPlus commit.
+No single database transaction is assumed across independently owned domains, providers, services, or external systems. DOC-16 does not imply a distributed transaction, shared database authority, or atomic provider-plus-CardMore commit.
 
 ### 6.2 Durable cross-boundary handoff
 
@@ -263,7 +266,7 @@ A degraded path may defer a result or reduce availability, but must not bypass a
 | Local operation fails before commit | Preserve local invariants and permit only owner-approved retry | Emit downstream success or create a partial authoritative fact |
 | Handoff is delayed or unavailable | Retain sufficient intent/evidence for retry, monitoring, escalation, or reconciliation | Treat delivery absence as source failure or rewrite source truth |
 | Duplicate handoff or provider result | Apply receiving-owner idempotent handling | Create duplicate Payment, financial effect, or privileged action |
-| Provider result is unknown | Preserve known PayPlus state and reconcile before unsafe resubmission | Treat timeout or browser return as success |
+| Provider result is unknown | Preserve known CardMore state and reconcile before unsafe resubmission | Treat timeout or browser return as success |
 | Late accepted confirmation | Apply DOC-09 late-confirmation rules | Reopen Checkout or automatically create Application |
 | Projection is stale | Revalidate against current authoritative state | Use stale projection to authorize Payment, payout, risk release, or privileged access |
 | Reconciliation finds contradiction | Preserve source facts, record discrepancy, and route to owner | Silently overwrite authoritative or immutable facts |
@@ -280,6 +283,8 @@ Material paths must provide later evidence of the responsible owner and boundary
 Correlation and causation relationships should connect authoritative operations, provider evidence, handoffs, projections, and operational resolution. DOC-18 defines the business-recording, historical-basis, lineage and explainability obligations. Exact identifiers, fields, machine event taxonomy, logging design and reporting structures remain separately authorized technical work with DOC-17, DOC-19 and DOC-21 handoffs as applicable.
 
 Auditability must preserve that an action, decision, handoff, failure, recovery, reconciliation, or access occurred without copying prohibited or unnecessary sensitive values into logs or analytics. Raw PAN or card-verification values must not appear in logs, traces, audit payloads, analytics, test data, support exports, or handoff content.
+
+Material effects and errors must be explicit and safely diagnosable at the relevant owner boundary. Diagnostic evidence must respect DOC-18's business-recording and explainability obligations and DOC-19's security controls; it does not authorize new fields, representations or mechanisms.
 
 | Architecture requirement | Later evidence expected | Primary owners |
 | --- | --- | --- |
@@ -335,6 +340,8 @@ DOC-16 must not claim ISO/IEC 27001 certification, PCI DSS compliance, PCI DSS s
 DOC-16 does not select a cloud vendor, runtime, database, message broker, container/orchestration platform, PSP/acquirer, exact service count, or numerical SLO/RTO/RPO value. These are delegated technical decisions unless their material cost, schedule, scope, or residual-risk effect requires Founder acceptance.
 
 Later selections must preserve environment separation, controlled promotion, least privilege, secret minimization, traceable configuration, safe recovery or rollback, observability, audit evidence, provider responsibility evidence, classification, masking, retention, and testability.
+
+Migration, evolution, backfill, compatibility and recovery must preserve the minimum record, history, query and permitted Admin capabilities required by their owners and preserve financial effects and their explainable history. Evidence must cover applicable change and recovery paths; this does not select a storage, migration, deployment or implementation mechanism.
 
 A code, configuration, provider, infrastructure, or deployment change that affects an accepted DOC-16 boundary must map to the relevant owner, security, privacy, compliance, test, operational, and evidence requirements. This Draft authorizes no implementation, infrastructure creation, provider onboarding, or release.
 
@@ -406,13 +413,13 @@ These items are owner-backed deferred detail, not permission to invent answers i
 
 | ID | Acceptance criterion |
 | --- | --- |
-| `ARC16-AC-001` | DOC-16 states a cohesive modular core by default and evidence-driven isolation without committing to full microservices. |
+| `ARC16-AC-001` | DOC-16 states a cohesive modular core by default and evidence-driven isolation without committing to full microservices; inspectable module contracts and dependency direction prevent private-boundary bypass and cycles, with discoverable reusable conventions and reasoned, tested exceptions. |
 | `ARC16-AC-002` | Context and trust boundaries cover public/client, authenticated, authoritative domain, provider-controlled card-data, privileged operations, and data/audit/analytics concerns without inventing deployments. |
-| `ARC16-AC-003` | The canonical provider-controlled card-data capture and tokenization boundary is consistent, distinguishes provider token/reference values and approved masked metadata, and prohibits raw PAN or card-verification values in PayPlus systems by default. |
+| `ARC16-AC-003` | The canonical provider-controlled card-data capture and tokenization boundary is consistent, distinguishes provider token/reference values and approved masked metadata, and prohibits raw PAN or card-verification values in CardMore systems by default. |
 | `ARC16-AC-004` | Each authoritative owner is assigned local atomicity and invariant responsibility, with no assumed cross-domain, provider, service, or external single transaction. |
 | `ARC16-AC-005` | Cross-boundary handoffs are durable, retryable, idempotent, correlated, auditable, recoverable, and reconcilable, and never replace or silently rewrite authoritative truth. |
-| `ARC16-AC-006` | Normal, duplicate, timeout, late-confirmation, failure, recovery, reconciliation, stale-projection, administrative, operational-expiry, and indefinite-retention paths are addressed. |
-| `ARC16-AC-007` | Owner contracts, protected scope, technical delegation, Founder escalation triggers, assumptions, open questions, and later routing are explicit. |
+| `ARC16-AC-006` | Normal, duplicate, timeout, late-confirmation, failure, recovery, reconciliation, stale-projection, administrative, operational-expiry, and indefinite-retention paths are addressed; applicable migration, evolution, backfill and compatibility preserve owner-required record, history, query, permitted Admin capabilities and financial effects. |
+| `ARC16-AC-007` | Owner contracts, protected scope, technical delegation, Founder escalation triggers, assumptions, open questions, later routing and versioned code-repository Coding Standard, Pattern Library and Agent Rules responsibilities are explicit without creating a new canonical product document. |
 | `ARC16-AC-008` | Security & Compliance by Design covers least privilege, segregation of duties, minimization, ISO/IEC 27001 and PCI DSS consideration, shared responsibility, and no certification/compliance claims from design alone. |
 | `ARC16-AC-009` | DOC-16 invents no provider mechanics, API contracts, schemas, event names, persistence products, security constants, routes, statuses, permissions, or implementation completion. |
 
@@ -431,6 +438,7 @@ DOC-16 consumes the accepted Bills Tier 1/2/3, C1/G1/G2 and highest-tier precede
 ## Version History
 | Version | Date | Owner | Change |
 | --- | --- | --- | --- |
+| 0.3.0 | 2026-11-16 | Product Documentation Team | Added bounded module contracts, shared engineering guidance, diagnostic and evolution principles; aligned the current name and DOC-01 title reference. |
 | 0.2.2 | 2026-08-27 | Engineering / Architecture | Distinguished DOC-18's reviewed business-recording and explainability handoff from separately authorized future technical representation without selecting schemas, events, persistence, or implementation. |
 | 0.2.1 | 2026-08-21 | Engineering / Architecture | Aligned DOC-19 handoffs with the reviewed mechanism-neutral security-control contract while preserving open provider, representation, security-mechanism, and professional PCI decisions. |
 | 0.2.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |

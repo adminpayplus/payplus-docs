@@ -1,14 +1,14 @@
 ---
 document_id: DOC-17
 title: API & Third-party Integration Specification
-version: 0.1.0
+version: 0.2.0
 status: Draft
 owner: Engineering / Integration
 reviewers:
   - TBD
 approvers:
   - TBD
-last_updated: 2026-08-25
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -37,12 +37,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-17` |
 | **Title** | API & Third-party Integration Specification |
-| **Version** | `0.1.0` |
+| **Version** | `0.2.0` |
 | **Status** | Draft |
 | **Owner** | Engineering / Integration |
 | **Reviewers** | TBD |
 | **Approvers** | TBD |
-| **Last Updated** | `2026-08-25` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard & Operations Workflow |
 
@@ -50,7 +50,7 @@ related_documents:
 
 ## 1. Purpose, scope, and ownership
 
-DOC-17 translates accepted PayPlus product, domain, architecture, security, privacy, risk, operations, and acceptance requirements into a reviewable provider-neutral external interaction contract. It defines the required interaction evidence, separation of authority, and owner handoffs that a later selected external provider or integration pattern must faithfully realise.
+DOC-17 translates accepted CardMore product, domain, architecture, security, privacy, risk, operations, and acceptance requirements into a reviewable provider-neutral external interaction contract. It defines the required interaction evidence, separation of authority, and owner handoffs that a later selected external provider or integration pattern must faithfully realise.
 
 DOC-17 is the primary owner for the provider-neutral interaction contract, its Functional-Surface Coverage, and its evidence and handoff obligations. It does not become the primary owner of the facts or consequences that an interaction may concern.
 
@@ -72,7 +72,7 @@ DOC-17 is the primary owner for the provider-neutral interaction contract, its F
 The required reasoning order is:
 
 ```text
-Accepted PayPlus owner rules
+Accepted CardMore owner rules
 -> DOC-17 provider-neutral External Interaction Contract
 -> candidate-specific factual evidence and feasibility assessment
 -> future provider selection and professional confirmation
@@ -80,7 +80,7 @@ Accepted PayPlus owner rules
 -> implementation and acceptance evidence
 ```
 
-Candidate-provider documentation, delivery records, callbacks, returns, queries, files, reports, redirects, token or reference values, and manual uploads are supporting observations or evidence only. They cannot narrow, replace, or reopen an accepted PayPlus requirement, and they do not by themselves become Payment, Payout, Evidence acceptance, risk, identity, authorization, notification decision, case, privacy, or other PayPlus truth.
+Candidate-provider documentation, delivery records, callbacks, returns, queries, files, reports, redirects, token or reference values, and manual uploads are supporting observations or evidence only. They cannot narrow, replace, or reopen an accepted CardMore requirement, and they do not by themselves become Payment, Payout, Evidence acceptance, risk, identity, authorization, notification decision, case, privacy, or other CardMore truth.
 
 DOC-17 must not be used to introduce a wallet, stored-value account, unrestricted peer-to-peer transfer, cashout, remittance, lending, cash advance, or open money-request marketplace model.
 
@@ -89,7 +89,7 @@ DOC-17 must not be used to introduce a wallet, stored-value account, unrestricte
 | Term | Meaning and boundary |
 | --- | --- |
 | **External Interaction** | A provider-neutral exchange, delivery, inbound observation, outbound consumer relationship, or operational interaction that may require contract evidence. It does not imply a selected provider or an implemented interface. |
-| **External Observation** | A received or attempted external signal, including a return, callback, query result, file, report, delivery record, redirect, or manual upload. It is not authoritative PayPlus truth by itself. |
+| **External Observation** | A received or attempted external signal, including a return, callback, query result, file, report, delivery record, redirect, or manual upload. It is not authoritative CardMore truth by itself. |
 | **Interaction Reference** | A provider-neutral reference used for correlation or later investigation. It is not an authorization, financial result, or protected value. |
 | **Integrity / Provenance Evidence** | Evidence concerning source, completeness, correlation, timing, delivery, or limitation. It does not decide domain acceptance. |
 | **Representation / Lineage** | The later record of observation, source, correlation, and relationship. DOC-18 owns its representation. |
@@ -113,14 +113,14 @@ Every material interaction must preserve the following separate layers:
 
 | ID | Requirement |
 | --- | --- |
-| `PNIC-01` | Start from accepted PayPlus owner rules. A provider observation or capability statement must not redefine product, financial, security, privacy, Evidence, risk, status, or lifecycle meaning. |
-| `PNIC-02` | Classify each external signal as an External Observation, not as authoritative PayPlus truth. |
+| `PNIC-01` | Start from accepted CardMore owner rules. A provider observation or capability statement must not redefine product, financial, security, privacy, Evidence, risk, status, or lifecycle meaning. |
+| `PNIC-02` | Classify each external signal as an External Observation, not as authoritative CardMore truth. |
 | `PNIC-03` | Do not automatically convert an External Observation into a Payment, Payout, Evidence acceptance, risk outcome, authorization, notification decision, case outcome, or privileged effect. |
 | `PNIC-04` | Name the applicable owner evaluation and downstream owner handoff wherever an observation may be relevant to an authoritative outcome. |
 | `PNIC-05` | Preserve uncertainty and the evidence limitation for duplicate, replayed, late, missing, stale, malformed, contradictory, unknown-origin, or unavailable observations. |
 | `PNIC-06` | Require a provider-neutral interaction reference and correlation obligation sufficient for later owner investigation, recovery, reconciliation, and audit without defining a field, schema, event, or identifier format. |
 | `PNIC-07` | Require provenance, integrity, completeness, and timing evidence appropriate to the interaction class without selecting transport, validation, signing, or security mechanisms. |
-| `PNIC-08` | Duplicate or replayed external evidence must not create a second PayPlus notification decision, financial consequence, domain consequence or privileged effect. Provider delivery retry and delivery semantics remain owned by DOC-08. |
+| `PNIC-08` | Duplicate or replayed external evidence must not create a second CardMore notification decision, financial consequence, domain consequence or privileged effect. Provider delivery retry and delivery semantics remain owned by DOC-08. |
 | `PNIC-09` | Preserve already-authoritative facts when uncertainty arises. An uncertain observation must not automatically resubmit work, reopen Checkout, or create a new Payment or Payment Application. |
 | `PNIC-10` | Do not release Payout, apply a financial correction, resolve a case, or invoke a privileged action from an observation alone; the applicable owner rule and evaluation remain required. |
 | `PNIC-11` | Treat normal, duplicate, replayed, late, missing, stale, malformed, contradictory, unknown, and unavailable observations as separately assessable conditions. Do not impose an unsupported hierarchy between callback, query, report, file, portal, return, delivery record, or alert. |
@@ -137,7 +137,7 @@ Every material interaction must preserve the following separate layers:
 | `PNIC-17` | Hand off required acceptance, monitoring, incident, support, change, maintenance, deprecation, and operational evidence to DOC-20 and DOC-21; DOC-22 may execute only an owner-permitted workflow. |
 | `PNIC-18` | Where an external interaction concerns evidence, document verification, eKYC, or KYB, involve DOC-12 only for the applicable Evidence or document-verification concern. This does not transfer identity, risk, privacy, security, Payment, or authorization authority to DOC-12. |
 | `PNIC-19` | For Bill/Rent-related interactions, DOC-17 must consume and must not weaken the applicable formal owner rules for Tier 2, Tier 3, Rent Evidence gating and G1 treatment. The product, payment, Evidence, risk and Payout owners retain their detailed definitions. |
-| `PNIC-20` | Maintain Functional-Surface Coverage for the identified PayPlus functional families and apply the Extension Rule before treating a new or newly externalised capability as covered. Coverage does not approve a capability, provider, permission, route, status, schema, or implementation. |
+| `PNIC-20` | Maintain Functional-Surface Coverage for the identified CardMore functional families and apply the Extension Rule before treating a new or newly externalised capability as covered. Coverage does not approve a capability, provider, permission, route, status, schema, or implementation. |
 | `PNIC-21` | Provider-neutrality makes replacement across provider, language and framework achievable only when later architecture, representation, security and implementation owners faithfully realise the accepted contract. DOC-17 neither selects nor defines those mechanisms. |
 | `PNIC-22` | Treat an external authorized AI agent as a future Founder decision only. No AI actor, authority, data-sharing arrangement, or execution capability is created by this Draft. |
 
@@ -158,7 +158,7 @@ The profiles below organise the interaction contract. They do not require a prov
 
 ### 6.1 Coverage rule
 
-This matrix is a complete coverage classification for currently identified PayPlus functional families. It does not map every screen, control, or hypothetical feature to an external interface. Each row has exactly one current result:
+This matrix is a complete coverage classification for currently identified CardMore functional families. It does not map every screen, control, or hypothetical feature to an external interface. Each row has exactly one current result:
 
 - **No external interaction** — no external interaction is currently required by the accepted owner rule;
 - **Conditional** — an external interaction may be relevant only when an owner-approved condition or later provider decision requires it;
@@ -199,12 +199,12 @@ External observations may be received through a callback, query, report, file, p
 
 | Condition | DOC-17 contract obligation | Prohibited automatic effect |
 | --- | --- | --- |
-| Duplicate or replayed evidence | Preserve the observation and correlation evidence; prevent a second PayPlus decision or consequence. | A second notification decision, financial consequence, domain consequence, privileged effect, Payment, Payout, or case effect. |
+| Duplicate or replayed evidence | Preserve the observation and correlation evidence; prevent a second CardMore decision or consequence. | A second notification decision, financial consequence, domain consequence, privileged effect, Payment, Payout, or case effect. |
 | Late, stale, missing, unknown, or unavailable evidence | Preserve uncertainty and make an owner-routed recovery, reconciliation, support, or escalation handoff possible. | Assumed success or failure, automatic resubmission, reopening of Checkout, or automatic Payment/Application creation. |
 | Malformed, contradictory, or unknown-origin evidence | Preserve the limitation and route for owner/security evaluation under applicable rules. | Treating the observation as trusted truth, releasing Payout, changing a case, or invoking a privileged action. |
 | Incomplete bank or settlement report | Preserve source, period, count, correlation, and completeness limitation for reconciliation. | Declaring Settlement, Payout, or reconciliation accepted. |
 
-The following boundary remains exact: duplicate or replayed external evidence must not create a second PayPlus notification decision, financial consequence, domain consequence or privileged effect. Provider delivery retry and delivery semantics remain owned by DOC-08.
+The following boundary remains exact: duplicate or replayed external evidence must not create a second CardMore notification decision, financial consequence, domain consequence or privileged effect. Provider delivery retry and delivery semantics remain owned by DOC-08.
 
 ## 8. Bill/Rent, Evidence, Payment, and Payout consumption boundary
 
@@ -301,4 +301,5 @@ The following are intentionally open or deferred. They do not block faithful exp
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | `0.1.0` | `2026-08-25` | Engineering / Integration | Initial Draft of the approved provider-neutral External Interaction Contract, including settled correction and traceability coverage; no provider selection or implementation detail. |

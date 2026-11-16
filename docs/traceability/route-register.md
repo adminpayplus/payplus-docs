@@ -5,7 +5,7 @@ Owner: Product / Founder
 Last updated: 2026-11-13
 Classification: Internal
 
-This register is the canonical inventory of PayPlus product destinations. Owning documents define behavior; this register tracks identity, parentage, type, ownership, and definition status without restating detailed requirements.
+This register is the canonical inventory of CardMore product destinations. Owning documents define behavior; this register tracks identity, parentage, type, ownership, and definition status without restating detailed requirements.
 
 ## Status Definitions
 
@@ -30,7 +30,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `ACCOUNT-ACTIVATION` | Blocked financial action / other permitted activation caller | Orchestration route flow | Coordinate actual missing owner requirements and return after revalidation. New Done/Home identity callers invoke the shared child directly under DOC-06B Section 5.0.5; they do not require the old checklist hop. | DOC-06B | Defined baseline |
 | `PHONE-VERIFICATION` | `ACCOUNT-PROFILE` | Reusable child flow | Verify or replace the required Hong Kong primary phone number; may be invoked contextually by `ACCOUNT-ACTIVATION`. | DOC-06B | Defined baseline |
 | `HOME-ROOT` | Successful login / bottom navigation: Home | Root screen | Open the Payer task-first dashboard, including current new-user identity/no-source composition and source-derived calendar/label Upcoming views under DOC-06B Sections 5.5/5.8; views create no obligations. | DOC-06B | Partially defined |
-| `PAYPLUS-ACTION-SHEET` | Bottom navigation: Pay+ | Sheet / modal | Start approved Bill/Rent payment selection, bill/rent setup, or payment continuation through the four defined actions. | DOC-06B | Defined baseline |
+| `PAYPLUS-ACTION-SHEET` | Bottom navigation: CardMore | Sheet / modal | Start approved Bill/Rent payment selection, bill/rent setup, or payment continuation through the four defined actions. | DOC-06B | Defined baseline |
 | `MORE-ROOT` | Dashboard shortcut: More | Root screen | Manage up to 7 configurable Home shortcuts plus protected More, restore the current eligible default, and access approved secondary services. | DOC-06B | Defined baseline |
 | `NOTIFICATION-ROOT` | Home Inbox / standalone Me Notifications / approved notification context | Parent route shell | Group Inbox, notification detail, and notification settings; generic entry defaults to Inbox. | DOC-06B / DOC-08 | Defined baseline |
 | `NOTIFICATION-INBOX` | `NOTIFICATION-ROOT` / Home header | Default child screen | Search/filter and read permitted notification records; individual Read follows successful necessary Detail content. No Inbox Archive/Restore action or Archived filter; current domain actions remain Detail-first and owner-revalidated. | DOC-06B / DOC-08 | Defined baseline |
@@ -42,7 +42,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `BILLS-RECEIVE` | Former Bills Receive view | Retired route family | Retired; no Consumer-Payee or payee-user runtime is current. | DOC-06C | Superseded |
 | `BILLS-DETAIL-BILL` | `BILLS-PAY` | Child screen | View the same Bill source and current permitted actions, including source-bound inline Next Payment Reminder shared with applicable results; no separate Bill reminder-management route. | DOC-06C | Defined baseline |
 | `BILLS-DETAIL-RENT` | `BILLS-PAY` | Child screen | View one rent/tenancy obligation with permitted payer actions. | DOC-06C | Defined baseline |
-| `BILLS-ADD` | Bills / Pay+ | Flow / screen group | Capture a controlled Category-scoped Bill source or the separate Rent/tenancy context; Bill B/D/upfront unselected interval and deliberate review/Save follow DOC-06C. Confirmed new-source Pay and Instruction support returns retain their exact source identity and owner gates. | DOC-06C | Defined baseline |
+| `BILLS-ADD` | Bills / CardMore | Flow / screen group | Capture a controlled Category-scoped Bill source or the separate Rent/tenancy context; Bill B/D/upfront unselected interval and deliberate review/Save follow DOC-06C. Confirmed new-source Pay and Instruction support returns retain their exact source identity and owner gates. | DOC-06C | Defined baseline |
 | `BILLS-ACTIVITY` | Bill/rent detail | Child screen | Show permitted payment-related activity scoped to one Bill/Rent source, distinct from global history/Statistics and Evidence lifecycle. | DOC-06C | Defined baseline |
 | `BILLS-ACTIVITY-DETAIL` | `BILLS-ACTIVITY` | Child screen | Show one contextual payment-activity entry and permitted files. | DOC-06C | Defined baseline |
 | `BILLS-EVIDENCE-DETAIL` | Bill/rent detail | Child screen / sheet | View and manage the active evidence set for one obligation. | DOC-06C | Defined baseline |
@@ -50,8 +50,8 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `BILLS-REMINDER-LIST` | Existing permitted Rent reminder entry | Child screen | Retained Rent reminder management only under DOC-06C Section 5.12; Bill reminders are source-bound inline detail/result controls. The existing ID is not globally retired. | DOC-06C | Defined baseline |
 | `BILLS-REMINDER-DETAIL` | Retained Rent reminder list / Rent context | Child screen / sheet | Create or edit one retained Rent reminder under its separate policy. Bill inline date/mode controls are not a new destination or this central/manual Bill flow. | DOC-06C | Defined baseline |
 | `REQUESTS-*` | Former Requests route family | Retired route family | Retired; retained only in historical or superseded traceability material. | DOC-06A / DOC-06B | Superseded |
-| `INSTRUCTIONS-ROOT` | Dashboard shortcut / Pay+ | Root screen | List deliberate pay-later Payment Instructions and incomplete Checkout Workspaces without treating them as the same domain object. | DOC-06B | Defined baseline |
-| `INSTRUCTIONS-DETAIL` | `INSTRUCTIONS-ROOT` / Pay+ continuation / approved non-notification source context | Child screen | View and act on one Payment Instruction or one incomplete Checkout Workspace according to its distinct rules. A current Instruction `Pay Now` action invokes the DOC-09 Checkout Resolver without predetermining Checkout identity. | DOC-06B | Defined baseline |
+| `INSTRUCTIONS-ROOT` | Dashboard shortcut / CardMore | Root screen | List deliberate pay-later Payment Instructions and incomplete Checkout Workspaces without treating them as the same domain object. | DOC-06B | Defined baseline |
+| `INSTRUCTIONS-DETAIL` | `INSTRUCTIONS-ROOT` / CardMore continuation / approved non-notification source context | Child screen | View and act on one Payment Instruction or one incomplete Checkout Workspace according to its distinct rules. A current Instruction `Pay Now` action invokes the DOC-09 Checkout Resolver without predetermining Checkout identity. | DOC-06B | Defined baseline |
 | `PAYMENT-PROFILE-ROOT` | Dashboard shortcut / Me Payment Methods / Checkout / Instruction support | Root route family | Manage tokenized cards and the shared saved-ratio profile editor; return to the actual caller without submitting or forcing a financial action on ordinary Me management. | DOC-06B | Defined baseline |
 | `PAYMENT-CARD-LIST` | `PAYMENT-PROFILE-ROOT` Cards tab | Initial screen / tab content | List and manage tokenized cards. | DOC-06B | Defined baseline |
 | `PAYMENT-CARD-ADD` | `PAYMENT-CARD-LIST` | Child flow | Add and tokenize a card through the selected PSP flow. | DOC-06B | Defined baseline |
@@ -64,9 +64,9 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `RECEIPTS-ROOT` | Dashboard shortcut / permitted document contexts | Root screen | Search, render and download actual private receipt/Statement PDFs; Single/Combined membership follows actual eligible confirmed Payments. No unadopted Me Receipts row or general entitlement from the result-artifact exception. | DOC-06B | Defined baseline |
 | `RECEIPT-DETAIL` | `RECEIPTS-ROOT` / notification | Child PDF preview | Render the actual permitted private receipt PDF, including its Single/Combined presentation, with close/back to the actual caller and download of that file. | DOC-06B | Defined baseline |
 | `STATEMENT-DETAIL` | `RECEIPTS-ROOT` / notification | Child PDF preview | Render the actual permitted period Statement PDF with close/back and file download; spending Statistics is separate. | DOC-06B | Defined baseline |
-| `OFFERS-ROOT` | Bottom navigation: Offers / dashboard | Root screen | Discover Featured, Card, Pay+, and Partner offers. | DOC-06B | Defined baseline |
+| `OFFERS-ROOT` | Bottom navigation: Offers / dashboard | Root screen | Discover Featured, Card, CardMore, and Partner offers. | DOC-06B | Defined baseline |
 | `OFFERS-CARD-LIST` | `OFFERS-ROOT` | Child collection screen | View all Card Offers. | DOC-06B | Defined baseline |
-| `OFFERS-PAYPLUS-LIST` | `OFFERS-ROOT` | Child collection screen | View all Pay+ Offers. | DOC-06B | Defined baseline |
+| `OFFERS-PAYPLUS-LIST` | `OFFERS-ROOT` | Child collection screen | View all CardMore Offers. | DOC-06B | Defined baseline |
 | `OFFERS-PARTNER-LIST` | `OFFERS-ROOT` | Child collection screen | View all Partner Offers. | DOC-06B | Defined baseline |
 | `OFFER-DETAIL` | Offers surfaces / deeplink | Full-screen detail | Show one offer's full conditions and permitted action. | DOC-06B | Defined baseline |
 | `REWARDS-ROOT` | Offers / dashboard utility / Me / Referral | Root screen | Manage issued rewards through Active and History views. | DOC-06B | Defined baseline |
@@ -86,7 +86,7 @@ This register is the canonical inventory of PayPlus product destinations. Owning
 | `ARCHIVED-BILLS-LIST` | `ARCHIVED-ROOT` | Child list screen | Search, filter, and review the user's archived bill/fee and rent obligations, then open archived read-only bill/rent detail. | DOC-06C | Defined baseline |
 | `ARCHIVED-DOCS-LIST` | `ARCHIVED-ROOT` | Provisional child identity | Retained identity only; no active entry or archived-document/previous-version/Restore interaction contract is authorized by identity alone. | DOC-06B | ID or route open |
 | `SUPPORT-ROOT` | ME-ROOT / Settings & Support / contextual failures | Root route | Access support and issue-specific assistance. | DOC-06B / DOC-21 | Partially defined |
-| `ABOUT-ROOT` | `ME-ROOT` | Child route | Show PayPlus product and app information. | DOC-06B | Partially defined |
+| `ABOUT-ROOT` | `ME-ROOT` | Child route | Show CardMore product and app information. | DOC-06B | Partially defined |
 | `TERMS-ROOT` | `ME-ROOT` | Child route | Access applicable terms and policies. | DOC-06B / DOC-07 | Partially defined |
 
 ## Assigned Destinations Requiring Further Definition

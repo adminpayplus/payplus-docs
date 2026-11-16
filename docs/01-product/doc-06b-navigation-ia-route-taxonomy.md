@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 2.0.0
+version: 2.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-13
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `2.0.0` |
+| **Version** | `2.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-13` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -58,11 +58,11 @@ related_documents:
 
 ## Current Wave 2 Payer-only Route and IA Baseline
 
-This is the current normative DOC-06B Founder Working Baseline. Current active sections state Payer-only navigation, the four-action Pay+ sheet, BILLS-PAY, and owner handoffs directly. Prior Request, Linking, Receive, Consumer Receiving Info and pre-Checkout Save meaning may appear only in append-only version history or concise non-active documentation registers of retired stable IDs; it is not active or runtime behavior. Stable destination IDs and append-only history are preserved. No Route Register or route-status change is made in this route baseline.
+This is the current normative DOC-06B Founder Working Baseline. Current active sections state Payer-only navigation, the four-action CardMore sheet, BILLS-PAY, and owner handoffs directly. Prior Request, Linking, Receive, Consumer Receiving Info and pre-Checkout Save meaning may appear only in append-only version history or concise non-active documentation registers of retired stable IDs; it is not active or runtime behavior. Stable destination IDs and append-only history are preserved. No Route Register or route-status change is made in this route baseline.
 
 ### Global route and entry rules
 
-- Consumer Users are Payers only. A Payee is an economic recipient who may be an individual or institution/company and need not be a PayPlus User. DOC-06B does not create Payee-user navigation, account invitation, reciprocal visibility, Request or Linking routes.
+- Consumer Users are Payers only. A Payee is an economic recipient who may be an individual or institution/company and need not be a CardMore User. DOC-06B does not create Payee-user navigation, account invitation, reciprocal visibility, Request or Linking routes.
 - A durable Bill/Rent ID is not established merely by opening a route. ID establishment consumes an owner-governed source/Evidence preservation eligibility outcome. DOC-06B defines route/journey timing and does not independently define the technical persistence threshold or exact minimum fields required for the authoritative identity. The outcome establishes the ID before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or a payment-facing handoff requires stable source identity, including before immediate-pay Checkout; deliberate Setup consumes the same outcome before giving the same ID a Saved/current projection. Pending Evidence, mismatch or scoped Admin review does not automatically prevent ID establishment once the outcome permits it. ID establishment alone does not imply accepted Evidence, verified Payee, destination/Payout readiness, risk clearance, Payment Obligation or Checkout readiness, payer authorization, Payment success, Save or any Saved/current/Saved-Archived/history-only projection.
 - Directory and Provide Payee myself are bounded Bill-flow views/actions after selection of one of the twelve Founder-confirmed launch controlled Bill Categories in DOC-05, not new roots. Category-specific eligibility, Evidence criteria, detailed labels and Directory contents remain owner-backed deferrals. Rent is not a Bill Category; it is a separate journey and bypasses Category and Directory mechanics.
 - Immediate pay-now has no Save prompt before Checkout. After confirmed Payment, preserve an existing Saved/current projection without duplicate Save. Otherwise consume actual same-ID optional Save truth under DOC-05 §10.1: confirmed Save gives Saved/current; a known declined Save may receive history-only; unknown Retry reconciles the original effect. Skip/exit does not prove cancellation, failure or history-only. A permitted confirmed-result artifact may precede optional Save only with independently supplied current ownership/identity/eligibility and returns to that result, not general history/list access. Setup Save remains deliberate reuse/visibility intent, not Payment authorization.
@@ -88,7 +88,7 @@ This is the current normative DOC-06B Founder Working Baseline. Current active s
 
 ### Notification ownership rule
 
-The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. DOC-06B consumes that eligibility outcome and does not determine Payee type or make an Admin determination. Institution/company and unresolved/insufficient Individual determination leave notification unavailable. A governed Individual determination plus Payer choice may expose the informational one-way capability. Payer contact responsibility does not remove PayPlus obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. It creates no Request, Linking, acceptance, consent proof, invitation, reciprocal visibility, payment authorization or payment-state change. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity/channel/template/preference/delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 represents approved data/audit requirements; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
+The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. DOC-06B consumes that eligibility outcome and does not determine Payee type or make an Admin determination. Institution/company and unresolved/insufficient Individual determination leave notification unavailable. A governed Individual determination plus Payer choice may expose the informational one-way capability. Payer contact responsibility does not remove CardMore obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. It creates no Request, Linking, acceptance, consent proof, invitation, reciprocal visibility, payment authorization or payment-state change. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity/channel/template/preference/delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 represents approved data/audit requirements; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
 
 No new route ID, root, tab, replacement action, Directory root, self-provided root, legacy adapter, status or route-register entry is introduced.
 
@@ -100,7 +100,7 @@ The route and IA sections below are active current requirements for Payer-only n
 
 ## 1. Purpose
 
-DOC-06B governs PayPlus global app navigation, information architecture, dashboard placement, route taxonomy, screen/component/action ID standards, and route completion tracking.
+DOC-06B governs CardMore global app navigation, information architecture, dashboard placement, route taxonomy, screen/component/action ID standards, and route completion tracking.
 
 ## 2. Scope Boundary
 
@@ -117,7 +117,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 | Entrance and authentication | Defined baseline | `ENTRANCE-ROOT`, the Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL`, the Login family, Registration, Recovery, and Account Activation handoffs have human-readable behavior that is decision-complete enough for continued alignment. Exact DOC-07 Copy/CTA, final visual and accessibility evidence, technical implementation, and security mechanics remain open with their formal owners; these downstream dependencies do not block the `ENTRANCE-PROMOTION-DETAIL` Defined baseline. |
 | Bottom navigation | Working baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline exists; final visual design remains open. |
 | Home dashboard | Partially defined | `HOME-ROOT` and section order exist; final card and visual details remain open. |
-| Pay+ action sheet | Defined baseline | `PAYPLUS-ACTION-SHEET`, its four retained Payer-only actions, destination handoffs, availability behavior, and motion principles are defined; Request Payment is retired and exact visual specification remains open. |
+| CardMore action sheet | Defined baseline | `PAYPLUS-ACTION-SHEET`, its four retained Payer-only actions, destination handoffs, availability behavior, and motion principles are defined; Request Payment is retired and exact visual specification remains open. |
 | Shortcut grid and More | Defined baseline | Home supports a default and maximum of 8 shortcuts including protected `More`; `MORE-ROOT` manages account-level shortcut preferences and approved secondary-service entry. Final visual design remains open. |
 | Route taxonomy and ID standard | Working baseline | Stable product destination rules are defined; the canonical destination inventory is maintained in `docs/traceability/route-register.md`. |
 | Non-Bills route registry | Working baseline | Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral and Me core child routes have route-level baselines. `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST` retain active Payer-only route baselines; `ARCHIVED-DOCS-LIST` remains a provisional taxonomy identity with behavior deferred. Requests, BILLS-LINKING and Consumer Receiving Info remain retired stable IDs as non-active documentation evidence only; undefined destinations remain visible in the route register. |
@@ -136,7 +136,7 @@ Stable IDs and taxonomy terms are retained for traceability. Only concise non-ac
 | Route | Navigable destination or deep-link target. |
 | Screen | Full-page UI view rendered inside a route. |
 | Tab / View | Role-aware, state-aware, or filtered view inside a screen. |
-| Sheet / Modal | Temporary focused interaction, such as the Pay+ action sheet or confirmation modal. |
+| Sheet / Modal | Temporary focused interaction, such as the CardMore action sheet or confirmation modal. |
 | Component | Reusable UI unit such as a card, badge, action row, timeline entry, or carousel card. |
 | Flow | Ordered multi-step journey that may span routes, screens, sheets, and system touchpoints. |
 | Action | User-triggered behavior such as Pay, Upload Evidence, Set Reminder, or Archive. Former Request/Linking actions remain retired IDs in non-active documentation only. |
@@ -205,12 +205,12 @@ When this document or another route owner defines, renames, replaces, or materia
 
 | Destination | Type | Purpose | Definition Status |
 | --- | --- | --- | --- |
-| `ENTRANCE-ROOT` | Unauthenticated root screen | Present public PayPlus entry content and the Log In / Create Account actions. | Defined baseline; final visual, technical, and validation evidence pending |
+| `ENTRANCE-ROOT` | Unauthenticated root screen | Present public CardMore entry content and the Log In / Create Account actions. | Defined baseline; final visual, technical, and validation evidence pending |
 | `ENTRANCE-PROMOTION-DETAIL` | Public child screen | Display one approved public Promotion or Feature item, its inline Terms, and zero or one owner-approved action. | Defined baseline; human-readable UI/UX behavior is decision-complete enough for continued alignment, with exact Copy and downstream evidence pending |
 | `AUTH-LOGIN` | Route family / entry resolver | Resolve an existing-user login into Fast or Full Login according to the current device and account context. | Resolver rules defined |
 | `AUTH-LOGIN-FAST` | Child login screen | Reauthenticate a remembered eligible account through its distinct Login PIN or previously enabled device biometrics; Full OTP Login remains separate. | Screen behavior defined; technical mechanics open |
 | `AUTH-LOGIN-FULL` | Child login screen | Offer Phone/Email destination-specific OTP views and Google/Apple login where Fast Login is unavailable or another account is selected; these OTP views do not require a password. | Screen behavior defined; technical mechanics open |
-| `AUTH-RECOVERY` | Reusable child flow | Recover an existing PayPlus login password or resolve account-access recovery through an approved controlled flow. | Product behavior and resolution baseline defined; detailed security, support, message, and notification mappings open |
+| `AUTH-RECOVERY` | Reusable child flow | Recover an existing CardMore login password or resolve account-access recovery through an approved controlled flow. | Product behavior and resolution baseline defined; detailed security, support, message, and notification mappings open |
 | `AUTH-REGISTRATION` | Child registration flow | Complete Phone, Google or Apple registration through the shared verified-phone/data flow, mandatory matching Login PIN and explicit Terms/Privacy acceptance before confirmed restricted-account creation. | Screen and account-creation baseline defined |
 | `ACCOUNT-ACTIVATION` | Reusable orchestration flow | Coordinate the remaining phone, identity, and payment-passcode requirements for full registration. | Route, banner, and child handoffs defined |
 | `PHONE-VERIFICATION` | Reusable `ACCOUNT-PROFILE` child flow | Verify or replace the account phone number through the approved method; Account Activation may invoke initial verification contextually. | Defined behavior baseline; exact security mechanisms remain open under `OQ-19-001` with Security/Engineering and any provider contract with DOC-17 |
@@ -236,7 +236,7 @@ Business Rule and Current Context
 
 DOC-06B owns route-level Outcomes and the permitted Resolution Strategies at the human-readable product level. A Resolution Strategy may continue, restart, redirect, wait, invoke controlled Support, or stop. It is not a route, persistent status, message, CTA, or notification, and it does not require a standalone software service.
 
-Resolution must be capability-aware but disclosure-safe. PayPlus must use only authentication or recovery capabilities permitted by DOC-06B and the applicable account/route owner and must not reveal whether an account or login method exists before the required assurance. A remembered device, phone number, identity record, or provider email is not sufficient recovery proof; DOC-19 enforces security controls around owner-permitted capabilities without creating or permitting them.
+Resolution must be capability-aware but disclosure-safe. CardMore must use only authentication or recovery capabilities permitted by DOC-06B and the applicable account/route owner and must not reveal whether an account or login method exists before the required assurance. A remembered device, phone number, identity record, or provider email is not sufficient recovery proof; DOC-19 enforces security controls around owner-permitted capabilities without creating or permitting them.
 
 The current AUTH-family resolution baseline is:
 
@@ -257,7 +257,7 @@ These mappings refine handling only. They do not change existing login, account-
 
 `ENTRANCE-ROOT` remains the Defined public unauthenticated root. Its fixed screen order is:
 
-1. header with PayPlus logo, language action, and public Support and Terms actions;
+1. header with CardMore logo, language action, and public Support and Terms actions;
 2. full-width `ENTRANCE-CAROUSEL` image;
 3. Carousel item-selection dots where more than one item is active;
 4. horizontally arranged `Log In` and `Create Account` actions.
@@ -325,7 +325,7 @@ Provider identities use stable provider-specific identifiers. Matching email nev
 
 #### 5.0.3 `AUTH-RECOVERY`
 
-`AUTH-RECOVERY` is one reusable flow for resetting an existing PayPlus login password or resolving account-access recovery through another approved method. It does not reset the Payment Passcode, recover Google or Apple credentials, create a provider-only user's first PayPlus password anonymously, change the primary email, merge accounts, or preserve authentication or payment authorization.
+`AUTH-RECOVERY` is one reusable flow for resetting an existing CardMore login password or resolving account-access recovery through another approved method. It does not reset the Payment Passcode, recover Google or Apple credentials, create a provider-only user's first CardMore password anonymously, change the primary email, merge accounts, or preserve authentication or payment authorization.
 
 Invocation contexts are:
 
@@ -354,10 +354,10 @@ Recovery evaluates the safest currently permitted path rather than presenting a 
 | Situation / Outcome | Resolution Strategy | Product handling |
 | --- | --- | --- |
 | Recovery request accepted for neutral processing | Continue | Show Check Your Email without confirming account or password existence. |
-| Reset link valid and an existing PayPlus password is eligible for reset | Continue | Open New Password in a restricted reset session. |
+| Reset link valid and an existing CardMore password is eligible for reset | Continue | Open New Password in a restricted reset session. |
 | Link invalid, expired, consumed, or reused | Restart | Permit Request New Link or Return to Login through the DOC-07 mapping. |
 | Email inaccessible and an already-linked login method is safely usable | Redirect | Permit Try Another Login Method without exposing unverified linkage details. |
-| Provider-only account has no PayPlus password | Redirect | Return to provider login or controlled Support; do not create a first password through anonymous Recovery. |
+| Provider-only account has no CardMore password | Redirect | Return to provider login or controlled Support; do not create a first password through anonymous Recovery. |
 | Provider temporarily unavailable or cancelled | Redirect / Wait | Permit provider retry, another approved method, Provider Help, or Support as applicable. |
 | No approved self-service method remains | Support | Begin controlled Support-assisted recovery. Phone OTP alone is insufficient. |
 | Support cannot establish the required ownership assurance | Stop | Use a safe Recovery Not Permitted treatment without creating a security bypass or promising recovery. |
@@ -374,7 +374,7 @@ A trusted device, phone number, identity record, or provider-returned email may 
 - Successful reset revokes active sessions, refresh tokens, Fast Login eligibility, remembered authentication context, biometric login binding, effective device trust, and sensitive pending authorization state. Device records remain where required for audit.
 - Google and Apple credential recovery remains provider-owned. A usable linked provider may authenticate normally, after which first-password setup remains an authenticated `ACCOUNT-SECURITY` flow.
 - If the primary email is unavailable and no linked login method works, Recovery hands off to controlled Support. DOC-06B owns the Recovery capability and route behavior; exact proof, cooling-off, restriction, and security mechanisms remain open with the applicable Product/Security/Operations owners and `OQ-19-001`/`OQ-19-005`; DOC-19 enforces approved security conditions, DOC-21 owns support and case handling, DOC-15 owns approved-purpose privacy/access requirements, and DOC-22 executes only the permitted Support/Admin workflow under those owner decisions.
-- PayPlus may securely remember only an opaque intended destination during Recovery. After successful login, the destination and current permissions must be revalidated before return. Credentials, provider payloads, authorization results, and payment submission state must not be preserved.
+- CardMore may securely remember only an opaque intended destination during Recovery. After successful login, the destination and current permissions must be revalidated before return. Credentials, provider payloads, authorization results, and payment submission state must not be preserved.
 - A payment return must revalidate the obligation, evidence, amount, fees, benefit selection, payment method, receiving destination, activation, payer authorization, and risk controls. Payment must never auto-submit after Recovery.
 
 DOC-08 decides reset-link delivery and post-recovery security-notification treatment. DOC-18 owns recovery attempts, Outcomes, Resolution occurrences, correlations, session-revocation evidence, Support-case linkage, and audit lineage. DOC-20 owns detailed positive, neutral-equivalence, negative, expiry, replay, interruption, unconfirmed-result, accessibility, and return tests.
@@ -394,7 +394,7 @@ Do not add gender or a password requirement to this sequence. Provider email equ
 
 A provider identity already linked to an account offers Continue to Log In. An unlinked provider whose proposed primary email already belongs to an account must stop account creation and direct the user to Login or Recovery; it must not link by email.
 
-Before restricted-account creation, PayPlus records a temporary registration attempt, not an account:
+Before restricted-account creation, CardMore records a temporary registration attempt, not an account:
 
 - the attempt has its own attempt identifier and may retain temporary provider, email, phone, referral, consent, OTP, abuse-control, and audit context;
 - it creates no account ID, dashboard, Inbox, user profile, referral attribution, login right, or financial permission;
@@ -441,7 +441,7 @@ The logged-in Home Dashboard is the default landing screen after login.
 
 It must be task-first. It should prioritize urgent Payer actions, payment-related obligations, owner-controlled outcome or action-required meaning, payment instructions, and recent payment records before promotional discovery.
 
-The dashboard is not a marketing page. Promotions, partner offers, hot offers, PayPlus events, and feature announcements may appear only through controlled placements and must not obscure payment tasks or status visibility.
+The dashboard is not a marketing page. Promotions, partner offers, hot offers, CardMore events, and feature announcements may appear only through controlled placements and must not obscure payment tasks or status visibility.
 
 Only bottom navigation is viewport-fixed. Ordinary page CTA groups follow their content in that content's vertical scroll owner, including Referral QR/code/invite utilities; no separate fixed tray, scroll owner or forced bottom filler is prescribed. Genuine modal/sheet content and intrinsic overlay controls retain overlay placement. This does not change labels, order, enabled conditions or destinations. Secondary history and the current Me presentation are navbar-free. Supporting screens return to their actual caller without an authentication or payment effect; cold protected entry revalidates then uses a safe owning root.
 
@@ -462,17 +462,18 @@ MVP bottom navigation should use five primary destinations.
 | --- | --- | --- | --- |
 | Home | Default task-first dashboard. | Opens `HOME-ROOT`. | Discussion baseline |
 | Bills | Saved Bill/Rent source and tenancy-context management area, with contextual handoffs to owner-governed obligation and payment actions. | Opens Bills area covering saved Bill/Rent sources and their DOC-06C sub-routes. Instructions, receipts, cards, referral, and More remain separate management routes or shortcut destinations unless explicitly embedded as contextual handoffs; retired Request identifiers are non-active documentation lineage only. | Discussion baseline |
-| Pay+ | Central Payer action-sheet entry. | Opens `PAYPLUS-ACTION-SHEET` for the four retained Payer-only actions defined in Section 5.3.2: `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment`, preserving their accepted order and material meaning. Request Payment is retired; no replacement Request or Linking action is introduced. | Defined behavior / final visual design open |
+| CardMore | Central Payer action-sheet entry. | Opens `PAYPLUS-ACTION-SHEET` for the four retained Payer-only actions defined in Section 5.3.2: `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment`, preserving their accepted order and material meaning. Request Payment is retired; no replacement Request or Linking action is introduced. | Defined behavior / final visual design open |
 | Offers | Promotion and partner-offer discovery area. | Opens `OFFERS-ROOT`. Issued rewards and referral participation remain separate routes reached through contextual handoffs. | Working baseline |
-| Me | Permanent account and user-control area. | Opens `ME-ROOT` for account information, security and privacy, Bills access, payments and records, rewards, Referral, preferences, support, About PayPlus, terms, and logout. | Core account child routes defined / other details pending |
+| Me | Permanent account and user-control area. | Opens `ME-ROOT` for account information, security and privacy, Bills access, payments and records, rewards, Referral, preferences, support, About CardMore, terms, and logout. | Core account child routes defined / other details pending |
 
-`Pay+` should be visually treated as the primary center action in the bottom navigation.
+`CardMore` should be visually treated as the primary center action in the bottom navigation.
 
 ---
 
-### 5.3 Pay+ Action Sheet
+<a id="53-pay-action-sheet"></a>
+### 5.3 CardMore Action Sheet
 
-Tapping `Pay+` should open `PAYPLUS-ACTION-SHEET`, a slide-up action sheet rather than an independent root route.
+Tapping `CardMore` should open `PAYPLUS-ACTION-SHEET`, a slide-up action sheet rather than an independent root route.
 
 The sheet contains user-friendly entry actions only. It creates no request, obligation, instruction, payment, or payout by itself and must not expose internal implementation terms.
 
@@ -486,7 +487,7 @@ The designated baseline is:
    - first row: `Pay a Bill`, `Pay Rent`;
    - second row: `Add Bill / Rent`, `Continue Payment`;
 4. action icons and labels enter with the sheet animation;
-5. the center `Pay+` button toggles the sheet open and closed;
+5. the center `CardMore` button toggles the sheet open and closed;
 6. closing reverses the opening motion.
 
 The design must support reduced-motion accessibility. No replacement action, fifth action, reorder or material rename is introduced by this route baseline. Exact iconography, measurements, spacing, blur strength, motion duration, easing, and final styling remain open.
@@ -497,7 +498,7 @@ The design must support reduced-motion accessibility. No replacement action, fif
 | --- | --- | --- |
 | `Pay a Bill` | `BILLS-PAY` | Open a temporary Bill/Fee/non-rent selection scope without overwriting the user's saved Bills filters. After selection, hand the Bill source to the owner-controlled resolver for the applicable Payable Basis, current eligibility and Checkout condition under Section 5.20. A new Checkout may begin only when DOC-09 permits and no active continuable Checkout exists for the same basis; otherwise the journey resumes/resolves the existing Checkout or remains in the source-owner context. |
 | `Pay Rent` | `BILLS-PAY` | Open a temporary Rent/Tenancy selection scope with the same saved-filter rule, then hand the Rent source to the same owner-controlled Checkout resolver while preserving Rent/tenancy context. |
-| `Add Bill / Rent` | `BILLS-ADD` | Start controlled Bill or separate Rent setup. Bill Evidence is optional for Tier 1 and required where the applicable Bill tier requires it; Rent retains mandatory attached Evidence. QR scan, file/photo upload, and manual entry remain inside this flow and are not standalone Pay+ payment actions. |
+| `Add Bill / Rent` | `BILLS-ADD` | Start controlled Bill or separate Rent setup. Bill Evidence is optional for Tier 1 and required where the applicable Bill tier requires it; Rent retains mandatory attached Evidence. QR scan, file/photo upload, and manual entry remain inside this flow and are not standalone CardMore payment actions. |
 | `Continue Payment` | `INSTRUCTIONS-DETAIL` or `INSTRUCTIONS-ROOT` | Count active pending Payment Instructions and continuable incomplete Checkout Workspaces, including items blocked by an applicable owner-controlled review. With none, show the action disabled; with one, open its detail; with more than one, open the list. An item blocked by an applicable owner-controlled review remains visible but cannot continue until that blocking condition is resolved. A label-only Company/Individual review does not qualify when every concrete owner-controlled gate passes. |
 | Retired Request Payment | None | The former payee-to-payer Request action is retired from active MVP. No replacement action or route is created by this route baseline. |
 
@@ -507,7 +508,7 @@ For an owner-recorded Tier 3 approval outcome, the Payer remains in, or returns 
 
 #### 5.3.3 Completion, Availability, and Return Rules
 
-- Standalone Pay+ `BILLS-ADD` completion may offer the existing `Pay Now` action only when the applicable specialist-owner outcomes permit payment continuation for the established Bill/Rent source; `Back to Home` remains available. Otherwise, present the applicable owner-governed verification or readiness outcome without enabling `Pay Now`. This route rule does not treat the Bill/Rent source as a Payment Obligation or define a new status.
+- Standalone CardMore `BILLS-ADD` completion may offer the existing `Pay Now` action only when the applicable specialist-owner outcomes permit payment continuation for the established Bill/Rent source; `Back to Home` remains available. Otherwise, present the applicable owner-governed verification or readiness outcome without enabling `Pay Now`. This route rule does not treat the Bill/Rent source as a Payment Obligation or define a new status.
 - No historical Request reader or Request-origin `BILLS-ADD` return is defined.
 - Completed or cancelled Payment Instructions, and closed or expired incomplete Checkout Workspaces, are excluded from `Continue Payment` eligibility.
 - A globally unavailable or unlaunched action may be hidden. A user-specific, temporary, or applicable owner-controlled blocking restriction should leave the action visible but disabled with a safe explanation that does not expose internal risk logic. A label-only Company/Individual review does not create such a restriction when every concrete owner-controlled gate passes.
@@ -515,7 +516,7 @@ For an owner-recorded Tier 3 approval outcome, the Payer remains in, or returns 
 - Opening the sheet must not silently discard unsaved work or interrupt external authorization. The app should block opening or require a leave confirmation where needed.
 - The sheet and destination routes must prevent duplicate activation, and every destination must revalidate evidence, eligibility, risk, authorization, payment, and payout gates owned by the relevant documents.
 
-The Pay+ action sheet must not create wallet, stored-value, cashout, unsupported P2P, generic QR payment, or automatic recurring-payment behavior.
+The CardMore action sheet must not create wallet, stored-value, cashout, unsupported P2P, generic QR payment, or automatic recurring-payment behavior.
 
 #### 5.3.4 Configuration and Data Handoffs
 
@@ -533,7 +534,7 @@ The Home Dashboard should use the following MVP section order.
 | ---: | --- | --- | --- | --- |
 | 1 | Header | Presents the contextual Greeting and quick access to high-priority utilities. | Always shown. | Greeting has no navigation action. Inbox and coupon/rewards icons route to their respective screens. |
 | 2 | Important Notice | Presents one eligible Inbox-backed important notification without creating a duplicate Home notification record. | Zero eligible candidates hides the section. Dismiss is canonical-session-scoped and changes no notification or business state. | Body opens `NOTIFICATION-DETAIL`; Action Button opens the source-provided destination. |
-| 3 | Shortcut Grid | Operational shortcuts for common management tasks. Must not duplicate Pay+ direct payment-start actions. | MVP default and maximum is 8 shortcuts including protected `More`. Users may keep fewer than 7 configurable shortcuts, but `More` remains present. | Each shortcut routes to its related management area. |
+| 3 | Shortcut Grid | Operational shortcuts for common management tasks. Must not duplicate CardMore direct payment-start actions. | MVP default and maximum is 8 shortcuts including protected `More`. Users may keep fewer than 7 configurable shortcuts, but `More` remains present. | Each shortcut routes to its related management area. |
 | 4 | Hot Offer | Offer-only carousel of canonical Offers selected by Admin for Home presentation. | Maximum five; zero candidates hides the section. | Every card and CTA opens canonical `OFFER-DETAIL`. |
 | 5 | Upcoming Bills / Rent | Presents filtered active payer-role Bill/Rent candidates from DOC-06C with the §5.8 calendar/label controls. | HKD-only MVP; initially up to three matches, explicit Show All and deterministic canonical ordering. | `Pay Now` and `View Details` enter the source-owning route. |
 | 6 | Recent Activity | Presents up to five completed payment-related outcomes supplied by DOC-09, DOC-10, and DOC-11. | Excludes technical events, intermediate states, failures, instructions, requests, and general Bill/Rent changes. | Item opens `ACTIVITY-DETAIL`; `View More` opens `ACTIVITY-ROOT`. |
@@ -702,7 +703,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | --- | --- | --- |
 | Entrance and Authentication Routes | Maintain the defined `ENTRANCE-ROOT`, Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL`, Login family, Registration, Recovery boundary, Account Activation, Phone Verification, Identity Verification, and Payment Passcode behavior; finalize exact Copy, provider mapping, technical/security implementation, prototype and accessibility evidence, and tests. | Defined baseline / `ENTRANCE-PROMOTION-DETAIL` human-readable behavior is decision-complete for continued alignment / downstream evidence pending and non-blocking |
 | Bottom Navigation Route Map | Define how `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me relate to top-level routes and deep links. | Working baseline; final visual design open |
-| Pay+ Action Sheet Detail | Maintain the confirmed four-action Payer-only behavior after `Request Payment` retirement, destinations, availability, completion, return, and configuration boundaries; finalize only the remaining exact visual specification. | Defined behavior / final visual design open |
+| CardMore Action Sheet Detail | Maintain the confirmed four-action Payer-only behavior after `Request Payment` retirement, destinations, availability, completion, return, and configuration boundaries; finalize only the remaining exact visual specification. | Defined behavior / final visual design open |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
 | Offers and Rewards IA | Define `OFFERS-ROOT` discovery, category collection routes, `OFFER-DETAIL`, separate issued-reward management, referral handoff, and placement behavior. | Offers child-list baseline defined / not final visual design |
 | Me Area IA | `ME-ROOT` is the permanent account-control route. Its section order, established-route handoffs, core account child-route behavior, masking, reveal, state, and return boundaries are defined in Section 5.17. | Core account child routes defined / other details pending |
@@ -717,7 +718,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 | Referral Route | Define `REFERRAL-ROOT`, referral attribution and progress presentation, role-sensitive entitlement list/detail/claim screens, registration handoff, and issued-reward handoff. Referral campaigns may be discovered through Offers, but Referral remains a separate route. | Child-screen behavior defined / not final visual design |
 | Admin-Configurable UI Marker List | Mark app UI elements that require permitted Admin execution later without drafting Admin UI in DOC-06. | Title preserved / DOC-22 owns only the permitted execution UI under the applicable product and specialist owners |
 
-App UI elements that currently require Admin execution markers include owner-approved Pay+ action availability, shortcut visibility/order/defaults, Hot Offer Home presentation, feature/module enablement and route-level application of owner-controlled user-type, Category, launch-phase, risk or compliance availability outcomes. Important Notice is source-driven: Admin may support approved inspection and audit but must not alter, suppress, or replace its canonical ordering, lifecycle, audience/permission, due-time or destination values.
+App UI elements that currently require Admin execution markers include owner-approved CardMore action availability, shortcut visibility/order/defaults, Hot Offer Home presentation, feature/module enablement and route-level application of owner-controlled user-type, Category, launch-phase, risk or compliance availability outcomes. Important Notice is source-driven: Admin may support approved inspection and audit but must not alter, suppress, or replace its canonical ordering, lifecycle, audience/permission, due-time or destination values.
 
 ---
 
@@ -774,7 +775,7 @@ An immediate Checkout that has started execution but has not fully funded its Ch
 | Entry Point | Route Behavior |
 | --- | --- |
 | Dashboard shortcut `Instructions` | Opens `INSTRUCTIONS-ROOT`. |
-| Pay+ `Continue Payment` | Disabled when no active pending Payment Instruction or continuable incomplete Checkout Workspace exists; opens `INSTRUCTIONS-DETAIL` for exactly one or `INSTRUCTIONS-ROOT` for more than one. Items blocked by an applicable owner-controlled review remain visible but cannot continue; label-only Company/Individual review does not block when every concrete owner-controlled gate passes. |
+| CardMore `Continue Payment` | Disabled when no active pending Payment Instruction or continuable incomplete Checkout Workspace exists; opens `INSTRUCTIONS-DETAIL` for exactly one or `INSTRUCTIONS-ROOT` for more than one. Items blocked by an applicable owner-controlled review remain visible but cannot continue; label-only Company/Individual review does not block when every concrete owner-controlled gate passes. |
 | Important Notice / Action Required | Its body opens `NOTIFICATION-DETAIL`. After current-state and permission revalidation, the source-provided Action Button may open the relevant `INSTRUCTIONS-DETAIL` where a specific instruction exists. |
 | Payment action notification | Opens `NOTIFICATION-DETAIL` first. After current-state and permission revalidation, an owner-approved instruction action may invoke the same DOC-09 Checkout Resolver. It must not bypass Notification Detail or identify a predetermined Checkout. |
 | Checkout flow | Creates or updates a Payment Instruction only when the user deliberately chooses pay later. An interrupted or partly funded immediate Checkout returns as an incomplete Checkout Workspace without conversion into an instruction. |
@@ -922,7 +923,7 @@ Handoff behavior:
 
 #### 5.12.9 Data and Intelligence Signals
 
-DOC-06B should identify route-level signals only. Final event taxonomy, schema, lineage, model eligibility, and analytics ownership remain DOC-18.
+DOC-06B identifies route-level signals only. DOC-18 owns current business-recording, explainability and lineage obligations; final event taxonomy, schema, model eligibility and technical analytics representation require separately authorized future work without transferring its assigned future responsibilities.
 
 Material signals include:
 
@@ -1021,7 +1022,7 @@ Card list items should show:
 - default-card marker where applicable;
 - remove action.
 
-`PAYMENT-CARD-ADD` should route through the approved PSP/acquirer tokenization flow. PayPlus should store only the token/reference and permitted masked metadata. It must not store raw card number, CVV, magnetic-stripe data, or sensitive authentication data outside PayPlus storage and retention scope.
+`PAYMENT-CARD-ADD` should route through the approved PSP/acquirer tokenization flow. CardMore should store only the token/reference and permitted masked metadata. It must not store raw card number, CVV, magnetic-stripe data, or sensitive authentication data outside CardMore storage and retention scope.
 
 A default card may be set for single-card checkout. It may be pre-selected in checkout, but the user must be able to change it before authorization.
 
@@ -1094,7 +1095,7 @@ Estimated card-linked benefits may be shown during checkout, but final eligibili
 
 #### 5.13.8 Data and Intelligence Signals
 
-DOC-06B should identify route-level signals only. Final event taxonomy, schema, lineage, model eligibility, and analytics ownership remain DOC-18.
+DOC-06B identifies route-level signals only. DOC-18 owns current business-recording, explainability and lineage obligations; final event taxonomy, schema, model eligibility and technical analytics representation require separately authorized future work without transferring its assigned future responsibilities.
 
 Material signals include:
 
@@ -1122,7 +1123,7 @@ These signals support checkout-friction analysis, card/profile usability, suppor
 
 ### 5.14 Activity Route
 
-Activity is the event and lifecycle view of what happened in a user's PayPlus account. It is not the same as a receipt, statement, internal audit log, or bill/rent-specific activity timeline.
+Activity is the event and lifecycle view of what happened in a user's CardMore account. It is not the same as a receipt, statement, internal audit log, or bill/rent-specific activity timeline.
 
 DOC-06B owns the global Activity route shell. DOC-06C owns `BILLS-ACTIVITY` for one selected Bill/Rent source. DOC-08 owns receipt and statement communication. DOC-09, DOC-10 and DOC-11 own payment, payout, refund, reversal and failure meaning. DOC-18 owns only business recording and explainability, including internal-review-history meaning; technical representation remains separately authorized. DOC-22 owns permitted Admin operations only.
 
@@ -1281,7 +1282,7 @@ The Activity detail route displays the current Bill/Rent and Payment context. Re
 
 #### 5.14.5 Data and Intelligence Signals
 
-DOC-06B identifies route-level signals only. Final event taxonomy, ID strategy, audit events, warehouse fields, model eligibility, and analytics rules belong in DOC-18.
+DOC-06B identifies route-level signals only. DOC-18 owns current business-recording, audit meaning, explainability and lineage obligations; final event taxonomy, ID strategy, warehouse fields, model eligibility and technical analytics representation require separately authorized future work without transferring its assigned future responsibilities.
 
 Material route signals include:
 
@@ -1347,7 +1348,7 @@ Search should cover available receipt and statement metadata, including but not 
 
 If no receipt or statement is available in the selected view, show `No receipts or statements yet.` There is no user-facing create action because receipts and statements are system-generated records.
 
-There should be no separate `Corrections` MVP view. If a receipt or statement must be replaced, PayPlus should re-issue a new version and retain the prior version under controlled recordkeeping.
+There should be no separate `Corrections` MVP view. If a receipt or statement must be replaced, CardMore should re-issue a new version and retain the prior version under controlled recordkeeping.
 
 #### 5.15.3 Receipt List Item
 
@@ -1366,7 +1367,7 @@ Receipt items should show:
 Statement items should show:
 
 - date of issuance;
-- statement name, such as `Pay+ Statement - June 2026`;
+- statement name, such as `CardMore Statement - June 2026`;
 - `View` button;
 - `Download` button.
 
@@ -1415,9 +1416,9 @@ Offers, issued rewards, and referral serve different user intentions and must no
 
 | Destination | Parent | Type | User-Facing Purpose | Owner | Definition Status |
 | --- | --- | --- | --- | --- | --- |
-| `OFFERS-ROOT` | Offers area | Root screen | Discover current Featured / Hot, card, Pay+, and partner offers. | DOC-06B | Defined baseline |
+| `OFFERS-ROOT` | Offers area | Root screen | Discover current Featured / Hot, card, CardMore, and partner offers. | DOC-06B | Defined baseline |
 | `OFFERS-CARD-LIST` | `OFFERS-ROOT` | Child collection screen | View all Card Offers. | DOC-06B | Defined baseline |
-| `OFFERS-PAYPLUS-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all Pay+ offers. | DOC-06B | Defined baseline |
+| `OFFERS-PAYPLUS-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all CardMore offers. | DOC-06B | Defined baseline |
 | `OFFERS-PARTNER-LIST` | `OFFERS-ROOT` | Child collection screen | View and filter all partner offers. | DOC-06B | Defined baseline |
 | `OFFER-DETAIL` | `OFFERS-ROOT` or an Offers child list | Route-addressable full-screen modal | Understand one offer and take its configured action. | DOC-06B; DOC-13 for offer logic | Defined baseline |
 | `REWARDS-ROOT` | Rewards area | Root screen | Search, filter, and manage rewards already issued to the user, including launch-supported coupons, vouchers, external-partner instruments, and miles entitlements. | DOC-06B; DOC-13 for reward logic | Defined behavior |
@@ -1427,7 +1428,7 @@ Offers, issued rewards, and referral serve different user intentions and must no
 | `REFERRAL-ENTITLEMENT-DETAIL` | `REFERRAL-REWARDS-LIST` | Child detail screen | View one referral reward entitlement's campaign, benefit, conditions, claim deadline, usage expiry, and available action without displaying referral-party information. | DOC-06B; DOC-13 for entitlement logic | Defined behavior |
 | `REFERRAL-REWARD-CLAIM` | `REFERRAL-ENTITLEMENT-DETAIL` | Confirmation flow | Confirm conversion of an approved referral entitlement into an issued reward instrument. | DOC-06B; DOC-13 for issuance logic | Defined behavior |
 
-`OFFERS-ROOT` is a discovery route. `REWARDS-ROOT` is an issued-benefit management route. `REFERRAL-ROOT` is the PayPlus Referral Program management route for existing users participating as referrers and/or referral-reward beneficiaries. They may link to one another but must not redefine one another's behavior. Referral attribution does not create payer/payee linking, a Request, payment authority, or shared financial visibility.
+`OFFERS-ROOT` is a discovery route. `REWARDS-ROOT` is an issued-benefit management route. `REFERRAL-ROOT` is the CardMore Referral Program management route for existing users participating as referrers and/or referral-reward beneficiaries. They may link to one another but must not redefine one another's behavior. Referral attribution does not create payer/payee linking, a Request, payment authority, or shared financial visibility.
 
 What's New is not an Offers category by default. A dashboard What's New item should open its announcement or feature destination unless the item is also an approved offer governed by DOC-13.
 
@@ -1441,7 +1442,7 @@ Navigation is defined by transition rather than by assigning an ID to every entr
 | Home Hot Offer | Tap an offer | `OFFER-DETAIL` | Return to Home and the prior carousel position. |
 | `OFFERS-ROOT` | Tap any displayed offer | `OFFER-DETAIL` | Return to the same section and scroll position. |
 | `OFFERS-ROOT` | Tap Card Offers `View More` | `OFFERS-CARD-LIST` | Return to the Card Offers section. |
-| `OFFERS-ROOT` | Tap Pay+ Offers `View More` | `OFFERS-PAYPLUS-LIST` | Return to the Pay+ Offers section. |
+| `OFFERS-ROOT` | Tap CardMore Offers `View More` | `OFFERS-PAYPLUS-LIST` | Return to the CardMore Offers section. |
 | `OFFERS-ROOT` | Tap Partner Offers `View More` | `OFFERS-PARTNER-LIST` | Return to the Partner Offers section. |
 | Any Offers child list | Tap an offer | `OFFER-DETAIL` | Return with search, filter, and scroll state preserved. |
 | `OFFERS-ROOT` | Tap header My Rewards | `REWARDS-ROOT` | Return to the prior Offers position. |
@@ -1465,7 +1466,7 @@ MVP screen order:
 2. inline search;
 3. Referral entry;
 4. full-width root Featured Offers; and
-5. the adopted Card, Pay+ and Partner discovery collections with their existing owned child handoffs.
+5. the adopted Card, CardMore and Partner discovery collections with their existing owned child handoffs.
 
 Current Design/UI specification owns exact counts, flat tabs, card measurements and styling unless an explicitly retained product control governs them. Multi-slide Offer/Referral carousels use clickable dots with active pill and updated position/count; one item is static and zero hides that module. This presentation grants no ranking, pricing, eligibility or entitlement.
 
@@ -1480,7 +1481,7 @@ Inline search is route-local rather than a new route. Search should support offe
 | Source Section | Destination | Required Screen Structure |
 | --- | --- | --- |
 | Card Offers | `OFFERS-CARD-LIST` | Back/title, adopted label-before-inline-search composition where applicable, and the Card Offer list/detail handoff. |
-| Pay+ Offers | `OFFERS-PAYPLUS-LIST` | Back/title, applicable single-select labels with All before inline search, and Pay+ offer list/detail. |
+| CardMore Offers | `OFFERS-PAYPLUS-LIST` | Back/title, applicable single-select labels with All before inline search, and CardMore offer list/detail. |
 | Partner Offers | `OFFERS-PARTNER-LIST` | Back/title, applicable single-select labels with All before inline search, and Partner offer list/detail. |
 
 For this section, an **offer card** is only the UI component used to summarize an offer. A **payment card** is a credit/debit funding instrument, and a **Card Offer** is an offer whose eligibility depends on permitted payment-card attributes. These terms must not be used interchangeably.
@@ -1497,13 +1498,13 @@ All three child collection screens use this shared behavior:
 
 Child-list ordering controls discovery position only. After mandatory approval, display-period, market, privacy, consent, targeting, compliance, and enablement gates, apply collection-specific admin pinning/priority, permitted personalization within that priority band, and then a deterministic fallback. Preserve the resulting order during the browsing session. Child lists do not randomize or provide user sorting for MVP; the limited root Card Offers carousel remains a separate placement behavior.
 
-Offer label-filter values for Pay+ Offers and Partner Offers remain open. This concerns Offer filtering only and does not reopen the settled four-action `PAYPLUS-ACTION-SHEET` labels, order or destinations. Each relevant offer must carry one or more approved category/label references so filtering can be supported. DOC-13 owns the business-information requirement, the applicable DOC-18 business-recording and lineage boundary applies without selecting a schema or technical representation, and DOC-22 owns label administration and placement controls.
+Offer label-filter values for CardMore Offers and Partner Offers remain open. This concerns Offer filtering only and does not reopen the settled four-action `PAYPLUS-ACTION-SHEET` labels, order or destinations. Each relevant offer must carry one or more approved category/label references so filtering can be supported. DOC-13 owns the business-information requirement, the applicable DOC-18 business-recording and lineage boundary applies without selecting a schema or technical representation, and DOC-22 owns label administration and placement controls.
 
 Back from a collection route returns to `OFFERS-ROOT` at the originating section and prior scroll position. Back from `OFFERS-ROOT` returns to the prior app context where one exists; otherwise it returns to Home.
 
 An offer card should show:
 
-- partner or PayPlus identity;
+- partner or CardMore identity;
 - offer title;
 - short benefit summary;
 - applicable category or payment method where material;
@@ -1537,7 +1538,7 @@ Offer details should show:
 8. material terms, exclusions, and expandable full terms;
 9. one contextual primary action and relevant secondary action.
 
-The action target is configured by the offer and may open an approved campaign landing page, card-application flow, external link, in-app screen, referral route, or reward-redemption action. External targets must use approved destinations and must not expose sensitive PayPlus data in the URL or handoff.
+The action target is configured by the offer and may open an approved campaign landing page, card-application flow, external link, in-app screen, referral route, or reward-redemption action. External targets must use approved destinations and must not expose sensitive CardMore data in the URL or handoff.
 
 The primary action depends on the DOC-13 benefit-delivery method:
 
@@ -1594,13 +1595,13 @@ Checkout coupons, vouchers, and discounts normally show `Available at checkout` 
 
 External instruments may expose only their configured action, such as `Show QR`, `Reveal Code`, permitted `Copy Code`, or `Open Partner`. Miles instruments show fulfilment progress and masked destination-account information where permitted, without a use action. `Action Required` may expose the action needed to resolve the issue. Held or terminal instruments show a safe explanation and no decorative use button.
 
-Revealing or copying a credential, opening a partner destination, or viewing detail does not mark an instrument `Used`. Only an authoritative DOC-13 redemption or fulfilment result changes lifecycle status. On return from an external destination, PayPlus refreshes the same detail without assuming success. Unknown outcomes must prevent unsafe duplicate use until reconciled.
+Revealing or copying a credential, opening a partner destination, or viewing detail does not mark an instrument `Used`. Only an authoritative DOC-13 redemption or fulfilment result changes lifecycle status. On return from an external destination, CardMore refreshes the same detail without assuming success. Unknown outcomes must prevent unsafe duplicate use until reconciled.
 
 Closing detail restores its origin: Rewards preserves view, search, filter, list order, and scroll; Referral restores its prior context; checkout restores checkout; notification or deeplink returns to prior app context where available, otherwise to `REWARDS-ROOT`. Cached non-sensitive metadata may be read-only with last-updated information, but checkout use, credential reveal, and partner handoff require current revalidation unless a later approved fulfilment method explicitly permits otherwise.
 
 #### 5.16.5 Referral Routes
 
-PayPlus has one Referral Program. Every existing PayPlus user may act as a referrer without a separate program-enrolment action. The MVP supports one active referral campaign; later campaigns remain selectable as a route-local view rather than separate routes.
+CardMore has one Referral Program. Every existing CardMore user may act as a referrer without a separate program-enrolment action. The MVP supports one active referral campaign; later campaigns remain selectable as a route-local view rather than separate routes.
 
 `REFERRAL-ROOT` screen order is:
 
@@ -1670,7 +1671,7 @@ Material route-level business occurrences that later technical work may need to 
 | Item | Owner | Status |
 | --- | --- | --- |
 | Final My Rewards icon | Product / Design | Open; user-facing label confirmed |
-| Final Offer label taxonomy and launch visibility for Pay+ Offers and Partner Offers; this does not change the settled Pay+ action composition | Product / Growth / Design | Open |
+| Final Offer label taxonomy and launch visibility for CardMore Offers and Partner Offers; this does not change the settled CardMore action composition | Product / Growth / Design | Open |
 | Final offer/reward card styling, density, and empty-state copy | Product / Design | Open |
 | Final personalized ranking and targeting scope | Product / Growth / Privacy | Open |
 | Final membership-program route destination | Product / Growth | Open |
@@ -1703,7 +1704,7 @@ My Account is the adopted navbar-free navigation root with settings search and d
 3. Payments & Bills: Payment Methods, Transaction History, Bill Management and Archived Data;
 4. Rewards & Referral: My Rewards and Refer Friends;
 5. Settings & Support: Preferences, Privacy & Data and Support;
-6. About PayPlus: Version and Terms; and
+6. About CardMore: Version and Terms; and
 7. Logout last.
 
 At most one root group is open. Search finds owned entries without duplicating implementations; child Back restores the valid query/group/position and actual caller. Archived Data retains Design's `ARCHIVED-ROOT` entry despite its known Make-menu omission; it does not enable the provisional archived-document or deep Restore behavior. Exact typography, icons, geometry and motion remain Design/UI specification, not new product requirements.
@@ -1727,8 +1728,8 @@ The following register defines the new or newly confirmed Me destinations. Estab
 | `ARCHIVED-DOCS-LIST` | `ARCHIVED-ROOT` | Provisional child route identity | Stable route identity for a possible archived-document projection; exact contents, presentation and interaction remain deferred to DOC-06B/DOC-06C with DOC-10 payout/reconciliation blockers, DOC-11 refund/dispute/chargeback/case blockers and DOC-12/DOC-15/DOC-18 Evidence, privacy/retention and data/lineage handoffs. | DOC-06B | Provisional identity only; behavior deferred |
 | `NOTIFICATION-SETTINGS` | `NOTIFICATION-ROOT`; direct entry from `ME-ROOT` standalone Notifications | Child route | Manage permitted notification-channel and communication preferences. | DOC-06B / DOC-08 | Defined baseline; final visual design pending |
 | `SUPPORT-ROOT` | `ME-ROOT` Settings & Support / Support | Root route | Enter the user support area. | DOC-06B | Purpose defined; detailed UI pending |
-| `ABOUT-ROOT` | `ME-ROOT` About PayPlus | Root route | View PayPlus and app information. | DOC-06B | Purpose defined; content and detailed UI pending |
-| `TERMS-ROOT` | `ME-ROOT` About PayPlus | Root route | View applicable terms, policies, and legal documents. | DOC-06B | Purpose defined; content and detailed UI pending |
+| `ABOUT-ROOT` | `ME-ROOT` About CardMore | Root route | View CardMore and app information. | DOC-06B | Purpose defined; content and detailed UI pending |
+| `TERMS-ROOT` | `ME-ROOT` About CardMore | Root route | View applicable terms, policies, and legal documents. | DOC-06B | Purpose defined; content and detailed UI pending |
 
 Domain rules and content remain with the reference owners named in Sections 5.17.4 to 5.17.7; this register does not transfer those responsibilities to DOC-06B.
 
@@ -1756,8 +1757,8 @@ Domain rules and content remain with the reference owners named in Sections 5.17
 | Standalone Notifications | Tap Notifications | `NOTIFICATION-SETTINGS` | Return to the prior My Account query/group/position with current permitted preference facts. |
 | Settings & Support / Preferences | Tap Language or Theme | Open route-local selection sheet/modal | Apply or cancel without creating another root route. |
 | Settings & Support | Tap Support | `SUPPORT-ROOT` | Return to the same Me position. |
-| About PayPlus | Tap Version | `ABOUT-ROOT` | Return to the same Me position. |
-| About PayPlus | Tap Terms | `TERMS-ROOT` | Return to the same Me position. |
+| About CardMore | Tap Version | `ABOUT-ROOT` | Return to the same Me position. |
+| About CardMore | Tap Terms | `TERMS-ROOT` | Return to the same Me position. |
 | Log Out | Tap and confirm | End the current session and return to `ENTRANCE-ROOT` | Protected route history must not remain accessible after logout. |
 
 Dashboard shortcuts and `ME-ROOT` may both link to an established route. The shortcut is a fast entry point; Me provides permanent account-level discoverability. The destination owner continues to govern its behavior.
@@ -1768,7 +1769,7 @@ Dashboard shortcuts and `ME-ROOT` may both link to an established route. The sho
 
 - `ACCOUNT-PROFILE`, `ACCOUNT-SECURITY`, and `PRIVACY-DATA-CONTROLS` are Payer account routes; they do not use payer/payee tabs.
 - Normal authenticated entry shows only permitted masked information and does not require payment-passcode entry merely to open a route.
-- Revealing approved masked sensitive values in a permitted current account context requires the existing PayPlus payment passcode or approved reauthentication. DOC-14 owns risk triggers/actions, DOC-15 privacy conditions, and provider owners applicable partner conditions; DOC-19 enforces the resulting security assurance requirement without deciding the trigger or outcome.
+- Revealing approved masked sensitive values in a permitted current account context requires the existing CardMore payment passcode or approved reauthentication. DOC-14 owns risk triggers/actions, DOC-15 privacy conditions, and provider owners applicable partner conditions; DOC-19 enforces the resulting security assurance requirement without deciding the trigger or outcome.
 - Changing existing sensitive identity, contact, security or credential information requires payment passcode or approved reauthentication before the route-specific OTP, provider, review, or confirmation steps. Payer-entered destination facts are changed only through the applicable Bill/Rent journey and owner controls. First-time identity verification invoked during `ACCOUNT-ACTIVATION` does not require a payment passcode that the user may not yet have created.
 - Ordinary evidence, invoice, receipt, statement, and payment-proof viewing or downloading within an authenticated permitted context does not require an extra passcode or step-up solely because the document is opened or downloaded.
 - Payment-passcode confirmation does not make every stored field revealable. Passwords, payment passcodes, identity documents, provider payloads, secrets, raw credentials, evidence content, unrestricted audit data, and internal risk reasons remain unavailable.
@@ -1788,7 +1789,7 @@ The user-facing title is `Account Information`. The MVP screen order is:
 5. Identity Verification;
 6. Account Management, with `Close Account` at the bottom.
 
-Profile Details show the editable nickname/display name and copyable PayPlus User ID. The nickname/display name is not a login identifier. Contact Details show masked registered phone and email plus their verification states.
+Profile Details show the editable nickname/display name and copyable CardMore User ID. The nickname/display name is not a login identifier. Contact Details show masked registered phone and email plus their verification states.
 
 Contact changes follow these MVP flows:
 
@@ -1827,16 +1828,16 @@ The flow supports first-time verification, resuming incomplete provider capture,
 | User-facing status | System meaning | User action |
 | --- | --- | --- |
 | `Not Verified` | Verification has not started, capture is incomplete, or an identity/security-owner-permitted Admin workflow executed the reset. | `Verify Now` or `Continue Verification`. |
-| `Processing` | Submission was acquired and the authoritative provider result or PayPlus policy decision is pending. | `View Status`; no duplicate submission. |
-| `Verified` | Authoritative provider result and PayPlus policy checks passed. | No verification action. |
-| `Failed` | Provider verification or a PayPlus policy check failed, including duplicate identity. | `Verify Again` and `Get Help`, subject to retry controls. |
+| `Processing` | Submission was acquired and the authoritative provider result or CardMore policy decision is pending. | `View Status`; no duplicate submission. |
+| `Verified` | Authoritative provider result and CardMore policy checks passed. | No verification action. |
+| `Failed` | Provider verification or a CardMore policy check failed, including duplicate identity. | `Verify Again` and `Get Help`, subject to retry controls. |
 | `Update Required` | An applicable identity/security-owner outcome, executed through a permitted Admin review workflow, requires updated information. | `Update Verification`. |
 
-First-time verification from Account Activation or the direct new Done/Home callers requires an authenticated restricted account but no pre-existing Payment Passcode. Each shared identity return restores its actual invoking caller under §5.0.5. Returning from the provider does not prove success: an authoritative callback or retrieval plus PayPlus policy checks sets the final state. A duplicate identity fails PayPlus policy even if it is not a provider failure; safe copy may state that the identity is registered with another PayPlus account without exposing account details.
+First-time verification from Account Activation or the direct new Done/Home callers requires an authenticated restricted account but no pre-existing Payment Passcode. Each shared identity return restores its actual invoking caller under §5.0.5. Returning from the provider does not prove success: an authoritative callback or retrieval plus CardMore policy checks sets the final state. A duplicate identity fails CardMore policy even if it is not a provider failure; safe copy may state that the identity is registered with another CardMore account without exposing account details.
 
 Once `Verified`, a user cannot voluntarily correct or repeat identity verification. Where the applicable identity/security owner permits it, an authorized administrator may execute a transition to `Not Verified` or `Update Required` through DOC-22 controls but cannot directly set `Verified`; `Verified` to `Not Verified` requires the existing dual-approval control for MVP. An owner-required update may require payment passcode or approved reauthentication before new provider capture.
 
-While processing, Home may show the owner-approved status with View Status; Failed/Update Required preserves its permitted action. The new-registration completion prompt remains identity-specific, opens the shared child directly and disappears on confirmed identity completion. A missing Payment Passcode alone does not revive the old generic onboarding checklist. Other status messages do not redefine financial eligibility. Dismissal changes presentation only, not the underlying state or activation gate. Exact provider-result-to-PayPlus mapping remains TBC until provider selection and belongs to DOC-17 integration, DOC-18 status/data representation and DOC-19 security ownership; DOC-22 executes only any permitted Admin handling. Account Information never shows legal name, ID reference, identity attributes, identity documents, provider payloads, or internal risk reasons.
+While processing, Home may show the owner-approved status with View Status; Failed/Update Required preserves its permitted action. The new-registration completion prompt remains identity-specific, opens the shared child directly and disappears on confirmed identity completion. A missing Payment Passcode alone does not revive the old generic onboarding checklist. Other status messages do not redefine financial eligibility. Dismissal changes presentation only, not the underlying state or activation gate. Exact provider-result-to-CardMore mapping remains TBC until provider selection and belongs to DOC-17 integration, DOC-18 status/data representation and DOC-19 security ownership; DOC-22 executes only any permitted Admin handling. Account Information never shows legal name, ID reference, identity attributes, identity documents, provider payloads, or internal risk reasons.
 
 Account closure remains a controlled Account Information flow, not a Privacy & Data action and not record destruction. It must:
 
@@ -1853,7 +1854,7 @@ Detailed account-closure screen layout remains open. Before final closure, the u
 
 The user-facing title is `Login & Security`. The MVP screen order is:
 
-1. Login Methods, containing PayPlus Password, Google, and Apple;
+1. Login Methods, containing CardMore Password, Google, and Apple;
 2. Payment Passcode;
 3. Two-Step Verification toggle;
 4. Biometric Unlock toggle;
@@ -1862,13 +1863,13 @@ The user-facing title is `Login & Security`. The MVP screen order is:
 
 Login Methods follows these rules:
 
-- PayPlus Password shows `Set Password` when the account has no local password and `Change Password` after one is set;
+- CardMore Password shows `Set Password` when the account has no local password and `Change Password` after one is set;
 - Google and Apple each show `Link` or `Unlink` according to the current account linkage;
 - the account's verified primary email remains unique and is not itself permission to link a provider;
 - provider linking requires fresh approved reauthentication, successful authentication by that provider, explicit confirmation, audit, and security notification;
 - provider unlinking requires fresh approved reauthentication and confirmation, and must be blocked if it would remove the account's final usable login method;
-- a provider identity already linked to another PayPlus account cannot be reassigned through this route;
-- matching Google/Apple and PayPlus email addresses never cause silent account creation, merging, or linking.
+- a provider identity already linked to another CardMore account cannot be reassigned through this route;
+- matching Google/Apple and CardMore email addresses never cause silent account creation, merging, or linking.
 
 No separate MVP root is created for login-method management. Set/Change Password and provider Link/Unlink are focused flows under `ACCOUNT-SECURITY`. Exact provider integration remains with DOC-17; DOC-06B retains account-recovery route behavior; exact security mechanisms and retry limits remain open under `OQ-19-001`; final screen design remains separate design work.
 
@@ -1910,7 +1911,7 @@ Only genuine optional choices may use toggles. Launch-capable categories are dir
 
 Notification-channel selection remains in `NOTIFICATION-SETTINGS`; Privacy & Data owns the underlying consent or approved-purpose choice. Directly editable profile fields hand off to `ACCOUNT-PROFILE`. Correction of KYC, verified, historical, payment, payout, or Evidence data creates a governed correction request and preserves the original audit record. A verified identity may reopen `IDENTITY-VERIFICATION` only after an applicable identity/security-owner outcome permits an authorized Admin to execute `Update Required` or `Not Verified`; the user cannot initiate voluntary re-verification.
 
-Privacy-request history is a route-local section, not another route. User-facing request labels are `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete`; internal states and service timelines remain TBC. Completed exports use authenticated, time-limited in-app download after reauthentication and must not be attached to ordinary email. Privacy requests and account closure remain separate processes, and neither destroys an underlying PayPlus record.
+Privacy-request history is a route-local section, not another route. User-facing request labels are `Submitted`, `In Progress`, `Action Required`, `Completed`, and `Unable to Complete`; internal states and service timelines remain TBC. Completed exports use authenticated, time-limited in-app download after reauthentication and must not be attached to ordinary email. Privacy requests and account closure remain separate processes, and neither destroys an underlying CardMore record.
 
 #### 5.17.5 Payments, Historical Receiving Info, and Archived Records
 
@@ -1931,7 +1932,7 @@ Consumer Receiving Info is retired from active MVP. Payer-entered destination fa
 
 - `ME-ROOT` itself has no global empty state because core account controls always exist.
 - The adopted grouped My Account order is fixed, not user-reorderable; one group is open at most and owned child returns preserve valid search/group/scroll state.
-- Core Account & Login, Privacy & Data, Support, About PayPlus, Terms and Logout access must not be hidden by ordinary admin placement controls.
+- Core Account & Login, Privacy & Data, Support, About CardMore, Terms and Logout access must not be hidden by ordinary admin placement controls.
 - Optional rows may follow module enablement, launch phase, account restriction, and retained-record requirements. The active `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST` chain remains accessible from Payments & Bills / Archived Data; Design's entry is retained despite Make omission, without a runtime-parity claim; the provisional `ARCHIVED-DOCS-LIST` identity alone does not authorize user-facing access behavior. Any permitted read-only treatment for other retained records remains subject to the applicable owner and deferred scope.
 - The Action Required banner must not duplicate bill, payment, reward, or evidence-specific task lists. It is limited to account, identity-verification or security issues and must not expose internal risk reasons.
 - A dependent-service failure should affect only the relevant row or child route and should provide retry or clear unavailable behavior; it must not blank `ME-ROOT`.
@@ -1945,7 +1946,7 @@ Consumer Receiving Info is retired from active MVP. Payer-entered destination fa
 
 `NOTIFICATION-SETTINGS` manages permitted channel and communication preferences under DOC-08 and is a child of `NOTIFICATION-ROOT`. `ME-ROOT` is a direct entry point to Settings; it does not change route ownership. Settings is not the Inbox and must not allow mandatory service, security, payment, receipt, risk, compliance, or legal messages to be universally disabled.
 
-Material route-level signals for later DOC-18 specification include Me opened, destination selected, account-action item opened, sensitive reveal attempted/completed/failed, preference changed, proof submitted, profile status changed, destination selected for a Bill/Rent or Payment context, and logout completed. These signals must not copy sensitive values into analytics events. DOC-18 owns final event IDs, schema, lineage, audit classification, and model-use metadata; the provisional `ARCHIVED-DOCS-LIST` identity does not imply an access signal.
+Material route-level signals include Me opened, destination selected, account-action item opened, sensitive reveal attempted/completed/failed, preference changed, proof submitted, profile status changed, destination selected for a Bill/Rent or Payment context, and logout completed. These signals must not copy sensitive values into analytics events. DOC-18 owns current business recording, audit meaning and lineage; final event IDs, schema and technical model-use representation require separately authorized future work without transferring its assigned future responsibilities. The provisional `ARCHIVED-DOCS-LIST` identity does not imply an access signal.
 
 DOC-22 may execute only DOC-06B-owner-approved optional module visibility configuration and must not hide `ME-ROOT` or the core account, security, privacy, support, legal and logout controls. Exact permitted Admin execution workflow remains deferred to DOC-22; route availability policy remains with DOC-06B and applicable specialist owners.
 
@@ -1954,13 +1955,13 @@ DOC-22 may execute only DOC-06B-owner-approved optional module visibility config
 | Item | Owner | Status |
 | --- | --- | --- |
 | Final visual design for Account Information, Login & Security, Privacy & Data, the active Archived Records and Archived Bills &amp; Rent routes, any later-authorized archived-document presentation, Support, About, and Terms | Product / Design / Privacy / Security / Operations | Open; active Archive root/list access is retained, while detailed Restore and version presentation and all `ARCHIVED-DOCS-LIST` behavior remain deferred to DOC-06B/DOC-06C with DOC-10/DOC-11 blockers and DOC-12/DOC-15/DOC-18 handoffs |
-| External provider results and PayPlus policy outcomes mapped to `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required` | Product / Compliance / Security / Data | Open pending provider selection; five user-facing labels confirmed |
+| External provider results and CardMore policy outcomes mapped to `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required` | Product / Compliance / Security / Data | Open pending provider selection; five user-facing labels confirmed |
 | Final privacy-request internal states, service timelines, export format/expiry, and legal wording | Privacy / Legal / Operations / Security | Open; route labels and protected delivery confirmed |
 | Final authentication retry, lockout, session, recovery-factor, and reveal-timeout mechanisms | Security / Engineering / Risk | Open under `OQ-19-001`; DOC-19 supplies the security-control contract without selecting values |
 | Any future destination-profile requirements, external validation capability, identity-name normalization, third-party/company proof requirements, risk-based step-up rules, and review SLA | Payments / Operations / Privacy / Security | Open; no active Consumer Payee destination library is defined in Wave 2 |
 | Final visual styling, density, and copy for active `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST`, and any later-authorized presentation for provisional `ARCHIVED-DOCS-LIST` | DOC-06B/DOC-06C; DOC-10/DOC-11 blockers; DOC-12/DOC-15/DOC-18 handoffs | Open; active root/list route behavior and ordinary parent return are retained, while detailed Archive/Restore, prior-version and Evidence-version behavior and all `ARCHIVED-DOCS-LIST` interaction remain deferred |
 | Final language options, theme options, selection controls, and accessibility behavior | Product / Design / Engineering | Open |
-| Final support, About PayPlus, terms, policies, and app-version content | Product / Support / Legal / Design | Open |
+| Final support, About CardMore, terms, policies, and app-version content | Product / Support / Legal / Design | Open |
 | Final Membership route and launch behavior | Product / Growth | Open; hidden until defined and enabled |
 | Final visual styling, icons, density, action copy, and confirmation copy | Product / Design | Open |
 
@@ -2040,7 +2041,7 @@ Routine shortcut preference changes require no payment passcode or notification.
 
 The effective shortcut set is resolved in this order:
 
-1. protected PayPlus access and product-boundary rules;
+1. protected CardMore access and product-boundary rules;
 2. launch, module, account, role, market, eligibility, risk, and compliance availability;
 3. the owner-approved shortcut catalog;
 4. the current eligible owner-approved default set and order;
@@ -2153,7 +2154,7 @@ Mandatory service Inbox records remain available even where optional channels ar
 
 Material notification signals include root/inbox/detail/settings opened, search/filter used, message reading and any separately permitted bulk-read action, setting-change success/failure, contextual action opened, unavailable target encountered, and external entry resolved. These signals must reference the notification record and owning object without copying sensitive message content into ordinary analytics.
 
-DOC-08 owns event IDs, category assignment, message eligibility, channels, templates, preference policy, message/batch/source identifiers, delivery attempts and notification retention requirements. The status-display reference matrix governs user-facing domain labels; the owning domain remains authoritative for status and action-required meaning. DOC-14 owns abuse/rate-limit and applicable risk controls; DOC-15 owns lawful-purpose, consent, masking, approved-purpose use and retention governance; DOC-18 must define the final object, event, lineage, correlation, recipient projection and delivery-attempt model; DOC-19 owns security; DOC-21 owns support and delivery operations; and DOC-22 owns only permitted Admin lookup, template/configuration execution, scheduling and audit handling under those owners.
+DOC-08 owns event IDs, category assignment, message eligibility, channels, templates, preference policy, message/batch/source identifiers, delivery attempts and notification retention requirements. The status-display reference matrix governs user-facing domain labels; the owning domain remains authoritative for status and action-required meaning. DOC-14 owns abuse/rate-limit and applicable risk controls; DOC-15 owns lawful-purpose, consent, masking, approved-purpose use and retention governance; DOC-18 owns current business recording, explainability and lineage, while final object, event, correlation, recipient projection and delivery-attempt representation require separately authorized future work without transferring its assigned future responsibilities; DOC-19 owns security; DOC-21 owns support and delivery operations; and DOC-22 owns only permitted Admin lookup, template/configuration execution, scheduling and audit handling under those owners.
 
 #### 5.19.7 Open Items
 
@@ -2611,7 +2612,7 @@ No numerical accessibility, performance, or usability threshold is established h
 | Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Bounded Greeting, Important Notice, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance behavior is defined. Confirm final visual design and later DOC-20 evidence. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Payment Checkout | `PAYMENT-CHECKOUT` Defined baseline | Preserve the decision-complete human-readable Workspace, resolver, funding, authorization, execution, recovery, and accessibility boundaries in Section 5.20 while exact Copy, IDs, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical mappings, prototype and accessibility/user-validation evidence, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending. |
-| Pay+ | `PAYPLUS-ACTION-SHEET` Payer-only re-scope / Not Final Visual Design | Four retained actions remain in their existing order and material meaning; Request Payment is retired and no replacement action is introduced. Confirm only exact iconography, measurements, spacing, blur, motion timing/easing, responsive treatment and accessibility implementation in later authorized work. |
+| CardMore | `PAYPLUS-ACTION-SHEET` Payer-only re-scope / Not Final Visual Design | Four retained actions remain in their existing order and material meaning; Request Payment is retired and no replacement action is introduced. Confirm only exact iconography, measurements, spacing, blur, motion timing/easing, responsive treatment and accessibility implementation in later authorized work. |
 | Offers and Rewards | Defined Behavior / Not Final Visual Design | Offers discovery and child-list behavior are defined. `REWARDS-ROOT` Active/History views, search, filters, ordering, cards, route states, `REWARD-DETAIL`, checkout return, and contextual fulfilment actions are defined. Confirm final styling, Offers label taxonomy, personalization, equal-priority fallback, and partner-specific activation methods. |
 | Me | Core Account Defined / Active Archive root and Bills/Rent list / Archived-document identity provisional / Receiving Info retired from active Consumer Payee presentation | `ME-ROOT` and account/security/privacy routes remain defined. `ARCHIVED-ROOT` and DOC-06C-owned `ARCHIVED-BILLS-LIST` retain active Payer-only route access for Saved/Archived source projections; `ARCHIVED-DOCS-LIST` remains a provisional identity with no active entry or interaction. Detailed Archive/Restore and version presentation remain deferred. `RECEIVING-INFO` is retained only as a retired stable ID in non-active documentation. Support/About/Terms detail and final visual design remain open. |
 | Instructions | Route Shell Defined / Not Final UI | Confirm final visual styling, card density, exact button labels, expiry/closure presentation, and payment-profile handoff behavior. |
@@ -2627,7 +2628,7 @@ No numerical accessibility, performance, or usability threshold is established h
 
 | ID | Question | Owner | Status |
 | --- | --- | --- | --- |
-| OQ-06B-001 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, responsive treatment and accessibility implementation should be used within the confirmed four-action Payer-only baseline? | Product / Design / Payments | Partially open; composition, order, material meaning and Request Payment retirement are settled |
+| OQ-06B-001 | What exact CardMore iconography, measurements, spacing, blur strength, motion timing/easing, responsive treatment and accessibility implementation should be used within the confirmed four-action Payer-only baseline? | Product / Design / Payments | Partially open; composition, order, material meaning and Request Payment retirement are settled |
 | OQ-06B-002 | What final visual design and remaining child-route UI should apply to Me, the active `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST` route chain, any later-authorized `ARCHIVED-DOCS-LIST` presentation, More shortcut management, and Support, while preserving the retired Consumer Receiving Info boundary? More behavior, Account Information, Identity Verification, Login & Security, Payment Passcode Settings, Privacy & Data, and active Archive root/list access are defined; detailed Archive/Restore and version presentation remain deferred and Receiving Info remains non-active documentation lineage only. | Product / Design / Privacy / Security / Operations | Partially open |
 | OQ-06B-003 | What final styling and optional post-replacement Undo behavior should apply to the defined `MORE-ROOT` shortcut-management experience? | Product / Design / Operations | Partially open; capacity, protected More, reorder, save, restore, owner-approved default and permitted Admin-configuration behavior defined |
 | OQ-06B-004 | What priority, collapse, expiry, and routing rules should apply to Important Notice / Action Required cards? | Product / Operations / Compliance | Resolved for Home: one Inbox-backed item, source-provided ordering, session-scoped dismiss, canonical Detail/action routing, and zero-state behavior defined; final visual design and DOC-20 evidence pending |
@@ -2637,7 +2638,7 @@ No numerical accessibility, performance, or usability threshold is established h
 | OQ-06B-008 | What exact Payment Profile card styling, field density, empty-state copy, tokenization return UX, and permitted PSP card metadata should be used? Two-tab `Cards` / `Profiles` structure is confirmed. | Product / Design / Payments / Security | Partially open |
 | OQ-06B-009 | What exact production paid/date/refund/fee/timezone/month/category/label aggregate inputs and remaining Activity/Statistics implementation/evidence are required? Adopted global summary, E1/D3 controls, scope isolation and Back are defined; no fixture supplies the financial metric. | Product / Design / Payments / Data / Privacy / Operations | Partially open |
 | OQ-06B-010 | What actual reference/date/access and native Save/WhatsApp capability inputs enable the adopted public PNG and private Single/Combined PDF contracts, together with remaining layout/export/Statement/reissue detail? DOC-08/financial/privacy owners retain truth and enablement; download start is not gallery success. | Product / Finance / Legal / Operations | Partially open |
-| OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Offer label taxonomy for Pay+ Offers and Partner Offers, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed, and this question does not reopen the settled Pay+ action composition. | Product / Design / Growth / Privacy / Commercial | Partially open |
+| OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Offer label taxonomy for CardMore Offers and Partner Offers, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed, and this question does not reopen the settled CardMore action composition. | Product / Design / Growth / Privacy / Commercial | Partially open |
 | OQ-06B-012 | What final responsive measurements, short-viewport treatment, first-use-cue persistence and animation implementation, exact Copy/CTA presentation, screen-reader behavior, technical scheduling/synchronization, and DOC-20 evidence should implement the defined Entrance Carousel and `ENTRANCE-PROMOTION-DETAIL` behavior? | Product / Design / Content / Growth / Security / Privacy / Engineering / QA / Operations | Partially open and non-blocking to the Defined baseline; capacity, sequence, timing, interaction, Promotion/Feature scope, image-first detail, Back, inline Terms, optional CTA, source-change suspension, and same-item return are defined |
 | OQ-06B-013 | What final OTP constants, provider-result mapping, weak-code/retry/lockout rules, support-assisted passcode-recovery proof and waiting period, credential storage, session-revocation mechanisms, and final visual design apply to the defined `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` flows? DOC-17 owns applicable provider-integration mappings; `OQ-19-001` retains exact security mechanisms with Security/Engineering; DOC-06B retains recovery route behavior; DOC-15 owns approved-purpose privacy/access requirements; DOC-21 owns support operations; DOC-22 owns only owner-permitted queue/workflow/configuration execution; and DOC-20 must derive implementation tests. | Security / Engineering / Compliance / Privacy / QA / Operations | Partially open; product behavior, five identity labels, HK-only phone baseline, six-digit passcode flows, and return behavior confirmed |
 | OQ-06B-014 | What exact Authentication Outcome IDs, Resolution mappings, Message IDs, approved user-facing messages, CTA mappings, disclosure levels, notification treatment, and technical outcome/event mappings should populate the mandatory DOC-07 Authentication slice? | Product / Content / Design / Security / Privacy / Support | Open; route-level Outcomes and Resolution Strategies defined, exact DOC-07/DOC-08/DOC-18 mappings pending |
@@ -2645,6 +2646,7 @@ No numerical accessibility, performance, or usability threshold is established h
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.1.0 | 2026-11-16 | Aligned the current name and the bounded DOC-18 business-recording versus future representation handoff. |
 | 2.0.0 | 2026-11-13 | Canonical Writer: Drafted Founder-authorized PP-MVP-20261112-R1 OTP/PIN and identity callers, calendar/labels, source Save exception, Activity Statistics, private/public documents, notifications, growth and grouped My Account route consumers; preserved stable IDs and financial/security/implementation gates. Corrected inherited auth-purpose and grouped-Me/Inbox/Offers transitions and profile-caller expression through the consolidated Specialist batch. |
 | 1.1.1 | 2026-09-01 | Aligned Offer-label and Offers/Rewards/Referral occurrence handoffs to DOC-13 business meaning and the DOC-18 business-recording boundary without selecting event IDs, schema, analytics/model representation, implementation, or a technical owner. |
 | 1.1.0 | 2026-08-22 | Drafted the approved Tier 3 Bill current-context and deliberate-resolver return expression without adding a route, notification, automatic transition, stale Resume, authorization, or Provider Submission; preserved the integrated `ENTRANCE-PROMOTION-DETAIL` Defined baseline unchanged. |

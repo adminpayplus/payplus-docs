@@ -1,7 +1,7 @@
 ---
 document_id: DOC-05
 title: Master PRD & Feature Requirement Index
-version: 2.0.0
+version: 2.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-13
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -44,18 +44,19 @@ related_documents:
   - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
-# DOC-05 - PayPlus Master Product Requirements Document
+<a id="doc-05---payplus-master-product-requirements-document"></a>
+# DOC-05 - CardMore Master Product Requirements Document
 
 | Document Control | Details |
 | --- | --- |
 | **Document ID** | `DOC-05` |
 | **Title** | Master PRD & Feature Requirement Index |
-| **Version** | `2.0.0` |
+| **Version** | `2.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-13` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -63,7 +64,7 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines the master product requirements for PayPlus, a controlled Bill and Rent Payment App in which Consumer Users act as Payers. Bills use the approved tiered Evidence, Declaration, Payment and Payout policy; Rent retains its existing mandatory attached-Evidence and Evidence-acceptance-before-Payment model.
+This document defines the master product requirements for CardMore, a controlled Bill and Rent Payment App in which Consumer Users act as Payers. Bills use the approved tiered Evidence, Declaration, Payment and Payout policy; Rent retains its existing mandatory attached-Evidence and Evidence-acceptance-before-Payment model.
 
 DOC-05 is the primary human product-policy owner for the bounded Institutional Payee Programme, Category-scoped Payee Directory, Bill Payee-acquisition model, Bill/Rent Save meaning, individual-notification capability boundary, and target retirement of active Request and BILLS-LINKING behavior. It establishes product meaning, limits, ownership and Acceptance Criteria without taking over specialist rules.
 
@@ -73,21 +74,21 @@ DOC-01 retains high-level product identity and positioning. Evidence truth belon
 
 ## 2. Product Summary
 
-PayPlus enables a Payer to pay an eligible real-world Bill or Rent obligation by card when every applicable Category, Declaration, Evidence, Payee, destination, payment, payout, risk, privacy, compliance and authorization gate passes. Attached Evidence treatment is tiered for Bills only; Rent always requires attached Evidence and its owner-governed acceptance before Payment.
+CardMore enables a Payer to pay an eligible real-world Bill or Rent obligation by card when every applicable Category, Declaration, Evidence, Payee, destination, payment, payout, risk, privacy, compliance and authorization gate passes. Attached Evidence treatment is tiered for Bills only; Rent always requires attached Evidence and its owner-governed acceptance before Payment.
 
 | Concept | MVP meaning |
 |---|---|
-| Consumer User | A PayPlus User acting as Payer. The MVP does not require a Payee-user role. |
-| Payee | The economic recipient. A Payee may be an individual or an institution/company and does not need to be a PayPlus User. |
+| Consumer User | A CardMore User acting as Payer. The MVP does not require a Payee-user role. |
+| Payee | The economic recipient. A Payee may be an individual or an institution/company and does not need to be a CardMore User. |
 | Bill scope | Only specified supported controlled Bill Categories. Each Bill journey remains governed by its selected Category. |
 | Rent scope | A separate tenancy/relationship journey governed by Rent-specific Evidence and controls. Rent does not use the controlled-Bill Directory in MVP. |
 | Payment model | Payer-created and explicitly Payer-authorized. A Bill may proceed under Tier 1 without attached Evidence only when the approved Bill-tier rules and every other applicable gate pass. Tier 2/3 Bills and all Rent Payments require attached Evidence as defined by their owners. A Payment is not created or authorized by a Request, Directory selection, notification, Save action, Declaration or Admin determination. |
 
 The model must not become unrestricted P2P transfer, an open Payee marketplace, remittance, cashout, arbitrary company payment or an open money-request product.
 
-PayPlus is not a wallet, stored-value account, cashout product, open-loop money transfer product, or arbitrary peer-to-peer payment service.
+CardMore is not a wallet, stored-value account, cashout product, open-loop money transfer product, or arbitrary peer-to-peer payment service.
 
-PayPlus is also intended to be data-engine ready by design. MVP features should create structured, classified, auditable, and purpose-linked data that can support service operation, risk control, product analytics, commercial reporting, consented personalization, and future approved AI/model improvement. This does not make AI marketing automation, offsite advertising activation, user-level partner data sharing, credit scoring, or insurance underwriting part of MVP scope.
+CardMore is also intended to be data-engine ready by design. MVP features should create structured, classified, auditable, and purpose-linked data that can support service operation, risk control, product analytics, commercial reporting, consented personalization, and future approved AI/model improvement. This does not make AI marketing automation, offsite advertising activation, user-level partner data sharing, credit scoring, or insurance underwriting part of MVP scope.
 
 ---
 
@@ -101,7 +102,7 @@ The MVP includes:
 - Payer-created controlled Bill sources and Evidence-backed Rent sources and payments;
 - specified supported controlled Bill Categories and the separate Rent journey;
 - Category-scoped Payee Directory and `Provide Payee myself` as the two Bill Payee-acquisition methods;
-- institutional and individual economic Payees who need not be PayPlus Users;
+- institutional and individual economic Payees who need not be CardMore Users;
 - optional attached-Evidence capture for an initial Bill flow, mandatory owner-approved official Bill Evidence for Tier 2/3, and mandatory attached Evidence for Rent; potential document examples are Evidence only where DOC-12 approves the applicable Category or Rent rule;
 - AI/OCR-assisted evidence capture, autofill, user correction, verification, and review routing where enabled;
 - preservation of user-selected Company/Individual type, AI-apparent type, Payer response and scoped Admin determination;
@@ -156,7 +157,7 @@ The MVP must support independent enablement or disablement of major modules, inc
 | Multi-card funding | MVP scope; support up to 6 credit cards per payment/profile, with related controls configurable where applicable. |
 | Tokenized cards and saved payment profiles | MVP scope; DOC-06B defines the user route shell, DOC-09 defines checkout use, DOC-16 defines the provider-controlled card-data boundary, DOC-17 owns provider/tokenization mechanics, and DOC-19 defines mechanism-neutral security controls. |
 | Payment Instructions and incomplete Checkout continuation | MVP scope. A Payment Instruction is a deliberate pay-later arrangement. An interrupted immediate payment remains an incomplete Checkout Workspace, although both may be surfaced through DOC-06B Instructions routes for user management. DOC-09 owns their Payment Domain distinction and funding rules; DOC-10 owns Payout. |
-| Pay+ and Bills entry | The accepted Wave 2 route/action baseline is implemented by DOC-06B: Pay+ retains `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment` in that order and material meaning. `Request Payment` is retired, no replacement action is introduced, and no active Request or BILLS-LINKING capability is part of the target MVP. Exact visual, responsive, accessibility, Copy and implementation evidence remains with its applicable owners. |
+| CardMore and Bills entry | The accepted Wave 2 route/action baseline is implemented by DOC-06B: CardMore retains `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment` in that order and material meaning. `Request Payment` is retired, no replacement action is introduced, and no active Request or BILLS-LINKING capability is part of the target MVP. Exact visual, responsive, accessibility, Copy and implementation evidence remains with its applicable owners. |
 | Data and AI readiness | Require business-recording, classification, lineage, auditability, consent/preference, approved-purpose and model-use eligibility obligations where relevant; structured events, fields, persistence, advanced model automation and external activation remain future-gated. |
 
 Current launch assumptions:
@@ -164,8 +165,8 @@ Current launch assumptions:
 - initial launch jurisdiction is Hong Kong;
 - acquirer is undecided;
 - card payments are expected to be treated as bill payment or ordinary online card purchase, subject to acquirer confirmation;
-- PayPlus expects to seek an appropriate or special MCC from the selected acquirer;
-- payouts are expected to be made from the PayPlus operating bank account after upstream settlement;
+- CardMore expects to seek an appropriate or special MCC from the selected acquirer;
+- payouts are expected to be made from the CardMore operating bank account after upstream settlement;
 - Hong Kong payout rails include FPS, cheque, and EPS, with final operating-bank setup to be confirmed;
 - payment gateway settlement is expected to be T+1 to T+3, with payout on the same day after upstream settlement;
 - individual eKYC is expected through an identity-verification provider selected and approved by the applicable formal owners, with identity attributes, provider outcome, and approved ID-document handling; primary-phone possession is verified separately through `PHONE-VERIFICATION`;
@@ -215,16 +216,16 @@ The MVP does not include:
 | Principle | Requirement |
 |---|---|
 | Controlled Bill/Rent payments | Every Payment must remain linked to a Bill within a specified supported controlled Bill Category or to the separate Rent journey. Bill Tier 1 may omit attached Evidence only under the approved tier policy; Tier 2/3 Bills require owner-approved official Bill Evidence, and Rent always requires owner-approved attached Evidence accepted before Payment. Evidence examples never establish automatic eligibility. |
-| Payer-only Consumer User | Consumer product behavior is designed for the Payer. A Payee is the economic recipient and need not be a PayPlus User. |
+| Payer-only Consumer User | Consumer product behavior is designed for the Payer. A Payee is the economic recipient and need not be a CardMore User. |
 | Controlled acquisition | The selected supported Bill Category governs Directory selection and self-provided acquisition continuously. Neither method bypasses specialist gates. |
 | Authorization required | A payer must authorize payment before funds are charged or moved. |
-| No wallet behavior | PayPlus must not create stored balances or user-controlled cash accounts. |
-| No arbitrary P2P | PayPlus permits payment only for an eligible Rent journey or specified supported controlled Bill Category under the applicable Declaration, Evidence and specialist gates. Declaration or Evidence alone never creates eligibility outside that boundary; unrestricted person-to-person payment remains prohibited. |
+| No wallet behavior | CardMore must not create stored balances or user-controlled cash accounts. |
+| No arbitrary P2P | CardMore permits payment only for an eligible Rent journey or specified supported controlled Bill Category under the applicable Declaration, Evidence and specialist gates. Declaration or Evidence alone never creates eligibility outside that boundary; unrestricted person-to-person payment remains prohibited. |
 | Authoritative source | A Payment is never source-less. Each Checkout targets one Bill/Rent Payable Basis and executes through DOC-09 Obligation Allocations against one or more applicable Payment Obligations. Each Payment remains traceable to those applicable obligations, that Payable Basis, one authoritative Bill/Rent source, Payer, Payee, destination, status/event history and Evidence lineage where Evidence exists or is required; normally this includes one or more Payment Applications. Under DOC-09's controlled late-confirmation exception, a confirmed Payment may temporarily have zero Payment Applications without becoming invalid or source-less. |
 | Projection separation | Save, no-Save and Archive affect Payer reuse and visibility projections without creating, cloning or erasing the authoritative Bill/Rent or immutable financial history. |
 | Compliance first | Product behavior must remain within approved regulatory and partner constraints. |
 | Data-engine readiness | Material product actions should create structured events and classified data suitable for governed analytics, reporting, and future approved AI/model improvement. |
-| Trust-preserving intelligence | Analytics, personalization, partner reporting, and AI use must preserve PayPlus product boundaries, privacy controls, consent rules, role-based visibility, and auditability. |
+| Trust-preserving intelligence | Analytics, personalization, partner reporting, and AI use must preserve CardMore product boundaries, privacy controls, consent rules, role-based visibility, and auditability. |
 
 ---
 
@@ -233,7 +234,7 @@ The MVP does not include:
 | Actor | Description | MVP login? |
 |---|---|---|
 | Payer | Consumer User who creates or selects the controlled Bill or Evidence-backed Rent context, makes any required Declaration, chooses whether to Save, and separately authorizes payment. | Yes |
-| Payee | Economic recipient, either an individual or institution/company. A Payee may be represented without a PayPlus User account. | Not required |
+| Payee | Economic recipient, either an individual or institution/company. A Payee may be represented without a CardMore User account. | Not required |
 | Admin / Operations | Internal user executing only owner-required and owner-permitted review or handling for Evidence, type disagreements, risk, Payee/destination facts and exceptions. Admin execution does not create global Payee truth, specialist outcomes or product policy. | Yes |
 | System | Automated services supporting Evidence processing, preservation of provenance, payment/payout processing, controlled notifications and audit events. | No |
 
@@ -283,8 +284,8 @@ This section owns the high-level product policy approved for Bills. It does not 
 |---|---|
 | Evidence | Attached Evidence. |
 | Declaration | The Payer's factual and intent declaration concerning Category, purpose, amount and Payee/receiving details under the owner-approved Declaration policy. |
-| Payment | The Payer pays on PayPlus; DOC-09 owns the immutable confirmed financial meaning. |
-| Payout | PayPlus pays the designated economic Payee; DOC-10 owns release and reconciliation. |
+| Payment | The Payer pays on CardMore; DOC-09 owns the immutable confirmed financial meaning. |
+| Payout | CardMore pays the designated economic Payee; DOC-10 owns release and reconciliation. |
 
 Evidence, Declaration, Checkout, Payment, Payment Application, Payout, Refund, case, adjustment and reconciliation remain distinct.
 
@@ -434,7 +435,7 @@ The provenance supports audit and troubleshooting only. It does not govern Saved
 
 ### 8.4 Future Dedicated-Owner Threshold
 
-A future dedicated Institutional Programme owner requires handling under the canonical PayPlus Documentation Development Workflow and is warranted only when the programme becomes an independently governed domain, such as through multiple programmes, markets or publication channels; material contractual/commercial onboarding and offboarding; reusable cross-product institutional entitlements; complex Category-association or termination policy; independent SLAs, disputes, reporting or integrations; or policy volume that DOC-05 can no longer express compactly.
+A future dedicated Institutional Programme owner requires handling under the canonical CardMore Documentation Development Workflow and is warranted only when the programme becomes an independently governed domain, such as through multiple programmes, markets or publication channels; material contractual/commercial onboarding and offboarding; reusable cross-product institutional entitlements; complex Category-association or termination policy; independent SLAs, disputes, reporting or integrations; or policy volume that DOC-05 can no longer express compactly.
 
 ---
 
@@ -454,11 +455,11 @@ A declined type mismatch creates an Admin review obligation. If the disagreement
 
 ### 9.2 Individual-Payee Notification Boundary
 
-An institution/company Payee is not notified in MVP. A governed Individual determination is required before an individual Payee may receive an optional Payer-initiated one-way notification through a separately permitted PayPlus method. The Payer's pre-Evidence selection, AI-apparent type or Payer response alone is insufficient.
+An institution/company Payee is not notified in MVP. A governed Individual determination is required before an individual Payee may receive an optional Payer-initiated one-way notification through a separately permitted CardMore method. The Payer's pre-Evidence selection, AI-apparent type or Payer response alone is insufficient.
 
-The notification must not create or require a Request ID, account lookup, PayPlus account invitation, participant link, acceptance/decline state, consent proof, reciprocal visibility, Payee authorization or payment/Payout gate. Delivery failure or suppression does not change payment outcome, and Payer-entered contact does not establish recipient identity or Individual truth.
+The notification must not create or require a Request ID, account lookup, CardMore account invitation, participant link, acceptance/decline state, consent proof, reciprocal visibility, Payee authorization or payment/Payout gate. Delivery failure or suppression does not change payment outcome, and Payer-entered contact does not establish recipient identity or Individual truth.
 
-When Company/Individual type remains unresolved, payment may proceed if otherwise eligible but the individual-only notification remains unavailable. Payer responsibility for contact input does not remove PayPlus lawful-purpose, minimization, wrong-recipient, abuse/rate-limit, suppression/opt-out, security, delivery-record, retention and support obligations.
+When Company/Individual type remains unresolved, payment may proceed if otherwise eligible but the individual-only notification remains unavailable. Payer responsibility for contact input does not remove CardMore lawful-purpose, minimization, wrong-recipient, abuse/rate-limit, suppression/opt-out, security, delivery-record, retention and support obligations.
 
 DOC-05 owns only the eligibility and product-meaning boundary. DOC-07 owns Copy/disclosure/CTA; DOC-08 owns notification identity, channel, template, preference and delivery; DOC-14 owns abuse/risk controls; DOC-15 owns privacy and retention requirements; DOC-18 owns business-recording, audit-meaning and lineage obligations; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 executes only permitted Admin handling. Exact technical representation and mechanics remain separately gated.
 
@@ -475,7 +476,7 @@ The Payer-only target formally retires active Request and BILLS-LINKING behavior
 | No production legacy Request records or deep-link behavior exist; no adapter or fallback is required. | Dormant end-to-end queues, APIs, jobs, feature flags, product tests, deep-link adapters or fallback routes. |
 | Neutral future-compatible Party, Payee and Obligation seams. | Prebuilt future participant Linking or institutional landlord/property-manager discovery. |
 
-Prior Request meanings remain only in append-only documentation history and retired stable IDs. PayPlus has no production Request/Payee-role runtime or legacy Request deep-link data to expose through a reader, adapter or fallback. Future participant Linking requires a separately governed domain and approval.
+Prior Request meanings remain only in append-only documentation history and retired stable IDs. CardMore has no production Request/Payee-role runtime or legacy Request deep-link data to expose through a reader, adapter or fallback. Future participant Linking requires a separately governed domain and approval.
 
 ---
 
@@ -506,9 +507,9 @@ No later Save-from-Activity route or behavior is accepted. No separate Unsave ac
 | Payment purpose | Payment must remain tied to an eligible controlled obligation. Bill Tier 1 may omit attached Evidence only under Section 7; Tier 2/3 Bills and all Rent use their required Evidence gates. |
 | Payer consent | Payer must explicitly authorize payment. |
 | Payee payout | Payee may receive payment only through approved payout channels. |
-| No self-cashout | Payer cannot use PayPlus to cash out to themselves. |
+| No self-cashout | Payer cannot use CardMore to cash out to themselves. |
 | No unsupported transfer | Payment must remain tied to a Bill within its specified supported controlled Bill Category or to the separate Rent journey. Evidence form alone does not create another payment scope. |
-| No stored balance | PayPlus must not hold user wallet balances. |
+| No stored balance | CardMore must not hold user wallet balances. |
 | Failed payment handling | Failed payments must be visible and traceable. |
 | Payment continuation revalidation | A pending Payment Instruction or incomplete Checkout Workspace must revalidate applicable amount, fee, benefit, funding-method, destination, eligibility, and risk facts before Provider Submission where required by DOC-09 and DOC-13. |
 | Refunds/reversals | DOC-11 owns refund, cancellation, reversal, dispute and chargeback meaning. DOC-22 may execute only the Admin treatment permitted by DOC-11 and the applicable payment, data, privacy and operations owners; DOC-05 grants no generic status or disposition authority. |
@@ -597,7 +598,7 @@ The MVP must preserve product-level identity, lineage and provenance for the fol
 
 Each material object remains subject to DOC-15 classification, masking, approved-purpose access and retention governance. Material user, system and Admin actions require auditable source lineage. Acquisition provenance and projection state must not become substitute payment eligibility, destination truth, risk clearance or authorization.
 
-Detailed data model, event taxonomy, warehouse, analytics, feature/model metadata, aggregation, lineage and reporting requirements for current product objects remain for DOC-18 and later authorized Waves. No Request/Payee-role runtime reader or production lineage is implied.
+DOC-18 currently owns business-recording, explainability, history and lineage obligations for current product objects. Detailed data model, event taxonomy, warehouse, analytics, feature/model metadata, aggregation and technical representation remain separately authorized future work, without transferring DOC-18's assigned future responsibilities. No Request/Payee-role runtime reader or production lineage is implied.
 
 ---
 
@@ -609,11 +610,11 @@ DOC-06 is the parent UX family map. DOC-06A owns core service journeys, DOC-06B 
 
 For split UX topics, use one primary owner. DOC-06A owns core Payer journeys, DOC-06B owns global navigation, Activity/Payment History/Receipt separation and active Request/Linking route retirement, DOC-06C owns Bills/Rent acquisition, visibility, Save and Archive presentation, and DOC-06D owns testability mapping. The current Wave 2 DOC-06 baseline addresses the accepted route retirement and Save/Archive meaning; related owner work remains with the applicable formal owners, and no downstream document may override the product policy in this document.
 
-Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `ENTRANCE-ROOT` is the unauthenticated app root; `AUTH-LOGIN` resolves to `AUTH-LOGIN-FAST` or `AUTH-LOGIN-FULL`; `AUTH-RECOVERY` owns password recovery; and `AUTH-REGISTRATION` owns restricted-account creation. `ACCOUNT-ACTIVATION` completes phone, identity, and payment-passcode requirements through their reusable child flows. Normal successful login proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET` and `MORE-ROOT` identify the Pay+ and More destinations. `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings, with `NOTIFICATION-INBOX` as its default child. `PAYMENT-CHECKOUT` identifies the existing payment checkout flow/screen group; DOC-06B owns its route-level UI/UX, adaptive Workspace presentation, entry, return, and handoff behavior, while DOC-09 owns its Payment Domain architecture and authoritative payment meaning.
+Stable global destination IDs are mandatory for traceability even where detailed UI remains incomplete. `ENTRANCE-ROOT` is the unauthenticated app root; `AUTH-LOGIN` resolves to `AUTH-LOGIN-FAST` or `AUTH-LOGIN-FULL`; `AUTH-RECOVERY` owns password recovery; and `AUTH-REGISTRATION` owns restricted-account creation. `ACCOUNT-ACTIVATION` completes phone, identity, and payment-passcode requirements through their reusable child flows. Normal successful login proceeds to `HOME-ROOT`, subject to approved contextual deeplink return. `PAYPLUS-ACTION-SHEET` and `MORE-ROOT` identify the CardMore and More destinations. `NOTIFICATION-ROOT` groups Inbox, Detail, and Settings, with `NOTIFICATION-INBOX` as its default child. `PAYMENT-CHECKOUT` identifies the existing payment checkout flow/screen group; DOC-06B owns its route-level UI/UX, adaptive Workspace presentation, entry, return, and handoff behavior, while DOC-09 owns its Payment Domain architecture and authoritative payment meaning.
 
 Material AUTH handling must separate the operation Outcome from its permitted Resolution Strategy, user-facing Message/CTA, Notification, and persistent status. Capability-aware resolution may continue, restart, redirect, wait, invoke controlled Support, or stop according to the current permitted authentication and recovery context. It must not reveal unproven login methods, create a security bypass, silently authorize a protected action, or imply that every account can be recovered. DOC-06B owns route-level Outcomes and Resolution Strategies; DOC-07 owns presentation; DOC-08 owns notifications; and DOC-18 to DOC-22 own their respective technical, security, testing, operational, and admin details.
 
-PayPlus uses one account with one unique verified primary email and explicitly enabled login methods. Signed-out Full Login uses Phone/Email OTP views and Google/Apple; registration uses verified phone and required user data, optional invitation context, mandatory matching Login PIN and explicit Terms/Privacy acceptance before confirmed restricted-account creation. Provider-confirmed unchanged verified email need not repeat OTP; changed, missing or unconfirmed email must be verified. Provider identities use stable provider identifiers and never link or merge by matching email. Remembered Login PIN is separate from Full Login and Payment Passcode. Existing optional password/account-recovery capabilities retain their formal owners but are not a password-first registration or Full Login requirement. Identity and Payment Passcode remain financial-action gates; phone is already verified at creation. DOC-06B owns the exact sequence and direct Done/Home identity callers.
+CardMore uses one account with one unique verified primary email and explicitly enabled login methods. Signed-out Full Login uses Phone/Email OTP views and Google/Apple; registration uses verified phone and required user data, optional invitation context, mandatory matching Login PIN and explicit Terms/Privacy acceptance before confirmed restricted-account creation. Provider-confirmed unchanged verified email need not repeat OTP; changed, missing or unconfirmed email must be verified. Provider identities use stable provider identifiers and never link or merge by matching email. Remembered Login PIN is separate from Full Login and Payment Passcode. Existing optional password/account-recovery capabilities retain their formal owners but are not a password-first registration or Full Login requirement. Identity and Payment Passcode remain financial-action gates; phone is already verified at creation. DOC-06B owns the exact sequence and direct Done/Home identity callers.
 
 The current Wave 2 DOC-06 baseline retires active Request and Payee-user actions in the `PAYPLUS-ACTION-SHEET` and Bills-route surfaces. `PAYPLUS-ACTION-SHEET` retains, in the accepted order and material meaning, `Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, and `Continue Payment`; Request Payment is retired and no replacement action or route is created. That composition, order, material labels and destinations are not open. Exact visual treatment, responsive and accessibility behavior, Copy detail, technical implementation and acceptance evidence remain with their applicable formal owners.
 
@@ -627,7 +628,7 @@ For Bills/Rent UX, the current Wave 2 DOC-06 baseline preserves the Category-bef
 
 For account-control UX, `ME-ROOT` is a permanent MVP bottom-navigation route for Payers. It provides masked Account Information, account/security/privacy child-route entry and owner-governed feature handoffs. Existing Payee-user and Receiving Info product treatment is retired in the current DOC-06 Founder Working Baseline; destination and payout data remain specialist-owned and do not create a Consumer Payee role.
 
-DOC-06B defines `ACCOUNT-PROFILE`, reusable `PHONE-VERIFICATION` and `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, reusable `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`. The MVP includes editable nickname/display name that is not a login identifier, copyable PayPlus User ID, separately controlled phone replacement and double-new-email → payment passcode or approved reauthentication → new-email OTP → confirmed email update, the five identity-verification labels `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`, account closure as a controlled request, login-method and Set/Change Password controls, payment-passcode Set/Change/Reset and permitted 2FA/biometric controls, trusted-device removal, optional privacy choices, governed correction/access/export/privacy requests, and protected in-app export. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. Once verified, users cannot voluntarily re-verify; retries follow `Failed`, and an authorized Admin may execute an applicable identity/security-owner requirement to update without directly setting `Verified`.
+DOC-06B defines `ACCOUNT-PROFILE`, reusable `PHONE-VERIFICATION` and `IDENTITY-VERIFICATION`, `ACCOUNT-SECURITY`, reusable `PAYMENT-PASSCODE-SETTINGS`, and `PRIVACY-DATA-CONTROLS`. The MVP includes editable nickname/display name that is not a login identifier, copyable CardMore User ID, separately controlled phone replacement and double-new-email → payment passcode or approved reauthentication → new-email OTP → confirmed email update, the five identity-verification labels `Not Verified`, `Processing`, `Verified`, `Failed`, and `Update Required`, account closure as a controlled request, login-method and Set/Change Password controls, payment-passcode Set/Change/Reset and permitted 2FA/biometric controls, trusted-device removal, optional privacy choices, governed correction/access/export/privacy requests, and protected in-app export. First-time identity verification during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode. Once verified, users cannot voluntarily re-verify; retries follow `Failed`, and an authorized Admin may execute an applicable identity/security-owner requirement to update without directly setting `Verified`.
 
 Sensitive information remains masked by default. Prominent reveal of approved masked sensitive values, and material changes to existing identity, contact, security or credential data, require payment passcode or approved reauthentication under DOC-15 and the reviewed DOC-19 security controls. This material-change rule does not create a passcode prerequisite for first-time identity verification during Account Activation. Ordinary permitted evidence, invoice, receipt, statement, and payment-proof viewing/downloading does not require an extra prompt solely for opening or downloading the document. `ACTIVITY-ROOT` remains the Payer's account-level financial activity route. Bills/Rent source projections and Payment Activity/History/Receipt remain distinct. The current DOC-06 Founder Working Baseline retires Consumer Receiving Info and mixed-role Archive treatment; `ARCHIVED-ROOT` and Bills/Rent Archive presentation remain owned by the DOC-06 family.
 
@@ -640,8 +641,8 @@ Save records Payer persistence, visibility and reuse intent for one authoritativ
 - complete new-device 2FA and dormant-login reauthentication where required;
 - confirm core account, payment profile, or credential changes using password, payment passcode, 2FA, or approved confirmation method;
 - dashboard through `HOME-ROOT`;
-- logged-in `HOME-ROOT` baseline with `Home`, `Bills`, `Pay+`, `Offers`, and `Me` navigation where enabled by DOC-06B;
-- Pay+ center action entry point opening `PAYPLUS-ACTION-SHEET` where enabled by DOC-06B;
+- logged-in `HOME-ROOT` baseline with `Home`, `Bills`, `CardMore`, `Offers`, and `Me` navigation where enabled by DOC-06B;
+- CardMore center action entry point opening `PAYPLUS-ACTION-SHEET` where enabled by DOC-06B;
 - dashboard shortcut grid aligned by DOC-06B to the Payer-only target; the Requests entry is retired, and retained shortcuts remain entry points into owning routes or management areas rather than independent feature owners;
 - `Cards` shortcut opens DOC-06B `PAYMENT-PROFILE-ROOT` for tokenized card management and saved split-card profile management; it is not checkout and does not authorize payment;
 - user shortcut display order, visibility preference, and restore-default behavior;
@@ -721,7 +722,7 @@ Final pricing, fee model, and partner economics should be governed by DOC-02 and
 
 ## 18. Prohibited Product Behavior
 
-PayPlus must not:
+CardMore must not:
 
 - operate as a wallet;
 - provide user stored balances;
@@ -752,7 +753,7 @@ PayPlus must not:
 
 The Wave 1 product-policy baseline is acceptable when:
 
-1. Consumer Users are Payers only, while a Payee is an individual or institution/company economic recipient that need not be a PayPlus User.
+1. Consumer Users are Payers only, while a Payee is an individual or institution/company economic recipient that need not be a CardMore User.
 2. MVP is limited to the twelve accepted launch controlled Bill Categories in Section 3.1.1 and the separate Rent journey; Category-specific eligibility, Evidence criteria, Directory contents, detailed labels and Copy remain owner-backed later work.
 3. Category-scoped Directory and `Provide Payee myself` are the only Bill Payee-acquisition methods and both remain governed by the already selected supported Category.
 4. Rent remains a separate tenancy/relationship journey and does not use the controlled-Bill Directory.
@@ -799,12 +800,12 @@ The Wave 1 product-policy baseline is acceptable when:
 | OQ-05-008 | Which operating bank setup will be used for FPS, cheque, and EPS payouts? | Payments / Operations | Open |
 | OQ-05-009 | Which lawful-scope assessment, required exceptions, restricted data classes, prohibited sensitive-data boundaries, approved-purpose access, masking, legal-hold and correction/request controls apply while indefinite retention remains the Founder-approved product and governance direction? | Legal / Privacy / Compliance | Open |
 | OQ-05-010 | What dispute process applies after payment completion? | Operations / Legal | Open |
-| OQ-05-011 | What appropriate or special MCC and transaction classification will the selected acquirer confirm for PayPlus? | Payments / Legal | Open |
+| OQ-05-011 | What appropriate or special MCC and transaction classification will the selected acquirer confirm for CardMore? | Payments / Legal | Open |
 | OQ-05-012 | What maximum number of credit cards per payment/profile should be allowed at launch? | Product / Payments | Answered: 6 |
 | OQ-05-013 | Which OCR/document AI provider, confidence thresholds and Category-specific OCR capabilities should apply to the accepted launch inventory and separate Rent journey? | DOC-12 / Engineering / Risk | Open; the twelve-category inventory itself is settled |
 | OQ-05-014 | Which extracted fields are displayable, masked, or restricted by role and evidence category? | Product / Privacy / Security | Open |
 | OQ-05-015 | What final styling and optional post-replacement Undo behavior should apply to `MORE-ROOT`? The 8-slot maximum, protected More entry, user reorder/remove/add behavior, account-level preference, current-default restore, availability precedence, and secondary-service boundary are defined. | Product / Design / Operations | Partially open |
-| OQ-05-016 | Retired under the Payer-only target: the former five-action visual/composition question no longer governs. Residual exact visual, responsive and accessibility treatment for the confirmed four-action baseline is tracked by DOC-06B without reopening composition, order, material meaning or destinations. | Product / Design / Payments | Retired/superseded; any replacement-composition question requires handling under the canonical PayPlus Documentation Development Workflow and a DOC-06-owned ID |
+| OQ-05-016 | Retired under the Payer-only target: the former five-action visual/composition question no longer governs. Residual exact visual, responsive and accessibility treatment for the confirmed four-action baseline is tracked by DOC-06B without reopening composition, order, material meaning or destinations. | Product / Design / Payments | Retired/superseded; any replacement-composition question requires handling under the canonical CardMore Documentation Development Workflow and a DOC-06-owned ID |
 | OQ-05-017 | What remaining implementation detail and evidence are required for the decided Admin controls supporting Home Hot Offer publication and other approved Home configuration? DOC-06B owns Home presentation; source owners retain canonical business truth; DOC-22 owns Admin publication and configuration controls; technical mechanics and later detailed evidence remain with their formal owners. | Product / Growth / Operations | Partially open; presentation-governance and ownership boundaries decided |
 | OQ-05-018 | Which MVP events and data objects must be captured for product analytics, risk analytics, commercial reporting, and future approved AI/model improvement? | Product / Data / Engineering | Open |
 | OQ-05-019 | What user consent and preference categories are required for personalization, partner offers, marketing communication, and model improvement? | Product / Privacy / Legal | Open |
@@ -812,7 +813,7 @@ The Wave 1 product-policy baseline is acceptable when:
 | OQ-05-021 | What final Payment Profile card metadata display and tokenization return UX should apply at launch? Route label is `Payment Profile`; payment/profile card-count cap is 6. | Product / Payments / Security | Partially open |
 | OQ-05-022 | What owner-approved operating tests and presentation implement the accepted Declaration materiality and proportionate reconfirmation framework when a user changes Category, purpose, amount or Payee/receiving details? Limit re-evaluation alone is not a trigger. | Product / Legal / Compliance / Privacy / Payments | Open later product/content/acceptance input; any future answer must preserve or be reconciled through the approved framework |
 
-Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning or makes the model impossible must be handled under the canonical PayPlus Documentation Development Workflow.
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning or makes the model impossible must be handled under the canonical CardMore Documentation Development Workflow.
 
 The accepted launch Category inventory is not an Open Question. Category-specific eligibility, Evidence criteria, Directory contents, detailed labels and Copy remain assigned to DOC-05, DOC-12, DOC-06C and DOC-07 respectively.
 
@@ -829,7 +830,7 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 | DOC-04 | Compliance control framework |
 | DOC-06 | Parent user journey, UX flow, and service blueprint family map |
 | DOC-06A | Core user journeys and service blueprint |
-| DOC-06B | Navigation, IA, route taxonomy, dashboard, Pay+, global non-Bills route-level UX, and route completion status |
+| DOC-06B | Navigation, IA, route taxonomy, dashboard, CardMore, global non-Bills route-level UX, and route completion status |
 | DOC-06C | Bills, Rent, tenancy, controlled acquisition, source visibility, Save, Archive, reminder and Evidence-entry UX |
 | DOC-06D | UX requirements, acceptance criteria, and test-readiness mapping |
 | DOC-07 | User-facing disclosure, authorization, evidence, privacy, and policy wording |
@@ -868,8 +869,8 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 
 | Decision | Status |
 |---|---|
-| PayPlus MVP is a controlled Bill and Evidence-backed Rent Payment App; Consumer Users are Payers only. Bills use the approved tier policy, while Rent retains mandatory accepted attached Evidence before Payment. | Founder-approved |
-| A Payee is an individual or institution/company economic recipient and need not be a PayPlus User. | Founder-approved |
+| CardMore MVP is a controlled Bill and Evidence-backed Rent Payment App; Consumer Users are Payers only. Bills use the approved tier policy, while Rent retains mandatory accepted attached Evidence before Payment. | Founder-approved |
+| A Payee is an individual or institution/company economic recipient and need not be a CardMore User. | Founder-approved |
 | MVP supports the twelve accepted launch controlled Bill Categories in Section 3.1.1 plus the separate Rent journey; Category-specific detailed policy remains owner-backed later work. | Founder-approved inventory and boundary |
 | Category-scoped Directory and `Provide Payee myself` are the two Bill acquisition methods; both remain governed by the already selected Category. | Founder-approved |
 | Rent remains a separate tenancy/relationship journey and does not use the controlled-Bill Directory. | Founder-approved |
@@ -901,12 +902,12 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 | One account retains unique verified identifiers and explicitly enabled methods with no email-based merging. Full Phone/Email OTP and provider login, verified-phone/provider registration, mandatory Login PIN before Terms/confirmed creation, direct Done/Home identity callers and separately gated financial actions follow DOC-06B; optional password/recovery controls are not mandatory password-first entry. | Founder-approved R1 UX / owner-integrated |
 | The current DOC-06 baseline implements the Founder-approved `PAYPLUS-ACTION-SHEET` composition: the retained four actions remain in their accepted order and material meaning, Request Payment is retired, and related owner work remains with the applicable formal owners. | Founder-approved composition |
 | DOC-06B defines the reviewed `HOME-ROOT` route-level baseline for Greeting, Important Notice, Home Hot Offer, Upcoming Bills / Rent, Recent Activity, section-level resilience, accessibility, and presentation governance. `HOME-ROOT` remains Partially defined while final visual design, exact DOC-07 Copy and identifiers, technical mechanics, and later DOC-20 evidence remain pending with their formal owners. | Working Baseline / Route Behavior Defined |
-| Dashboard shortcut grid, account-level user shortcut preferences, protected `More`, current-default restore, Pay+ entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
+| Dashboard shortcut grid, account-level user shortcut preferences, protected `More`, current-default restore, CardMore entry point, and admin-controlled dashboard placements must be supported where enabled. | Confirmed |
 | Request, mixed-role Bills, Payee-user and related route behavior is retired from the current Payer-only product baseline. Retired stable IDs and prior meanings remain append-only non-active documentation evidence only; they create no active route, runtime, reader, adapter, or fallback. Related owner work remains with the applicable formal owners. | Founder-approved target |
 | DOC-06B `PAYMENT-PROFILE-ROOT` is accepted as the current route shell for tokenized card and saved split-card profile management; checkout authorization and funding remain governed by DOC-09. | Working Baseline / Not Final |
 | Existing unaffected authentication, payment profile, Instructions, promotion, reward, referral, data-governance and Home baselines remain in force subject to their formal owners; Payee-user Receiving Info and mixed-role Archive treatment are re-scoped by the current DOC-06 baseline, with related owner work retained by the applicable formal owners. | Retained |
 | The canonical product destination inventory is maintained in `docs/traceability/route-register.md`; route owners and the DOC-06 parent must remain synchronized with it. | Confirmed |
-| PayPlus MVP should be data-engine ready by design, with structured events, field classification, source lineage, auditability, consent/preference state, approved-purpose metadata, and future model-use eligibility metadata where relevant. | Confirmed |
+| CardMore MVP should be data-engine ready by design, with structured events, field classification, source lineage, auditability, consent/preference state, approved-purpose metadata, and future model-use eligibility metadata where relevant. | Confirmed |
 | Advanced AI decisioning, external partner activation, offsite advertising, user-level data sharing, credit scoring, and insurance underwriting are not MVP scope unless separately assessed, approved, and documented. | Confirmed |
 
 ---
@@ -915,6 +916,7 @@ The accepted launch Category inventory is not an Open Question. Category-specifi
 
 | Version | Date | Summary |
 |---|---|---|
+| 2.1.0 | 2026-11-16 | Aligned the current name and the bounded DOC-18 business-recording versus future representation handoff. |
 | v2.0.0 | 2026-11-13 | Canonical Writer: Drafted Founder-authorized PP-MVP-20261112-R1 unknown-Save/result-artifact and account-summary replacements; retained source, financial, risk and implementation boundaries without approval or Git release. Clarified the bounded Bill-inline/Rent-reminder and no-Inbox-Archive summary joins through the consolidated Specialist correction batch. |
 | v1.1.1 | 2026-08-27 | Aligned complete Bill/Rent material-fact, same-Bill Category-amendment, prior-history, four-context Declaration, and current-versus-future DOC-18 ownership handoffs without adding schema, UI, implementation, or enablement detail. |
 | v1.1.0 | 2026-08-22 | Drafted the approved Bills Tiered Payer Presentation and Return Contract: deliberate Tier 3 Pay/resolver re-entry, proportionate Declaration, and distinct Save-admission versus current Payment progression, without selecting configuration, routes, notifications, security mechanisms, or enablement. |

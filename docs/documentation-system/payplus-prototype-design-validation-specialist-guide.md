@@ -1,12 +1,13 @@
-# PayPlus Prototype Design and Validation Specialist Guide
+<a id="payplus-prototype-design-and-validation-specialist-guide"></a>
+# CardMore Prototype Design and Validation Specialist Guide
 
 Last updated: 2026-07-26
 
 ## 1. Purpose
 
-This specialist guide defines how PayPlus prototypes are classified, scoped, built, reviewed, tested, represented, maintained, superseded, and retired. It applies to route-flow, interaction, information-architecture, visual-design, responsive, and technical proof-of-concept prototypes.
+This specialist guide defines how CardMore prototypes are classified, scoped, built, reviewed, tested, represented, maintained, superseded, and retired. It applies to route-flow, interaction, information-architecture, visual-design, responsive, and technical proof-of-concept prototypes.
 
-The PayPlus Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, general Validation gates, Commit, Records Commit, Push, and Completion. This guide extends that lifecycle with prototype-specific inputs, build methods, validation checks, review evidence, and artifact-status rules. It **MUST NOT** redefine, duplicate, weaken, bypass, or independently authorize a lifecycle stage, owner, or gate.
+The CardMore Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, general Validation gates, Commit, Records Commit, Push, and Completion. This guide extends that lifecycle with prototype-specific inputs, build methods, validation checks, review evidence, and artifact-status rules. It **MUST NOT** redefine, duplicate, weaken, bypass, or independently authorize a lifecycle stage, owner, or gate.
 
 Prototype work must be invoked from a named canonical lifecycle stage and must return its plan, artifact, findings, or validation evidence to a named canonical lifecycle stage. It may also invoke the Parallel-Agent Documentation Procedure where the canonical lifecycle has authorized parallel execution. This guide does not replace product requirements, formal UX ownership, technical specifications, or founder authority.
 
@@ -90,7 +91,7 @@ Use only the roles justified by prototype complexity.
 | Founder | Supplies scope or product decisions only through the applicable canonical lifecycle gate. | Decision authority defined by the canonical workflow |
 | Prototype Orchestrator | Receives the invocation stage, classifies the prototype, prepares context, assigns roles, controls specialist scope, consolidates findings, and returns control to the canonical lifecycle. | Controlled specialist access |
 | Prototype Designer / Builder | Creates the one canonical prototype within the write scope supplied by the canonical lifecycle. | Limited prototype write access |
-| Product Consistency Reviewer | Checks PRD, route ownership, PayPlus boundaries, actors, labels, and accepted behavior. | Read-only |
+| Product Consistency Reviewer | Checks PRD, route ownership, CardMore boundaries, actors, labels, and accepted behavior. | Read-only |
 | UX / Accessibility Reviewer | Checks hierarchy, usability, responsive behavior, accessibility, and user comprehension. | Read-only |
 | Functional QA Reviewer | Tests controls, navigation, states, failure handling, and broken interactions. | Read-only |
 | Documentation Integrator | Receives prototype discoveries through the canonical workflow and performs only the lifecycle work authorized there. | Controlled document access |
@@ -195,7 +196,7 @@ The repository-level prototype registry must also identify:
 
 - Preserve route, screen, view, sheet, component, and action classifications from `AGENTS.md`.
 - Do not promote a tab, filter, card, shortcut, or contextual action into an independent route without an accepted source requirement.
-- Preserve PayPlus product boundaries, payer authorization, evidence requirements, role behavior, privacy, risk, and status terminology.
+- Preserve CardMore product boundaries, payer authorization, evidence requirements, role behavior, privacy, risk, and status terminology.
 - Clearly mark exploratory visual treatment when final UI design is not defined.
 - Use familiar controls and concise user-facing labels rather than internal technical terminology.
 
@@ -374,7 +375,7 @@ The canonical Documentation Development Workflow exclusively determines Alignmen
 ### Prototype Planning Support
 
 ```text
-Within canonical Documentation Development Workflow Stage 5, invoke the PayPlus
+Within canonical Documentation Development Workflow Stage 5, invoke the CardMore
 Prototype Design and Validation Specialist Guide for [prototype task]. Return a
 compact, decision-complete Prototype Planning Input Pack covering purpose,
 classification, sources, routes, screens, interactions, actors, states,
@@ -385,7 +386,7 @@ documents, and decision handoffs to canonical Stage 6.
 ### Prototype Build and Specialist Validation
 
 ```text
-Within canonical Documentation Development Workflow Stage 8, invoke the PayPlus
+Within canonical Documentation Development Workflow Stage 8, invoke the CardMore
 Prototype Design and Validation Specialist Guide for the accepted prototype
 scope [IDs]. Build one canonical prototype using mock data, then return the
 artifact to canonical Stage 9. When canonical Stage 12 is reached, re-invoke the

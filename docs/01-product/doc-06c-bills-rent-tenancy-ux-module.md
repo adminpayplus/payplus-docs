@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06C
 title: Bills, Rent & Tenancy UX Module
-version: 2.0.0
+version: 2.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-13
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06C` |
 | **Title** | Bills, Rent & Tenancy UX Module |
-| **Version** | `2.0.0` |
+| **Version** | `2.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-13` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -90,7 +90,7 @@ Rent is independent of the controlled-Bill Directory and the Bill tiers. A Payer
 
 Active Request, BILLS-LINKING, BILLS-RECEIVE, Remind Payer, Payee-user and Consumer Receiving Info behavior is retired. Retired stable IDs and prior meanings remain non-active documentation evidence only. Founder confirmation establishes that no production Request/Payee-role runtime or legacy Request deep-link data exists; no runtime reader, adapter, fallback, dormant runtime or replacement Request product is created.
 
-The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. DOC-06C consumes this outcome and does not independently determine Payee type or make an Admin determination. Institution/company and unresolved/insufficient Individual determination leave notification unavailable. A governed Individual determination plus Payer choice may expose the informational one-way capability. Payer contact responsibility does not remove PayPlus obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. The capability is not Request, Linking, acceptance, consent proof, invitation, reciprocal visibility, payment authorization or a payment-state change. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity/channel/template/preference/delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 owns business-recording and audit-meaning obligations; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
+The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. DOC-06C consumes this outcome and does not independently determine Payee type or make an Admin determination. Institution/company and unresolved/insufficient Individual determination leave notification unavailable. A governed Individual determination plus Payer choice may expose the informational one-way capability. Payer contact responsibility does not remove CardMore obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. The capability is not Request, Linking, acceptance, consent proof, invitation, reciprocal visibility, payment authorization or a payment-state change. DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity/channel/template/preference/delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 owns business-recording and audit-meaning obligations; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
 
 ---
 
@@ -100,7 +100,7 @@ The route and detail sections below are active current requirements for the Paye
 
 ## 1. Purpose
 
-DOC-06C governs the PayPlus Payer-facing Bills, rent, tenancy, fee, obligation, reminder, activity and evidence UX module.
+DOC-06C governs the CardMore Payer-facing Bills, rent, tenancy, fee, obligation, reminder, activity and evidence UX module.
 
 It is the owning document for the Payer-facing BILLS-ROOT/BILLS-PAY, BILLS-ACTIVITY, BILLS-ACTIVITY-DETAIL, BILLS-ADD, BILLS-EVIDENCE-DETAIL, BILLS-EVIDENCE-UPLOAD, BILLS-REMINDER-LIST, BILLS-REMINDER-DETAIL, and ARCHIVED-BILLS-LIST human-readable UX. BILLS-RECEIVE and BILLS-LINKING remain only as retired stable IDs in non-active documentation; they are not routes or runtime readers.
 
@@ -170,14 +170,14 @@ Examples include `BILLS-ROOT`, `BILLS-PAY`, `BILLS-DETAIL-BILL`, `BILLS-REMINDER
 | ID | Type | Route / Section | Opened By | Definition |
 | --- | --- | --- | --- | --- |
 | `BILLS-ROOT` | Screen | Bills route | Bottom nav `Bills` | Top-level Bills tab screen. |
-| `BILLS-PAY` | Tab / view | Payer Bills view | `BILLS-ROOT`, Pay+ `Pay a Bill`, Pay+ `Pay Rent`, dashboard items, reminders, or action-required notifications | Payer-oriented selection and management route for Saved/current Bill/Rent sources. It may include Under Review, Action Required and Ready handling conditions but excludes Saved/Archived and history-only sources. Pay+ may open a temporary Bill or Rent selection scope without changing saved Bills filters. It is not Checkout. |
+| `BILLS-PAY` | Tab / view | Payer Bills view | `BILLS-ROOT`, CardMore `Pay a Bill`, CardMore `Pay Rent`, dashboard items, reminders, or action-required notifications | Payer-oriented selection and management route for Saved/current Bill/Rent sources. It may include Under Review, Action Required and Ready handling conditions but excludes Saved/Archived and history-only sources. CardMore may open a temporary Bill or Rent selection scope without changing saved Bills filters. It is not Checkout. |
 | `BILLS-CARD-BILL` | Card component | Bill / fee card | Rendered inside `BILLS-PAY` | Summary card for a controlled Bill, invoice or fee source. |
 | `BILLS-CARD-RENT` | Card component | Rent / tenancy card | Rendered inside `BILLS-PAY` | Summary card for a Rent or tenancy-linked source. |
 | `BILLS-DETAIL-BILL` | Screen | Bill / fee detail | `Details` on `BILLS-CARD-BILL` | Detail page for the selected controlled Bill, invoice or fee source. |
 | `BILLS-DETAIL-RENT` | Screen | Rent / tenancy detail | `Details` on `BILLS-CARD-RENT` | Detail page for rent record and linked tenancy context. |
 | `BILLS-ACTIVITY` | Sub-route / screen or sheet | Bill/rent activity timeline | `View Activities` from bill/rent detail pages | User-facing payment, payout/transfer, failure, return, refund, and reversal activity for one selected bill/rent record. This is not request history, evidence management, global history, or an internal audit log. |
 | `BILLS-ACTIVITY-DETAIL` | Sub-route / screen or sheet | Activity entry detail | Tapping one entry in `BILLS-ACTIVITY` | Detail view for one selected payment/activity entry, with reference number, receipt/proof access, and optional link to the payment detail route where needed. |
-| `BILLS-ADD` | Flow / screen group | Add Bill / Rent flow | `Add Bill / Rent` button or Pay+ action sheet | Setup flow for a new controlled Bill source or separate Rent/tenancy source. |
+| `BILLS-ADD` | Flow / screen group | Add Bill / Rent flow | `Add Bill / Rent` button or CardMore action sheet | Setup flow for a new controlled Bill source or separate Rent/tenancy source. |
 | `BILLS-EVIDENCE` | Sub-flow group / shorthand | Evidence sub-flow | Detail-page evidence area, `BILLS-ADD`, or evidence action-required state | Shorthand for bill/rent evidence actions. Evidence is a supporting attachment/status layer of a bill/rent record, not a standalone user object. |
 | `BILLS-EVIDENCE-DETAIL` | Screen or sheet | Evidence detail | Evidence section inside `BILLS-DETAIL-BILL` or `BILLS-DETAIL-RENT` | View and manage the current active evidence set for one bill/rent record. |
 | `BILLS-EVIDENCE-UPLOAD` | Flow / screen group | Evidence upload/update | `Upload` or `Update` from evidence detail, or Evidence step inside `BILLS-ADD` | Upload file, take photo or scan QR; supports OCR/autofill and user correction. Manual Tier 1 Bill facts remain source input in `BILLS-ADD` and are not attached Evidence. |
@@ -191,7 +191,7 @@ Initial route ownership:
 | Tap `Bills` bottom nav | App bottom navigation | Opens `BILLS-ROOT` with the Payer `BILLS-PAY` view. |
 | Tap `To Pay` | `BILLS-ROOT` | Retained only as a compatible label/reference for `BILLS-PAY`; no mixed-role tab pair is active. |
 | Tap `Pay a Bill` / `Pay Rent` | `PAYPLUS-ACTION-SHEET` | `Pay a Bill` opens a temporary controlled Bill selection/input scope and evaluates current C1/G1/G2 before the DOC-09 Checkout handoff. `Pay Rent` opens the separate Rent/tenancy scope and retains mandatory accepted Evidence before Payment. A permitted selection continues to the applicable Checkout or owner-approved resolution; no new route is created. |
-| Tap `Add Bill / Rent` | `BILLS-ROOT` or Pay+ action sheet | Opens `BILLS-ADD`. Add a Bill applies C1 only before Save; Add Rent follows the separate mandatory-Evidence journey. G1/G2 do not apply or reserve capacity in Add. No active Request-origin return is created. |
+| Tap `Add Bill / Rent` | `BILLS-ROOT` or CardMore action sheet | Opens `BILLS-ADD`. Add a Bill applies C1 only before Save; Add Rent follows the separate mandatory-Evidence journey. G1/G2 do not apply or reserve capacity in Add. No active Request-origin return is created. |
 | Tap `Pay` on a payer-side card/detail | `BILLS-PAY`, `BILLS-CARD-BILL`, `BILLS-CARD-RENT`, `BILLS-DETAIL-BILL`, or `BILLS-DETAIL-RENT` | Opens payment/checkout flow governed by DOC-09. DOC-06C owns the entry point and route handoff only. |
 | Tap `Details` | Bill/rent card | Opens the relevant detail screen. |
 | Tap `Set Reminder` / `Edit Reminder` | Bill/rent card or detail page | Bill opens/focuses its own detail inline settings; Rent retains its separately permitted `BILLS-REMINDER-DETAIL` caller. |
@@ -210,7 +210,7 @@ Payment/checkout ownership rule:
 - DOC-06B owns the reviewed global `PAYMENT-CHECKOUT` route-level adaptive Workspace UI/UX, including presentation, entry, return, and handoff behavior. DOC-09 owns the underlying Payment Domain architecture and business invariants, including Payment Obligations, Checkout Workspace, monetary and funding allocations, Provider Submission, confirmed Payments, Payment Applications, deliberate Payment Instructions, and incomplete Checkout continuation. DOC-06B `PAYMENT-PROFILE-ROOT` owns reusable card/profile management when Checkout or instruction flows need a card/profile management handoff. DOC-06C continues to own Bill/Rent selection, payer-side `Pay` entry, source facts, consumption of the combined owner-controlled readiness presentation, contextual treatment, and source-aware return behavior; it does not own Checkout composition or payment-domain meaning.
 - DOC-07 owns required user-facing wording and disclosures; DOC-08 owns checkout-related notifications and receipts; DOC-13 owns promotion/coupon/voucher checkout treatment; DOC-15 owns masking and data visibility; DOC-19 owns authentication/security controls; DOC-18 owns the business-recording and explainability handoff for route occurrences and resulting owner facts, not machine events or technical signals.
 
-Standalone `BILLS-ADD` started from Pay+ hands to the applicable Payer success or payment context under DOC-09. It does not create a Request-origin return; exact incomplete-source treatment remains with DOC-09/DOC-15/DOC-18.
+Standalone `BILLS-ADD` started from CardMore hands to the applicable Payer success or payment context under DOC-09. It does not create a Request-origin return; exact incomplete-source treatment remains with DOC-09/DOC-15/DOC-18.
 
 ### 5.2 Top-Level Payer Views
 
@@ -890,7 +890,7 @@ These events should support product analytics, operational monitoring, risk revi
 | OQ-06C-007 | What exact DOC-07 Copy and presentation distinguish Saved/current projection from Under Review, Action Required and Ready conditions, and exclude Archived sources from the current list? | Product / Design / Content | Open; Copy/visual detail does not change the accepted semantic boundary |
 | OQ-06C-008 | What operating tests and presentation implement the accepted Declaration materiality and proportionate reconfirmation framework without treating limit re-evaluation or every amount edit as a full new Declaration? | Product / Content / Legal / Compliance / Payments | Open later product/content/acceptance input; any future answer must preserve or be reconciled through the accepted rule |
 
-Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning must be handled under the canonical PayPlus Documentation Development Workflow.
+Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning must be handled under the canonical CardMore Documentation Development Workflow.
 
 ## 7. Acceptance Criteria
 
@@ -916,6 +916,7 @@ DOC-06C defines the following user-journey boundaries:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.1.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 2.0.0 | 2026-11-13 | Canonical Writer: Drafted PP-MVP-20261112-R1 controlled capture/new-source Pay, unknown-Save exception and source-bound Bill B/D/I reminder policy with shared inline editor and narrow legacy preferences exception; retained separate Rent and admission controls. Corrected confirmed Instruction-source Save versus immediate Checkout and restored Bill Archive reminder inactivation through the consolidated Specialist batch. |
 | 1.1.1 | 2026-08-27 | Aligned complete Bill/Rent material-fact, same-Bill Category-amendment, prior-history, four-context Declaration, and DOC-18 business-versus-technical handoffs without designing UI, Copy, schemas, events, or implementation. |
 | 1.1.0 | 2026-08-22 | Drafted Bill detail-first Tier 3 return, Tier 2 layered presentation, Evidence-to-Activity separation, proportionate Declaration and Save-versus-current-Payment task expression without creating routes, statuses, notifications, technical controls, or enablement. |

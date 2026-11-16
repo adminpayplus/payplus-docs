@@ -1,8 +1,9 @@
-# PayPlus Current Mobile Prototype
+<a id="payplus-current-mobile-prototype"></a>
+# CardMore Current Mobile Prototype
 
 | Field | Value |
 | --- | --- |
-| Purpose | Rebuild the PayPlus mobile prototype from the current repository route definitions rather than the legacy prototype. |
+| Purpose | Rebuild the CardMore mobile prototype from the current repository route definitions rather than the legacy prototype. |
 | Classification | Route-flow, interaction, information-architecture, responsive, and exploratory visual-design prototype. |
 | Status | Review Draft / Archive-family alignment required |
 | Source baseline | Current working tree reviewed on 2026-07-26, including the DOC-06 family, route register, status-display matrix, and route map. An immutable source commit must be recorded before this prototype can become a Validated Reference. |
@@ -28,7 +29,7 @@
 ## Represented Route Families
 
 - Home, five-item bottom navigation, eight shortcuts, notices, Featured, Upcoming Bills/Rent, and Recent Activity.
-- Pay+ action sheet.
+- CardMore action sheet.
 - Bills To Pay/To Receive, bill/rent detail, scoped activity, evidence detail/update, reminder detail, and Add Bill/Rent.
 - Requests root/detail/new.
 - Payment Instructions root/detail.
@@ -42,7 +43,7 @@
 ## Review Scenarios
 
 1. Start on Home and test all five bottom destinations and all eight shortcuts.
-2. Open Pay+ and verify that its five actions enter controlled evidence-backed flows.
+2. Open CardMore and verify that its five actions enter controlled evidence-backed flows.
 3. Switch Bills between To Pay and To Receive and compare role-aware actions.
 4. Review Bill/Rent detail and its scoped Activity, Rental Doc, and Reminder destinations.
 5. Review Requests, Instructions, Payment Profile, Activity, and Receipts.

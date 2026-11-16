@@ -1,10 +1,11 @@
-# PayPlus DOC-07 Design Specification Specialist Guide
+<a id="payplus-doc-07-design-specification-specialist-guide"></a>
+# CardMore DOC-07 Design Specification Specialist Guide
 
 Last updated: 2026-08-21
 
 ## 1. Purpose
 
-This specialist guide defines how DOC-07 slices are structured, authored, risk-reviewed, checked, and maintained as PayPlus's canonical specification for user-facing outcomes, messages, disclosures, and CTAs.
+This specialist guide defines how DOC-07 slices are structured, authored, risk-reviewed, checked, and maintained as CardMore's canonical specification for user-facing outcomes, messages, disclosures, and CTAs.
 
 It must be used with:
 
@@ -13,7 +14,7 @@ It must be used with:
 - `../00-foundation/payplus-outcome-message-notification-framework.md`;
 - `payplus-documentation-development-workflow.md`.
 
-The PayPlus Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, general Validation gates, Commit, Records Commit, Push, and Completion. This guide extends that lifecycle with DOC-07-specific inputs, layered contract authoring, Bounded Domain Slice views, review depth, specialist validation, traceability, and maintenance checks. It **MUST NOT** redefine, duplicate, weaken, bypass, or independently authorize a lifecycle stage, owner, or gate.
+The CardMore Documentation Development Workflow in `payplus-documentation-development-workflow.md` is the sole canonical owner of the Documentation Lifecycle, including Proposal, Founder Decision and Approval, Drafting, Integration and Alignment, general Validation gates, Commit, Records Commit, Push, and Completion. This guide extends that lifecycle with DOC-07-specific inputs, layered contract authoring, Bounded Domain Slice views, review depth, specialist validation, traceability, and maintenance checks. It **MUST NOT** redefine, duplicate, weaken, bypass, or independently authorize a lifecycle stage, owner, or gate.
 
 DOC-07 work must be invoked from a named canonical lifecycle stage and must return its slice boundary, draft, findings, or validation evidence to a named canonical lifecycle stage. This guide does not approve any copy, identifier, disclosure, legal position, security value, lifecycle decision, or implementation by itself.
 

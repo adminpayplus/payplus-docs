@@ -1,4 +1,5 @@
-# PayPlus Payment Profile Route Map
+<a id="payplus-payment-profile-route-map"></a>
+# CardMore Payment Profile Route Map
 
 Status: Current discussion reference
 Owner: DOC-06B / DOC-09

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-00
 title: Documentation Governance
-version: 0.7.12
+version: 0.8.0
 status: Founder Working Baseline
 owner: Product / Documentation Owner
 reviewers:
@@ -12,7 +12,7 @@ reviewers:
 approvers:
   - Product Lead
   - Engineering Lead
-last_updated: 2026-08-30
+last_updated: 2026-11-16
 classification: Internal
 related_documents: []
 ---
@@ -23,12 +23,12 @@ related_documents: []
 | --- | --- |
 | **Document ID** | `DOC-00` |
 | **Title** | Documentation Governance |
-| **Version** | `0.7.12` |
+| **Version** | `0.8.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Documentation Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead |
 | **Approvers** | Product Lead<br>Engineering Lead |
-| **Last Updated** | `2026-08-30` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | None |
 
@@ -36,9 +36,9 @@ related_documents: []
 
 ## 1. Purpose
 
-This document defines how PayPlus documentation is created, reviewed, approved, versioned, maintained, and retired.
+This document defines how CardMore documentation is created, reviewed, approved, versioned, maintained, and retired.
 
-DOC-00 governs the PayPlus documentation repository.
+DOC-00 governs the CardMore documentation repository.
 
 It does not define product behavior, payment logic, technical architecture, compliance controls, security controls, privacy rules, risk thresholds, or operational procedures. Those topics belong in their dedicated documents.
 
@@ -46,7 +46,7 @@ It does not define product behavior, payment logic, technical architecture, comp
 
 ## 2. Scope
 
-This document applies to formal and supporting PayPlus documentation, including:
+This document applies to formal and supporting CardMore documentation, including:
 
 - foundation documents;
 - product requirement documents;
@@ -73,7 +73,7 @@ This document applies to formal and supporting PayPlus documentation, including:
 
 ## 3. Source of Truth
 
-Approved formal documentation is the final source of truth for PayPlus decisions and implementation guidance.
+Approved formal documentation is the final source of truth for CardMore decisions and implementation guidance.
 
 During founding-stage drafting, a document with status `Founder Working Baseline` may be used as the current planning baseline when the Project Owner explicitly accepts it for continued drafting, review, and downstream alignment.
 
@@ -100,12 +100,12 @@ Backup files are not authoritative.
 
 ## 4. Foundation Document Role
 
-The `00-foundation/` documents establish the PayPlus documentation baseline.
+The `00-foundation/` documents establish the CardMore documentation baseline.
 
 | Document | Role |
 | --- | --- |
 | `DOC-00` | Defines documentation governance and source-of-truth rules. |
-| `DOC-01` | Defines PayPlus product intent, positioning, boundaries, and MVP scope. |
+| `DOC-01` | Defines CardMore product intent, positioning, boundaries, and MVP scope. |
 | `DOC-02` | Defines the commercial and unit economics framework. |
 | `DOC-03` | Defines regulatory, PSP, acquirer, payment partner, category, and payee feasibility assessment. |
 | `DOC-04` | Defines compliance roadmap, control ownership, launch gates, evidence expectations, and change governance. |
@@ -291,7 +291,7 @@ Document IDs must not be reused. Deprecated or retired document IDs remain reser
 | Document ID | Document Name | Folder | Filename |
 | --- | --- | --- | --- |
 | DOC-00 | Documentation Governance | 00-foundation/ | doc-00-documentation-governance.md |
-| DOC-01 | Project Charter & Product Positioning | 00-foundation/ | doc-01-project-charter-product-positioning.md |
+| DOC-01 | Product Overview & Positioning | 00-foundation/ | doc-01-project-charter-product-positioning.md |
 | DOC-02 | Business Model & Unit Economics | 00-foundation/ | doc-02-business-model-unit-economics.md |
 | DOC-03 | Regulatory, PSP & Acquirer Assessment | 00-foundation/ | doc-03-regulatory-psp-acquirer-assessment.md |
 | DOC-04 | Compliance Certification Roadmap & Control Framework | 00-foundation/ | doc-04-compliance-certification-roadmap-control-framework.md |
@@ -646,7 +646,7 @@ Foundation documents guide downstream documents as follows:
 | DOC-05 Master PRD & Feature Requirement Index | Convert product baseline into prioritized requirements and acceptance criteria. |
 | DOC-06 User Journey, UX Flow & Service Blueprint | Define the DOC-06 family governance map, parent UX scope, prohibited journey controls, and child-document ownership boundaries. |
 | DOC-06A Core User Journeys & Service Blueprint | Define core payer, payee, admin, system, evidence, review, authorization, status, notification, receipt, failure, and exception journeys. |
-| DOC-06B Navigation, IA & Route Taxonomy | Define bottom navigation, Home dashboard, Pay+ action sheet, product-destination taxonomy, route register, navigation transitions, screen/component/action traceability standards, and route completion status. |
+| DOC-06B Navigation, IA & Route Taxonomy | Define bottom navigation, Home dashboard, CardMore action sheet, product-destination taxonomy, route register, navigation transitions, screen/component/action traceability standards, and route completion status. |
 | DOC-06C Bills, Rent & Tenancy UX Module | Define Bills, fee, rent, tenancy, activity, reminder, evidence, linking, and role-aware Bills-route UX behavior. |
 | DOC-06D UX Requirements, Acceptance Criteria & Test Matrix | Define UX requirement IDs, acceptance criteria, route/action/state/event/test mapping, and test-readiness tracking. |
 | DOC-07 Content, Disclosure & User Authorization Specification | Define approved product language, disclosures, user authorization, consent, and confirmation requirements. |
@@ -871,6 +871,7 @@ DOC-00 must remain focused on documentation governance only.
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 0.8.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 0.7.12 | 2026-08-30 | Product Documentation Team | Registered the Stage 9-passed DOC-23 Engineering Core and DOC-24/DOC-25 bounded Engineering Specifications, preserving formal source-owner, technical-representation, provider, security, implementation, acceptance, and readiness boundaries. |
 | 0.7.10 | 2026-08-21 | Product Documentation Team | Aligned DOC-19 governance scope with its reviewed mechanism-neutral security-control contract without assigning provider mechanics, representation, Admin policy, final PCI scope, implementation, or assurance claims. |
 | 0.7.9 | 2026-08-02 | Product Documentation Team | Registered the derived PayPlus Documentation Management Roadmap in the repository structure and traceability inventory without assigning product-truth or Documentation Lifecycle authority. |

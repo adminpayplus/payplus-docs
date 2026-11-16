@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 1.2.0
+version: 1.3.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-12
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -43,12 +43,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `1.2.0` |
+| **Version** | `1.3.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-12` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Certification Roadmap & Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -56,9 +56,9 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines the governed user-facing communication, disclosure, consent, and authorization requirements for the PayPlus MVP.
+This document defines the governed user-facing communication, disclosure, consent, and authorization requirements for the CardMore MVP.
 
-PayPlus must explain controlled Bill/Rent payment meaning clearly enough that Payers understand:
+CardMore must explain controlled Bill/Rent payment meaning clearly enough that Payers understand:
 
 - what authoritative source context is being considered;
 - who the economic Payee is where disclosure is permitted;
@@ -202,7 +202,7 @@ Semantic is authoritative. Composition defines communication structure. Disclosu
 8. Copy and Locale must preserve accepted required and prohibited meaning.
 9. Presentation Mapping must use owner-defined product structure.
 10. AI may propose an expression but must not redefine intent, approve its own output, or gain activation authority.
-11. The PayPlus Documentation Development Workflow remains the sole canonical Documentation Workflow.
+11. The CardMore Documentation Development Workflow remains the sole canonical Documentation Workflow.
 12. No new persistent object may be introduced unless an authorized technical decision demonstrates that it removes more complexity than it adds.
 13. Checkout is a representative Semantic Validation subject, not the centre of the architecture.
 
@@ -258,7 +258,7 @@ Exact Copy, final CTA labels and hierarchy, surface, component, slot, responsive
 
 ### 5.1 Allowed Language
 
-PayPlus may use language such as:
+CardMore may use language such as:
 
 - bill payment;
 - card-funded payment;
@@ -275,7 +275,7 @@ PayPlus may use language such as:
 
 ### 5.2 Prohibited Language
 
-PayPlus must not use language that positions the product as:
+CardMore must not use language that positions the product as:
 
 - wallet;
 - stored value;
@@ -324,7 +324,7 @@ Required fields:
 | Verification status | Show role-appropriate evidence status where action is needed, such as pending correction, pending review, duplicate warning, or rejected evidence. |
 | Timing | Show expected processing, settlement, and payout timing where relevant. |
 | Refund/cancellation note | Show applicable high-level limitations or policy link. |
-| PayPlus role | Explain that PayPlus facilitates payment of an eligible Bill/Rent Payment Obligation to an approved economic Payee. |
+| CardMore role | Explain that CardMore facilitates payment of an eligible Bill/Rent Payment Obligation to an approved economic Payee. |
 
 The payer must be able to cancel or go back before authorization. Supporting profile/card/source selection returns to its actual caller/draft and is not authorization or submission. Continue names the exact unfinished Checkout/mode/remaining legs, not an Instruction or new attempt; terminal work is not continuable.
 
@@ -369,7 +369,7 @@ The exact authorization statement, CTA label, surface, hierarchy, and presentati
 
 ### 8.3 Authorization Record
 
-PayPlus must preserve evidence of what the payer was shown and accepted for each applicable authorization. The evidence must remain logically traceable to:
+CardMore must preserve evidence of what the payer was shown and accepted for each applicable authorization. The evidence must remain logically traceable to:
 
 - the Payer and applicable authoritative source context;
 - the applicable Checkout, Funding Leg, and Provider Submission references supplied by DOC-09;
@@ -419,7 +419,7 @@ Final rent wording must be reviewed before launch.
 
 ## 11. Fee, Promotion, and Total Charge Disclosure
 
-Before payer authorization, PayPlus must show:
+Before payer authorization, CardMore must show:
 
 - payment amount;
 - service fee;
@@ -433,7 +433,7 @@ Exact fee rates and allocation remain `To be confirmed` by Product / Commercial 
 
 For an issued reward, `REWARD-DETAIL` must disclose the full benefit, eligibility, restrictions, usage method, limits, issue and usage dates, expiry, status explanation, and complete terms and conditions. Checkout-applied rewards must be shown as available candidates only after current eligibility is evaluated in DOC-09 checkout; viewing details must not imply selection, reservation, use, or guaranteed application.
 
-PayPlus must not hide payer-facing fees inside vague or misleading wording.
+CardMore must not hide payer-facing fees inside vague or misleading wording.
 
 ---
 
@@ -462,7 +462,7 @@ Any narrower partner-, risk-, or category-specific restriction, its configuratio
 
 ### 12.1 Payment Instruction and Reminder Disclosure
 
-PayPlus must distinguish four user-facing concepts:
+CardMore must distinguish four user-facing concepts:
 
 | Concept | User-Facing Meaning | Action Destination |
 | --- | --- | --- |
@@ -498,7 +498,7 @@ Incomplete Checkout wording must explain:
 
 ## 13. Authorization, Payment, Settlement, and Payout Meaning
 
-PayPlus must distinguish the following source-owned semantic conditions. They are not final user-facing labels, persistent-status definitions, or implementation enums.
+CardMore must distinguish the following source-owned semantic conditions. They are not final user-facing labels, persistent-status definitions, or implementation enums.
 
 | Semantic condition | Required communicated meaning |
 | --- | --- |
@@ -519,7 +519,7 @@ Receipt/Statement views render the actual permitted PDF and Download uses that f
 
 Reward expressions distinguish earning source, category and current status; Restricted/Soon are conditions, not product categories. Unassigned qualification offers browsing active choices, while a named issued instrument uses its configured Use action rather than Claim again. Explain separate qualification and usage expiry using owner facts; no 30-day demo replaces the existing configurable seven-day Soon default. Viewing/reveal/copy does not consume a reward, and external return does not prove use.
 
-PayPlus may disclose working settlement and payout assumptions only when the applicable PSP/acquirer, bank, payout, risk, legal, partner and reconciliation owners have confirmed them.
+CardMore may disclose working settlement and payout assumptions only when the applicable PSP/acquirer, bank, payout, risk, legal, partner and reconciliation owners have confirmed them.
 
 Do not promise guaranteed same-day payout unless the underlying payment, bank, risk, and operational conditions support it.
 
@@ -560,7 +560,7 @@ Do not expose internal risk reasons or sensitive admin notes to users unless app
 
 ## 15. Privacy and Data Collection Notices
 
-PayPlus collects approved personal, Payment, Payee, business, identity, attached-Evidence where present or required, and transaction data to support onboarding, payment processing, fraud prevention, compliance, support, reporting, tax, audit, and record retention. Raw PAN, CVV/CVC, track data and prohibited sensitive-authentication values remain outside PayPlus collection and retention.
+CardMore collects approved personal, Payment, Payee, business, identity, attached-Evidence where present or required, and transaction data to support onboarding, payment processing, fraud prevention, compliance, support, reporting, tax, audit, and record retention. Raw PAN, CVV/CVC, track data and prohibited sensitive-authentication values remain outside CardMore collection and retention.
 
 Product touchpoints should include privacy notices where users:
 
@@ -595,14 +595,14 @@ DOC-06B owns screen behavior. User-facing content must:
 - distinguish incomplete capture from submitted provider processing, show no voluntary re-verification action after `Verified`, and prevent wording that encourages duplicate submission;
 - explain that Two-Step Verification and Biometric Unlock toggles do not disable mandatory new-device, risk, contact-change, closure, or provider-required authentication;
 - explain account-closure blockers, cancellation before finalization, login termination after completion, and the accepted indefinite-retention direction without implying deletion, while preserving DOC-15 and Legal/Privacy lawful-scope, required-exception and restricted-data qualifications;
-- distinguish directly editable account fields, governed privacy/access/correction requests, and account closure without implying destruction of an underlying PayPlus record;
+- distinguish directly editable account fields, governed privacy/access/correction requests, and account closure without implying destruction of an underlying CardMore record;
 - distinguish optional direct-marketing, personalization, and approved partner-data-use choices from required service, payment, security, risk, compliance, tax, audit, dispute, and retention processing;
 - explain that data export uses protected in-app access and that privacy-request service timelines and legal outcomes remain subject to the approved privacy process.
 - explain only source-owner-approved economic-Payee and destination disclosures; DOC-07 must not create a destination library, readiness label, source-version, request or change-warning contract.
 
 ### 15.2 Authentication Bounded Domain Slice
 
-PayPlus must maintain an Authentication Bounded Domain Slice for `ENTRANCE-ROOT`, `AUTH-LOGIN-FAST`, `AUTH-LOGIN-FULL`, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, `ACCOUNT-ACTIVATION`, and their approved child flows.
+CardMore must maintain an Authentication Bounded Domain Slice for `ENTRANCE-ROOT`, `AUTH-LOGIN-FAST`, `AUTH-LOGIN-FULL`, `AUTH-RECOVERY`, `AUTH-REGISTRATION`, `ACCOUNT-ACTIVATION`, and their approved child flows.
 
 The Slice is a reference-only navigation, coverage, transition, and validation view over authoritative contracts. It must not become a second Semantic owner, redefine route behavior, copy source-owned business/security logic, or require one wide record that couples Semantic, exact Copy, Surface, CTA, technical mapping, audit, and acceptance maturity.
 
@@ -640,7 +640,7 @@ The Slice must cover, at minimum:
 - Phone/Email Full Login OTP invalid/unknown/stale-recipient/tab outcomes, mandatory PIN/repeat mismatch and unconfirmed creation, remembered PIN entry and distinct optional password-recovery outcomes;
 - direct Done/Home identity callers, Later confirmation/dismissal, identity-only prompt disappearance and retained financial-action gates;
 - phone format, occupied-number, OTP delivery, resend, expiry, incorrect-code, attempt-limit, and replacement failure;
-- identity capture interruption, processing, provider failure, PayPlus-policy failure including duplicate identity, and admin-required update;
+- identity capture interruption, processing, provider failure, CardMore-policy failure including duplicate identity, and admin-required update;
 - payment-passcode Set mismatch/failure, Change authentication/failure, Reset reauthentication/phone-OTP/recovery failure, and unknown save result;
 - email-change double-entry mismatch, purpose-bound new-email OTP and cancelled/failed/unknown profile-update outcomes without changing phone/passcode-reset assurance;
 - protected-return invalid, expired, consumed, unauthorized, or unavailable outcomes.
@@ -671,7 +671,7 @@ The following inventory preserves the approved DOC-06B product behavior without 
 | Recovery request accepted for neutral processing | Continue | Check Your Email presentation that does not confirm account, password, provider-link, restriction, or delivery eligibility. | Reset-link delivery treatment TBC in DOC-08. |
 | Reset link valid and password reset permitted | Continue | Silent validation followed by New Password. | None by default. |
 | Link invalid, expired, consumed, or reused | Restart | Safe resolution treatment permitting Request New Link or Return to Login. | None by default. |
-| Provider-only account has no PayPlus password | Redirect | Return to provider login or controlled Support without anonymous first-password creation. | None by default. |
+| Provider-only account has no CardMore password | Redirect | Return to provider login or controlled Support without anonymous first-password creation. | None by default. |
 | Email unavailable and another linked method is safely usable | Redirect | Offer Try Another Login Method without disclosing unverified linkage details. | None by default. |
 | No approved self-service method remains | Support | Begin controlled Support recovery. | Case acknowledgement/action-required treatment TBC in DOC-08. |
 | Support cannot establish required ownership assurance | Stop | Safe Recovery Not Permitted treatment without promising account recovery. | TBC only if DOC-08 defines a material security communication. |
@@ -754,7 +754,7 @@ AI may propose bounded expression but must not redefine intent, approve its own 
 | Locale Variant | DOC-07 within its accepted scope, with applicable locale/privacy review; notification-channel expression remains subject to TA-21 | Meaning-preserving localized expression | Controlled | Variable; high for material content | Qualified human or AI may propose. |
 | Presentation Mapping | DOC-07 mapping; surface owner defines the surface | Placement of approved expression | Higher | Medium to high | Design, Content, or AI may propose. |
 
-This matrix defines logical responsibility boundaries only. Formal documentation ownership, review, approval, and release remain governed by DOC-00 and the canonical PayPlus Documentation Development Workflow. No operational activation authority is granted by DOC-07. Final operational actors, mechanisms, permissions, publication controls, and enforcement remain `TBD` under DOC-22 and applicable technical owners.
+This matrix defines logical responsibility boundaries only. Formal documentation ownership, review, approval, and release remain governed by DOC-00 and the canonical CardMore Documentation Development Workflow. No operational activation authority is granted by DOC-07. Final operational actors, mechanisms, permissions, publication controls, and enforcement remain `TBD` under DOC-22 and applicable technical owners.
 
 | Layer | Propose | Approve | Activate | Approval class | Audit unit | Rollback unit |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -775,7 +775,7 @@ Final Admin roles, permissions, technical enforcement, publication workflow, app
 
 ## 18. Audit and Evidence Requirements
 
-PayPlus must be able to prove what the user saw and accepted at key moments.
+CardMore must be able to prove what the user saw and accepted at key moments.
 
 The logical architecture must preserve traceability across:
 
@@ -868,7 +868,7 @@ This document does not interpret those sources as final legal advice.
 
 DOC-07 is acceptable when:
 
-- user-facing product language is aligned with PayPlus positioning;
+- user-facing product language is aligned with CardMore positioning;
 - prohibited wallet, cashout, P2P, remittance, and stored-value language is excluded;
 - payer authorization requirements are explicit;
 - every applicable Provider Submission requires current payer authorization without relying on a fixed final screen or prior authorization;
@@ -902,6 +902,7 @@ DOC-07 is acceptable when:
 ## 22. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.3.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.2.0 | 2026-11-12 | Canonical Writer: Aligned bounded PP-MVP-20261112-R1 account, source/reminder, financial/document, notification, Home and reward expressions/acceptance to source owners while retaining open exact Copy/Locale/IDs/legal review and implementation handoffs. |
 | 1.1.1 | 2026-08-27 | Aligned the four Declaration occurrence handoffs and narrowed DOC-18 to its reviewed business-recording/explainability contract without approving Copy, technical representation, mechanisms, or implementation. |
 | 1.1.0 | 2026-08-22 | Drafted bounded Tier 2 Payment/Evidence/Payout communication separation and proportionate Declaration expression while preserving DOC-08 notification ownership, DOC-10 Payout truth, DOC-19 mechanism-neutral enforcement, and open Copy. |

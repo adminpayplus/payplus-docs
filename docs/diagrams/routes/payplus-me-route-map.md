@@ -1,4 +1,5 @@
-# PayPlus Me Route Map
+<a id="payplus-me-route-map"></a>
+# CardMore Me Route Map
 
 Status: Current discussion reference
 Owner: DOC-06B
@@ -25,7 +26,7 @@ flowchart TD
   SETTINGS --> PREFS["Preferences<br/>owned local controls"]
   SETTINGS --> PRIVACY["PRIVACY-DATA-CONTROLS"]
   SETTINGS --> SUPPORT["SUPPORT-ROOT"]
-  ME --> ABOUTGROUP["About PayPlus<br/>presentation group"]
+  ME --> ABOUTGROUP["About CardMore<br/>presentation group"]
   ABOUTGROUP -->|"Version"| ABOUT["ABOUT-ROOT"]
   ABOUTGROUP -->|"Terms"| TERMS["TERMS-ROOT"]
   ME --> LOGOUT["Logout"]

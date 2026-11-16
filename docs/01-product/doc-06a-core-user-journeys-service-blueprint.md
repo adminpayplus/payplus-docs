@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 1.2.0
+version: 1.3.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-12
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `1.2.0` |
+| **Version** | `1.3.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-12` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -59,7 +59,7 @@ This is the current normative DOC-06A Founder Working Baseline. Its active Payer
 
 ### Actor and journey boundary
 
-- A Consumer User is a Payer only. The Payee is an economic recipient who may be an individual or institution/company and need not be a PayPlus User. DOC-06A does not create a Consumer Payee login, dashboard, Request or reciprocal-visibility journey.
+- A Consumer User is a Payer only. The Payee is an economic recipient who may be an individual or institution/company and need not be a CardMore User. DOC-06A does not create a Consumer Payee login, dashboard, Request or reciprocal-visibility journey.
 - MVP covers a Payer-created controlled Bill payment using the accepted Tier 1/2/3 Evidence model or the separate Rent/tenancy journey with mandatory attached Evidence accepted before Payment. Category-specific eligibility, Evidence criteria, detailed labels and Directory contents remain with their named owners. Unrestricted P2P, arbitrary company payment, remittance, cashout and open Payee marketplace behavior are prohibited.
 - Bill journeys select the supported Category before the Category-scoped Directory or Provide Payee myself. Rent is independent of the Bill Directory and does not use Bill Category selection or either Bill acquisition method.
 
@@ -118,7 +118,7 @@ The sections below are active current requirements for Payer-only journeys and c
 
 ## 1. Purpose
 
-DOC-06A is the DOC-06 child document for core PayPlus user journeys and service blueprint touchpoints.
+DOC-06A is the DOC-06 child document for core CardMore user journeys and service blueprint touchpoints.
 
 It governs Payer journeys, Payee-as-recipient handoffs, Admin/operations/system touchpoints, Evidence/review/authorization boundaries, visibility, notification, receipt, failure and exception journeys at the human-readable product level. It does not create an active Consumer Payee journey.
 
@@ -200,7 +200,7 @@ Authentication Outcomes, permitted Resolutions, user-facing communication, notif
 
 ##### Purpose
 
-Allows a Payer to access PayPlus, create controlled Bill/Rent contexts, authorize eligible Payment and track Payment history.
+Allows a Payer to access CardMore, create controlled Bill/Rent contexts, authorize eligible Payment and track Payment history.
 
 ##### Required Payer Capabilities
 
@@ -244,7 +244,7 @@ The Payer journey may begin when:
 
 ##### Purpose
 
-The Payee is an economic recipient. A Payee may be an individual or institution/company and need not be a PayPlus User. DOC-06A does not define a Consumer Payee account, dashboard, Request, Linking, Receiving Info or reciprocal-visibility journey.
+The Payee is an economic recipient. A Payee may be an individual or institution/company and need not be a CardMore User. DOC-06A does not define a Consumer Payee account, dashboard, Request, Linking, Receiving Info or reciprocal-visibility journey.
 
 ##### Required Payee Capabilities
 
@@ -275,7 +275,7 @@ Referral attribution is not payer/payee participant linking, a Request, payment 
 
 ### Non-Active Documentation Register - Retired Request and Two-Sided IDs
 
-This concise register preserves retired stable IDs and prior actor-role meanings only as non-active documentation evidence. PayPlus has no production Request/Payee-role runtime or legacy Request deep-link data. This register is not a route, runtime reader, notification, Linking or Payee-user journey.
+This concise register preserves retired stable IDs and prior actor-role meanings only as non-active documentation evidence. CardMore has no production Request/Payee-role runtime or legacy Request deep-link data. This register is not a route, runtime reader, notification, Linking or Payee-user journey.
 
 | Retained record | Preservation location | Current treatment |
 | --- | --- | --- |
@@ -397,7 +397,7 @@ Before authorization, the payer should be shown:
 - expected processing timing;
 - expected payout or settlement timing where applicable;
 - refund/reversal limitations where applicable;
-- PayPlus role;
+- CardMore role;
 - relevant disclosures.
 
 #### Authorization Flow
@@ -654,7 +654,7 @@ Core journey open questions should remain here when they affect Payer journeys, 
 | OQ-06-018 | What separate dormant-account reauthentication threshold, if any, should apply beyond the confirmed rolling one-month Fast Login eligibility period? | Product / Security | Partially open; Fast Login period defined |
 | OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
 | OQ-06-020 | What exact payment-instruction screen labels, call-to-action wording, and partial-funded visual treatment should be used? | Product / Design / Legal | Open |
-| OQ-06-021 | What exact Pay+ iconography, measurements, spacing, blur strength, motion timing/easing, responsive treatment and accessibility implementation should be used within the confirmed four-action Payer-only order and behavior? | Product / Design / Payments | Partially open; composition, order, material meaning and Request Payment retirement are settled in DOC-06B |
+| OQ-06-021 | What exact CardMore iconography, measurements, spacing, blur strength, motion timing/easing, responsive treatment and accessibility implementation should be used within the confirmed four-action Payer-only order and behavior? | Product / Design / Payments | Partially open; composition, order, material meaning and Request Payment retirement are settled in DOC-06B |
 | OQ-06-022 | What route-level IA remains to be defined in DOC-06B for Support and other incomplete secondary routes? Me, More, Offers, Rewards, and Referral route boundaries are defined. | Product / Design | Open |
 | OQ-06-023 | What final styling and optional post-replacement Undo should apply to the defined `MORE-ROOT` behavior? The shortcut maximum, protected More entry, reorder/remove/add behavior, account-level preference, current-default restore, owner-approved default and permitted Admin-configuration mechanism are decided. | Product / Design / Operations | Partially open |
 | OQ-06-024 | What final visual design, exact DOC-07 Copy and identifiers, technical session mechanics, adopted-platform accessibility implementation, and DOC-20 evidence should apply to the decided HOME-ROOT Important Notice baseline? Its Home consumption of source-provided ordering, session dismissal, Detail and source-action routing, return, and zero-state behavior are defined in DOC-06B; DOC-08 and source owners retain notification and business meaning. | Product / Operations / Compliance | Partially open; Home behavior decided, residual owner dependencies pending |
@@ -668,6 +668,7 @@ Core journey open questions should remain here when they affect Payer journeys, 
 ## 7. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.3.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.2.0 | 2026-11-12 | Canonical Writer: Aligned PP-MVP-20261112-R1 core account/source/payment/history journeys and shared returns to accepted defining owners, preserving financial gates, actual Save truth, private/public boundaries and explicit production dependencies. |
 | 1.1.0 | 2026-08-22 | Aligned the Bill journey to approved Tier 3 current-context and deliberate-resolver return, Tier 2 separate Payment/Evidence/Payout treatment, and Add-Bill Declaration/Save boundary while preserving Rent, owner, and no-invention constraints. |
 | 1.0.1 | 2026-08-21 | Separated payment, risk, privacy and provider step-up conditions from DOC-19 mechanism-neutral security enforcement without changing journey behavior. |

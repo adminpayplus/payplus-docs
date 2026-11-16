@@ -1,7 +1,7 @@
 ---
 document_id: DOC-22
 title: Admin Management Dashboard & Operations Workflow
-version: 1.0.3
+version: 1.1.0
 status: Founder Working Baseline
 owner: Operations / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Operations Lead
   - Compliance Lead
-last_updated: 2026-08-27
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -50,12 +50,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-22` |
 | **Title** | Admin Management Dashboard & Operations Workflow |
-| **Version** | `1.0.3` |
+| **Version** | `1.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Operations / Product |
 | **Reviewers** | Product Lead<br>Operations Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Security Lead<br>Engineering Lead<br>Data Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Operations Lead<br>Compliance Lead |
-| **Last Updated** | `2026-08-27` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Specification<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud, Dynamic Auth & Risk Control Specification<br>DOC-15 Privacy, Data Protection & Record Retention Specification<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization, Authentication & Admin Control Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
@@ -145,9 +145,10 @@ DOC-06B owns Home routes, shortcuts, entry behaviour and presentation. DOC-13 ow
 
 DOC-13 and other formal owners determine any public-content truth. DOC-22 may execute an expressly owner-permitted operational workflow without creating publication, placement, targeting, accessibility, timing, approval, status, route, CTA, Copy or retention requirements.
 
-#### 18.1.1 Pay+ Action Availability Configuration
+<a id="1811-pay-action-availability-configuration"></a>
+#### 18.1.1 CardMore Action Availability Configuration
 
-DOC-06B owns Pay+ actions, availability and presentation. DOC-22 may not create, configure, rename, order or redirect an action; retired Request Payment remains unavailable.
+DOC-06B owns CardMore actions, availability and presentation. DOC-22 may not create, configure, rename, order or redirect an action; retired Request Payment remains unavailable.
 
 ### 18.2 Reminder Default Configuration
 
@@ -212,6 +213,7 @@ Exact Admin workflow, queue, permission, approval, history presentation/retrieva
 ## 28. Revision History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.1.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.0.3 | 2026-08-27 | Limited history presentation/retrieval to specifically owner-permitted execution, with no generic Admin access or mechanics, and aligned DOC-18's business-only recording boundary. |
 | 1.0.2 | 2026-08-25 | Added the reviewed DOC-17 provider-neutral External Interaction Contract to the reference and non-ownership boundary without creating Admin policy, provider capability, API, mechanism, queue, permission, status, schema, event, or implementation detail. |
 | 1.0.1 | 2026-08-21 | Aligned authentication, recovery, access, status/audit, and security handoffs while preserving DOC-22 as owner-permitted execution only and creating no roles, queues, permissions, or Admin policy. |

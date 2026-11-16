@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.2.9
+version: 1.3.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-09-01
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -52,12 +52,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-13` |
 | **Title** | Promotion Engine, Coupon, Voucher, Referral & Membership Specification |
-| **Version** | `1.2.9` |
+| **Version** | `1.3.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Growth / Product |
 | **Reviewers** | Product Lead<br>Commercial Lead<br>Finance Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Commercial Lead<br>Finance Lead |
-| **Last Updated** | `2026-09-01` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -65,7 +65,7 @@ related_documents:
 
 ## 1. Purpose
 
-This document defines PayPlus promotion, coupon, voucher, discount code, card-linked offer, miles reward, referral, member-get-member, membership, and partner-offer rules.
+This document defines CardMore promotion, coupon, voucher, discount code, card-linked offer, miles reward, referral, member-get-member, membership, and partner-offer rules.
 
 DOC-13 exists to protect checkout, payment quotes, promotion business records, partner reconciliation, and user communication from promotion bugs, miscalculation, duplicate reward issuance, unclear eligibility, and uncontrolled campaign cost.
 
@@ -128,7 +128,7 @@ DOC-13 does not own:
 
 ## 4. Promotion-Engine Structure
 
-PayPlus should use one unified promotion engine.
+CardMore should use one unified promotion engine.
 
 ```mermaid
 flowchart TD
@@ -197,7 +197,7 @@ Campaign type options include:
 - membership / tier campaign;
 - miles / points campaign;
 - partner-funded campaign;
-- PayPlus-funded campaign;
+- CardMore-funded campaign;
 - mixed-funded campaign.
 
 Campaign dates should support:
@@ -223,7 +223,7 @@ Example:
 ```text
 SIM Credit Card Rent Campaign
   -> Offer A: service fee waiver
-  -> Offer B: HK$150 PayPlus coupon after accumulated eligible spend
+  -> Offer B: HK$150 CardMore coupon after accumulated eligible spend
 ```
 
 ### 4.3 Offer Type
@@ -266,8 +266,8 @@ Application path defines how the benefit is delivered.
 | Application Path | Meaning | Example |
 | --- | --- | --- |
 | Direct Checkout Application | Benefit affects checkout immediately through the promotion quote. | Service fee waiver. |
-| Instrument Issuance | Coupon, voucher, code, or entitlement is issued for later use. | HK$150 PayPlus coupon. |
-| External Partner Fulfilment | Benefit is used outside PayPlus. | Restaurant QR voucher. |
+| Instrument Issuance | Coupon, voucher, code, or entitlement is issued for later use. | HK$150 CardMore coupon. |
+| External Partner Fulfilment | Benefit is used outside CardMore. | Restaurant QR voucher. |
 | Miles / Points Fulfilment | Miles or points are recorded and credited later. | Asia Miles reward. |
 | Membership Auto-Benefit | Tier benefit applies automatically or unlocks offers. | Gold tier special service fee rate. |
 
@@ -291,7 +291,7 @@ Common eligibility dimensions:
 - new or existing payer;
 - authoritative Bill/Rent source context;
 - accepted Bill Category or separate Rent context;
-- economic-Payee/source-context facts where an owner-approved offer rule expressly uses them (not PayPlus User or entitlement-participant status);
+- economic-Payee/source-context facts where an owner-approved offer rule expressly uses them (not CardMore User or entitlement-participant status);
 - evidence verification status;
 - payment method;
 - selected payment card or applicable split-payment funding leg;
@@ -341,7 +341,7 @@ Examples:
 Important rule:
 
 ```text
-For spending-threshold rewards, PayPlus should track whether the user has become
+For spending-threshold rewards, CardMore should track whether the user has become
 entitled to the benefit in the period, not whether the user has used the card in the period.
 ```
 
@@ -362,7 +362,7 @@ Benefit targets:
 
 - checkout amount;
 - bill or obligation amount;
-- PayPlus service fee;
+- CardMore service fee;
 - partner voucher;
 - miles / points;
 - membership tier benefit.
@@ -441,7 +441,7 @@ Options include:
 - stackable with referral reward;
 - stackable with external voucher;
 - auto-apply highest user value;
-- auto-apply lowest PayPlus cost;
+- auto-apply lowest CardMore cost;
 - user selects one;
 - admin-defined priority.
 
@@ -449,12 +449,12 @@ Recommended default:
 
 - service-fee rate, reduction, or waiver benefits apply before absolute checkout amount discounts;
 - only one payment-method-sensitive Card Offer may apply to each selected payment card or split-payment funding leg;
-- if more than one Card Offer is eligible for the same payment card or funding leg, PayPlus must automatically apply the offer with the highest user value and display the applied offer and benefit;
+- if more than one Card Offer is eligible for the same payment card or funding leg, CardMore must automatically apply the offer with the highest user value and display the applied offer and benefit;
 - highest user value means the highest approved quantified benefit for the current payment context; equal or non-directly-comparable values use a deterministic admin-configured priority until the final valuation method is specified;
 - a Card Offer may auto-apply only after eligibility is confirmed against the selected payment card or applicable funding leg;
 - the payer does not manually choose between competing payment-method-sensitive Card Offers;
 - the applied Card Offer does not consume the separate coupon/voucher selection slot; one eligible user-selected checkout coupon, voucher, or discount code may also apply unless additional same-family stacking is explicitly approved;
-- external vouchers do not reduce PayPlus checkout amount unless configured as checkout-funded.
+- external vouchers do not reduce CardMore checkout amount unless configured as checkout-funded.
 
 For split-card payment, the one-best-Card-Offer rule applies independently to each funding leg. A card-sensitive benefit normally applies only to the amount funded by the eligible payment card unless the approved offer rules explicitly use the whole payment. Transaction-level caps, quotas, usage limits, and exclusions still apply across all legs.
 
@@ -462,7 +462,7 @@ For split-card payment, the one-best-Card-Offer rule applies independently to ea
 
 Funding source options:
 
-- PayPlus-funded;
+- CardMore-funded;
 - card partner-funded;
 - merchant or partner-funded;
 - joint-funded;
@@ -504,7 +504,7 @@ DOC-13 owns promotion calculation. DOC-09 owns final payment quote and payer aut
 Checkout calculation sequence:
 
 1. Start with payment amount.
-2. Identify normal PayPlus service fee rate.
+2. Identify normal CardMore service fee rate.
 3. Calculate normal service fee.
 4. Filter eligible offers.
 5. Apply qualification and entitlement rules.
@@ -523,7 +523,7 @@ After the payer selects a payment card or Payment Profile where applicable, DOC-
 
 Material changes require recalculation. Material changes include payment amount, category, economic-Payee/source-context facts where an owner-approved offer rule uses them (not User or participant status), evidence status, selected card, card split, service fee, discount, campaign status, usage entitlement, or budget availability.
 
-For DOC-09 deferred payment instructions, the original promotion quote should be retained for audit. PayPlus should not assume campaign quota, budget, coupon/voucher availability, card-linked eligibility, membership status, or reward entitlement remains valid when the user returns to submit payment unless the campaign explicitly reserves that benefit.
+For DOC-09 deferred payment instructions, the original promotion quote should be retained for audit. CardMore should not assume campaign quota, budget, coupon/voucher availability, card-linked eligibility, membership status, or reward entitlement remains valid when the user returns to submit payment unless the campaign explicitly reserves that benefit.
 
 Reservation behavior must be configurable:
 
@@ -565,7 +565,7 @@ Promotion quote must make the following business information distinguishable whe
 Promotion:
 
 ```text
-Use Cathay Mastercard to pay management fee for the first time in PayPlus.
+Use Cathay Mastercard to pay management fee for the first time in CardMore.
 Enjoy service fee waiver on eligible amount up to HK$20,000.
 ```
 
@@ -573,7 +573,7 @@ Case:
 
 ```text
 User pays HK$25,000 management fee using eligible tokenized Cathay Mastercard.
-Normal PayPlus service fee rate is 1.5%.
+Normal CardMore service fee rate is 1.5%.
 ```
 
 Structure:
@@ -583,7 +583,7 @@ Campaign: Cathay Mastercard Management Fee Campaign
 Offer: First-use service fee waiver
 Offer Type: Card-linked offer + service fee waiver
 Application Path: Direct Checkout Application
-Eligibility: management fee category, first eligible PayPlus use, tokenized Cathay Mastercard
+Eligibility: management fee category, first eligible CardMore use, tokenized Cathay Mastercard
 Benefit: service fee waiver on eligible amount cap HK$20,000
 ```
 
@@ -605,9 +605,9 @@ No coupon is issued.
 Promotion:
 
 ```text
-Use SIM credit card on PayPlus to pay rent.
+Use SIM credit card on CardMore to pay rent.
 Enjoy service fee waiver with minimum spend HK$5,000 and eligible amount cap HK$20,000.
-Receive extra HK$150 PayPlus coupon if eligible spending using the same SIM credit card reaches HK$15,000.
+Receive extra HK$150 CardMore coupon if eligible spending using the same SIM credit card reaches HK$15,000.
 Each user may become entitled to the campaign benefit maximum 3 times in 6 months,
 and maximum once per calendar month. No consecutive spending requirement applies.
 ```
@@ -624,13 +624,13 @@ Eligibility: separate Rent payment context, tokenized SIM credit card
 Qualification: payment amount >= HK$5,000
 Benefit: service fee waiver on eligible amount cap HK$20,000
 
-Offer B: HK$150 PayPlus Coupon
+Offer B: HK$150 CardMore Coupon
 Offer Type: spending reward + coupon issuance
 Application Path: Instrument Issuance
 Eligibility: separate Rent payment context, same tokenized SIM credit card
 Qualification: accumulated eligible spend reaches HK$15,000 in entitlement period
 Entitlement: not already entitled to this coupon in the same calendar month
-Benefit: HK$150 PayPlus coupon
+Benefit: HK$150 CardMore coupon
 ```
 
 The card may be used multiple times. The monthly coupon rule checks benefit entitlement, not card usage.
@@ -658,7 +658,7 @@ A Campaign is the commercial container. DOC-13 requires the applicable campaign 
 
 An Offer is the benefit package. DOC-13 requires the applicable offer meaning to distinguish its campaign context, name and type, application path, discovery collections, approved placement and content, action and destination, benefit target and method, display priority, payment-method sensitivity, application mode, approved user value, stacking, funding source, cost bearer, and current availability meaning. It does not prescribe identifiers, fields, storage, relational design, or technical status representation.
 
-Each offer displayed in a filterable Pay+ or Partner collection must carry at least one approved category/label reference. Label values and display wording remain to be confirmed. The applicable business-recording handoff remains separate, and DOC-22 owns admin creation, localization, ordering, enablement, and audit controls.
+Each offer displayed in a filterable CardMore or Partner collection must carry at least one approved category/label reference. Label values and display wording remain to be confirmed. The applicable business-recording handoff remains separate, and DOC-22 owns admin creation, localization, ordering, enablement, and audit controls.
 
 Discovery collection rules:
 
@@ -708,7 +708,7 @@ Promotion quote, reservation, and benefit-application meaning must remain relate
 
 ### 8.7 Reward Instrument and Redemption / Fulfilment
 
-Reward instrument exists only when an approved offer issues it to an eligible PayPlus Payer/User under DOC-13 policy. Economic Payee status alone never creates promotion eligibility, entitlement, reward-instrument ownership, referral participation, membership status, or recipient capability.
+Reward instrument exists only when an approved offer issues it to an eligible CardMore Payer/User under DOC-13 policy. Economic Payee status alone never creates promotion eligibility, entitlement, reward-instrument ownership, referral participation, membership status, or recipient capability.
 
 Instrument types:
 
@@ -822,15 +822,15 @@ If auto-credit is available, DOC-08 must support app communication and notificat
 
 Referral/MGM is separate from membership/tier:
 
-- PayPlus has one Referral Program, with one MVP campaign and support for multiple future campaigns;
-- every existing PayPlus user may act as a referrer without separate program enrolment;
+- CardMore has one Referral Program, with one MVP campaign and support for multiple future campaigns;
+- every existing CardMore user may act as a referrer without separate program enrolment;
 - each campaign may define separate, role-sensitive referrer and referee offers using the same rule, entitlement, and reward-instrument structures;
 - a reusable user-linked referral code does not expire by default, while campaign availability, qualification period, quotas, limits, and optional future code-validity controls remain configurable;
 - a referral deeplink or QR carries an opaque referral reference and campaign context into registration; the code is displayed, prefilled, and not editable;
 - ordinary registration provides optional manual referral-code entry; an invalid code may be re-entered or cleared, but successful attribution is not editable through the normal user UI after registration completes;
 - the MVP has one campaign; when multiple campaigns are later enabled, manual code entry requires campaign selection before code entry;
 - external sharing does not create a known invitation, recipient, or invitation status;
-- referral attribution begins only when an eligible new user's restricted PayPlus account is successfully created using a valid code/link; a temporary registration attempt creates no attribution and no promotion entitlement;
+- referral attribution begins only when an eligible new user's restricted CardMore account is successfully created using a valid code/link; a temporary registration attempt creates no attribution and no promotion entitlement;
 - referral qualification tracks the configured campaign conditions after attribution;
 - referrer and referee entitlements remain separate and preserve beneficiary role;
 - corresponding referrer and referee rewards may be claimed through DOC-06B Referral entitlement screens; beneficiary role remains preserved, while issued instruments use the same canonical reward records and statuses as `REWARDS-ROOT` and `REWARD-DETAIL`;
@@ -1031,6 +1031,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.3.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.2.9 | 2026-09-01 | Removed or qualified only the approved legacy technical-form allocations in TAR-13-02, 03, and 05–19; preserved promotion/commercial meaning and established owner boundaries without selecting technical representation, provider, mechanism, implementation, or readiness. |
 | 1.2.8 | 2026-08-21 | Aligned promotion handoffs with DOC-16/DOC-17 provider boundaries, DOC-18 representation and the reviewed DOC-19 security-control contract without selecting mechanisms, thresholds or PCI scope. |
 | 1.2.7 | 2026-08-13 | Qualified economic-Payee facts as owner-approved source context only and restricted reward instruments and participant roles to eligible Payer/User or promotion roles, without adding Payee-user eligibility or runtime behavior. |

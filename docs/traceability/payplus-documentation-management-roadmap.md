@@ -1,4 +1,5 @@
-# PayPlus Documentation Management Roadmap
+<a id="payplus-documentation-management-roadmap"></a>
+# CardMore Documentation Management Roadmap
 
 ## 1. Control and Purpose
 
@@ -7,11 +8,11 @@
 | Coordination surface | `PayPlus Documentation Manager` task |
 | Status | Active coordination tracker |
 | Last updated | 2026-08-30 |
-| Canonical lifecycle | [PayPlus Documentation Development Workflow](../documentation-system/payplus-documentation-development-workflow.md) |
+| Canonical lifecycle | [CardMore Documentation Development Workflow](../documentation-system/payplus-documentation-development-workflow.md) |
 | Governance authority | [DOC-00 Documentation Governance](../00-foundation/doc-00-documentation-governance.md) |
 | Repository operating contract | [AGENTS.md](../../AGENTS.md) |
 
-This file is the programme-level coordination and progress tracker for PayPlus documentation work. It records work allocation, current lifecycle stage, dependencies, reports, decision queues, integration readiness, and completion evidence.
+This file is the programme-level coordination and progress tracker for CardMore documentation work. It records work allocation, current lifecycle stage, dependencies, reports, decision queues, integration readiness, and completion evidence.
 
 It is a supporting traceability artifact. It is not a formal `DOC-XX`, product requirement, source of product truth, lifecycle owner, approval record, or substitute for the canonical documents, registers, changelog, decision log, Git history, or Founder instructions.
 
@@ -32,7 +33,7 @@ The manager may:
 
 The manager must not:
 
-- define, replace, duplicate, weaken, or bypass the PayPlus Documentation Development Workflow;
+- define, replace, duplicate, weaken, or bypass the CardMore Documentation Development Workflow;
 - treat this roadmap or any conversation as a formal source of product truth;
 - approve a material product decision, document status, commit, or push on behalf of the Founder;
 - infer approval from task progress, silence, a general instruction, or another task's self-assessment;
@@ -61,7 +62,7 @@ An execution task's report is evidence for manager review. It does not by itself
 
 ## 4. Manager Routing and Handoff
 
-The manager routes every work item through the [PayPlus Documentation Development Workflow](../documentation-system/payplus-documentation-development-workflow.md). That workflow supplies the task contract, stage sequence, required outputs, result terms, return stages, approval gates, validation authority, Git treatment, records treatment, push treatment, and completion rules.
+The manager routes every work item through the [CardMore Documentation Development Workflow](../documentation-system/payplus-documentation-development-workflow.md). That workflow supplies the task contract, stage sequence, required outputs, result terms, return stages, approval gates, validation authority, Git treatment, records treatment, push treatment, and completion rules.
 
 The roadmap records the assigned task, current canonical stage, returned workflow output, evidence, queue position, and next action permitted by that workflow. It does not add a stage, gate, verdict, approval, or completion procedure.
 
@@ -152,7 +153,7 @@ The canonical inventory remains the [Route Register](route-register.md). This sn
 
 ## 10. Manager Assignment Header
 
-The canonical task contract remains defined only by the PayPlus Documentation Development Workflow. The manager may add this tracking header when issuing that contract to a separate execution task:
+The canonical task contract remains defined only by the CardMore Documentation Development Workflow. The manager may add this tracking header when issuing that contract to a separate execution task:
 
 ```text
 Work Item ID:

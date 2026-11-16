@@ -1,4 +1,5 @@
-# PayPlus Entrance and Authentication Route Map
+<a id="payplus-entrance-and-authentication-route-map"></a>
+# CardMore Entrance and Authentication Route Map
 
 Status: Current discussion reference
 Owner: DOC-06B

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 1.2.0
+version: 1.3.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-12
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -39,18 +39,19 @@ related_documents:
   - DOC-22 Admin Management Dashboard Operations Workflow
 ---
 
-# DOC-06 - PayPlus User Journey, UX Flow, and Service Blueprint Family
+<a id="doc-06---payplus-user-journey-ux-flow-and-service-blueprint-family"></a>
+# DOC-06 - CardMore User Journey, UX Flow, and Service Blueprint Family
 
 | Document Control | Details |
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `1.2.0` |
+| **Version** | `1.3.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-12` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -62,7 +63,7 @@ This is the current normative Payer-only Founder Working Baseline for the DOC-06
 
 ### Family-level product and journey boundary
 
-- A Consumer User acts as a Payer only. A Payee is an economic recipient who may be an individual or institution/company and need not be a PayPlus User.
+- A Consumer User acts as a Payer only. A Payee is an economic recipient who may be an individual or institution/company and need not be a CardMore User.
 - MVP supports the twelve Founder-confirmed launch controlled Bill Categories owned by DOC-05 plus the separate Rent journey. Rent is not a Bill Category and never uses the controlled-Bill Directory. Category-specific eligibility, Evidence criteria, detailed labels and Directory contents remain with their named owners.
 - A controlled Bill journey selects its supported Category before showing either the Category-scoped Directory or Provide Payee myself. Neither method is unrestricted recipient discovery; Provide Payee myself never bypasses the selected Category.
 - Directory selection is discovery convenience/pre-trust only. Evidence truth, Payee/Evidence matching, destination readiness, Payout, risk, sanctions/fraud/anti-cashout and payer authorization remain with DOC-12, DOC-10, DOC-14 and DOC-09.
@@ -81,7 +82,7 @@ This is the current normative Payer-only Founder Working Baseline for the DOC-06
 
 ### Family-level notification and specialist handoffs
 
-The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. Institution/company or unresolved/insufficient Individual determination leaves notification unavailable; governed Individual determination plus Payer choice may expose the optional capability. DOC-06 consumes that eligibility outcome and does not independently determine Payee type. Payer contact responsibility does not remove PayPlus obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. The notification is informational only and does not create a Request, Linking relationship, Payee acceptance requirement, reciprocal visibility, account invitation, payment authorization, or any change to payment state. DOC-06 defines none of its mechanics: DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity, channel, template, preference and delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 represents approved data/audit requirements; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
+The optional one-way Payee notification is available only where the Payee is eligible under the governed Individual-Payee classification/determination policy. Institution/company or unresolved/insufficient Individual determination leaves notification unavailable; governed Individual determination plus Payer choice may expose the optional capability. DOC-06 consumes that eligibility outcome and does not independently determine Payee type. Payer contact responsibility does not remove CardMore obligations for lawful purpose, data minimization, wrong-recipient prevention, abuse/rate-limit controls, suppression/opt-out, security, delivery records, retention and support. The notification is informational only and does not create a Request, Linking relationship, Payee acceptance requirement, reciprocal visibility, account invitation, payment authorization, or any change to payment state. DOC-06 defines none of its mechanics: DOC-05 owns only the eligibility boundary; DOC-07 owns approved Copy/disclosure/CTA; DOC-08 owns notification identity, channel, template, preference and delivery; DOC-14 owns risk/abuse; DOC-15 owns privacy/retention requirements; DOC-18 represents approved data/audit requirements; DOC-19 owns security; DOC-21 owns support/operations; and DOC-22 performs only permitted Admin execution. DOC-12 supplies any Evidence-derived classification input but does not own notification delivery. Contact provenance and lawful-basis or consent treatment remain with their applicable formal owners.
 
 DOC-06A owns family journeys; DOC-06B owns global roots, routes and IA; DOC-06C owns Bills/Rent presentation and source projections. DOC-09 owns Payment Obligation, Checkout, payer authorization and Payment invariants; DOC-10 owns destination readiness, Payout and reconciliation; DOC-12 owns Category, Evidence, OCR/extraction, verification and Evidence-to-Payee matching; DOC-14 owns risk/sanctions/fraud/anti-cashout; DOC-15 owns privacy, masking and retention requirements; DOC-18 owns only business recording and explainability, while technical representation remains separately authorized; DOC-22 executes only permitted Admin review under the applicable owner outcomes. DOC-06 references these owners without redefining them.
 
@@ -94,7 +95,7 @@ For Tier 2, confirmed Payment, the current Evidence condition, and a DOC-10 Payo
 ### Wave 2 route-family outcomes
 
 - Retain/re-scope HOME-ROOT, PAYPLUS-ACTION-SHEET, BILLS-ROOT, BILLS-PAY, Bill/Rent detail, BILLS-ADD, Activity, Receipts, Archive, Notifications, Me and unaffected account/service roots as Payer-only surfaces.
-- Remove Request Payment from Pay+ while preserving the remaining four actions without reordering or materially renaming them. Remove Requests shortcuts without inventing replacements.
+- Remove Request Payment from CardMore while preserving the remaining four actions without reordering or materially renaming them. Remove Requests shortcuts without inventing replacements.
 - Retire active REQUESTS-ROOT, REQUESTS-DETAIL, REQUESTS-NEW, BILLS-RECEIVE, BILLS-LINKING and Consumer RECEIVING-INFO presentation. Preserve their stable identifiers only as non-active documentation lineage.
 - Retain ARCHIVED-DOCS-LIST provisionally under the Founder-approved W2-FD-05 decision (Option A). This is provisional retention only and does not change route status or authorize detailed Restore. Archive remains a visibility projection of the same source and does not erase or rewrite Evidence, Payment, destination, Payout, reconciliation or audit history. Exact Restore, prior-version, Evidence-version and replacement-source presentation remains deferred to DOC-06B/DOC-06C with DOC-10 payout/reconciliation blockers, DOC-11 refund/dispute/chargeback/case blockers, and DOC-12/DOC-15/DOC-18 Evidence, privacy/retention and data/lineage handoffs.
 
@@ -108,13 +109,13 @@ The sections below are active current requirements for the Payer-only family and
 
 ## 1. Purpose
 
-This parent document governs the DOC-06 family for PayPlus user journeys, UX flow, navigation, route taxonomy, service blueprint touchpoints, and UX acceptance mapping.
+This parent document governs the DOC-06 family for CardMore user journeys, UX flow, navigation, route taxonomy, service blueprint touchpoints, and UX acceptance mapping.
 
-PayPlus is a controlled Bill and Rent Payment App in which Consumer Users act as Payers. Bills use the accepted Tier 1/2/3 Evidence model, while Rent retains mandatory attached Evidence accepted before Payment. A Payee is an economic recipient who may be an individual or institution/company and need not be a PayPlus User. The family therefore defines Payer-only Bill/Rent journeys, bounded acquisition, payment handoffs and history visibility; it does not define an active Consumer Payee product.
+CardMore is a controlled Bill and Rent Payment App in which Consumer Users act as Payers. Bills use the accepted Tier 1/2/3 Evidence model, while Rent retains mandatory attached Evidence accepted before Payment. A Payee is an economic recipient who may be an individual or institution/company and need not be a CardMore User. The family therefore defines Payer-only Bill/Rent journeys, bounded acquisition, payment handoffs and history visibility; it does not define an active Consumer Payee product.
 
 DOC-06 is now a family index and governance map. Detailed content is split into DOC-06A to DOC-06D so unfinished route specifications can be tracked clearly without overloading one document.
 
-This modularization does not change PayPlus product scope, payment behavior, risk controls, privacy rules, or operational decisions. It only separates ownership and navigation.
+This modularization does not change CardMore product scope, payment behavior, risk controls, privacy rules, or operational decisions. It only separates ownership and navigation.
 
 ---
 
@@ -143,7 +144,7 @@ The DOC-06 family keeps the following current Wave 2 MVP journey scope:
 - deliberate setup Save and immediate-pay post-payment Save using the same authoritative Bill/Rent ID;
 - bounded optional one-way Individual-Payee notification after governed eligibility determination;
 - evidence capture, OCR/autofill review, user correction, evidence verification outcome visibility, duplicate/reused evidence handling, and bounded specialist/Admin review handoffs;
-- Bills, rent, tenancy, reminder, activity, dashboard, Pay+, shortcut, notification, receipt, failure, exception, and support handoff journeys;
+- Bills, rent, tenancy, reminder, activity, dashboard, CardMore, shortcut, notification, receipt, failure, exception, and support handoff journeys;
 - controls preventing wallet, stored-value, cashout, unsupported peer-to-peer, lending, and automatic recurring-payment journeys.
 
 ### 2.2 User Role Summary
@@ -151,7 +152,7 @@ The DOC-06 family keeps the following current Wave 2 MVP journey scope:
 | Role | Description | MVP Login? | Key Journey Responsibility |
 | --- | --- | ---: | --- |
 | Payer | Consumer User who provides source/Evidence facts, reviews owner-controlled outcomes, and authorizes eligible payment. | Yes | Create controlled Bill/Rent contexts, select acquisition method, Save or continue, authorize payment, track history. |
-| Payee | Economic recipient; may be an individual or institution/company and need not be a PayPlus User. | No | Recipient-side policy and specialist handoffs only; no active Consumer Payee route, Request or Linking product. |
+| Payee | Economic recipient; may be an individual or institution/company and need not be a CardMore User. | No | Recipient-side policy and specialist handoffs only; no active Consumer Payee route, Request or Linking product. |
 | Admin / Operations | Internal user executing only owner-approved review, configuration, support or exception work through governed access. | Yes | Consume specialist-owner outcomes and perform bounded DOC-22 execution without creating product, Evidence, Payment, payout, refund, risk, privacy or data authority. |
 | System | Automated services handling status changes, notifications, validation, audit events, and integrations. | No | Route, notify, validate, and record events under specialist ownership. |
 
@@ -174,7 +175,7 @@ The DOC-06 family covers Payer UX, Payee-as-recipient handoffs, Admin touchpoint
 | --- | --- | --- | --- |
 | DOC-06 | Parent UX/service-blueprint overview, family map, scope boundaries, prohibited journey controls, family decision summary, dependencies, and split governance. | Detailed route specs, detailed component behavior, full acceptance matrix. | Active parent baseline. |
 | DOC-06A | Core Payer, economic-Payee handoff, Admin/system, Evidence, review, authorization, visibility, notification, receipt, failure and exception service journeys. | Global app navigation taxonomy, detailed Bills route UI, specialist policy or Admin execution design. | Working baseline; service-blueprint refinement still needed. |
-| DOC-06B | Navigation IA, dashboard structure, bottom navigation, Pay+ action sheet, route/screen/component/action standards, route registry, and route completion status. | Deep Bills/rent/tenancy behavior or payment checkout logic. | Working baseline; Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, Me core child routes, active `ARCHIVED-ROOT` and active `ARCHIVED-BILLS-LIST`, More and Notifications are defined at human-readable route level. `ARCHIVED-DOCS-LIST` is provisional and unreachable through active UI. Requests, BILLS-LINKING and Consumer Receiving Info remain retired stable IDs in append-only documentation history only. Several secondary routes remain incomplete. |
+| DOC-06B | Navigation IA, dashboard structure, bottom navigation, CardMore action sheet, route/screen/component/action standards, route registry, and route completion status. | Deep Bills/rent/tenancy behavior or payment checkout logic. | Working baseline; Instructions, Payment Profile, Activity, Receipts & Statements, Offers, Rewards, Referral, Me core child routes, active `ARCHIVED-ROOT` and active `ARCHIVED-BILLS-LIST`, More and Notifications are defined at human-readable route level. `ARCHIVED-DOCS-LIST` is provisional and unreachable through active UI. Requests, BILLS-LINKING and Consumer Receiving Info remain retired stable IDs in append-only documentation history only. Several secondary routes remain incomplete. |
 | DOC-06C | Bills, fees, rent, tenancy, cards, detail pages, activity, reminders, evidence UX, Payer actions, and Bills-route handoffs. | Checkout processing, full evidence verification logic, final data model, or admin queue design. | Partially defined; Bills module has strong baseline but not final UI. |
 | DOC-06D | UX requirement IDs, acceptance criteria, route/action/state/event/test mapping, and UX test-readiness tracking. | Business policy decisions or implementation tickets. | Working acceptance and test-readiness baseline; route-family coverage exists, while detailed executable test cases remain for DOC-20 and the AI execution layer. |
 
@@ -206,7 +207,7 @@ This matrix prevents the split from creating a false impression that all routes 
 | Entrance and Authentication | DOC-06B | DOC-06A for journey; DOC-07/DOC-15/DOC-19 for presentation, privacy, and security; DOC-20 for derived acceptance tests | Defined Behavior Baseline / Security-Control Contract Defined / Final Design, Mechanisms and Evidence Pending | `ENTRANCE-ROOT` is the public root; `AUTH-LOGIN` resolves to Fast/Full Login; Recovery, Registration, Account Activation, `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` are assigned. The family uses capability-aware Outcome-to-Resolution handling without changing route or status decisions. `AUTH-RECOVERY` now has a defined product flow and safe continue/restart/redirect/wait/Support/stop baseline. Normal successful login enters `HOME-ROOT`; confirmed creation shows Done with direct identity/Later callers. Approved deeplinks resume only after revalidation. |
 | Home Dashboard | DOC-06B | DOC-06A for journey touchpoints; DOC-06C, DOC-07, DOC-08, DOC-09, DOC-10, DOC-11, DOC-13, DOC-15, DOC-20, and DOC-22 for owned handoffs | `HOME-ROOT` Assigned / Partially Defined | The reviewed route-level baseline covers Greeting, Important Notice, Home Hot Offer, Upcoming Bills / Rent, Recent Activity, section-level resilience, Home-specific accessibility, and presentation governance. DOC-06B owns Home presentation and navigation; final visual design, exact DOC-07 Copy and identifiers, technical mechanics, and later DOC-20 evidence remain pending with their formal owners. |
 | Bottom Navigation | DOC-06B | Child route owners for destination behavior | Working Baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline is defined; final visuals and remaining child-route detail remain open. |
-| Pay+ Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | Defined Behavior / Not Final Visual Design | Four retained actions keep their existing order and meaning after Request Payment retirement; destination handoffs, availability, completion, return, configuration limits, and motion principles are defined. |
+| CardMore Action Sheet | DOC-06B | DOC-06A for journey entry; DOC-06C/DOC-09 for Bills/payment handoff | Defined Behavior / Not Final Visual Design | Four retained actions keep their existing order and meaning after Request Payment retirement; destination handoffs, availability, completion, return, configuration limits, and motion principles are defined. |
 | Bills / Rent / Tenancy | DOC-06C | DOC-06B for route entry/archive family; DOC-06A for lifecycle; DOC-09/DOC-12 for payment/evidence detail | Partially Defined | BILLS-PAY, BILLS-ACTIVITY, BILLS-EVIDENCE, BILLS-REMINDER, and `ARCHIVED-BILLS-LIST` have Payer-only working baseline rules; BILLS-RECEIVE is a retired stable ID with no active or runtime-reader behavior. |
 | Payment / Checkout | DOC-06B for route-level UI/UX; DOC-09 for Payment Domain architecture | DOC-06A/DOC-06C for source journey, entry, return, and handoff; applicable content, notification, technical, and acceptance owners | `PAYMENT-CHECKOUT` Defined Baseline | DOC-06B owns the adaptive Checkout Workspace presentation, entry, return, and handoff behavior. DOC-09 owns payment objects, invariants, and authoritative payment meaning. Detailed UI remains in DOC-06B rather than being duplicated here; exact content, visual, technical, prototype, validation, implementation, acceptance, and operational evidence remain pending with the applicable owners. |
 | Requests | DOC-06B | Documentation governance for append-only history | Retired active MVP / documentation evidence only | `REQUESTS-ROOT`, `REQUESTS-DETAIL`, and `REQUESTS-NEW` have no active behavior, runtime reader, replacement route, adapter, fallback or dormant runtime. Stable IDs remain non-active documentation lineage only. |
@@ -224,7 +225,7 @@ This matrix prevents the split from creating a false impression that all routes 
 
 ## 5. Product Journey Summary
 
-PayPlus supports Payer-created controlled Bill journeys with their accepted tiered Evidence model and the separate mandatory-Evidence Rent journey. Consumer Users are Payers only; a Payee is an economic recipient and need not be a PayPlus User.
+CardMore supports Payer-created controlled Bill journeys with their accepted tiered Evidence model and the separate mandatory-Evidence Rent journey. Consumer Users are Payers only; a Payee is an economic recipient and need not be a CardMore User.
 
 - A Bill journey is Category-first and then uses the selected Category's Directory or `Provide Payee myself`. Rent uses a separate tenancy journey and does not use the Bill Directory.
 - Deliberate Setup and immediate pay-now both consume an owner-governed source/Evidence preservation outcome and establish one authoritative Bill/Rent ID before Save/reuse materialization, Payable Basis or Payment Obligation materialization, or a downstream payment handoff requires stable source reference. DOC-06 consumes that outcome and does not define technical persistence thresholds, exact fields, Evidence acceptance, indefinite-retention controls or non-destructive handling mechanics.
@@ -249,7 +250,7 @@ Detailed journeys are in DOC-06A. Bills/rent/tenancy route behavior is in DOC-06
 | Promotions, offers, coupons, rewards, referral, membership | DOC-06 identifies placement and route surfaces. | DOC-13 |
 | AML, anti-cashout, fraud, risk triggers, dynamic auth | DOC-06 identifies user-facing risk/review states. | DOC-14 |
 | Privacy, masking, retention, approved-purpose access | DOC-06 identifies display and permission boundaries. | DOC-15 |
-| Data objects, lineage, audit events, event taxonomy, reporting | DOC-06 identifies required signals and events at a high level. | DOC-18 |
+| Business recording, lineage, audit meaning and reporting; future technical representation | DOC-06 identifies required signals at a high level. DOC-18 owns the current business-recording and explainability contract; technical representation requires separate authorization without transferring DOC-18's assigned future responsibilities. | DOC-18; applicable future technical owners |
 | Authentication, tokenization, access control | DOC-06 identifies user journey touchpoints. | DOC-19 |
 | Testing and go-live | DOC-06D maps UX acceptance and test readiness. | DOC-20 |
 | Monitoring, support, incident, operational SOPs | DOC-06 identifies exception journeys and support handoffs. | DOC-21 |
@@ -259,7 +260,7 @@ Detailed journeys are in DOC-06A. Bills/rent/tenancy route behavior is in DOC-06
 
 ## 7. Prohibited Journey Controls
 
-PayPlus must not provide UX paths that create or imply:
+CardMore must not provide UX paths that create or imply:
 
 - wallet balances;
 - stored-value accounts;
@@ -284,7 +285,7 @@ DOC-06 family open questions are now distributed as follows:
 | Area | Primary Owner |
 | --- | --- |
 | Core Payer journey, review, exception, status, visibility, and service blueprint questions | DOC-06A; retired Request/Linking IDs remain append-only documentation history only |
-| Dashboard, bottom navigation, Pay+ action sheet, route taxonomy, global shortcut and placement questions | DOC-06B |
+| Dashboard, bottom navigation, CardMore action sheet, route taxonomy, global shortcut and placement questions | DOC-06B |
 | Bills/rent/tenancy cards, details, Activity, reminders, Evidence, and Payer action questions | DOC-06C; retired Linking IDs remain append-only documentation history only |
 | UX requirement IDs, acceptance criteria, route/action/state/event/test mapping, and test-readiness questions | DOC-06D |
 
@@ -351,11 +352,11 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | Final payment processor, operating-bank setup, detailed KYC/KYB steps, fees, partner/risk/reconciliation controls for multi-card payment, and dispute policy details remain open or to be confirmed. The MVP maximum is 6 cards per payment/profile. | Partially Open |
 | Major functions and modules must be independently disableable. | Confirmed |
 | Promotion discovery, issued-reward management, and referral participation use separate DOC-06B routes. Referral sharing, registration attribution, qualification progress, role-sensitive entitlement claiming, two-tab Referral Rewards behavior, and canonical issued-reward handoff are defined; commercial availability and campaign conditions remain governed by DOC-13. | Working Baseline / Not Final Visual Design |
-| `HOME-ROOT` is task-first and uses bottom navigation `Home`, `Bills`, `Pay+`, `Offers`, and `Me`. | Designated Layout Baseline |
-| `Pay+` is the preferred center bottom-nav action label and opens `PAYPLUS-ACTION-SHEET`. Wave 2 retains the four existing actions in their existing order after retiring Request Payment; exact visual specification remains open. | Defined Behavior / Not Final Visual Design |
+| `HOME-ROOT` is task-first and uses bottom navigation `Home`, `Bills`, `CardMore`, `Offers`, and `Me`. | Designated Layout Baseline |
+| `CardMore` is the preferred center bottom-nav action label and opens `PAYPLUS-ACTION-SHEET`. Wave 2 retains the four existing actions in their existing order after retiring Request Payment; exact visual specification remains open. | Defined Behavior / Not Final Visual Design |
 | `Add Bill / Rent` includes scan QR, upload evidence, and manual entry inside the setup flow; QR/upload is not a standalone instant-payment action. | Working Baseline |
-| Pay+ `Request Payment` is retired from active MVP. No replacement Request or Linking action is created. | Retired active behavior |
-| Pay+ `Continue Payment` is disabled with no active pending Payment Instruction or continuable incomplete Checkout Workspace, opens one `INSTRUCTIONS-DETAIL` when exactly one managed item exists, and opens `INSTRUCTIONS-ROOT` when more than one exists; review-blocked items remain visible but cannot continue. | Confirmed |
+| CardMore `Request Payment` is retired from active MVP. No replacement Request or Linking action is created. | Retired active behavior |
+| CardMore `Continue Payment` is disabled with no active pending Payment Instruction or continuable incomplete Checkout Workspace, opens one `INSTRUCTIONS-DETAIL` when exactly one managed item exists, and opens `INSTRUCTIONS-ROOT` when more than one exists; review-blocked items remain visible but cannot continue. | Confirmed |
 | Requests shortcut is retired without a replacement; remaining Home shortcuts and More retain their existing owner-controlled configuration boundaries. | Re-scoped Wave 2 baseline |
 | Dashboard shortcuts use a DOC-06B owner-approved catalog/default and may be configured through permitted DOC-22 execution; users may reorder eligible entries, override the default and restore the current owner-approved default. | Confirmed |
 | Important Notice presents one eligible Inbox-backed notification at a time. DOC-06B owns its Home session dismissal and body, source-action, Detail-close, and zero-state route behavior; DOC-08 and source owners retain notification and business meaning. | Defined Behavior / Not Final Visual Design |
@@ -416,7 +417,7 @@ The DOC-06 parent is acceptable when:
 - shared support returns preserve actual callers/drafts without payment/auth effects, ordinary CTAs scroll with content, and no stable route or runtime assurance is inferred from mock views;
 - R03 metric inputs, R04 artifact/date/reference/native capability, R05 actual period/delivery/material-Edit inputs and R06 implementation parity remain explicit owner-backed dependencies, not blanket blockers or settled-UX re-votes;
 - existing product decisions are preserved in parent or child docs;
-- prohibited PayPlus journey boundaries remain visible;
+- prohibited CardMore journey boundaries remain visible;
 - cross-document owners remain clear;
 - traceability/index references point to the DOC-06 family rather than only the parent DOC-06 file.
 
@@ -425,6 +426,7 @@ The DOC-06 parent is acceptable when:
 ## 12. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.3.0 | 2026-11-16 | Aligned the current name and the bounded DOC-18 business-recording versus future representation handoff. |
 | 1.2.0 | 2026-11-12 | Canonical Writer: Aligned PP-MVP-20261112-R1 parent surfaces/journeys/decisions to defining OTP/identity, source Save/reminder, Home, records/Statistics, document, notification and grouped Me owners without expanding route completion or implementation authority. |
 | 1.1.0 | 2026-08-22 | Aligned the family summary to the approved Tier 3 current-context and deliberate-resolver return, Tier 2 Payment/Evidence/Payout separation, proportionate Declaration, and unchanged Rent negative control without creating routes, statuses, notifications, mechanisms, or enablement. |
 | 1.0.1 | 2026-08-21 | Aligned family status and handoffs with the reviewed DOC-19 security-control contract while preserving route, authorization, privacy, provider and representation ownership and open implementation mechanisms. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 1.2.0
+version: 1.3.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-13
+last_updated: 2026-11-16
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -32,12 +32,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `1.2.0` |
+| **Version** | `1.3.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-13` |
+| **Last Updated** | `2026-11-16` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
@@ -95,7 +95,7 @@ Example pattern:
 | Prohibited wallet/stored-value/cashout journeys | DOC-06 / DOC-06A | Ready for high-level blocked-flow criteria | Detailed tests later in DOC-20. |
 | Entrance and authentication routes | DOC-06B / DOC-07 / DOC-15 / DOC-19 | Partial to strong | Phone/Email OTP/provider Full Login, distinct remembered PIN, verified-phone/provider registration with mandatory Login PIN, confirmed creation, direct Done/Home identity callers, identity-only prompt and retained financial-action activation, uniqueness/proof/unknown/cancel controls are human-testable; final carousel design, exact outcome/message mappings, child verification UI, and technical security mechanics remain open. |
 | Home dashboard layout | DOC-06B / DOC-06C / DOC-07 / DOC-08 / DOC-09 / DOC-10 / DOC-11 / DOC-13 / DOC-15 / DOC-22 | Strong human-readable baseline / detailed evidence pending | Greeting, Important Notice, shortcuts, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance behavior are testable at requirement level. Final visual styling, technical session/cache/schema mechanics, exact locale Copy, implementation evidence, accessibility evidence, and UAT remain with their formal owners and DOC-20. |
-| Pay+ action sheet | DOC-06B / DOC-06C / DOC-09 | Partial to strong | The accepted four-action order (`Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, `Continue Payment`), category-scoped Bills/Rent handoffs, availability, return, configuration limits, and no-side-effect boundary are testable; the retired Request Payment action is not an active path and exact visual specification remains open. |
+| CardMore action sheet | DOC-06B / DOC-06C / DOC-09 | Partial to strong | The accepted four-action order (`Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, `Continue Payment`), category-scoped Bills/Rent handoffs, availability, return, configuration limits, and no-side-effect boundary are testable; the retired Request Payment action is not an active path and exact visual specification remains open. |
 | More and shortcut management | DOC-06B / DOC-15 / DOC-18 / DOC-22 | Partial to strong | `MORE-ROOT` Normal/Manage modes, 8-slot maximum, protected More entry, account-level preferences, accessible add/remove/reorder, current-default restore, availability precedence, unsaved-change handling, and secondary-service handoffs are testable; final visual styling and optional replacement Undo remain open. |
 | Notifications route family | DOC-06B / DOC-08 / DOC-15 | Partial to strong | Shared Inbox/Detail/Settings, independent signals, successful-content read, no Archive/Restore UI, immediate independent preferences, failed restoration/expired-operation invariant and consent/device separation are human-testable; final styling, provider operations, and template wording remain open. |
 | BILLS-PAY / retired receive surface | DOC-06C | Partial to strong | Payer-side BILLS-PAY and separate Rent acquisition are testable; the former BILLS-RECEIVE/Receive surface is a retired non-active identifier only, and visual detail remains open. |
@@ -148,7 +148,7 @@ The DOC-06 user journey scope is satisfied when:
 - a temporary registration attempt creates no account, reserves no proposed identifier, permits an immediate new attempt after app exit, and performs atomic uniqueness recheck before account creation;
 - creation requires verified supported phone, required name/email and current email proof where needed, mandatory matching six-digit Login PIN, explicit Terms/Privacy and final uniqueness/attempt checks; Phone/provider entries share this flow without password/gender/Skip;
 - Full Login provides Phone/Email tabs with destination-specific OTP and Google/Apple, no password fields in those OTP views; provider-confirmed unchanged verified email avoids repeat OTP and changed/missing/unconfirmed email does not; no email match creates an account merge/link;
-- social-authenticated users may set their first PayPlus password through `ACCOUNT-SECURITY`, after which the action changes from `Set Password` to `Change Password`;
+- social-authenticated users may set their first CardMore password through `ACCOUNT-SECURITY`, after which the action changes from `Set Password` to `Change Password`;
 - provider linking and unlinking require fresh approved reauthentication, explicit confirmation, audit, and security notification, and the final usable login method cannot be removed;
 - phone is already verified at creation; identity and Payment Passcode remain financial gates. Done/Home directly invoke shared identity with actual caller; other financially blocked/activation contexts retain every actual missing requirement and current gate;
 - new-user Home's completion prompt is identity-only and disappears on confirmed identity completion; missing Payment Passcode alone does not revive the old generic checklist prompt;
@@ -156,12 +156,12 @@ The DOC-06 user journey scope is satisfied when:
 - authentication failure does not expose protected route history and keeps the user in the applicable authentication flow with a permitted retry or recovery path;
 - `AUTH-RECOVERY` provides Recovery Start, Check Email, Link Validation, New Password, Recovery Resolution, Support-authorized Setup, and Recovery Complete as internal screens or states without creating extra route IDs;
 - Check Email displays the destination address, a disabled resend action until its countdown ends, and `Cannot Access This Email`; it does not assume an email app or permit primary-email change within anonymous Recovery;
-- a provider-only account cannot create its first PayPlus password through anonymous Recovery and is directed to provider login or controlled Support;
+- a provider-only account cannot create its first CardMore password through anonymous Recovery and is directed to provider login or controlled Support;
 - successful password reset does not create a logged-in session, revokes active sessions and remembered authentication context, sends the required security communication, and returns to `AUTH-LOGIN-FULL`;
 - recovery preserves only an opaque intended-destination reference, revalidates that destination after successful login, and never preserves or auto-submits payment authorization state;
-- when self-service recovery cannot continue, PayPlus selects a safe redirect, waiting, Support, or Recovery Not Permitted resolution without disclosing protected account or capability information;
+- when self-service recovery cannot continue, CardMore selects a safe redirect, waiting, Support, or Recovery Not Permitted resolution without disclosing protected account or capability information;
 - authentication outcome and resolution presentation follows the mandatory DOC-07 matrix mechanism; exact Outcome IDs, Message IDs, approved copy, and final notification mappings remain open and must not be invented by implementation;
-- the active consumer actor is the Payer; an economic Payee may be an individual or institution/company and does not require a PayPlus User account;
+- the active consumer actor is the Payer; an economic Payee may be an individual or institution/company and does not require a CardMore User account;
 - phone verification, new-device 2FA, dormant-login reauthentication, and material-change confirmation touchpoints are represented;
 - payers have `HOME-ROOT` as their logged-in dashboard;
 - HOME-ROOT preserves the accepted section order and remains a presentation surface that consumes owner-published business content without becoming its business owner;
@@ -185,11 +185,11 @@ The DOC-06 user journey scope is satisfied when:
 - loaded zero candidates is Empty, failed retrieval is Error, blank Offer fields are not Error, Retry is section-scoped except for a bootstrap exception, and authorized stale/offline data disables unsafe actions or revalidates through the source route;
 - Home accessibility is not a separate mode or a resilience state; Home-specific complete Greeting output, carousel stop/resume, keyboard and non-swipe controls, focus/return behavior, section-state semantics, and platform naming/position/announcement practices are mapped here for later DOC-20 evidence;
 - Admin controls approved presentation rather than canonical business truth and cannot alter or suppress due dates, amounts, permissions, payment status, notification lifecycle, severity, Business Priority Rank, Upcoming, Recent Activity, Important Notice, obligations, or other business-owned facts; analytics, retention, event policy, configuration versioning, preference history, schema, and implementation remain with their formal owners;
-- Pay+ exposes the accepted four actions only; the retired `Request Payment` action and payer-to-payee linking are not active paths;
-- Pay+ `Pay a Bill` and `Pay Rent` open temporary category-scoped `BILLS-PAY` selection without changing saved Bills filters and do not bypass readiness or checkout gates;
-- Pay+ `Continue Payment` is disabled with no active pending Payment Instruction or continuable incomplete Checkout Workspace, opens one detail for exactly one managed item, and opens the Instructions list for more than one; review-blocked items remain visible but cannot continue;
-- standalone Pay+ Bill/Rent setup offers `Pay Now` only when payment-ready and otherwise shows the current readiness state; there is no request-origin return path;
-- Pay+ open/close, hidden-versus-disabled, unsaved-work protection, duplicate-activation prevention, and reduced-motion behavior follow DOC-06B;
+- CardMore exposes the accepted four actions only; the retired `Request Payment` action and payer-to-payee linking are not active paths;
+- CardMore `Pay a Bill` and `Pay Rent` open temporary category-scoped `BILLS-PAY` selection without changing saved Bills filters and do not bypass readiness or checkout gates;
+- CardMore `Continue Payment` is disabled with no active pending Payment Instruction or continuable incomplete Checkout Workspace, opens one detail for exactly one managed item, and opens the Instructions list for more than one; review-blocked items remain visible but cannot continue;
+- standalone CardMore Bill/Rent setup offers `Pay Now` only when payment-ready and otherwise shows the current readiness state; there is no request-origin return path;
+- CardMore open/close, hidden-versus-disabled, unsaved-work protection, duplicate-activation prevention, and reduced-motion behavior follow DOC-06B;
 - Payer Bill acquisition selects a controlled Bill Category before its Category-scoped Directory or `Provide Payee myself`, with a self-provided individual or institution/company remaining Category-bound. Rent uses its separate existing tenancy journey, not Bill Category/Directory/self-provided acquisition mechanics;
 - the authoritative Bill/Rent source supplies source facts and identity; Evidence supports verification and readiness but is not the source, Payable Basis, Payment Obligation, Checkout, or Payment;
 - payment-ready flows preserve the source -> Payable Basis -> applicable Payment Obligations -> one-basis Checkout Workspace -> allocations/funding -> immutable confirmed Payment -> Payment Applications separation;
@@ -208,7 +208,7 @@ The DOC-06 user journey scope is satisfied when:
 - users can manage tokenized cards and saved split-card profiles through `PAYMENT-PROFILE-ROOT` without creating wallet, stored-value, cashout, or payment authorization behavior;
 - the Payer can open permanent `ME-ROOT` from bottom navigation without a role switch; an economic Payee does not require a User account or a separate Payee runtime;
 - navbar-free My Account uses the current grouped order, standalone Notifications, at most one open group, search and actual-caller/query/group return; Bill/payment/history/growth/privacy/support entries retain their owners and Archived Data is not deleted because Make omits it;
-- Account Information shows editable nickname/display name that is not a login identifier, copyable PayPlus User ID, masked phone/email, and only `Not Verified`, `Processing`, `Verified`, `Failed`, or `Update Required` identity-verification status without exposing identity attributes, documents, provider payloads, payment credentials, evidence, or internal risk reasons;
+- Account Information shows editable nickname/display name that is not a login identifier, copyable CardMore User ID, masked phone/email, and only `Not Verified`, `Processing`, `Verified`, `Failed`, or `Update Required` identity-verification status without exposing identity attributes, documents, provider payloads, payment credentials, evidence, or internal risk reasons;
 - `Not Verified` offers Verify/Continue, `Processing` offers View Status without duplicate submission, `Verified` offers no verification action, `Failed` offers Verify Again/Get Help subject to retry controls, and `Update Required` offers Update Verification;
 - first-time `IDENTITY-VERIFICATION` opened during `ACCOUNT-ACTIVATION` does not require a pre-existing payment passcode; a `Verified` user cannot voluntarily re-verify, while an admin-required update may require passcode or approved reauthentication before new capture;
 - `PHONE-VERIFICATION` accepts Hong Kong `+852` numbers for launch, verifies possession by SMS OTP, keeps the old phone authoritative until replacement completes, and uses registered-email OTP plus new-phone SMS OTP after passcode or approved reauthentication for replacement;
@@ -270,7 +270,7 @@ The DOC-06 user journey scope is satisfied when:
 - checkout-applied rewards are selected in DOC-09 checkout after card/profile selection; viewing reward detail returns to the same checkout without selection, reservation, or consumption;
 - credential reveal, copy, or external-partner open does not mark a reward Used; authoritative outcomes, duplicate retries, unknown results, and terminal display follow DOC-13 and the status-display reference matrix;
 - issued reward records preserve instrument type, earning source, participant role where applicable, program, campaign/offer/entitlement source, and fulfilment method without presenting My Rewards as a wallet or stored balance;
-- users can open complete Card, Pay+, and Partner offer collections through `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` without treating category labels as routes;
+- users can open complete Card, CardMore, and Partner offer collections through `OFFERS-CARD-LIST`, `OFFERS-PAYPLUS-LIST`, and `OFFERS-PARTNER-LIST` without treating category labels as routes;
 - one Offer ID may belong to multiple discovery collections, appears once within each child list, and is suppressed from unintended repeated display on `OFFERS-ROOT` while remaining available in every relevant child list;
 - Offers child lists apply mandatory display gates and stable collection-specific admin priority without random reshuffling or MVP user sorting;
 - one payment card may qualify for multiple distinct offers without those offers being treated as duplicates;
@@ -352,6 +352,7 @@ The complete R1 intake is covered below without minting permanent IDs. Each row 
 ## 10. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.3.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.2.0 | 2026-11-13 | Canonical Writer: Mapped all PP-MVP-20261112-R1 M01–76/K00–22 local intake meanings to owner clauses and positive/negative/unknown/return acceptance; replaced obsolete auth/reminder/file/Inbox/Me assumptions without inventing stable IDs or executed tests. Corrected Bill-only Directory acquisition versus the separate Rent journey through the consolidated Specialist batch. |
 | 1.1.0 | 2026-08-22 | Added human-level acceptance coverage for the approved Tier 3 current-context resolver return, Tier 2 Payment/Evidence/Payout separation, Declaration/Save boundary, and separate Rent gate without defining routes, statuses, messages, mechanisms, or tests. |
 | 1.0.1 | 2026-08-21 | Aligned Recovery acceptance ownership with DOC-06B and the reviewed DOC-19 security-control contract without changing approved recovery behavior or creating implementation tests. |
