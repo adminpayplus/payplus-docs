@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06
 title: User Journey, UX Flow & Service Blueprint
-version: 1.3.0
+version: 1.4.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -46,7 +46,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06` |
 | **Title** | User Journey, UX Flow & Service Blueprint |
-| **Version** | `1.3.0` |
+| **Version** | `1.4.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -211,9 +211,9 @@ This matrix prevents the split from creating a false impression that all routes 
 | Bills / Rent / Tenancy | DOC-06C | DOC-06B for route entry/archive family; DOC-06A for lifecycle; DOC-09/DOC-12 for payment/evidence detail | Partially Defined | BILLS-PAY, BILLS-ACTIVITY, BILLS-EVIDENCE, BILLS-REMINDER, and `ARCHIVED-BILLS-LIST` have Payer-only working baseline rules; BILLS-RECEIVE is a retired stable ID with no active or runtime-reader behavior. |
 | Payment / Checkout | DOC-06B for route-level UI/UX; DOC-09 for Payment Domain architecture | DOC-06A/DOC-06C for source journey, entry, return, and handoff; applicable content, notification, technical, and acceptance owners | `PAYMENT-CHECKOUT` Defined Baseline | DOC-06B owns the adaptive Checkout Workspace presentation, entry, return, and handoff behavior. DOC-09 owns payment objects, invariants, and authoritative payment meaning. Detailed UI remains in DOC-06B rather than being duplicated here; exact content, visual, technical, prototype, validation, implementation, acceptance, and operational evidence remain pending with the applicable owners. |
 | Requests | DOC-06B | Documentation governance for append-only history | Retired active MVP / documentation evidence only | `REQUESTS-ROOT`, `REQUESTS-DETAIL`, and `REQUESTS-NEW` have no active behavior, runtime reader, replacement route, adapter, fallback or dormant runtime. Stable IDs remain non-active documentation lineage only. |
-| Instructions | DOC-06B for route UX; DOC-09 for payment-instruction behavior | DOC-06A/DOC-06C for entry or return touchpoints | Core Route Behavior Defined / Not Final Visual Design | `INSTRUCTIONS-ROOT` and `INSTRUCTIONS-DETAIL` distinguish pending pay-later instructions from incomplete funding, define permitted actions, and hand off to DOC-09 checkout/payment behavior. |
+| Instructions | DOC-06B for retained route UX; DOC-09 for Checkout continuation | DOC-06A/DOC-06C for existing entry/return touchpoints | Core Route Behavior Defined / Not Final Visual Design | Retain `INSTRUCTIONS-ROOT`/`INSTRUCTIONS-DETAIL` for incomplete Checkout Continue/Close/Expiry only. Deliberate pay-later setup, edits, cancellation and dedicated Pay Now caller are retired. |
 | Activity and Receipts & Statements | DOC-06B for global route shells | DOC-06A for receipt/history touchpoints; DOC-06C for bill/rent-specific activity; DOC-08 for receipts/statements; DOC-09/DOC-10/DOC-11 for payment/payout/refund facts | Working Baseline / Not Final Visual Design | Global Activity and Receipts & Statements remain separate. `RECEIPTS-ROOT` owns search and the document list; `RECEIPT-DETAIL` / `STATEMENT-DETAIL` open the shared in-app PDF preview, while list-level `Download` acts directly. |
-| Reminders | DOC-06C for bill/rent reminders | DOC-06B for shortcut/route shell; DOC-08 for notifications; DOC-09 for payment-instruction alerts | Working Baseline / Not Final Visual Design | Source-bound Bill B/D/I/period/inline preferences are defined in DOC-06C, with the narrow valid-D/missing-B preference-only exception; existing Rent `BILLS-REMINDER-LIST` / `BILLS-REMINDER-DETAIL` management and Instruction alerts remain separate. |
+| Reminders | DOC-06C for bill/rent reminders | DOC-06B for route shell; DOC-08 for notifications; DOC-09 for retained Checkout context | Working Baseline / Not Final Visual Design | Bill source-bound B/D/I/period/inline preferences and the narrow valid-D/missing-B exception remain; retained Rent `BILLS-REMINDER-LIST` / `BILLS-REMINDER-DETAIL` management and Checkout communications are separate. Dedicated Instruction alerts are retired. |
 | Offers and Rewards | DOC-06B for route shells and placement | DOC-13 for promotion, entitlement, instrument, lifecycle, and fulfilment logic; DOC-09 for authoritative payment meaning | Offers Child Lists and Rewards Defined / Not Final Visual Design | `OFFERS-ROOT` governs sectioned discovery; its child lists use multi-collection membership, root duplicate suppression, and stable ordering. `REWARDS-ROOT` governs issued rewards through Active and History views; `REWARD-DETAIL` shows full details and terms but does not create a second checkout path. `BILLS-PAY` remains an external DOC-06C handoff; DOC-06B owns adaptive Checkout presentation, DOC-13 owns benefit rules, and DOC-09 owns the underlying Payment Domain architecture and authoritative payment meaning. |
 | Me / Account | DOC-06B for route UX | DOC-06C/DOC-08/DOC-10/DOC-12/DOC-15/DOC-18/DOC-19/DOC-21/DOC-22 for domain handoffs | Core Account and active Archive root/list defined; archived-document identity provisional / Other Details Pending | `ME-ROOT`, account/security/privacy routes, Phone Verification, Identity Verification, Payment Passcode Set/Change/Reset, explicit login-method and Set/Change Password controls, active `ARCHIVED-ROOT` and active `ARCHIVED-BILLS-LIST` remain defined. `ARCHIVED-DOCS-LIST` is provisional and unreachable through active UI. Consumer Receiving Info is retired; its stable ID remains append-only documentation history only. |
 | Payment Profile / Cards | DOC-06B for route UX | DOC-09/DOC-15/DOC-19 for payment-domain, privacy, and security detail | Core Route Behavior Defined / Not Final Visual Design | `PAYMENT-PROFILE-ROOT` and its Cards/Profiles child screens manage tokenized cards and saved split-card profiles with a confirmed maximum of 6 cards; DOC-06B owns Checkout route-level UI/UX and DOC-09 owns authoritative payment meaning. |
@@ -243,7 +243,7 @@ Detailed journeys are in DOC-06A. Bills/rent/tenancy route behavior is in DOC-06
 | --- | --- | --- |
 | Outcomes, user-facing resolution presentation, wording, disclosures, and authorization language | DOC-06 identifies route/domain Outcomes and permitted Resolution Strategies. | DOC-07 |
 | Notifications, receipts, communication channels, delivery logging | DOC-06 identifies trigger points and route destinations. | DOC-08 |
-| Checkout, payment quote, funding, payment instruction, payment states | DOC-06 identifies entry, handoff, return, and status visibility. | DOC-09 |
+| Checkout, payment quote, funding, retained continuation and payment meaning | DOC-06 identifies entry, handoff, return and status visibility; deliberate Instruction is retired. | DOC-09 |
 | Payout and reconciliation | DOC-06 identifies user-facing payout or settlement visibility. | DOC-10 |
 | Refund, cancellation, reversal, dispute, chargeback | DOC-06 identifies user journey states and handoffs. | DOC-11 |
 | Evidence categories, OCR, verification, duplicate detection, payee verification | DOC-06 identifies UX capture/review points. | DOC-12 |
@@ -274,7 +274,7 @@ CardMore must not provide UX paths that create or imply:
 - marketplace escrow journeys;
 - automatic recurring payment unless separately approved.
 
-Deferred user payment instruction for single-card and split-card payment remains in scope under DOC-09 and is not automatic recurring payment.
+Deliberate deferred Payment Instruction for single-card/split-card payment is retired. Existing incomplete Checkout continuation remains under DOC-09, including its 30-day period, current revalidation, fresh authorization, Close/Expiry and preservation of confirmed financial history; it is not automatic recurring payment.
 
 ---
 
@@ -356,7 +356,7 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | `CardMore` is the preferred center bottom-nav action label and opens `PAYPLUS-ACTION-SHEET`. Wave 2 retains the four existing actions in their existing order after retiring Request Payment; exact visual specification remains open. | Defined Behavior / Not Final Visual Design |
 | `Add Bill / Rent` includes scan QR, upload evidence, and manual entry inside the setup flow; QR/upload is not a standalone instant-payment action. | Working Baseline |
 | CardMore `Request Payment` is retired from active MVP. No replacement Request or Linking action is created. | Retired active behavior |
-| CardMore `Continue Payment` is disabled with no active pending Payment Instruction or continuable incomplete Checkout Workspace, opens one `INSTRUCTIONS-DETAIL` when exactly one managed item exists, and opens `INSTRUCTIONS-ROOT` when more than one exists; review-blocked items remain visible but cannot continue. | Confirmed |
+| CardMore `Continue Payment` counts active continuable incomplete Checkouts globally: zero disables, exactly one opens `INSTRUCTIONS-DETAIL`, more than one opens `INSTRUCTIONS-ROOT`; owner-review-blocked items remain visible but cannot continue. Retired Instructions are not counted. | Confirmed |
 | Requests shortcut is retired without a replacement; remaining Home shortcuts and More retain their existing owner-controlled configuration boundaries. | Re-scoped Wave 2 baseline |
 | Dashboard shortcuts use a DOC-06B owner-approved catalog/default and may be configured through permitted DOC-22 execution; users may reorder eligible entries, override the default and restore the current owner-approved default. | Confirmed |
 | Important Notice presents one eligible Inbox-backed notification at a time. DOC-06B owns its Home session dismissal and body, source-action, Detail-close, and zero-state route behavior; DOC-08 and source owners retain notification and business meaning. | Defined Behavior / Not Final Visual Design |
@@ -372,7 +372,7 @@ This parent summary preserves the DOC-06 family decisions. Detailed decisions al
 | `BILLS-RECEIVE` is retired active Consumer Payee behavior; its stable ID remains only as non-active documentation lineage. | Retired active behavior |
 | `PAYMENT-CHECKOUT` identifies the `Defined baseline` checkout flow/screen group. DOC-06B owns its route-level adaptive Workspace UI/UX, entry, return, and handoff behavior; DOC-09 owns Payment Domain architecture, objects, invariants, and authoritative payment meaning. | Defined Baseline / Final Visual, Technical, and Validation Evidence Pending |
 | Bills activity route uses `BILLS-ACTIVITY` and `BILLS-ACTIVITY-DETAIL` only for payment, payout/transfer, failure, return, refund, and reversal activity linked to one Bill/Rent source context. Request, Evidence, ordinary edit and internal audit histories remain in their owning domains. | Working Baseline / Not Final |
-| Bill reminder preferences are source-bound inline detail/result controls under DOC-06C, not central/manual tasks or automatic payment. Existing Rent reminder list/detail/defaults and Payment Instruction alerts remain separate; the legacy valid-D/missing-B exception changes preferences only, not source/C1/projection truth. | Working Baseline / Not Final |
+| Bill reminder preferences remain source-bound inline controls, not central/manual tasks or automatic payment. Existing Rent reminder consumers and retained Checkout communication stay separate; dedicated Instruction alerts are retired. The valid-D/missing-B exception changes preferences only, not source/C1/projection truth. | Working Baseline / Not Final |
 | Bills evidence route treats Evidence as a bill/rent detail sub-flow, using `BILLS-EVIDENCE-DETAIL` and `BILLS-EVIDENCE-UPLOAD`; Evidence actions live inside bill/rent detail and extracted fields populate bill/rent details. DOC-12-owned Evidence status is one input to combined readiness, not readiness itself: it does not establish Payable Basis, Payment Obligation, destination/Payout readiness, risk clearance, Checkout eligibility or payer authorization. DOC-09, DOC-10 and DOC-14 own those separate dimensions, and the user-facing readiness presentation consumes their combined owner-controlled outcome. | Working Baseline / Not Final |
 | Evidence proves or supports an obligation but is not itself an obligation. A Request is not required for a Payer-created controlled Bill/Rent source, Payment or Payout; Bills use their accepted tiered Evidence treatment and Rent retains mandatory attached Evidence. | Confirmed |
 | Former Request lifecycle states remain append-only historical records only; no active Request state machine or dormant runtime is defined by Wave 2. | Retired active behavior |
@@ -396,7 +396,7 @@ The DOC-06 parent is acceptable when:
 - stable IDs are introduced progressively without forcing unfinished route detail;
 - authentication acceptance includes `ENTRANCE-ROOT`, the `AUTH-LOGIN` family, capability-aware `AUTH-RECOVERY`, `AUTH-REGISTRATION`, `ACCOUNT-ACTIVATION`, `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS`, with Outcome-to-Resolution handling, defined child-flow behavior, normal successful entry to `HOME-ROOT`, and approved contextual return;
 - all currently identified global product areas have stable destination IDs, including `PAYPLUS-ACTION-SHEET`, `MORE-ROOT`, the `NOTIFICATION-ROOT` family, and DOC-06B/DOC-09 `PAYMENT-CHECKOUT` under their route-UX/domain ownership split;
-- `PAYPLUS-ACTION-SHEET` acceptance covers the retained four-action order after retiring Request Payment, Category-first Bills handoff, separate Rent handoff, instruction-count routing, completion/return behavior, availability treatment, and no-side-effect boundary while final visual design remains open;
+- `PAYPLUS-ACTION-SHEET` acceptance covers the retained four-action order, Category-first Bills/separate Rent handoff, global 0/1/many incomplete-Checkout routing, completion/return, current availability and no-side-effect boundary while final visual design remains open;
 - `MORE-ROOT` acceptance covers one root with Normal and Manage modes, a default and maximum of 8 Home shortcuts including protected More, account-level preference override, accessible add/remove/reorder behavior, current-default restore, unsaved-change handling, availability precedence, and secondary-service handoffs;
 - the Notifications family identifies `NOTIFICATION-ROOT`, `NOTIFICATION-INBOX`, `NOTIFICATION-DETAIL`, and `NOTIFICATION-SETTINGS`, with Home/Me entry, source-aware return, successful-content reading with no Archive/Restore UI, owning-domain status/action separation, and preference handoffs;
 - the archive family keeps `ARCHIVED-ROOT` and `ARCHIVED-BILLS-LIST` active and Payer-accessible with ordinary parent-route return, while provisionally retained `ARCHIVED-DOCS-LIST` has no active entry, action or return contract and retired mixed-role Archive/Restore identifiers remain non-active documentation lineage only; Archive is a same-source visibility projection, DOC-10 payout/reconciliation blockers and DOC-11 refund/dispute/chargeback/case blockers remain effective, and detailed Restore/prior-version/Evidence-version behavior remains deferred to DOC-06B/DOC-06C with DOC-12/DOC-15/DOC-18 handoffs;
@@ -426,6 +426,7 @@ The DOC-06 parent is acceptable when:
 ## 12. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.4.0 | 2026-11-16 | Corrected family summaries for Instruction retirement and retained exact-Checkout continuation/global counts without changing route identity or owner boundaries. |
 | 1.3.0 | 2026-11-16 | Aligned the current name and the bounded DOC-18 business-recording versus future representation handoff. |
 | 1.2.0 | 2026-11-12 | Canonical Writer: Aligned PP-MVP-20261112-R1 parent surfaces/journeys/decisions to defining OTP/identity, source Save/reminder, Home, records/Statistics, document, notification and grouped Me owners without expanding route completion or implementation authority. |
 | 1.1.0 | 2026-08-22 | Aligned the family summary to the approved Tier 3 current-context and deliberate-resolver return, Tier 2 Payment/Evidence/Payout separation, proportionate Declaration, and unchanged Rent negative control without creating routes, statuses, notifications, mechanisms, or enablement. |

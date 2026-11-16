@@ -1,7 +1,7 @@
 ---
 document_id: DOC-10
 title: Payout & Reconciliation
-version: 1.2.0
+version: 2.0.0
 status: Founder Working Baseline
 owner: Payments / Finance
 reviewers:
@@ -45,7 +45,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-10` |
 | **Title** | Payout & Reconciliation |
-| **Version** | `1.2.0` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Finance |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Finance Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -108,7 +108,7 @@ Detailed specifications belong to:
 | Business days | Hong Kong holidays and non-business days postpone settlement and payout. Foreign/offshore payment methods may follow platform, issuer, acquirer, or foreign-market calendars. |
 | Split payment grouping | Same payer, payee, and obligation payments before cutoff on the same business day should normally group into one payout where permitted. |
 | Confirmed Payment handoff | Each eligible confirmed Payment handed off by DOC-09 may proceed to Settlement and Payout evaluation independently of whether its originating Checkout Workspace later completes, closes, or expires. |
-| Bill tier handoff | Tier 1 has no attached-Evidence release gate; Tier 2 Payout remains held until owner-approved official Bill Evidence is accepted; Tier 3 requires accepted Evidence and authorized approval. Rent retains its separate mandatory accepted-Evidence boundary before Payment and ordinary Payout controls. |
+| Bill tier handoff | Tier 1 has no attached-Evidence release gate. Tier 2 normally requires accepted official Bill Evidence; a separately authorized exception under Section 5 may release only its specified Evidence hold without marking Evidence accepted. Tier 3 requires accepted Evidence and per-transaction authorized human approval before executable Payment. Rent retains accepted Evidence before Payment and ordinary Payout controls. |
 | Selected transfer date | An owner-governed selected transfer date may delay payout but must not be earlier than applicable T+3 / settlement-ready timing and payout readiness checks. |
 | Batch processing | Normal non-red-flag payouts should support batch generation for bank processing. Direct bank API payout should remain a supported future option. |
 
@@ -139,13 +139,13 @@ A payout may proceed only when all required checks pass.
 
 | Check | Requirement |
 | --- | --- |
-| Payment status | Full payment or funded portion must be completed according to DOC-09. An overall partially funded Checkout Workspace must not be treated as fully completed; a deliberate Payment Instruction is a distinct DOC-09 object. |
+| Payment status | Full payment or funded portion must be completed according to DOC-09. An overall partially funded Checkout Workspace must not be treated as fully completed; the retired deliberate Payment Instruction feature is not required for continuation or Payout. |
 | Payment Application lineage | A confirmed Payment normally reaches Payout with one or more applicable Payment Applications. Under DOC-09's controlled late-confirmation exception, a confirmed Payment may temporarily have zero Applications: it remains a valid Payment but is not ordinarily Payout-ready until the applicable owner-controlled Settlement, reconciliation, or adjustment treatment permits it. |
 | Settlement | Upstream settlement must be confirmed or settlement-ready for the specific funded portion under approved rules. |
 | Payee / recipient status | The economic Payee, whether an individual or institution/company, must be eligible for the applicable payout. A CardMore User account is not required. |
 | Payout destination | The immutable authorization-time destination snapshot attached to the confirmed Payment must pass the applicable intended-Payee, Evidence, risk, compliance, and payout checks. Subsequent source changes must not alter the snapshot. |
 | Authoritative source and Evidence boundary | The Payer-controlled Bill/Rent source, applicable Evidence-to-Payee outcome, and payment-facing facts must support the payout context. No Request lifecycle, Payee acceptance, Linking relationship, or Consumer Receiving Info profile is a payout gate. |
-| Bill Tier Evidence and approval | Tier 1 consumes no attached-Evidence Payout gate. Tier 2 requires qualifying official Bill Evidence acceptance before the Evidence-related Payout gate may pass, even where Payment confirmed while review was pending. Tier 3 requires qualifying Evidence and the designated authorized approval. |
+| Bill Tier Evidence and approval | Tier 1 consumes no attached-Evidence Payout gate. Tier 2 normally requires qualifying official Bill Evidence acceptance even where Payment confirmed during review; a separately authorized Section 5 exception is a distinct release basis, not acceptance. Tier 3 requires accepted qualifying Evidence and the designated per-transaction authorized human approval. |
 | Rent Evidence | Rent retains mandatory attached Evidence accepted before Payment; no Bill Tier or Declaration can replace, waive, reduce or defer that requirement. |
 | Case or hold | An open material dispute, support case, operational, risk, refund, or chargeback hold may block payout under DOC-11 and DOC-14 without changing the authoritative Bill/Rent source or its visibility projection. |
 | Risk status | The applicable owner-controlled risk outcome must permit payout. |
@@ -161,14 +161,20 @@ Failed checks should route to pending, held, or exception status with an audit t
 Bill Tier Payout rules:
 
 - Tier 1 may proceed without attached Evidence only when every other applicable Payout gate passes.
-- Tier 2 Payment may be confirmed with ordinary Payment Applications while Evidence acceptance is pending; this is not the DOC-09 confirmed-but-unapplied late-confirmation exception. Payout remains held until acceptance and all other gates pass.
-- Tier 3 Payout remains blocked until qualifying Evidence, owner-authorized approval and every other gate pass.
+- Tier 2 Payment may be confirmed with ordinary Payment Applications while Evidence acceptance is pending; this is not the DOC-09 confirmed-but-unapplied late-confirmation exception. Payout normally remains held until acceptance and all other gates pass, unless the separately authorized Evidence-hold exception below applies.
+- Tier 3 requires accepted qualifying Evidence and per-transaction owner-authorized human approval before executable Payment/Provider Submission; those requirements and every other Payout gate remain applicable. AI preliminary assessment is neither acceptance nor human approval, and approval is not a permanent whitelist.
 - Communication-originated material cannot satisfy, substitute for or contribute to Tier 2/3 mandatory Evidence.
 - Evidence re-upload/rejection, approval, Payout hold, Refund, case, adjustment and reconciliation do not erase or rewrite Payment or Payment Application.
 - DOC-10 creates no automatic Refund rule. An unresolved hold follows DOC-11, Finance, Legal, partner and operational ownership.
 - The Tier 3 authority boundary is settled: an applicable designated Product/Risk/Compliance/Security owner authorizes approval and DOC-22 only executes the approved workflow. Exact role assignment, workflow, segregation and evidence remain later enablement/implementation inputs; DOC-22 cannot supply policy through configuration.
 
-For a Tier 2 Bill, a confirmed Payment remains confirmed Payment while any Evidence outcome and Payout condition remain separate. An Evidence-acceptance hold is a DOC-10 Payout-held condition and must not be presented by default as `Transfer pending`, which could imply that Payout execution has started. It does not create a Payout Submitted, Processing, Completed, recipient-received, or automatic Refund fact. DOC-06C may present current Bill context and DOC-07 may express only safe owner-supplied meaning; neither changes the Payout owner decision. DOC-19 remains a mechanism-neutral enforcement dependency and does not release, hold, or otherwise decide Payout.
+Normal eligible Payout requires no generic manual or dual approval. When Evidence was the only blocker, actual DOC-12 acceptance and passage of every other applicable gate return the item to ordinary readiness/release without another Payout approval.
+
+A separately authorized manual exception may permit release of a specified Evidence-related Payout hold while the Evidence remains not acceptable. The exception must preserve its recorded reason, supporting Evidence, applicable authorized approval, distinct actor/approver identities, time, scope and history. It releases only the identified Evidence hold: it does not mark Evidence accepted, waive another hold, replace Payer authorization or destination-snapshot/duplicate controls, bypass Rent or Tier 3 before-Payment requirements, or imply Payout submission, success or recipient arrival. Eligible business-case enumeration and exact operating implementation remain owner-defined later work; this is not a general override permission.
+
+For designated funds exceptions, the required approval must involve two different natural persons with Operations and Accounting capabilities. A qualified Admin may participate within the applicable authorization; one person changing roles cannot supply both approvals or approve their own action. Product/Risk/Compliance/Security/Payments retain applicable policy authority; Ops/Admin performs only permitted transaction execution. No Admin grade, role matrix, queue or backend design is selected here.
+
+For a Tier 2 Bill, a confirmed Payment remains confirmed Payment while Evidence outcome, an authorized exception and the Payout condition remain separate. An Evidence-acceptance hold is a DOC-10 Payout-held condition and must not be presented by default as `Transfer pending`, which could imply execution has started. Neither acceptance nor exception approval creates a Payout Submitted, Processing, Completed, recipient-received or automatic Refund fact. DOC-06C/DOC-07 consume only current owner-supplied meaning. DOC-19 enforces applicable controls but does not decide release.
 
 This is DOC-10's traceability for the Founder-updated Evidence direction: Tier 2/3 consumes the DOC-12 owner-approved official Bill Evidence framework, formal document examples do not create acceptance, communication material is excluded, and Rent remains on its separate mandatory accepted-Evidence model. Category operating lists remain later owner inputs and block affected-path enablement and acceptance until supplied.
 
@@ -320,7 +326,7 @@ Rules:
 - payout item and payout batch must show that the payout is partial where applicable;
 - payee-facing wording must not imply the Payment Obligation is Fully Paid when Effective Coverage remains below Due Amount;
 - payer-facing receipt/history must distinguish confirmed Payment amount, paid-out amount, and obligation Outstanding Amount;
-- reconciliation must link each payout to its confirmed Payment, originating Funding Leg and Checkout Workspace, any existing applicable Payment Applications, settlement record, Payer, economic Payee, and destination snapshot without requiring a retired Request object or a Payment Instruction.
+- reconciliation must link each payout to its confirmed Payment, originating Funding Leg and Checkout Workspace, any existing applicable Payment Applications, settlement record, Payer, economic Payee and destination snapshot without requiring a retired Request or deliberate Payment Instruction feature.
 
 ---
 
@@ -346,7 +352,7 @@ Batch rules:
 CardMore should support:
 
 - generating a batch file for bank upload;
-- manual upload to bank portal where API is unavailable;
+- manual bank-portal upload as a retained MVP route, without requiring an automatic bank feed or bank API;
 - future direct bank API submission where supported;
 - preserving bank reference or API response for each item.
 
@@ -388,7 +394,7 @@ User-facing labels and notifications belong in DOC-07 and DOC-08.
 
 ## 12. Bank Record Ingestion
 
-Reconciliation may use one or more bank or partner evidence sources.
+Reconciliation may use one or more bank or partner evidence sources. MVP does not require an automatic bank feed; a permitted portal/file/manual-upload route remains valid when it supplies actual evidence, individual item outcomes and reconciliation.
 
 Supported patterns should include:
 
@@ -400,7 +406,7 @@ Supported patterns should include:
 - PSP/acquirer settlement report;
 - bank portal export.
 
-Where API or automated feed is unavailable, owner-permitted manual upload and review workflow may be executed under DOC-22. DOC-10 does not define its screens, queues, permissions, or dispositions.
+Owner-permitted manual upload and review may be executed under DOC-22 without making an API or automated feed a prerequisite. Manual handling must preserve actual bank/partner evidence and item-level outcomes; an operator selection cannot fabricate bank success. Missing, ambiguous or unknown results are not confirmed failure or success and do not authorize blind resubmission. DOC-10 does not select a bank, feed, format, matching algorithm, screen, queue or permission.
 
 Integration formats, API behavior, file validation, and provider-specific rules belong in DOC-17.
 
@@ -632,7 +638,7 @@ DOC-10 does not create a cross-domain activity model. DOC-06B is the sole normat
 | OQ-10-013 | What owner-governed intended-Payee/destination matching, external validation capability, proof, review, and failure-treatment requirements apply at launch? This is not a Consumer Receiving Info library or Payee-user runtime question. | Payments / Risk / Compliance / Operations / Security | Open |
 | OQ-10-014 | What technical normalization and matching across payout rails preserves G1's same-receiving-account/authoritative-payout-destination key without redefining economic Payee or the immutable destination snapshot? | Payments / Risk / Data / Engineering | Open; blocks G1 implementation, not the product invariant |
 | OQ-10-015 | What owner-controlled case, Refund/reversal, fee, liquidity and support treatment applies when a Tier 2 Payout hold cannot resolve? | Payments / Finance / Legal / Operations / DOC-11 | Open; blocks Payment-before-acceptance operational enablement |
-| OQ-10-016 | Which operating role assignment, workflow, segregation and approval evidence implement the settled Tier 3 owner-authority boundary for Payout release? | Product / Risk / Compliance / Security / Payments | Open later operating/security input; blocks Tier 3 enablement/implementation/acceptance until supplied |
+| OQ-10-016 | Which operating role assignment, workflow, segregation and per-transaction human-approval evidence implement the settled Tier 3 before-Payment authority boundary and its Payout consumption, without adding generic Payout approval? | Product / Risk / Compliance / Security / Payments | Open later operating/security input; blocks Tier 3 enablement/implementation/acceptance until supplied |
 
 ---
 
@@ -640,9 +646,11 @@ DOC-10 does not create a cross-domain activity model. DOC-06B is the sole normat
 
 DOC-10 is acceptable when:
 
-- payout readiness rules are clear;
+- payout readiness rules are clear and normal eligible Payout has no generic manual/dual approval gate;
 - Tier 1/2/3 Bill Evidence and approval Payout gates are separated from the unchanged Rent Evidence boundary;
-- Tier 2 confirmed Payment with pending Evidence acceptance is held without being misclassified as an unapplied Payment;
+- Tier 2 confirmed Payment with pending Evidence acceptance is normally held without being misclassified as an unapplied Payment; actual acceptance alone removes only that blocker and does not add a Payout approval;
+- a separately authorized Evidence-not-acceptable exception preserves reason, supporting Evidence, authority, identities and history, releases only its specified hold and does not fabricate acceptance, submission, success or arrival;
+- designated funds exceptions require two different authorized people with Operations and Accounting capabilities, including qualified Admin participation where authorized, and prohibit role-switch self-approval;
 - G1 receiving-account/authoritative-payout-destination matching remains distinct from economic-Payee identity and the immutable destination snapshot;
 - G2 reconciliation preserves proposed and actual confirmed obligation-funded values, excludes payer fees and does not net Refund/reversal into capacity;
 - no automatic Refund rule or DOC-22 policy authority is created;
@@ -653,7 +661,7 @@ DOC-10 is acceptable when:
 - payout from confirmed Payments is defined without treating the originating Checkout Workspace as fully funded;
 - a confirmed Payment with zero or insufficient Payment Applications is not ordinary Payout-ready; payout amount and readiness do not derive from unapplied or excess adjustment value, and any owner-controlled downstream resolution preserves the no-fabricated-coverage boundary;
 - payout batching and partial batch success rules are defined;
-- bank record ingestion and manual upload requirements are defined;
+- bank record ingestion and manual upload requirements are defined without mandatory automatic bank feed; unknown/missing results do not become failure/success or trigger blind resend, and manual action cannot fabricate a bank outcome;
 - successful individual payout matching rules are defined;
 - reconciliation process and exceptions are clear;
 - idempotency and duplicate prevention are required;
@@ -668,6 +676,7 @@ DOC-10 is acceptable when:
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.0.0 | 2026-11-16 | Drafted normal Payout without generic approval, separately authorized Evidence-not-acceptable hold exception, designated distinct-person funds controls and MVP manual bank-evidence route without mandatory automatic feed. |
 | 1.2.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.1.2 | 2026-08-31 | Corrected the limited §22 technical data-model allocation while preserving its valid integration, privacy, workflow-execution, business-recording/explainability-handoff, and DOC-10 acceptance meaning; detailed technical data representation remains deferred without selecting an owner. |
 | 1.1.1 | 2026-08-31 | Corrected the fifteen limited technical-allocation references while preserving DOC-10 Payout, Settlement, reconciliation, Finance, valid owner-handoff, `Payout Complete`, and HOME-ROOT meanings; technical representation remains deferred without selecting an owner. |

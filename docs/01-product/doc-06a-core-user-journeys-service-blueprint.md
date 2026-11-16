@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 1.3.0
+version: 2.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -42,7 +42,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `1.3.0` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
@@ -79,7 +79,7 @@ Immediate pay-now journey:
 8. preserve an existing Saved/current source without duplicate Save; otherwise consume the actual same-ID optional Save outcome under DOC-05 §10.1. Unknown Retry reconciles the original effect and Skip/exit does not prove cancellation, failure or history-only;
 9. an independently permitted receipt/public-proof artifact at confirmed Result may precede optional Save and returns there; it grants no general history/list or Save-from-Activity right. Other handoffs retain current source/access eligibility.
 
-For a Tier 3 Bill, a prepared Workspace may preserve current context but remains non-executable before qualifying Evidence and authorized approval. An owner-recorded approval keeps the Payer in, or returns the Payer to, the current Bill context; it does not navigate, notify, authorize, submit, or create Checkout. The Payer deliberately selects the current Bill `Pay` action to invoke the DOC-09 Checkout Resolver, which may Resume only after current revalidation confirms the Workspace is active, eligible, and continuable. For Tier 2, confirmed Payment, the current Evidence condition, and DOC-10 Payout hold or release remain separate; ordinary Evidence lifecycle is not Bills Activity. At Add Bill, deliberate confirmation of declared material facts precedes the separate Save-admission outcome, and Rent remains outside Bill tiers with accepted attached Evidence before Payment.
+For a Tier 3 Bill, a prepared Workspace may preserve current context but remains non-executable before accepted qualifying Evidence and per-transaction authorized human approval. An owner-recorded approval keeps the Payer in, or returns the Payer to, the current Bill context; it does not navigate, notify, authorize, submit, or create Checkout. The Payer deliberately selects the current Bill `Pay` action to invoke the DOC-09 Checkout Resolver, which may Resume only after current revalidation confirms the Workspace is active, eligible, and continuable. For Tier 2, confirmed Payment, the current Evidence condition, and DOC-10 Payout hold or release remain separate; ordinary Evidence lifecycle is not Bills Activity. At Add Bill, deliberate confirmation of declared material facts precedes the separate Save-admission outcome, and Rent remains outside Bill tiers with accepted attached Evidence before Payment.
 
 Failure or abandonment after Bill/Rent ID establishment may leave the source unprojected only when immediate pay ends before confirmed Payment, or deliberate Setup ends before its Saved/current projection is completed. Such an outcome does not by itself expose a Bills/Rent route or list entry or create a user-facing incomplete-source status. DOC-09 owns applicable payment-lifecycle continuation/recovery, DOC-15 owns retention governance and requirements, and DOC-18 owns only business recording and explainability; technical representation remains separately authorized. After confirmed Payment, preserve actual source/Save facts rather than fabricating a projection from departure; unknown reconciliation and the narrow result-artifact exception follow DOC-05 §10.1.
 
@@ -390,7 +390,7 @@ Before authorization, the payer should be shown:
 - description;
 - evidence;
 - payment method;
-- pay-now or deferred payment instruction choice where enabled;
+- current immediate-payment or existing eligible Checkout-continuation context, without deliberate pay-later setup;
 - funding leg and split-card summary where applicable;
 - quote validity, expiry, or recalculation notice where applicable;
 - selected payee transfer date where applicable;
@@ -407,16 +407,16 @@ Before authorization, the payer should be shown:
 3. System displays the final payment summary and effective destination; no Request or Payee acceptance flow is required for the Payer-created journey.
 4. System displays fee, promotion quote, discount, coupon/voucher impact, reward impact, and total charge where applicable.
 5. Payer selects or confirms the applicable funding method. Single-card funding may use an eligible default card. Multi-card funding may use an owner-confirmed current-Checkout allocation or Payment Profile capability. Where exactly one capability is available, the Workspace proceeds directly to that capability without a capability-selection step; direct entry does not silently select a specific profile, confirm an allocation, or authorize funding. Where two or more capabilities are simultaneously available, the payer selects the capability. The payer then completes the applicable funding configuration, review, and authorization.
-6. Payer chooses pay now or creates a deferred payment instruction where enabled.
+6. Payer deliberately proceeds with the current Pay action or eligible existing Checkout continuation; no deliberate pay-later Instruction is created.
 7. Payer accepts required terms or disclosures for the selected action.
 8. Payer enters payment passcode or completes confirmation required for the selected action.
 9. System applies any required step-up authentication, such as new-device, risk, amount, or partner challenge.
 10. If paying now, payer confirms authorization and payment processing begins through approved payment partner or sandbox integration.
-11. If creating a deferred payment instruction, system stores the payment context and returns the payer through payment-instruction reminder/action flow when payment submission is due.
+11. An interrupted or partly funded immediate Checkout remains its existing Workspace under DOC-09 Continue/Close/Expiry rules; it creates no deferred Instruction or dedicated reminder/action flow.
 12. On return, system revalidates payment quote, promotion quote, card eligibility, timing, and material terms before gateway submission.
 13. If material terms changed, payer reviews the updated checkout summary and confirms before submission.
 14. Payer completes required payment passcode, step-up, or partner challenge before actual funding submission where required.
-15. System records authorization, payment instruction, payment attempt, and status events as applicable.
+15. System preserves owner-required authorization, Checkout/funding-attempt and confirmed financial history; exact technical event representation remains separately gated.
 
 #### Authorization Rules
 
@@ -429,8 +429,8 @@ Before authorization, the payer should be shown:
 | Promotion visibility | Eligible discounts, service-fee benefits, coupons, vouchers, and reward impact must be displayed before authorization where applicable. |
 | Payment passcode | Payment passcode is required before payment authorization proceeds. |
 | Step-up authentication | DOC-09 owns payment-admission conditions, DOC-14 owns risk triggers/actions, DOC-15 owns privacy conditions, and provider owners supply applicable partner conditions; DOC-19 enforces the resulting security assurance requirement without deciding the trigger or outcome. |
-| Deferred instruction | A deliberate Payment Instruction must return the payer to checkout when submission is due; an interrupted immediate payment remains an incomplete Checkout Workspace and must resume through its preserved checkout context. |
-| Quote revalidation | Deferred instruction return flow must show updated payment, promotion, card, fee, or timing changes before submission. |
+| Retained Checkout continuation | Existing incomplete Checkout may continue only when active, eligible and continuable within DOC-09's 30-day boundary; Close/Expiry preserves locked Target and confirmed Payments/Applications. Deliberate pay-later Instruction setup/actions are retired. |
+| Quote revalidation | Existing Checkout return consumes current payment, promotion, card, fee, destination, eligibility, risk and timing facts before each separately authorized Provider Submission. |
 | Partial execution | Confirmed Payments must remain visible even when the Checkout Target is not fully funded. The remaining Checkout Target and the obligation Outstanding Amount must remain distinct and clear. |
 | Audit logging | Authorization must be logged. |
 | No hidden material terms | Material payment information must not be hidden from payer. |
@@ -513,8 +513,7 @@ The Payer-only MVP should support basic notifications for:
 
 - account registration;
 - payment authorized;
-- payment instruction pending user action;
-- payment instruction partially funded;
+- only existing owner-permitted incomplete Checkout continuation/partial-funding communications under DOC-08, without a replacement trigger or ID for retired Instruction alerts;
 - remaining split-card payment action due;
 - payment processing;
 - payment completed;
@@ -653,7 +652,7 @@ Core journey open questions should remain here when they affect Payer journeys, 
 | OQ-06-017 | What duplicate/reused evidence warning can be shown without over-disclosing sensitive information? | Product / Legal / Privacy | Open |
 | OQ-06-018 | What separate dormant-account reauthentication threshold, if any, should apply beyond the confirmed rolling one-month Fast Login eligibility period? | Product / Security | Partially open; Fast Login period defined |
 | OQ-06-019 | What exact masking, reveal, and role-based display rules should apply to each sensitive field by screen and category? | Product / Privacy / Security | Open |
-| OQ-06-020 | What exact payment-instruction screen labels, call-to-action wording, and partial-funded visual treatment should be used? | Product / Design / Legal | Open |
+| OQ-06-020 | Deliberate Instruction-specific wording is retired. What exact retained Checkout-continuation labels, CTA and partial-funding visual treatment remain required under DOC-06B/DOC-09? | Product / Design / Legal | Partially superseded; retained presentation Open |
 | OQ-06-021 | What exact CardMore iconography, measurements, spacing, blur strength, motion timing/easing, responsive treatment and accessibility implementation should be used within the confirmed four-action Payer-only order and behavior? | Product / Design / Payments | Partially open; composition, order, material meaning and Request Payment retirement are settled in DOC-06B |
 | OQ-06-022 | What route-level IA remains to be defined in DOC-06B for Support and other incomplete secondary routes? Me, More, Offers, Rewards, and Referral route boundaries are defined. | Product / Design | Open |
 | OQ-06-023 | What final styling and optional post-replacement Undo should apply to the defined `MORE-ROOT` behavior? The shortcut maximum, protected More entry, reorder/remove/add behavior, account-level preference, current-default restore, owner-approved default and permitted Admin-configuration mechanism are decided. | Product / Design / Operations | Partially open |
@@ -663,11 +662,12 @@ Core journey open questions should remain here when they affect Payer journeys, 
 | OQ-06-027 | What exact Bills tab visual layout, card density, status badge style, action-required treatment, and field masking rules should be used? | Product / Design / Privacy | Open |
 | OQ-06-028 | What evidence source selection UI should be used when bill, invoice, tenancy, rent demand, contract, and supporting evidence types are not obvious from upload/OCR? | Product / Design / Risk | Open |
 | OQ-06-029 | Retired: Founder confirmed there is no production Request/BILLS-RECEIVE runtime or legacy deep-link data requiring a reader, adapter or fallback. | Product / Design / Operations | Answered/retired |
-| OQ-06-030 | The reviewed DOC-06B Section 5.20 adaptive UI contract and decided Bill/Rent, Instruction `Pay Now`, and `NOTIFICATION-DETAIL`-first entry contracts establish route-level `PAYMENT-CHECKOUT` behavior as a Defined baseline without imposing one fixed screen order. DEC-2026-037 establishes the accepted DOC-07 logical Semantic, Disclosure, CTA, Reference, Registry, non-executable Composition, and Bounded Domain Slice architecture. Which remaining exact Copy, IDs, CTA labels, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical contracts, prototype and accessibility/user-validation evidence, implementation/UAT, and acceptance evidence must the applicable owners complete? | Product / Design / Payments | Partially open; route-level UI/UX, entry contracts, and logical communication architecture are decided, while exact expression and mappings plus named source-owner, technical, prototype, validation, implementation/UAT, and acceptance dependencies remain pending. |
+| OQ-06-030 | The reviewed DOC-06B Section 5.20 adaptive UI contract and decided Bill/Rent Pay, retained exact-Checkout continuation and general `NOTIFICATION-DETAIL`-first controls establish route-level `PAYMENT-CHECKOUT` behavior as a Defined baseline without imposing one fixed screen order. DEC-2026-037 establishes the accepted DOC-07 logical Semantic, Disclosure, CTA, Reference, Registry, non-executable Composition, and Bounded Domain Slice architecture. Which remaining exact Copy, IDs, CTA labels, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical contracts, prototype and accessibility/user-validation evidence, implementation/UAT, and acceptance evidence must the applicable owners complete? | Product / Design / Payments | Partially open; route-level UI/UX, entry contracts, and logical communication architecture are decided, while exact expression and mappings plus named source-owner, technical, prototype, validation, implementation/UAT, and acceptance dependencies remain pending. |
 
 ## 7. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.0.0 | 2026-11-16 | Retired deliberate deferred setup/action journeys and narrowed current Checkout return, revalidation and authorization coverage while retaining open detailed owner evidence. |
 | 1.3.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.2.0 | 2026-11-12 | Canonical Writer: Aligned PP-MVP-20261112-R1 core account/source/payment/history journeys and shared returns to accepted defining owners, preserving financial gates, actual Save truth, private/public boundaries and explicit production dependencies. |
 | 1.1.0 | 2026-08-22 | Aligned the Bill journey to approved Tier 3 current-context and deliberate-resolver return, Tier 2 separate Payment/Evidence/Payout treatment, and Add-Bill Declaration/Save boundary while preserving Rent, owner, and no-invention constraints. |

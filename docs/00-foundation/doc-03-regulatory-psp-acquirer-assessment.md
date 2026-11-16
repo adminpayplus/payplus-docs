@@ -1,7 +1,7 @@
 ---
 document_id: DOC-03
 title: Regulatory Assessment
-version: 1.1.0
+version: 1.2.0
 status: Founder Working Baseline
 owner: Compliance / Payments Owner
 reviewers:
@@ -48,7 +48,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-03` |
 | **Title** | Regulatory Assessment |
-| **Version** | `1.1.0` |
+| **Version** | `1.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance / Payments Owner |
 | **Reviewers** | Legal Lead<br>Compliance Lead<br>Payments Lead<br>Risk Lead<br>Finance Lead<br>Product Lead |
@@ -116,7 +116,7 @@ The working payout assumption is direct payout from the CardMore operating bank 
 
 The working KYC/KYB assumption is that individuals may complete eKYC through a selected provider and businesses may provide Business Registration documentation and owner ID, subject to applicable owner, legal, PSP/acquirer, privacy, security, and risk confirmation. No provider is selected by this document. Final provider selection, check depth, sanctions screening, exception handling, and risk-tier rules remain open.
 
-User payment instruction is a deferred user action model, not a recurring payment mandate. A saved instruction must not be treated as card authorization, capture, settlement, payout readiness, stored value, or completed payment until the user returns to submit and confirm the relevant funding leg through the approved payment flow.
+Deliberate user-created deferred Payment Instruction is retired. Existing incomplete Checkout continuation remains DOC-09-owned and is not recurring payment, standing card authorization, capture, settlement, Payout readiness, stored value or completed Payment. Every applicable Provider Submission retains current checks and fresh Payer authorization; no regulatory/partner approval or replacement product model is inferred.
 
 ---
 
@@ -643,6 +643,7 @@ This document must remain an assessment framework and must not become:
 ## 18. Revision History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.2.0 | 2026-11-16 | Product Documentation Team | Removed the active deferred Instruction product assumption while retaining incomplete Checkout and current authorization plus professional and partner assessment boundaries. |
 | 1.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.0.1 | 2026-08-21 | Product Documentation Team | Replaced the future DOC-19 marker with the reviewed mechanism-neutral security-control handoff while preserving provider, privacy, representation and professional PCI ownership. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |

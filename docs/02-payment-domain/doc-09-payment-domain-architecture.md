@@ -1,7 +1,7 @@
 ---
 document_id: DOC-09
 title: Payment Domain Architecture
-version: 2.2.0
+version: 3.0.0
 status: Founder Working Baseline
 owner: Payments / Product
 reviewers:
@@ -47,7 +47,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-09` |
 | **Title** | Payment Domain Architecture |
-| **Version** | `2.2.0` |
+| **Version** | `3.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Payments / Product |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead<br>Security Lead |
@@ -219,7 +219,7 @@ Configurable product values must not be treated as permanent architectural const
 | Effective Financial Adjustment | Separate downstream financial fact whose effective obligation-attributed amount reduces Effective Coverage. |
 | Effective Payout Destination Snapshot | Immutable authorization-time representation of the effective payee destination governing Payments produced by one Checkout Workspace. |
 | Payment Profile | Reusable payer-owned ratio template for allocating Checkout Target across saved cards. |
-| Payment Instruction | Deliberate user-created pay-later arrangement. |
+| Payment Instruction | Retired deliberate user-created pay-later feature; not an active Payment Domain object or a replacement name for incomplete Checkout. |
 | Declaration | Payer factual and intent declaration concerning Category, purpose, amount and Payee/receiving details under DOC-05/DOC-07 policy; it is not Save intent or Payment authorization. |
 | Bill Payment Progression | Product-semantic G1 counting unit for one independent user-initiated progression through one Bill Checkout context. It is not a Payment Domain aggregate, technical event, status or schema. |
 | C1 | Owner-approved Category single-Payment threshold consumed by DOC-09; policy authority remains with the designated product/risk owner and Category binding with DOC-12. |
@@ -610,7 +610,7 @@ This section consumes the approved DOC-05/DOC-12/DOC-14 product and control mean
 
 | Limit | DOC-09 consumption |
 |---|---|
-| C1 | Compare the proposed obligation-funded single Bill Payment amount, including an approved selected-period prepayment aggregate, with the current owner-approved Category value. C1 policy authority belongs to the designated product/risk owner; DOC-12 binds the Category and DOC-22 only executes approved configuration. Exact values, permitted adjustments, configuration representation and operating change details are later owner inputs and do not reopen the settled layering. |
+| C1 | Consume the sole DOC-05 Section 7.2 Category policy table and current approved backend configuration. If enabled, compare selected obligation-funded principal, including an allowed selected-period prepayment aggregate, not fees, total card charge or individual Funding Legs. A configured value of 0 disables that Category's C1 check only. DOC-12 binds the Category and DOC-22 executes only approved configuration; remaining operating/technical detail does not reopen settled values or meaning. |
 | G1 | Consume the product-semantic count of independent user-initiated Bill payment progressions to the same receiving account/authoritative payout destination in the Hong Kong calendar month. One Checkout progression counts once despite Funding Legs, Payment Attempts, Payments, retries, recovery or continuation. A genuinely new independent progression counts again. |
 | G2 | Pre-check confirmed Bill usage for the verified Payer account in the Hong Kong calendar month plus the proposed obligation-funded amount. Final usage records actual successfully confirmed obligation-funded value; payer fees are excluded. |
 
@@ -637,8 +637,8 @@ No trigger -> Tier 1
 | Scope | DOC-09 admission treatment |
 |---|---|
 | Bill Tier 1 | Declaration is required; attached Evidence is not. Every other applicable product, risk, legal, security, intended-Payee, destination, provider and Payer-authorization gate remains. |
-| Bill Tier 2 | Qualifying owner-approved official Bill Evidence presence is a Payment gate. Acceptance is not normally a Payment gate: Payment may confirm while verification remains pending, but DOC-10 holds Payout until acceptance and all other release gates pass. |
-| Bill Tier 3 | Qualifying official Bill Evidence and authorized approval are Payment and Payout gates. Approval is an admission gate before First Provider Submission. |
+| Bill Tier 2 | Qualifying owner-approved official Bill Evidence presence is a Payment gate. Acceptance is not normally a Payment gate: Payment may confirm while verification remains pending. DOC-10 owns the ordinary acceptance hold and any separately authorized, specified Evidence-hold exception; neither changes confirmed Payment truth. |
+| Bill Tier 3 | Accepted qualifying official Bill Evidence and per-transaction authorized human approval are required before executable Payment/First Provider Submission and remain applicable Payout gates. AI preliminary assessment is neither acceptance nor human approval; no permanent whitelist is created. |
 | Rent | Attached Evidence and the required accepted Evidence outcome remain Payment gates. Bill limits and tiers do not apply. A Rent-specific Declaration cannot replace or defer Evidence. |
 
 The Founder-updated framework permits DOC-12 to approve formal bills, fee notices, school payment notices, statements, invoices and formal historical receipts by Category; examples do not create acceptance. Communication-originated material cannot satisfy, substitute for or contribute to Tier 2/3 mandatory Evidence. Qualifying Evidence and acceptance remain DOC-12-owned. Tier 2 unresolved cases may use exception-only owner-approved review. Category operating lists remain enablement/acceptance inputs and block the affected Category path until supplied. DOC-22 cannot manufacture Evidence, admission or approval truth.
@@ -662,7 +662,7 @@ An owner-recorded approval outcome does not itself navigate, Resume, authorize o
 
 Declaration is not payer authorization. Unchanged declared facts require no new Declaration, and C1/G1/G2 re-evaluation alone is not a Declaration trigger. DOC-05/DOC-07 own materiality and proportionate reconfirmation for user changes; DOC-09 consumes current declared facts and continues to require separate authorization for every applicable Provider Submission.
 
-Add a Bill applies C1 only as Save admission and does not create G1/G2 usage or reservation. Pay a Bill re-evaluates current C1/G1/G2. Save, no-Save and Archive do not authorize Payment or change the Payment Domain facts.
+Add a Bill compares source Bill Amount against enabled C1 only as Save admission and does not create G1/G2 usage or reservation. C1 configured as 0 does not create a zero cap. Pay a Bill re-evaluates current C1/G1/G2 against its selected principal/allowed prepayment aggregate, excluding fees and card-charge/per-leg amounts. Every other gate remains applicable. Save, no-Save and Archive do not authorize Payment or change Payment Domain facts.
 
 At Add Bill, the Payer's review and deliberate confirmation of declared material facts precede the separate Save-admission outcome. An owner-confirmed non-material edit uses ordinary Save; a material edit receives the owner-defined proportionate reconfirmation. Current C1/G1/G2 re-evaluation alone does not repeat Declaration. A no-Save outcome does not by itself reject the source or determine current Payment eligibility: any current Payment progression must resolve its own current Tier, Evidence, approval, destination, risk, security and authorization gates.
 
@@ -1082,7 +1082,7 @@ A controlled late-confirmation process must not restore continuation to a closed
 
 ---
 
-## 22. Payment Profile, Funding Allocation and Payment Instruction
+## 22. Payment Profile, Funding Allocation and Checkout Resolution
 
 ### 22.1 Payment Profile
 
@@ -1098,38 +1098,26 @@ Payer may adjust proposed Funding Allocation before Provider Submission.
 
 After first Provider Submission, Section 15 applies.
 
-### 22.2 Payment Instruction
+### 22.2 Retired Deliberate Payment Instruction
 
-Payment Instruction is a deliberate pay-later arrangement.
+The deliberate user-created pay-later Payment Instruction feature is retired, including create, update, cancel, date/target changes, Instruction-source-add draft return and its dedicated `Pay Now` caller. It creates no current object, action, notification or execution requirement. This retirement does not assert that production Instruction records are absent and does not authorize a migration, reader or adapter.
 
-An interrupted immediate Checkout remains an incomplete Checkout Workspace and does not automatically become a Payment Instruction.
+An interrupted or partly funded immediate Checkout remains its existing Checkout Workspace. The retained `INSTRUCTIONS-ROOT` / `INSTRUCTIONS-DETAIL` route identities manage that Checkout continuation under Section 21; they do not reinstate pay-later setup or rename Checkout.
 
-Instructions route may display both while preserving their separate business meanings.
+### 22.3 Retained Checkout Resolver
 
-### 22.3 Instruction `Pay Now` Checkout Resolver
+The existing Checkout Resolver remains a domain-resolution operation for current owner-approved Bill/Rent Pay and eligible Checkout continuation. It is not a route, screen, Checkout state, machine-state enum, event, Funding Leg or Provider Submission. The retired Instruction-specific caller confers no entry authority.
 
-Instruction `Pay Now` invokes the Checkout Resolver. It does not unconditionally create, activate, or resume a predetermined Checkout.
-
-The Checkout Resolver is a domain-resolution operation. It is not a route, screen, Checkout state, machine-state enum, event, Payment Instruction type, Checkout object, Funding Leg, or Provider Submission.
-
-For an authenticated payer, the resolver must:
-
-1. verify that the Payment Instruction remains valid for that payer;
-2. resolve the instruction's current Bill/Rent Payable Basis and source/return context;
-3. revalidate current Payment Obligation, evidence, eligibility, timing, and applicable control conditions;
-4. determine whether an active Checkout exists for the same Payable Basis and, after current revalidation, whether it remains eligible and continuable for Resume;
-5. resume that existing Checkout when it remains active, eligible and continuable, and otherwise resolve its current condition before any new Checkout is considered;
-6. permit a later eligible Checkout only when no active continuable Checkout exists and current eligibility permits creation; and
-7. otherwise return an explicit Payment Instruction or source-owner resolution without creating or reactivating Checkout.
+For an authenticated Payer and current source context, resolve the existing Bill/Rent Payable Basis and revalidate applicable Payment Obligation, Evidence, eligibility, timing and controls:
 
 | Resolver result | Payment Domain treatment |
 | --- | --- |
-| An active Checkout remains eligible and continuable for the same Payable Basis | Resume that existing Checkout after current revalidation. Do not create another Checkout. |
-| An active continuable Checkout exists but current conditions do not permit Resume | Resolve the existing Checkout condition explicitly. Do not create a second Checkout while the active continuable Checkout exists. |
-| No active continuable Checkout exists and current eligibility permits creation | A later eligible Checkout may be created against the same Payable Basis. Earlier Checkouts remain authoritative in their recorded non-continuable condition. |
-| The instruction is stale, withdrawn, expired, ineligible, unavailable, or fails an applicable current control | Return the applicable instruction/source-owner resolution. Do not create, resume, or reactivate Checkout. |
+| An active Checkout remains eligible and continuable for the same Payable Basis | Intentionally Resume that existing Checkout after current revalidation. Do not create another Checkout. |
+| An active continuable Checkout exists but current conditions do not permit Resume | Resolve its current condition explicitly. Do not create a second Checkout while it remains active and continuable. |
+| No active continuable Checkout exists and a current source-owned Pay action is eligible | A later eligible Checkout may be created against the same Payable Basis. Earlier Checkouts retain their recorded non-continuable condition. Continuation of an existing Checkout is not authority to create a replacement. |
+| Current conditions do not permit the action | Return the applicable current source-owner or historical resolution without creating, resuming or reactivating Checkout. |
 
-Payment Instruction and Checkout remain separate objects. Invoking the resolver does not convert the instruction into a Checkout, convert an incomplete Checkout into a Payment Instruction, or rewrite either object's recorded history.
+Resolver entry does not convert an incomplete Checkout into a pay-later Instruction, rewrite prior history or reactivate a closed or expired Checkout.
 
 Before Resume, creation, or any Provider Submission, applicable obligation, evidence, eligibility, timing, fees, benefits, funding, destination, risk, security, and payer-authorization conditions must be revalidated by their owners. Prior authorization, notification content, delivered-message state, stored quote, provider return, or earlier eligibility evidence must not be treated as current authority.
 
@@ -1239,8 +1227,8 @@ The following remain outside DOC-09 architecture ownership:
 - final user-facing Outcomes, Messages and CTAs;
 - notification IDs, channels and delivery rules;
 - operational service levels and support procedures.
-- C1 Category values, permitted adjustments, configuration representation and operating change details under the settled designated product/risk authority;
-- Tier 3 approval role, authority and segregation requirements;
+- C1 permitted adjustments, configuration representation and operating change details under designated product/risk authority; initial Category values and 0-disable meaning are settled in DOC-05 Section 7.2;
+- Tier 3 operating role, workflow, segregation implementation and approval evidence; the designated policy-authority boundary and per-transaction human-approval requirement are settled;
 - G1 technical event/representation and cross-rail receiving-destination normalization;
 - concurrency mechanism for C1/G1/G2 admission;
 - official Bill Evidence qualifying types and owner acceptance rules.
@@ -1347,8 +1335,8 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 58. DOC-09 does not select a machine-state design.
 59. Adjustment workflow remains with DOC-11.
 60. Outcomes, Messages and CTAs remain with DOC-07.
-61. Instruction `Pay Now` invokes the Checkout Resolver rather than unconditionally creating, activating or resuming Checkout.
-62. Payment Instruction and Checkout remain separate objects before, during and after resolver execution.
+61. Retired: Instruction-specific `Pay Now` caller criterion; the feature is not active. The retained common resolver remains governed by Section 22.3.
+62. Retired: active deliberate Instruction object criterion. Incomplete Checkout remains Checkout and no replacement object or historical rewrite is introduced.
 63. An active continuable Checkout for a Payable Basis must be resolved before another Checkout is created; Resume requires current eligibility and continuability.
 64. A later eligible Checkout may be created only after no active continuable Checkout remains, without erasing, rewriting, invalidating or reactivating an earlier historical Checkout.
 65. Notification content, delivery and stored snapshots do not establish current Checkout eligibility, authorization, Provider Confirmation or payment result.
@@ -1362,7 +1350,7 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 73. Tier 2 blocks Payment until qualifying official Bill Evidence is present, permits Payment while acceptance is pending where every other gate passes, and keeps Payout release outside DOC-09.
 74. Tier 3 permits a prepared but non-executable Checkout Workspace and prohibits executable authorization, Provider Submission and confirmed Payment before owner-approved admission approval.
 75. Rent remains outside Bill C1/G1/G2 and tiers; accepted attached Evidence remains a Rent Payment gate and cannot be replaced by Declaration.
-76. C1 consumes an owner-approved Category value without assigning policy authority to DOC-09 or DOC-22.
+76. C1 consumes the sole DOC-05 policy table/current backend configuration without assigning policy authority to DOC-09 or DOC-22; 0 disables only C1, and selected principal/allowed prepayment aggregate excludes fees, total charge and per-leg comparisons.
 77. G2 pre-check uses confirmed monthly Bill usage plus the proposed obligation-funded amount and excludes payer fees.
 78. G2 final usage records actual successfully confirmed obligation-funded value, including partial funding without rewriting Checkout Target.
 79. Confirmed Payment remains in original-month G2 usage after Refund/reversal; only confirmed duplicate/error correction restores capacity.
@@ -1378,6 +1366,7 @@ DOC-09 is satisfied when implementation and downstream specifications demonstrat
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 3.0.0 | 2026-11-16 | Product Documentation Team | Retired deliberate pay-later Instruction and its dedicated caller while preserving common resolver, thirty-day continuation, immutable funding/history and current C1/approval consumption. |
 | 2.2.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 2.1.2 | 2026-09-01 | Product Documentation Team | Removed or qualified sixteen legacy technical-allocation statements while preserving Payment, replay, Payment Application, G1, Evidence/Rent, Payout, external-observation, risk, privacy, security and owner-boundary meaning; no technical recipient or implementation decision selected. |
 | 2.1.1 | 2026-08-25 | Product Documentation Team | Aligned the Provider Confirmation handoff with the reviewed DOC-17 provider-neutral External Interaction Contract and DOC-18 representation ownership without changing Payment meaning, provider mechanics, transport, events, schemas, statuses, or implementation. |

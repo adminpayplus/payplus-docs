@@ -1,7 +1,7 @@
 ---
 document_id: DOC-01
 title: Product Overview & Positioning
-version: 1.2.0
+version: 2.0.0
 status: Founder Working Baseline
 owner: Product Owner
 reviewers:
@@ -35,7 +35,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-01` |
 | **Title** | Product Overview & Positioning |
-| **Version** | `1.2.0` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product Owner |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Commercial Lead |
@@ -94,7 +94,7 @@ CardMore should remain data-disciplined. Material account, Evidence, Bill/Rent, 
 | Acquirer / MCC | Acquirer undecided; appropriate or special MCC treatment remains subject to acquirer confirmation. |
 | Payout model | Expected operating-bank payout after upstream settlement; Hong Kong candidate rails include FPS, cheque and EPS, subject to final setup. |
 | Multi-card support | MVP maximum of 6 cards per payment/profile, with narrower owner-controlled restrictions where applicable. |
-| User Payment Instruction | MVP scope under DOC-09; not recurring payment. |
+| Checkout continuation | Existing incomplete Checkout remains MVP scope under DOC-09; deliberate user-created pay-later Payment Instruction is retired, not replaced by recurring payment. |
 | Settlement timing | Expected T+1 to T+3 upstream settlement and same-day downstream payout after settlement, subject to approval. |
 | KYC/KYB | Provider and final depth remain open; institutional programme enrolment is not transaction eligibility. |
 | Notification | Institutional/company Payees are not notified. A governed individual may receive an optional Payer-initiated one-way notification under specialist controls. |
@@ -163,7 +163,7 @@ DOC-05 owns detailed product-policy roles. An institution may enrol in the bound
 | Save or no-Save | Deliberate Setup makes the same authoritative Bill/Rent identity Saved/current without Payment. In immediate pay-now, an otherwise-unsaved source becomes Saved/current or history-only only after confirmed Payment, Payment Result and the optional Save resolution. Save never creates payment authorization. |
 | Card-funded payment | Payer funds an eligible Payment through a supported card source. |
 | Multi-card payment | Payer may use up to 6 cards per payment/profile subject to narrower owner controls. |
-| User Payment Instruction | Payer may pay immediately or create a deliberate deferred instruction under DOC-09. |
+| Checkout continuation | Payer may continue an existing eligible incomplete Checkout under DOC-09, preserving 30-day/Close/Expiry and confirmed history; deliberate deferred setup is retired. |
 | Payout and reconciliation | CardMore applies approved settlement, payout and reconciliation controls for the intended economic Payee. |
 | Receipt, Activity and audit | Payment remains visible through Activity/Payment History/Receipt even when its Bill/Rent source is history-only. |
 | Optional individual notification | Payer may initiate a separately permitted one-way notification to a governed individual Payee; it is not Request, Linking, acceptance or authorization. |
@@ -256,7 +256,7 @@ The narrow controlled MVP includes:
 - bounded Institutional Payee Programme;
 - Evidence capture and verification;
 - authoritative Bill/Rent source identity and Save/history-only/Archive projections;
-- payment quote, card authorization, multi-card payment and Payment Instructions;
+- payment quote, card authorization, multi-card payment and retained incomplete Checkout continuation;
 - payout, settlement, receipts, reconciliation and audit;
 - optional individual-only one-way notification under specialist controls;
 - refunds, cancellations, disputes, chargebacks and exceptions;
@@ -565,6 +565,7 @@ This document remains a concise charter and must not become a detailed PRD, lega
 ## 24. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.0.0 | 2026-11-16 | Product Documentation Team | Retired deliberate pay-later Instruction scope while retaining owner-governed incomplete Checkout continuation, fresh authorization and confirmed history. |
 | 1.2.0 | 2026-11-16 | Product Documentation Team | Adopted CardMore as the current product name without changing the formal document title or product boundaries. |
 | 1.1.0 | 2026-11-13 | Canonical Change Integrator | Synchronized only the high-level immediate-pay post-Result summary with the reviewed DOC-05 actual-Save and independently permitted result-artifact contract under the exact R1 scope addendum; no source-owner policy, approval status, implementation or Git publication was changed. |
 | 1.0.1 | 2026-08-27 | Product Documentation Team | Aligned same-Bill Category amendment and prior-history meaning with the reviewed DOC-18 business-recording Draft, and removed current technical-representation implications. |

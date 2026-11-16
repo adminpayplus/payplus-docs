@@ -1,7 +1,7 @@
 ---
 document_id: DOC-04
 title: Compliance Control Framework
-version: 1.1.0
+version: 2.0.0
 status: Founder Working Baseline
 owner: Compliance Lead
 reviewers:
@@ -55,7 +55,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-04` |
 | **Title** | Compliance Control Framework |
-| **Version** | `1.1.0` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Compliance Lead |
 | **Reviewers** | Legal Lead<br>Risk Lead<br>Security Lead<br>Privacy Lead<br>Payments Lead<br>Product Lead<br>Engineering Lead<br>Operations Lead<br>Finance Lead |
@@ -98,7 +98,7 @@ CardMore controls must support the following objectives.
 | `OBJ-DOC04-001` | Payments must be tied to an accepted controlled Bill source within the twelve accepted controlled Bill Categories or the separate Rent journey. |
 | `OBJ-DOC04-002` | Payment contexts must reference authoritative Bill/Rent sources supported by applicable Evidence outcomes. |
 | `OBJ-DOC04-003` | Payers must review and authorize payment before funding, capture, or payout. |
-| `OBJ-DOC04-004` | No source, Evidence outcome, or Payment Instruction automatically triggers payment; Payer authorization remains required. |
+| `OBJ-DOC04-004` | No source, Evidence outcome or Checkout continuation automatically triggers payment; fresh Payer authorization remains required for each applicable Provider Submission. |
 | `OBJ-DOC04-005` | The intended economic Payee and effective destination must satisfy applicable verification and Payout conditions. |
 | `OBJ-DOC04-006` | Prohibited and restricted categories must be blocked or routed to review. |
 | `OBJ-DOC04-007` | Arbitrary P2P, self-payment, cashout, stored value, and wallet-like activity must be prevented. |
@@ -199,8 +199,8 @@ The twelve accepted controlled Bill Categories and separate Rent journey are the
 | `CTRL-DOC04-AUTH-007` | `T1` | Source establishment, Evidence verification and Payment authorization remain distinct owner-governed outcomes; retired Request states have no active control meaning. | Product / Engineering | Applicable owner records |
 | `CTRL-DOC04-AUTH-008` | `T0` | Payment authorization is the Payer's separate funding authorization and is not replaced by source establishment or Evidence review. | Product / Legal / Engineering | Authorization record |
 | `CTRL-DOC04-AUTH-009` | `T1` | A material payment-relevant source or destination fact must be revalidated and freshly authorized as required by the applicable owners. | Product / Engineering | Owner-governed revalidation evidence |
-| `CTRL-DOC04-AUTH-010` | `T1 if payment instruction enabled` | A deferred user payment instruction must not be treated as card authorization, capture, settlement, payout readiness, or completed payment until the relevant funding leg is submitted and confirmed. | Product / Payments / Engineering | Payment instruction and funding-leg logs |
-| `CTRL-DOC04-AUTH-011` | `T1 if payment instruction enabled` | Returning to a deferred payment instruction must revalidate material payment terms, including amount, fee, promotion quote, card eligibility, timing, and required disclosures before funding submission. | Product / Payments / Growth / Engineering | Quote revalidation and user confirmation logs |
+| `CTRL-DOC04-AUTH-010` | Retired | Deliberate deferred Payment Instruction-specific control; no active feature or standing authorization is created. Existing Checkout authorization controls remain applicable. | Product / Payments / Engineering | Non-active stable-ID provenance |
+| `CTRL-DOC04-AUTH-011` | Retired | Deliberate Instruction-return quote revalidation control; retained Checkout/current-quote and fresh-authorization rules remain under DOC-09/DOC-13. | Product / Payments / Growth / Engineering | Non-active stable-ID provenance |
 
 ---
 
@@ -406,8 +406,8 @@ Required launch tests include:
 - missing evidence blocking;
 - duplicate bill, invoice, or rent detection where applicable;
 - payer authorization before funding, capture, or payout;
-- deferred user payment instruction is not treated as authorization, capture, settlement, payout readiness, or completed payment before funding submission;
-- returning to a deferred payment instruction revalidates payment quote, promotion quote, card eligibility, fee, timing, and required disclosures;
+- deliberate deferred Instruction setup/actions are retired; retained Checkout continuation does not imply authorization, capture, Settlement, Payout readiness or completed Payment;
+- existing Checkout continuation retains current payment/promotion quote, card eligibility, fee, timing/disclosure checks and fresh authorization under its owners;
 - material term lock after authorization;
 - intended-Payee/destination verification before Payout where required;
 - sanctions screening and escalation where required;
@@ -483,7 +483,7 @@ After launch, CardMore must monitor the following.
 | Area | Required Monitoring |
 | --- | --- |
 | Payments | Authorization rate, capture failures, payment failures, processor errors. |
-| Payment instructions | Pending instructions, expired instructions, incomplete split-card funding, reminder effectiveness, quote revalidation changes, and partial funding/payout exceptions. |
+| Checkout continuation | Retained incomplete split-card funding, Continue/Close/Expiry, quote revalidation and partial funding/Payout exceptions; deliberate Instruction-specific reporting is retired. |
 | Payouts | Payout success rate, payout failures, delayed payouts, returned payouts. |
 | Intended-Payee/destination verification | Applicable outcomes, verification failures and Payout destination failures. |
 | Retired Request capability | No active lifecycle metrics; documentation history only. |
@@ -687,6 +687,7 @@ It should not become:
 ## 25. Revision History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.0.0 | 2026-11-16 | Product Documentation Team | Retired Instruction-specific controls without reusing IDs and preserved current Checkout revalidation, authorization and partial-funding control coverage. |
 | 1.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.13.4` | `2026-08-13` | Product Documentation Team | Qualified Payout control evidence for confirmed Payment with valid sufficient Application lineage or an owner-controlled zero- or insufficient-Application resolution, without creating a Payout bypass or new mechanism. |

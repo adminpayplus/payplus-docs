@@ -1,7 +1,7 @@
 ---
 document_id: DOC-14
 title: AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification
-version: 1.1.0
+version: 2.0.0
 status: Founder Working Baseline
 owner: Risk / Compliance
 reviewers:
@@ -47,7 +47,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-14` |
 | **Title** | AML, Anti-Cashout, Fraud & Dynamic Auth Risk Control Specification |
-| **Version** | `1.1.0` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Risk / Compliance |
 | **Reviewers** | Product Lead<br>Compliance Lead<br>Risk Lead<br>Payments Lead<br>Operations Lead<br>Engineering Lead<br>Data Lead<br>Security Lead |
@@ -217,9 +217,9 @@ This section defines risk/control inputs and anti-abuse outcomes for the approve
 
 ### 7A.1 C1 ownership handoff
 
-C1 is the approved Category single-Payment threshold. C1 policy authority belongs to the designated product/risk owner; DOC-12 binds the applicable Category configuration, DOC-09 consumes it, and DOC-22 only executes approved configuration.
+C1 is the approved Category single-Payment threshold. DOC-05 Section 7.2 owns the sole policy/value table under designated product/risk authority; DOC-12 binds the Category, DOC-09 consumes it, and DOC-22 only executes approved configuration. DOC-14 owns risk meaning and does not duplicate the values table.
 
-DOC-14 owns the applicable risk rationale, high-value signals and proportionate risk outcomes. The approved C1 layering already assigns policy authority to the designated product/risk owner; DOC-14 must not claim exclusive product authority. Exact Category values, permitted adjustments, configuration representation and operating change details remain later owner-defined inputs that block affected configuration, enablement and acceptance until supplied.
+DOC-14 owns applicable risk rationale, high-value signals and proportionate outcomes without exclusive product authority. Initial values, backend configurability and zero-disable meaning are settled in DOC-05: 0 disables only that Category's C1, not a zero cap or an exemption from G1/G2, Evidence, AML, identity, destination or authorization gates. Save compares source Bill Amount; Pay compares selected principal/allowed prepayment aggregate, excluding fees, total card charge and per-leg amounts. Remaining adjustment bounds, precision/FX, technical representation and operating change mechanics stay owner-gated, not selected here.
 
 ### 7A.2 G1 receiving-destination frequency
 
@@ -256,9 +256,9 @@ No trigger -> Tier 1
 
 Tier 1 retains all applicable AML, sanctions, prohibited-purpose, anti-cashout, account-security, intended-Payee, destination, provider and Payer-authorization gates despite having no attached-Evidence requirement.
 
-Tier 2 requires qualifying owner-approved official Bill Evidence presence before Payment; acceptance remains a Payout gate. Unresolved cases may use exception-only owner-approved human review. The Founder-updated framework may include owner-approved formal bills, fee notices, school payment notices, statements, invoices and formal historical receipts; examples do not establish acceptance. Communication-originated material cannot satisfy, substitute for or contribute to mandatory Evidence. DOC-12 owns Category-specific qualification.
+Tier 2 requires qualifying owner-approved official Bill Evidence presence before Payment; acceptance remains the normal Payout gate, with any specified Evidence-hold exception separately authorized under DOC-10. Unresolved cases may use exception-only owner-approved human review. The Founder-updated framework may include owner-approved formal bills, fee notices, school payment notices, statements, invoices and formal historical receipts; examples do not establish acceptance. Communication-originated material cannot satisfy, substitute for or contribute to mandatory Evidence. DOC-12 owns Category-specific qualification.
 
-Tier 3 requires qualifying official Bill Evidence and mandatory authorized approval before executable Payment progression. A prepared Checkout Workspace may exist but remains non-executable before approval. The normative authority boundary is defined: the applicable designated Product/Risk/Compliance/Security owner defines approval, while DOC-22 only executes the approved workflow and cannot create approval truth. Exact operating role assignment, workflow, dual-control/segregation implementation and evidence remain later owner inputs that block Tier 3 enablement, implementation and acceptance until supplied.
+Tier 3 requires accepted qualifying official Bill Evidence and per-transaction authorized human approval before executable Payment progression or Provider Submission. AI preliminary assessment is neither Evidence acceptance nor human approval; approval is not a permanent whitelist. A prepared Checkout may remain non-executable context only. The existing designated Tier 3 policy-definition boundary remains: the applicable designated Product/Risk/Compliance/Security owner defines approval. Payments retains its existing authority for its owned Payment/Payout concerns, not an additional Tier 3 policy-definition seat. Authorized Ops/Admin may execute the approved transaction workflow and permitted human approval without acquiring policy-definition authority. Exact operating role assignment, workflow, segregation implementation and evidence remain later inputs blocking Tier 3 enablement, implementation and acceptance.
 
 ### 7A.5 Rent negative control
 
@@ -291,7 +291,7 @@ Risk decisioning may consume signals from:
 - user account status and verification status;
 - economic-Payee, landlord, business-payee and authoritative payout-destination/receiving-account facts without treating destination identity as Payee identity;
 - DOC-12 evidence verification outcome, duplicate indicator, mismatch indicator, confidence, user correction, and final evidence snapshot;
-- DOC-09 Bill Tier, C1/G1/G2 evaluation handoff, Payment Instruction, Checkout Workspace, Obligation Allocation, payable-capacity reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Provider Submission, confirmed Payment, Payment Application, authorization, step-up result, failure, retry, continuation, closure, and expiry history;
+- DOC-09 Bill Tier, C1/G1/G2 evaluation handoff, Checkout Workspace, Obligation Allocation, payable-capacity reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Provider Submission, confirmed Payment, Payment Application, authorization, step-up result, failure, retry, continuation, closure and expiry history;
 - DOC-10 payout readiness, destination change, payout hold, bank result, and reconciliation records;
 - DOC-11 refund, dispute, chargeback, reversal, recovery, and write-off cases;
 - DOC-13 campaign, offer, entitlement, reward, referral, coupon, voucher, membership, promotion quote reservation, and reversal records;
@@ -388,7 +388,7 @@ Step-up may also be required below the threshold when:
 - payment amount exceeds an owner-approved threshold;
 - risk score or rule result is elevated;
 - payment profile is new, changed, risky, or recently failed;
-- deferred payment instruction is pending, expired, repeatedly incomplete, or materially changed;
+- incomplete Checkout or unexecuted funding arrangements show an owner-governed risk pattern requiring current review;
 - card attempt pattern suggests testing or stolen-card use;
 - selected card is linked to card-fraud or PSP/acquirer warning;
 - multi-card pattern is unusual or repeatedly failing;
@@ -400,7 +400,7 @@ Step-up may also be required below the threshold when:
 
 Partner, network, regulatory, or risk rules may require stronger authentication regardless of amount and cannot be overridden by the CardMore threshold.
 
-Deferred payment instruction and partial funded-portion payout should be risk-monitored. Risk rules may warn, remind, hold payout, require step-up, route to review, or block where patterns suggest cashout, collusion, card testing, promotion quota holding, card-linked benefit testing, fraud, chargeback risk, or unsupported obligation use. Ordinary incomplete user action should not be treated as fraud by default.
+Incomplete Checkout and partial funded-portion Payout remain risk-monitoring contexts. Risk rules may warn, remind, hold payout, require step-up, route to review or block under existing owner policy where patterns suggest cashout, collusion, card testing, card-linked benefit testing, fraud, chargeback risk or unsupported obligation use. Ordinary incomplete user action is not fraud by default. Deliberate pay-later Instruction and its feature-specific quota-holding/reservation risk context are retired.
 
 Consumer Receiving Info is retired. Payer-entered destination facts remain in the controlled Bill/Rent journey and are assessed by the applicable Evidence, intended-Payee, risk, Payout and authorization owners.
 
@@ -421,9 +421,9 @@ Payout should be held when:
 - chargeback exposure is elevated;
 - admin, compliance, risk, legal, finance, PSP/acquirer, or bank review requires hold.
 
-For Bill Tier 2, qualifying Evidence presence may permit Payment while Evidence acceptance remains pending, but Payout must remain held until acceptance and every other release gate passes. For Bill Tier 3, Payout remains blocked until qualifying Evidence, authorized approval and every other release gate pass. Rent retains its existing Evidence-acceptance-before-Payment rule and subsequent Payout controls.
+For Bill Tier 2, qualifying Evidence presence may permit Payment while acceptance remains pending; Payout normally stays held until acceptance and other gates pass. DOC-10 may permit a separately authorized manual Evidence-not-acceptable exception releasing only its specified Evidence hold. It does not change Evidence truth, remove another hold or imply submission, success or arrival. Bill Tier 3 accepted Evidence and per-transaction human approval, and Rent accepted Evidence, remain before-Payment requirements and cannot be bypassed by that Payout exception.
 
-Payout release must require permission, reason code, evidence where applicable, and audit trail.
+Normal eligible Payout has no generic manual/dual approval. When Evidence is the only blocker, actual acceptance plus all other gates returns to normal readiness/release without extra Payout approval. Owner-permitted exception/hold release preserves permission, reason, supporting Evidence, actor/approver identities, time, scope and audit history. Designated funds exceptions require two different natural persons with Operations and Accounting capabilities; a qualified Admin may participate if authorized, but role switching cannot create a second person or permit self-approval. Exact Admin grades, role matrix and implementation remain open. Policy authority remains with the applicable Product/Risk/Compliance/Security/Payments owner, not the executing Ops/Admin.
 
 Risk handling consumes the authoritative source and applicable authorization-time destination snapshot. A later source change cannot rewrite immutable Payment/Payout facts; owner-governed revalidation and fresh authorization apply where DOC-09 requires them.
 
@@ -501,7 +501,7 @@ Detailed dashboards, alerts, incidents, and escalation procedures belong in DOC-
 
 ## 20. Configuration and Governance
 
-DOC-14 defines risk outcomes and owner-level reason requirements. The applicable formal owner determines configuration, approval, threshold, hold, audit and change-control detail under the settled C1 and Tier 3 ownership boundaries. C1 values/operating details and Tier 3 role/workflow/segregation implementation remain explicit later configuration/enablement inputs. DOC-22 may execute only a specifically owner-permitted workflow/configuration; this document does not define queues, permissions, overrides, technical configuration or an implementation mechanism.
+DOC-14 defines risk outcomes and owner-level reason requirements. The applicable formal owner determines configuration, approval, threshold, hold, audit and change-control detail under the settled C1 and Tier 3 ownership boundaries. DOC-05 settles initial C1 values and 0-disable meaning; remaining C1 operating detail and Tier 3 role/workflow/segregation implementation remain explicit later inputs. DOC-22 may execute only a specifically owner-permitted workflow/configuration; this document does not define queues, permissions, overrides, technical configuration or an implementation mechanism.
 
 Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning or makes the approved model impossible must be handled under the canonical CardMore Documentation Development Workflow.
 
@@ -518,13 +518,13 @@ Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Op
 | OQ-14-005 | What owner-governed duplicate/reused Evidence strictness applies to the accepted Bill inventory and separate Rent? | Risk / Product / Operations | Medium | Open |
 | OQ-14-006 | What risk-review SLA and escalation path applies for critical cases? | Operations / Risk | Medium | Open |
 | OQ-14-007 | What suspicious activity escalation or reporting process is required under the final legal/regulatory assessment? | Compliance / Legal | High | Open |
-| OQ-14-008 | What four-eye approval rules apply to payout release, risk hold release, block override, and account reinstatement? | Risk / Operations / Security | Medium | Open |
-| OQ-14-009 | What risk thresholds should apply to repeated abandoned or incomplete Checkout Workspaces, unusual split-card funding or payout patterns, and selected transfer-date changes? Deliberate Payment Instructions remain a separate risk context. | Risk / Payments / Product | Medium | Open |
-| OQ-14-010 | What thresholds should identify abusive deferred payment instruction patterns involving promotion reservation, quote revalidation, or card-linked benefit testing? | Risk / Growth / Payments | Medium | Open |
+| OQ-14-008 | Normal eligible Payout has no generic four-eye approval. Designated funds exceptions require two different people with Operations and Accounting capabilities, without role-switch self-approval. Which remaining operating authorization/segregation details and separately owner-required risk-hold, block-override or reinstatement controls apply? | Risk / Operations / Security | Medium | Partially decided; remaining operating/security inputs Open |
+| OQ-14-009 | What risk thresholds should apply to repeated abandoned or incomplete Checkout Workspaces, unusual split-card funding or payout patterns, and selected transfer-date changes? Deliberate pay-later Instructions are retired. | Risk / Payments / Product | Medium | Open |
+| OQ-14-010 | Retired: deferred Payment Instruction-specific promotion-reservation/quote/quota-abuse threshold question. Retained Checkout and promotion controls remain with their existing owners. | Risk / Growth / Payments | Medium | Superseded; no active Instruction feature |
 | OQ-14-011 | What model governance, feature registry, monitoring, explainability, and human-review requirements must exist before AI/model-assisted risk scoring is enabled? | Risk / Data / Privacy | High | Open |
 | OQ-14-012 | Which payer-payee, evidence, payout, device, card, support, and promotion graph signals may be used for risk review, and which are prohibited from marketing or partner reporting? | Risk / Privacy / Legal | High | Open |
 | OQ-14-013 | What owner-governed name-normalization, third-party/company proof, review and destination-failure rules apply to source-context destination facts without overstating external account validation? | Risk / Compliance / Operations | High | Open |
-| OQ-14-014 | What owner-approved C1 Category values, permitted adjustments, configuration representation and operating change details apply under the settled designated product/risk authority? | Product / Risk / Compliance | High | Open later configuration/enablement input; blocks affected configuration, enablement and acceptance until supplied |
+| OQ-14-014 | DOC-05 Section 7.2 settles initial C1 values, backend configurability and zero-disable meaning. Which remaining permitted adjustments, configuration representation and operating change details implement that policy? | Product / Risk / Compliance | High | Partially decided; remaining inputs block only affected configuration, enablement and acceptance |
 | OQ-14-015 | Which operating role assignment, approval workflow and segregation controls implement the settled Tier 3 owner-authority boundary? | Product / Risk / Compliance / Security / Payments / Operations | High | Open later operating/security input; blocks Tier 3 enablement, implementation and acceptance until supplied |
 | OQ-14-016 | What owner-approved normalization and technical representation preserve G1's same-receiving-account/authoritative-payout-destination product invariant across payout rails without redefining economic Payee? | Payments / Risk / Data / Engineering | High | Open; blocks implementation, not the approved product invariant |
 
@@ -546,7 +546,7 @@ DOC-14 is acceptable when it clearly defines:
 - the Bills-only scope and controlling Rent mandatory-Evidence negative rule;
 - bill, fee, rent, invoice, and approved-obligation risk treatment;
 - dynamic authentication risk triggers;
-- deferred payment instruction, incomplete split-card funding, and partial payout risk boundaries;
+- retired deliberate Instruction context, retained incomplete split-card funding and partial Payout risk boundaries;
 - payout hold and release controls;
 - refund, chargeback, promotion, referral, and reward abuse boundaries;
 - admin review, override, audit, monitoring, and configuration expectations;
@@ -571,6 +571,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.0.0 | 2026-11-16 | Product Documentation Team | Corrected C1 consumption, retired Instruction-specific risk context and clarified normal Payout versus specified exception, per-transaction human approval and distinct-person funds controls without granting Ops/Admin policy authority. |
 | 1.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | `1.0.2` | `2026-09-01` | Product Documentation Team | Clarified DOC-14 owner handoffs by removing or qualifying obsolete technical-representation allocations; risk-control meaning remains unchanged and technical representation remains deferred. |
 | `1.0.1` | `2026-08-21` | Product Documentation Team | Aligned security-fact consumption with DOC-19 controls and DOC-18 representation while preserving DOC-14 ownership of risk triggers, thresholds, actions, and outcomes. |

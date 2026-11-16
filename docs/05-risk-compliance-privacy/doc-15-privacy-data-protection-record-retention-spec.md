@@ -1,7 +1,7 @@
 ---
 document_id: DOC-15
 title: Privacy, Data Protection & Record Retention Specification
-version: 2.1.0
+version: 2.2.0
 status: Founder Working Baseline
 owner: Privacy / Compliance
 reviewers:
@@ -50,7 +50,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-15` |
 | **Title** | Privacy, Data Protection & Record Retention Specification |
-| **Version** | `2.1.0` |
+| **Version** | `2.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Privacy / Compliance |
 | **Reviewers** | Product Lead<br>Privacy Lead<br>Compliance Lead<br>Risk Lead<br>Security Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead<br>Legal Lead |
@@ -160,7 +160,7 @@ CardMore data should be classified by source, sensitivity, and permitted purpose
 | Authentication and Security Data | Login-method type and state, stable external-provider subject/reference, provider-link status, distinct registration/remembered Login PIN and Payment Passcode protection contexts, password-set status and hash where applicable, payment passcode hash, purpose-bound OTP events, device ID, session logs, remembered masked-email reference, Fast Login eligibility, login history, failed attempts, new-device flags, biometric unlock status. | Authentication, account linking, step-up, security monitoring, incident investigation. |
 | KYC / KYB Data | Provider reference, ID type, ID number, name, sex where returned, date of birth where required, nationality where required, Business Registration document, owner ID, verification outcome. | Onboarding, compliance, payee approval, risk control, dispute and chargeback evidence. |
 | Evidence and Obligation Data | Bills, invoices, tenancy agreements, contracts, OCR text, extracted fields, corrected fields, final evidence snapshot, landlord/payee details, property address, due date, amount, reference number. | Payment validation, autofill, payer review, payee verification, duplicate detection, audit, analytics. |
-| Payment and Funding Data | Bill/Rent Payable Basis reference, Projection inputs/outputs where retained, Payment Obligation, Due Amount, Effective Coverage, Outstanding Amount, Checkout Workspace, Checkout Target, Obligation Allocation, payable-capacity reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Provider Submission, Provider Confirmation reference, Payment, Payment Application, Effective Payout Destination Snapshot, deliberate Payment Instruction, deferred funding date, authorization record, payment token reference, masked card summary, permitted masked cardholder name, card nickname, card brand, expiry, issuer/BIN metadata where available, default-card marker, saved split-card profile name, profile ratios, starred/frequent marker, profile action-required state, step-up result, provider reference. | Payment processing, risk, reconciliation, chargeback defense, product analytics. |
+| Payment and Funding Data | Bill/Rent Payable Basis reference, Projection inputs/outputs where retained, Payment Obligation, Due Amount, Effective Coverage, Outstanding Amount, Checkout Workspace, Checkout Target, Obligation Allocation, payable-capacity reservation, Funding Allocation Version, Funding Leg, Payment Attempt, Provider Submission, Provider Confirmation reference, Payment, Payment Application, Effective Payout Destination Snapshot, authorization record, payment token reference, masked card summary, permitted masked cardholder name, card nickname, card brand, expiry, issuer/BIN metadata where available, default-card marker, saved split-card profile name, profile ratios, starred/frequent marker, profile action-required state, step-up result, provider reference. Deliberate pay-later Instruction/deferred-funding-date production is retired; any actual prior records, if present, retain existing privacy/retention treatment without an absence claim, deletion, migration or reader authorization. | Payment processing, risk, reconciliation, chargeback defense, product analytics under approved-purpose controls. |
 | Payout and economic-Payee Data | Source-context economic-Payee and owner-approved destination facts, authorization-time destination snapshot, Payout status, batch, bank reference and reconciliation result. | Payout execution, intended-Payee/destination verification, reconciliation, fraud prevention and support. |
 | Retired Participant-Linking Data | No active collection, runtime or reader; append-only documentation history only. | Documentation provenance only. |
 | Risk and Compliance Data | Risk score/band, rule triggers, AML/sanctions status, duplicate evidence signals, same-party indicators, fraud flags, payout holds, admin review outcome, escalation records. | Anti-cashout, fraud prevention, compliance control, monitoring, audit. |
@@ -591,6 +591,7 @@ It should not become:
 ## 20. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.2.0 | 2026-11-16 | Product Documentation Team | Removed active Instruction/deferred-date production from current funding-data enumeration without asserting prior records absent or authorizing deletion, migration or a reader. |
 | 2.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 2.0.0 | 2026-11-12 | Canonical Writer | Drafted PP-MVP-20261112-R1 OTP/phone-first registration and distinct PIN purposes, bounded email-change and seven-field public-proof privacy alignment; preserved lawful retention, access, recovery and technical-owner gates. |
 | 1.0.2 | 2026-08-27 | Product Documentation Team | Aligned approved-purpose history access, masking, visibility and retention with DOC-18 business recording, DOC-19 enforcement-only, DOC-21 consume-only and DOC-22 specifically permitted execution boundaries. |

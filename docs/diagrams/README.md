@@ -9,14 +9,14 @@ Diagrams help human reviewers and AI coding agents understand structure, flow, h
 
 | File | Purpose | Source / Owner |
 | --- | --- | --- |
-| `payplus-home-dashboard-mvp-wireframe.svg` | Visual reference for the DOC-06B designated Home Dashboard flow and layout baseline. It is not finalized UI design, visual design, component specification, or exact route-level screen specification. | DOC-06B |
+| `payplus-home-dashboard-mvp-wireframe.svg` | Qualified layout-hierarchy companion under DOC-06B Section 5.1, not finalized UI or source authority. Its deliberate Instruction-specific pay-later and `Instruction saved` / `Pending` examples are non-active and excluded from the current canonical baseline; the retained Instructions destination means existing Checkout continuation only. SVG bytes/layout are preserved, not replaced or designated wholly historical; this PI-specific qualification does not validate or clean up adjacent unrelated examples. | DOC-06B |
 | `routes/payplus-app-route-map.md` | Level 0 app navigation map. It stops at direct global destinations and route-family handoffs. | DOC-06B |
 | `routes/payplus-authentication-route-map.md` | Entrance, Fast/Full Login, Registration, Recovery, protected-context return, and the Account Activation handoff. | DOC-06B / DOC-07 / DOC-15 |
 | `routes/payplus-account-activation-route-map.md` | Account Activation entry contexts, contextual verification/passcode handoffs, and origin-aware return. | DOC-06B / DOC-15 / DOC-19 |
 | `routes/payplus-home-route-map.md` | Home, dashboard shortcuts, and direct dashboard-section handoffs. | DOC-06B |
 | `routes/payplus-action-sheet-route-map.md` | CardMore action-sheet actions, availability decisions, and destination handoffs. It does not define final visual design. | DOC-06B |
 | `routes/payplus-bills-route-map.md` | Bills, rent, evidence, activity, reminder, checkout, and Archive-family handoffs. | DOC-06C |
-| `routes/payplus-instructions-route-map.md` | Payment Instructions, checkout, and Payment Profile handoffs. | DOC-06B / DOC-09 |
+| `routes/payplus-instructions-route-map.md` | Existing Instructions-route Checkout continuation and permitted funding-support handoffs; deliberate pay-later setup/actions and dedicated notifications are retired. | DOC-06B / DOC-09 |
 | `routes/payplus-payment-profile-route-map.md` | Cards/Profile tabs, child screens, tokenization, and contextual return. | DOC-06B / DOC-09 |
 | `routes/payplus-payment-checkout-route-map.md` | Current discussion-reference projection of the accepted payer-visible adaptive Checkout Workspace journey, result-specific treatment, and safe exits. It is not a fixed wizard or domain-state map. | DOC-06B / DOC-09 |
 | `routes/payplus-activity-receipts-route-map.md` | Account Activity, Receipts & Statements, and contextual Bills Activity handoffs. | DOC-06B / DOC-06C |

@@ -3,7 +3,7 @@
 
 Status: Current discussion reference
 Owner: DOC-06B for route-level UI/UX; DOC-09 for Payment Domain architecture
-Last updated: 2026-11-13
+Last updated: 2026-11-16
 
 This derived diagram projects the reviewed payer-visible `PAYMENT-CHECKOUT` journey from DOC-06B Section 5.20. DOC-06B remains the primary source for adaptive presentation behavior, DOC-09 remains authoritative for payment-domain facts and invariants, and the route register remains authoritative for destination identity and definition status.
 
@@ -13,10 +13,8 @@ The projection is not a mandatory fixed wizard, a route hierarchy, a machine-sta
 flowchart TD
     SRC["Bill/Rent source route<br/>DOC-06C"] -->|"Select item(s) and Pay"| R{"DOC-09 Checkout Resolver<br/>current condition"}
     T3["Tier 3 Bill: current Bill context<br/>after owner-recorded approval"] -->|"Deliberate Pay; current revalidation"| R
-    INS["INSTRUCTIONS-DETAIL<br/>current Pay Now"] -->|"Validate payer, Instruction, and action"| R
-    NOTIF["Instruction-related notification"] --> NDETAIL["NOTIFICATION-DETAIL"]
-    NDETAIL -->|"Current-state, payer, permission,<br/>target, and action revalidation;<br/>owner-approved Pay Now"| R
-    NDETAIL -->|"Action unavailable"| H
+    INS["INSTRUCTIONS-DETAIL<br/>exact existing Checkout"] -->|"Current revalidation; eligible continuation only"| O
+    INS -->|"Continuation unavailable"| H
 
     R -->|"Eligible new Checkout"| N["1. New Checkout overview"]
     R -->|"Valid Resume"| O["1. Resume overview"]
@@ -68,7 +66,7 @@ flowchart TD
     classDef completion fill:#e5f7ed,stroke:#238636,color:#0f3d1f,stroke-width:1.5px;
     classDef resolution fill:#f5f0ff,stroke:#7c3aed,color:#2e1065,stroke-width:1.5px;
 
-    class SRC,INS,NOTIF,NDETAIL source;
+    class SRC,INS source;
     class N,O,F,SC,MC,V,A,E,P,W,U presentation;
     class R,C condition;
     class D,X,SAVED,HISTORY completion;
@@ -79,7 +77,7 @@ flowchart TD
 ## Interpretation
 
 - `PAYMENT-CHECKOUT` is the only registered route/flow group in the blue Workspace boundary. Its numbered nodes and funding/result nodes are adaptive internal presentations, not child routes, domain objects, machine states, or a required universal screen order.
-- Bill admission consumes the accepted C1/G1/G2 and highest-tier handoff. Tier 2 requires qualifying official Bill Evidence presence before Payment; acceptance may remain pending while Payout is held. Tier 3 may preserve this Workspace as prepared context but remains non-executable before Evidence and approval, with no executable authorization or Provider Submission. After an owner-recorded Tier 3 approval, the Payer remains in, or returns to, the current Bill context and deliberately selects `Pay` to re-enter the resolver; approval itself creates no route, notification, authorization, submission, or generic status.
+- Bill admission retains current C1/G1/G2 and highest-tier handoffs. Tier 2 requires qualifying official Bill Evidence presence before Payment; acceptance remains the normal Payout gate, with any specified Evidence-hold exception separately authorized under DOC-10 without changing acceptance or other gates. Tier 3 accepted Evidence and per-transaction authorized human approval precede executable Payment; AI preliminary assessment is not acceptance/approval or permanent whitelist. Prepared context remains non-executable. After recorded approval, deliberate current Bill Pay invokes the resolver; approval creates no route, notification, authorization, submission or generic status.
 - G1 is the product-semantic receiving-account/authoritative-payout-destination progression handoff and G2 consumes proposed pre-check versus actual confirmed value; neither is a technical Payment-record or route-state definition.
 - Rent follows its separate mandatory attached-Evidence and acceptance-before-Payment rule and does not use Bill Tier 1/2/3 semantics.
 - Amber diamonds are owner-controlled domain or evidence conditions used to select a valid presentation; they are not payer-visible screens or new status definitions. Grey and purple nodes are source, historical-resolution, or safe-exit handoffs outside ordinary Checkout composition and do not create a destination that is absent from the route register.
@@ -89,9 +87,9 @@ flowchart TD
 - Optional source Save is not a financial continuation/pending state. Known success/decline/unknown remain distinct; Retry reconciles the same effect, Skip never negates successful Save, and eligible result artifacts may precede optional Save only under DOC-05 Section 10.1 with actual Result return. No general history/list/Save-from-Activity right follows.
 - Private Single/Combined receipts preserve actual eligible confirmed Payment membership, including individual partial-leg receipts. Public PNG requires independent current same-account full linked-Bill coverage and valid identity/source/reference/access binding under DOC-08 Section 12.2; neither a smaller completed target nor one leg proves it. Save/Share revalidate; arrival/reference/native capability stays owner-backed Open, with truthful download-start/observed-save/user-confirmed handoff.
 - Late confirmation remains outside ordinary Checkout continuation and follows DOC-09's independent controlled-resolution treatment.
-- Instruction `Pay Now` invokes the DOC-09 Checkout Resolver rather than predetermining new-versus-Resume identity. An existing Checkout resumes only when it remains active, eligible, and continuable; a later eligible Checkout may begin only when no active continuable Checkout exists; otherwise the payer receives the applicable source or historical resolution.
-- Every instruction-related notification enters `NOTIFICATION-DETAIL` first. Notification content and delivery do not establish current eligibility or result; only after current-state, payer, permission, target, and action-availability revalidation may an owner-approved current CTA invoke the same resolver. There is no notification-to-Checkout bypass edge.
-- Payment Instruction and Checkout remain separate. Earlier Checkouts remain authoritative in their recorded non-continuable condition and are not reactivated or rewritten. Resolver entry carries no stale authorization and silently creates no Funding Allocation, Funding Leg, Payment Attempt, or Provider Submission.
+- Deliberate Instruction Pay Now and dedicated notification callers are retired. Retained INSTRUCTIONS-DETAIL continuation may enter only its exact active, eligible, continuable Checkout after current revalidation; unavailable continuation resolves safely and cannot create a replacement Checkout.
+- The common Bill/Rent resolver remains: an active continuable Checkout must resolve before another may be created, and a later eligible Checkout requires no active continuable one. Earlier non-continuable history is not reactivated or rewritten. Current checks/fresh authorization remain; no silent Funding Allocation, Funding Leg, Payment Attempt or Provider Submission follows from entry.
+- General DOC-08 Notification Detail/current-state/authenticated-Payer/permission/target/action safeguards remain for existing owner-permitted communications, without a replacement alert/CTA or direct Checkout entry. Stored content/delivery is not eligibility, authorization or result evidence; ordinary Bill/Rent reminders remain separate.
 
 ## References
 

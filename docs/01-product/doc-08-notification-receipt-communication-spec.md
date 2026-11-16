@@ -1,7 +1,7 @@
 ---
 document_id: DOC-08
 title: Notification, Receipt & Communication Rules
-version: 3.1.0
+version: 4.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -43,7 +43,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-08` |
 | **Title** | Notification, Receipt & Communication Rules |
-| **Version** | `3.1.0` |
+| **Version** | `4.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Operations Lead |
@@ -294,7 +294,7 @@ Domains:
 | `EVD` | Evidence upload, OCR/autofill, evidence correction, and verification. |
 | `PROM` | Promotion, coupon, voucher, reward, referral, membership, miles, and entitlement. |
 | `PAY` | Payment authorization, processing, success, and failure. |
-| `PINS` | Deliberate Payment Instruction owner-supplied alert. |
+| `PINS` | Reserved existing namespace: deliberate Instruction-specific IDs are retired; `NOTIF-PINS-006` retains its separately owned Payout meaning. |
 | `REM` | Ordinary bill, fee, rent, tenancy, or applicable Bill/Rent Payment Obligation reminders. |
 | `POUT` | Payout and settlement visibility. |
 | `REF` | Refund, reversal, cancellation, and chargeback. |
@@ -444,42 +444,25 @@ Marketing campaign messages must be consent-based. Service messages that affect 
 | `NOTIF-PAY-004` | Payment failed | App, push optional, email optional, SMS optional | Mandatory service |
 | `NOTIF-PAY-005` | Multi-card partial failure | App, push optional, email optional | Mandatory service |
 | `NOTIF-PAY-006` | Payment held for review | App, email optional | Important service |
-| `NOTIF-PINS-001` | Payment instruction created | App | Important service |
-| `NOTIF-PINS-002` | Deferred payment action due | App, push optional, email optional | Important service |
+| `NOTIF-PINS-001` | Retired: deliberate Payment Instruction created | N/A | Documentation provenance |
+| `NOTIF-PINS-002` | Retired: deferred Instruction action due | N/A | Documentation provenance |
 | `NOTIF-PINS-003` | Retired instruction identifier; incomplete Checkout continuation is owner-governed | Owner-governed | Documentation provenance |
 | `NOTIF-PINS-004` | Retired instruction identifier; incomplete/partial Checkout is not a Payment Instruction | N/A | Documentation provenance |
-| `NOTIF-PINS-005` | Owner-supplied Payment Instruction cancellation/expiry outcome, if defined | Owner-governed | Service boundary |
+| `NOTIF-PINS-005` | Retired: deliberate Instruction cancellation/expiry | N/A | Documentation provenance |
 | `NOTIF-PINS-006` | Owner-supplied Payout outcome, if defined; it is not an instruction event | Owner-governed | Service boundary |
-| `NOTIF-PINS-007` | Deferred payment quote or promotion changed before submission | App, push optional | Important service |
+| `NOTIF-PINS-007` | Retired: deferred Instruction quote/promotion changed | N/A | Documentation provenance |
 
 Payment authorization may require a status update without an external notification. Payment completion usually requires a receipt or confirmation message.
 
-#### 11.5.1 Instruction-Related Notification Entry Contract
+#### 11.5.1 Retired Instruction-Related Notification Contract
 
-Every instruction-related notification opens `NOTIFICATION-DETAIL` before any payment action. The current baseline does not permit an instruction-related push, email, SMS, WhatsApp message, Inbox card, deeplink, or stored notification action to bypass `NOTIFICATION-DETAIL` and enter `PAYMENT-CHECKOUT` directly.
+Dedicated deliberate pay-later Instruction creation, action-due, cancellation/expiry and changed-quote notifications are retired. Existing `NOTIF-PINS-*` namespace/IDs remain reserved, including the already retired `NOTIF-PINS-003`/`004`; they must not be reused for Checkout continuation. `NOTIF-PINS-006` is an owner-supplied Payout boundary, not an Instruction event, and remains unchanged.
 
-```text
-Instruction-related notification
-    -> NOTIFICATION-DETAIL
-    -> current-state, authenticated-payer and permission revalidation
-    -> owner-approved current CTA, where still available
-    -> DOC-09 Instruction Pay Now Checkout Resolver
-```
+The Instruction-specific `NOTIFICATION-DETAIL` to `Pay Now` resolver caller is no longer active. This retirement does not create a replacement notification, schedule, trigger, channel or direct Checkout edge.
 
-On Detail entry, the notification experience must consume current owner-supplied facts and revalidate:
+Existing general Notification Detail/current-state rules and any separately owner-permitted incomplete Checkout communication remain applicable. Before exposing an existing current action, revalidate the authenticated Payer, permission, target and action availability under the relevant owner. Stored text, delivery/read state or earlier action/quote snapshots are historical communication evidence, not current eligibility, Payer authorization, Provider Confirmation, Payment or Payout result. Stale/unavailable actions use the current permitted resolution; retained historical Checkout cannot be reactivated.
 
-- the authenticated payer's permission to view and act on the Payment Instruction;
-- whether the instruction and its target remain current, valid and available;
-- whether the notification's stored action remains permitted; and
-- the applicable current Bill/Rent Payment Obligation, Evidence, eligibility, timing and control conditions before exposing a payment CTA.
-
-Where current validation permits an instruction payment action, the Detail CTA invokes the DOC-09 Instruction `Pay Now` Checkout Resolver. It does not identify a predetermined Checkout, establish current eligibility, carry forward prior authorization, or itself create, activate, resume, fund or submit a Checkout.
-
-A stale, withdrawn, expired, ineligible or unavailable notification target remains in `NOTIFICATION-DETAIL` with the applicable current resolution, or returns to an owner-approved source context. An earlier notification action must not create or resume Checkout after that action has ceased to be valid.
-
-Notification content, delivery success, read/archive state, and stored status/action/quote snapshots are historical communication evidence only. They are not authoritative proof of current Checkout eligibility, payer authorization, Provider Confirmation, Payment, or payment result.
-
-Normal due-date reminders and user manual bill/rent reminders continue to route to the bill/rent/Payment Obligation detail screen. No new notification ID is required solely because an instruction later needs card, Payment Profile, quote, fee, benefit, eligibility, or other current resolution. Exact user-facing message and CTA wording remains with DOC-07; DOC-08 owns the notification entry and action-availability contract.
+Ordinary Bill/Rent reminders retain their source-bound owners and existing routes. Retained incomplete Checkout continuation and its 30-day/Close/Expiry boundary remain DOC-09-owned and do not create an ordinary reminder record. Exact retained communication detail remains with DOC-07/DOC-08 and its domain owner.
 
 ### 11.5A Bill/Rent Reminder Events
 
@@ -489,7 +472,7 @@ Normal due-date reminders and user manual bill/rent reminders continue to route 
 | `NOTIF-REM-002` | Bill/rent reminder due | App, push where permission granted | Optional service |
 | `NOTIF-REM-003` | Bill/rent reminder disabled, deactivated, expired, or inactive | App or disabled external channels | Optional service |
 
-Bill reminder events consume the current source-bound settings defined in DOC-06C Section 5.12, shared by Bill detail and applicable payment results; a central/manual Bill list is not required. Bill Date, deadline, interval, period-specific custom date and applicable whole-period paid/partial/pending inputs retain their source/financial owners and do not create an obligation or authorize payment. Rent retains its separate existing reminder policy and any still-permitted list/detail consumers. App notification and push are MVP where permission is granted; actual delivery/time/timezone/channel rules remain owner-governed, with no invented delivery time or past-date backfill. Email, SMS and WhatsApp remain subject to the channel matrix and sensitive-content restrictions. Payment Instruction alerts remain under `NOTIF-PINS-*` and create no ordinary reminder record.
+Bill reminder events consume the current source-bound settings defined in DOC-06C Section 5.12, shared by Bill detail and applicable payment results; a central/manual Bill list is not required. Bill Date, deadline, interval, period-specific custom date and applicable whole-period paid/partial/pending inputs retain their source/financial owners and do not create an obligation or authorize payment. Rent retains its separate existing reminder policy and any still-permitted list/detail consumers. App notification and push are MVP where permission is granted; actual delivery/time/timezone/channel rules remain owner-governed, with no invented delivery time or past-date backfill. Email, SMS and WhatsApp remain subject to the channel matrix and sensitive-content restrictions. Dedicated deliberate Instruction alerts are retired; retained Checkout continuation communication creates no ordinary reminder record and does not reuse retired IDs.
 
 ### 11.6 Payout Events
 
@@ -747,8 +730,8 @@ DOC-18 owns the current business-recording, explainability and lineage obligatio
 | OQ-08-008 | Which approved-purpose access, masking, audit and privacy-request handling controls apply by notification-record class under the accepted indefinite-retention direction and its lawful-scope qualification? | Legal / Privacy | Open |
 | OQ-08-009 | Which evidence verification events should notify users versus remain app status or admin-only dashboard tasks? | Product / Operations / Legal | Open |
 | OQ-08-010 | Which DOC-13 promotion, coupon, voucher, referral, membership, miles, entitlement, fulfilment, and clawback events should notify users versus remain app status or admin-only tasks? | Product / Growth / Operations | Open |
-| OQ-08-011 | Which action-alert schedule, channel mix, and final-action wording should apply separately to deliberate Payment Instructions and incomplete Checkout Workspaces, including split-card continuation and expiry cases? | Product / Payments / Operations | Open |
-| OQ-08-012 | What notification wording and channel rules should apply when deferred payment quote, promotion, card eligibility, fee, or timing terms changed before submission? | Product / Growth / Payments | Open |
+| OQ-08-011 | Deliberate Payment Instruction alerts are retired. Which owner-permitted schedule, channel mix and final-action wording remain required for existing incomplete Checkout continuation/expiry, without reusing retired IDs or inventing a replacement alert? | Product / Payments / Operations | Partially superseded; retained Checkout detail Open |
+| OQ-08-012 | Retired: dedicated deferred Instruction changed-quote/promotion notification wording/channel question. Current Checkout changed-term disclosure remains with DOC-07/DOC-09/DOC-13; no replacement notification is selected. | Product / Growth / Payments | Superseded; dedicated Instruction notification retired |
 | OQ-08-013 | Which eligible Inbox-backed Important Notice notification families also use push, email, SMS, or WhatsApp? | Product / Operations / Legal | Open for channels; Home requires an existing eligible Inbox record |
 | OQ-08-014 | Which Hot Offer communications, independently of Home placement, require notification consent, marketing consent, or Inbox delivery? | Product / Growth / Privacy | Open for communication; Home placement creates no notification or Inbox record |
 
@@ -772,8 +755,8 @@ DOC-08 is acceptable when:
 - evidence verification, correction, duplicate warning, and admin review message boundaries are defined;
 - promotion, reward, coupon, voucher, referral, membership, miles, entitlement, and fulfilment message boundaries are defined;
 - referral share actions do not create recipient notifications, while attribution, qualification, entitlement, claim, and issued-reward events route to their defined destinations;
-- deliberate Payment Instruction and incomplete Checkout Workspace action-alert boundaries, deferred action, split-card remaining action, continuation expiry/closure, confirmed Payment, and downstream Payout message boundaries are defined without collapsing them into one status family;
-- deferred payment quote or promotion change notification boundaries are defined without renumbering existing notification IDs;
+- dedicated deliberate Instruction alerts are retired without reusing their IDs; retained incomplete Checkout continuation/Close/Expiry, split-funding, confirmed Payment and downstream Payout communication remain separately owner-governed, including retained Payout `NOTIF-PINS-006`;
+- dedicated deferred Instruction changed-quote/promotion notifications are retired without reusing IDs; current Checkout disclosure and independently permitted communications retain their owners;
 - dashboard placement boundaries are defined so Important Notice / Action Required, Inbox, Hot Offer, and notification events remain separate but linkable surfaces;
 - DOC-08 publishes existing Inbox-backed notification records and canonical source signals for DOC-06B consumption, creates no duplicate Home record, and leaves Home selection, ordering, dismissal, routing, and return behavior to DOC-06B;
 - optional preferences take immediate independent effect with prior-value restoration on failure and no later effect from an expired/superseded operation; required communications, account delivery preferences, device permission and Privacy-owned consent remain distinct;
@@ -785,6 +768,7 @@ DOC-08 is acceptable when:
 ## 21. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 4.0.0 | 2026-11-16 | Retired dedicated Instruction notification IDs and entry contracts without ID reuse; retained Payout PINS-006, existing retired IDs, ordinary reminders and current Detail/action controls. |
 | 3.1.0 | 2026-11-16 | Aligned the current name and the bounded DOC-18 business-recording versus future representation handoff. |
 | 3.0.0 | 2026-11-13 | Canonical Writer: Drafted PP-MVP-20261112-R1 private/public document content, source-bound Bill reminder inputs, successful-content read and immediate preference-effect contracts, preserving delivery/security/financial enablement dependencies. Corrected the inherited Archived-Inbox-filter summary through the consolidated Specialist batch without changing retained records. |
 | 2.1.1 | 2026-09-01 | Aligned the common notification-model handoff to the DOC-18 business-recording boundary while deferring schema and technical representation; notification identity, delivery, and operational policy remain unchanged. |

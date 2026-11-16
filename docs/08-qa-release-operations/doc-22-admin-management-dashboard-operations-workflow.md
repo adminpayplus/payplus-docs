@@ -1,7 +1,7 @@
 ---
 document_id: DOC-22
 title: Admin Management Dashboard & Operations Workflow
-version: 1.1.0
+version: 2.0.0
 status: Founder Working Baseline
 owner: Operations / Product
 reviewers:
@@ -50,7 +50,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-22` |
 | **Title** | Admin Management Dashboard & Operations Workflow |
-| **Version** | `1.1.0` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Operations / Product |
 | **Reviewers** | Product Lead<br>Operations Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Security Lead<br>Engineering Lead<br>Data Lead |
@@ -119,9 +119,15 @@ DOC-06B and applicable account/route owners determine authentication/recovery be
 
 ## 11. Payment Operations Workflows
 
-DOC-09 owns Payment Instruction and Checkout semantics. DOC-22 may execute a specifically owner-permitted workflow using approved facts; it must not define partial funding, instruction status, quotes, alerts, holds, cancellation, expiry or escalation policy.
+DOC-09 owns Checkout and retained continuation; deliberate pay-later Instruction setup/actions and dedicated notifications are retired. DOC-22 may execute only a specifically owner-permitted operation using current approved facts, without defining partial funding, quotes, alerts, holds, Close/Expiry, policy or a replacement feature. Locked Target/Allocations, Funding Allocation Versions, confirmed Payment/Application history, current revalidation and fresh authorization remain protected.
 
 ## 12. Payout and Reconciliation Workflows
+
+DOC-10 owns normal readiness/release and reconciliation; normal eligible Payout has no generic manual/dual approval. Actual Evidence acceptance plus other gates removes an Evidence-only blocker without another Payout approval. DOC-22 may execute a separately authorized specified Evidence-hold exception only with owner-required reason, supporting Evidence, authority, actor/approver identities, time, scope and history. It does not mark Evidence accepted, release another hold, bypass Rent/Tier 3 before-Payment gates, or establish submission, success or arrival.
+
+For designated funds exceptions, two different natural persons with Operations and Accounting capabilities are required. Qualified Admin participation is permitted only within actual authorization; one person switching roles cannot provide both approvals or self-approve. Product/Risk/Compliance/Security/Payments retain applicable policy authority. Exact Admin grades, permission matrix, queue, workflow and implementation are not selected here.
+
+MVP manual bank portal/file/upload evidence remains a permitted route without mandatory automatic bank feed. Execute only the owner-permitted operation with actual item outcomes and reconciliation evidence. Manual action cannot fabricate bank success; missing/unknown results are not failure or success and do not authorize blind resend. DOC-17 retains provider-specific contracts, and no bank, format, API or matching mechanism is selected.
 
 ## 13. Refund, Cancellation, and Chargeback Operations
 
@@ -131,7 +137,11 @@ DOC-09 owns Payment Instruction and Checkout semantics. DOC-22 may execute a spe
 
 ## 16. Internal Notes and Case Management
 
+Within specifically owner-permitted case handling, record who acted, when, why, responsible owner and follow-up under DOC-11/DOC-21. No automatic internal case-resolution or Refund-completion deadline is introduced; actual partner/network/legal/chargeback deadlines and DOC-14 risk-review SLA remain separate. Preserve selected fee applicability, amount/currency and CardMore/user responsibility with actor/time/reason as business records only, not actual charge, Refund or bank-result evidence. This permission creates no generic history retrieval/access, fee/refundability/allocation/liquidity policy or closure outcome, and does not close `OQ-10-015`.
+
 ## 17. Admin Actions and Status Changes
+
+For C1 configuration, DOC-05 Section 7.2 owns the sole Category value/policy table under designated product/risk authority. DOC-22 executes only authorized backend configuration; 0 disables only that Category's C1. Preserve actor/time, old/new values, version and then-effective evaluation basis without rewriting old evaluations. This does not choose an Admin grade, UI, schema, range/precision/FX rule or change mechanism, nor delegate policy authority to Ops/Admin.
 
 ## 18. Campaign, Promotion, Coupon, Voucher, Reward, and Referral Operations
 
@@ -213,6 +223,7 @@ Exact Admin workflow, queue, permission, approval, history presentation/retrieva
 ## 28. Revision History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.0.0 | 2026-11-16 | Bounded authorized C1, specified Payout exception, distinct-person approval, CS/fee-record and manual-bank-evidence execution while retiring Instruction operations and preserving owner policy/access boundaries. |
 | 1.1.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.0.3 | 2026-08-27 | Limited history presentation/retrieval to specifically owner-permitted execution, with no generic Admin access or mechanics, and aligned DOC-18's business-only recording boundary. |
 | 1.0.2 | 2026-08-25 | Added the reviewed DOC-17 provider-neutral External Interaction Contract to the reference and non-ownership boundary without creating Admin policy, provider capability, API, mechanism, queue, permission, status, schema, event, or implementation detail. |

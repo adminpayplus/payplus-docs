@@ -1,7 +1,7 @@
 ---
 document_id: DOC-20
 title: Testing, UAT & Go-Live Checklist
-version: 1.2.0
+version: 1.3.0
 status: Founder Working Baseline
 owner: QA / Product / Operations
 reviewers:
@@ -41,7 +41,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-20` |
 | **Title** | Testing, UAT & Go-Live Checklist |
-| **Version** | `1.2.0` |
+| **Version** | `1.3.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | QA / Product / Operations |
 | **Reviewers** | Product Lead<br>QA Lead<br>Engineering Lead<br>Compliance Lead<br>Security Lead<br>Operations Lead |
@@ -92,9 +92,11 @@ Provide enough source and setup context, build and start steps, seed and reset i
 | Tiered Bill presentation and return | DOC-05 / DOC-06B / DOC-06C / DOC-07 / DOC-09 / DOC-10 | Evidence must show that Tier 3 owner-recorded approval keeps the current Bill context and requires deliberate `Pay` plus current resolver revalidation, with no automatic navigation, notification, authorization, Provider Submission, or generic status. It must show Tier 2 confirmed Payment, current Evidence, and Payout-held/release truth separately; no automatic Refund or ordinary Evidence Activity; Add-Bill Declaration confirmation distinct from Save; and the separate Rent accepted-Evidence gate. | DOC-06D, DOC-08, DOC-11, DOC-12, DOC-14; later implementation evidence remains owner-defined |
 | Source identity and projections | DOC-05 / DOC-06C | Setup, immediate pay-now, Payment Result then optional same-ID Save, Saved/current, Saved/Archived, history-only, established-but-unprojected and Activity/History/Receipt independence. | DOC-09, DOC-15, DOC-21 |
 | Payment topology and late confirmation | DOC-09 | Source -> Payable Basis -> applicable Payment Obligations -> one-basis Checkout -> allocations/Funding Legs -> immutable Payment -> Applications; controlled zero- or insufficient-Application cases are explicitly tested as not ordinary Payout-ready, with no Application, negative coverage, fictional coverage or payout value fabricated, and any downstream treatment remaining owner-controlled. Adjustment impact is bounded by valid Payment Application coverage; excess adjustment remains an owner-controlled fact outside coverage arithmetic. | DOC-10, DOC-11, DOC-21 |
-| Checkout and Payment Instruction | DOC-09 / DOC-06B | Incomplete/partially funded Checkout follows Close/Expiry/continuation; it is not Payment Instruction or source Archive. Deliberate Payment Instruction cancellation/expiry remains distinct. | DOC-06D, DOC-21 |
-| Payout and reconciliation | DOC-10 | Confirmed Payment, Application lineage, destination snapshot, readiness, holds, reconciliation and non-erasure are preserved. | DOC-09, DOC-11, DOC-15, DOC-21 |
-| Refund, cancellation, dispute, chargeback and case | DOC-11 | Immutable Payment/Application facts, case ownership, Archive blockers and controlled owner outcomes are evidenced without inventing a mechanism. | DOC-10, DOC-21 |
+| Checkout continuation and Instruction retirement | DOC-09 / DOC-06B | Negative evidence covers no deliberate pay-later create/update/cancel/Pay Now/source-add draft return, dedicated notifications or feature-specific reservation/risk/reporting; no replacement route/object. Regression covers retained IDs, global 0/1/many, 30 days, Continue/Close/Expiry, one-continuable-Checkout precedence, immutable Target/Allocations, Funding Allocation Versions, confirmed history, late confirmations/reservations, revalidation and fresh authorization. | DOC-06D, DOC-08, DOC-13, DOC-14, DOC-18, DOC-21 |
+| C1 configuration and comparison | DOC-05 / DOC-06C / DOC-09 / DOC-12 / DOC-14 | Verify unchanged twelve Category names, sole DOC-05 initial table, below/equal/above enabled C1 and 0-disabled cases; Save source Bill Amount versus Pay selected principal/allowed prepayment aggregate, excluding fees/card charge/per-leg amounts. Preserve G1/G2 and every other gate, separate Rent and versioned then-effective configuration history without rewriting old evaluations. | DOC-06D, DOC-18, DOC-22 |
+| Payout and reconciliation | DOC-10 | Normal eligible Payout and Evidence-only acceptance release add no generic manual/dual approval. Separately authorized Evidence-not-acceptable exception releases only its specified hold, preserving reason/Evidence/authority/identities/history, non-accepted Evidence and other gates; no submission/success/arrival or Rent/Tier 3 bypass. Designated funds exceptions require two distinct people with Ops/Accounting capabilities, no role-switch self-approval, and separate policy/execution authority. Payment/Application lineage, destination snapshot, duplicate controls and non-erasure stay intact. | DOC-09, DOC-11, DOC-12, DOC-14, DOC-15, DOC-18, DOC-21, DOC-22 |
+| Manual bank evidence and uncertain results | DOC-10 | MVP needs no automatic bank feed; retained portal/file/upload evidence supports actual item outcomes/reconciliation. Unknown/missing is not success/failure, manual action cannot fabricate bank success and no blind resend follows. Provider/bank/format/matching/cutoff/calendar and readiness detail remains unselected. | DOC-17, DOC-18, DOC-21, DOC-22 |
+| Refund, cancellation, dispute, chargeback and case | DOC-11 / DOC-21 | Preserve immutable Payment/Application facts, case owner and who/when/why/follow-up without automatic internal completion/Refund deadline; real external deadlines and OQ-14-006 remain. Fee applicability/amount/currency/CardMore-user responsibility records are not actual charge/Refund/bank outcomes and select no fee/refundability/allocation/liquidity model. OQ-10-015 remains an operational enablement blocker. | DOC-10, DOC-18, DOC-22 |
 | Archive and retention | DOC-05 / DOC-06C / DOC-15 | Archive is visibility-only/non-erasing; indefinite retention remains the accepted direction subject to lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. | DOC-15, DOC-18, DOC-21 |
 | Notification | DOC-08 | Eligibility, recipient, channel, template, preference, fallback/retry, delivery evidence and DOC-22 execution handoff are evidenced against DOC-08 policy. | DOC-07, DOC-21, DOC-22 |
 | Risk and prohibited product boundary | DOC-14 / DOC-03 / DOC-04 | Anti-cashout, fraud, sanctions, risk holds and prohibited wallet/P2P/remittance/marketplace paths are tested at requirement level. | DOC-09, DOC-15, DOC-21 |
@@ -131,6 +133,7 @@ These questions do not reopen settled product meaning and do not authorize imple
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 1.3.0 | 2026-11-16 | Added future evidence coverage for Instruction retirement and retained Checkout, C1 boundaries, Payout exceptions/dual-person controls, record-only CS/fees and manual bank evidence without claiming execution or readiness. |
 | 1.2.0 | 2026-11-16 | Added truthful whole-change verification, reproduction and evidence-boundary expectations. |
 | 1.1.2 | 2026-08-27 | Added traceability for all 13 DOC-18 business-recording requirements and 13 Acceptance Criteria as later evidence obligations without making an acceptance, implementation, enablement, readiness, or launch claim. |
 | 1.1.1 | 2026-08-25 | Added reference-only acceptance coverage for the reviewed DOC-17 provider-neutral External Interaction Contract, Functional-Surface Coverage, owner handoffs, and explicit non-decisions without defining tests, providers, APIs, mechanisms, implementation, acceptance, enablement, assurance, or readiness. |

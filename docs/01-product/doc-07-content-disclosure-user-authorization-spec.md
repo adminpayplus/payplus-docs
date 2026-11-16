@@ -1,7 +1,7 @@
 ---
 document_id: DOC-07
 title: Content, Disclosure & User Authorization Specification
-version: 1.3.0
+version: 2.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -43,7 +43,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-07` |
 | **Title** | Content, Disclosure & User Authorization Specification |
-| **Version** | `1.3.0` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Legal Lead<br>Risk Lead |
@@ -140,7 +140,7 @@ Exact Message IDs, final Copy, CTA labels, localization and presentation remain 
 | Retention | Indefinite retention remains the accepted product/governance direction, subject to DOC-15 and Legal/Privacy confirmation of lawful scope, required exceptions, restricted data classes and prohibited sensitive-data boundaries. No user-facing Copy, finite replacement duration or implementation mechanism is defined here. |
 | Communication architecture | Governed material communication uses central authoritative contracts, bounded Domain Slices, layered composition, reference-only integration, and layer-level governance. Centrality is logical and does not require one matrix, file, physical registry, database, runtime service, enterprise registry, or new persistent object. |
 | Checkout authorization | Every applicable Provider Submission requires current payer authorization. Earlier review, authorization, profile or card selection, Resume, notification content, or provider return does not authorize a later Provider Submission. |
-| Instruction notification entry | Every instruction-related notification enters `NOTIFICATION-DETAIL`, which revalidates current state, payer, permission, target, and action availability before an owner-approved current CTA may invoke the DOC-09 Checkout Resolver. |
+| Retired Instruction notification caller | Dedicated deliberate pay-later Instruction notifications and their resolver CTA are retired. Existing general Notification Detail/current-state, authenticated-Payer, permission, target and action-availability checks remain DOC-08-owned; no replacement alert or caller is introduced. |
 
 Unconfirmed items above remain owner-assigned assumptions, affected-path dependencies or open questions until finalized; they do not alter the accepted product meaning.
 
@@ -344,7 +344,7 @@ The authorization action should not be preselected, hidden, implied by source or
 
 Payment passcode entry is a separate payer confirmation step before payment authorization proceeds; it is not payer authorization itself. DOC-09 owns payment admission and payer authorization, DOC-14 risk triggers/actions, DOC-15 privacy conditions, DOC-17 provider/cardholder challenge contracts, and DOC-19 mechanism-neutral security enforcement.
 
-If the payer creates a deferred Payment Instruction, content must make clear that payment has not yet been submitted to the PSP/acquirer and that a later `Pay Now` action invokes the DOC-09 Checkout Resolver. The instruction does not identify a predetermined Checkout or carry forward payer authorization.
+Deliberate deferred Payment Instruction creation and its dedicated `Pay Now` caller are retired. Retained incomplete Checkout continuation does not imply a new pay-later arrangement or carry forward payer authorization.
 
 If payment quote, promotion quote, card eligibility, fee, timing, or other material terms are revalidated when the payer returns, the updated terms must be shown before submission.
 
@@ -363,7 +363,7 @@ The authorization Semantic and Disclosure Contracts must communicate, for the ap
 - that another Provider Submission requires its own applicable authorization; and
 - that an unavailable or disabled authorization action must use an owner-approved explanation or resolution without exposing protected internal reasons.
 
-For a deferred Payment Instruction, the governed meaning must state that the instruction is being saved and that no immediate card charge or Provider Submission is implied.
+No active deferred-Instruction Save/confirmation statement is required. Existing Checkout/funding selection, review and continuation remain distinct from current payer authorization and Provider Submission.
 
 The exact authorization statement, CTA label, surface, hierarchy, and presentation remain `TBD` pending prototype evidence and Legal / Compliance / Payments / Product review. This deferral does not postpone or weaken the presentation-independent authorization semantics above.
 
@@ -386,7 +386,7 @@ DOC-07 defines this user-facing evidence intent. DOC-09 retains payment and auth
 
 ## 9. Payer-Authorization Content Boundary
 
-DOC-07 may describe the Payer's owner-approved Payment Instruction, Checkout, payment authorization, confirmed result and owner-supplied safe next handling. It must not create an economic-Payee action, acceptance, reminder, Request delivery, recipient library or reciprocal communication. Payer authorization is governed by DOC-09 and product context; DOC-07 provides only the approved user-facing communication mapping.
+DOC-07 may describe current Checkout, retained continuation, payer authorization, confirmed result and owner-supplied safe next handling. Deliberate pay-later Instruction communication/actions are retired. It must not create an economic-Payee action, acceptance, reminder, Request delivery, recipient library or reciprocal communication. DOC-09 owns payer authorization; DOC-07 supplies only the communication mapping.
 
 DOC-07 may communicate owner-approved source capture, Declaration, tier-dependent attached Evidence, verification, Checkout, Payer authorization, Payment Result, optional post-Payment Save, Activity/Receipt and source Archive meaning. Tier 1 content must not imply mandatory attached Evidence; Tier 2/3 content must distinguish Evidence presence from acceptance; Rent content must preserve mandatory attached Evidence and acceptance-before-Payment. DOC-07 must not create Category-specific rules, a Payee action, recipient library, link, delivery, acceptance, reminder or reciprocal communication. Exact expression remains deferred to the applicable DOC-07 slice and source-owner input.
 
@@ -460,15 +460,15 @@ Any narrower partner-, risk-, or category-specific restriction, its configuratio
 
 ---
 
-### 12.1 Payment Instruction and Reminder Disclosure
+### 12.1 Reminder and Retained Checkout Disclosure
 
-CardMore must distinguish four user-facing concepts:
+CardMore must distinguish the retained user-facing concepts:
 
 | Concept | User-Facing Meaning | Action Destination |
 | --- | --- | --- |
 | Bill source-bound reminder | Current Bill period/date/Three-or-Once preferences under DOC-06C, with no payment execution or new obligation. | Same Bill detail inline settings; applicable results share those settings. |
 | Retained Rent reminder | Existing separate Rent due/manual policy and permitted management consumers, not the Bill interval policy. | Applicable Rent detail/retained reminder caller under DOC-06C. |
-| Payment Instruction action alert | The user deliberately created a pay-later arrangement and action is now due. | An instruction-related notification enters `NOTIFICATION-DETAIL`; after current revalidation, an owner-approved CTA may invoke the DOC-09 Checkout Resolver. |
+| Deliberate Payment Instruction action alert | Retired feature meaning, not a current message/CTA or notification requirement. | No active dedicated caller; existing IDs remain reserved under DOC-08. |
 | Incomplete Checkout continuation alert | Immediate payment execution started but the Checkout Target remains partly unfunded. This is not a Payment Instruction. | The preserved Checkout context. |
 
 Bill/rent reminder cycles, custom reminder dates, reminder toggles, and reminder deactivation must be described as reminder tools only. They must not imply automatic recurring payment, stored authorization, card authorization, gateway submission, payout readiness, or payment completion.
@@ -477,14 +477,7 @@ Bill wording distinguishes required B/D and upfront unselected seven intervals, 
 
 If a reminder is linked to a recurring bill/rent frequency, the user-facing wording should distinguish recurring reminder scheduling from recurring payment authorization. Reminder route behavior belongs in DOC-06. Notification channel and template wording belongs in DOC-08.
 
-Payment Instruction wording must explain:
-
-- selected funding date or action date;
-- intended amount and funding arrangement where applicable;
-- expiry or required action deadline;
-- that amount, promotion, card eligibility, fee, destination, or timing may need to be revalidated before Provider Submission;
-- that `Pay Now` invokes the DOC-09 Checkout Resolver without predetermining New or Resume Checkout identity, creating silent funding/submission, or carrying forward payer authorization;
-- that every applicable Provider Submission still requires current payer authorization.
+Dedicated Instruction date/amount/setup, cancellation and `Pay Now` wording is non-active. Retained Checkout communications use only current owner-permitted actions and the existing Detail-first notification checks; no replacement alert or exact Copy is selected.
 
 Incomplete Checkout wording must explain:
 
@@ -495,6 +488,10 @@ Incomplete Checkout wording must explain:
 - that downstream Settlement and Payout treatment belongs to DOC-10 and does not determine whether the original Checkout is complete.
 
 ---
+
+For C1-related Save/Pay explanation, consume DOC-05 Section 7.2 without duplicating its values table: source Bill Amount at Save differs from selected principal/allowed prepayment aggregate at Pay; fees, total card charge and individual Funding Legs are not that comparison. Zero disables only Category C1 and does not imply other checks are waived. Exact wording remains owner-governed.
+
+Payout wording must separate normal readiness/release, actual Evidence acceptance, any separately authorized DOC-10 Evidence-hold exception, other holds, submission, bank outcome and arrival. An exception must never say Evidence accepted or money received; normal eligible Payout does not imply a generic manual/dual approval step. AI preliminary assessment is not Tier 3 per-transaction human approval. CS/fee-responsibility records do not promise a fee charge, Refund, bank result or automatic internal completion deadline; actual external deadlines retain their owner meaning. No new message ID, fee policy or execution result is invented here.
 
 ## 13. Authorization, Payment, Settlement, and Payout Meaning
 
@@ -695,9 +692,9 @@ DOC-07 owns governed Semantic, Disclosure, CTA, and approved Copy requirements w
 - delivery evidence;
 - successful-content reading semantics, with no Archive/Restore UI in the adopted MVP and no retention change;
 - receipt and statement communication rules; and
-- mandatory `NOTIFICATION-DETAIL`-first entry for instruction-related notifications.
+- existing general `NOTIFICATION-DETAIL`-first entry and current-action controls, without retired Instruction-specific notification/caller requirements.
 
-Every instruction-related notification must enter `NOTIFICATION-DETAIL`. Notification Detail revalidates current state, authenticated payer, permission, target, and action availability before an owner-approved current CTA may invoke the DOC-09 Checkout Resolver. Notification content, delivery, reading/historical record metadata and stored snapshots do not establish current Checkout eligibility, payer authorization, Provider Confirmation, Payment, or payment result.
+Dedicated deliberate Instruction notifications and their `Pay Now` resolver caller are retired. Existing separately owner-permitted notification actions retain `NOTIFICATION-DETAIL` entry and current-state, authenticated-Payer, permission, target and action-availability revalidation under DOC-08. Only an already owner-permitted current action may be exposed; this creates no replacement alert, ID, trigger, channel, CTA or Checkout entry. Retained Checkout communications remain distinct from deliberate pay-later setup. Notification content, delivery, reading/historical record metadata and stored snapshots do not establish current Checkout eligibility, payer authorization, Provider Confirmation, Payment, or payment result.
 
 Inbox cards communicate category/read/domain/action signals independently. Individual Read follows successful necessary Detail content, not card tap or failed load. Optional notification settings communicate immediate independent effects without page Save; failed change restores the prior value, and an expired/superseded operation cannot later apply. Required communications stay locked; device permission, delivery preference and Privacy-owned consent remain separate. Do not invent expiry duration, query count or reconciliation protocol.
 
@@ -843,8 +840,8 @@ This document does not interpret those sources as final legal advice.
 | OQ-07-009 | What wording should explain OCR/autofill, user correction responsibility, duplicate/reused evidence warning, and sensitive extracted-field handling? | Product / Legal / Privacy | Open |
 | OQ-07-010 | What wording should explain promotion quotes, coupon/voucher eligibility, miles rewards, membership benefits, expiry, and entitlement limits before authorization? | Product / Commercial / Legal | Open |
 | OQ-07-011 | What wording should explain SMS OTP, new-device 2FA, dormant-login reauthentication, payment passcode, material-change confirmation, and security notifications? | Product / Security / Legal | Open |
-| OQ-07-012 | What exact wording should explain deferred payment instruction, pending funding legs, partial funding, partial payout, remaining unpaid amount, and payment completion boundary? | Product / Legal / Payments | Open |
-| OQ-07-013 | What wording should explain quote expiry, promotion reservation, recalculation, and changed checkout terms when a payer returns to a deferred payment instruction? | Product / Legal / Growth | Open |
+| OQ-07-012 | Deliberate pay-later Instruction wording is retired. What exact wording remains for pending Funding Legs, partial funding/Payout, remaining amounts and retained Checkout completion/continuation boundaries? | Product / Legal / Payments | Partially superseded; retained meaning Open |
+| OQ-07-013 | Instruction-specific quote/reservation wording is retired. What exact wording remains for current Checkout quote expiry, recalculation and changed terms without implying reserved benefits or stale authorization? | Product / Legal / Growth | Partially superseded; retained meaning Open |
 | OQ-07-014 | What exact Outcome Type IDs, Resolution Strategy codes/mappings, Message IDs, approved messages, disclosure levels, CTA labels, destinations, notification treatment, and technical/event mappings should populate the Authentication Bounded Domain Slice and its linked contracts? | Product / Content / Design / Security / Privacy / Support | Open; layered mechanism and coverage confirmed |
 
 ### 20.1 Communication Architecture Open Items
@@ -877,8 +874,8 @@ DOC-07 is acceptable when:
 - rent and tenancy disclosure requirements are defined;
 - OCR/autofill, evidence correction, duplicate warning, and evidence verification disclosure touchpoints are defined;
 - fee, promotion, total charge, and multi-card disclosure requirements are defined;
-- deferred payment instruction, reminder destination, partial funding, partial payout, and remaining unpaid amount disclosure boundaries are defined;
-- deferred instruction quote revalidation and changed-term disclosure boundaries are defined;
+- deliberate Instruction-specific messages/CTA are retired while ordinary reminder destinations, retained Checkout, partial funding/Payout and remaining-amount disclosure stay distinct and source-owned;
+- retained Checkout quote revalidation and changed-term disclosure follow DOC-09/DOC-13; dedicated deferred-Instruction quote/disclosure requirements are retired;
 - coupon, voucher, reward, miles, membership, entitlement, and expiry disclosure boundaries are defined where applicable;
 - payment, settlement, and payout timing wording is cautious and accurate;
 - refund, cancellation, dispute, chargeback, and reversal disclosure touchpoints are defined;
@@ -886,7 +883,7 @@ DOC-07 is acceptable when:
 - governed material communication, ordinary-copy exclusions, and the central-contract / Domain-Slice / composition / reference / governance architecture are defined;
 - Semantic, Outcome/Resolution, Composition, Disclosure, CTA, Copy, Locale, Presentation, Reference, Registry, and Authority Gradient boundaries are defined without executable business logic;
 - the Authentication Bounded Domain Slice mechanism, layered coverage, ownership, and open exact-copy/ID boundary are defined;
-- DOC-08 ownership and mandatory instruction-related `NOTIFICATION-DETAIL`-first entry remain explicit;
+- DOC-08 ownership and existing general `NOTIFICATION-DETAIL`-first/current-action checks remain explicit without dedicated Instruction notifications or their resolver CTA;
 - the confirmed six-card MVP maximum remains `Answered: 6` while narrower restrictions and configuration remain open;
 - HOME-ROOT Greeting, Important Notice, and Recent Activity expression boundaries preserve complete locale output, source meaning, notification separation, and canonical funds-flow direction without transferring route or business ownership to DOC-07;
 - logical traceability from source authority through user-facing authorization or acceptance evidence is defined, with physical implementation deferred;
@@ -902,6 +899,7 @@ DOC-07 is acceptable when:
 ## 22. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.0.0 | 2026-11-16 | Retired Instruction-specific disclosure/CTA requirements and preserved current Checkout, C1, Evidence exception, approval and record-only communication distinctions without selecting exact Copy. |
 | 1.3.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.2.0 | 2026-11-12 | Canonical Writer: Aligned bounded PP-MVP-20261112-R1 account, source/reminder, financial/document, notification, Home and reward expressions/acceptance to source owners while retaining open exact Copy/Locale/IDs/legal review and implementation handoffs. |
 | 1.1.1 | 2026-08-27 | Aligned the four Declaration occurrence handoffs and narrowed DOC-18 to its reviewed business-recording/explainability contract without approving Copy, technical representation, mechanisms, or implementation. |

@@ -1,7 +1,7 @@
 ---
 document_id: DOC-18
 title: Data Model, Transaction State, Audit Event & Reporting Specification
-version: 2.1.0
+version: 3.0.0
 status: Draft
 owner: Engineering / Data
 reviewers:
@@ -50,7 +50,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-18` |
 | **Title** | Data Model, Transaction State, Audit Event & Reporting Specification |
-| **Version** | `2.1.0` |
+| **Version** | `3.0.0` |
 | **Status** | Draft |
 | **Owner** | Engineering / Data |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Privacy Lead<br>Security Lead<br>Risk Lead<br>Operations Lead |
@@ -187,8 +187,8 @@ Every material family below must satisfy the applicable Minimum Explainability L
 | Payee acquisition and source context | Acquisition provenance, intended economic Payee, owner-defined relationship context, and separation from destination, risk, Payment and Payout meanings | DOC-05 | DOC-06C/09/10/12/14/15 |
 | Effective destination and destination history | Owner-approved destination fact, applicable historical basis, and separation from source, economic-Payee, Payment and Payout meaning | DOC-10 | DOC-05/09/12/14/15/22 |
 | Payment | Payable Basis and obligation context, payer authorization basis, confirmed Payment, Payment Application, later adjustment linkage, and immutable historical financial meaning | DOC-09 | DOC-07/10/11/14/17/20/21 |
-| Deliberate Payment Instruction | Owner-defined instruction intent, applicable obligation and action context, and history that remains separate from ordinary reminders and an incomplete Checkout Workspace | DOC-09 | DOC-06B/07/08/18 |
-| Ordinary Bill/Rent reminder | Owner-defined reminder purpose, source or obligation context, timing relevance, communication relationship, and history that remains separate from a Payment Instruction action alert | DOC-06C | DOC-08/15/18/21 |
+| Retired deliberate Payment Instruction | Non-active feature provenance only; no current creation, action, dedicated alert or recording producer is required. Any actual prior records, if present, remain subject to existing owner/retention boundaries; their existence or absence is not established here. | DOC-09 | DOC-06B/07/08/15/18 |
+| Ordinary Bill/Rent reminder | Owner-defined reminder purpose, source or obligation context, timing relevance and communication history, separate from retained Checkout continuation and retired Instruction alerts | DOC-06C | DOC-08/15/18/21 |
 | Payout and reconciliation | Owner-defined destination basis, Payout progression and outcome, hold or exception context, reconciliation result, and relationship to but separation from Payment history | DOC-10 | DOC-09/11/14/21 |
 | Refund, cancellation, dispute, chargeback, reversal, adjustment and support case | Owner-defined case, decision, effective financial adjustment, historical basis, and linkage without mutating prior Payment or Payout facts | DOC-11 | DOC-09/10/21 |
 | Risk, fraud, sanctions and review | Input provenance, owner assessment, applied action, review or override authority, outcome, and separately owned consequence | DOC-14 | DOC-15/19/21/22 |
@@ -201,7 +201,7 @@ Every material family below must satisfy the applicable Minimum Explainability L
 | AI/model-assisted use context | Owner-approved purpose, input and outcome relationships, human-review or explanation obligations, and qualified derived-use lineage | One applicable use-case domain owner, named before use | DOC-14/15/18/19/20/21 and professional owners |
 | Partner-reporting context | Owner-approved commercial or domain purpose, permitted aggregation or disclosure, recipient qualification, and lineage to source truth | One applicable commercial or domain owner, named for the report | DOC-13/15/18/19 and applicable legal/risk owners |
 
-Two existing boundaries are mandatory across these rows. An ordinary Bill/Rent reminder is not a Payment Instruction action alert. A deliberate Payment Instruction is not an incomplete Checkout Workspace. A Notification may communicate an owner-defined reminder, instruction action, or Checkout condition, but it does not create that fact, authorize Payment, or collapse their separate histories.
+Ordinary Bill/Rent reminders and retained Checkout continuation remain separate meanings. The retired deliberate pay-later Instruction feature is not a current record producer, and incomplete Checkout is not converted into it. A Notification may communicate an owner-permitted reminder or Checkout condition but does not create that fact, authorize Payment or collapse history. Retirement does not authorize deletion, migration, a historical reader or an assertion that no production Instruction records exist.
 
 ### 4.2 Positive Bill and Rent recording coverage
 
@@ -223,7 +223,8 @@ This table is the positive coverage record for the complete settled Bill/Rent fa
 | Bill Payee bank account number | Direct Founder correction authority; DOC-05; DOC-06C; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain Payee bank account number as a material Bill fact and its provenance, subject to DOC-15 privacy/access/masking/retention treatment and DOC-10 effective destination, Payout, and reconciliation authority. |
 | Bill remark | Direct Founder correction authority; DOC-05/06C owner boundary | CardMore must remember and explain a supplied remark and its provenance while treating it as normally non-material unless an applicable owner rule expressly makes it material for a defined purpose. |
 | Bill materiality | Direct Founder correction authority; DOC-05; DOC-06C; DOC-07; DOC-09; DOC-10; DOC-12 | CardMore must remember and explain that Category, Bill date, declared purpose, economic Payee, Bill amount, Payee bank name, bank code, and bank account number are material facts, while a remark is normally non-material, together with the owner treatment applied to any change. |
-| C1/G1/G2 trigger reason and highest-tier evaluation | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | CardMore must remember and explain which owner-defined C1, G1, or G2 trigger reason applied, the applicable highest-tier result, the facts and owner authority used, and the historical evaluation basis without defining values or technical treatment. |
+| C1/G1/G2 trigger reason and highest-tier evaluation | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | CardMore must remember and explain each trigger reason, highest-tier result, facts, owner authority and then-effective evaluation basis. C1 consumes the sole DOC-05 table/current configuration, including enabled versus 0-disabled meaning, source Bill Amount at Save and selected principal/allowed prepayment aggregate at Pay; no duplicated value table or technical treatment is defined here. |
+| C1 configuration history | DOC-05; DOC-14; DOC-22 execution only | Preserve actor, time, old/new values, configuration version and the then-effective basis used by each evaluation. Later changes do not rewrite prior evaluations, Tier outcomes or financial history; exact configuration schema and mechanism remain separately authorized. |
 | Bill Tier 1/2/3 recording | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | CardMore must remember and explain the owner-defined Tier 1, Tier 2, or Tier 3 treatment, applicable Declaration, Evidence-presence, Evidence-acceptance, approval, Payment, and Payout relationships, and the then-effective basis without turning Tier into generic readiness. |
 | Bill Evidence presence, acceptance, and financial consequence separation | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-14 | CardMore must remember and explain Evidence presence separately from processing and owner acceptance, and each separately from Payment admission, payer authorization, confirmed Payment, Payout hold or release, reconciliation, and other owner consequences. |
 | Payment, Payment Application, Payout, and reconciliation history | DOC-09; DOC-10; DOC-11; DOC-14 | CardMore must remember and explain immutable confirmed Payment and Payment Application facts separately from Payout, reconciliation, refund, reversal, adjustment, case, Evidence, and risk history, including which owner governed each later consequence. |
@@ -247,8 +248,8 @@ This table is the positive coverage record for the complete settled Bill/Rent fa
 | Applicable Rent materiality | Direct Founder correction authority; DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain that address, period, Rent Amount, Due Day, landlord/economic Payee, Payee bank name, bank code, bank account number, stated payout method, Payer-to-tenant relationship, tenant name, and tenant mobile are material Rent facts; optional landlord contact remains a separate optional fact with no inferred materiality; and each change retains its owner-defined Evidence or reconfirmation treatment. |
 | Rent/tenancy and accepted-Evidence reuse boundary | DOC-05; DOC-06C; DOC-09; DOC-10; DOC-12; DOC-15 | CardMore must remember and explain which accepted tenancy context and Rent Evidence remain applicable for reuse, and that reuse ends when expiry, replacement, or material change requires renewed owner-governed Evidence, materiality, or payment treatment. |
 | Declaration and reconfirmation contexts | `FD-DOC18-02`; DOC-05; DOC-06C; DOC-07 | CardMore must remember and explain the facts and confirmation context for Add Bill, a Pay progression that creates a new source, applicable source setup, and material change to a Saved source, while keeping Declaration separate from Save, Evidence, payer authorization, Payment, and Payout. |
-| Ordinary Bill/Rent reminder versus Payment Instruction action alert | DOC-06C; DOC-08; DOC-09 | CardMore must remember and explain whether a communication concerns an ordinary Bill/Rent reminder or an owner-defined Payment Instruction action alert, the applicable source or obligation context, and the separate history without converting one into the other. |
-| Deliberate Payment Instruction versus incomplete Checkout Workspace | DOC-06B; DOC-08; DOC-09 | CardMore must remember and explain a deliberate Payment Instruction and its owner-defined intent separately from an incomplete, partially funded, closed, expired, or otherwise non-continuable Checkout Workspace and its historical context. |
+| Ordinary Bill/Rent reminder versus Checkout continuation | DOC-06C; DOC-08; DOC-09 | Preserve source/obligation reminder meaning separately from an owner-permitted Checkout continuation communication; neither is a deliberate pay-later setup or payer authorization. Dedicated Instruction alerts are retired. |
+| Incomplete Checkout and retired Instruction provenance | DOC-06B; DOC-08; DOC-09 | Preserve incomplete, partially funded, closed, expired or otherwise non-continuable Checkout history without reactivation or conversion into the retired Instruction feature. Retirement does not rewrite actual retained historical records, if any, or decide migration/access mechanics. |
 | Controlled late confirmation and immutable application history | DOC-06B; DOC-09; DOC-10; DOC-11; DOC-17 | CardMore must remember and explain the exactly-one immutable confirmed Payment resulting from accepted late confirmation, any temporary absence of Payment Applications, the closed or expired historical Checkout, the controlled-resolution relationship, and separately owner-governed application, return, adjustment, Settlement, reconciliation, and Payout consequences. |
 | Material-change history | `FD-DOC18-02/03`; DOC-05 through DOC-15 according to concern | CardMore must remember and explain the prior fact, changed fact, provenance, actor/authority, owner materiality assessment, current authoritative fact, supersession, and separately governed consequence without historical rewrite. |
 | Historical action basis and then-effective facts | `FD-DOC18-02`; DOC-09/10/11/12/14/15/18 owner boundaries | CardMore must remember and explain which then-effective facts, owner decisions, qualifications, and relationships supported each historical action or consequence, even when a different fact is current now. |
@@ -318,8 +319,8 @@ For Bills, CardMore must preserve the applicable owner-defined Tier evaluation a
 - the resulting Tier 1, Tier 2, or Tier 3 treatment and the owner-defined precedence where more than one trigger applies;
 - Declaration, Evidence presence, Evidence processing, Evidence acceptance, Tier 3 approval, Payment admission, payer authorization, confirmed Payment, Payout release, and reconciliation as separate meanings;
 - Tier 1 treatment without an attached-Evidence gate, subject to every other applicable owner gate;
-- Tier 2 treatment in which qualifying Evidence presence may permit Payment progression while Evidence acceptance remains a separate Payout gate;
-- Tier 3 treatment in which qualifying Evidence and owner-authorized approval are required before Checkout becomes executable or Payment progression may occur;
+- Tier 2 treatment in which qualifying Evidence presence may permit Payment while acceptance remains the normal Payout gate; a separately authorized DOC-10 Evidence-not-acceptable exception releases only its specified hold and remains a distinct fact;
+- Tier 3 treatment requiring accepted Evidence and per-transaction authorized human approval before executable Checkout/Payment progression; AI preliminary assessment and permanent whitelisting do not substitute;
 - the source's Saved/current, Archived, history-only, or unprojected treatment without treating any projection as Evidence, Payment, Payout, or readiness truth; and
 - owner-permitted history presentation and retrieval only for the applicable domain owner's approved purpose, with DOC-15 owning privacy, approved-purpose access, masking, visibility and retention; DOC-19 enforcing access already permitted by an owner without creating access authority; DOC-22 executing only an expressly owner-permitted operation; and DOC-21 consuming already-permitted history only for approved monitoring, support, incident or operational evidence without becoming an access or retrieval authority.
 
@@ -332,10 +333,14 @@ Payment and Payout histories must remain distinct:
 - a confirmed Payment and its Payment Applications remain historical financial facts;
 - a later Evidence, risk, case, refund, reversal, adjustment, Payout, or reconciliation outcome relates to those facts but does not rewrite them;
 - Payment amount, applied amount, outstanding obligation amount, paid-out amount, returned amount, and adjusted amount retain their owner-defined meanings;
-- Payout history preserves its own owner-defined basis, holds, exceptions, outcome, return or reconciliation treatment; and
+- Payout history preserves its own owner-defined basis, holds, exceptions, outcome, return or reconciliation treatment; a manual Evidence exception preserves reason, supporting Evidence, authority, actor/approver identities, time, scope and history without changing Evidence acceptance or other holds; and
 - neither Evidence progress nor Payment confirmation alone implies Payout completion or recipient receipt.
 
 Under DOC-09's controlled late-confirmation rule, a valid confirmed Payment may temporarily have zero Payment Applications. The recording must preserve that Payment as an immutable confirmed financial fact, identify it as not yet applied, retain the controlled-resolution relationship, and keep the historical Checkout closed or expired. It must not fabricate a Payment Application, reactivate a released historical basis, reduce an obligation without an owner-authorized application, or treat the Payment as ordinarily Payout-ready. Settlement, reconciliation, application, return, refund, adjustment, and later Payout consequences remain separately owner-controlled by DOC-09, DOC-10, DOC-11, and the applicable operational owners; external-interaction mechanics remain with DOC-17.
+
+Owner-approved CS/fee handling must remain explainable without becoming execution evidence. Preserve who acted, when, why, the responsible owner and follow-up; selected fee applicability, amount/currency and CardMore/user responsibility remain business records only, not actual fee charges, Refunds or bank results. No automatic internal case/Refund-completion deadline follows. Actual partner/network/legal/chargeback deadlines and the separate risk-review SLA remain with their owners.
+
+MVP bank evidence need not arrive through an automatic feed. Preserve actual portal/file/upload evidence, individual item outcomes, unknown/missing/duplicate meaning and reconciliation history under DOC-10; manual handling does not manufacture success or failure or authorize blind resend. Normal release, an Evidence exception, designated two-person funds approval, submission, bank confirmation and recipient arrival remain separately attributable facts. These obligations select no schema, event, matching algorithm or operating mechanism and do not close `OQ-10-015`.
 
 ## 5. Relationships, business time, current effectiveness, material change, supersession, and non-rewrite
 
@@ -668,7 +673,7 @@ This traceability requirement does not authorize edits to a register, create an 
 | Dependency | Owner | Treatment and blocking effect |
 | --- | --- | --- |
 | Exact field-specific, summary, or full Declaration and proportionate reconfirmation treatment | DOC-05/07 and applicable Product/Legal/Compliance/Privacy/Payments owners | Open later owner treatment; does not block this business-recording rule. |
-| Category-by-Category Evidence criteria, C1 values, and affected operating rules | DOC-05/12/14 and applicable owners | Open owner inputs; block only affected configuration, acceptance, and enablement. |
+| Category-by-Category Evidence criteria and remaining C1/other operating rules | DOC-05/12/14 and applicable owners | DOC-05 settles initial C1 values, backend configurability and 0-disable meaning. Remaining owner inputs block only affected configuration, acceptance and enablement. |
 | Field-level privacy classification, approved-purpose access, masking, visibility, correction, legal hold, retention exception, and prohibited-sensitive-data treatment | DOC-15 and applicable professional owners | Open later privacy/access/retention treatment; blocks only affected handling or professional assurance. |
 | Security enforcement for already-permitted history access | DOC-19 | Open later enforcement treatment; DOC-19 does not create an access purpose, presentation decision, or retrieval authority. |
 | Owner-permitted Admin/operational presentation or retrieval execution mechanics | Applicable domain owner for purpose and permission; DOC-22 for execution only | Explicitly outside this Draft; blocks only the affected Admin or operational execution capability and does not grant DOC-22 policy authority. |
@@ -684,6 +689,7 @@ No open dependency authorizes DOC-18 to infer missing owner truth or technical d
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 3.0.0 | 2026-11-16 | Product Documentation Team | Recorded accepted C1 configuration history, retired Instruction producer, separate Evidence exception/approval and CS/fee/manual-bank-evidence meaning without selecting technical representation or rewriting history. |
 | 2.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 2.0.1 | 2026-08-30 | Product Documentation Team | Aligned the reviewed Engineering Core and two bounded Engineering Specifications as DOC-18 consuming-document handoffs without changing business-recording truth or authorizing representation, implementation, acceptance, enablement, or launch. |
 | 2.0.0 | 2026-08-27 | Product Documentation Team | Reorganized DOC-18 into the Founder-approved eleven-section business-recording rulebook; added positive Bill/Rent fact and materiality coverage, minimum explainability, amendable Category history, non-rewrite, External Observation, no-generic-readiness, bounded owner-permitted history presentation/retrieval, safe-extension, and decision/acceptance traceability while deferring all technical representation and implementation choices. |

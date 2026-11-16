@@ -67,4 +67,4 @@ CardMore is a controlled, payer-authorized payment service for the twelve accept
 
 CardMore is not a wallet, stored-value account, unrestricted P2P transfer app, cashout product, remittance product, lending product, or open money-request marketplace.
 
-Category-bound Bill payments, rent/tenancy payments, multi-card payment, and deliberate user Payment Instructions are MVP scope where supported by the applicable Bill tier or Rent Evidence rule and enabled controls. Request, Linking, Receive, Receiving Info, and Consumer-Payee runtime is retired.
+Category-bound Bill payments, rent/tenancy payments, multi-card payment and retained incomplete Checkout continuation are MVP scope under their formal owners and enabled controls. Deliberate user-created pay-later Payment Instructions and their dedicated setup/actions/notifications are retired; the existing Instructions routes retain Checkout continuation only. Request, Linking, Receive, Receiving Info and Consumer-Payee runtime remains retired.

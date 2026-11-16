@@ -1,7 +1,7 @@
 ---
 document_id: DOC-02
 title: Business Model & Unit Economics
-version: 1.1.0
+version: 1.2.0
 status: Founder Working Baseline
 owner: Commercial / Finance Owner
 reviewers:
@@ -37,7 +37,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-02` |
 | **Title** | Business Model & Unit Economics |
-| **Version** | `1.1.0` |
+| **Version** | `1.2.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Commercial / Finance Owner |
 | **Reviewers** | Product Lead<br>Finance Lead<br>Commercial Lead<br>Payments Lead<br>Compliance Lead<br>Risk Lead |
@@ -425,7 +425,7 @@ This document establishes no accounting or tax policy.
 | `CON-DOC02-012` | Institutional fees require agreement, disclosure, approval and reporting. | No fee inferred. | Commercial / Legal / Finance |
 | `CON-DOC02-013` | Original Payee-created Request charging constraint. | Superseded; Payer authorization remains under DOC-09. | Product / Payments / Legal |
 | `CON-DOC02-014` | Original Payee-created Rent/invoice pricing constraint. | Retired; Category economics remain gated. | Commercial / Risk / Product |
-| `CON-DOC02-015` | Payment Instructions may change timing, quote, support and Payout cost. | Requires downstream reporting. | Commercial / Product / Finance |
+| `CON-DOC02-015` | Retired: deliberate Payment Instruction-specific timing/quote/support/Payout-cost constraint. | Non-active provenance; retained Checkout economics remain under their existing owners. | Commercial / Product / Finance |
 
 ---
 
@@ -451,7 +451,7 @@ This document establishes no accounting or tax policy.
 | `DEP-DOC02-016` | Rent verification standard. | Rent economics. | Product / Risk / Operations | Open |
 | `DEP-DOC02-017` | Controlled Bill verification standard. | Category economics. | Product / Risk / Operations | Open |
 | `DEP-DOC02-018` | Institutional and economic-Payee support model. | Support allocation. | Operations / Commercial | Open |
-| `DEP-DOC02-019` | Payment Instruction reporting. | Deferred funding economics. | Finance / Product / Engineering | Open |
+| `DEP-DOC02-019` | Retired: deliberate Payment Instruction reporting. | No active deferred-feature reporting dependency; retained funding/Payout economics remain separate. | Finance / Product / Engineering | Superseded |
 
 ---
 
@@ -479,7 +479,7 @@ This document establishes no accounting or tax policy.
 | `RISK-DOC02-018` | Fee allocation confuses Payers or institutions. | Complaints/disputes. | Clear approved disclosure. | Product / Legal | Open |
 | `RISK-DOC02-019` | Payout timing expectations create pressure. | Support or unsafe early Payout. | Align communication to model. | Finance / Operations | Open |
 | `RISK-DOC02-020` | Original Request spam cost risk. | Superseded active product risk. | Active Requests retired; individual notification abuse remains specialist-owned. | Commercial / Risk | Retired |
-| `RISK-DOC02-021` | Deferred Instructions or partial funding create cost complexity. | Revenue/reconciliation harm. | Revalidate and report under owners. | Finance / Product / Operations | Open |
+| `RISK-DOC02-021` | Retained partial Checkout funding/Payout creates cost complexity; deliberate Instruction-specific economics is retired. | Revenue/reconciliation harm. | Revalidate and report under owners. | Finance / Product / Operations | Open |
 | `RISK-DOC02-022` | Directory operations are assumed to remove independently required transaction checks. | Underestimated operating cost and control failure. | Include owner-required transaction controls in aggregate costs. | Commercial / Risk | Open |
 | `RISK-DOC02-023` | Self-provided-process verification burden is underestimated. | Negative Category margin. | Measure aggregate process and review cost without repurposing transaction provenance. | Commercial / Operations | Open |
 | `RISK-DOC02-024` | Unpublication is confused with commercial offboarding or suspension. | Incorrect records or bypass. | Model each action separately under its owner. | Commercial / Product | Open |
@@ -535,7 +535,7 @@ This document establishes no accounting or tax policy.
 | `OQ-DOC02-025` | Original Request spam-limit question. | Commercial / Risk / Operations | High | Retired |
 | `OQ-DOC02-026` | Original Request-flow margin-threshold question. | Finance / Commercial | High | Retired |
 | `OQ-DOC02-027` | What institution/economic-Payee reporting is required for Payout, fees, disputes, refunds and tax/accounting? | Finance / Product / Engineering | Medium | Open |
-| `OQ-DOC02-028` | What margin treatment applies to Payment Instructions and partial funding/Payout? | Finance / Product / Engineering | Medium | Open |
+| `OQ-DOC02-028` | Deliberate Instruction-specific economics is retired. What margin treatment remains required for retained partial Checkout funding/Payout? | Finance / Product / Engineering | Medium | Partially superseded; retained economics Open |
 | `OQ-DOC02-029` | What programme data is required to report institutional enrolment, Category-association, publication, operating cost and approved revenue without using Bill-acquisition provenance? | Finance / Engineering | High | Open |
 | `OQ-DOC02-030` | What, if any, separately approved institutional enrolment, programme, platform, Payout, subsidy or transaction terms should apply? | Commercial / Finance / Legal | Critical | Open; no term approved |
 
@@ -563,6 +563,7 @@ This document remains a commercial framework, not a pricing sheet, accounting po
 ## 27. Version History
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 1.2.0 | 2026-11-16 | Product Documentation Team | Retired Instruction-specific commercial constraints/reporting and narrowed mixed partial-funding economics dependencies without selecting fees or accounting policy. |
 | 1.1.0 | 2026-11-16 | Product Documentation Team | Aligned the current name and the bounded DOC-18 business-recording versus future representation handoff. |
 | 1.0.0 | 2026-08-19 | Stage 11 Alignment: synchronized accepted Bills-tier, Rent, owner-handoff, projection, retention and non-invention meaning without adding implementation detail. | Stage 11 alignment evidence |
 | `0.11.0` | 2026-08-12 | Product Documentation Team | Aligned the commercial framework to the Founder-confirmed twelve-category inventory and separate Rent economic line, and removed nonexistent production Request records, measures, fields, transactions and historical-reporting obligations while preserving retired IDs and append-only documentation history. |

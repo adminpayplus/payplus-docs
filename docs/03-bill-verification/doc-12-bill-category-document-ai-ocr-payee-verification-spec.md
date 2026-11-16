@@ -1,7 +1,7 @@
 ---
 document_id: DOC-12
 title: Bill Category, Document AI/OCR & Payee Verification Specification
-version: 1.1.0
+version: 2.0.0
 status: Founder Working Baseline
 owner: Product / Risk
 reviewers:
@@ -47,7 +47,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-12` |
 | **Title** | Bill Category, Document AI/OCR & Payee Verification Specification |
-| **Version** | `1.1.0` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Risk |
 | **Reviewers** | Product Lead<br>Engineering Lead<br>Data Lead<br>Risk Lead<br>Compliance Lead<br>Privacy Lead<br>Operations Lead<br>Payments Lead |
@@ -209,9 +209,9 @@ Rent always requires attached Evidence, and the required Evidence acceptance rem
 
 ### 5.3 C1 Category binding
 
-C1 is the approved Category single-Payment threshold. C1 policy authority belongs to the designated product/risk owner; DOC-12 binds the applicable approved Category configuration, DOC-09 consumes it, and DOC-22 only executes approved configuration.
+C1 is the approved Category single-Payment threshold. DOC-05 Section 7.2 is the sole policy/value table under designated product/risk authority. DOC-12 binds the applicable Category configuration, DOC-09 consumes it, and DOC-22 only executes approved configuration. The initial values, backend configurability and 0-disable meaning are settled there; DOC-12 does not duplicate the table.
 
-This settled layering defines the DOC-12 binding framework. DOC-12 does not invent a Category value or grant DOC-22 threshold authority. Exact values, permitted adjustments, configuration representation and operating change details remain later owner-defined inputs that block affected configuration, enablement and acceptance until supplied.
+This settled layering defines the DOC-12 binding framework. Zero disables only the Category's C1 check, not G1/G2 or any Evidence, identity, risk, destination or authorization gate. Save uses source Bill Amount; Pay uses selected principal/allowed prepayment aggregate rather than fees, total card charge or individual Funding Legs. Remaining permitted adjustments, technical representation and operating change detail remain owner inputs blocking only the affected configuration, enablement or acceptance.
 
 Unsupported or prohibited categories must follow DOC-01, DOC-03, DOC-04, DOC-05, and DOC-14.
 
@@ -234,8 +234,8 @@ DOC-12 defines the following verification flow:
 11. System compares extracted values, user-corrected values, intended Payee, Payer, source amount, Category, and relevant prior Evidence signals.
 12. System applies duplicate, mismatch, same-party, and risk rules.
 13. System assigns the owner-governed verification outcome without treating an AI result as Evidence acceptance or Tier 3 approval.
-14. Bill Tier 1 proceeds without an attached-Evidence gate where every other owner gate passes; Tier 2 may proceed to Payment only after qualifying Evidence presence, while acceptance remains a Payout gate; Tier 3 and Rent require the applicable Evidence acceptance before Payment.
-15. Unresolved Tier 2 cases may use exception-only owner-approved human review. Tier 3 requires authorized approval under the designated owner policy. DOC-22 may execute only the permitted workflow and cannot create Evidence or approval truth.
+14. Bill Tier 1 proceeds without an attached-Evidence gate where every other owner gate passes; Tier 2 may proceed to Payment only after qualifying Evidence presence, while acceptance remains the normal Payout gate and any specified hold exception is separately DOC-10-owned; Tier 3 and Rent require the applicable Evidence acceptance before Payment.
+15. Unresolved Tier 2 cases may use exception-only owner-approved human review. A separately authorized DOC-10 Evidence-hold release while Evidence remains not acceptable does not change the DOC-12 assessment. Tier 3 requires accepted Evidence and per-transaction authorized human approval before executable Payment; preliminary AI assessment is neither acceptance nor approval and creates no permanent whitelist. DOC-22 executes only a permitted workflow and cannot create Evidence or approval truth.
 
 The UX flow belongs in DOC-06. Provider API details belong in DOC-17. DOC-12 preserves the OCR-to-owner-outcome history and auditability required for Evidence-domain handoffs; any exact technical representation is deferred under separate authority.
 
@@ -490,8 +490,8 @@ Tier consumption rules:
 | Scope | Presence/acceptance effect |
 |---|---|
 | Bill Tier 1 | `Not Provided` does not by itself create Action Required or block Payment because attached Evidence is not required. Any voluntarily supplied Evidence remains separately attributable and owner-governed. |
-| Bill Tier 2 | No qualifying official Bill Evidence blocks Payment. Qualifying presence may permit Payment while the verification outcome remains pending; Payout stays held until acceptance and every other release gate passes. Rejection, clarification, duplicate or escalation keeps the Evidence-related Payout gate closed. |
-| Bill Tier 3 | Qualifying official Bill Evidence plus authorized approval is required before executable Payment. A preliminary or automated result does not substitute for approval. |
+| Bill Tier 2 | No qualifying official Bill Evidence blocks Payment. Qualifying presence may permit Payment while the verification outcome remains pending. Payout normally remains held until acceptance and other gates pass. Only a separately authorized DOC-10 exception may release its specified Evidence hold without acceptance; rejection, clarification, duplicate or risk outcomes remain unchanged and any other applicable hold remains. |
+| Bill Tier 3 | Accepted qualifying official Bill Evidence plus per-transaction authorized human approval is required before executable Payment. A preliminary or automated result does not substitute for approval. |
 | Rent | Attached Evidence and the required accepted outcome remain Payment gates. A Declaration does not replace or defer them. |
 
 DOC-12 publishes Evidence and Evidence-to-Payee outcomes. DOC-06C owns the user-facing readiness/handling presentation and consumes the applicable tier or Rent rule. DOC-09 consumes payment-facing facts and Payment-admission outcomes; DOC-10 consumes Evidence acceptance and Tier 3 approval for Payout. Settlement and Payout remain downstream under DOC-10.
@@ -611,7 +611,7 @@ DOC-06 remains the parent UX source map; DOC-06C should remain a user-facing Bil
 | OQ-12-010 | What owner-permitted DOC-22 workflow/configuration and reason capture are required for Evidence review? | Operations / Risk / Product | Medium | Open |
 | OQ-12-011 | Which evidence-derived fields and model features are prohibited from marketing, partner reporting, external activation, credit scoring, or insurance-related targeting? | Privacy / Legal / Risk | High | Open |
 | OQ-12-012 | What final mapping, reason codes and exception rules should connect DOC-12 outcomes to Bill Tier 1/2/3 and separate Rent readiness presentation without treating presentation as domain truth? | Product / Risk / Operations / Engineering | High | Open; representation detail does not change the accepted gate semantics |
-| OQ-12-013 | Which approved C1 Category values, permitted adjustments, configuration representation and operating change details bind here under the settled designated product/risk authority? | Product / Risk / Compliance | High | Open later configuration/enablement input; blocks affected configuration, enablement and acceptance until supplied |
+| OQ-12-013 | Initial C1 values, backend configurability and 0-disable meaning are settled in DOC-05 Section 7.2. Which remaining permitted adjustments, configuration representation and operating change details bind here under designated product/risk authority? | Product / Risk / Compliance | High | Partially decided; remaining inputs block only affected configuration, enablement and acceptance |
 
 Legal, Compliance, PSP/acquirer, card-network, Finance, Privacy, Security and Operations confirmations remain explicit affected-path dependencies. They must be resolved before the affected path's enablement, implementation, acceptance, production readiness or launch. A professional conflict that changes product meaning or makes the accepted Evidence framework impossible must be handled under the canonical CardMore Documentation Development Workflow.
 
@@ -623,7 +623,7 @@ DOC-12 is acceptable when it clearly defines:
 
 - evidence category model;
 - owner-approved official current/historical Bill Evidence governance and communication-material exclusion;
-- explicit separation of Evidence presence, acceptance, Tier 3 approval, Payment admission and Payout release;
+- explicit separation of Evidence presence, acceptance, AI preliminary assessment, per-transaction Tier 3 human approval, Payment admission and Payout release; an authorized DOC-10 Evidence-hold exception never fabricates acceptance or bypasses Rent/Tier 3 before-Payment gates;
 - C1 Category binding without assigning sole policy authority to DOC-12 or DOC-14;
 - Tier 1/2/3 Bill Evidence consumption and the separate Rent mandatory-Evidence/acceptance gate;
 - document AI/OCR processing flow;
@@ -662,6 +662,7 @@ It should not become:
 
 | Version | Date | Author | Change Summary |
 | --- | --- | --- | --- |
+| 2.0.0 | 2026-11-16 | Product Documentation Team | Consumed sole DOC-05 C1 policy and distinguished a DOC-10 Evidence-hold exception from acceptance; preserved Rent and Tier 3 accepted-Evidence/human-approval before-Payment requirements. |
 | 1.1.0 | 2026-11-16 | Product Documentation Team | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | `1.0.1` | `2026-08-31` | Product Documentation Team | Reconciled DOC-12 technical-allocation references with the Founder decision: removed direct allocations, retained domain-policy and bounded business-recording handoffs, and deferred exact technical representation under separate authority. |
 | `1.0.0` | `2026-08-18` | Product Documentation Team | Implemented the material Bills-only Evidence boundary and fixed-seat compliance supplement; traced the Founder-updated framework, neutralized active lifecycle-language ambiguity, qualified indefinite retention by lawful scope, and kept examples and operating lists correctly classified with final Evidence snapshots conditional where required. |

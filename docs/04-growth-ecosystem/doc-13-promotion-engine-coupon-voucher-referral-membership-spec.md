@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 1.3.0
+version: 2.0.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -52,7 +52,7 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-13` |
 | **Title** | Promotion Engine, Coupon, Voucher, Referral & Membership Specification |
-| **Version** | `1.3.0` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Growth / Product |
 | **Reviewers** | Product Lead<br>Commercial Lead<br>Finance Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead |
@@ -111,7 +111,7 @@ DOC-13 does not own:
 | --- | --- |
 | Promotion engine | Required as a unified rule engine; individual campaign launch remains gated. |
 | Checkout impact | Promotion impact must be calculated before payer authorization and included in the payment quote. |
-| Deferred payment instruction | Promotion quote meaning may remain available with a DOC-09 payment instruction, but eligibility, quota, budget, and instrument status must be revalidated before actual funding submission unless explicit reservation rules apply. |
+| Checkout continuation | Current promotion eligibility, quote, quota, budget and instrument facts must be revalidated before applicable funding submission under DOC-09. Deliberate pay-later Instruction and its feature-specific reservation behavior are retired. |
 | Card-linked offers | Selected tokenized payment-card reference or gateway-returned card metadata is preferred; BIN check is supplementary. |
 | Service-fee benefits | Service-fee rate changes, reductions, or waivers are calculated before absolute checkout amount discounts. |
 | Spending rewards | Accumulated spend rewards track entitlement, not raw card usage. |
@@ -517,20 +517,15 @@ Checkout calculation sequence:
 12. Produce promotion quote.
 13. Pass promotion quote to payment quote.
 14. Retain applied promotion terms, selection basis, and user-value result as business information for authorization and audit.
-15. Revalidate or recalculate before actual funding submission where DOC-09 deferred payment instruction is used.
+15. Revalidate or recalculate current promotion terms before applicable funding submission, including retained DOC-09 Checkout continuation.
 
 After the payer selects a payment card or Payment Profile where applicable, DOC-13 owns promotion eligibility, selection, quote, and recalculation rules; DOC-09 owns payment-domain and authorization meaning; and DOC-06B owns presentation within the Checkout Workspace. The Workspace must identify the automatically applied Card Offer, allow a separate eligible coupon/voucher/discount selection, and present the recalculated fee, discount, benefit, and final total before authorization. These facts may be adaptively combined or separated within the Checkout Workspace and are not required to use one fixed screen or step. Changing the payment card, profile, funding allocation, amount, or other material eligibility input invalidates the prior promotion quote and triggers re-evaluation.
 
 Material changes require recalculation. Material changes include payment amount, category, economic-Payee/source-context facts where an owner-approved offer rule uses them (not User or participant status), evidence status, selected card, card split, service fee, discount, campaign status, usage entitlement, or budget availability.
 
-For DOC-09 deferred payment instructions, the original promotion quote should be retained for audit. CardMore should not assume campaign quota, budget, coupon/voucher availability, card-linked eligibility, membership status, or reward entitlement remains valid when the user returns to submit payment unless the campaign explicitly reserves that benefit.
+Retained Checkout continuation preserves historical quote meaning for audit but must not assume campaign quota, budget, coupon/voucher availability, card-linked eligibility, membership status or reward entitlement remains current. Revalidate applicable facts and present changed terms before submission under the existing owner rules.
 
-Reservation behavior must be configurable:
-
-- no reservation: revalidate and recalculate at submission;
-- soft reservation: show expected benefit but revalidate before submission;
-- hard reservation: reserve budget, quota, or instrument for a configured expiry window;
-- expiry release: release reserved benefit if instruction expires or is cancelled.
+Deliberate Payment Instruction-specific no/soft/hard reservation, configured reservation expiry and cancellation/expiry release are retired. This does not introduce a replacement reservation model or alter unrelated campaign, entitlement, issued-instrument or confirmed benefit-application truth.
 
 Promotion quote must make the following business information distinguishable where applicable:
 
@@ -700,11 +695,11 @@ Benefit entitlement means that an eligible user has earned a benefit. DOC-13 req
 
 Promotion quote is the pre-authorization calculation result.
 
-Promotion quote reservation expresses whether a quote benefit is not reserved, softly reserved, or hard reserved for a DOC-09 deferred payment instruction, including expiry and release meaning.
+The former promotion-quote reservation for a deferred Payment Instruction is retired; no active Instruction reservation, expiry or release requirement follows from it.
 
 Benefit application is the actual confirmed use of a benefit after authorization, payment completion, or other configured trigger.
 
-Promotion quote, reservation, and benefit-application meaning must remain related to the applicable campaign, offer, payer and source/transaction context, Payment Instruction, Funding Leg, Payment, funding source, applied amount, and reversal outcome. DOC-09 owns the underlying Payment, Payment Instruction, Funding Leg, and Payment Application meaning; DOC-13 does not redefine that topology.
+Current promotion quote and benefit-application meaning remain related to the applicable campaign, offer, Payer/source transaction context, Funding Leg, Payment, funding source, applied amount and reversal outcome. DOC-09 owns Payment, Funding Leg and Payment Application meaning; DOC-13 does not redefine that topology or restore a retired Instruction object.
 
 ### 8.7 Reward Instrument and Redemption / Fulfilment
 
@@ -959,7 +954,7 @@ Exact technical realisation remains deferred under separate authority. This docu
 | DOC-06B | Coupon/voucher library route placement, MGM/referral placement, membership/reward status UX surfaces, and Hot Offer HOME-ROOT carousel placement. |
 | DOC-07 | Promotion, fee, discount, miles, voucher, eligibility, expiry, and T&C disclosure. |
 | DOC-08 | Reward, referral, coupon, voucher, miles, campaign, entitlement, and fulfilment notification requirements. |
-| DOC-09 | Promotion quote, final payment quote, deferred payment instruction revalidation, card-linked eligibility, recalculation, and reauthorization. |
+| DOC-09 | Promotion quote, final payment quote, retained Checkout continuation revalidation, card-linked eligibility, recalculation and fresh authorization. |
 | DOC-10 | Partner reimbursement and promotion settlement/reconciliation where applicable. |
 | DOC-11 | Refund, reversal, chargeback, coupon restoration, miles reversal, and clawback. |
 | DOC-12 | Keep promotion, referral, membership, and payment behavior data separate from evidence-derived data. |
@@ -990,7 +985,7 @@ Exact technical realisation remains deferred under separate authority. This docu
 | OQ-13-010 | What payment, settlement, refund, chargeback, and risk finality values are configured before referral or miles rewards become final? | Risk / Finance / Operations | Open; configurable requirement confirmed |
 | OQ-13-011 | What membership tier formula, conversion ratio, downgrade rule, and grace period apply? | Product / Growth / Commercial | Open |
 | OQ-13-012 | What partner reimbursement, tax, and accounting treatment applies to partner-funded offers? | Finance / Legal / Commercial | Open |
-| OQ-13-013 | Which promotion types may be hard-reserved for DOC-09 deferred payment instructions, and what expiry, budget-release, and user-notice rules apply? | Product / Growth / Finance | Open |
+| OQ-13-013 | Retired: hard reservation, expiry, budget release and user notices dedicated to DOC-09 deliberate pay-later Instructions. No replacement reservation model is selected. | Product / Growth / Finance | Superseded; no active Instruction feature |
 | OQ-13-014 | What final technical synchronization, date/time handling, approval implementation, and operational evidence should implement the decided public Entrance Promotion/Feature source and placement boundary? | Product / Growth / Privacy / Operations / Engineering | Partially open; Promotion and Feature are the only content classes, source truth remains with its formal owner, timing and optional-action boundaries are defined, and source changes require placement suspension and republication |
 | OQ-13-015 | What data may be used for offer ranking, placement personalization, campaign lift measurement, and partner-funded offer reporting? | Product / Growth / Privacy | Open |
 | OQ-13-016 | What aggregation, de-identification, report approval, and partner-contract controls are required before campaign performance data is shared externally? | Growth / Privacy / Legal | Open |
@@ -1008,7 +1003,7 @@ DOC-13 is acceptable when:
 - direct checkout benefit and instrument issuance paths are defined;
 - accumulated spend rewards track entitlement, not raw card usage;
 - checkout calculation sequence is clear;
-- deferred payment instruction quote revalidation and reservation boundaries are defined;
+- deliberate Instruction-specific reservation/expiry behavior is retired while current Checkout quote revalidation, historical terms and fresh authorization remain intact;
 - card-linked eligibility prefers the selected tokenized payment-card reference or gateway-returned card metadata, links split-card evaluation to the applicable funding leg, and treats BIN check as supplementary;
 - `REWARDS-ROOT` can show issued rewards from different sources while preserving source and instrument type;
 - reward instruments preserve separate instrument-type, earning-source, participant-role, program, campaign/offer, entitlement, and fulfilment dimensions;
@@ -1031,6 +1026,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.0.0 | 2026-11-16 | Retired Instruction-specific quote reservation/expiry and related dependency while preserving current Checkout quote revalidation, benefit truth and fresh authorization. |
 | 1.3.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.2.9 | 2026-09-01 | Removed or qualified only the approved legacy technical-form allocations in TAR-13-02, 03, and 05–19; preserved promotion/commercial meaning and established owner boundaries without selecting technical representation, provider, mechanism, implementation, or readiness. |
 | 1.2.8 | 2026-08-21 | Aligned promotion handoffs with DOC-16/DOC-17 provider boundaries, DOC-18 representation and the reviewed DOC-19 security-control contract without selecting mechanisms, thresholds or PCI scope. |
