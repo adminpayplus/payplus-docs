@@ -2285,3 +2285,45 @@ Exactly 37 paths were delivered: the 23 reviewed formal documents (DOC-01, DOC-0
 
 - OQ-10-015 financial/Refund/fee/liquidity/support enablement; actual operating assignments/segregation evidence, Evidence lists, configuration mechanics, bank/provider/format/matching/cutoff/calendar, exact expression and implementation evidence remain owner-backed. No new exception-case enumeration gate is imposed.
 - Handoff/Figma were not changed or refreshed. The unvalidated July prototype and pre-existing derived programme-tracker staleness remain excluded, not claimed aligned. Existing document status/owner/reviewer/approver metadata and historical records are preserved.
+
+### `2026-11-18` - Adopted Entrance Splash And Start Restoration
+
+| Field | Record |
+| --- | --- |
+| Substantive commit | `7d602f62def440ed158cd0549a193b8d4391abbd` |
+| Primary owner | [DOC-06B — Navigation, IA & Route Taxonomy](../01-product/doc-06b-navigation-ia-route-taxonomy.md), Section 5.0.1 and existing authentication entry; DOC-06D owns acceptance and DOC-13 retains independent promotion truth |
+| Decision record | [DEC-2026-058](../decision-log/decisionlog.md) |
+| Founder approval | Founder requested correction of the adopted Splash/canonical/handoff discrepancy on 2026-11-17, then explicitly authorized publication of the exact verified ten-file correction, required records-only follow-up and non-force existing publication-branch/main pushes on 2026-11-18; stop on divergence and protect handoff/Figma. |
+
+**Files Changed**
+
+- [docs/01-product/doc-06a-core-user-journeys-service-blueprint.md](../01-product/doc-06a-core-user-journeys-service-blueprint.md)
+- [docs/01-product/doc-06b-navigation-ia-route-taxonomy.md](../01-product/doc-06b-navigation-ia-route-taxonomy.md)
+- [docs/01-product/doc-06d-ux-requirements-acceptance-test-matrix.md](../01-product/doc-06d-ux-requirements-acceptance-test-matrix.md)
+- [docs/04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md](../04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md)
+- [docs/diagrams/routes/payplus-app-route-map.md](../diagrams/routes/payplus-app-route-map.md)
+- [docs/diagrams/routes/payplus-authentication-route-map.md](../diagrams/routes/payplus-authentication-route-map.md)
+- [docs/glossary/glossary.md](../glossary/glossary.md)
+- [docs/traceability/open-questions-register.md](../traceability/open-questions-register.md)
+- [docs/traceability/requirements-traceability-matrix.md](../traceability/requirements-traceability-matrix.md)
+- [docs/traceability/route-register.md](../traceability/route-register.md)
+
+**Material Changes**
+
+- Restored the already-adopted fullbleed CardMore Splash, immediately usable Start and public bottom-up Login/Create choices. Only a qualifying valid remembered signed-in session with configured Login PIN and owner-required verification uses Start directly to existing PIN, without the chooser/interstitial. Ordinary approved-session handling remains unchanged.
+- Distinguished R8.4's one-pass three-second artwork/final hold from navigation or authentication delay. Preserved language, anonymous-safe Support/Terms, actual-caller returns, locked Back, Another Account, logout clearing and protected-return revalidation. Splash/Start/choices do not grant account, session or financial authority.
+- Removed obsolete current Splash Carousel/detail/CMS dependencies while retaining independent promotion/Feature truth, component/detail identities and Defined baseline, source/configuration history and existing controls. No global promotion retirement, relocation or replacement entry was selected.
+- Corrected owned acceptance, journey, glossary, route inventory, OQ/traceability and source-Mermaid projections. Preserved OTP/provider login, mandatory registration PIN-before-Terms, proof/uniqueness/unknown-result and recovery controls; no lifetime, factor, mechanism, permission, status, schema or financial rule was introduced.
+- Recorded the actual omission: historical R1 K02/write scope excluded DOC-06B Section 5.0.1, so the old current definition survived canonical incorporation and was later reinforced by handoff fidelity correction. The existing pinned Design already contained Splash; no global repin or rewriting of the historical intake/decision records occurred.
+
+**Checks Performed**
+
+- Completed three distinct read-only Specialist reviews, independent whole-Draft/final-byte inspection, fresh independent Stage 9 Review, owner-first alignment and independent integrated validation. A fresh blind package-first read preceded accepted-source comparison and actual then-delivered ZIP verification. These were bounded accepted-scope checks, not a word-for-word unrelated-platform audit.
+- Verified the exact ten staged/committed paths, parent `5d12fb2abecdf0b34421f18084f33bb9cda1e2b3`, Git-normalized blob equality and unchanged approved working bytes. The substantive diff is 94,146 bytes, SHA-256 `d2479d3f44f2c9b92baeb307add1003703579e17a0851b3bb83868ecaf7c7c80`; approved ten-file raw aggregate remains `0a255f9ed0eddd127c1653cd46a4123570b27adb8d119e04266212779cedcbfe`.
+- Verified metadata mirrors, fixed status/ownership fields, append-only source history, route/AC identities, links/tables, UTF-8/no BOM and preserved CRLF/two-map LF. Mermaid verification is source/structure evidence, not fresh rendered pixel-fit or device accessibility proof.
+- Separately maintained outward handoff files and ZIPs are not part of this commit. At publication entry their current 35-file aggregate was `c6307bdccc7f8d0fa3e051c73ef793dec0ef95b7d6e4a6ba5eaccd3667e32554`; both current ZIPs were 237,679 bytes/SHA-256 `385ae36e0b783651815c31d60b2a23e03c35bddd8effa50ca33793046e432117`. These current bytes and standalone `engineering.zh-Hant.md` were preserved, not overwritten from earlier artifact snapshots or re-certified by older package reports. No handoff, PPUI or Figma write was performed by this publication.
+
+**Remaining Open Items**
+
+- Exact DOC-07 mappings, applicable provider/security mechanisms, platform rendering, responsive/accessibility, implementation/runtime/UAT, operating effectiveness and professional assurance remain with their owners. This restoration does not fill them or imply launch readiness.
+- Independent promotion capability and histories remain without a selected current Splash caller or new location. Historical source/record/helper material remains preserved, not relabelled current package QA. No unrelated policy, implementation or documentation programme is started.

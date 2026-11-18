@@ -78,6 +78,7 @@ Formal source documents remain authoritative. This log records why and where a d
 | `DEC-2026-055` | `2026-11-16` | Payout Evidence Release And Transaction Approval Boundaries | Accepted | `DOC-10` / `DOC-14` by concern | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
 | `DEC-2026-056` | `2026-11-16` | Case Accountability And Fee Responsibility Records | Accepted | `DOC-11` / `DOC-21` by concern | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
 | `DEC-2026-057` | `2026-11-16` | MVP Bank Evidence Without Mandatory Automatic Feed | Accepted | `DOC-10` | `d092fc3b773076bd3ef103469bc8965f6723f4e6` |
+| `DEC-2026-058` | `2026-11-18` | Adopted Entrance Splash And Start Restoration | Accepted | `DOC-06B` | `7d602f62def440ed158cd0549a193b8d4391abbd` |
 
 ## 4. Decision Record Template
 
@@ -2803,3 +2804,45 @@ No decision-ID-level supersession. Resolves the mandatory-feed-assumption portio
 **Remaining Open Items**
 
 Operating bank/provider, formats/API, matching, cutoff/calendar, accounting and actual operating/acceptance evidence remain owner-defined. No implementation, operating-effectiveness or launch-readiness claim follows.
+
+### `DEC-2026-058` - Adopted Entrance Splash And Start Restoration
+
+| Field | Record |
+| --- | --- |
+| Date | `2026-11-18` |
+| Status | Accepted |
+| Primary owner | [DOC-06B — Navigation, IA & Route Taxonomy](../01-product/doc-06b-navigation-ia-route-taxonomy.md), Section 5.0.1 and existing authentication entry |
+| Affected documents | [DOC-06A](../01-product/doc-06a-core-user-journeys-service-blueprint.md), [DOC-06D — UX Requirements, Acceptance Criteria & Test Matrix](../01-product/doc-06d-ux-requirements-acceptance-test-matrix.md), [DOC-13 — Promotion Engine, Coupon, Voucher, Referral & Membership Specification](../04-growth-ecosystem/doc-13-promotion-engine-coupon-voucher-referral-membership-spec.md), glossary, route/requirements/OQ registers and app/authentication maps; all ten actual paths are listed in the [changelog](../changelog/changelog.md). |
+| Substantive commit | `7d602f62def440ed158cd0549a193b8d4391abbd` |
+| Founder approval | Founder requested correction of the adopted Splash/canonical/handoff discrepancy on 2026-11-17 and explicitly authorized the verified ten-file substantive commit, required records follow-up and safe non-force publication-branch/main pushes on 2026-11-18, with divergence stop and handoff/Figma protection. |
+| Publication approval reference | Founder chat `019fc168-240e-7111-a014-87dd83e4a7ce`, turn `01a1edd6-1df5-7330-961f-c1014124bc06`, user message `01a1edd6-1efd-7833-984f-eae9a2b7915d`. |
+
+**Decision**
+
+Restore the already-adopted `ENTRANCE-ROOT` Splash and Start contract through its canonical owner. Public/ineligible Start opens the existing bottom-up Login/Create sheet. Only a current valid remembered signed-in session with configured Login PIN and owner-required verification uses Start directly to existing PIN, without chooser/interstitial; ordinary secure approved-session handling remains. Start works throughout the adopted one-pass three-second R8.4 artwork and final hold. Preserve language, anonymous-safe Support/Terms, dismissal to the same host, actual-caller returns and existing locked Back, Another Account, logout and protected-return controls.
+
+The presentation grants no account, identifier reservation, session authority, entitlement or payment effect. Existing OTP/provider login, mandatory matching registration PIN before Terms/confirmed creation, purpose-bound proofs, uniqueness, unknown-result reconciliation and Recovery boundaries remain. No universal launch PIN/App Lock requirement, new lifetime, factor, recovery mechanism, permission, status, event, schema or financial policy is adopted.
+
+Remove the obsolete current Splash Carousel/detail/placement-management build binding, not the independently retained promotion/Feature capability. Preserve source truth, existing component/detail identities and Defined baseline, configuration/history, timing/action and suspension/republication controls. No global retirement, replacement caller or relocation is selected.
+
+**Rationale**
+
+The October 27 PPUI Splash adoption and November 6 session/R8.4 adoption preceded the fixed R1 intake. Historical K02/canonical write scope omitted Section 5.0.1, leaving the prior Carousel definition intact in canonical incorporation; later handoff fidelity correction propagated it. The existing pinned Design already contained Splash. The required repair is faithful owner-first expression and dependent alignment, not a new design or a prototype overriding the source hierarchy.
+
+**Alternatives Considered**
+
+This executes existing adopted meaning and the current direct correction; no new Proposal comparison or rejected design round is reconstructed. Retaining the contradictory current Carousel binding or correcting only a derivative would leave the accepted flow inconsistent. Globally retiring/relocating public promotions, inventing another entry, repinning the whole Design or selecting new authentication/recovery policy falls outside this restoration and was not implemented.
+
+**Consequences And Handoffs**
+
+DOC-06B remains route/entry owner; DOC-06D owns acceptance, DOC-13 independent promotion truth and DOC-06A the journey projection. Glossary, route inventory, requirements/OQ mapping and the two hierarchical maps consume that meaning without creating another owner. DOC-07/15/19 retain communication, privacy and mechanism-neutral security responsibilities. Status/owner/reviewer/approver fields and prior history remain unchanged.
+
+Independent Specialist, whole-Draft/final-byte, fresh Primary and integrated validation evidence supports the bounded restored source expression. The blind package-first read and then-current archive checks do not establish production authentication, provider connectivity, OS/device behavior, accessibility/UAT or professional assurance. Separately maintained handoff/ZIP and standalone Traditional Chinese engineering artifacts remain outside this commit and byte-protected during publication; later artifact versions are not represented as revalidated by earlier reports.
+
+**Supersedes / Superseded By**
+
+Supersedes only the old current Entrance Carousel/Splash caller and build obligations derived from DEC-2026-040 and the corresponding current clauses. It does not globally supersede DEC-2026-040, retire the independent capability or reverse DEC-2026-048's retained detail Defined-baseline decision. DEC-2026-050 and the historical K02 intake remain preserved; the omission is corrected prospectively in the owning sources rather than rewritten into history.
+
+**Remaining Open Items**
+
+Exact DOC-07 expression/mappings, provider/security mechanisms, platform rendering, responsive/accessibility and actual implementation/runtime/UAT/operating evidence remain owner-backed. No new promotion location/caller, recovery proof, session policy, implementation or readiness decision is inferred. Unrelated payment, Evidence, Payout, C1, fee, data and operations requirements remain unchanged.
