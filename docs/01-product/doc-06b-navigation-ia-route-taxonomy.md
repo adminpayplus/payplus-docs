@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06B
 title: Navigation, IA & Route Taxonomy
-version: 3.0.0
+version: 4.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-16
+last_updated: 2026-11-17
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -45,12 +45,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06B` |
 | **Title** | Navigation, IA & Route Taxonomy |
-| **Version** | `3.0.0` |
+| **Version** | `4.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Growth Lead<br>Privacy Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-16` |
+| **Last Updated** | `2026-11-17` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-13 Promotion Engine, Coupon, Voucher, Referral & Membership Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration Specification<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operational SOPs<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -114,7 +114,7 @@ When drafting global non-Bills routes, DOC-06B should define the human-readable 
 
 | Area | Status | Notes |
 | --- | --- | --- |
-| Entrance and authentication | Defined baseline | `ENTRANCE-ROOT`, the Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL`, the Login family, Registration, Recovery, and Account Activation handoffs have human-readable behavior that is decision-complete enough for continued alignment. Exact DOC-07 Copy/CTA, final visual and accessibility evidence, technical implementation, and security mechanics remain open with their formal owners; these downstream dependencies do not block the `ENTRANCE-PROMOTION-DETAIL` Defined baseline. |
+| Entrance and authentication | Defined baseline | `ENTRANCE-ROOT` uses the adopted Splash and Start branches: public Login/Create choices or direct eligible remembered-session PIN verification. The Login family, Registration, Recovery and Account Activation handoffs remain defined. The separately retained `ENTRANCE-PROMOTION-DETAIL` contract has no adopted current Splash entry and is not a Splash implementation requirement. Exact DOC-07 Copy/CTA, responsive/accessibility evidence, technical implementation and security mechanics remain open with their owners; this does not change the retained detail route's Defined baseline status. |
 | Bottom navigation | Working baseline | `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me baseline exists; final visual design remains open. |
 | Home dashboard | Partially defined | `HOME-ROOT` and section order exist; final card and visual details remain open. |
 | CardMore action sheet | Defined baseline | `PAYPLUS-ACTION-SHEET`, its four retained Payer-only actions, destination handoffs, availability behavior, and motion principles are defined; Request Payment is retired and exact visual specification remains open. |
@@ -201,12 +201,12 @@ When this document or another route owner defines, renames, replaces, or materia
 
 ### 5.0 Entrance and Authentication Route Family
 
-`ENTRANCE-ROOT` is the only unauthenticated app root. Log In and Create Account are actions within `ENTRANCE-ROOT`, not a second route. `ENTRANCE-CAROUSEL` is a screen component, not a route; tapping one of its approved public items opens the separately navigable `ENTRANCE-PROMOTION-DETAIL`.
+`ENTRANCE-ROOT` is the only public unauthenticated app root. Its adopted Splash presents Start, which opens the public Login/Create choices or proceeds directly to existing eligible remembered-session PIN verification under Section 5.0.1. The visually matching eligible-session specimen is not proof of authentication and does not create another root. Start and the temporary choice sheet are actions/presentation within this entry, not new routes. `ENTRANCE-CAROUSEL` remains a component identity and `ENTRANCE-PROMOTION-DETAIL` remains a separately retained public-detail identity; neither is an adopted current Splash entry.
 
 | Destination | Type | Purpose | Definition Status |
 | --- | --- | --- | --- |
-| `ENTRANCE-ROOT` | Unauthenticated root screen | Present public CardMore entry content and the Log In / Create Account actions. | Defined baseline; final visual, technical, and validation evidence pending |
-| `ENTRANCE-PROMOTION-DETAIL` | Public child screen | Display one approved public Promotion or Feature item, its inline Terms, and zero or one owner-approved action. | Defined baseline; human-readable UI/UX behavior is decision-complete enough for continued alignment, with exact Copy and downstream evidence pending |
+| `ENTRANCE-ROOT` | Unauthenticated root screen | Present the adopted Splash and context-qualified Start action: public Login/Create sheet or direct existing eligible remembered-session PIN verification. | Defined baseline; responsive/accessibility, technical and validation evidence pending |
+| `ENTRANCE-PROMOTION-DETAIL` | Public child screen | Retain the independent approved public Promotion/Feature detail contract, inline Terms and zero or one owner-approved action; no current Splash caller or replacement entry is selected. | Defined baseline retained; not a current Splash/handoff build requirement; exact Copy and downstream evidence pending |
 | `AUTH-LOGIN` | Route family / entry resolver | Resolve an existing-user login into Fast or Full Login according to the current device and account context. | Resolver rules defined |
 | `AUTH-LOGIN-FAST` | Child login screen | Reauthenticate a remembered eligible account through its distinct Login PIN or previously enabled device biometrics; Full OTP Login remains separate. | Screen behavior defined; technical mechanics open |
 | `AUTH-LOGIN-FULL` | Child login screen | Offer Phone/Email destination-specific OTP views and Google/Apple login where Fast Login is unavailable or another account is selected; these OTP views do not require a password. | Screen behavior defined; technical mechanics open |
@@ -255,42 +255,55 @@ These mappings refine handling only. They do not change existing login, account-
 
 #### 5.0.1 `ENTRANCE-ROOT`
 
-`ENTRANCE-ROOT` remains the Defined public unauthenticated root. Its fixed screen order is:
+`ENTRANCE-ROOT` uses the Founder-adopted fullbleed CardMore Splash, with a white Start (`開始` in the adopted reference) action and retained language, public Support and Terms controls. The former header / image Carousel / dots / horizontal Log In and Create Account composition is superseded for this current entry. Splash does not present an advertisement Carousel or a public-promotion-detail entry.
 
-1. header with CardMore logo, language action, and public Support and Terms actions;
-2. full-width `ENTRANCE-CAROUSEL` image;
-3. Carousel item-selection dots where more than one item is active;
-4. horizontally arranged `Log In` and `Create Account` actions.
+The adopted R8.4 artwork plays once for three seconds and holds its final pose. Start remains usable throughout playback: the artwork duration is not a navigation delay, login gate or session policy. Opening or closing the public choice sheet preserves the same Splash host rather than requiring playback to restart. Reduced-motion/fallback treatment must retain a usable matching settled presentation and accessible entry controls; exact platform rendering and accessibility evidence remain with their implementation and validation owners. This does not claim native iOS/Android playback or operating-system behavior.
 
-Language selection is a sheet or modal, not a route. Support and Terms handoffs must permit an anonymous-safe view. The Carousel and its detail route must not obscure, suppress, personalize, target, or change the defined Login and Registration actions. Public Entrance content is identical for all unauthenticated users.
+Language selection remains a sheet or modal, not a route. Support and Terms must permit anonymous-safe access. Public presentation must not disclose account, linked-provider or restriction existence. A remembered email or device alone does not establish a valid authenticated session.
 
-##### Entrance Carousel Presentation and Interaction
+##### Start, Public Choices, and Eligible Session Verification
+
+| Current context / action | Destination and return | Protected boundary |
+| --- | --- | --- |
+| Signed out, expired, revoked, logged out, or remembered email without a valid eligible signed-in session: Start | Open the existing bottom-up Login / Create Account choice sheet. Log In invokes the existing `AUTH-LOGIN` family and its applicable Full Login; Create Account opens `AUTH-REGISTRATION`. Close or backdrop dismissal returns to the same public Splash. | No account, session authority, identifier reservation, profile, Inbox, referral attribution, entitlement or payment effect follows from Splash, Start or opening/dismissing the sheet. |
+| Valid remembered signed-in session, configured Login PIN and an owner-required lock/verification context: Start | Through the existing authentication evaluation, open `AUTH-LOGIN-FAST` PIN verification directly, without the public choice sheet or an interstitial. | Current session, account, device, risk and verification controls still apply; a visually identical Splash is not authentication. The Login PIN remains separate from App Lock and Payment Passcode. |
+| A previously eligible session is no longer valid or permitted | Use the public/ineligible entry and existing Full Login or approved recovery handling, according to the current authentication evaluation. | Do not restore a revoked/expired session, expose protected content or treat remembered information as proof. |
+
+This conditional Start behavior does not require PIN on every app launch and does not replace existing secure approved-session resume or mandatory reauthentication. Existing Login/Registration Back and cancel behavior retains its actual caller. A locked/PIN Back action remains in a safe locked/public context and never unlocks by navigation. Another Account confirmation retains its existing revocation/clearing before Full Login; cancellation retains the safe Entrance return and is not itself logout or authentication. Logout returns to public Splash, clears protected continuation/history as already required, and Back cannot restore protected access. Successful authentication and protected deeplink return remain subject to Section 5.0.6; no payment automatically submits.
+
+The adopted references are the existing public root `891:1663`, public choice sheet `7117:29258`, visually matching eligible-session specimen `8861:26876`, and direct PIN specimen `8831:26743`; Login `891:1735` and Registration `891:1757` retain their current route owners. These are Figma evidence locators, not new destination IDs. The October 27 adoption and November 6 session/R8.4 records in PPUI establish the accepted presentation and branches; the existing adopted Design version and handoff-copy pin already contain them. The current source-faithfulness correction restores that omitted meaning without changing the global source hierarchy, repinning the whole Design or treating synthetic verification as production assurance.
+
+##### Retained Public-Promotion Contract — Not a Current Splash Caller
+
+The following component/detail contract is retained independently from the current Splash. It does not require the coding handoff to build a public pre-login Carousel/detail flow, globally retire the promotion capability, delete its sources/history, or select a replacement entry or relocation. There is no adopted current Splash caller for `ENTRANCE-CAROUSEL` or `ENTRANCE-PROMOTION-DETAIL`; a retained definition alone cannot create one. The former image/timer/cue and same-item-return rules below must not be applied to Splash or its Start/choice sheet.
+
+###### Retained Carousel Presentation and Interaction
 
 `ENTRANCE-CAROUSEL` is a component, not a route. Promotion and Feature are its only permitted public content classes. Announcement is not an Entrance Carousel content class. A Promotion presentation may reference canonical Promotion or Offer source truth, but DOC-06B does not acquire that truth; each Feature must identify its formal product or business-truth owner.
 
-The source image asset is `1080 x 1350`, equivalent to a `4:5` ratio. The current Carousel image uses the full available screen width. MVP Carousel presentation is image-only: it shows no promotion or feature name, no activity date, and no text overlay. The complete current image/Card is tappable and opens the existing `ENTRANCE-PROMOTION-DETAIL` child route.
+Within this retained component contract, the source image asset is `1080 x 1350`, equivalent to a `4:5` ratio. The Carousel image uses the full available screen width. Its image-only presentation shows no promotion or feature name, activity date or text overlay. The complete image/Card invokes the retained `ENTRANCE-PROMOTION-DETAIL` child contract only through an applicable owner-approved caller; this defines no caller from the current Splash.
 
 When two or more items are active, interactive dots appear directly below the image and expose the selected item. A user may select an item by tapping its dot or by swiping horizontally. Automatic rotation occurs every five seconds and uses Crossfade. Manual dot selection or swipe pauses the current timer, gives the newly selected item one complete five-second interval, and then resumes automatic rotation. A movement threshold distinguishes swipe from tap; horizontal movement cancels detail activation so one gesture cannot both change the item and open detail.
 
-The Login and Registration actions remain horizontally arranged immediately below the image and dots and must remain visible and unobscured. Exact responsive measurements, short-viewport treatment, focus mechanics, screen-reader expression, and adopted-platform implementation remain for later visual, accessibility, and technical evidence without changing this order.
+The former horizontal Login/Registration row below the Carousel is not the current Entrance composition. Current authentication entry uses the Splash Start behavior above; this retained component cannot suppress, obscure or redirect it. Exact responsive measurements, focus mechanics, screen-reader expression and platform implementation of any separately applicable retained placement remain with their owners.
 
-##### Active Item Set and Sequence
+###### Retained Item Set and Sequence
 
 The Entrance Carousel supports no more than five active items. At most one item may be designated as the priority item; when present, it appears first. All remaining items follow one deterministic manual order. Entrance does not use random ordering.
 
-- With zero active items, omit the Carousel and dots while preserving the Header and horizontal Login / Registration actions.
+- With zero active items, omit the Carousel and dots within the retained component; do not substitute the former Header/horizontal-auth composition for the current Splash.
 - With one active item, show the static tappable image and omit automatic rotation, swipe, the first-use swipe cue, and an unnecessary dot control.
 - With two to five active items, use the complete dots, swipe, Crossfade, timer, and first-use affordance behavior.
 
 DOC-22 owns the corresponding placement-management controls, preview, publication, removal, and audit workflow without owning the source content.
 
-##### First-Use Swipe Affordance
+###### Retained First-Use Swipe Affordance
 
-On the first applicable Entrance display after initial app use, and only where two or more items make horizontal navigation available, wait approximately `0.8` seconds, move the Carousel slightly left and right by approximately `8 px`, and return it to rest. The cue communicates that manual horizontal navigation is available. Any user interaction immediately cancels it, and the cue must not block tapping or swiping. Reduced-motion treatment removes or replaces positional movement. Exact persistence, animation, and platform implementation remain deferred to their later technical and validation owners.
+Only within a separately applicable invocation of the retained Carousel contract, on its first applicable display after initial app use and where two or more items make horizontal navigation available, wait approximately `0.8` seconds, move the Carousel slightly left and right by approximately `8 px`, and return it to rest. This is not a Splash behavior. The cue communicates that manual horizontal navigation is available. Any user interaction immediately cancels it, and the cue must not block tapping or swiping. Reduced-motion treatment removes or replaces positional movement. Exact persistence, animation, and platform implementation remain deferred to their later technical and validation owners.
 
-##### `ENTRANCE-PROMOTION-DETAIL`
+###### Retained `ENTRANCE-PROMOTION-DETAIL`
 
-`ENTRANCE-PROMOTION-DETAIL` is the existing Defined baseline public child route. Its human-readable UI/UX behavior is decision-complete enough for continued alignment. It uses one image-first vertical composition:
+`ENTRANCE-PROMOTION-DETAIL` retains its existing Defined baseline public-child contract, not a current Splash entry or implementation requirement. Its independent human-readable UI/UX contract uses one image-first vertical composition:
 
 1. header;
 2. one visible Back control on the left and no separate Close control;
@@ -301,11 +314,11 @@ On the first applicable Entrance display after initial app use, and only where t
 7. inline Terms;
 8. zero or one owner-approved CTA where applicable.
 
-Summary and Terms continue through one vertical scroll. Platform Back produces the same navigation result as the visible Back control. Back returns to `ENTRANCE-ROOT` and restores the same Carousel item and position.
+Summary and Terms continue through one vertical scroll. Platform Back produces the same navigation result as the visible Back control. The retained prior Carousel/detail invocation restores the same caller item and position; it does not make the current Splash a Carousel host or authorize a new caller. No replacement entry or return chain is selected by this correction.
 
 The detail route may be informational and therefore show no CTA. Where a CTA exists, it must reference a current action and destination approved by the applicable source and route owners. Carousel placement and Admin configuration cannot invent or broaden an action, destination, eligibility, entitlement, or user-specific benefit. DOC-07 owns exact CTA Copy, hierarchy, disclosure, localization, and presentation.
 
-##### Source Change and Owner Handoffs
+###### Retained Source Change and Owner Handoffs
 
 An Entrance placement must be suspended when its Promotion or Feature source is withdrawn, is no longer authorized for public display, becomes prohibited by an applicable legal, privacy, permission, masking, or content restriction, or is materially changed after the placement's last approved preview/publication. A suspended placement is removed from the active Entrance presentation without deleting the source record or historical placement evidence. Return requires the updated presentation to be previewed and republished through the authorized DOC-22 workflow.
 
@@ -313,7 +326,7 @@ DOC-13 or the applicable Promotion/Offer owner retains Promotion and Offer valid
 
 #### 5.0.2 Login Route Family
 
-Tapping Log In invokes existing `AUTH-LOGIN`: resume an approved session securely, open eligible remembered-account `AUTH-LOGIN-FAST`, or open `AUTH-LOGIN-FULL` when unavailable, expired, revoked or another account is selected. Existing one-month Fast Login eligibility renews on successful login and may be revoked earlier by risk, device, credential, account or security changes; the adopted PIN presentation does not select a new lifetime or security mechanism.
+Start and the public sheet's Log In action use the existing `AUTH-LOGIN` evaluation under Section 5.0.1: the qualifying remembered signed-in/required-verification context proceeds directly to `AUTH-LOGIN-FAST` PIN without the chooser, while public/ineligible Log In uses `AUTH-LOGIN-FULL`. Existing secure approved-session resume and other approved authentication callers remain unchanged. Existing one-month Fast Login eligibility renews on successful login and may be revoked earlier by risk, device, credential, account or security changes; the adopted Splash/PIN presentation does not select a new session lifetime, security mechanism or blanket App Lock requirement.
 
 Eligible remembered-account login uses its separate six-digit Login PIN and previously enabled device biometric behavior. It is not Full Login OTP, Payment Passcode, App Lock or payment authorization. Remembered account information remains masked and no plaintext password is remembered. Only user-enabled operating-system biometric behavior may run; cancellation, failure or unavailability permits the eligible remembered PIN or Full Login/recovery path rather than pretending authentication succeeded. Login PIN/PIN-group presentation retains six slots.
 
@@ -701,7 +714,7 @@ The DOC-06 family must next define what users see, what buttons exist, what each
 
 | Area | Purpose of Future DOC-06 Family Detail | Current Status |
 | --- | --- | --- |
-| Entrance and Authentication Routes | Maintain the defined `ENTRANCE-ROOT`, Entrance Carousel, `ENTRANCE-PROMOTION-DETAIL`, Login family, Registration, Recovery boundary, Account Activation, Phone Verification, Identity Verification, and Payment Passcode behavior; finalize exact Copy, provider mapping, technical/security implementation, prototype and accessibility evidence, and tests. | Defined baseline / `ENTRANCE-PROMOTION-DETAIL` human-readable behavior is decision-complete for continued alignment / downstream evidence pending and non-blocking |
+| Entrance and Authentication Routes | Maintain the adopted `ENTRANCE-ROOT` Splash, public Start choices and conditional direct remembered-session PIN, plus existing Login, Registration, Recovery, activation, verification and Payment Passcode owners. Preserve the independent public-promotion/detail contract without a current Splash caller or replacement entry. Finalize only applicable Copy, provider mapping, implementation and validation evidence. | Defined baseline / retained detail definition does not mandate current Splash implementation / downstream evidence pending |
 | Bottom Navigation Route Map | Define how `HOME-ROOT`, Bills, `PAYPLUS-ACTION-SHEET`, Offers, and Me relate to top-level routes and deep links. | Working baseline; final visual design open |
 | CardMore Action Sheet Detail | Maintain the confirmed four-action Payer-only behavior after `Request Payment` retirement, destinations, availability, completion, return, and configuration boundaries; finalize only the remaining exact visual specification. | Defined behavior / final visual design open |
 | Bills Tab IA | Define bill, fee, rent, tenancy, evidence, reminder, payment history, and setup sections under the Bills route. | Working baseline / not finalized |
@@ -2469,7 +2482,7 @@ No numerical accessibility, performance, or usability threshold is established h
 
 | Route / Area | Status | Next Required Work |
 | --- | --- | --- |
-| Entrance and Authentication | Defined baseline / final design, technical, and validation evidence pending | `ENTRANCE-ROOT`, the Entrance Carousel, and `ENTRANCE-PROMOTION-DETAIL` human-readable UI/UX behavior are decision-complete enough for continued alignment, alongside Login, Recovery boundary, Registration, Account Activation, Phone Verification, Identity Verification, Payment Passcode Settings, banners, protected return, and route ownership. Confirm exact DOC-07 Copy/CTA, final visual and accessibility evidence, provider mapping, and DOC-19/DOC-20 technical and test controls; these downstream dependencies do not block the `ENTRANCE-PROMOTION-DETAIL` Defined baseline. |
+| Entrance and Authentication | Defined baseline / responsive, technical and validation evidence pending | `ENTRANCE-ROOT` has the adopted Splash/Start public-choice and eligible remembered-session PIN branches. Existing Login, Recovery, Registration, Account Activation, verification/passcode and protected-return controls remain. The separately retained public-promotion/detail contract has no current Splash caller and is not a current handoff build requirement; its Defined baseline status is not globally retired. Exact DOC-07 mapping, provider/security implementation and DOC-20 evidence remain pending. |
 | Home Dashboard | `HOME-ROOT` Assigned / Partially Defined | Bounded Greeting, Important Notice, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance behavior is defined. Confirm final visual design and later DOC-20 evidence. |
 | Bills | Partially Defined in DOC-06C | Continue detailed Bills route work in DOC-06C. |
 | Payment Checkout | `PAYMENT-CHECKOUT` Defined baseline | Preserve the decision-complete human-readable Workspace, resolver, funding, authorization, execution, recovery, and accessibility boundaries in Section 5.20 while exact Copy, IDs, Locale Variants, Presentation Mappings, final Bill/Rent source-owner detail, technical mappings, prototype and accessibility/user-validation evidence, implementation/UAT, acceptance, monitoring, support, and operational evidence remain pending. |
@@ -2500,13 +2513,14 @@ No numerical accessibility, performance, or usability threshold is established h
 | OQ-06B-009 | What exact production paid/date/refund/fee/timezone/month/category/label aggregate inputs and remaining Activity/Statistics implementation/evidence are required? Adopted global summary, E1/D3 controls, scope isolation and Back are defined; no fixture supplies the financial metric. | Product / Design / Payments / Data / Privacy / Operations | Partially open |
 | OQ-06B-010 | What actual reference/date/access and native Save/WhatsApp capability inputs enable the adopted public PNG and private Single/Combined PDF contracts, together with remaining layout/export/Statement/reissue detail? DOC-08/financial/privacy owners retain truth and enablement; download start is not gallery success. | Product / Finance / Legal / Operations | Partially open |
 | OQ-06B-011 | What final My Rewards icon, reward/offer card styling, Offer label taxonomy for CardMore Offers and Partner Offers, personalized ranking scope, membership destination, partner-specific reward activation, and Card Offers randomization cadence should apply? The `My Rewards` label and Rewards behavior are confirmed, and this question does not reopen the settled CardMore action composition. | Product / Design / Growth / Privacy / Commercial | Partially open |
-| OQ-06B-012 | What final responsive measurements, short-viewport treatment, first-use-cue persistence and animation implementation, exact Copy/CTA presentation, screen-reader behavior, technical scheduling/synchronization, and DOC-20 evidence should implement the defined Entrance Carousel and `ENTRANCE-PROMOTION-DETAIL` behavior? | Product / Design / Content / Growth / Security / Privacy / Engineering / QA / Operations | Partially open and non-blocking to the Defined baseline; capacity, sequence, timing, interaction, Promotion/Feature scope, image-first detail, Back, inline Terms, optional CTA, source-change suspension, and same-item return are defined |
+| OQ-06B-012 | What remaining responsive/short-viewport, exact DOC-07 Copy/CTA, screen-reader/reduced-motion, platform rendering and DOC-20 evidence implement the adopted Splash/Start branches? Any separately applicable retained public-promotion placement still requires its owners' technical/synchronization and validation inputs; no current Splash caller, new entry or relocation is selected. | Product / Design / Content / Growth / Security / Privacy / Engineering / QA / Operations | Partially open; Splash/public choices/eligible direct PIN and immediately usable Start are decided. Retained component/detail rules and histories remain separate, not current Splash implementation dependencies. |
 | OQ-06B-013 | What final OTP constants, provider-result mapping, weak-code/retry/lockout rules, support-assisted passcode-recovery proof and waiting period, credential storage, session-revocation mechanisms, and final visual design apply to the defined `PHONE-VERIFICATION`, `IDENTITY-VERIFICATION`, and `PAYMENT-PASSCODE-SETTINGS` flows? DOC-17 owns applicable provider-integration mappings; `OQ-19-001` retains exact security mechanisms with Security/Engineering; DOC-06B retains recovery route behavior; DOC-15 owns approved-purpose privacy/access requirements; DOC-21 owns support operations; DOC-22 owns only owner-permitted queue/workflow/configuration execution; and DOC-20 must derive implementation tests. | Security / Engineering / Compliance / Privacy / QA / Operations | Partially open; product behavior, five identity labels, HK-only phone baseline, six-digit passcode flows, and return behavior confirmed |
 | OQ-06B-014 | What exact Authentication Outcome IDs, Resolution mappings, Message IDs, approved user-facing messages, CTA mappings, disclosure levels, notification treatment, and technical outcome/event mappings should populate the mandatory DOC-07 Authentication slice? | Product / Content / Design / Security / Privacy / Support | Open; route-level Outcomes and Resolution Strategies defined, exact DOC-07/DOC-08/DOC-18 mappings pending |
 
 ## 8. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 4.0.0 | 2026-11-17 | Restored the Founder-adopted Splash, public Start sheet and conditional direct remembered-session PIN omitted from the prior intake; superseded current Carousel/auth-row bindings while retaining independent promotion/detail identity, source/history and authentication/security boundaries without a new caller or mechanism. |
 | 3.0.0 | 2026-11-16 | Narrowed existing Instructions routes and embedded diagrams to retained Checkout continuation; retired setup/date/target/source-add/Pay Now callers, preserved shared support and explicitly excluded PI-specific SVG examples from current reference meaning without redrawing it. |
 | 2.1.0 | 2026-11-16 | Aligned the current name and the bounded DOC-18 business-recording versus future representation handoff. |
 | 2.0.0 | 2026-11-13 | Canonical Writer: Drafted Founder-authorized PP-MVP-20261112-R1 OTP/PIN and identity callers, calendar/labels, source Save exception, Activity Statistics, private/public documents, notifications, growth and grouped My Account route consumers; preserved stable IDs and financial/security/implementation gates. Corrected inherited auth-purpose and grouped-Me/Inbox/Offers transitions and profile-caller expression through the consolidated Specialist batch. |

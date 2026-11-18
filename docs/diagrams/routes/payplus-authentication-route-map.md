@@ -3,18 +3,21 @@
 
 Status: Current discussion reference
 Owner: DOC-06B
-Last updated: 2026-11-13
+Last updated: 2026-11-17
 
-This map projects DOC-06B Sections 5.0.2/5.0.4–5.0.6. OTP tabs, registration checks, Done and Later are internal views/results, not new destinations. New Done/Home identity callers are direct; other permitted activation callers retain their own orchestration. Canonical verification/passcode parentage remains in the Account Activation/Me owners.
+This map projects DOC-06B Sections 5.0.1–5.0.2/5.0.4–5.0.6. Start and the temporary public choice sheet are actions/presentation, not routes; AUTH-LOGIN is the existing evaluation, not an interstitial. The displayed Start branches do not replace ordinary secure approved-session handling or require PIN on every launch. OTP tabs, registration checks, Done and Later remain internal views/results. New Done/Home identity callers are direct; other activation callers retain their orchestration and canonical verification/passcode parentage.
 
 ```mermaid
 flowchart TD
-  LAUNCH["App launch / Log Out"] --> ENTRANCE["ENTRANCE-ROOT"]
-  ENTRANCE --> PROMOTION["ENTRANCE-PROMOTION-DETAIL"]
-  ENTRANCE --> LOGIN["AUTH-LOGIN"]
-  ENTRANCE --> REGISTRATION["AUTH-REGISTRATION"]
-  LOGIN --> FAST["AUTH-LOGIN-FAST<br/>eligible remembered Login PIN / previously enabled biometric"]
-  LOGIN --> FULL["AUTH-LOGIN-FULL<br/>Phone / Email OTP views; Google / Apple"]
+  LAUNCH["Public app entry / Log Out"] --> ENTRANCE["ENTRANCE-ROOT<br/>adopted Splash; Start usable during artwork"]
+  ENTRANCE -->|"Start: public / ineligible context"| CHOICES["Login / Create choices<br/>temporary sheet, not a route"]
+  CHOICES -. "Close / backdrop: same Splash" .-> ENTRANCE
+  CHOICES -->|"Log In"| LOGIN["AUTH-LOGIN<br/>current evaluation, no interstitial"]
+  CHOICES -->|"Create Account"| REGISTRATION["AUTH-REGISTRATION"]
+  ENTRANCE -->|"Start: valid remembered session + configured PIN + required verification"| LOGIN
+  LOGIN -->|"Qualifying remembered-session Start"| FAST["AUTH-LOGIN-FAST<br/>eligible remembered Login PIN / previously enabled biometric"]
+  LOGIN -->|"Public / ineligible Log In"| FULL["AUTH-LOGIN-FULL<br/>Phone / Email OTP views; Google / Apple"]
+  PROMOTION["ENTRANCE-PROMOTION-DETAIL<br/>retained independent contract; no current Splash caller"]
   FAST -. "Approved recovery context only" .-> RECOVERY["AUTH-RECOVERY"]
   FULL -. "Separately applicable approved recovery entry" .-> RECOVERY
   FAST --> RETURN["Current protected-return resolver"]

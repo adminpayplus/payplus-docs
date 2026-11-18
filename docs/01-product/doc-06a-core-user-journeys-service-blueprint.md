@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06A
 title: Core User Journeys & Service Blueprint
-version: 2.0.0
+version: 2.1.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -14,7 +14,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-16
+last_updated: 2026-11-17
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -42,12 +42,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06A` |
 | **Title** | Core User Journeys & Service Blueprint |
-| **Version** | `2.0.0` |
+| **Version** | `2.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>Compliance Lead<br>Risk Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-16` |
+| **Last Updated** | `2026-11-17` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-06D UX Requirements, Acceptance Criteria & Test Matrix<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Release Readiness<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -184,7 +184,7 @@ The MVP must support the following essential journeys:
 
 ### Progressive Account Creation and Financial Activation
 
-The Payer enters `ENTRANCE-ROOT` and the existing `AUTH-LOGIN` / `AUTH-REGISTRATION` family. `AUTH-LOGIN` resolves eligible remembered entry to `AUTH-LOGIN-FAST` or signed-out entry to `AUTH-LOGIN-FULL`. Full Login uses Phone/Email destination-specific OTP views and Google/Apple; remembered Login PIN/previously enabled biometrics remain separate from Full Login and Payment Passcode.
+DOC-06B Sections 5.0.1–2 own the adopted `ENTRANCE-ROOT` Splash. Public/ineligible Start opens the existing Login/Create sheet; its choices enter the existing `AUTH-LOGIN` / `AUTH-REGISTRATION` family. Only a valid remembered signed-in session with configured Login PIN and owner-required verification context uses Start directly to `AUTH-LOGIN-FAST` PIN without the chooser. Start works during the artwork; dismissal returns to the same Splash without authentication or another business effect. Ordinary secure approved-session handling remains unchanged. Full Login uses Phone/Email destination-specific OTP views and Google/Apple; remembered Login PIN/previously enabled biometrics remain separate from Full Login, App Lock and Payment Passcode. The independent public-promotion/detail contract supplies no current Splash caller or build dependency.
 
 New Phone/provider registration joins verified phone → required name/email/optional invitation → required current email proof where needed → mandatory matching Login PIN → explicit Terms/Privacy → confirmed restricted-account creation. Provider-confirmed unchanged verified email needs no new OTP; missing/changed/unconfirmed email does. No password or gender requirement is inserted. Uniqueness, stable provider identifiers, no email-based merging, non-reserving attempts and confirmed-creation-only attribution remain. Stale purpose/recipient/attempt/data proofs cannot verify a new context; unknown send/create reconciles the same operation without automatic duplicate effects.
 
@@ -667,6 +667,7 @@ Core journey open questions should remain here when they affect Payer journeys, 
 ## 7. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.1.0 | 2026-11-17 | Aligned only the entry journey to reviewed DOC-06B Splash/Start public choices and conditional direct remembered-session PIN; preserved existing authentication, registration, return and financial controls without a current Splash promotion dependency. |
 | 2.0.0 | 2026-11-16 | Retired deliberate deferred setup/action journeys and narrowed current Checkout return, revalidation and authorization coverage while retaining open detailed owner evidence. |
 | 1.3.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.2.0 | 2026-11-12 | Canonical Writer: Aligned PP-MVP-20261112-R1 core account/source/payment/history journeys and shared returns to accepted defining owners, preserving financial gates, actual Save truth, private/public boundaries and explicit production dependencies. |

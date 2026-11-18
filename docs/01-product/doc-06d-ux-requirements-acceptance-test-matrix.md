@@ -1,7 +1,7 @@
 ---
 document_id: DOC-06D
 title: UX Requirements, Acceptance Criteria & Test Matrix
-version: 1.4.0
+version: 2.0.0
 status: Founder Working Baseline
 owner: Product / Founder
 reviewers:
@@ -13,7 +13,7 @@ reviewers:
 approvers:
   - Project Owner
   - Product Lead
-last_updated: 2026-11-16
+last_updated: 2026-11-17
 classification: Internal
 related_documents:
   - DOC-06 User Journey, UX Flow & Service Blueprint
@@ -32,12 +32,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-06D` |
 | **Title** | UX Requirements, Acceptance Criteria & Test Matrix |
-| **Version** | `1.4.0` |
+| **Version** | `2.0.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Product / Founder |
 | **Reviewers** | Product Lead<br>Design Lead<br>Engineering Lead<br>QA Lead<br>Compliance Lead |
 | **Approvers** | Project Owner<br>Product Lead |
-| **Last Updated** | `2026-11-16` |
+| **Last Updated** | `2026-11-17` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-06A Core User Journeys & Service Blueprint<br>DOC-06B Navigation, IA & Route Taxonomy<br>DOC-06C Bills, Rent & Tenancy UX Module<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operational SOPs |
 
@@ -93,7 +93,7 @@ Example pattern:
 | Area | Source Doc | Test Readiness | Notes |
 | --- | --- | --- | --- |
 | Prohibited wallet/stored-value/cashout journeys | DOC-06 / DOC-06A | Ready for high-level blocked-flow criteria | Detailed tests later in DOC-20. |
-| Entrance and authentication routes | DOC-06B / DOC-07 / DOC-15 / DOC-19 | Partial to strong | Phone/Email OTP/provider Full Login, distinct remembered PIN, verified-phone/provider registration with mandatory Login PIN, confirmed creation, direct Done/Home identity callers, identity-only prompt and retained financial-action activation, uniqueness/proof/unknown/cancel controls are human-testable; final carousel design, exact outcome/message mappings, child verification UI, and technical security mechanics remain open. |
+| Entrance and authentication routes | DOC-06B / DOC-07 / DOC-15 / DOC-19 | Partial to strong | Adopted Splash/Start public choices, conditional direct eligible remembered-session PIN, immediately usable Start and safe dismiss/logout/Back are human-testable. Phone/Email OTP/provider Full Login, distinct PIN purposes, verified-phone/provider registration with mandatory Login PIN, confirmed creation, direct Done/Home identity callers, identity-only prompt, financial-action activation, uniqueness/proof/unknown/cancel controls remain unchanged. Responsive/accessibility and platform evidence, exact outcome/message mappings, child verification UI and security mechanisms remain open; the retained public-promotion/detail contract is not a current Splash build dependency. |
 | Home dashboard layout | DOC-06B / DOC-06C / DOC-07 / DOC-08 / DOC-09 / DOC-10 / DOC-11 / DOC-13 / DOC-15 / DOC-22 | Strong human-readable baseline / detailed evidence pending | Greeting, Important Notice, shortcuts, Hot Offer, Upcoming Bills / Rent, Recent Activity, resilience, accessibility, and presentation-governance behavior are testable at requirement level. Final visual styling, technical session/cache/schema mechanics, exact locale Copy, implementation evidence, accessibility evidence, and UAT remain with their formal owners and DOC-20. |
 | CardMore action sheet | DOC-06B / DOC-06C / DOC-09 | Partial to strong | The accepted four-action order (`Pay a Bill`, `Pay Rent`, `Add Bill / Rent`, `Continue Payment`), category-scoped Bills/Rent handoffs, availability, return, configuration limits, and no-side-effect boundary are testable; the retired Request Payment action is not an active path and exact visual specification remains open. |
 | More and shortcut management | DOC-06B / DOC-15 / DOC-18 / DOC-22 | Partial to strong | `MORE-ROOT` Normal/Manage modes, 8-slot maximum, protected More entry, account-level preferences, accessible add/remove/reorder, current-default restore, availability precedence, unsaved-change handling, and secondary-service handoffs are testable; final visual styling and optional replacement Undo remain open. |
@@ -137,8 +137,13 @@ Example pattern:
 
 The DOC-06 user journey scope is satisfied when:
 
-- app launch without an approved session opens `ENTRANCE-ROOT`, where public non-personalized content does not obscure Log In or Create Account;
-- `AUTH-LOGIN` resolves eligible remembered users to `AUTH-LOGIN-FAST` and other users to `AUTH-LOGIN-FULL`;
+- app launch without an approved session opens the adopted fullbleed `ENTRANCE-ROOT` Splash, with white Start and retained language, anonymous-safe Support and Terms; it shows no ad Carousel, dots or horizontal Login/Create row;
+- public Start opens the existing bottom-up Login/Create sheet for signed-out, expired, revoked, logged-out or merely remembered-email contexts; its actions reach the existing `AUTH-LOGIN` / `AUTH-REGISTRATION` owners, and Close/backdrop returns to the same Splash;
+- only a current valid remembered signed-in session with configured Login PIN and owner-required lock/verification context uses Start directly to existing `AUTH-LOGIN-FAST` PIN verification without the public sheet/interstitial; ordinary approved-session resume remains unchanged, remembered information alone is insufficient, and this is not a blanket every-launch PIN/App Lock rule;
+- the adopted one-pass three-second R8.4 artwork is not a navigation delay: Start works during playback, the final pose remains usable and sheet opening/closing preserves the Splash host; reduced-motion/fallback and platform/accessibility evidence remain with their owners;
+- Splash/Start/chooser/dismissal create no account, reserve no identifier and grant no session authority, profile, Inbox, referral attribution, entitlement or payment effect; masked eligible context, safe locked Back and logout clearing prevent protected access from being restored by navigation;
+- existing `ENTRANCE-CAROUSEL` / `ENTRANCE-PROMOTION-DETAIL` identities, independent source/control contracts and histories are not globally retired, but no current Splash caller or replacement entry is selected and they are not current Splash/handoff implementation obligations;
+- `AUTH-LOGIN` retains current eligibility, secure approved-session resume and Fast/Full Login/recovery handling without selecting a new session lifetime, factor, security mechanism or account-linking rule;
 - each material authentication result keeps its business outcome, permitted resolution, persistent account status, user-facing Message/CTA, notification decision, audit occurrence, and acceptance evidence separate;
 - authentication recovery selects only a capability permitted by DOC-06B and the applicable account/route owner, and does not treat a remembered device, phone number, verified identity, or provider email as a standalone recovery method; DOC-19 enforces applicable security controls without creating or permitting the recovery capability;
 - each successful login renews Fast Login eligibility for one month, while approved risk, device, credential, account, or security changes may revoke it earlier;
@@ -323,6 +328,8 @@ Current accepted-source correction coverage is additionally required at human-ob
 
 The complete R1 intake is covered below without minting permanent IDs. Each row requires positive, negative, interrupted/unknown and actual-caller return cases where applicable; DOC-20 owns detailed future tests and execution evidence. R01/R02 are disposed of by accepted/current owner rules; R03–R06 remain bounded owner-backed inputs, not missing UX votes.
 
+The current Entrance correction is separately traceable to the October 27 adopted Splash, November 6 adopted session/R8.4 records and the explicit source-faithfulness correction instruction. DOC-06B Sections 5.0.1–2 and the Entrance acceptance above cover public Start/choices, direct qualifying PIN, invalid-session fallback, dismiss/Back/logout, immediately usable Start and no effects. This restores meaning omitted from the historical K02 scope; it does not relabel that original intake row as having included Splash. The existing adopted Design/handoff-copy version already contains the referenced frames. Detailed implementation/runtime, authentication/security and accessibility evidence remain unperformed under DOC-20 and their respective owners.
+
 | Local intake references | Defining representation / preserved meaning | Required acceptance and remaining owner input |
 | --- | --- | --- |
 | K00 / M01 | Task-scoped adoption only; DOC-00 hierarchy/status and fixed versus WIP/fixture distinctions remain. | No Design count/hash/native export is treated as canonical integration, exhaustive coverage or service assurance. |
@@ -361,6 +368,7 @@ The complete R1 intake is covered below without minting permanent IDs. Each row 
 ## 10. Version History
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.0.0 | 2026-11-17 | Restored acceptance for the adopted Splash/Start public-choice and conditional remembered-session PIN branches, immediate CTA and safe returns/no effects; removed current Carousel readiness as a Splash dependency while preserving independent promotion identities, existing authentication/creation controls and unperformed evidence boundaries. |
 | 1.4.0 | 2026-11-16 | Mapped accepted retirement, C1, Payout/approval, CS/fee-record and manual-bank-evidence boundaries to future human-level acceptance without inventing implementation or executed results. |
 | 1.3.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.2.0 | 2026-11-13 | Canonical Writer: Mapped all PP-MVP-20261112-R1 M01–76/K00–22 local intake meanings to owner clauses and positive/negative/unknown/return acceptance; replaced obsolete auth/reminder/file/Inbox/Me assumptions without inventing stable IDs or executed tests. Corrected Bill-only Directory acquisition versus the separate Rent journey through the consolidated Specialist batch. |

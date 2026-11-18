@@ -5,7 +5,7 @@ Status: Working alignment reference
 
 Owner: Product / Documentation Owner
 
-Last updated: 2026-11-16
+Last updated: 2026-11-17
 Classification: Internal
 
 This glossary defines approved CardMore terminology. It does not replace the owning documents. When a definition changes, update the primary owner first and then this glossary.
@@ -160,8 +160,8 @@ DOC-18 is currently a Stage 9-passed Draft for business recording, explainabilit
 | Term | Canonical Definition | Primary Owner |
 | --- | --- | --- |
 | Primary Account Email | The unique verified email assigned to one CardMore account for account communication and supported authentication. The same primary email cannot belong to another CardMore account. | DOC-15 |
-| Entrance Root | `ENTRANCE-ROOT`, the sole unauthenticated app root providing approved public content plus Log In and Create Account entry actions. | DOC-06B |
-| Login Route Family | `AUTH-LOGIN`, the authentication entry resolver that opens Fast Login for an eligible remembered account and Full Login otherwise. | DOC-06B |
+| Entrance Root | `ENTRANCE-ROOT`, the sole public unauthenticated app root with adopted Splash and immediately usable Start. Public/ineligible Start opens the temporary Login/Create sheet; only the qualifying valid remembered signed-in/configured-PIN/required-verification context goes directly to existing PIN. These are actions/presentation, not new routes or authentication proof; no current Splash promotion-detail caller is selected. | DOC-06B |
+| Login Route Family | `AUTH-LOGIN`, the existing authentication evaluation/entry family used by Start and public Log In under DOC-06B. It retains qualifying Fast Login, Full Login, secure approved-session handling and current controls; the evaluation is not a new interstitial screen or authentication authority. | DOC-06B |
 | Fast Login | `AUTH-LOGIN-FAST`, the eligible remembered-account login experience using its distinct Login PIN or previously enabled OS biometric authentication. Eligibility rolls for one month from each successful login and may end earlier for approved risk, device, credential, account, or security reasons. Separately applicable optional password/recovery remains owner-governed. | DOC-06B / DOC-15 |
 | Login Method | An explicitly enabled way to authenticate to one CardMore account: email/password, Google, or Apple. Login methods do not create separate product accounts. | DOC-06B / DOC-15 |
 | External Login Provider Identity | The stable provider-specific Google or Apple identity linked to one CardMore account after explicit provider authentication. Matching email alone never creates or transfers this link. | DOC-15 / DOC-18 |

@@ -4,14 +4,14 @@
 Status: Current discussion reference
 Level: 0 - app navigation
 Owner: DOC-06B
-Last updated: 2026-07-28
+Last updated: 2026-11-17
 
-This map shows only primary app entry and direct global destinations. Detailed route trees belong to the route-family maps in this folder. The canonical destination inventory is `docs/traceability/route-register.md`.
+This map shows only primary app entry and direct global destinations. Entry edges abbreviate DOC-06B's in-root Start/public choice sheet or qualifying remembered-session PIN branch; they are not direct horizontal buttons or an interstitial. Detailed conditions, dismissal and safe returns belong to the authentication map. The canonical destination inventory is `docs/traceability/route-register.md`.
 
 ```mermaid
 flowchart TD
-  ENTRANCE["ENTRANCE-ROOT"] --> LOGIN["AUTH-LOGIN"]
-  ENTRANCE --> REGISTER["AUTH-REGISTRATION"]
+  ENTRANCE["ENTRANCE-ROOT<br/>adopted Splash / Start"] -->|"Qualifying Start or public Log In choice"| LOGIN["AUTH-LOGIN"]
+  ENTRANCE -->|"Public Create Account choice"| REGISTER["AUTH-REGISTRATION"]
   LOGIN --> HOME["HOME-ROOT"]
   REGISTER --> HOME
   ENTRANCE -. "See Authentication route map" .-> AUTHFAMILY["Entrance and Authentication route family"]

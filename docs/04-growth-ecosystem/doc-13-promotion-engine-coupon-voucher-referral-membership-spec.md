@@ -1,7 +1,7 @@
 ---
 document_id: DOC-13
 title: Promotion Engine, Coupon, Voucher, Referral & Membership Specification
-version: 2.0.0
+version: 2.1.0
 status: Founder Working Baseline
 owner: Growth / Product
 reviewers:
@@ -19,7 +19,7 @@ approvers:
   - Product Lead
   - Commercial Lead
   - Finance Lead
-last_updated: 2026-11-16
+last_updated: 2026-11-17
 classification: Internal
 related_documents:
   - DOC-00 Documentation Governance
@@ -52,12 +52,12 @@ related_documents:
 | --- | --- |
 | **Document ID** | `DOC-13` |
 | **Title** | Promotion Engine, Coupon, Voucher, Referral & Membership Specification |
-| **Version** | `2.0.0` |
+| **Version** | `2.1.0` |
 | **Status** | Founder Working Baseline |
 | **Owner** | Growth / Product |
 | **Reviewers** | Product Lead<br>Commercial Lead<br>Finance Lead<br>Payments Lead<br>Risk Lead<br>Compliance Lead<br>Engineering Lead<br>Data Lead<br>Operations Lead |
 | **Approvers** | Project Owner<br>Product Lead<br>Commercial Lead<br>Finance Lead |
-| **Last Updated** | `2026-11-16` |
+| **Last Updated** | `2026-11-17` |
 | **Classification** | Internal |
 | **Related Documents** | DOC-00 Documentation Governance<br>DOC-01 Product Overview & Positioning<br>DOC-02 Business Model & Unit Economics<br>DOC-03 Regulatory, PSP & Acquirer Assessment<br>DOC-04 Compliance Control Framework<br>DOC-05 Master PRD & Feature Requirement Index<br>DOC-06 User Journey, UX Flow & Service Blueprint<br>DOC-07 Content, Disclosure & User Authorization Specification<br>DOC-08 Notification, Receipt & Communication Rules<br>DOC-09 Payment Domain Architecture<br>DOC-10 Payout & Reconciliation<br>DOC-11 Refund, Cancellation & Chargeback<br>DOC-12 Bill Category, Document AI/OCR & Payee Verification Specification<br>DOC-14 AML, Anti-Cashout, Fraud & Risk Controls<br>DOC-15 Privacy, Data Protection & Record Retention<br>DOC-16 Technical Architecture Specification<br>DOC-17 API & Third-party Integration<br>DOC-18 Data Model, Transaction State, Audit Event & Reporting Specification<br>DOC-19 Security, Tokenization & Authentication<br>DOC-20 Testing, UAT & Go-Live Checklist<br>DOC-21 Monitoring, Incident Response & Operations Runbook<br>DOC-22 Admin Management Dashboard Operations Workflow |
 
@@ -121,7 +121,7 @@ DOC-13 does not own:
 | External vouchers | Launch-supported reward type; each partner method must be configured and operationally ready before activation. QR, deeplink, code, API, file, webhook, or manual fulfilment may be supported. |
 | Stacking | Configurable by offer and campaign, with conservative defaults. |
 | Dashboard placement | Hot Offer is a DOC-06B HOME-ROOT carousel placement. DOC-13 owns canonical Offer content and truth, including campaign, Offer, eligibility, entitlement, budget, and reversal logic; DOC-22 owns Admin Home-presentation and publication-quality controls. |
-| Public Entrance placement | `ENTRANCE-CAROUSEL` may show only approved public, non-personalized Promotion or Feature content. A Promotion placement may reference canonical Promotion or Offer source truth. DOC-06B owns the Carousel and `ENTRANCE-PROMOTION-DETAIL` presentation; DOC-13 or the applicable Promotion/Offer owner retains source meaning; the applicable formal Feature owner retains Feature truth; and DOC-22 owns Feature Management and central Entrance placement workflow/configuration only. Announcement is excluded, and no personalized eligibility or user-specific claim may be exposed before authentication. |
+| Retained public-promotion placement | The independent `ENTRANCE-CAROUSEL` / `ENTRANCE-PROMOTION-DETAIL` contract is not globally retired, but has no adopted current Splash caller and is not a current Splash/handoff build requirement. Only approved public, non-personalized Promotion or Feature content is permitted within that retained contract; Announcement and pre-authentication personalized eligibility/user-specific claims remain excluded. DOC-13 or the applicable Promotion/Offer owner retains source truth, each formal Feature owner retains Feature truth, DOC-06B owns presentation/callers, and DOC-22 executes only expressly owner-permitted configuration. No replacement entry or relocation is selected. |
 | Promotion intelligence | Promotion analytics, offer ranking, campaign measurement, and partner reporting must follow DOC-15 data-use tiers and the applicable DOC-18 business-recording, explainability, lineage, reporting-obligation, and owner-handoff boundary. |
 
 ---
@@ -928,7 +928,9 @@ If future AI or model-assisted ranking is used outside the approved Admin-select
 
 ### 12.1.1 Public Entrance Source and Placement Timing Boundary
 
-Public Entrance placement remains separate from Promotion and Offer business truth. DOC-13 or the applicable Promotion/Offer owner supplies the current canonical Promotion or Offer identity, period, validity, eligibility, entitlement, available-action, content, and other business meaning. DOC-06B defines the public Carousel and detail-route presentation. DOC-22 owns the authorized Feature Management and central Entrance Carousel placement workflow without becoming Promotion, Offer, or Feature business-truth owner.
+DOC-06B's current `ENTRANCE-ROOT` is the adopted Splash with Start/public choices or eligible remembered-session PIN verification, not an advertisement Carousel or public-detail entry. The retained public-promotion component/detail capability and the controls below do not require the current coding handoff to build that former pre-login flow or its placement-management surface. There is no adopted current Splash caller and this correction selects no replacement entry, relocation or global feature retirement. Existing source records, configuration facts and placement histories remain preserved under their owners.
+
+Within the retained independent contract, public placement remains separate from Promotion and Offer business truth. DOC-13 or the applicable Promotion/Offer owner supplies the current canonical Promotion or Offer identity, period, validity, eligibility, entitlement, available-action, content and other business meaning; each Feature retains its formal business-truth owner. DOC-06B owns the applicable component/detail presentation and any permitted caller. DOC-22 may execute only the expressly owner-permitted Feature Management/placement workflow without becoming a business-truth, route, presentation or policy owner. Mere existence of these retained controls creates no current Splash publication or implementation obligation.
 
 For a Promotion source, central Entrance Carousel Management provides a `Use Promotion Period` checkbox:
 
@@ -986,7 +988,7 @@ Exact technical realisation remains deferred under separate authority. This docu
 | OQ-13-011 | What membership tier formula, conversion ratio, downgrade rule, and grace period apply? | Product / Growth / Commercial | Open |
 | OQ-13-012 | What partner reimbursement, tax, and accounting treatment applies to partner-funded offers? | Finance / Legal / Commercial | Open |
 | OQ-13-013 | Retired: hard reservation, expiry, budget release and user notices dedicated to DOC-09 deliberate pay-later Instructions. No replacement reservation model is selected. | Product / Growth / Finance | Superseded; no active Instruction feature |
-| OQ-13-014 | What final technical synchronization, date/time handling, approval implementation, and operational evidence should implement the decided public Entrance Promotion/Feature source and placement boundary? | Product / Growth / Privacy / Operations / Engineering | Partially open; Promotion and Feature are the only content classes, source truth remains with its formal owner, timing and optional-action boundaries are defined, and source changes require placement suspension and republication |
+| OQ-13-014 | What technical synchronization, date/time handling, owner-permitted approval implementation and operational evidence would apply to a separately applicable retained public Promotion/Feature placement contract? No current Splash caller, replacement entry or placement-management build obligation is selected. | Product / Growth / Privacy / Operations / Engineering | Partially open for the retained independent capability, not a current Splash dependency; source truth, Promotion/Feature-only scope, timing, optional-action and source-change suspension/history boundaries remain defined |
 | OQ-13-015 | What data may be used for offer ranking, placement personalization, campaign lift measurement, and partner-funded offer reporting? | Product / Growth / Privacy | Open |
 | OQ-13-016 | What aggregation, de-identification, report approval, and partner-contract controls are required before campaign performance data is shared externally? | Growth / Privacy / Legal | Open |
 | OQ-13-017 | When a reward is held, does expiry continue, pause, extend, or lead to reversal, and what user notice and admin authority apply? | Product / Growth / Risk / Operations | Open |
@@ -1016,7 +1018,7 @@ DOC-13 is acceptable when:
 - affected documents are clearly marked for follow-up alignment.
 - dashboard placement boundaries are clear for the DOC-06B Hot Offer HOME-ROOT carousel without turning DOC-13 into a UI specification.
 - HOME-ROOT may present any Admin-selected canonical Offer status without treating eligibility, validity, or redemption availability as a visibility gate, while canonical truth and explicit legal, privacy, permission, masking, and prohibited-content restrictions remain authoritative.
-- public Entrance supports only Promotion and Feature content, preserves source-owned Promotion/Offer/Feature truth, keeps source and placement periods distinct through the approved `Use Promotion Period` boundary, and requires suspended changed or unauthorized sources to be previewed and republished before returning to Entrance.
+- the independently retained public-promotion contract permits only Promotion and Feature content, preserves source-owned Promotion/Offer/Feature truth, distinguishes source and placement periods through the existing `Use Promotion Period` boundary, and requires preview/republication for suspended changed or unauthorized placements; none of this creates a current Splash caller, replacement entry or current handoff placement-management requirement.
 
 This document should remain a compact promotion engine specification. It should not become a final campaign plan, pricing sheet, tax memo, partner contract, UI copy deck, API specification, or database schema.
 
@@ -1026,6 +1028,7 @@ This document should remain a compact promotion engine specification. It should 
 
 | Version | Date | Summary |
 | --- | --- | --- |
+| 2.1.0 | 2026-11-17 | Qualified the independently retained public-promotion/detail and placement-control contract as having no adopted current Splash caller or coding-handoff obligation; preserved source truth, existing controls and histories without global retirement, relocation or a replacement entry. |
 | 2.0.0 | 2026-11-16 | Retired Instruction-specific quote reservation/expiry and related dependency while preserving current Checkout quote revalidation, benefit truth and fresh authorization. |
 | 1.3.0 | 2026-11-16 | Aligned current product branding and applicable current document-title references without changing product or control meaning. |
 | 1.2.9 | 2026-09-01 | Removed or qualified only the approved legacy technical-form allocations in TAR-13-02, 03, and 05–19; preserved promotion/commercial meaning and established owner boundaries without selecting technical representation, provider, mechanism, implementation, or readiness. |
